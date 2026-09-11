@@ -387,6 +387,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .seg{flex-wrap:wrap}.seg button{flex:1 1 auto;padding:10px 10px}
  .qplay,.qdone{padding:16px 12px}.qtop{gap:8px;margin-bottom:14px}.qask{font-size:19px;min-height:0;margin-bottom:12px}.qc{padding:12px 12px;font-size:14px}
  .guide{padding:16px 12px}.gintro h3{font-size:19px}
+
+ /* 카드 뷰를 한 화면에: 영상 → 문장 → 버튼. 칩·위치 표시는 문장 아래로, 제목은 탭+선택만 */
+ .topbar{flex-direction:column;align-items:stretch;gap:8px;padding-bottom:10px;margin-bottom:10px}.topbar .eyebrow,.topbar h1{display:none}.tabs{order:-1}.scene-sel{margin-top:0}
+ .card{display:flex;flex-direction:column;padding:12px 14px 16px}.card-top{order:1;border-bottom:0;border-top:1px solid var(--line);padding:12px 0 0;margin-top:12px}
+ .opts{order:2}.keys{order:3}.en{margin-top:4px;font-size:21px;line-height:1.5}.ja{margin-top:4px}.playrow{margin:14px 0 10px}
+ .player-box{padding-bottom:4px}.mobile-foot{margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
  /* 사이드바(맨 아래): 탭 크기 */
  .side{padding:16px 12px 28px}.scenes button{padding:9px 10px;font-size:13px}
 }
@@ -1538,6 +1544,18 @@ if(OFFLINE){
   $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="ja">YouTube で開く</span>';
 }
 buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+
+/* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
+(function(){
+  const mq = window.matchMedia('(max-width:600px)');
+  const foot = document.createElement('div'); foot.className = 'mobile-foot';
+  const vidrow = document.querySelector('.vidrow'), status = $('playStatus'), box = document.querySelector('.player-box');
+  function place(){
+    if(mq.matches){ document.querySelector('.main').appendChild(foot); foot.append(status, vidrow); }
+    else { box.append(vidrow, status); foot.remove(); }
+  }
+  place(); mq.addEventListener('change', place);
+})();
 </script>
 
 </body></html>
