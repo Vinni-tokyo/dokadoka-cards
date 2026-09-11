@@ -1,0 +1,1507 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b4a7a"><title>도카도카 일본어 공부 · ドカドカ日本語</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f4f5f8; --surface:#fff; --surface-2:#f1f3f7; --surface-3:#e9ecf2;
+ --line:#e2e5ec; --line-2:#cfd4de;
+ --ink:#21242c; --ink-2:#5c6270; --ink-3:#8b919e;
+ --brand:#3b4a7a; --brand-2:#2e3b63; --brand-soft:#e9ecf5; --brand-line:#c2c9df;
+ --accent:#b0603f; --accent-soft:#fbf1ea; --accent-line:#ead0bd;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,28,40,.05);
+ --sh-2:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);
+ font-family:"Noto Sans KR","Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+[lang=ja]{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","Meiryo","Noto Sans KR",system-ui,sans-serif}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* 二段ラベル: 한국어=주, 일본어=부 */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:64px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 292px;min-height:100vh}
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .panel,.side .foot{flex:none}
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;border:2px solid var(--surface-2);background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f1e2d4;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a4c;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f14;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.spk{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.chip.cap{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.ja{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;letter-spacing:.005em;
+ overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+.rd{display:flex;gap:8px;margin:8px 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+.rd b{flex:none;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);padding-top:3px}
+.rd.raw{font-size:12px;color:var(--ink-3);margin-top:4px}.rd.raw b{color:var(--accent)}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ko{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0;word-break:keep-all}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);background:var(--accent-soft);
+ box-shadow:inset 0 0 0 1px var(--accent-line);font-size:12px;line-height:1.65;color:#7a5330}
+/* 한자 풀이 · 표현 풀이 */
+.gloss{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.gloss .cap{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.gloss .cap .sub{display:inline;font-size:10px;letter-spacing:0;text-transform:none;font-weight:500;margin:0}
+.kjrow{display:grid;grid-template-columns:minmax(96px,auto) minmax(0,1fr);gap:4px 12px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;line-height:1.55;align-items:baseline}
+.kjrow:last-child{border-bottom:0}
+.kjrow .w{font-size:15px;font-weight:650;white-space:nowrap}
+.kjrow .w small{display:block;font-size:11px;font-weight:400;color:var(--ink-3);white-space:normal}
+.kjrow .m{min-width:0;word-break:keep-all}
+.kjrow .hj{display:inline-block;margin-right:6px;padding:0 6px;border-radius:5px;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:11.5px}
+.kjrow .ch{display:block;margin-top:2px;font-size:11.5px;color:var(--ink-3)}
+.kjrow .ch b{font-weight:600;color:var(--ink-2)}
+.exrow{padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;line-height:1.6;word-break:keep-all}
+.exrow:last-child{border-bottom:0}
+.exrow b{font-weight:650;color:var(--brand)}
+.exrow small{color:var(--ink-3);font-size:11px;margin-left:5px}
+.exrow .n{display:block;color:var(--ink-3);font-size:11.5px;margin-top:1px}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr);gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .who{font-size:11px;font-weight:600;color:var(--brand);padding-top:3px;line-height:1.35;word-break:keep-all}
+.line .who.cap{color:var(--accent)}
+.line .k{font-size:14.5px;line-height:1.6;font-weight:500}
+.line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+
+/* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+
+/* ============ study ============ */
+/* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3;word-break:keep-all}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 매일 되풀이하는 순서라 큰 카드 대신 얇은 흐름 띠로 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600}
+.dcRow .jj{color:var(--ink-3);font-size:11px;word-break:keep-all}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 학습법 가이드 ---- */
+.guide{padding:26px 24px 30px}
+.gintro{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.gintro>p[lang=ja]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px;word-break:keep-all}
+.gnote span[lang=ja]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .ja{font-size:11.5px;color:var(--ink-3);margin:0 0 8px;min-height:0;display:block;font-weight:400;line-height:1.4}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2);word-break:keep-all}
+.gstep p span[lang=ja]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2);word-break:keep-all}
+.gtip p span[lang=ja]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5}
+.srow .k small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:7px}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px;word-break:keep-all}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.01em;word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s;word-break:keep-all}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.grp{display:flex;align-items:center;gap:8px;margin:14px 6px 6px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+.scenes{display:block}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s;margin-bottom:1px}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .mem{padding-left:24px;position:relative}
+.scenes .mem::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+.scenes button[aria-pressed=true].mem::before{background:var(--brand)}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
+ .line{grid-template-columns:44px minmax(0,1fr)}.line .who{grid-column:2}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+ <main class="main">
+  <div class="topbar">
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">전체<span class="inl" lang="ja">すべて</span></h1>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">카드<span class="sub" lang="ja">カード</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">대본<span class="sub" lang="ja">台本</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">학습<span class="sub" lang="ja">学習</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>로컬 파일(<code>file://</code>)로 열었습니다.</strong>
+    YouTube 가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153). 카드·대본·편집은 그대로 쓸 수 있고,
+    재생 버튼은 YouTube 를 해당 대사 위치부터 엽니다. 페이지 안에서 재생하려면 같이 둔
+    <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.
+    <span class="sub" lang="ja">ローカルファイル(<code>file://</code>)で開いています。YouTube は出所のないページへの埋め込み再生を拒否します(Error 153)。
+     カード・台本・編集はそのまま使え、再生ボタンは YouTube をその台詞の位置から開きます。ページ内で再生するには同梱の
+     <code>start.bat</code>(Windows) か <code>start.sh</code> を実行してください。</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>이 페이지 안에서는 재생할 수 없습니다</strong>
+      <span lang="ja">ページ内では再生できません</span>
+      <em>재생 버튼이 YouTube 를 해당 위치부터 엽니다<br><span lang="ja">再生ボタンで YouTube を該当の位置から開きます</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 영상 ID / 動画ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">적용<span class="sub" lang="ja">適用</span></span></button>
+    </div>
+    <div class="status" id="playStatus">플레이어를 불러오는 중…<span class="sub" lang="ja">プレーヤーを読み込んでいます…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="chip spk" id="who">—</span>
+       <span class="chip cap" id="thChip" hidden>속마음<span class="sub" lang="ja">心の声</span></span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · 編集済み</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="ja" id="ja" lang="ja">불러오는 중…</div>
+     <p class="rd" id="rd" hidden><b>읽기</b><span lang="ja" id="rdText"></span></p>
+     <p class="rd raw" id="raw" hidden><b>원문</b><span lang="ja" id="rawText"></span></p>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">이 장면 재생<span class="sub" lang="ja">この場面を再生</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">구간 반복<span class="sub" lang="ja">リピート</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">체크<span class="sub" lang="ja">チェック</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">편집<span class="sub" lang="ja">編集</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">일본어 대사 · 日本語の台詞</div>
+       <textarea id="edJa" lang="ja" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">읽기(히라가나) · 読み</div>
+       <textarea id="edRd" lang="ja" spellcheck="false" style="min-height:48px"></textarea>
+      </div>
+      <div>
+       <div class="cap">한국어 뜻 · 韓国語の意味</div>
+       <textarea id="edKo" spellcheck="false"></textarea>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · 保存</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · キャンセル</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>되돌리기 · 元に戻す</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">뜻 보기<span class="sub" lang="ja">意味を見る</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>뜻 · 意味</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · 隠す</button></div>
+      <p class="ko" id="ko"></p>
+      <p class="note" id="note" hidden></p>
+      <div class="gloss" id="kanjiBox" hidden>
+       <div class="cap">한자 풀이 <span class="sub" lang="ja">漢字の読みと意味</span> <span class="sub">· 일본어 독음 · 한국 한자음 · 뜻 · 훈음</span></div>
+       <div id="kanjiList"></div>
+      </div>
+      <div class="gloss" id="explBox" hidden>
+       <div class="cap">표현 풀이 <span class="sub" lang="ja">表現の解説</span></div>
+       <div id="explList"></div>
+      </div>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">이전<span class="sub" lang="ja">前へ</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">다음<span class="sub" lang="ja">次へ</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="ja">次のカードを自動再生</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="ja">意味を最初から表示</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="ja">順番をシャッフル</span></span></label>
+      <label><input type="checkbox" id="optRead"><span>읽기(히라가나) 표시<br><span class="inl" lang="ja">読みを表示</span></span></label>
+      <label><input type="checkbox" id="optCap"><span>속마음〈〉도 카드에 포함<br><span class="inl" lang="ja">心の声もカードに含める</span></span></label>
+      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="ja" style="color:var(--ink-3);font-size:11.5px">再生の余裕</span></span>
+       <select id="optTail">
+        <option value="0.3">0.3초 · 0.3秒</option><option value="0.5">0.5초 · 0.5秒</option>
+        <option value="0.8">0.8초 · 0.8秒</option><option value="1">1초 · 1秒</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 뜻 · 意味</i><i><kbd>X</kbd><kbd>Space</kbd> 재생 · 再生</i>
+      <i><kbd>C</kbd> 반복 · リピート</i><i><kbd>R</kbd> 읽기 · 読み</i><i><kbd>V</kbd><kbd>→</kbd> 다음 · 次</i><i><kbd>←</kbd> 이전 · 前</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="ja">今日</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="ja">表現</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="ja">単語</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="ja">クイズ</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / 学習の進め方">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="ja">学習法</span></span></button>
+     </div>
+
+     <div id="dayPane">
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="18" aria-pressed="false">천천히</button>
+        <button data-v="26" aria-pressed="true">보통</button>
+        <button data-v="37" aria-pressed="false">빠르게</button>
+        <button data-v="62" aria-pressed="false">집중</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">8</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">완료<span class="sub" lang="ja">完了</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · カードで学ぶ</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · 今日の分で出題</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 대사 · 台詞</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 표현 · 表現</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 단어 · 単語</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>애니 한 편을 「쓸 수 있는 일본어」로 바꾸는 4단계</h3>
+        <p lang="ja">アニメ1話を「使える日本語」に変える4ステップ</p>
+        <p class="gnote">이 교재는 교과서가 아니라 <b>애니 1화의 대사와 속마음</b>입니다. 중학생의 반말·속어·독백체가 그대로 들어 있습니다.
+         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
+         <span lang="ja">この教材は教科書ではなく<b>アニメ1話の台詞と心の声</b>です。中学生のタメ口・俗語・独白体がそのまま入っています。
+          だからこそ「読んで分かる」だけでは足りません。<b>音とセットで覚える</b>のが近道です。</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>하루 20분이면 된다 · 1日20分でいい</h5>
+         <p>184개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
+          <span lang="ja">184枚を一度に浴びても定着しません。「今日」タブが分量を切ってくれます。<b>毎日少しずつ</b>が唯一の近道です。</span></p></div>
+        <div class="gtip"><h5>뜻보다 소리 먼저 · 意味より先に音</h5>
+         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
+          <span lang="ja">カードはまず<b>意味を隠したまま</b>再生を。聞き取れなかった所だけ意味を開くと、記憶に残りやすくなります。</span></p></div>
+        <div class="gtip"><h5>소리 내어 따라 하기 · 口に出す</h5>
+         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
+          <span lang="ja">リピート(<kbd>C</kbd>)で同じ区間を繰り返し、<b>声に出して重ねて</b>ください。抑揚ごと写すのが一番効きます。</span></p></div>
+        <div class="gtip"><h5>자막은 완벽하지 않다 · 字幕は完璧でない</h5>
+         <p>자동생성 자막이라 오류가 남아 있습니다. 명백한 곳은 고쳤고 「원문」을 함께 보여 줍니다. 이상하면 <b>편집</b>으로 고칠 수 있습니다. 고치는 작업 자체가 좋은 연습입니다.
+          <span lang="ja">自動生成字幕なので誤りが残ります。明らかな所は直し、「原文」も併記しています。おかしいと思ったら<b>編集</b>で直せます。</span></p></div>
+        <div class="gtip"><h5>한자는 읽기부터 · 漢字は読みから</h5>
+         <p>처음엔 읽기(<kbd>R</kbd>)를 켜고 소리 내어 읽으세요. 익숙해지면 읽기를 끄고 <b>한자만 보고</b> 읽어 봅니다. 대본 탭도 같은 스위치로 바뀝니다.
+          <span lang="ja">最初は読み(<kbd>R</kbd>)を表示して音読を。慣れたら読みを消し、<b>漢字だけを見て</b>読んでみます。台本タブも同じスイッチで切り替わります。</span></p></div>
+        <div class="gtip"><h5>틀린 것이 보물 · 間違いは宝</h5>
+         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
+          <span lang="ja">クイズで間違えた項目はそのまま復習リストになります。<b>翌日の最初</b>にそこだけ聞き直しましょう。</span></p></div>
+        <div class="gtip"><h5>반말과 정중어 · タメ口と敬語</h5>
+         <p>이치카와의 속마음은 <b>딱딱한 독백체</b>(〜のだ·〜だろうか), 야마다는 <b>여학생 반말</b>(〜なの·〜じゃん), 발표 장면만 <b>정중어</b>(〜と思います). 남학생들의 속어(スケベ·うぜー)는 뜻만 알고 따라 쓰지 않는 것이 안전합니다.
+          <span lang="ja">市川の心の声は<b>硬い独白体</b>(〜のだ・〜だろうか)、山田は<b>女子のタメ口</b>(〜なの・〜じゃん)、発表の場面だけ<b>敬語</b>(〜と思います)。男子の俗語(スケベ・うぜー)は意味だけ知って真似しないのが安全です。</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="일본어·읽기·한국어로 검색 / 日本語・読み・韓国語で絞り込み" aria-label="검색 / 検索">
+       <span class="meta" id="sCount">0</span>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">출제 범위 · 出題範囲</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">표현 · 表現</button>
+         <button data-v="V" aria-pressed="false">단어 · 単語</button>
+         <button data-v="S" aria-pressed="false">대사 · 台詞</button>
+         <button data-v="D" aria-pressed="false">오늘 분량 · 今日の分</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">출제 방식 · 出題方式</span>
+        <div class="seg" id="qMode">
+         <button data-v="ja2ko" aria-pressed="true">日 → 韓</button>
+         <button data-v="ko2ja" aria-pressed="false">韓 → 日</button>
+         <button data-v="listen" aria-pressed="false">듣기 · 聞き取り</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">문항 수 · 問題数</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">전체 · 全部</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>시작 · 始める</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 정답 · 正解</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>그만 · やめる</button>
+       </div>
+       <div class="qask" id="qAsk" lang="ja">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>다시 듣기 · もう一度聞く</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>다시 · もう一度</button>
+        <button class="btn" id="rBack">설정으로 · 設定へ</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.
+     <span class="sub" lang="ja">行をクリックすると、その台詞の位置から再生します。再生中は自動で追いかけます。</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">日</div>
+   <div><strong>도카도카 일본어 공부<span class="sub" lang="ja">ドカドカ日本語</span></strong>
+    <small>僕の心のヤバイやつ 1화 · <span class="n">—</span>문장<br><span lang="ja">僕の心のヤバイやつ 第1話 · <span class="n">—</span>フレーズ</span></small></div></div>
+
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> 체크함 · <span lang="ja">チェック済み</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">장 수정함 · <span lang="ja">枚を手直し</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>내보내기 · 書き出し</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>가져오기 · 読み込み</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    자막은 YouTube 자동생성 자막이라 인식 오류가 있어 명백한 곳은 교정했습니다(원문 병기). 화자·읽기·번역은 직접 작성한 것이라 오류가 있을 수 있습니다.<br>
+    <span lang="ja">字幕は自動生成のため誤認識を手直ししました(原文併記)。話者・読み・訳は手作業のため誤りがあり得ます。</span></p>
+  </div>
+
+  <div class="foot">
+   대사·영상 출처 · <span lang="ja">台詞・映像出典</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   학습용 개인 이용을 전제로 한 페이지입니다.<br>
+   <span lang="ja">学習用の個人利用を前提としたページです。</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const DATA = [{"id":1,"s":3.68,"e":13.08,"ja":"僕は頭がおかしい この平和に満ちた中学の均衡は","rd":"ぼくは あたまが おかしい この へいわに みちた ちゅうがくの きんこうは","ko":"나는 머리가 이상하다. 이 평화로 가득한 중학교의 균형은","spk":"市川","scene":"intro","raw":"僕は頭がおかしい この平和で満ちた中学の近郊は","th":1,"note":"頭がおかしい=머리가 이상하다·미쳤다","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["頭","あたま","머리","두",[["頭","머리 두"]]],["平和","へいわ","평화","평화",[["平","평평할 평"],["和","화할 화"]]],["満ちる","みちる","가득 차다","만",[["満","찰 만"]]],["中学","ちゅうがく","중학교","중학",[["中","가운데 중"],["学","배울 학"]]],["均衡","きんこう","균형","균형",[["均","고를 균"],["衡","저울대 형"]]]]},{"id":2,"s":13.08,"e":18.26,"ja":"常に危ういということを 今は誰も知らない","rd":"つねに あやうい ということを いまは だれも しらない","ko":"늘 위태롭다는 것을, 지금은 아무도 모른다","spk":"市川","scene":"intro","raw":"常に危ういということ今は誰も知らない","th":1,"note":"危うい=위태롭다","kj":[["常に","つねに","늘","상",[["常","떳떳할 상"]]],["危うい","あやうい","위태롭다","위",[["危","위태할 위"]]],["今","いま","지금","금",[["今","이제 금"]]],["誰","だれ","누구","수",[["誰","누구 수"]]],["知る","しる","알다","지",[["知","알 지"]]]]},{"id":3,"s":33.98,"e":36.36,"ja":"考えるな","rd":"かんがえるな","ko":"생각하지 마","spk":"市川","scene":"intro","th":1,"note":"동사+な=금지","kj":[["考える","かんがえる","생각하다","고",[["考","생각할 고"]]]]},{"id":4,"s":36.36,"e":40.5,"ja":"僕は血に飢えた獣 いつか来るのだろうか","rd":"ぼくは ちに うえた けもの いつか くるの だろうか","ko":"나는 피에 굶주린 짐승. 언젠가 올까","spk":"市川","scene":"intro","raw":"僕は血に飢えた獣いつか来るのだろうか","th":1,"note":"飢える=굶주리다","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["血","ち","피","혈",[["血","피 혈"]]],["飢える","うえる","굶주리다","기",[["飢","주릴 기"]]],["獣","けもの","짐승","수",[["獣","짐승 수"]]],["来る","くる","오다","래",[["来","올 래"]]]]},{"id":5,"s":40.5,"e":45.32,"ja":"この衝動を抑えられる日が","rd":"この しょうどうを おさえられる ひが","ko":"이 충동을 억누를 수 있는 날이","spk":"市川","scene":"intro","th":1,"note":"抑える=억누르다","kj":[["衝動","しょうどう","충동","충동",[["衝","찌를 충"],["動","움직일 동"]]],["抑える","おさえる","억누르다","억",[["抑","누를 억"]]],["日","ひ","날","일",[["日","날 일"]]]]},{"id":6,"s":47.4,"e":54.48,"ja":"僕が今最も殺したい女 山田杏奈 学校一の美人で","rd":"ぼくが いま もっとも ころしたい おんな やまだ あんな がっこういちの びじんで","ko":"내가 지금 가장 죽이고 싶은 여자, 야마다 안나. 학교 제일의 미인이고","spk":"市川","scene":"intro","raw":"僕が今最も殺した女山田 杏奈学校一の美人で","th":1,"note":"学校一=학교에서 제일","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["今","いま","지금","금",[["今","이제 금"]]],["最も","もっとも","가장","최",[["最","가장 최"]]],["殺す","ころす","죽이다","살",[["殺","죽일 살"]]],["女","おんな","여자","녀",[["女","여자 녀"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["杏奈","あんな","안나 (인명)","행나",[["杏","살구 행"],["奈","어찌 나"]]],["学校一","がっこういち","학교에서 제일","학교일",[["学","배울 학"],["校","학교 교"],["一","한 일"]]],["美人","びじん","미인","미인",[["美","아름다울 미"],["人","사람 인"]]]]},{"id":7,"s":54.48,"e":56.88,"ja":"雑誌のモデルもやってるらしい まあそんな","rd":"ざっしの モデルも やってる らしい まあ そんな","ko":"잡지 모델도 하고 있다는 모양이다. 뭐 그런","spk":"市川","scene":"intro","raw":"雑誌のモデルもやってるらしいかそんな","th":1,"note":"〜らしい=〜라는 모양이다","kj":[["雑誌","ざっし","잡지","잡지",[["雑","섞일 잡"],["誌","기록할 지"]]]]},{"id":8,"s":56.88,"e":60.72,"ja":"ことはどうでもいい 僕はとにかく","rd":"ことは どうでも いい ぼくは とにかく","ko":"건 아무래도 좋다. 나는 어쨌든","spk":"市川","scene":"intro","raw":"ことはどうでもいい僕はとにかく","th":1,"note":"どうでもいい=아무래도 좋다","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]]]},{"id":9,"s":60.72,"e":67.04,"ja":"この綺麗な顔が苦痛に歪むのが 見たくてたまらないのだ","rd":"この きれいな かおが くつうに ゆがむのが みたくて たまらないのだ","ko":"이 예쁜 얼굴이 고통에 일그러지는 걸 보고 싶어 견딜 수가 없는 것이다","spk":"市川","scene":"intro","raw":"この綺麗な顔が苦痛に歪むのが見たくて たまらないのだ","th":1,"note":"〜てたまらない=〜해서 견딜 수 없다","kj":[["綺麗","きれい","예쁨·깨끗함","기려",[["綺","비단 기"],["麗","고울 려"]]],["顔","かお","얼굴","안",[["顔","낯 안"]]],["苦痛","くつう","고통","고통",[["苦","쓸 고"],["痛","아플 통"]]],["歪む","ゆがむ","일그러지다","왜",[["歪","비뚤 왜"]]],["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":10,"s":75.68,"e":81.2,"ja":"そうやって見下してること 絶対に後悔させてやる","rd":"そうやって みくだしてる こと ぜったいに こうかい させて やる","ko":"그렇게 깔보는 걸 반드시 후회하게 해 주겠어","spk":"市川","scene":"intro","raw":"そうやって見下してること絶対に後悔させ てやる","th":1,"note":"見下す=깔보다, 〜させてやる=〜하게 해 주겠다","kj":[["見下す","みくだす","깔보다","견하",[["見","볼 견"],["下","아래 하"]]],["絶対","ぜったい","절대","절대",[["絶","끊을 절"],["対","대할 대"]]],["後悔","こうかい","후회","후회",[["後","뒤 후"],["悔","뉘우칠 회"]]]]},{"id":11,"s":84.26,"e":86.48,"ja":"そうだ","rd":"そうだ","ko":"그래","spk":"市川","scene":"intro","th":1},{"id":12,"s":86.48,"e":92.4,"ja":"きっと山田は死体になっても美しい そしてその体は","rd":"きっと やまだは したいに なっても うつくしい そして その からだは","ko":"분명 야마다는 시체가 되어도 아름답다. 그리고 그 몸은","spk":"市川","scene":"intro","th":1,"kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["死体","したい","시체","사체",[["死","죽을 사"],["体","몸 체"]]],["美しい","うつくしい","아름답다","미",[["美","아름다울 미"]]],["体","からだ","몸","체",[["体","몸 체"]]]]},{"id":13,"s":92.4,"e":97.56,"ja":"殺人鬼 そう 僕だけのものになるのだ","rd":"さつじんき そう ぼくだけの ものに なるのだ","ko":"살인귀. 그래, 나만의 것이 되는 것이다","spk":"市川","scene":"intro","raw":"殺人鬼そう僕だけのものになるのだ","th":1,"note":"〜のだ=단정·설명","kj":[["殺人鬼","さつじんき","살인귀","살인귀",[["殺","죽일 살"],["人","사람 인"],["鬼","귀신 귀"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]]]},{"id":14,"s":97.56,"e":98.46,"ja":"そんな","rd":"そんな","ko":"그런","spk":"市川","scene":"intro","th":1},{"id":15,"s":98.46,"e":107.48,"ja":"妄想を夜な夜な繰り返しては自己嫌悪する 僕は頭がおかしい","rd":"もうそうを よなよな くりかえしては じこけんお する ぼくは あたまが おかしい","ko":"망상을 밤마다 되풀이하고는 자기혐오에 빠진다. 나는 머리가 이상하다","spk":"市川","scene":"intro","th":1,"note":"夜な夜な=밤마다, 〜ては=〜하고는(반복)","kj":[["妄想","もうそう","망상","망상",[["妄","망령될 망"],["想","생각 상"]]],["夜な夜な","よなよな","밤마다","야",[["夜","밤 야"],["夜","밤 야"]]],["繰り返す","くりかえす","되풀이하다","조",[["繰","고치 켤 조"],["返","돌이킬 반"]]],["返す","かえす","돌려주다","반",[["返","돌이킬 반"]]],["自己嫌悪","じこけんお","자기혐오","자기혐오",[["自","스스로 자"],["己","몸 기"],["嫌","싫어할 혐"],["悪","악할 악"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["頭","あたま","머리","두",[["頭","머리 두"]]]]},{"id":16,"s":112.68,"e":119.28,"ja":"昼休みはひときわ教室が騒がしくなり 面倒だ","rd":"ひるやすみは ひときわ きょうしつが さわがしく なり めんどうだ","ko":"점심시간에는 유난히 교실이 시끄러워져서 귀찮다","spk":"市川","scene":"lib1","raw":"昼休みはひときわ教室が騒がしくなり面倒 だ","th":1,"note":"ひときわ=유난히","kj":[["昼休み","ひるやすみ","점심시간","주휴",[["昼","낮 주"],["休","쉴 휴"]]],["教室","きょうしつ","교실","교실",[["教","가르칠 교"],["室","집 실"]]],["騒がしい","さわがしい","시끄럽다","소",[["騒","떠들 소"]]],["面倒","めんどう","귀찮음","면도",[["面","낯 면"],["倒","넘어질 도"]]]]},{"id":17,"s":119.28,"e":126.62,"ja":"それに比べここは静かだ 僕にとって安らぎの場所","rd":"それに くらべ ここは しずかだ ぼくに とって やすらぎの ばしょ","ko":"그에 비해 여기는 조용하다. 나에게는 안식의 장소","spk":"市川","scene":"lib1","raw":"それに比べここは静かだ僕にとって安らぎ の","th":1,"note":"〜に比べ=〜에 비해","kj":[["比べる","くらべる","비교하다","비",[["比","견줄 비"]]],["静か","しずか","조용함","정",[["静","고요할 정"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["安らぎ","やすらぎ","안식·평온","안",[["安","편안 안"]]],["場所","ばしょ","장소","장소",[["場","마당 장"],["所","바 소"]]]]},{"id":18,"s":147.8,"e":152.48,"ja":"なんだ なんだ なんだ なんて言った","rd":"なんだ なんだ なんだ なんて いった","ko":"뭐야 뭐야 뭐야, 뭐라고 한 거지","spk":"市川","scene":"lib1","raw":"なんだなんだなんだなんて言った","th":1,"kj":[["言う","いう","말하다","언",[["言","말씀 언"]]]]},{"id":19,"s":154.82,"e":158.48,"ja":"はい そうっすね","rd":"はい そうっすね","ko":"네, 그렇죠","spk":"男子","scene":"lib1","raw":"はいそうっすね","note":"そうっすね=そうですね 의 거친 축약"},{"id":20,"s":158.52,"e":161.76,"ja":"よかった よかったの？","rd":"よかった よかったの","ko":"다행이다… 다행인 건가?","spk":"市川","scene":"lib1","raw":"よかったよかったの","th":1},{"id":21,"s":161.76,"e":167.82,"ja":"なんて言ったんだ てか なんだよ なんで図書室にいるんだよ","rd":"なんて いったんだ てか なんだよ なんで としょしつに いるんだよ","ko":"뭐라고 한 거야. 아니 뭐야, 왜 도서실에 있는 건데","spk":"市川","scene":"lib1","raw":"なんて言ったんだてかなんだよなんで図書 室いいんだよおや","th":1,"note":"てか=というか 의 축약","kj":[["言う","いう","말하다","언",[["言","말씀 언"]]],["図書室","としょしつ","도서실","도서실",[["図","그림 도"],["書","글 서"],["室","집 실"]]]]},{"id":22,"s":167.82,"e":168.84,"ja":"待てよ","rd":"まてよ","ko":"잠깐","spk":"市川","scene":"lib1","th":1,"kj":[["待つ","まつ","기다리다","대",[["待","기다릴 대"]]]]},{"id":23,"s":168.84,"e":172.22,"ja":"むしろ今が殺すチャンスなんじゃ","rd":"むしろ いまが ころす チャンス なんじゃ","ko":"오히려 지금이 죽일 기회 아닌가","spk":"市川","scene":"lib1","th":1,"note":"むしろ=오히려","kj":[["今","いま","지금","금",[["今","이제 금"]]],["殺す","ころす","죽이다","살",[["殺","죽일 살"]]]]},{"id":24,"s":174.68,"e":177.38,"ja":"いや まだその時じゃない","rd":"いや まだ その とき じゃない","ko":"아니, 아직 그때가 아니다","spk":"市川","scene":"lib1","raw":"まだその時じゃないか","th":1,"kj":[["時","とき","때","시",[["時","때 시"]]]]},{"id":25,"s":177.38,"e":182.1,"ja":"しばらく様子を見よう","rd":"しばらく ようすを みよう","ko":"잠시 상황을 지켜보자","spk":"市川","scene":"lib1","raw":"しばらく様子をさっき","th":1,"note":"様子を見る=상황을 보다","kj":[["様子","ようす","상황·모습","양자",[["様","모양 양"],["子","아들 자"]]],["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":26,"s":186.48,"e":188.58,"ja":"給食食べただろう ていうかそれパーティー用だよな","rd":"きゅうしょく たべた だろう ていうか それ パーティーよう だよな","ko":"급식 먹었잖아. 아니 그거 파티용이잖아","spk":"市川","scene":"lib1","raw":"給食食べただろうていうかそれパーティー","th":1,"note":"給食=급식","kj":[["給食","きゅうしょく","급식","급식",[["給","줄 급"],["食","밥 식"]]],["食べる","たべる","먹다","식",[["食","밥 식"]]],["用","よう","용도 (パーティー用)","용",[["用","쓸 용"]]]]},{"id":27,"s":188.58,"e":192.42,"ja":"一人なのにニッコニコだし","rd":"ひとり なのに ニッコニコ だし","ko":"혼자인데 싱글벙글이고","spk":"市川","scene":"lib1","raw":"用だよな一人なのにニッコニコだしって","th":1,"note":"ニコニコ 의 강조형","kj":[["一人","ひとり","혼자·한 사람","일인",[["一","한 일"],["人","사람 인"]]]]},{"id":28,"s":192.42,"e":199.62,"ja":"ていうか そもそもおにぎり","rd":"ていうか そもそも おにぎり","ko":"아니 애초에 주먹밥이라니","spk":"市川","scene":"lib1","raw":"いうかそもそもおにぎり","th":1,"note":"そもそも=애초에"},{"id":29,"s":199.62,"e":203.84,"ja":"鼻歌がだんだんゴリラっぽくなっていくぞ","rd":"はなうたが だんだん ゴリラっぽく なって いくぞ","ko":"콧노래가 점점 고릴라 같아져 간다","spk":"市川","scene":"lib1","th":1,"note":"〜っぽい=〜같다","kj":[["鼻歌","はなうた","콧노래","비가",[["鼻","코 비"],["歌","노래 가"]]]]},{"id":30,"s":209.36,"e":215.88,"ja":"どうやって殺すか考えよう","rd":"どうやって ころすか かんがえよう","ko":"어떻게 죽일지 생각하자","spk":"市川","scene":"lib1","th":1,"kj":[["殺す","ころす","죽이다","살",[["殺","죽일 살"]]],["考える","かんがえる","생각하다","고",[["考","생각할 고"]]]]},{"id":31,"s":220.1,"e":224.22,"ja":"社会で研究発表するやつか","rd":"しゃかいで けんきゅう はっぴょう する やつか","ko":"사회 시간에 연구 발표하는 그거인가","spk":"市川","scene":"lib1","th":1,"note":"やつ=것(구어)","kj":[["社会","しゃかい","사회","사회",[["社","모일 사"],["会","모일 회"]]],["研究","けんきゅう","연구","연구",[["研","갈 연"],["究","연구할 구"]]],["発表","はっぴょう","발표","발표",[["発","필 발"],["表","겉 표"]]]]},{"id":32,"s":224.22,"e":228.08,"ja":"えっ 下書きなしで","rd":"えっ したがき なしで","ko":"어, 초안 없이?","spk":"市川","scene":"lib1","raw":"えっ下書きなしで","th":1,"note":"下書き=초안","kj":[["下書き","したがき","초안","하",[["下","아래 하"],["書","글 서"]]]]},{"id":33,"s":229.46,"e":233.6,"ja":"ほら スペース足りなくなった","rd":"ほら スペース たりなく なった","ko":"거봐, 공간이 모자라졌잖아","spk":"市川","scene":"lib1","raw":"ほらスペース足りなくなった","th":1,"note":"足りない=모자라다","kj":[["足りる","たりる","충분하다","족",[["足","발 족"]]]]},{"id":34,"s":236.0,"e":239.24,"ja":"「んじゃない」だろ","rd":"「んじゃない」だろ","ko":"\"게 아니야\"겠지","spk":"市川","scene":"lib1","raw":"じゃないだろ","th":1,"note":"야마다가 잘못 쓴 글씨를 속으로 고치는 장면"},{"id":35,"s":239.4,"e":250.28,"ja":"あれ カッター 持ってる… 待って しかし これ よかったら","rd":"あれ カッター もってる… まって しかし これ よかったら","ko":"어라, 커터… 갖고 있는데. 잠깐, 하지만… 이거 괜찮으면","spk":"市川","scene":"lib1","raw":"あれコトコット 持ってる 待ってしかしこれよかったら","th":1,"note":"よかったら=괜찮으면","kj":[["持つ","もつ","갖다·들다","지",[["持","가질 지"]]],["待つ","まつ","기다리다","대",[["待","기다릴 대"]]]]},{"id":36,"s":250.28,"e":254.36,"ja":"なんでカッター持ち歩いてんの","rd":"なんで カッター もちあるいてんの","ko":"왜 커터를 갖고 다녀?","spk":"山田","scene":"lib1","note":"持ち歩く=갖고 다니다","kj":[["持ち歩く","もちあるく","갖고 다니다","지보",[["持","가질 지"],["歩","걸음 보"]]]]},{"id":37,"s":256.56,"e":264.3,"ja":"こうなったら いよいよ殺戮ショーの始まり","rd":"こう なったら いよいよ さつりく ショーの はじまり","ko":"이렇게 된 이상 드디어 살육 쇼의 시작","spk":"市川","scene":"lib1","raw":"こうなったらいよいよ殺戮ショーの始まり","th":1,"note":"いよいよ=드디어","kj":[["殺戮","さつりく","살육","살륙",[["殺","죽일 살"],["戮","죽일 륙"]]],["始まり","はじまり","시작","시",[["始","비로소 시"]]]]},{"id":38,"s":270.24,"e":274.22,"ja":"これよかったら","rd":"これ よかったら","ko":"이거, 괜찮으면","spk":"市川","scene":"lib1"},{"id":39,"s":276.2,"e":279.26,"ja":"やった","rd":"やった","ko":"됐다","spk":"山田","scene":"lib1"},{"id":40,"s":279.26,"e":286.16,"ja":"あ ダジャレじゃないからね あと ありがとう","rd":"あ ダジャレ じゃないからね あと ありがとう","ko":"아, 아재개그 아니니까. 그리고 고마워","spk":"山田","scene":"lib1","raw":"あダジャレじゃないからねあとありがとう","note":"ダジャレ=말장난. 「やった」가 농담이 아니라는 뜻"},{"id":41,"s":293.0,"e":296.58,"ja":"とりあえず引かれなかった いやそんなことより","rd":"とりあえず ひかれなかった いや そんな こと より","ko":"일단 질색당하진 않았다. 아니 그런 것보다","spk":"市川","scene":"lib1","raw":"とりあえず引かれなかったいやそんなこと","th":1,"note":"引く=(상대에게) 질리다·거리를 두다","kj":[["引く","ひく","(상대에게) 질리다·거리를 두다","인",[["引","끌 인"]]]]},{"id":42,"s":296.58,"e":302.42,"ja":"山田が 山田が僕のカッターを使ってる","rd":"やまだが やまだが ぼくの カッターを つかってる","ko":"야마다가, 야마다가 내 커터를 쓰고 있어","spk":"市川","scene":"lib1","raw":"より山田が山田が僕のカッターを使ってる","th":1,"kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["使う","つかう","쓰다·사용하다","사",[["使","부릴 사"]]]]},{"id":43,"s":313.68,"e":316.1,"ja":"よかった","rd":"よかった","ko":"다행이다","spk":"市川","scene":"lib1","th":1},{"id":44,"s":316.1,"e":320.94,"ja":"どこ行ってた お菓子1人で食べてたろ","rd":"どこ いってた おかし ひとりで たべてたろ","ko":"어디 갔었어? 과자 혼자 먹고 있었지","spk":"小林","scene":"lib1","raw":"どこ行ってたお菓子1人で食べてたろう","note":"〜てたろ=〜ていただろう","kj":[["行く","いく","가다","행",[["行","다닐 행"]]],["お菓子","おかし","과자","과자",[["菓","과자 과"],["子","아들 자"]]],["1人","ひとり","혼자·한 사람","인",[["人","사람 인"]]],["食べる","たべる","먹다","식",[["食","밥 식"]]]]},{"id":45,"s":320.94,"e":323.6,"ja":"食べてないよ","rd":"たべてないよ","ko":"안 먹었어","spk":"山田","scene":"lib1","kj":[["食べる","たべる","먹다","식",[["食","밥 식"]]]]},{"id":46,"s":331.22,"e":336.62,"ja":"まだ入ってるじゃん","rd":"まだ はいってる じゃん","ko":"아직 (입에) 들어 있잖아","spk":"小林","scene":"lib1","note":"〜じゃん=〜잖아","kj":[["入る","はいる","들어가다","입",[["入","들 입"]]]]},{"id":47,"s":350.3,"e":359.78,"ja":"してないよ","rd":"してないよ","ko":"안 했어","spk":"山田","scene":"lib1"},{"id":48,"s":361.2,"e":365.66,"ja":"殺戮のカウントダウンは始まったばかり","rd":"さつりくの カウントダウンは はじまった ばかり","ko":"살육의 카운트다운은 이제 막 시작됐다","spk":"市川","scene":"lib1","th":1,"note":"〜たばかり=막 〜했다","kj":[["殺戮","さつりく","살육","살륙",[["殺","죽일 살"],["戮","죽일 륙"]]],["始まる","はじまる","시작되다","시",[["始","비로소 시"]]]]},{"id":49,"s":369.44,"e":376.98,"ja":"これから丸一日 まだ山田の筆箱の中にカッターは入ったまま","rd":"これから まるいちにち まだ やまだの ふでばこの なかに カッターは はいった まま","ko":"앞으로 꼬박 하루, 야마다 필통 안에 커터는 들어간 채","spk":"市川","scene":"lib1","raw":"これから丸一日まだ山田の筆箱の中に カッターは入ったまま","th":1,"note":"丸一日=꼬박 하루, 筆箱=필통","kj":[["丸一日","まるいちにち","꼬박 하루","환일일",[["丸","둥글 환"],["一","한 일"],["日","날 일"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["筆箱","ふでばこ","필통","필상",[["筆","붓 필"],["箱","상자 상"]]],["中","なか","안·속","중",[["中","가운데 중"]]],["入る","はいる","들어가다","입",[["入","들 입"]]]]},{"id":50,"s":376.98,"e":386.0,"ja":"僕の鋭利なものが山田の中に… まあ そうだよな","rd":"ぼくの えいりな ものが やまだの なかに… まあ そうだよな","ko":"나의 날카로운 것이 야마다 안에… 뭐, 그렇겠지","spk":"市川","scene":"lib1","raw":"僕の鋭利なものが山田の中に まそうだよな","th":1,"note":"鋭利=예리함","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["鋭利","えいり","예리함","예리",[["鋭","날카로울 예"],["利","이로울 리"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["中","なか","안·속","중",[["中","가운데 중"]]]]},{"id":51,"s":386.0,"e":392.7,"ja":"まだ温かい まさかずっと握ってきたのか","rd":"まだ あたたかい まさか ずっと にぎって きたのか","ko":"아직 따뜻해. 설마 계속 쥐고 있었던 건가","spk":"市川","scene":"lib1","raw":"まだ温かい まさかずっと 握ってきたのか","th":1,"note":"まさか=설마","kj":[["温かい","あたたかい","따뜻하다","온",[["温","따뜻할 온"]]],["握る","にぎる","쥐다","악",[["握","쥘 악"]]]]},{"id":52,"s":392.7,"e":396.18,"ja":"返すのを忘れないように… いや","rd":"かえすのを わすれない ように… いや","ko":"돌려주는 걸 잊지 않으려고… 아니","spk":"市川","scene":"lib1","raw":"返すのを忘れないようにいや","th":1,"kj":[["返す","かえす","돌려주다","반",[["返","돌이킬 반"]]],["忘れる","わすれる","잊다","망",[["忘","잊을 망"]]]]},{"id":53,"s":396.18,"e":400.52,"ja":"むしろ暗殺される隙を僕に与えないためか","rd":"むしろ あんさつ される すきを ぼくに あたえない ためか","ko":"오히려 암살당할 틈을 나에게 주지 않기 위해서인가","spk":"市川","scene":"lib1","th":1,"note":"隙=틈","kj":[["暗殺","あんさつ","암살","암살",[["暗","어두울 암"],["殺","죽일 살"]]],["隙","すき","틈","극",[["隙","틈 극"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["与える","あたえる","주다","여",[["与","줄 여"]]]]},{"id":54,"s":402.6,"e":407.46,"ja":"把握してるんだな 僕の席","rd":"はあく してるんだな ぼくの せき","ko":"파악하고 있구나, 내 자리를","spk":"市川","scene":"class","raw":"把握してるんだな僕の席 じゃあ今日は","th":1,"note":"把握=파악","kj":[["把握","はあく","파악","파악",[["把","잡을 파"],["握","쥘 악"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["席","せき","자리","석",[["席","자리 석"]]]]},{"id":55,"s":407.46,"e":411.38,"ja":"じゃあ今日は 各班まとめてきた研究発表をしてもらうぞ","rd":"じゃあ きょうは かくはん まとめて きた けんきゅう はっぴょうを して もらうぞ","ko":"자, 오늘은 각 조가 정리해 온 연구 발표를 해 보자","spk":"先生","scene":"class","raw":"各藩まとめてきた研究発表をしてもらうぞ","note":"班=조·모둠","kj":[["今日","きょう","오늘","금일",[["今","이제 금"],["日","날 일"]]],["各班","かくはん","각 조","각반",[["各","각각 각"],["班","나눌 반"]]],["研究","けんきゅう","연구","연구",[["研","갈 연"],["究","연구할 구"]]],["発表","はっぴょう","발표","발표",[["発","필 발"],["表","겉 표"]]]]},{"id":56,"s":411.78,"e":418.32,"ja":"あれ 昨日私が書いたのと違くない？","rd":"あれ きのう わたしが かいたのと ちがくない","ko":"어라, 어제 내가 쓴 거랑 다르지 않아?","spk":"山田","scene":"class","raw":"あれ 昨日私が書いたのと違くないうんあれ","note":"違くない？=違わない？ 의 젊은층 표현","kj":[["昨日","きのう","어제","작일",[["昨","어제 작"],["日","날 일"]]],["私","わたし","나","사",[["私","사사 사"]]],["書く","かく","쓰다","서",[["書","글 서"]]],["違う","ちがう","다르다","위",[["違","어긋날 위"]]]]},{"id":57,"s":418.32,"e":424.02,"ja":"めっちゃ汚かったから モエが全部書き直しといたよ","rd":"めっちゃ きたなかった から モエが ぜんぶ かきなおし といたよ","ko":"엄청 지저분해서 모에가 전부 다시 써 뒀어","spk":"女子","scene":"class","raw":"めっちゃ汚かったからモエが全部書き直し といたよ一生","note":"〜といた=〜ておいた","kj":[["汚い","きたない","더럽다","오",[["汚","더러울 오"]]],["全部","ぜんぶ","전부","전부",[["全","온전할 전"],["部","떼 부"]]],["書き直す","かきなおす","다시 쓰다","서직",[["書","글 서"],["直","곧을 직"]]]]},{"id":58,"s":426.24,"e":429.54,"ja":"一生懸命作ったのに… 時間なかったしな","rd":"いっしょうけんめい つくったのに… じかん なかったしな","ko":"열심히 만들었는데… / 시간 없었으니까","spk":"山田","scene":"class","raw":"懸命作ったのに時間なかったしな女子は","note":"화자: 山田 · モエ · 一生懸命=열심히","kj":[["一生懸命","いっしょうけんめい","열심히","일생현명",[["一","한 일"],["生","날 생"],["懸","매달 현"],["命","목숨 명"]]],["作る","つくる","만들다","작",[["作","지을 작"]]],["時間","じかん","시간","시간",[["時","때 시"],["間","사이 간"]]]]},{"id":59,"s":429.54,"e":432.66,"ja":"女子はそう ちょっと顔がいいやつをネタに嫉妬に","rd":"じょしは そう ちょっと かおが いい やつを ネタに しっとに","ko":"여자애들은 저렇다. 좀 얼굴 예쁜 애를 안주 삼아 질투로","spk":"市川","scene":"class","raw":"そうちょっと顔がいいやつをネタに嫉妬に","th":1,"note":"ネタにする=안줏거리로 삼다","kj":[["女子","じょし","여자아이·여학생","여자",[["女","여자 녀"],["子","아들 자"]]],["顔","かお","얼굴","안",[["顔","낯 안"]]],["嫉妬","しっと","질투","질투",[["嫉","미워할 질"],["妬","샘낼 투"]]]]},{"id":60,"s":432.66,"e":436.98,"ja":"まみれる醜い存在 見てよ ここなんて","rd":"まみれる みにくい そんざい みてよ ここなんて","ko":"범벅이 된 추한 존재 / 봐 봐, 여기 같은 건","spk":"市川","scene":"class","raw":"ビビり倒す醜い存在見てよここなんて","th":1,"note":"화자: 市川(속마음) · モエ · 〜にまみれる=〜범벅이 되다","kj":[["醜い","みにくい","추하다","추",[["醜","추할 추"]]],["存在","そんざい","존재","존재",[["存","있을 존"],["在","있을 재"]]],["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":61,"s":436.98,"e":439.32,"ja":"チョコがついた跡 字の一部にしてて 目を","rd":"チョコが ついた あと じの いちぶに してて めを","ko":"초콜릿 묻은 자국을 글자 일부로 해 놔서, 눈을","spk":"モエ","scene":"class","raw":"チョコがついた後字の一部にしてて目を","note":"跡=자국","kj":[["跡","あと","자국","적",[["跡","자취 적"]]],["字","じ","글자","자",[["字","글자 자"]]],["一部","いちぶ","일부","일부",[["一","한 일"],["部","떼 부"]]],["目","め","눈","목",[["目","눈 목"]]]]},{"id":62,"s":439.32,"e":447.5,"ja":"疑ったよ それは確かにひどい ほら それはないわ","rd":"うたがったよ それは たしかに ひどい ほら それは ないわ","ko":"의심했다니까. 그건 확실히 심하다. 거봐, 그건 아니지","spk":"モエ","scene":"class","raw":"疑ったよそれは確かにひどいほら それはないわ","note":"화자: モエ · 女子 · 目を疑う=눈을 의심하다","kj":[["疑う","うたがう","의심하다","의",[["疑","의심할 의"]]],["確か","たしか","분명·확실히","확",[["確","굳을 확"]]]]},{"id":63,"s":447.5,"e":452.06,"ja":"本人もあまり気にしてないのか","rd":"ほんにんも あまり きに してないのか","ko":"본인도 별로 신경 안 쓰는 건가","spk":"市川","scene":"class","th":1,"note":"気にする=신경 쓰다","kj":[["本人","ほんにん","본인","본인",[["本","근본 본"],["人","사람 인"]]],["気","き","마음·기분·낌새 (気がする·気にする·気をそらす)","기",[["気","기운 기"]]]]},{"id":64,"s":452.7,"e":455.96,"ja":"私たちは政党制について調べてきました","rd":"わたしたちは せいとうせいに ついて しらべて きました","ko":"저희는 정당제에 대해 조사해 왔습니다","spk":"女子","scene":"class","raw":"モイたちは正当性について調べてきました","note":"政党制=정당제","kj":[["私","わたし","나","사",[["私","사사 사"]]],["政党制","せいとうせい","정당제","정당제",[["政","정사 정"],["党","무리 당"],["制","절제할 제"]]],["調べる","しらべる","조사하다","조",[["調","고를 조"]]]]},{"id":65,"s":455.96,"e":462.54,"ja":"アメリカの二大政党 日本の政党とか 皆さんも","rd":"アメリカの にだい せいとう にほんの せいとう とか みなさんも","ko":"미국의 양대 정당, 일본의 정당 등, 여러분도","spk":"女子","scene":"class","raw":"アメリカの2代目 日本の政党とか皆さんも","note":"二大政党=양대 정당","kj":[["二大政党","にだいせいとう","양대 정당","이대정당",[["二","두 이"],["大","큰 대"],["政","정사 정"],["党","무리 당"]]],["日本","にほん","일본","일본",[["日","날 일"],["本","근본 본"]]],["政党","せいとう","정당","정당",[["政","정사 정"],["党","무리 당"]]],["皆さん","みなさん","여러분","개",[["皆","다 개"]]]]},{"id":66,"s":462.54,"e":466.8,"ja":"めちゃくちゃ顔が死んでる やっぱり気にしてるじゃないか","rd":"めちゃくちゃ かおが しんでる やっぱり きに してる じゃないか","ko":"완전히 표정이 죽어 있어. 역시 신경 쓰고 있잖아","spk":"市川","scene":"class","raw":"めちゃくちゃ顔が死んでるやっぱり気にし てるじゃないか","th":1,"note":"顔が死んでる=표정이 죽었다","kj":[["顔","かお","얼굴","안",[["顔","낯 안"]]],["死ぬ","しぬ","죽다","사",[["死","죽을 사"]]],["気","き","마음·기분·낌새 (気がする·気にする·気をそらす)","기",[["気","기운 기"]]]]},{"id":67,"s":466.8,"e":471.38,"ja":"結論から言うと 日本も二大政党制にすればいいと思います","rd":"けつろんから いうと にほんも にだい せいとうせいに すれば いいと おもいます","ko":"결론부터 말하면 일본도 양대 정당제로 하면 좋겠다고 생각합니다","spk":"女子","scene":"class","raw":"結論から言うとコインも二大政党制にすれ ばいいと思います","note":"結論から言うと=결론부터 말하면","kj":[["結論","けつろん","결론","결론",[["結","맺을 결"],["論","논할 론"]]],["言う","いう","말하다","언",[["言","말씀 언"]]],["日本","にほん","일본","일본",[["日","날 일"],["本","근본 본"]]],["二大政党制","にだいせいとうせい","양대 정당제","이대정당제",[["二","두 이"],["大","큰 대"],["政","정사 정"],["党","무리 당"],["制","절제할 제"]]],["思う","おもう","생각하다","사",[["思","생각 사"]]]]},{"id":68,"s":471.38,"e":473.64,"ja":"うるせえよ","rd":"うるせえよ","ko":"시끄러워","spk":"市川","scene":"class","th":1,"note":"うるさい 의 거친 형"},{"id":69,"s":473.64,"e":476.76,"ja":"僕たちの班はSDGsについて調べて","rd":"ぼくたちの はんは エスディージーズに ついて しらべて","ko":"우리 조는 SDGs에 대해 조사해","spk":"男子","scene":"class","raw":"僕たちのファンはsdgsについて調べて","kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["班","はん","조·모둠","반",[["班","나눌 반"]]],["調べる","しらべる","조사하다","조",[["調","고를 조"]]]]},{"id":70,"s":476.76,"e":482.9,"ja":"きました 皆さん… 書いてあったし あとは任せよう","rd":"きました みなさん… かいて あったし あとは まかせよう","ko":"왔습니다. 여러분… / 다 써 있었으니 나머지는 맡기자","spk":"男子","scene":"class","raw":"きました皆さん書いてあったしあとは 任せよう","note":"화자: 男子 · 市川(속마음)","kj":[["皆さん","みなさん","여러분","개",[["皆","다 개"]]],["書く","かく","쓰다","서",[["書","글 서"]]],["任せる","まかせる","맡기다","임",[["任","맡길 임"]]]]},{"id":71,"s":494.84,"e":499.16,"ja":"そんなちょっとしたことで","rd":"そんな ちょっとした ことで","ko":"그런 사소한 일로","spk":"市川","scene":"class","th":1,"note":"ちょっとしたこと=사소한 일"},{"id":72,"s":499.16,"e":505.94,"ja":"いや ちょっとしたことじゃないんだ 山田にとっては","rd":"いや ちょっとした こと じゃないんだ やまだに とっては","ko":"아니, 사소한 일이 아닌 거다. 야마다에게는","spk":"市川","scene":"class","raw":"いやちょっとしたことじゃないんだ山田に とっては","th":1,"note":"〜にとって=〜에게 있어","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]]]},{"id":73,"s":508.52,"e":511.76,"ja":"なんかあった","rd":"なんか あった","ko":"무슨 일 있었어?","spk":"女子","scene":"class"},{"id":74,"s":513.66,"e":519.68,"ja":"泣いてる 何か気をそらすもの","rd":"ないてる なにか きを そらす もの","ko":"울고 있어. 뭔가 주의를 돌릴 것을","spk":"市川","scene":"class","th":1,"note":"気をそらす=주의를 돌리다","kj":[["泣く","なく","울다","읍",[["泣","울 읍"]]],["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]],["気","き","마음·기분·낌새 (気がする·気にする·気をそらす)","기",[["気","기운 기"]]]]},{"id":75,"s":519.68,"e":525.77,"ja":"それでは発表は以上で","rd":"それでは はっぴょうは いじょうで","ko":"그럼 발표는 이상으로","spk":"男子","scene":"class","kj":[["発表","はっぴょう","발표","발표",[["発","필 발"],["表","겉 표"]]],["以上","いじょう","이상","이상",[["以","써 이"],["上","윗 상"]]]]},{"id":76,"s":528.8,"e":532.08,"ja":"何してんの","rd":"なに してんの","ko":"뭐 하는 거야?","spk":"先生","scene":"class","kj":[["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]]]},{"id":77,"s":532.08,"e":535.52,"ja":"もう終わったんだからいいだろ","rd":"もう おわったんだから いいだろ","ko":"이미 끝났으니까 됐잖아","spk":"男子","scene":"class","raw":"終わったんだからいいだろ","kj":[["終わる","おわる","끝나다","종",[["終","마칠 종"]]]]},{"id":78,"s":537.56,"e":542.76,"ja":"いいさ 僕は頭がおかしいんだ","rd":"いいさ ぼくは あたまが おかしいんだ","ko":"됐어, 나는 머리가 이상한 놈이니까","spk":"市川","scene":"class","raw":"いいさ僕は頭がおかしいんだこれで思う","th":1,"kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["頭","あたま","머리","두",[["頭","머리 두"]]]]},{"id":79,"s":542.76,"e":545.3,"ja":"これで思う存分泣けば","rd":"これで おもう ぞんぶん なけば","ko":"이걸로 실컷 울면 (돼)","spk":"市川","scene":"class","raw":"存分泣けば","th":1,"note":"思う存分=실컷","kj":[["思う","おもう","생각하다","사",[["思","생각 사"]]],["思う存分","おもうぞんぶん","실컷","존분",[["思","생각 사"],["存","있을 존"],["分","나눌 분"]]],["泣く","なく","울다","읍",[["泣","울 읍"]]]]},{"id":80,"s":546.54,"e":550.58,"ja":"な","rd":"な","ko":"뭐","spk":"市川","scene":"class"},{"id":81,"s":550.58,"e":553.94,"ja":"何なんだよ","rd":"なん なんだよ","ko":"뭐야 대체","spk":"市川","scene":"boys","kj":[["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]]]},{"id":82,"s":557.7,"e":562.5,"ja":"今月号のシエル見てくれた？","rd":"こんげつごうの シエル みて くれた","ko":"이번 달 호 시엘 봐 줬어?","spk":"女子","scene":"boys","raw":"今月号のシエル見てくれたまだ","note":"今月号=이번 달 호, シエル=잡지 이름","kj":[["今月号","こんげつごう","이번 달 호","금월호",[["今","이제 금"],["月","달 월"],["号","이름 호"]]],["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":83,"s":562.68,"e":564.98,"ja":"身長的に","rd":"しんちょうてきに","ko":"키 때문에","spk":"女子","scene":"boys","note":"身長=키","kj":[["身長的に","しんちょうてきに","키 면에서","신장적",[["身","몸 신"],["長","길 장"],["的","과녁 적"]]]]},{"id":84,"s":567.62,"e":570.86,"ja":"重いよ","rd":"おもいよ","ko":"무거워","spk":"山田","scene":"boys","kj":[["重い","おもい","무겁다","중",[["重","무거울 중"]]]]},{"id":85,"s":570.86,"e":574.4,"ja":"しょうがないな","rd":"しょうがないな","ko":"어쩔 수 없네","spk":"山田","scene":"boys","raw":"しょうがないなお部屋アニメかよ","note":"뒤에 이어지는 말은 인식 오류로 원문 불명"},{"id":86,"s":574.4,"e":581.1,"ja":"スキンシップの激しいやつはスケベ 小林が彼氏だと思って","rd":"スキンシップの はげしい やつは スケベ こばやしが かれしだと おもって","ko":"스킨십 심한 애는 밝힌다니까. 코바야시가 남자친구라고 생각하고","spk":"足立","scene":"boys","note":"スケベ=밝힘·음탕","kj":[["激しい","はげしい","심하다·격렬하다","격",[["激","격할 격"]]],["小林","こばやし","코바야시 (인명)","소림",[["小","작을 소"],["林","수풀 림"]]],["彼氏","かれし","남자친구","피씨",[["彼","저 피"],["氏","성씨 씨"]]],["思う","おもう","생각하다","사",[["思","생각 사"]]]]},{"id":87,"s":581.1,"e":585.74,"ja":"想像してみろ 天才的妄想 やめろ","rd":"そうぞう してみろ てんさいてき もうそう やめろ","ko":"상상해 봐 / 천재적 망상… 그만해","spk":"足立","scene":"boys","raw":"想像してみろ 天才的妄想やめろ","note":"화자: 足立 · 市川(속마음)","kj":[["想像","そうぞう","상상","상상",[["想","생각 상"],["像","모양 상"]]],["天才的","てんさいてき","천재적","천재적",[["天","하늘 천"],["才","재주 재"],["的","과녁 적"]]],["妄想","もうそう","망상","망상",[["妄","망령될 망"],["想","생각 상"]]]]},{"id":88,"s":585.74,"e":590.84,"ja":"いや山田みたいな女 セフレにしたいよなぁ","rd":"いや やまだ みたいな おんな セフレに したいよなぁ","ko":"아니 야마다 같은 여자, 섹파로 삼고 싶지","spk":"足立","scene":"boys","raw":"いやまだみたいな女セフレにしたいよなぁ","note":"남학생의 저속한 농담","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["女","おんな","여자","녀",[["女","여자 녀"]]]]},{"id":89,"s":590.84,"e":595.52,"ja":"俺は美人すぎるとあんまりだなぁ","rd":"おれは びじん すぎると あんまり だなぁ","ko":"난 너무 미인이면 별로던데","spk":"男子","scene":"boys","raw":"僕は美人すぎるとあんまりだなぁ","note":"〜すぎる=너무 〜하다","kj":[["俺","おれ","나 (남성)","엄",[["俺","나 엄"]]],["美人","びじん","미인","미인",[["美","아름다울 미"],["人","사람 인"]]]]},{"id":90,"s":596.54,"e":604.7,"ja":"このクラスだと 原さんとか","rd":"この クラスだと はらさん とか","ko":"이 반이면 하라 같은 애라든가","spk":"男子","scene":"boys","raw":"このクラスだと ハラソンとか","kj":[["原","はら","하라 (인명)","원",[["原","언덕 원"]]]]},{"id":91,"s":604.7,"e":610.64,"ja":"お前ホントスケベだな 全身チンポだろ","rd":"おまえ ホント スケベだな ぜんしん チンポだろ","ko":"너 진짜 밝히네. 온몸이 거시기잖아","spk":"男子","scene":"boys","raw":"お前とスケベだな全身 チンポだろう","note":"거친 남학생 농담","kj":[["お前","おまえ","너 (거친 말)","전",[["前","앞 전"]]],["全身","ぜんしん","온몸","전신",[["全","온전할 전"],["身","몸 신"]]]]},{"id":92,"s":614.9,"e":618.08,"ja":"またいる","rd":"また いる","ko":"또 있어","spk":"市川","scene":"lib2","th":1},{"id":93,"s":620.4,"e":622.1,"ja":"会いに来たの","rd":"あいに きたの","ko":"만나러 온 거야?","spk":"山田","scene":"lib2","raw":"ありに来たの","kj":[["会う","あう","만나다","회",[["会","모일 회"]]],["来る","くる","오다","래",[["来","올 래"]]]]},{"id":94,"s":622.1,"e":629.6,"ja":"呼び出されて これ食べる？ 私ダイエット中だから","rd":"よびだされて これ たべる わたし ダイエットちゅう だから","ko":"불려 나와서. 이거 먹을래? / 나 다이어트 중이라","spk":"神崎","scene":"lib2","raw":"呼び出されてこれ食べる 私ダイエット中だから","note":"화자: 神崎 · 山田 · 呼び出す=불러내다","kj":[["呼び出す","よびだす","불러내다","호",[["呼","부를 호"],["出","날 출"]]],["出す","だす","내다·드러내다","출",[["出","날 출"]]],["食べる","たべる","먹다","식",[["食","밥 식"]]],["私","わたし","나","사",[["私","사사 사"]]],["〜中","〜ちゅう","〜중 (ダイエット中)","중",[["中","가운데 중"]]]]},{"id":95,"s":632.22,"e":637.92,"ja":"嘘つけ 好きなものを好きな時に食べる それが私の","rd":"うそつけ すきな ものを すきな ときに たべる それが わたしの","ko":"거짓말하네 / 좋아하는 걸 좋아하는 때에 먹는다, 그게 나의","spk":"市川","scene":"lib2","raw":"嘘つけ 好きなものを好きな時に食べるそれが私の","th":1,"note":"화자: 市川(속마음) · 山田 · 嘘つけ=거짓말하지 마","kj":[["嘘つけ","うそつけ","거짓말하지 마","허",[["嘘","거짓말 허"]]],["好き","すき","좋아함","호",[["好","좋을 호"]]],["時","とき","때","시",[["時","때 시"]]],["食べる","たべる","먹다","식",[["食","밥 식"]]],["私","わたし","나","사",[["私","사사 사"]]]]},{"id":96,"s":637.92,"e":639.96,"ja":"ライフスタイルなんだよ","rd":"ライフスタイル なんだよ","ko":"라이프스타일이야","spk":"山田","scene":"lib2"},{"id":97,"s":639.96,"e":643.44,"ja":"意識高げだけどめちゃくちゃ低いな","rd":"いしき たかげ だけど めちゃくちゃ ひくいな","ko":"의식이 높은 척하지만 완전 낮네","spk":"市川","scene":"lib2","raw":"意識高げだけどめちゃくちゃ低いなうんで","th":1,"note":"意識高い系=의식 높은 척하는 부류","kj":[["意識","いしき","의식","의식",[["意","뜻 의"],["識","알 식"]]],["高い","たかい","높다","고",[["高","높을 고"]]],["低い","ひくい","낮다","저",[["低","낮을 저"]]]]},{"id":98,"s":643.44,"e":648.38,"ja":"でも好きなだけ食べた結果がこれだからさ","rd":"でも すきな だけ たべた けっかが これ だからさ","ko":"그래도 먹고 싶은 만큼 먹은 결과가 이거니까","spk":"山田","scene":"lib2","raw":"も好きなだけ食べた結果がこれだからさ","note":"〜だけ=〜만큼","kj":[["好き","すき","좋아함","호",[["好","좋을 호"]]],["食べる","たべる","먹다","식",[["食","밥 식"]]],["結果","けっか","결과","결과",[["結","맺을 결"],["果","열매 과"]]]]},{"id":99,"s":649.14,"e":658.38,"ja":"おい黙るな フォローしろ 神崎君 いや もう来てたんだ うん","rd":"おい だまるな フォロー しろ かんざきくん いや もう きてたんだ うん","ko":"야 입 다물지 마, 수습해라 / 칸자키 군. 아니 벌써 와 있었구나. 응","spk":"市川","scene":"lib2","raw":"おいたまるなフォローしろ 神崎君いやあもう来てたんだうん","th":1,"note":"화자: 市川(속마음) · 山田 · 神崎 · フォローする=수습하다","kj":[["黙る","だまる","입 다물다","묵",[["黙","잠잠할 묵"]]],["神崎","かんざき","칸자키 (인명)","신기",[["神","귀신 신"],["崎","험할 기"]]],["君","くん","〜군","군",[["君","임금 군"]]],["来る","くる","오다","래",[["来","올 래"]]]]},{"id":100,"s":658.38,"e":660.2,"ja":"あの","rd":"あの","ko":"저기","spk":"神崎","scene":"lib2"},{"id":101,"s":660.2,"e":671.54,"ja":"いよいよか まさかこの流れ 告白？ あの 実は","rd":"いよいよか まさか この ながれ こくはく あの じつは","ko":"드디어인가. 설마 이 흐름, 고백? / 저기, 실은","spk":"市川","scene":"lib2","raw":"いよって何 まさかこの流れ 告白 あの実は","th":1,"note":"화자: 市川(속마음) · 神崎 · 告白=고백","kj":[["流れ","ながれ","흐름","류",[["流","흐를 류"]]],["告白","こくはく","고백","고백",[["告","고할 고"],["白","흰 백"]]],["実は","じつは","실은","실",[["実","열매 실"]]]]},{"id":102,"s":675.32,"e":680.34,"ja":"このメンツ珍しくない？ 山田絶対邪魔だろ","rd":"この メンツ めずらしく ない やまだ ぜったい じゃま だろ","ko":"이 멤버 조합 신기하지 않아? / 야마다 완전 방해잖아","spk":"女子","scene":"lib2","raw":"このメンツ珍しくない山田絶対邪魔だろ","note":"화자: 女子 · 市川(속마음) · メンツ=멤버 구성","kj":[["珍しい","めずらしい","드물다·신기하다","진",[["珍","보배 진"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["絶対","ぜったい","절대","절대",[["絶","끊을 절"],["対","대할 대"]]],["邪魔","じゃま","방해","사마",[["邪","간사할 사"],["魔","마귀 마"]]]]},{"id":103,"s":680.34,"e":685.16,"ja":"うそ ダイエットには食物繊維がいいんだって","rd":"うそ ダイエットには しょくもつせんいが いいんだって","ko":"거짓말. 다이어트엔 식이섬유가 좋대","spk":"女子","scene":"lib2","raw":"うそダイエットには食物繊維がいいんだっ て","note":"食物繊維=식이섬유","kj":[["食物繊維","しょくもつせんい","식이섬유","식물섬유",[["食","밥 식"],["物","물건 물"],["繊","가늘 섬"],["維","벼리 유"]]]]},{"id":104,"s":685.16,"e":688.08,"ja":"ダイエットしてるの","rd":"ダイエット してるの","ko":"다이어트 하고 있어?","spk":"神崎","scene":"lib2"},{"id":105,"s":688.08,"e":694.34,"ja":"太っちゃったから 俺は ぽっちゃりしてる方がいいかな","rd":"ふとっちゃった から おれは ぽっちゃり してる ほうが いいかな","ko":"살쪄 버려서 / 나는 통통한 쪽이 좋은데","spk":"山田","scene":"lib2","raw":"取っちゃったから 俺は ぽっちゃりしてるこの方がいいかな","note":"화자: 山田 · 神崎 · ぽっちゃり=통통함","kj":[["太る","ふとる","살찌다","태",[["太","클 태"]]],["俺","おれ","나 (남성)","엄",[["俺","나 엄"]]],["方","ほう","쪽","방",[["方","모 방"]]]]},{"id":106,"s":694.34,"e":697.14,"ja":"男子の言うぽっちゃりと女子のは違うんだよ","rd":"だんしの いう ぽっちゃりと じょしのは ちがうんだよ","ko":"남자가 말하는 통통과 여자의 통통은 다르다고","spk":"市川","scene":"lib2","raw":"男子の言うぽっちゃりと女子のは違うんだ","th":1,"kj":[["男子","だんし","남자아이·남학생","남자",[["男","사내 남"],["子","아들 자"]]],["言う","いう","말하다","언",[["言","말씀 언"]]],["女子","じょし","여자아이·여학생","여자",[["女","여자 녀"],["子","아들 자"]]],["違う","ちがう","다르다","위",[["違","어긋날 위"]]]]},{"id":107,"s":697.14,"e":698.6,"ja":"よ","rd":"よ","ko":"(앞 카드에 이어지는 어미)","spk":"市川","scene":"lib2","th":1},{"id":108,"s":698.6,"e":704.52,"ja":"いやでも俺 太ければ太いほどいいっていうか 3桁でも","rd":"いや でも おれ ふとければ ふとい ほど いい っていうか さんけた でも","ko":"아니 근데 난 굵으면 굵을수록 좋다고 할까, 세 자릿수여도","spk":"神崎","scene":"lib2","raw":"いやでも俺 太ければ太いほどいいっていうか3桁でも","note":"〜ば〜ほど=〜할수록","kj":[["俺","おれ","나 (남성)","엄",[["俺","나 엄"]]],["太い","ふとい","굵다","태",[["太","클 태"]]],["桁","けた","자릿수","항",[["桁","도리 항"]]]]},{"id":109,"s":704.52,"e":706.4,"ja":"いいというか","rd":"いい というか","ko":"좋다고 할까","spk":"神崎","scene":"lib2"},{"id":110,"s":706.4,"e":710.34,"ja":"段々になってるのがいいんだよ","rd":"だんだんに なってるのが いいんだよ","ko":"층이 져 있는 게 좋은 거야","spk":"神崎","scene":"lib2","raw":"だんだんになってるのがいいんだよ","note":"段々=층층이","kj":[["段々","だんだん","층층이","단단",[["段","층계 단"],["々","반복 부호"]]]]},{"id":111,"s":710.34,"e":717.24,"ja":"もうやめろ 山田に特殊性癖の存在を教えるな","rd":"もう やめろ やまだに とくしゅ せいへきの そんざいを おしえるな","ko":"그만해, 야마다한테 특수 성벽의 존재를 알려 주지 마","spk":"市川","scene":"lib2","raw":"そうやめろ山田に特殊性癖の存在を教える な","th":1,"note":"性癖=성적 취향","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["特殊","とくしゅ","특수","특수",[["特","특별할 특"],["殊","다를 수"]]],["性癖","せいへき","성적 취향","성벽",[["性","성품 성"],["癖","버릇 벽"]]],["存在","そんざい","존재","존재",[["存","있을 존"],["在","있을 재"]]],["教える","おしえる","가르치다","교",[["教","가르칠 교"]]]]},{"id":112,"s":717.24,"e":720.72,"ja":"そこで気づくの失礼だろ だが気づいた","rd":"そこで きづくの しつれい だろ だが きづいた","ko":"거기서 눈치채는 건 실례잖아. 하지만 눈치챘다","spk":"市川","scene":"lib2","raw":"そこで気づくの失礼だろうだが気づいた","th":1,"note":"失礼=실례","kj":[["気づく","きづく","눈치채다","기",[["気","기운 기"]]],["失礼","しつれい","실례","실례",[["失","잃을 실"],["礼","예도 례"]]]]},{"id":113,"s":720.72,"e":723.72,"ja":"なら後はわかるよな さあ すぐ出て行って","rd":"なら あとは わかるよな さあ すぐ でていって","ko":"그럼 나머진 알겠지. 자, 어서 나가서","spk":"市川","scene":"lib2","raw":"なら後はわかるよなさあすぐ出て行って","th":1,"kj":[["後","あと","뒤·나머지","후",[["後","뒤 후"]]],["出る","でる","나가다","출",[["出","날 출"]]],["行く","いく","가다","행",[["行","다닐 행"]]]]},{"id":114,"s":723.72,"e":732.42,"ja":"二人きりに… 誰かいる？ 猫じゃない？ こんなところにいるわけない","rd":"ふたりきりに… だれか いる ねこ じゃない こんな ところに いる わけない","ko":"둘만… / 누구 있어? / 고양이 아니야? / 이런 데 있을 리가 없잖아","spk":"市川","scene":"lib2","raw":"二人きりに 誰かいる 猫じゃないこんなところにいるわけない","th":1,"note":"화자: 市川(속마음) · 神崎 · 山田 · 〜わけない=〜일 리 없다","kj":[["二人","ふたり","둘·두 사람","이인",[["二","두 이"],["人","사람 인"]]],["誰","だれ","누구","수",[["誰","누구 수"]]],["猫","ねこ","고양이","묘",[["猫","고양이 묘"]]]]},{"id":115,"s":732.42,"e":737.3,"ja":"だろう","rd":"だろう","ko":"(있을 리 없)잖아","spk":"神崎","scene":"lib2"},{"id":116,"s":738.56,"e":743.48,"ja":"まさか僕に猫をやれと","rd":"まさか ぼくに ねこを やれと","ko":"설마 나더러 고양이를 하라고","spk":"市川","scene":"lib2","th":1,"kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["猫","ねこ","고양이","묘",[["猫","고양이 묘"]]]]},{"id":117,"s":752.04,"e":757.7,"ja":"死にたい ちょっと見てくる","rd":"しにたい ちょっと みてくる","ko":"죽고 싶다 / 잠깐 보고 올게","spk":"市川","scene":"lib2","th":1,"note":"화자: 市川(속마음) · 神崎","kj":[["死ぬ","しぬ","죽다","사",[["死","죽을 사"]]],["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":118,"s":767.72,"e":773.96,"ja":"猫ってさ これ喧嘩の時の声だ そうなの","rd":"ねこってさ これ けんかの ときの こえだ そうなの","ko":"고양이 말이야, 이거 싸울 때 소리야 / 그래?","spk":"神崎","scene":"lib2","raw":"やってもさこれ喧嘩の時の声だそうなの","note":"화자: 神崎 · 山田 · 喧嘩=싸움","kj":[["猫","ねこ","고양이","묘",[["猫","고양이 묘"]]],["喧嘩","けんか","싸움","훤화",[["喧","시끄러울 훤"],["嘩","시끄러울 화"]]],["時","とき","때","시",[["時","때 시"]]],["声","こえ","소리·목소리","성",[["声","소리 성"]]]]},{"id":119,"s":773.96,"e":779.18,"ja":"さっきとは違う子だし 喧嘩するかも","rd":"さっきとは ちがう こだし けんか するかも","ko":"아까랑 다른 애고, 싸울지도","spk":"神崎","scene":"lib2","kj":[["違う","ちがう","다르다","위",[["違","어긋날 위"]]],["子","こ","아이","자",[["子","아들 자"]]],["喧嘩","けんか","싸움","훤화",[["喧","시끄러울 훤"],["嘩","시끄러울 화"]]]]},{"id":120,"s":789.26,"e":793.93,"ja":"ごめんね","rd":"ごめんね","ko":"미안해","spk":"山田","scene":"lib2"},{"id":121,"s":797.7,"e":801.86,"ja":"猫好きなの うち2匹いるの","rd":"ねこ すきなの うち にひき いるの","ko":"고양이 좋아해. 우리 집에 두 마리 있어","spk":"山田","scene":"lib2","raw":"猫好きなのうち2匹いるの","note":"〜匹=마리","kj":[["猫","ねこ","고양이","묘",[["猫","고양이 묘"]]],["好き","すき","좋아함","호",[["好","좋을 호"]]],["匹","ひき","마리","필",[["匹","짝 필"]]]]},{"id":122,"s":803.24,"e":818.24,"ja":"やれやれ そんな仕事やりきった感出されても… よかったね","rd":"やれやれ そんな しごと やりきった かん だされても… よかったね","ko":"참 나, 그렇게 임무 완수한 표정을 지어도… / 다행이다","spk":"市川","scene":"lib2","raw":"やれやれそんな仕事やりきった感出されて も よかったね","th":1,"note":"화자: 市川(속마음) · 山田 · やり切った感=해냈다는 느낌","kj":[["仕事","しごと","일·임무","사사",[["仕","섬길 사"],["事","일 사"]]],["〜感","〜かん","〜한 느낌 (やりきった感)","감",[["感","느낄 감"]]],["出す","だす","내다·드러내다","출",[["出","날 출"]]]]},{"id":123,"s":818.24,"e":822.8,"ja":"山田と共同作業してしまった","rd":"やまだと きょうどう さぎょう して しまった","ko":"야마다와 공동 작업을 해 버렸다","spk":"市川","scene":"shop","th":1,"note":"共同作業=공동 작업","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["共同作業","きょうどうさぎょう","공동 작업","공동작업",[["共","한가지 공"],["同","한가지 동"],["作","지을 작"],["業","업 업"]]]]},{"id":124,"s":825.68,"e":832.64,"ja":"山田杏奈 一体何なんだ 何かというと僕の前に","rd":"やまだ あんな いったい なん なんだ なにかと いうと ぼくの まえに","ko":"야마다 안나, 대체 뭐야. 걸핏하면 내 앞에","spk":"市川","scene":"shop","raw":"山田杏奈一体何なんだ何かというと僕の前 に","th":1,"note":"何かというと=걸핏하면","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["杏奈","あんな","안나 (인명)","행나",[["杏","살구 행"],["奈","어찌 나"]]],["一体","いったい","대체","일체",[["一","한 일"],["体","몸 체"]]],["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]],["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["前","まえ","앞·전","전",[["前","앞 전"]]]]},{"id":125,"s":832.74,"e":837.14,"ja":"確か今月号とか言ってたな","rd":"たしか こんげつごう とか いってたな","ko":"분명 이번 달 호라고 했었지","spk":"市川","scene":"shop","th":1,"kj":[["確か","たしか","분명·확실히","확",[["確","굳을 확"]]],["今月号","こんげつごう","이번 달 호","금월호",[["今","이제 금"],["月","달 월"],["号","이름 호"]]],["言う","いう","말하다","언",[["言","말씀 언"]]]]},{"id":126,"s":841.76,"e":845.78,"ja":"この格好では危険か","rd":"この かっこうでは きけんか","ko":"이 차림으로는 위험한가","spk":"市川","scene":"shop","th":1,"note":"格好=차림새","kj":[["格好","かっこう","차림새","격호",[["格","격식 격"],["好","좋을 호"]]],["危険","きけん","위험","위험",[["危","위태할 위"],["険","험할 험"]]]]},{"id":127,"s":852.3,"e":855.98,"ja":"年越し特集とか言ってたな","rd":"としこし とくしゅう とか いってたな","ko":"연말 특집이라고 했던가","spk":"市川","scene":"shop","raw":"年越しシールとか言ったの","th":1,"note":"年越し=해넘이 (원문 인식 불명확)","kj":[["年越し","としこし","해넘이·연말","년월",[["年","해 년"],["越","넘을 월"]]],["特集","とくしゅう","특집","특집",[["特","특별할 특"],["集","모을 집"]]],["言う","いう","말하다","언",[["言","말씀 언"]]]]},{"id":128,"s":855.98,"e":859.16,"ja":"これか","rd":"これか","ko":"이건가","spk":"市川","scene":"shop","th":1},{"id":129,"s":865.82,"e":874.8,"ja":"山田？ いや見間違いかも うち最近この雑誌好きでさー はい そうなんだ","rd":"やまだ いや みまちがい かも うち さいきん この ざっし すきでさー はい そうなんだ","ko":"야마다? 아니 잘못 봤을지도 / 나 요즘 이 잡지 좋아하거든요 / 네, 그러시군요","spk":"市川","scene":"shop","raw":"山田いや見間違いかも うち最近この雑誌好きでさーはいそうなん","th":1,"note":"화자: 市川(속마음) · 山田 · 店員 · 見間違い=잘못 봄","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["見間違い","みまちがい","잘못 봄","견간위",[["見","볼 견"],["間","사이 간"],["違","어긋날 위"]]],["最近","さいきん","요즘","최근",[["最","가장 최"],["近","가까울 근"]]],["雑誌","ざっし","잡지","잡지",[["雑","섞일 잡"],["誌","기록할 지"]]],["好き","すき","좋아함","호",[["好","좋을 호"]]]]},{"id":130,"s":874.8,"e":882.36,"ja":"何系？ 綺麗な感じ？ いい感じ 山田だわ 何","rd":"なにけい きれいな かんじ いい かんじ やまだ だわ なに","ko":"어떤 계열? 깔끔한 느낌? 좋네요 / 야마다잖아. 뭘","spk":"店員","scene":"shop","raw":"だ何系 綺麗な感じないいい感じ 山田だわ何","note":"화자: 店員 · 市川(속마음)","kj":[["何系","なにけい","어떤 계열","하계",[["何","어찌 하"],["系","이어맬 계"]]],["綺麗","きれい","예쁨·깨끗함","기려",[["綺","비단 기"],["麗","고울 려"]]],["感じ","かんじ","느낌","감",[["感","느낄 감"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]]]},{"id":131,"s":882.36,"e":886.65,"ja":"存在アピールしてんだ","rd":"そんざい アピール してんだ","ko":"존재를 어필하고 있는 거야","spk":"市川","scene":"shop","th":1,"kj":[["存在","そんざい","존재","존재",[["存","있을 존"],["在","있을 재"]]]]},{"id":132,"s":889.92,"e":892.76,"ja":"みんな","rd":"みんな","ko":"여러분","spk":"山田","scene":"shop"},{"id":133,"s":897.12,"e":899.96,"ja":"読者を逃したな","rd":"どくしゃを のがしたな","ko":"독자를 놓쳤군","spk":"市川","scene":"shop","th":1,"note":"逃す=놓치다","kj":[["読者","どくしゃ","독자","독자",[["読","읽을 독"],["者","놈 자"]]],["逃す","のがす","놓치다","도",[["逃","도망할 도"]]]]},{"id":134,"s":903.2,"e":912.24,"ja":"え やめろ それは本当にお店の迷惑になるから","rd":"え やめろ それは ほんとうに おみせの めいわくに なるから","ko":"어, 그만해, 그건 진짜 가게에 민폐니까","spk":"市川","scene":"shop","raw":"えやめろそれは本当にお店の迷惑になる から ライン","th":1,"note":"迷惑=민폐","kj":[["本当","ほんとう","정말","본당",[["本","근본 본"],["当","마땅 당"]]],["店","みせ","가게","점",[["店","가게 점"]]],["迷惑","めいわく","민폐","미혹",[["迷","미혹할 미"],["惑","미혹할 혹"]]]]},{"id":135,"s":912.24,"e":917.84,"ja":"サイン待ちするな お前作家じゃないだろ","rd":"サインまち するな おまえ さっか じゃないだろ","ko":"사인 대기하지 마, 넌 작가가 아니잖아","spk":"市川","scene":"shop","raw":"待ちするなお前作家じゃないだろ","th":1,"kj":[["待つ","まつ","기다리다","대",[["待","기다릴 대"]]],["お前","おまえ","너 (거친 말)","전",[["前","앞 전"]]],["作家","さっか","작가","작가",[["作","지을 작"],["家","집 가"]]]]},{"id":136,"s":922.46,"e":930.06,"ja":"ほら戻された","rd":"ほら もどされた","ko":"거봐, 도로 꽂혔잖아","spk":"市川","scene":"shop","th":1,"note":"戻す=되돌리다(수동)","kj":[["戻す","もどす","되돌리다","려",[["戻","어그러질 려"]]]]},{"id":137,"s":930.06,"e":936.36,"ja":"山田も割と痛いやつなんだな","rd":"やまだも わりと いたい やつ なんだな","ko":"야마다도 꽤 오글거리는 녀석이구나","spk":"市川","scene":"shop","th":1,"note":"痛い=(사람이) 오글거리는·민망한","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["割と","わりと","꽤","할",[["割","벨 할"]]],["痛い","いたい","아프다·(사람이) 오글거리다","통",[["痛","아플 통"]]]]},{"id":138,"s":936.36,"e":939.9,"ja":"仕方ないな さっき失った読者の分も買って","rd":"しかたないな さっき うしなった どくしゃの ぶんも かって","ko":"어쩔 수 없지. 아까 잃은 독자 몫까지 사","spk":"市川","scene":"shop","raw":"仕方ないなさっき失った読者の分も買って","th":1,"kj":[["仕方ない","しかたない","어쩔 수 없다","사방",[["仕","섬길 사"],["方","모 방"]]],["失う","うしなう","잃다","실",[["失","잃을 실"]]],["読者","どくしゃ","독자","독자",[["読","읽을 독"],["者","놈 자"]]],["分","ぶん","몫","분",[["分","나눌 분"]]],["買う","かう","사다","매",[["買","살 매"]]]]},{"id":139,"s":939.9,"e":942.2,"ja":"やるか","rd":"やるか","ko":"줄까","spk":"市川","scene":"shop","th":1,"note":"買ってやる=사 주다"},{"id":140,"s":946.44,"e":949.04,"ja":"どれどれ","rd":"どれどれ","ko":"어디 보자","spk":"市川","scene":"shop","th":1},{"id":141,"s":951.0,"e":953.72,"ja":"縁のない世界だな","rd":"えんの ない せかいだな","ko":"인연 없는 세계로군","spk":"市川","scene":"shop","th":1,"note":"縁がない=인연이 없다","kj":[["縁","えん","인연","연",[["縁","인연 연"]]],["世界","せかい","세계","세계",[["世","인간 세"],["界","지경 계"]]]]},{"id":142,"s":954.72,"e":959.12,"ja":"あれ 違う こうだったか","rd":"あれ ちがう こう だったか","ko":"어라, 아니네. 이랬던가","spk":"市川","scene":"shop","raw":"あれ違うこうだったか","th":1,"kj":[["違う","ちがう","다르다","위",[["違","어긋날 위"]]]]},{"id":143,"s":961.8,"e":964.4,"ja":"これだ","rd":"これだ","ko":"이거다","spk":"市川","scene":"shop","th":1},{"id":144,"s":971.84,"e":973.76,"ja":"なんか","rd":"なんか","ko":"뭔가","spk":"市川","scene":"shop","th":1},{"id":145,"s":973.76,"e":978.08,"ja":"知らない女の人みたいだ","rd":"しらない おんなの ひと みたいだ","ko":"모르는 여자 같다","spk":"市川","scene":"shop","th":1,"kj":[["知る","しる","알다","지",[["知","알 지"]]],["女","おんな","여자","녀",[["女","여자 녀"]]],["人","ひと","사람","인",[["人","사람 인"]]]]},{"id":146,"s":983.28,"e":985.8,"ja":"突然どうでもよくなった","rd":"とつぜん どうでも よく なった","ko":"갑자기 아무래도 상관없어졌다","spk":"市川","scene":"shop","th":1,"kj":[["突然","とつぜん","갑자기","돌연",[["突","갑자기 돌"],["然","그럴 연"]]]]},{"id":147,"s":985.8,"e":991.92,"ja":"なんだかくだらない感情を持っていた気がする そうだ","rd":"なんだか くだらない かんじょうを もっていた きが する そうだ","ko":"뭔가 시시한 감정을 갖고 있었던 것 같다. 그래","spk":"市川","scene":"shop","raw":"なんだかくだらない感情を持っていた気が する そうだ","th":1,"note":"くだらない=시시하다","kj":[["感情","かんじょう","감정","감정",[["感","느낄 감"],["情","뜻 정"]]],["持つ","もつ","갖다·들다","지",[["持","가질 지"]]],["気","き","마음·기분·낌새 (気がする·気にする·気をそらす)","기",[["気","기운 기"]]]]},{"id":148,"s":991.92,"e":999.53,"ja":"僕と山田は全く違う世界の人間なんだ","rd":"ぼくと やまだは まったく ちがう せかいの にんげん なんだ","ko":"나와 야마다는 전혀 다른 세계의 인간이다","spk":"市川","scene":"shop","th":1,"kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["全く","まったく","전혀","전",[["全","온전할 전"]]],["違う","ちがう","다르다","위",[["違","어긋날 위"]]],["世界","せかい","세계","세계",[["世","인간 세"],["界","지경 계"]]],["人間","にんげん","인간","인간",[["人","사람 인"],["間","사이 간"]]]]},{"id":149,"s":999.78,"e":1008.12,"ja":"くだらない 何もかもがどうでもいい","rd":"くだらない なにもかもが どうでも いい","ko":"시시해. 뭐든 다 아무래도 좋아","spk":"市川","scene":"shop","raw":"くだらない何もかもがどうでもいい","th":1,"note":"何もかも=모든 것","kj":[["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]]]},{"id":150,"s":1008.12,"e":1013.78,"ja":"もったいないんで1回使わせてよ","rd":"もったいないんで いっかい つかわせてよ","ko":"아까우니까 한 번 쓰게 해 줘","spk":"市川","scene":"shop","raw":"もうもったいないんで1回使ってしてよ","note":"もったいない=아깝다","kj":[["回","かい","번·회 (1回)","회",[["回","돌아올 회"]]],["使う","つかう","쓰다·사용하다","사",[["使","부릴 사"]]]]},{"id":151,"s":1022.16,"e":1024.46,"ja":"昨日はあんまり眠れなかったな","rd":"きのうは あんまり ねむれなかったな","ko":"어제는 별로 못 잤네","spk":"市川","scene":"next","th":1,"kj":[["昨日","きのう","어제","작일",[["昨","어제 작"],["日","날 일"]]],["眠る","ねむる","잠자다","면",[["眠","잘 면"]]]]},{"id":152,"s":1024.46,"e":1029.2,"ja":"ほんと なぜあんなもの買ってしまったんだ","rd":"ほんと なぜ あんな もの かって しまったんだ","ko":"정말, 왜 그런 걸 사 버린 거지","spk":"市川","scene":"next","raw":"ほんとなぜあんなもの買ってしまったんだ","th":1,"kj":[["買う","かう","사다","매",[["買","살 매"]]]]},{"id":153,"s":1039.5,"e":1048.34,"ja":"いや そうだよな いるだろ そりゃそうだ それが普通だ","rd":"いや そうだよな いるだろ そりゃ そうだ それが ふつうだ","ko":"아니, 그렇지. 있겠지. 당연하지. 그게 보통이다","spk":"市川","scene":"next","raw":"いやそうだよないるだろそりゃそうだそれ が普通だ","th":1,"note":"そりゃそうだ=당연하지 (남자친구가 있겠지, 라는 뜻)","kj":[["普通","ふつう","보통","보통",[["普","넓을 보"],["通","통할 통"]]]]},{"id":154,"s":1048.5,"e":1051.58,"ja":"どうでもいいよ","rd":"どうでも いいよ","ko":"아무래도 좋아","spk":"市川","scene":"next","th":1},{"id":155,"s":1052.7,"e":1061.48,"ja":"LINE？ なんですかそれ 知ってるでしょ ほら これこれ 南条","rd":"ライン なんですか それ しってるでしょ ほら これこれ なんじょう","ko":"라인? 그게 뭔데요 / 알잖아, 자 이거이거 / 난조","spk":"山田","scene":"next","raw":"LINEなんですかそれ 知ってるでしょほらこれこれ南条 春や","note":"화자: 山田 · 南条","kj":[["知る","しる","알다","지",[["知","알 지"]]],["南条","なんじょう","난조 (인명)","남조",[["南","남녘 남"],["条","가지 조"]]]]},{"id":156,"s":1061.48,"e":1064.6,"ja":"ナンパか","rd":"ナンパか","ko":"헌팅인가","spk":"市川","scene":"next","th":1,"note":"ナンパ=헌팅"},{"id":157,"s":1064.6,"e":1071.72,"ja":"SNSだよ SNS無知設定に無理がありすぎだろ","rd":"エスエヌエス だよ エスエヌエス むち せっていに むりが ありすぎ だろ","ko":"SNS 야 / SNS 무지 설정은 너무 무리잖아","spk":"南条","scene":"next","raw":"SNSだよSML無知設定に無理があり すぎだろう","note":"화자: 南条 · 市川(속마음) · 無理がある=무리가 있다","kj":[["無知","むち","무지","무지",[["無","없을 무"],["知","알 지"]]],["設定","せってい","설정","설정",[["設","베풀 설"],["定","정할 정"]]],["無理","むり","무리","무리",[["無","없을 무"],["理","다스릴 리"]]]]},{"id":158,"s":1071.72,"e":1075.04,"ja":"友達とはどうやって連絡してるの","rd":"ともだちとは どうやって れんらく してるの","ko":"친구랑은 어떻게 연락해?","spk":"南条","scene":"next","kj":[["友達","ともだち","친구","우달",[["友","벗 우"],["達","통달할 달"]]],["連絡","れんらく","연락","연락",[["連","잇닿을 련"],["絡","이을 락"]]]]},{"id":159,"s":1076.52,"e":1078.98,"ja":"脳の波長を合わせるとお互いの思考が読める","rd":"のうの はちょうを あわせると おたがいの しこうが よめる","ko":"뇌의 파장을 맞추면 서로의 생각을 읽을 수 있게","spk":"山田","scene":"next","raw":"脳の鉢を合わせるとお互いの思考が読める","note":"波長=파장","kj":[["脳","のう","뇌","뇌",[["脳","골 뇌"]]],["波長","はちょう","파장","파장",[["波","물결 파"],["長","길 장"]]],["合わせる","あわせる","맞추다","합",[["合","합할 합"]]],["互い","たがい","서로","호",[["互","서로 호"]]],["思考","しこう","사고·생각","사고",[["思","생각 사"],["考","생각할 고"]]],["読む","よむ","읽다","독",[["読","읽을 독"]]]]},{"id":160,"s":1078.98,"e":1083.12,"ja":"ようになるんですよ 電波 ドン引き","rd":"ように なるんですよ でんぱ ドンびき","ko":"돼요 / 전파계… 완전 질색","spk":"山田","scene":"next","raw":"ようになるんですよ電波とドン引き","note":"화자: 山田 · 市川(속마음) · 電波=(속어) 이상한 소리 하는 사람, ドン引き=질색","kj":[["電波","でんぱ","전파 (속어: 이상한 소리를 하는 사람)","전파",[["電","번개 전"],["波","물결 파"]]],["ドン引き","ドンびき","질색·완전히 질림","인",[["引","끌 인"]]]]},{"id":161,"s":1083.12,"e":1089.32,"ja":"じゃあ今俺が何考えてるかわかる？ こいつ強い","rd":"じゃあ いま おれが なに かんがえてるか わかる こいつ つよい","ko":"그럼 지금 내가 무슨 생각하는지 알아? / 이 녀석 강하다","spk":"南条","scene":"next","raw":"じゃあ今俺が何考えてるかわかる こいつ強い","note":"화자: 南条 · 市川(속마음)","kj":[["今","いま","지금","금",[["今","이제 금"]]],["俺","おれ","나 (남성)","엄",[["俺","나 엄"]]],["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]],["考える","かんがえる","생각하다","고",[["考","생각할 고"]]],["強い","つよい","강하다","강",[["強","강할 강"]]]]},{"id":162,"s":1091.24,"e":1097.16,"ja":"アイス食べたい お前だろそれ 正解は「近くで","rd":"アイス たべたい おまえだろ それ せいかいは ちかくで","ko":"아이스크림 먹고 싶다 / 그건 너잖아 / 정답은 \"가까이서","spk":"山田","scene":"next","raw":"アイス食べたいお前だろそれ正解は近くで","note":"화자: 山田 · 市川(속마음) · 南条","kj":[["食べる","たべる","먹다","식",[["食","밥 식"]]],["お前","おまえ","너 (거친 말)","전",[["前","앞 전"]]],["正解","せいかい","정답","정해",[["正","바를 정"],["解","풀 해"]]],["近く","ちかく","가까이","근",[["近","가까울 근"]]]]},{"id":163,"s":1097.16,"e":1101.36,"ja":"見るとすげー可愛い」でした うぜー いい加減","rd":"みると すげー かわいい でした うぜー いいかげん","ko":"보니까 엄청 귀엽다\"였습니다 / 짜증나. 슬슬","spk":"南条","scene":"next","raw":"見るとすげー可愛いでしたうぜーいい加減","note":"화자: 南条 · 市川(속마음) · いい加減=슬슬·적당히","kj":[["見る","みる","보다","견",[["見","볼 견"]]],["可愛い","かわいい","귀엽다","가애",[["可","옳을 가"],["愛","사랑 애"]]],["いい加減","いいかげん","슬슬·적당히","가감",[["加","더할 가"],["減","덜 감"]]]]},{"id":164,"s":1101.36,"e":1104.54,"ja":"気づけよ ウザがってるって すごい 山田さんって","rd":"きづけよ ウザがってるって すごい やまださんって","ko":"눈치채라고, 귀찮아하고 있다니까 / 대단해, 야마다 씨는","spk":"市川","scene":"next","raw":"気づけよウザがってるってすごい山田さん","th":1,"note":"화자: 市川(속마음) · 南条 · ウザがる=귀찮아하다","kj":[["気づく","きづく","눈치채다","기",[["気","기운 기"]]],["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]]]},{"id":165,"s":1104.54,"e":1109.36,"ja":"意外と面白いよね 本当ですか","rd":"いがいと おもしろいよね ほんとう ですか","ko":"의외로 재밌네 / 정말요?","spk":"南条","scene":"next","raw":"て意外と面白いよね本当ですか","note":"화자: 南条 · 山田 · 意外と=의외로","kj":[["意外と","いがいと","의외로","의외",[["意","뜻 의"],["外","바깥 외"]]],["面白い","おもしろい","재밌다","면백",[["面","낯 면"],["白","흰 백"]]],["本当","ほんとう","정말","본당",[["本","근본 본"],["当","마땅 당"]]]]},{"id":166,"s":1109.42,"e":1113.36,"ja":"面白いが最高の褒め言葉なのかよ","rd":"おもしろいが さいこうの ほめことば なのかよ","ko":"\"재밌다\"가 최고의 칭찬인 거냐","spk":"市川","scene":"next","th":1,"note":"褒め言葉=칭찬","kj":[["面白い","おもしろい","재밌다","면백",[["面","낯 면"],["白","흰 백"]]],["最高","さいこう","최고","최고",[["最","가장 최"],["高","높을 고"]]],["褒め言葉","ほめことば","칭찬(의 말)","포언엽",[["褒","기릴 포"],["言","말씀 언"],["葉","잎 엽"]]]]},{"id":167,"s":1113.36,"e":1116.14,"ja":"LINE知らないくだりとか","rd":"ライン しらない くだり とか","ko":"LINE 모른다는 대목이라든가","spk":"南条","scene":"next","note":"くだり=대목","kj":[["知る","しる","알다","지",[["知","알 지"]]]]},{"id":168,"s":1116.18,"e":1120.46,"ja":"あれは何度もやってるんで","rd":"あれは なんども やってるんで","ko":"저건 몇 번이나 하고 있는 거라서","spk":"市川","scene":"next","raw":"あれは何度もやってるんでまとか","th":1,"note":"何度も=몇 번이나","kj":[["何度も","なんども","몇 번이나","하도",[["何","어찌 하"],["度","법도 도"]]]]},{"id":169,"s":1120.46,"e":1124.12,"ja":"本当に知らないんですよ","rd":"ほんとうに しらないんですよ","ko":"정말 몰라요","spk":"山田","scene":"next","kj":[["本当","ほんとう","정말","본당",[["本","근본 본"],["当","마땅 당"]]],["知る","しる","알다","지",[["知","알 지"]]]]},{"id":170,"s":1124.12,"e":1128.56,"ja":"山田さん本当に面白いね","rd":"やまださん ほんとうに おもしろいね","ko":"야마다 씨 정말 재밌네","spk":"南条","scene":"next","kj":[["山田","やまだ","야마다 (인명)","산전",[["山","메 산"],["田","밭 전"]]],["本当","ほんとう","정말","본당",[["本","근본 본"],["当","마땅 당"]]],["面白い","おもしろい","재밌다","면백",[["面","낯 면"],["白","흰 백"]]]]},{"id":171,"s":1130.94,"e":1134.5,"ja":"楽しそうにするなよ","rd":"たのしそうに するなよ","ko":"즐거워하지 마","spk":"市川","scene":"next","th":1,"kj":[["楽しい","たのしい","즐겁다","락",[["楽","즐길 락"]]]]},{"id":172,"s":1141.86,"e":1143.9,"ja":"本当に教えてよ","rd":"ほんとうに おしえてよ","ko":"진짜로 가르쳐 줘","spk":"南条","scene":"next","kj":[["本当","ほんとう","정말","본당",[["本","근본 본"],["当","마땅 당"]]],["教える","おしえる","가르치다","교",[["教","가르칠 교"]]]]},{"id":173,"s":1143.9,"e":1148.3,"ja":"LINEだから","rd":"ライン だから","ko":"라인이라니까","spk":"南条","scene":"next","raw":"LINE だから"},{"id":174,"s":1150.08,"e":1152.86,"ja":"マジでさ","rd":"マジでさ","ko":"진짜로 말이야","spk":"南条","scene":"next","note":"マジ=진짜"},{"id":175,"s":1169.96,"e":1173.32,"ja":"どうでもいい","rd":"どうでも いい","ko":"아무래도 좋아","spk":"市川","scene":"next","th":1},{"id":176,"s":1175.12,"e":1178.48,"ja":"どうでもいいな","rd":"どうでも いいな","ko":"아무래도 좋다니까","spk":"市川","scene":"next","th":1},{"id":177,"s":1182.72,"e":1186.04,"ja":"どうでもいいだろう","rd":"どうでも いい だろう","ko":"아무래도 좋잖아","spk":"市川","scene":"next","th":1},{"id":178,"s":1186.34,"e":1192.04,"ja":"僕は頭がおかしいのか","rd":"ぼくは あたまが おかしいのか","ko":"나는 머리가 이상한 걸까","spk":"市川","scene":"next","th":1,"kj":[["僕","ぼく","나 (남성, 온화)","복",[["僕","종 복"]]],["頭","あたま","머리","두",[["頭","머리 두"]]]]},{"id":179,"s":1212.92,"e":1219.22,"ja":"自転車がフェンスにぶつかった","rd":"じてんしゃが フェンスに ぶつかった","ko":"자전거가 펜스에 부딪혔다","spk":"男子","scene":"bike","raw":"自転車がフェンスにぶ つかっ た","note":"ぶつかる=부딪히다","kj":[["自転車","じてんしゃ","자전거","자전차",[["自","스스로 자"],["転","구를 전"],["車","수레 차"]]]]},{"id":180,"s":1220.36,"e":1226.0,"ja":"見た？ 市川くんが自転車投げたんだよ","rd":"みた いちかわくんが じてんしゃ なげたんだよ","ko":"봤어? 이치카와가 자전거를 던졌다니까","spk":"女子","scene":"bike","raw":"見た市川くんが自転車投げたんだよ","note":"投げる=던지다","kj":[["見る","みる","보다","견",[["見","볼 견"]]],["市川","いちかわ","이치카와 (인명)","시천",[["市","저자 시"],["川","내 천"]]],["自転車","じてんしゃ","자전거","자전차",[["自","스스로 자"],["転","구를 전"],["車","수레 차"]]],["投げる","なげる","던지다","투",[["投","던질 투"]]]]},{"id":181,"s":1226.6,"e":1229.9,"ja":"見られてた","rd":"みられてた","ko":"들켰다","spk":"市川","scene":"bike","th":1,"note":"見られる=보이다(수동)","kj":[["見る","みる","보다","견",[["見","볼 견"]]]]},{"id":182,"s":1232.58,"e":1235.6,"ja":"何で投げたの","rd":"なんで なげたの","ko":"왜 던진 거야?","spk":"女子","scene":"bike","raw":"何で抜けたの","kj":[["何","なに・なん","무엇·왜 (何で)","하",[["何","어찌 하"]]],["投げる","なげる","던지다","투",[["投","던질 투"]]]]},{"id":183,"s":1243.08,"e":1250.37,"ja":"アクセルとブレーキ間違えて","rd":"アクセルと ブレーキ まちがえて","ko":"액셀과 브레이크를 헷갈려서","spk":"市川","scene":"bike","note":"間違える=착각하다. 자전거에 액셀은 없다, 얼버무리는 말","kj":[["間違える","まちがえる","착각하다","간위",[["間","사이 간"],["違","어긋날 위"]]]]},{"id":184,"s":1262.72,"e":1294.02,"ja":"市川って面白いね","rd":"いちかわって おもしろいね","ko":"이치카와는 재밌네","spk":"山田","scene":"bike","kj":[["市川","いちかわ","이치카와 (인명)","시천",[["市","저자 시"],["川","내 천"]]],["面白い","おもしろい","재밌다","면백",[["面","낯 면"],["白","흰 백"]]]]}];
+const SCENES = [{"key": "intro", "ko": "프롤로그 · 살의의 망상", "ja": "プロローグ · 殺意の妄想", "at": 0}, {"key": "lib1", "ko": "도서실 · 커터를 빌려주다", "ja": "図書室 · カッターを貸す", "at": 112}, {"key": "class", "ko": "연구 발표 · 눈물", "ja": "研究発表 · 涙", "at": 402}, {"key": "boys", "ko": "남학생들의 잡담", "ja": "男子のバカ話", "at": 550}, {"key": "lib2", "ko": "도서실 · 고백과 고양이", "ja": "図書室 · 告白と猫", "at": 614}, {"key": "shop", "ko": "서점 · 잡지", "ja": "書店 · 雑誌", "at": 818}, {"key": "next", "ko": "다음 날 · LINE 소동", "ja": "翌日 · LINE騒動", "at": 1022}, {"key": "bike", "ko": "자전거 · 「面白いね」", "ja": "自転車 · 「面白いね」", "at": 1212}];
+const SPEAKERS = [{"key": "市川", "ja": "市川 京太郎", "ko": "이치카와 쿄타로", "member": true}, {"key": "山田", "ja": "山田 杏奈", "ko": "야마다 안나", "member": true}, {"key": "小林", "ja": "小林 ちひろ", "ko": "코바야시 치히로", "member": true}, {"key": "モエ", "ja": "吉田 萌子", "ko": "요시다 모에코", "member": true}, {"key": "神崎", "ja": "神崎", "ko": "칸자키", "member": true}, {"key": "南条", "ja": "南条", "ko": "난조", "member": true}, {"key": "足立", "ja": "足立", "ko": "아다치", "member": true}, {"key": "先生", "ja": "先生", "ko": "선생님", "member": false}, {"key": "店員", "ja": "店員", "ko": "점원", "member": false}, {"key": "男子", "ja": "男子", "ko": "남학생", "member": false}, {"key": "女子", "ja": "女子", "ko": "여학생", "member": false}, {"key": "", "ja": "不明", "ko": "화자 미상", "member": false}];
+const STUDY = [{"t":"E","ja":"頭がおかしい","rd":"あたまがおかしい","ko":"머리가 이상하다","note":"이 화의 반복 대사. 자조적으로 씀","cids":[1,15,78,178],"hit":"頭がおかしい","ex":1},{"t":"E","ja":"〜のだろうか","rd":"〜のだろうか","ko":"〜인 걸까","note":"독백체의 의문","cids":[4],"hit":"のだろうか","ex":4},{"t":"E","ja":"どうでもいい","rd":"どうでもいい","ko":"아무래도 좋다·상관없다","note":"후반에 네 번 반복","cids":[8,149,154,175,176,177],"hit":"どうでもいい","ex":8},{"t":"E","ja":"〜てたまらない","rd":"〜てたまらない","ko":"〜해서 견딜 수 없다","note":"見たくてたまらない","cids":[9],"hit":"てたまらない","ex":9},{"t":"E","ja":"〜させてやる","rd":"〜させてやる","ko":"〜하게 해 주겠다","note":"後悔させてやる (위협)","cids":[10],"hit":"させてやる","ex":10},{"t":"E","ja":"夜な夜な","rd":"よなよな","ko":"밤마다","cids":[15],"hit":"夜な夜な","ex":15},{"t":"E","ja":"〜ては","rd":"〜ては","ko":"〜하고는 (반복)","note":"繰り返しては自己嫌悪する","cids":[15,72],"hit":"ては","ex":72},{"t":"E","ja":"ひときわ","rd":"ひときわ","ko":"유난히·한층","cids":[16],"hit":"ひときわ","ex":16},{"t":"E","ja":"〜に比べ","rd":"〜にくらべ","ko":"〜에 비해","cids":[17],"hit":"に比べ","ex":17},{"t":"E","ja":"〜にとって","rd":"〜にとって","ko":"〜에게 (있어)","note":"僕にとって安らぎの場所","cids":[17,72],"hit":"にとって","ex":17},{"t":"E","ja":"てか","rd":"てか","ko":"아니 그보다 (というか)","note":"중학생 회화체","cids":[21],"hit":"てか","ex":21},{"t":"E","ja":"待てよ","rd":"まてよ","ko":"잠깐","note":"혼잣말로도 씀","cids":[22],"hit":"待てよ","ex":22},{"t":"E","ja":"むしろ","rd":"むしろ","ko":"오히려","cids":[23,53],"hit":"むしろ","ex":23},{"t":"E","ja":"様子を見る","rd":"ようすをみる","ko":"상황을 지켜보다","cids":[25],"hit":"様子を見","ex":25},{"t":"E","ja":"そもそも","rd":"そもそも","ko":"애초에","cids":[28],"hit":"そもそも","ex":28},{"t":"E","ja":"〜っぽい","rd":"〜っぽい","ko":"〜같다·〜스럽다","note":"ゴリラっぽい","cids":[29],"hit":"っぽ","ex":29},{"t":"E","ja":"〜てみろ","rd":"〜てみろ","ko":"〜해 봐 (거친 명령)","note":"想像してみろ","cids":[87],"hit":"てみろ","ex":87},{"t":"E","ja":"よかったら","rd":"よかったら","ko":"괜찮으면","note":"물건을 건넬 때","cids":[35,38],"hit":"よかったら","ex":38},{"t":"E","ja":"ダジャレ","rd":"ダジャレ","ko":"말장난·아재개그","note":"やった→やったー 라는 오해를 부정","cids":[40],"hit":"ダジャレ","ex":40},{"t":"E","ja":"とりあえず","rd":"とりあえず","ko":"일단","cids":[41],"hit":"とりあえず","ex":41},{"t":"E","ja":"引かれる","rd":"ひかれる","ko":"(상대에게) 질색당하다","note":"引く=거리를 두다","cids":[41],"hit":"引かれ","ex":41},{"t":"E","ja":"〜たろ","rd":"〜たろ","ko":"〜했지 (〜ただろう)","note":"食べてたろ","cids":[44],"hit":"たろ","ex":44},{"t":"E","ja":"〜じゃん","rd":"〜じゃん","ko":"〜잖아","note":"입에 붙는 회화체","cids":[46],"hit":"じゃん","ex":46},{"t":"E","ja":"〜たばかり","rd":"〜たばかり","ko":"막 〜했다","note":"始まったばかり","cids":[48],"hit":"たばかり","ex":48},{"t":"E","ja":"〜まま","rd":"〜まま","ko":"〜한 채","note":"入ったまま","cids":[49],"hit":"まま","ex":49},{"t":"E","ja":"まさか","rd":"まさか","ko":"설마","cids":[51,101,116],"hit":"まさか","ex":51},{"t":"E","ja":"〜てもらう","rd":"〜てもらう","ko":"〜해 받다","note":"発表をしてもらうぞ","cids":[55],"hit":"てもらう","ex":55},{"t":"E","ja":"違くない？","rd":"ちがくない","ko":"다르지 않아?","note":"違わない？ 의 젊은층 말","cids":[56],"hit":"違くない？","ex":56},{"t":"E","ja":"〜といた","rd":"〜といた","ko":"〜해 뒀다 (〜ておいた)","note":"書き直しといた","cids":[57],"hit":"といた","ex":57},{"t":"E","ja":"一生懸命","rd":"いっしょうけんめい","ko":"열심히","cids":[58],"hit":"一生懸命","ex":58},{"t":"E","ja":"めっちゃ","rd":"めっちゃ","ko":"엄청","cids":[57],"hit":"めっちゃ","ex":57},{"t":"E","ja":"目を疑う","rd":"めをうたがう","ko":"눈을 의심하다","cids":[61],"hit":"目を","ex":61},{"t":"E","ja":"気にする","rd":"きにする","ko":"신경 쓰다","note":"気にしてない","cids":[63,66],"hit":"気に","ex":63},{"t":"E","ja":"結論から言うと","rd":"けつろんからいうと","ko":"결론부터 말하면","note":"발표체","cids":[67],"hit":"結論から言うと","ex":67},{"t":"E","ja":"うるせえ","rd":"うるせえ","ko":"시끄러워","note":"うるさい 의 거친 형","cids":[68],"hit":"うるせえ","ex":68},{"t":"E","ja":"ちょっとしたこと","rd":"ちょっとしたこと","ko":"사소한 일","cids":[71,72],"hit":"ちょっとしたこと","ex":71},{"t":"E","ja":"気をそらす","rd":"きをそらす","ko":"주의를 돌리다","cids":[74],"hit":"気をそらす","ex":74},{"t":"E","ja":"思う存分","rd":"おもうぞんぶん","ko":"실컷","cids":[79],"hit":"思う存分","ex":79},{"t":"E","ja":"しょうがない","rd":"しょうがない","ko":"어쩔 수 없다","note":"仕方ない 의 회화체","cids":[85],"hit":"しょうがない","ex":85},{"t":"E","ja":"〜すぎる","rd":"〜すぎる","ko":"너무 〜하다","note":"美人すぎる","cids":[89],"hit":"すぎる","ex":89},{"t":"E","ja":"嘘つけ","rd":"うそつけ","ko":"거짓말하지 마","note":"嘘をつけ 의 반어","cids":[95],"hit":"嘘つけ","ex":95},{"t":"E","ja":"太ければ太いほど","rd":"ふとければふといほど","ko":"굵으면 굵을수록","note":"〜ば〜ほど=〜할수록","cids":[108],"hit":"太ければ太いほど","ex":108},{"t":"E","ja":"〜わけない","rd":"〜わけない","ko":"〜일 리 없다","note":"いるわけない","cids":[114],"hit":"わけない","ex":114},{"t":"E","ja":"やれやれ","rd":"やれやれ","ko":"참 나·어이구","cids":[122],"hit":"やれやれ","ex":122},{"t":"E","ja":"一体","rd":"いったい","ko":"대체","cids":[124],"hit":"一体","ex":124},{"t":"E","ja":"何かというと","rd":"なにかというと","ko":"걸핏하면","cids":[124],"hit":"何かというと","ex":124},{"t":"E","ja":"割と","rd":"わりと","ko":"꽤","cids":[137],"hit":"割と","ex":137},{"t":"E","ja":"仕方ない","rd":"しかたない","ko":"어쩔 수 없다","cids":[138],"hit":"仕方ない","ex":138},{"t":"E","ja":"縁のない","rd":"えんのない","ko":"인연 없는","note":"縁がない=인연이 없다","cids":[141],"hit":"縁のない","ex":141},{"t":"E","ja":"くだらない","rd":"くだらない","ko":"시시하다","cids":[147,149],"hit":"くだらない","ex":147},{"t":"E","ja":"もったいない","rd":"もったいない","ko":"아깝다","cids":[150],"hit":"もったいない","ex":150},{"t":"E","ja":"そりゃそうだ","rd":"そりゃそうだ","ko":"당연하지","note":"それはそうだ","cids":[153],"hit":"そりゃそうだ","ex":153},{"t":"E","ja":"ドン引き","rd":"ドンびき","ko":"완전 질색","cids":[160],"hit":"ドン引き","ex":160},{"t":"E","ja":"意外と","rd":"いがいと","ko":"의외로","cids":[165],"hit":"意外と","ex":165},{"t":"E","ja":"いい加減","rd":"いいかげん","ko":"슬슬·적당히","note":"いい加減気づけよ","cids":[163],"hit":"いい加減","ex":163},{"t":"E","ja":"マジで","rd":"マジで","ko":"진짜로","cids":[174],"hit":"マジで","ex":174},{"t":"V","ja":"平和","rd":"へいわ","ko":"평화","cids":[1],"hit":"平和","ex":1},{"t":"V","ja":"均衡","rd":"きんこう","ko":"균형","cids":[1],"hit":"均衡","ex":1},{"t":"V","ja":"衝動","rd":"しょうどう","ko":"충동","cids":[5],"hit":"衝動","ex":5},{"t":"V","ja":"美人","rd":"びじん","ko":"미인","cids":[6,89],"hit":"美人","ex":6},{"t":"V","ja":"雑誌","rd":"ざっし","ko":"잡지","cids":[7,129],"hit":"雑誌","ex":7},{"t":"V","ja":"苦痛","rd":"くつう","ko":"고통","cids":[9],"hit":"苦痛","ex":9},{"t":"V","ja":"後悔","rd":"こうかい","ko":"후회","cids":[10],"hit":"後悔","ex":10},{"t":"V","ja":"死体","rd":"したい","ko":"시체","cids":[12],"hit":"死体","ex":12},{"t":"V","ja":"妄想","rd":"もうそう","ko":"망상","cids":[15,87],"hit":"妄想","ex":87},{"t":"V","ja":"自己嫌悪","rd":"じこけんお","ko":"자기혐오","cids":[15],"hit":"自己嫌悪","ex":15},{"t":"V","ja":"昼休み","rd":"ひるやすみ","ko":"점심시간","cids":[16],"hit":"昼休み","ex":16},{"t":"V","ja":"教室","rd":"きょうしつ","ko":"교실","cids":[16],"hit":"教室","ex":16},{"t":"V","ja":"図書室","rd":"としょしつ","ko":"도서실","cids":[21],"hit":"図書室","ex":21},{"t":"V","ja":"給食","rd":"きゅうしょく","ko":"급식","cids":[26],"hit":"給食","ex":26},{"t":"V","ja":"鼻歌","rd":"はなうた","ko":"콧노래","cids":[29],"hit":"鼻歌","ex":29},{"t":"V","ja":"社会","rd":"しゃかい","ko":"사회 (과목)","cids":[31],"hit":"社会","ex":31},{"t":"V","ja":"研究","rd":"けんきゅう","ko":"연구","cids":[31,55],"hit":"研究","ex":31},{"t":"V","ja":"発表","rd":"はっぴょう","ko":"발표","cids":[31,55,75],"hit":"発表","ex":31},{"t":"V","ja":"下書き","rd":"したがき","ko":"초안","cids":[32],"hit":"下書き","ex":32},{"t":"V","ja":"筆箱","rd":"ふでばこ","ko":"필통","cids":[49],"hit":"筆箱","ex":49},{"t":"V","ja":"嫉妬","rd":"しっと","ko":"질투","cids":[59],"hit":"嫉妬","ex":59},{"t":"V","ja":"政党","rd":"せいとう","ko":"정당","cids":[64,65,67],"hit":"政党","ex":64},{"t":"V","ja":"結論","rd":"けつろん","ko":"결론","cids":[67],"hit":"結論","ex":67},{"t":"V","ja":"班","rd":"はん","ko":"조·모둠","cids":[55,69],"hit":"班","ex":55},{"t":"V","ja":"彼氏","rd":"かれし","ko":"남자친구","cids":[86],"hit":"彼氏","ex":86},{"t":"V","ja":"想像","rd":"そうぞう","ko":"상상","cids":[87],"hit":"想像","ex":87},{"t":"V","ja":"告白","rd":"こくはく","ko":"고백","cids":[101],"hit":"告白","ex":101},{"t":"V","ja":"食物繊維","rd":"しょくもつせんい","ko":"식이섬유","cids":[103],"hit":"食物繊維","ex":103},{"t":"V","ja":"喧嘩","rd":"けんか","ko":"싸움","cids":[118,119],"hit":"喧嘩","ex":118},{"t":"V","ja":"共同作業","rd":"きょうどうさぎょう","ko":"공동 작업","cids":[123],"hit":"共同作業","ex":123},{"t":"V","ja":"格好","rd":"かっこう","ko":"차림새","cids":[126],"hit":"格好","ex":126},{"t":"V","ja":"読者","rd":"どくしゃ","ko":"독자","cids":[133,138],"hit":"読者","ex":133},{"t":"V","ja":"迷惑","rd":"めいわく","ko":"민폐","cids":[134],"hit":"迷惑","ex":134},{"t":"V","ja":"作家","rd":"さっか","ko":"작가","cids":[135],"hit":"作家","ex":135},{"t":"V","ja":"感情","rd":"かんじょう","ko":"감정","cids":[147],"hit":"感情","ex":147},{"t":"V","ja":"人間","rd":"にんげん","ko":"인간","cids":[148],"hit":"人間","ex":148},{"t":"V","ja":"連絡","rd":"れんらく","ko":"연락","cids":[158],"hit":"連絡","ex":158},{"t":"V","ja":"波長","rd":"はちょう","ko":"파장","cids":[159],"hit":"波長","ex":159},{"t":"V","ja":"思考","rd":"しこう","ko":"사고·생각","cids":[159],"hit":"思考","ex":159},{"t":"V","ja":"正解","rd":"せいかい","ko":"정답","cids":[162],"hit":"正解","ex":162},{"t":"V","ja":"褒め言葉","rd":"ほめことば","ko":"칭찬","cids":[166],"hit":"褒め言葉","ex":166},{"t":"V","ja":"自転車","rd":"じてんしゃ","ko":"자전거","cids":[179,180],"hit":"自転車","ex":179},{"t":"V","ja":"世界","rd":"せかい","ko":"세계","cids":[141,148],"hit":"世界","ex":141},{"t":"V","ja":"存在","rd":"そんざい","ko":"존재","cids":[60,111,131],"hit":"存在","ex":60},{"t":"V","ja":"性癖","rd":"せいへき","ko":"성적 취향","cids":[111],"hit":"性癖","ex":111},{"t":"V","ja":"普通","rd":"ふつう","ko":"보통","cids":[153],"hit":"普通","ex":153}];   /* 표현·단어 (study.txt 유래) */
+const DEFAULT_VID = 'JjL9MmaIJhE';
+const LS = 'jp-bokuyaba1';
+const $ = id => document.getElementById(id);
+/* 한국어를 주, 일본어를 부로 병기한다 */
+const bi = (ko, ja) => ko + ' <span class="sub" lang="ja">' + ja + '</span>';
+const SPK = {}; SPEAKERS.forEach(s => SPK[s.key] = s);
+const spkOf = d => SPK[d.spk] || SPK[''];
+const isCap = d => !!d.th;      /* 〈속마음〉 카드 (화면 자막 대신 이 앱에서는 속마음을 옵션으로 뺀다) */
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+let videoId = store.get('vid', DEFAULT_VID);
+let checked = new Set(store.get('checked', []));
+let edits = store.get('edits', {});      /* {카드id: {ja, rd, ko}} 직접 고친 내용 */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let filt = store.get('filt', 'all');     /* 'all' | 'scene:<key>' | 'spk:<label>' | 'day'(저장하지 않음) */
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.5;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const PAD = 0.2;                                        /* 앞뒤에 항상 더하는 여유(초) */
+const headOf = d => Math.max(0, d.s - PAD);
+const tail = () => Number($('optTail').value) || 0;
+const endOf  = d => Math.max(d.e + tail() + PAD, d.s + MIN_PLAY);
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- 필터 / フィルター ---------- */
+/* 같은 표기의 화자(Fan/Fans)는 하나의 버튼으로 묶는다 */
+const SPK_GROUPS = [];
+SPEAKERS.forEach(s => {
+  if(s.key === 'Cap') return;
+  let g = SPK_GROUPS.find(x => x.ko === s.ko);
+  if(!g){ g = {ko: s.ko, ja: s.ja, keys: [], member: s.member}; SPK_GROUPS.push(g); }
+  g.keys.push(s.key);
+});
+const pool = () => $('optCap').checked ? DATA : DATA.filter(d => !isCap(d));
+function matches(d){
+  if(filt === 'all') return true;
+  if(filt === 'day') return dayIds.includes(d.id);
+  if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
+  const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
+  return !!g && g.keys.includes(d.spk);
+}
+
+/* ---------- 사이드바 / サイドバー ---------- */
+function buildScenes(){
+  const box = $('scenes'); box.textContent = '';
+  const head = (ko, ja) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="ja">' + ja + '</span>'; box.appendChild(h); };
+  const mk = (key, ko, ja, n, cls) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key; if(cls) b.className = cls;
+    b.innerHTML = '<span>' + bi(ko, ja) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
+    box.appendChild(b);
+  };
+  const P = pool();
+  mk('all', '전체', 'すべて', P.length);
+  head('장면 · 타임라인', 'シーン');
+  SCENES.forEach(s => mk('scene:' + s.key, s.ko, s.ja, P.filter(d => d.scene === s.key).length));
+  head('화자', '話者');
+  SPK_GROUPS.forEach(g => {
+    const n = P.filter(d => g.keys.includes(d.spk)).length;
+    if(n) mk('spk:' + g.ko, g.ko, g.ja, n, g.member ? 'mem' : '');
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  let ko = '전체', ja = 'すべて';
+  if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; ja = 'Day ' + dayCur + ' の台詞'; }
+  if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; ja = s.ja; } }
+  else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; ja = g.ja; } }
+  $('sceneTitle').innerHTML = ko + '<span class="inl" lang="ja">' + ja + '</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- 덱 / デッキ ---------- */
+function buildDeck(){
+  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- 카드 / カード ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('ja').textContent = '해당 대사가 없습니다 / 該当する台詞がありません'; $('rd').hidden = true; return; }
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('ja').textContent = v.ja;
+  $('rd').hidden = !($('optRead').checked && v.rd);
+  $('rdText').textContent = ' ' + (v.rd || '');
+  $('raw').hidden = !d.raw; $('rawText').textContent = ' ' + (d.raw || '');   /* 자동자막 원문(교정한 카드만) */
+  $('ko').textContent = v.ko;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  paintGloss(d);
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="ja">' + s.ja + '</span>' : '—';
+  const sp = spkOf(d);
+  $('who').className = 'chip spk';
+  $('who').innerHTML = sp.ko + '<span class="sub" lang="ja">' + sp.ja + '</span>';
+  $('thChip').hidden = !isCap(d);
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* 한자 풀이(빌드가 사전으로 만든 d.kj) + 표현 풀이(이 카드에 나오는 학습 표현) */
+function paintGloss(d){
+  const kb = $('kanjiList'); kb.textContent = '';
+  (d.kj || []).forEach(([head, rd, mean, hj, chars]) => {
+    const row = document.createElement('div'); row.className = 'kjrow';
+    const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
+    const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);
+    const m = document.createElement('div'); m.className = 'm';
+    const h = document.createElement('span'); h.className = 'hj'; h.textContent = hj;
+    m.append(h, document.createTextNode(mean));
+    if(chars && chars.length){
+      const c = document.createElement('span'); c.className = 'ch';
+      chars.forEach(([ch, hun], i) => {
+        if(i) c.appendChild(document.createTextNode(' · '));
+        const b = document.createElement('b'); b.lang = 'ja'; b.textContent = ch;
+        c.append(b, document.createTextNode(' ' + hun));
+      });
+      m.appendChild(c);
+    }
+    row.append(w, m); kb.appendChild(row);
+  });
+  $('kanjiBox').hidden = !kb.childElementCount;
+  const eb = $('explList'); eb.textContent = '';
+  STUDY.filter(r => r.t === 'E' && (r.cids || []).includes(d.id)).forEach(r => {
+    const row = document.createElement('div'); row.className = 'exrow';
+    const b = document.createElement('b'); b.lang = 'ja'; b.textContent = r.ja;
+    row.appendChild(b);
+    if(r.rd && r.rd !== r.ja){ const sm = document.createElement('small'); sm.lang = 'ja'; sm.textContent = r.rd; row.appendChild(sm); }
+    row.appendChild(document.createTextNode(' — ' + r.ko));
+    if(r.note){ const n = document.createElement('span'); n.className = 'n'; n.textContent = r.note; row.appendChild(n); }
+    eb.appendChild(row);
+  });
+  $('explBox').hidden = !eb.childElementCount;
+}
+
+/* ---------- 대본 / 台本 ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  const showRd = $('optRead').checked;
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div class="who"></div><div><div class="k" lang="ja"></div><div class="r" lang="ja"></div><div class="j"></div></div>';
+    const v = edited(d), sp = spkOf(d);
+    const who = el.querySelector('.who'); who.textContent = sp.ko + (isCap(d) ? ' 〈〉' : ''); if(isCap(d)) who.classList.add('cap');
+    el.querySelector('.k').textContent = v.ja;
+    const r = el.querySelector('.r'); r.textContent = v.rd || ''; r.hidden = !(showRd && v.rd);
+    el.querySelector('.j').textContent = v.ko;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('카드와 대본은 그대로 쓸 수 있습니다.', 'カードと台本はそのまま使えます。');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API 를 불러오지 못했습니다.', 'YouTube API を読み込めませんでした。'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('준비 완료. 대사 위치부터 재생할 수 있습니다.', '準備完了。台詞の位置から再生できます。'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', '動画を再生できません (エラー '+e.data+')。'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', '再生中…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', '一時停止');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube 를 ' + fmt(d.s) + ' 지점부터 열었습니다.', 'YouTube を ' + fmt(d.s) + ' から開きました。');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'プレーヤーがまだ準備できていません。'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
+  const detailJa = '（発話 ' + (d.e - d.s).toFixed(1) + '秒 + 余裕 ' + (stopAt - d.e).toFixed(1) + '秒）';
+  $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
+                                 (opts.loop ? 'リピート再生中 ' : '再生中 ') + range + detailJa);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('이 장면 재생이 끝났습니다.', 'この場面の再生が終わりました。');
+  }
+}, 120);
+
+/* ---------- 조작 / 操作 ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set('checked', [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- 직접 수정 / 手直し ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edJa').value = v.ja; $('edRd').value = v.rd || ''; $('edKo').value = v.ko;
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edJa').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const ja = $('edJa').value.trim(), rd = $('edRd').value.trim(), ko = $('edKo').value.trim();
+  if(!ja){ $('playStatus').innerHTML = bi('대사가 비었습니다.', '台詞が空です。'); return; }
+  const e = {};
+  if(ja !== d.ja) e.ja = ja;
+  if(rd !== (d.rd || '')) e.rd = rd;
+  if(ko !== d.ko) e.ko = ko;
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
+  store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('저장했습니다.', '保存しました。');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('원래대로 되돌렸습니다.', '元に戻しました。');
+};
+
+/* 브라우저 저장은 사라질 수 있으므로 내보내기/가져오기를 둔다 */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'japanese-bokuyaba-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('형식이 다릅니다');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.ja === 'string' || typeof row.ko === 'string' || typeof row.rd === 'string')){ edits[k] = row; n++; }
+      }
+      store.set('edits', edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '건을 불러왔습니다.', n + '件を読み込みました。');
+    }catch(err){
+      $('playStatus').innerHTML = bi('불러오지 못했습니다.', '読み込めませんでした。');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optRead').onchange = () => { store.set('read', $('optRead').checked); showCard(); buildScript(); };
+$('optCap').onchange = () => { store.set('cap', $('optCap').checked); buildScenes(); buildDeck(); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+$('tabStudy').onclick = () => switchView('study');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+
+/* ====================== 학습 탭 / 学習タブ ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['듣기', '聞く', '읽기와 뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
+     '読みと意味を隠して再生。まず耳だけで挑む。分からなくて当たり前。', '카드'],
+    ['확인', '確かめる', '읽기·뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
+     '読みと意味を開いて答え合わせ。表現・単語は例文とセットで覚える。', '표현 · 단어'],
+    ['따라 하기', '真似る', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
+     'リピートで同じ区間を繰り返し、声に出して重ねる。抑揚ごと写す。', '반복 C'],
+    ['점검', '試す', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
+     'クイズで今日の範囲だけ出題。間違いは翌日の復習リストになる。', '퀴즈']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ko, ja, pk, pj, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="ja" lang="ja"></div><p><span class="k"></span><span lang="ja"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ko;
+    el.querySelector('.ja').textContent = ja;
+    el.querySelector('.k').textContent = pk;
+    el.querySelector('p span[lang=ja]').textContent = pj;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.ja + ' ' + r.rd + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length;
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '해당 없음 · 該当なし'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'ja'; k.textContent = r.ja;
+    if(r.rd && r.rd !== r.ja){ const sm = document.createElement('small'); sm.textContent = r.rd; k.appendChild(sm); }
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 실제로 쓰인 한 문장을 예문으로 보여준다(작문이 아니라 자막 그대로) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '예문 · 例文';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'ja';
+        const key = r.hit || r.ja;
+        const at = v.ja.indexOf(key);
+        if(at >= 0){                                   /* 그 말만 강조 */
+          ek.appendChild(document.createTextNode(v.ja.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = key; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.ja.slice(at + key.length)));
+        } else ek.textContent = v.ja;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ko;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = '이 예문 재생 / この例文を再生';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '회 · ' + cids.length + '回';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.ja;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== 매일 분량 / 毎日の分量 ====================== */
+let dayPace = store.get('pace', 26);
+let dayCur  = store.get('dayCur', 1);
+let daysDone = new Set(store.get('daysDone', []));
+let DAYS = [], dayIds = [];
+
+/* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
+   (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + '日で完成';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + '　/　台詞 ' + d.cards.length + ' · 表現 ' + d.expr.length + ' · 単語 ' + d.word.length
+    + '　(체크함 ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
+  const STEPS = [['듣기','聞く'], ['표현·단어','表現・単語'], ['퀴즈','クイズ'], ['복습','復習']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ko, ja], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ko + ' · ' + ja;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="ja"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.ja.slice(0, 30);
+    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="ja"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.ja;
+    b.querySelector('.jj').textContent = (r.rd && r.rd !== r.ja ? r.rd + ' · ' : '') + r.ko;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set('daysDone', [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- 퀴즈 / クイズ ---------- */
+let qScope = 'E', qMode = 'ja2ko', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'ja2ko'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="ja2ko"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('출제 가능 ' + pool.length + '개 · 出題できる項目 ' + pool.length + ' 件');
+  if(OFFLINE) msgs.push('듣기는 file:// 에서 쓸 수 없습니다 · 聞き取りは file:// では使えません');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ko2ja' ? 'ja' : 'ko';       /* 고를 것: 日→韓·듣기는 한국어 뜻, 韓→日은 일본어 */
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 듣고 뜻 고르기 · 聞いて意味を選ぶ';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ko2ja'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'ja';
+    $('qAsk').textContent = q.item.ja;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'ja') b.lang = 'ja';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  const rd = q.item.rd && q.item.rd !== q.item.ja ? '（' + q.item.rd + '）' : '';
+  line.innerHTML = (ok ? '<b>정답 · 正解</b>　' : '<b>다시 · もう一度</b>　')
+    + '<span lang="ja"></span><span lang="ja" style="color:var(--ink-3)"></span> — <span></span>';
+  line.children[1].textContent = q.item.ja; line.children[2].textContent = rd; line.children[3].textContent = q.item.ko;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '다음 · 次へ' : '결과 · 結果';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · 満点' : pct >= 80 ? '— 훌륭합니다 · よくできました'
+    : pct >= 50 ? '— 조금만 더 · もう一息' : '— 복습해 봅시다 · 復習しましょう');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '틀린 항목 · 間違えた項目 (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'ja'; k.textContent = it.ja;
+      if(it.rd && it.rd !== it.ja){ const sm = document.createElement('small'); sm.textContent = it.rd; k.appendChild(sm); }
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ko;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', '動画IDを読み取れません。'); return; }
+  videoId = id; store.set('vid', id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null;
+  if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
+  $('playStatus').innerHTML = bi('영상을 교체했습니다.', '動画を差し替えました。');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'r'){ e.preventDefault(); $('optRead').checked = !$('optRead').checked; $('optRead').onchange(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+/* ---------- 기동 / 起動 ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+$('optRead').checked = store.get('read', true);
+$('optCap').checked = store.get('cap', true);
+pickSeg2($('qPace'), String(dayPace));
+$('optTail').value = store.get('tail', '0.5');
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('vid').value = videoId;
+$('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="ja">YouTube で開く</span>';
+}
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+</script>
+
+</body></html>
