@@ -1,0 +1,2172 @@
+[
+ {
+  "id": 1,
+  "s": 3.38,
+  "e": 4.43,
+  "en": "Yeah? Come on in.",
+  "spk": "Zendaya",
+  "cue": 2
+ },
+ {
+  "id": 2,
+  "s": 4.43,
+  "e": 6.65,
+  "en": "Guess who's here-",
+  "spk": "Interviewer",
+  "cue": 3
+ },
+ {
+  "id": 3,
+  "s": 6.65,
+  "e": 8.09,
+  "en": "What's up?",
+  "spk": "Zendaya",
+  "cue": 4,
+  "inf": 1
+ },
+ {
+  "id": 4,
+  "s": 6.65,
+  "e": 8.09,
+  "en": "Zendaya!",
+  "spk": "Interviewer",
+  "cue": 4,
+  "inf": 1
+ },
+ {
+  "id": 5,
+  "s": 8.09,
+  "e": 8.93,
+  "en": "Hey.",
+  "spk": "Zendaya",
+  "cue": 5,
+  "inf": 1
+ },
+ {
+  "id": 6,
+  "s": 8.93,
+  "e": 11.23,
+  "en": "Thank you so much for having me by, I know how busy you are.",
+  "spk": "Interviewer",
+  "cue": 6
+ },
+ {
+  "id": 7,
+  "s": 11.23,
+  "e": 12.25,
+  "en": "Yeah, of course, thanks for coming.",
+  "spk": "Zendaya",
+  "cue": 8,
+  "inf": 1
+ },
+ {
+  "id": 8,
+  "s": 12.25,
+  "e": 13.89,
+  "en": "I'm gonna ask you 73 questions.",
+  "spk": "Interviewer",
+  "cue": 9
+ },
+ {
+  "id": 9,
+  "s": 13.89,
+  "e": 14.88,
+  "en": "Let's do it.",
+  "spk": "Zendaya",
+  "cue": 10,
+  "inf": 1
+ },
+ {
+  "id": 10,
+  "s": 13.89,
+  "e": 16.2,
+  "en": "And, I see that you're picking a bunch of lemons.",
+  "spk": "Interviewer",
+  "cue": 10
+ },
+ {
+  "id": 11,
+  "s": 16.2,
+  "e": 18.05,
+  "en": "Yeah, I'm making lemonade. You want some?",
+  "spk": "Zendaya",
+  "cue": 12,
+  "inf": 1
+ },
+ {
+  "id": 12,
+  "s": 18.05,
+  "e": 19.04,
+  "en": "I'd love some.",
+  "spk": "Interviewer",
+  "cue": 14
+ },
+ {
+  "id": 13,
+  "s": 19.04,
+  "e": 19.87,
+  "en": "I got you.",
+  "spk": "Zendaya",
+  "cue": 15,
+  "inf": 1
+ },
+ {
+  "id": 14,
+  "s": 19.87,
+  "e": 23.28,
+  "en": "Ok so, question number one, where does your name originate?",
+  "spk": "Interviewer",
+  "cue": 16
+ },
+ {
+  "id": 15,
+  "s": 23.28,
+  "e": 27.87,
+  "en": "Ok so technically it's a long story, but it's based off a word that means to give thanks.",
+  "spk": "Zendaya",
+  "cue": 18,
+  "inf": 1
+ },
+ {
+  "id": 16,
+  "s": 27.87,
+  "e": 31.05,
+  "en": "That's pretty. And how would you describe your upbringing?",
+  "spk": "Interviewer",
+  "cue": 20
+ },
+ {
+  "id": 17,
+  "s": 31.05,
+  "e": 31.93,
+  "en": "Real.",
+  "spk": "Zendaya",
+  "cue": 22,
+  "inf": 1
+ },
+ {
+  "id": 18,
+  "s": 31.93,
+  "e": 34.41,
+  "en": "Who would you say was your role model growing up?",
+  "spk": "Interviewer",
+  "cue": 23
+ },
+ {
+  "id": 19,
+  "s": 34.41,
+  "e": 35.29,
+  "en": "My mom.",
+  "spk": "Zendaya",
+  "cue": 25,
+  "inf": 1
+ },
+ {
+  "id": 20,
+  "s": 35.29,
+  "e": 37.05,
+  "en": "And today, has it changed?",
+  "spk": "Interviewer",
+  "cue": 26
+ },
+ {
+  "id": 21,
+  "s": 37.05,
+  "e": 38.07,
+  "en": "No, it's still my mom.",
+  "spk": "Zendaya",
+  "cue": 27,
+  "inf": 1
+ },
+ {
+  "id": 22,
+  "s": 38.07,
+  "e": 39.11,
+  "en": "Why?",
+  "spk": "Interviewer",
+  "cue": 28
+ },
+ {
+  "id": 23,
+  "s": 39.11,
+  "e": 43.28,
+  "en": "Because, she's a teacher. You know, and she spent her whole life giving. And, I really admire that.",
+  "spk": "Zendaya",
+  "cue": 29,
+  "inf": 1
+ },
+ {
+  "id": 24,
+  "s": 43.28,
+  "e": 46.23,
+  "en": "Yeah, and what's the first thing you thought of this morning?",
+  "spk": "Interviewer",
+  "cue": 32
+ },
+ {
+  "id": 25,
+  "s": 46.23,
+  "e": 47.06,
+  "en": "Can I be honest?",
+  "spk": "Zendaya",
+  "cue": 34,
+  "inf": 1
+ },
+ {
+  "id": 26,
+  "s": 47.06,
+  "e": 47.9,
+  "en": "Sure.",
+  "spk": "Interviewer",
+  "cue": 35
+ },
+ {
+  "id": 27,
+  "s": 47.9,
+  "e": 51.53,
+  "en": "Blowing my nose because I have a little cold right now, so be careful.",
+  "spk": "Zendaya",
+  "cue": 36,
+  "inf": 1
+ },
+ {
+  "id": 28,
+  "s": 51.53,
+  "e": 53.44,
+  "en": "I'm gonna keep my distance.",
+  "spk": "Interviewer",
+  "cue": 38,
+  "inf": 1
+ },
+ {
+  "id": 29,
+  "s": 51.53,
+  "e": 53.44,
+  "en": "All right.",
+  "spk": "Zendaya",
+  "cue": 38,
+  "inf": 1
+ },
+ {
+  "id": 30,
+  "s": 53.44,
+  "e": 55.48,
+  "en": "So what's something you do every morning without fail?",
+  "spk": "Interviewer",
+  "cue": 39
+ },
+ {
+  "id": 31,
+  "s": 57.06,
+  "e": 58.59,
+  "en": "Oh, unfortunately, I check my phone.",
+  "spk": "Zendaya",
+  "cue": 41,
+  "inf": 1
+ },
+ {
+  "id": 32,
+  "s": 58.59,
+  "e": 59.52,
+  "en": "Same here.",
+  "spk": "Interviewer",
+  "cue": 42
+ },
+ {
+  "id": 33,
+  "s": 59.52,
+  "e": 60.35,
+  "en": "Yeah.",
+  "spk": "Zendaya",
+  "cue": 43,
+  "inf": 1
+ },
+ {
+  "id": 34,
+  "s": 60.35,
+  "e": 62.29,
+  "en": "What gets you out of bed?",
+  "spk": "Interviewer",
+  "cue": 44
+ },
+ {
+  "id": 35,
+  "s": 62.29,
+  "e": 63.41,
+  "en": "My dog, Noon.",
+  "spk": "Zendaya",
+  "cue": 45,
+  "inf": 1
+ },
+ {
+  "id": 36,
+  "s": 63.41,
+  "e": 65.17,
+  "en": "Cute. And you're a Virgo?",
+  "spk": "Interviewer",
+  "cue": 46
+ },
+ {
+  "id": 37,
+  "s": 65.17,
+  "e": 66.0,
+  "en": "Yeah.",
+  "spk": "Zendaya",
+  "cue": 48,
+  "inf": 1
+ },
+ {
+  "id": 38,
+  "s": 66.0,
+  "e": 67.24,
+  "en": "What's the most Virgo thing about you?",
+  "spk": "Interviewer",
+  "cue": 49
+ },
+ {
+  "id": 39,
+  "s": 67.24,
+  "e": 74.42,
+  "en": "Ok now this is going to sound negative but like, I'm a little bit of a control freak. Just a little bit.",
+  "spk": "Zendaya",
+  "cue": 50,
+  "inf": 1
+ },
+ {
+  "id": 40,
+  "s": 71.53,
+  "e": 74.42,
+  "en": "Zendaya, aren't we all.",
+  "spk": "Interviewer",
+  "cue": 52,
+  "inf": 1
+ },
+ {
+  "id": 41,
+  "s": 74.42,
+  "e": 75.3,
+  "en": "Zen-D!",
+  "spk": "Darnell",
+  "cue": 53
+ },
+ {
+  "id": 42,
+  "s": 75.3,
+  "e": 76.97,
+  "en": "Hey, Darnell. Can you take these for me?",
+  "spk": "Zendaya",
+  "cue": 54
+ },
+ {
+  "id": 43,
+  "s": 76.97,
+  "e": 83.75,
+  "en": "This is Darnell, he's my assistant slash brother slash everything, organizer of my life.",
+  "spk": "Zendaya",
+  "cue": 55
+ },
+ {
+  "id": 44,
+  "s": 83.75,
+  "e": 85.26,
+  "en": "Hey, Darnell.",
+  "spk": "Interviewer",
+  "cue": 58,
+  "inf": 1
+ },
+ {
+  "id": 45,
+  "s": 83.75,
+  "e": 85.26,
+  "en": "Hey.",
+  "spk": "Zendaya",
+  "cue": 58,
+  "inf": 1
+ },
+ {
+  "id": 46,
+  "s": 85.26,
+  "e": 86.29,
+  "en": "Thank you.",
+  "spk": "Zendaya",
+  "cue": 59
+ },
+ {
+  "id": 47,
+  "s": 86.29,
+  "e": 89.39,
+  "en": "Ok, so what's the most Californian thing about you?",
+  "spk": "Interviewer",
+  "cue": 60
+ },
+ {
+  "id": 48,
+  "s": 89.39,
+  "e": 93.67,
+  "en": "The most Californian thing about me is that I still get excited when I see snow.",
+  "spk": "Zendaya",
+  "cue": 62,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 49,
+  "s": 93.67,
+  "e": 96.62,
+  "en": "I think it's really, really cool, because obviously we never get snow.",
+  "spk": "Zendaya",
+  "cue": 62,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 50,
+  "s": 96.62,
+  "e": 100.29,
+  "en": "So, obviously if you see snow all the time, it's not exciting for you, but I think it's cool.",
+  "spk": "Zendaya",
+  "cue": 62,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 51,
+  "s": 100.29,
+  "e": 103.26,
+  "en": "And where do you feel most at home?",
+  "spk": "Interviewer",
+  "cue": 68
+ },
+ {
+  "id": 52,
+  "s": 103.26,
+  "e": 104.39,
+  "en": "At home.",
+  "spk": "Zendaya",
+  "cue": 69,
+  "inf": 1
+ },
+ {
+  "id": 53,
+  "s": 104.39,
+  "e": 107.77,
+  "en": "That makes sense. And who do you feel most at home with?",
+  "spk": "Interviewer",
+  "cue": 70
+ },
+ {
+  "id": 54,
+  "s": 107.77,
+  "e": 110.01,
+  "en": "I think my dog makes me feel most at home.",
+  "spk": "Zendaya",
+  "cue": 72,
+  "inf": 1
+ },
+ {
+  "id": 55,
+  "s": 110.01,
+  "e": 114.59,
+  "en": "Now, I suspect that these are rare for you. But, if you had a full day off, what would you do with it?",
+  "spk": "Interviewer",
+  "cue": 73
+ },
+ {
+  "id": 56,
+  "s": 114.59,
+  "e": 117.09,
+  "en": "Nothing. I would do absolutely nothing.",
+  "spk": "Zendaya",
+  "cue": 75,
+  "inf": 1
+ },
+ {
+  "id": 57,
+  "s": 117.09,
+  "e": 118.59,
+  "en": "How do you unwind?",
+  "spk": "Interviewer",
+  "cue": 76
+ },
+ {
+  "id": 58,
+  "s": 119.54,
+  "e": 124.64,
+  "en": "I do nothing. I just stay inside and watch Harry Potter and just like don't do anything.",
+  "spk": "Zendaya",
+  "cue": 77,
+  "inf": 1
+ },
+ {
+  "id": 59,
+  "s": 124.64,
+  "e": 127.81,
+  "en": "What's been taking up your days as of late?",
+  "spk": "Interviewer",
+  "cue": 79
+ },
+ {
+  "id": 60,
+  "s": 127.81,
+  "e": 133.02,
+  "en": "I'm finishing up my show, \"Euphoria,\" so that's been a... It's been taking up a lot of time.",
+  "spk": "Zendaya",
+  "cue": 80,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 61,
+  "s": 133.02,
+  "e": 135.05,
+  "en": "I had literally a night shoot, last night.",
+  "spk": "Zendaya",
+  "cue": 80,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 62,
+  "s": 135.05,
+  "e": 137.41,
+  "en": "Yeah, \"Euphoria's\" been getting some serious buzz.",
+  "spk": "Interviewer",
+  "cue": 83
+ },
+ {
+  "id": 63,
+  "s": 137.41,
+  "e": 138.86,
+  "en": "Yeah. I'm very excited about it.",
+  "spk": "Zendaya",
+  "cue": 85,
+  "inf": 1
+ },
+ {
+  "id": 64,
+  "s": 138.86,
+  "e": 142.41,
+  "en": "And, it's such a departure from Disney. What can you tell us about it?",
+  "spk": "Interviewer",
+  "cue": 86
+ },
+ {
+  "id": 65,
+  "s": 142.41,
+  "e": 148.48,
+  "en": "I mean, I'm excited and equally terrified, but I don't know.",
+  "spk": "Zendaya",
+  "cue": 88,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 66,
+  "s": 148.48,
+  "e": 152.79,
+  "en": "I can say that it's the most exciting, exhausting, but fulfilling thing I've ever done.",
+  "spk": "Zendaya",
+  "cue": 88,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 67,
+  "s": 152.79,
+  "e": 154.8,
+  "en": "What is it that attracted you to Rue?",
+  "spk": "Interviewer",
+  "cue": 91
+ },
+ {
+  "id": 68,
+  "s": 154.8,
+  "e": 162.84,
+  "en": "Honestly, I hate reading scripts and this was one of the first times that I read a script so fast and I just kept reading and reading and reading and I don't know, I just fell in love with her.",
+  "spk": "Zendaya",
+  "cue": 92,
+  "inf": 1
+ },
+ {
+  "id": 69,
+  "s": 162.84,
+  "e": 164.68,
+  "en": "And what was the most difficult part of playing her?",
+  "spk": "Interviewer",
+  "cue": 97
+ },
+ {
+  "id": 70,
+  "s": 165.75,
+  "e": 175.46,
+  "en": "I mean, I can only understand how her brain works so much, you know, so I really rely heavily on our writer/creator/ director, Sam Levinson, because Rue is basically him, you know.",
+  "spk": "Zendaya",
+  "cue": 99,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 71,
+  "s": 175.46,
+  "e": 177.23,
+  "en": "It's his life, so I just ask him.",
+  "spk": "Zendaya",
+  "cue": 99,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 72,
+  "s": 177.23,
+  "e": 179.05,
+  "en": "What are you hoping fans get out of the series?",
+  "spk": "Interviewer",
+  "cue": 105
+ },
+ {
+  "id": 73,
+  "s": 180.16,
+  "e": 185.51,
+  "en": "I hope they feel something. Whatever that is, I don't know, I just, hope they feel something.",
+  "spk": "Zendaya",
+  "cue": 107,
+  "inf": 1
+ },
+ {
+  "id": 74,
+  "s": 185.51,
+  "e": 189.88,
+  "en": "Do you feel pressure when you're deciding to post things on your social media?",
+  "spk": "Interviewer",
+  "cue": 110
+ },
+ {
+  "id": 75,
+  "s": 189.88,
+  "e": 196.6,
+  "en": "You know, it's kind of weird, yeah. I have been more so now than ever before which I think is a little weird for me.",
+  "spk": "Zendaya",
+  "cue": 112,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 76,
+  "s": 196.6,
+  "e": 201.0,
+  "en": "But, I just kind of, I don't know, I'm just taking a step back and I haven't posted as much anymore.",
+  "spk": "Zendaya",
+  "cue": 112,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 77,
+  "s": 201.0,
+  "e": 202.74,
+  "en": "Do you read the comments?",
+  "spk": "Interviewer",
+  "cue": 118
+ },
+ {
+  "id": 78,
+  "s": 202.74,
+  "e": 207.45,
+  "en": "No, not really. And, less so they're from my friends, then I read those.",
+  "spk": "Zendaya",
+  "cue": 119,
+  "inf": 1
+ },
+ {
+  "id": 79,
+  "s": 207.45,
+  "e": 210.25,
+  "en": "How do you deal with negativity?",
+  "spk": "Interviewer",
+  "cue": 121
+ },
+ {
+  "id": 80,
+  "s": 210.25,
+  "e": 214.99,
+  "en": "I try to keep in mind that everyone is dealing with something that we have no idea about, you know?",
+  "spk": "Zendaya",
+  "cue": 122,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 81,
+  "s": 214.99,
+  "e": 217.92,
+  "en": "So, I just try to have compassion for them, you know?",
+  "spk": "Zendaya",
+  "cue": 122,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 82,
+  "s": 217.92,
+  "e": 221.55,
+  "en": "That's very wise. What's something your followers may not know about you?",
+  "spk": "Interviewer",
+  "cue": 125
+ },
+ {
+  "id": 83,
+  "s": 221.55,
+  "e": 224.24,
+  "en": "I think they know this, but I'm a very shy, introverted person.",
+  "spk": "Zendaya",
+  "cue": 127,
+  "inf": 1
+ },
+ {
+  "id": 84,
+  "s": 224.24,
+  "e": 227.57,
+  "en": "And what's been the coolest thing that you've learned from a fan?",
+  "spk": "Interviewer",
+  "cue": 129
+ },
+ {
+  "id": 85,
+  "s": 229.28,
+  "e": 236.15,
+  "en": "My fans, they keep me on my toes, they keep me politically aware, they keep me socially aware, and they always correct my grammar and spelling.",
+  "spk": "Zendaya",
+  "cue": 131,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 86,
+  "s": 236.15,
+  "e": 239.04,
+  "en": "Ok, I get it, I know I can't spell, ok?",
+  "spk": "Zendaya",
+  "cue": 131,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 87,
+  "s": 239.04,
+  "e": 241.38,
+  "en": "Zendaya, I love this fire pit - but it's kind of hot.",
+  "spk": "Interviewer",
+  "cue": 136
+ },
+ {
+  "id": 88,
+  "s": 241.38,
+  "e": 246.92,
+  "en": "Yeah. I get that. I know we're in California and it's sunshiney, but I'm sitting by the fire.",
+  "spk": "Zendaya",
+  "cue": 138,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 89,
+  "s": 246.92,
+  "e": 248.68,
+  "en": "I see how that could be weird.",
+  "spk": "Zendaya",
+  "cue": 138,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 90,
+  "s": 248.68,
+  "e": 251.44,
+  "en": "How would you describe your personal style?",
+  "spk": "Interviewer",
+  "cue": 142
+ },
+ {
+  "id": 91,
+  "s": 251.44,
+  "e": 255.05,
+  "en": "You know, the thing is, I don't have one. I don't think I actually have one.",
+  "spk": "Zendaya",
+  "cue": 143,
+  "inf": 1
+ },
+ {
+  "id": 92,
+  "s": 255.05,
+  "e": 257.14,
+  "en": "What's the most over-worn item in your wardrobe?",
+  "spk": "Interviewer",
+  "cue": 145
+ },
+ {
+  "id": 93,
+  "s": 258.76,
+  "e": 260.02,
+  "en": "Probably my Converse.",
+  "spk": "Zendaya",
+  "cue": 147,
+  "inf": 1
+ },
+ {
+  "id": 94,
+  "s": 260.02,
+  "e": 263.18,
+  "en": "And what's the most luxe thing that you've ever worn?",
+  "spk": "Interviewer",
+  "cue": 148
+ },
+ {
+  "id": 95,
+  "s": 263.18,
+  "e": 265.37,
+  "en": "It's actually a funny story.",
+  "spk": "Zendaya",
+  "cue": 150,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 96,
+  "s": 265.37,
+  "e": 271.62,
+  "en": "I went to a premiere and I had these earrings, they were big, beautiful earrings and I thought they were fake, to be honest with you.",
+  "spk": "Zendaya",
+  "cue": 150,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 97,
+  "s": 271.62,
+  "e": 275.47,
+  "en": "And then, there was this article that came out the next day that was like, \"Zendaya wears million dollar earrings.\"",
+  "spk": "Zendaya",
+  "cue": 150,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 98,
+  "s": 275.47,
+  "e": 279.88,
+  "en": "And I was like, \"Law, did you put me in million dollar earrings last night?\" He was like, \"Mm-hmm, probably.\"",
+  "spk": "Zendaya",
+  "cue": 150,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 99,
+  "s": 279.88,
+  "e": 281.2,
+  "en": "No, no.",
+  "spk": "Interviewer",
+  "cue": 159,
+  "inf": 1
+ },
+ {
+  "id": 100,
+  "s": 281.2,
+  "e": 290.99,
+  "en": "What? What? So, long story short, they're not mine, I gave them back. And, yeah.",
+  "spk": "Zendaya",
+  "cue": 160,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 101,
+  "s": 291.02,
+  "e": 293.48,
+  "en": "That'll probably never happen again because that was so stressful.",
+  "spk": "Zendaya",
+  "cue": 160,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 102,
+  "s": 293.48,
+  "e": 295.32,
+  "en": "Who's the most stylish person alive?",
+  "spk": "Interviewer",
+  "cue": 164
+ },
+ {
+  "id": 103,
+  "s": 295.32,
+  "e": 296.75,
+  "en": "Law Roche, my stylist.",
+  "spk": "Zendaya",
+  "cue": 165,
+  "inf": 1
+ },
+ {
+  "id": 104,
+  "s": 296.75,
+  "e": 300.11,
+  "en": "What would you consider to be your uniform?",
+  "spk": "Interviewer",
+  "cue": 166
+ },
+ {
+  "id": 105,
+  "s": 300.11,
+  "e": 303.69,
+  "en": "Probably, just black slacks and a white tee.",
+  "spk": "Zendaya",
+  "cue": 167,
+  "inf": 1
+ },
+ {
+  "id": 106,
+  "s": 303.69,
+  "e": 305.03,
+  "en": "Vintage or designer?",
+  "spk": "Interviewer",
+  "cue": 168
+ },
+ {
+  "id": 107,
+  "s": 305.03,
+  "e": 306.12,
+  "en": "Vintage designer.",
+  "spk": "Zendaya",
+  "cue": 169,
+  "inf": 1
+ },
+ {
+  "id": 108,
+  "s": 306.12,
+  "e": 307.94,
+  "en": "That's a cheat answer. Sneakers or heels?",
+  "spk": "Interviewer",
+  "cue": 170,
+  "inf": 1
+ },
+ {
+  "id": 109,
+  "s": 307.94,
+  "e": 311.32,
+  "en": "Sneakers at the moment. But I do love some heals.",
+  "spk": "Zendaya",
+  "cue": 172,
+  "inf": 1
+ },
+ {
+  "id": 110,
+  "s": 311.32,
+  "e": 313.29,
+  "en": "What's the all-time greatest purchase you ever made?",
+  "spk": "Interviewer",
+  "cue": 173
+ },
+ {
+  "id": 111,
+  "s": 314.89,
+  "e": 317.08,
+  "en": "That's a tough question, I refuse to answer that one.",
+  "spk": "Zendaya",
+  "cue": 175,
+  "inf": 1
+ },
+ {
+  "id": 112,
+  "s": 317.08,
+  "e": 319.57,
+  "en": "An outfit that maybe you wish you skipped?",
+  "spk": "Interviewer",
+  "cue": 176
+ },
+ {
+  "id": 113,
+  "s": 320.44,
+  "e": 325.1,
+  "en": "None of them, actually, because I think they all equally helped me find my confidence and figure out what I like.",
+  "spk": "Zendaya",
+  "cue": 177,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 114,
+  "s": 325.1,
+  "e": 327.39,
+  "en": "So, I wouldn't take it back.",
+  "spk": "Zendaya",
+  "cue": 177,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 115,
+  "s": 327.39,
+  "e": 330.01,
+  "en": "And what would you say is your beauty philosophy?",
+  "spk": "Interviewer",
+  "cue": 180
+ },
+ {
+  "id": 116,
+  "s": 330.01,
+  "e": 331.13,
+  "en": "There are no rules.",
+  "spk": "Zendaya",
+  "cue": 182,
+  "inf": 1
+ },
+ {
+  "id": 117,
+  "s": 331.13,
+  "e": 334.07,
+  "en": "How about a beauty product that you don't go a day without wearing?",
+  "spk": "Interviewer",
+  "cue": 183
+ },
+ {
+  "id": 118,
+  "s": 334.07,
+  "e": 335.11,
+  "en": "SPF.",
+  "spk": "Zendaya",
+  "cue": 185,
+  "inf": 1
+ },
+ {
+  "id": 119,
+  "s": 335.11,
+  "e": 337.26,
+  "en": "What is the best beauty tip you've ever received?",
+  "spk": "Interviewer",
+  "cue": 186
+ },
+ {
+  "id": 120,
+  "s": 338.69,
+  "e": 344.11,
+  "en": "Take your makeup off before you go to bed. I'm serious, even if you're tired. Do it.",
+  "spk": "Zendaya",
+  "cue": 188,
+  "inf": 1
+ },
+ {
+  "id": 121,
+  "s": 343.13,
+  "e": 345.74,
+  "en": "Noted. Favorite lip color?",
+  "spk": "Interviewer",
+  "cue": 190,
+  "inf": 1
+ },
+ {
+  "id": 122,
+  "s": 345.74,
+  "e": 346.57,
+  "en": "Red.",
+  "spk": "Zendaya",
+  "cue": 192,
+  "inf": 1
+ },
+ {
+  "id": 123,
+  "s": 346.57,
+  "e": 348.49,
+  "en": "Your go-to beauty look at this very moment?",
+  "spk": "Interviewer",
+  "cue": 193
+ },
+ {
+  "id": 124,
+  "s": 350.17,
+  "e": 353.55,
+  "en": "Nothing, honestly. When I'm not working, just nothing.",
+  "spk": "Zendaya",
+  "cue": 194,
+  "inf": 1
+ },
+ {
+  "id": 125,
+  "s": 353.55,
+  "e": 355.37,
+  "en": "Strong lip or strong eye?",
+  "spk": "Interviewer",
+  "cue": 196
+ },
+ {
+  "id": 126,
+  "s": 355.37,
+  "e": 356.2,
+  "en": "Strong eye.",
+  "spk": "Zendaya",
+  "cue": 197,
+  "inf": 1
+ },
+ {
+  "id": 127,
+  "s": 356.2,
+  "e": 358.94,
+  "en": "Now I know you often do your own makeup for events.",
+  "spk": "Interviewer",
+  "cue": 198
+ },
+ {
+  "id": 128,
+  "s": 357.52,
+  "e": 358.94,
+  "en": "Yeah.",
+  "spk": "Zendaya",
+  "cue": 199,
+  "inf": 1
+ },
+ {
+  "id": 129,
+  "s": 358.94,
+  "e": 360.46,
+  "en": "Where did you learn those skills?",
+  "spk": "Interviewer",
+  "cue": 200
+ },
+ {
+  "id": 130,
+  "s": 362.36,
+  "e": 371.71,
+  "en": "I've had so many makeup horror stories and I've had so many makeup artists in my past that I just kind of took all the good things from each of them and learned how to do it myself.",
+  "spk": "Zendaya",
+  "cue": 201,
+  "inf": 1
+ },
+ {
+  "id": 131,
+  "s": 371.71,
+  "e": 375.68,
+  "en": "The act of you doing your own makeup... it's so... I dunno, like old-school theater.",
+  "spk": "Interviewer",
+  "cue": 205
+ },
+ {
+  "id": 132,
+  "s": 375.68,
+  "e": 377.09,
+  "en": "Yeah, for sure.",
+  "spk": "Zendaya",
+  "cue": 207,
+  "inf": 1
+ },
+ {
+  "id": 133,
+  "s": 375.68,
+  "e": 378.79,
+  "en": "And I've heard you hone your acting skills via Shakespeare.",
+  "spk": "Interviewer",
+  "cue": 207,
+  "inf": 1
+ },
+ {
+  "id": 134,
+  "s": 378.79,
+  "e": 383.87,
+  "en": "Yeah, my mom actually worked at the California Shakespeare Theater, she's a house manager there since I was two years old.",
+  "spk": "Zendaya",
+  "cue": 209,
+  "inf": 1
+ },
+ {
+  "id": 135,
+  "s": 383.87,
+  "e": 385.73,
+  "en": "How many of his plays have you seen?",
+  "spk": "Interviewer",
+  "cue": 212
+ },
+ {
+  "id": 136,
+  "s": 385.73,
+  "e": 387.27,
+  "en": "Like, all of them several times.",
+  "spk": "Zendaya",
+  "cue": 213,
+  "inf": 1
+ },
+ {
+  "id": 137,
+  "s": 387.27,
+  "e": 389.2,
+  "en": "Who's your favorite character in all of Shakespeare?",
+  "spk": "Interviewer",
+  "cue": 214
+ },
+ {
+  "id": 138,
+  "s": 390.27,
+  "e": 392.52,
+  "en": "Maybe Viola from \"Twelfth Night.\"",
+  "spk": "Zendaya",
+  "cue": 216,
+  "inf": 1
+ },
+ {
+  "id": 139,
+  "s": 392.52,
+  "e": 395.08,
+  "en": "How about your favorite line in any play?",
+  "spk": "Interviewer",
+  "cue": 217
+ },
+ {
+  "id": 140,
+  "s": 395.08,
+  "e": 397.45,
+  "en": "\"If music be the food of love, play on.\"",
+  "spk": "Zendaya",
+  "cue": 218,
+  "inf": 1
+ },
+ {
+  "id": 141,
+  "s": 397.45,
+  "e": 399.25,
+  "en": "Oh, I like that one, that's not bad.",
+  "spk": "Interviewer",
+  "cue": 219
+ },
+ {
+  "id": 142,
+  "s": 399.25,
+  "e": 400.92,
+  "en": "Noonie! Noon! Love me!",
+  "spk": "Zendaya",
+  "cue": 221,
+  "inf": 1
+ },
+ {
+  "id": 143,
+  "s": 400.92,
+  "e": 401.75,
+  "en": "Oh!",
+  "spk": "Interviewer",
+  "cue": 223
+ },
+ {
+  "id": 144,
+  "s": 402.95,
+  "e": 406.47,
+  "en": "Everyone knows that Noon doesn't love me, he loves my mom and Darnell more.",
+  "spk": "Zendaya",
+  "cue": 224,
+  "inf": 1
+ },
+ {
+  "id": 145,
+  "s": 406.47,
+  "e": 409.31,
+  "en": "Now, your dog, Noon, has a Twitter account that I saw.",
+  "spk": "Interviewer",
+  "cue": 226
+ },
+ {
+  "id": 146,
+  "s": 409.31,
+  "e": 411.81,
+  "en": "Come here. Yeah. But, surprisingly... ready, ready. I don't run it.",
+  "spk": "Zendaya",
+  "cue": 228,
+  "inf": 1
+ },
+ {
+  "id": 147,
+  "s": 414.78,
+  "e": 417.2,
+  "en": "And, what would he Tweet about at this very moment if he did?",
+  "spk": "Interviewer",
+  "cue": 231
+ },
+ {
+  "id": 148,
+  "s": 418.09,
+  "e": 422.22,
+  "en": "He'd probably Tweet, \"Why are you guys in my backyard?\"",
+  "spk": "Zendaya",
+  "cue": 233,
+  "inf": 1
+ },
+ {
+  "id": 149,
+  "s": 422.22,
+  "e": 426.38,
+  "en": "If you could go back and tell 13-year-old Zendaya one thing, what would it be?",
+  "spk": "Interviewer",
+  "cue": 234
+ },
+ {
+  "id": 150,
+  "s": 426.38,
+  "e": 431.76,
+  "en": "It would probably be to follow your instincts and follow your gut, because it's always right.",
+  "spk": "Zendaya",
+  "cue": 236,
+  "inf": 1
+ },
+ {
+  "id": 151,
+  "s": 431.76,
+  "e": 435.15,
+  "en": "What would you tell other performers navigating fame at a similar age?",
+  "spk": "Interviewer",
+  "cue": 238
+ },
+ {
+  "id": 152,
+  "s": 435.15,
+  "e": 439.87,
+  "en": "Read the contracts. No matter how boring they are, read the contracts.",
+  "spk": "Zendaya",
+  "cue": 240,
+  "inf": 1
+ },
+ {
+  "id": 153,
+  "s": 439.87,
+  "e": 443.57,
+  "en": "Ok, finish this sentence for me, \"Hollywood of the future looks like...\"",
+  "spk": "Interviewer",
+  "cue": 242
+ },
+ {
+  "id": 154,
+  "s": 443.57,
+  "e": 445.96,
+  "en": "Hopefully, more diverse.",
+  "spk": "Zendaya",
+  "cue": 244,
+  "inf": 1
+ },
+ {
+  "id": 155,
+  "s": 445.96,
+  "e": 447.32,
+  "en": "Wow, this tree is beautiful.",
+  "spk": "Interviewer",
+  "cue": 245
+ },
+ {
+  "id": 156,
+  "s": 447.32,
+  "e": 448.15,
+  "en": "Thanks.",
+  "spk": "Zendaya",
+  "cue": 246,
+  "inf": 1
+ },
+ {
+  "id": 157,
+  "s": 448.15,
+  "e": 452.79,
+  "en": "So, dancing, trapeze work, martial arts, your work requires strong physical commitment.",
+  "spk": "Interviewer",
+  "cue": 247
+ },
+ {
+  "id": 158,
+  "s": 452.79,
+  "e": 453.62,
+  "en": "Yeah.",
+  "spk": "Zendaya",
+  "cue": 249,
+  "inf": 1
+ },
+ {
+  "id": 159,
+  "s": 453.62,
+  "e": 455.37,
+  "en": "What's been the hardest role to prepare for?",
+  "spk": "Interviewer",
+  "cue": 250
+ },
+ {
+  "id": 160,
+  "s": 455.37,
+  "e": 460.5,
+  "en": "You know, honestly, \"Euphoria,\" because sometimes the emotional stuff is just as hard as the physical stuff, you know?",
+  "spk": "Zendaya",
+  "cue": 251,
+  "inf": 1
+ },
+ {
+  "id": 161,
+  "s": 460.5,
+  "e": 462.18,
+  "en": "What's been the most difficult stunt to learn?",
+  "spk": "Interviewer",
+  "cue": 254
+ },
+ {
+  "id": 162,
+  "s": 463.02,
+  "e": 467.86,
+  "en": "Trapeze was pretty tough. Especially for someone like me who doesn't work out, it was tough.",
+  "spk": "Zendaya",
+  "cue": 256,
+  "inf": 1
+ },
+ {
+  "id": 163,
+  "s": 467.86,
+  "e": 474.22,
+  "en": "Now on average, how many body slams did you and your fellow 73 alum, Zac Efron, endure when filming \"The Greatest Showman.\"",
+  "spk": "Interviewer",
+  "cue": 259
+ },
+ {
+  "id": 164,
+  "s": 474.22,
+  "e": 476.98,
+  "en": "Oh, quite a lot. Let's just say, we got very close.",
+  "spk": "Zendaya",
+  "cue": 262,
+  "inf": 1
+ },
+ {
+  "id": 165,
+  "s": 476.98,
+  "e": 481.82,
+  "en": "Now I saw on Jimmy Fallon that Hugh Jackman may have helped you overcome your fear of heights?",
+  "spk": "Interviewer",
+  "cue": 264
+ },
+ {
+  "id": 166,
+  "s": 481.82,
+  "e": 482.69,
+  "en": "He called me a, \"Badass.\"",
+  "spk": "Zendaya",
+  "cue": 267,
+  "inf": 1
+ },
+ {
+  "id": 167,
+  "s": 482.69,
+  "e": 483.67,
+  "en": "He did?",
+  "spk": "Interviewer",
+  "cue": 268
+ },
+ {
+  "id": 168,
+  "s": 483.67,
+  "e": 489.01,
+  "en": "Yeah, Logan called me, \"Badass.\" Wolverine called me... \"A badass.\"",
+  "spk": "Zendaya",
+  "cue": 269,
+  "inf": 1
+ },
+ {
+  "id": 169,
+  "s": 489.01,
+  "e": 490.21,
+  "en": "That's amazing.",
+  "spk": "Interviewer",
+  "cue": 272,
+  "inf": 1
+ },
+ {
+  "id": 170,
+  "s": 489.01,
+  "e": 491.05,
+  "en": "Yeah. Do you want one?",
+  "spk": "Zendaya",
+  "cue": 272,
+  "inf": 1
+ },
+ {
+  "id": 171,
+  "s": 491.05,
+  "e": 492.33,
+  "en": "Yeah. Sure I'll take it.",
+  "spk": "Interviewer",
+  "cue": 274,
+  "inf": 1
+ },
+ {
+  "id": 172,
+  "s": 491.05,
+  "e": 493.28,
+  "en": "Here. I'll start it off for you.",
+  "spk": "Zendaya",
+  "cue": 274,
+  "inf": 1
+ },
+ {
+  "id": 173,
+  "s": 493.28,
+  "e": 495.42,
+  "en": "Ok, I trust you.",
+  "spk": "Interviewer",
+  "cue": 276
+ },
+ {
+  "id": 174,
+  "s": 495.42,
+  "e": 496.99,
+  "en": "Try it.",
+  "spk": "Zendaya",
+  "cue": 277,
+  "inf": 1
+ },
+ {
+  "id": 175,
+  "s": 496.99,
+  "e": 501.07,
+  "en": "Mmm, looks delicious. What's your favorite scene to shoot in the latest installment of Spider-Man?",
+  "spk": "Interviewer",
+  "cue": 278
+ },
+ {
+  "id": 176,
+  "s": 502.4,
+  "e": 510.69,
+  "en": "You know, there was this one scene stunt thing we did where basically, they pulled us up like a hundred feet and just dropped us and let us swing.",
+  "spk": "Zendaya",
+  "cue": 281,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 177,
+  "s": 510.69,
+  "e": 511.8,
+  "en": "It was- it was pretty nuts.",
+  "spk": "Zendaya",
+  "cue": 281,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 178,
+  "s": 511.8,
+  "e": 513.07,
+  "en": "Whoah, that sounds intense.",
+  "spk": "Interviewer",
+  "cue": 285
+ },
+ {
+  "id": 179,
+  "s": 513.07,
+  "e": 514.71,
+  "en": "Yeah, it was. But, it was fun.",
+  "spk": "Zendaya",
+  "cue": 286,
+  "inf": 1
+ },
+ {
+  "id": 180,
+  "s": 514.71,
+  "e": 517.97,
+  "en": "What's something you can share about your costars, Tom Holland and Jake Gyllenhaal?",
+  "spk": "Interviewer",
+  "cue": 287
+ },
+ {
+  "id": 181,
+  "s": 517.97,
+  "e": 520.35,
+  "en": "That when they are together, no one else exists.",
+  "spk": "Zendaya",
+  "cue": 289,
+  "inf": 1
+ },
+ {
+  "id": 182,
+  "s": 520.35,
+  "e": 523.4,
+  "en": "Were you a fan of the comics before jumping into the project?",
+  "spk": "Interviewer",
+  "cue": 290
+ },
+ {
+  "id": 183,
+  "s": 523.4,
+  "e": 526.37,
+  "en": "Mm-hmm. I think Spider-Man's always been my favorite superhero.",
+  "spk": "Zendaya",
+  "cue": 292,
+  "inf": 1
+ },
+ {
+  "id": 184,
+  "s": 526.37,
+  "e": 527.96,
+  "en": "Oh me too!",
+  "spk": "Interviewer",
+  "cue": 294,
+  "inf": 1
+ },
+ {
+  "id": 185,
+  "s": 526.37,
+  "e": 527.96,
+  "en": "He's like, cool, right?",
+  "spk": "Zendaya",
+  "cue": 294,
+  "inf": 1
+ },
+ {
+  "id": 186,
+  "s": 527.96,
+  "e": 532.51,
+  "en": "Yeah. What traits in your character, MJ, hit closest to home for Zendaya?",
+  "spk": "Interviewer",
+  "cue": 295
+ },
+ {
+  "id": 187,
+  "s": 532.51,
+  "e": 537.37,
+  "en": "I don't know, she's a little bit of a loner. And, kind of like an introvert, so... that's me.",
+  "spk": "Zendaya",
+  "cue": 298,
+  "inf": 1
+ },
+ {
+  "id": 188,
+  "s": 537.37,
+  "e": 538.75,
+  "en": "What do you think makes you an introvert?",
+  "spk": "Interviewer",
+  "cue": 300
+ },
+ {
+  "id": 189,
+  "s": 538.75,
+  "e": 542.56,
+  "en": "I don't know, I just like to stay at home and stay to myself, I can't help it.",
+  "spk": "Zendaya",
+  "cue": 301,
+  "inf": 1
+ },
+ {
+  "id": 190,
+  "s": 542.56,
+  "e": 544.61,
+  "en": "Now, if you had any super power, what would it be?",
+  "spk": "Interviewer",
+  "cue": 303
+ },
+ {
+  "id": 191,
+  "s": 545.86,
+  "e": 549.87,
+  "en": "Teleportation, for sure. It would make my life so much easier.",
+  "spk": "Zendaya",
+  "cue": 305,
+  "inf": 1
+ },
+ {
+  "id": 192,
+  "s": 549.87,
+  "e": 551.46,
+  "en": "Yeah, cause you travel a lot.",
+  "spk": "Interviewer",
+  "cue": 307
+ },
+ {
+  "id": 193,
+  "s": 551.46,
+  "e": 553.72,
+  "en": "A lot.",
+  "spk": "Zendaya",
+  "cue": 308,
+  "inf": 1
+ },
+ {
+  "id": 194,
+  "s": 551.46,
+  "e": 553.72,
+  "en": "Any big trips coming up?",
+  "spk": "Interviewer",
+  "cue": 308,
+  "inf": 1
+ },
+ {
+  "id": 195,
+  "s": 553.72,
+  "e": 556.58,
+  "en": "Well we have the Spider-Man press tour coming up, which is going to be cool",
+  "spk": "Zendaya",
+  "cue": 309,
+  "inf": 1
+ },
+ {
+  "id": 196,
+  "s": 555.22,
+  "e": 561.29,
+  "en": "Ah, that's really cool. By the way, I heard through the grapevine, you may be involved in an iconic remake.",
+  "spk": "Interviewer",
+  "cue": 310,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 197,
+  "s": 561.29,
+  "e": 563.58,
+  "en": "What can you tell me about this?",
+  "spk": "Interviewer",
+  "cue": 310,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 198,
+  "s": 563.58,
+  "e": 567.53,
+  "en": "I could tell you, but I'd have to kill you. Don't ask me why I said that in a New York accent.",
+  "spk": "Zendaya",
+  "cue": 314,
+  "inf": 1
+ },
+ {
+  "id": 199,
+  "s": 567.53,
+  "e": 571.72,
+  "en": "So, besides acting, music has been such a strong focus in your career.",
+  "spk": "Interviewer",
+  "cue": 316
+ },
+ {
+  "id": 200,
+  "s": 571.72,
+  "e": 573.36,
+  "en": "Yeah.",
+  "spk": "Zendaya",
+  "cue": 318,
+  "inf": 1
+ },
+ {
+  "id": 201,
+  "s": 571.72,
+  "e": 575.28,
+  "en": "Do you feel more connected to acting or making music at this moment?",
+  "spk": "Interviewer",
+  "cue": 318,
+  "inf": 1
+ },
+ {
+  "id": 202,
+  "s": 575.28,
+  "e": 581.05,
+  "en": "I don't know, I mean I always love both. But, I don't know I guess acting has taken a front seat.",
+  "spk": "Zendaya",
+  "cue": 320,
+  "inf": 1
+ },
+ {
+  "id": 203,
+  "s": 581.05,
+  "e": 584.71,
+  "en": "What track always ends up on the Zendaya-curated playlist?",
+  "spk": "Interviewer",
+  "cue": 322
+ },
+ {
+  "id": 204,
+  "s": 584.71,
+  "e": 589.64,
+  "en": "Right now, a lot of Solange. She's been holding me down.",
+  "spk": "Zendaya",
+  "cue": 324,
+  "inf": 1
+ },
+ {
+  "id": 205,
+  "s": 589.64,
+  "e": 592.7,
+  "en": "What's more important at a party, the playlist or the outfit?",
+  "spk": "Interviewer",
+  "cue": 326
+ },
+ {
+  "id": 206,
+  "s": 592.7,
+  "e": 596.59,
+  "en": "Playlist, a thousand percent. If you have a whack playlist, the party will not be popping.",
+  "spk": "Zendaya",
+  "cue": 328,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 207,
+  "s": 596.59,
+  "e": 602.92,
+  "en": "If you want the party to jump off, side note, and if anybody needs it, play, \"This is How We Do It\".",
+  "spk": "Zendaya",
+  "cue": 328,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 208,
+  "s": 602.92,
+  "e": 604.73,
+  "en": "It works every time.",
+  "spk": "Zendaya",
+  "cue": 328,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 209,
+  "s": 604.73,
+  "e": 607.34,
+  "en": "Now what's a song that you wish you'd written?",
+  "spk": "Interviewer",
+  "cue": 333
+ },
+ {
+  "id": 210,
+  "s": 607.34,
+  "e": 609.03,
+  "en": "\"A Song For You\" by Donny Hathaway.",
+  "spk": "Zendaya",
+  "cue": 335,
+  "inf": 1
+ },
+ {
+  "id": 211,
+  "s": 609.03,
+  "e": 610.78,
+  "en": "What's the best concert you've seen this year?",
+  "spk": "Interviewer",
+  "cue": 336
+ },
+ {
+  "id": 212,
+  "s": 610.78,
+  "e": 614.66,
+  "en": "I haven't been to a concert this year, because I've been so busy. But we all know, Beyonce has the best concert.",
+  "spk": "Zendaya",
+  "cue": 338,
+  "inf": 1
+ },
+ {
+  "id": 213,
+  "s": 614.66,
+  "e": 617.32,
+  "en": "What's the best advice you've ever received?",
+  "spk": "Interviewer",
+  "cue": 341
+ },
+ {
+  "id": 214,
+  "s": 617.32,
+  "e": 618.75,
+  "en": "That's my cue!",
+  "spk": "Darnell",
+  "cue": 342
+ },
+ {
+  "id": 215,
+  "s": 618.75,
+  "e": 623.22,
+  "en": "When life gives you lemons, make lemonade. Well done, Darnell.",
+  "spk": "Zendaya",
+  "cue": 343
+ },
+ {
+  "id": 216,
+  "s": 623.22,
+  "e": 624.67,
+  "en": "Darnell with the perfect timing!",
+  "spk": "Interviewer",
+  "cue": 345
+ },
+ {
+  "id": 217,
+  "s": 624.67,
+  "e": 626.54,
+  "en": "I know, was it not?",
+  "spk": "Zendaya",
+  "cue": 346,
+  "inf": 1
+ },
+ {
+  "id": 218,
+  "s": 624.67,
+  "e": 628.09,
+  "en": "What's some advice that you've completely ignored?",
+  "spk": "Interviewer",
+  "cue": 346,
+  "inf": 1
+ },
+ {
+  "id": 219,
+  "s": 629.8,
+  "e": 634.65,
+  "en": "That you can't do it all, because you can. If you feel that you can do it, you can do it.",
+  "spk": "Zendaya",
+  "cue": 348,
+  "inf": 1
+ },
+ {
+  "id": 220,
+  "s": 634.65,
+  "e": 637.24,
+  "en": "Zendaya, what do you want to be known for?",
+  "spk": "Interviewer",
+  "cue": 350
+ },
+ {
+  "id": 221,
+  "s": 638.67,
+  "e": 642.62,
+  "en": "You know this is gonna sound really corny but, I don't know, I guess just being a good person.",
+  "spk": "Zendaya",
+  "cue": 351,
+  "inf": 1
+ },
+ {
+  "id": 222,
+  "s": 642.62,
+  "e": 645.76,
+  "en": "That's not corny at all. Is that mine?",
+  "spk": "Interviewer",
+  "cue": 353
+ },
+ {
+  "id": 223,
+  "s": 643.95,
+  "e": 645.76,
+  "en": "Yeah, go for it.",
+  "spk": "Zendaya",
+  "cue": 354,
+  "inf": 1
+ },
+ {
+  "id": 224,
+  "s": 645.76,
+  "e": 651.76,
+  "en": "Thank you very, very much. Now, who are the three women that are blowing your mind right now?",
+  "spk": "Interviewer",
+  "cue": 355
+ },
+ {
+  "id": 225,
+  "s": 651.76,
+  "e": 658.17,
+  "en": "I know I mention Beyonce a lot, but always Beyonce. Michelle Obama, Rihanna.",
+  "spk": "Zendaya",
+  "cue": 358,
+  "inf": 1
+ },
+ {
+  "id": 226,
+  "s": 658.17,
+  "e": 664.48,
+  "en": "Incredible women. Zendaya, you're a very giving person. What cause would you say is closest to your heart?",
+  "spk": "Interviewer",
+  "cue": 360
+ },
+ {
+  "id": 227,
+  "s": 664.48,
+  "e": 668.86,
+  "en": "Honestly, there's so many things that I'm passionate about that we just have have a separate thing.",
+  "spk": "Zendaya",
+  "cue": 363,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 228,
+  "s": 668.86,
+  "e": 670.87,
+  "en": "You gotta come back and we'll just talk about that.",
+  "spk": "Zendaya",
+  "cue": 363,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 229,
+  "s": 670.87,
+  "e": 673.87,
+  "en": "What's a question you get asked all the time but you wish you didn't?",
+  "spk": "Interviewer",
+  "cue": 366
+ },
+ {
+  "id": 230,
+  "s": 673.87,
+  "e": 674.91,
+  "en": "Who are you dating?",
+  "spk": "Zendaya",
+  "cue": 368,
+  "inf": 1
+ },
+ {
+  "id": 231,
+  "s": 674.91,
+  "e": 680.17,
+  "en": "By the way, you're one of the most requested asked for a 73 Questions episode, ever.",
+  "spk": "Interviewer",
+  "cue": 369
+ },
+ {
+  "id": 232,
+  "s": 680.17,
+  "e": 681.13,
+  "en": "Really?",
+  "spk": "Zendaya",
+  "cue": 371,
+  "inf": 1
+ },
+ {
+  "id": 233,
+  "s": 680.17,
+  "e": 681.13,
+  "en": "Yeah.",
+  "spk": "Interviewer",
+  "cue": 371,
+  "inf": 1
+ },
+ {
+  "id": 234,
+  "s": 681.13,
+  "e": 682.08,
+  "en": "Oh, snap, thanks.",
+  "spk": "Zendaya",
+  "cue": 372,
+  "inf": 1
+ },
+ {
+  "id": 235,
+  "s": 682.08,
+  "e": 684.98,
+  "en": "I'd love to know who would you ask 73 questions to?",
+  "spk": "Interviewer",
+  "cue": 373
+ },
+ {
+  "id": 236,
+  "s": 686.01,
+  "e": 692.49,
+  "en": "Probably the three women I just mentioned. Plus, maybe Oprah, as well.",
+  "spk": "Zendaya",
+  "cue": 375,
+  "inf": 1
+ },
+ {
+  "id": 237,
+  "s": 692.49,
+  "e": 695.96,
+  "en": "Ok, I'm sorry to say this but we're already at question number 73.",
+  "spk": "Interviewer",
+  "cue": 377
+ },
+ {
+  "id": 238,
+  "s": 695.96,
+  "e": 697.37,
+  "en": "Geez, that went by really fast.",
+  "spk": "Zendaya",
+  "cue": 379,
+  "inf": 1
+ },
+ {
+  "id": 239,
+  "s": 697.37,
+  "e": 703.22,
+  "en": "Yeah, I know right? For all your fans who have requested this- what message would you like to send them right now?",
+  "spk": "Interviewer",
+  "cue": 380
+ },
+ {
+  "id": 240,
+  "s": 704.62,
+  "e": 707.73,
+  "en": "I don't know, I think I would just say \"Thank you.\"",
+  "spk": "Zendaya",
+  "cue": 383,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 241,
+  "s": 707.73,
+  "e": 712.37,
+  "en": "You know, because a lot of them have come up with me and grown up with me, literally.",
+  "spk": "Zendaya",
+  "cue": 383,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 242,
+  "s": 712.37,
+  "e": 715.32,
+  "en": "Probably the same age and grown up with me.",
+  "spk": "Zendaya",
+  "cue": 383,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 243,
+  "s": 715.32,
+  "e": 719.6,
+  "en": "I just appreciate them supporting me through all these different phases of my career, as I continue to grow.",
+  "spk": "Zendaya",
+  "cue": 383,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 244,
+  "s": 719.6,
+  "e": 721.24,
+  "en": "So, I appreciate that.",
+  "spk": "Zendaya",
+  "cue": 383,
+  "inf": 1,
+  "part": 1
+ },
+ {
+  "id": 245,
+  "s": 721.24,
+  "e": 723.79,
+  "en": "That's awesome. And, this was delicious.",
+  "spk": "Interviewer",
+  "cue": 391
+ },
+ {
+  "id": 246,
+  "s": 723.79,
+  "e": 725.73,
+  "en": "Thank you. Thank you. Of course.",
+  "spk": "Zendaya",
+  "cue": 393
+ },
+ {
+  "id": 247,
+  "s": 724.62,
+  "e": 727.15,
+  "en": "Zendaya, thank you so much. This was great. Bye-bye.",
+  "spk": "Interviewer",
+  "cue": 394,
+  "inf": 1
+ },
+ {
+  "id": 248,
+  "s": 727.15,
+  "e": 727.98,
+  "en": "Bye.",
+  "spk": "Zendaya",
+  "cue": 396,
+  "inf": 1
+ }
+]

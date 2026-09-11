@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b4a7a"><title>도카도카 영어 공부 · Dokadoka English</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f4f5f8; --surface:#fff; --surface-2:#f1f3f7; --surface-3:#e9ecf2;
+ --line:#e2e5ec; --line-2:#cfd4de;
+ --ink:#21242c; --ink-2:#5c6270; --ink-3:#8b919e;
+ --brand:#3b4a7a; --brand-2:#2e3b63; --brand-soft:#e9ecf5; --brand-line:#c2c9df;
+ --accent:#b0603f; --accent-soft:#fbf1ea; --accent-line:#ead0bd;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,28,40,.05);
+ --sh-2:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);
+ font-family:"Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+[lang=en]{font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Noto Sans KR",sans-serif}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* two-line labels: Korean primary, English secondary */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:64px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 292px;min-height:100vh}
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .panel,.side .foot{flex:none}
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;border:2px solid var(--surface-2);background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f1e2d4;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a4c;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f14;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.spk{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.chip.cap{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.en{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;letter-spacing:.005em;
+ overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ko{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0;word-break:keep-all}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);background:var(--accent-soft);
+ box-shadow:inset 0 0 0 1px var(--accent-line);font-size:12px;line-height:1.65;color:#7a5330}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr);gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .who{font-size:11px;font-weight:600;color:var(--brand);padding-top:3px;line-height:1.35;word-break:keep-all}
+.line .who.cap{color:var(--accent)}
+.line .k{font-size:14.5px;line-height:1.6;font-weight:500}
+.line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+
+/* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+
+/* ============ study ============ */
+/* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3;word-break:keep-all}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 매일 되풀이하는 순서라 큰 카드 대신 얇은 흐름 띠로 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600}
+.dcRow .jj{color:var(--ink-3);font-size:11px;word-break:keep-all}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 학습법 가이드 ---- */
+.guide{padding:26px 24px 30px}
+.gintro{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.gintro>p[lang=en]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px;word-break:keep-all}
+.gnote span[lang=en]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .en{font-size:11.5px;color:var(--ink-3);margin:0 0 8px;min-height:0;display:block;font-weight:400;line-height:1.4}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2);word-break:keep-all}
+.gstep p span[lang=en]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2);word-break:keep-all}
+.gtip p span[lang=en]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5}
+.srow .k small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:7px}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px;word-break:keep-all}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.01em;word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s;word-break:keep-all}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.grp{display:flex;align-items:center;gap:8px;margin:14px 6px 6px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+.scenes{display:block}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s;margin-bottom:1px}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .mem{padding-left:24px;position:relative}
+.scenes .mem::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+.scenes button[aria-pressed=true].mem::before{background:var(--brand)}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
+ .line{grid-template-columns:44px minmax(0,1fr)}.line .who{grid-column:2}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+ <main class="main">
+  <div class="topbar">
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">전체<span class="inl" lang="en">All</span></h1>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">카드<span class="sub" lang="en">Cards</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">대본<span class="sub" lang="en">Script</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">학습<span class="sub" lang="en">Study</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>로컬 파일(<code>file://</code>)로 열었습니다.</strong>
+    YouTube 가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153). 카드·대본·편집은 그대로 쓸 수 있고,
+    재생 버튼은 YouTube 를 해당 대사 위치부터 엽니다. 페이지 안에서 재생하려면 같이 둔
+    <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.
+    <span class="sub" lang="en">Opened as a local file (<code>file://</code>). YouTube refuses embedded playback from a page with no origin (Error 153).
+     Cards, script and editing still work, and the play button opens YouTube at that line. To play inside the page, run the bundled
+     <code>start.bat</code>(Windows) or <code>start.sh</code> .</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>이 페이지 안에서는 재생할 수 없습니다</strong>
+      <span lang="en">Cannot play inside this page</span>
+      <em>재생 버튼이 YouTube 를 해당 위치부터 엽니다<br><span lang="en">The play button opens YouTube at that position</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 영상 ID / Video ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">적용<span class="sub" lang="en">Apply</span></span></button>
+    </div>
+    <div class="status" id="playStatus">플레이어를 불러오는 중…<span class="sub" lang="en">Loading player…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="chip spk" id="who">—</span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · Edited</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="en" id="en" lang="en">불러오는 중…</div>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">이 장면 재생<span class="sub" lang="en">Play this line</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">구간 반복<span class="sub" lang="en">Repeat</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">체크<span class="sub" lang="en">Check</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">편집<span class="sub" lang="en">Edit</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">영어 대사 · English line</div>
+       <textarea id="edEn" lang="en" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">한국어 뜻 · Korean meaning</div>
+       <textarea id="edKo" spellcheck="false"></textarea>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · Save</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · Cancel</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>되돌리기 · Reset</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">뜻 보기<span class="sub" lang="en">Show meaning</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>뜻 · Meaning</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · Hide</button></div>
+      <p class="ko" id="ko"></p>
+      <p class="note" id="note" hidden></p>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">이전<span class="sub" lang="en">Prev</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">다음<span class="sub" lang="en">Next</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="en">Auto-play next card</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="en">Show meaning from the start</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="en">Shuffle order</span></span></label>
+      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="en" style="color:var(--ink-3);font-size:11.5px">Playback margin</span></span>
+       <select id="optTail">
+        <option value="0.3">0.3초 · 0.3 s</option><option value="0.5">0.5초 · 0.5 s</option>
+        <option value="0.8">0.8초 · 0.8 s</option><option value="1">1초 · 1 s</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 뜻 · Meaning</i><i><kbd>X</kbd><kbd>Space</kbd> 재생 · Play</i>
+      <i><kbd>C</kbd> 반복 · Repeat</i><i><kbd>V</kbd><kbd>→</kbd> 다음 · Next</i><i><kbd>←</kbd> 이전 · Prev</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / How to study">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
+     </div>
+
+     <div id="dayPane">
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="18" aria-pressed="false">천천히</button>
+        <button data-v="25" aria-pressed="true">보통</button>
+        <button data-v="36" aria-pressed="false">빠르게</button>
+        <button data-v="50" aria-pressed="false">집중</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">7</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · Study as cards</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · Quiz on today’s set</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 대사 · Lines</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 표현 · Expressions</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 단어 · Words</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>인터뷰 한 편을 「쓸 수 있는 영어」로 바꾸는 4단계</h3>
+        <p lang="en">Four steps to turn one interview into English you can use</p>
+        <p class="gnote">이 교재는 대본이 아니라 <b>실제 인터뷰</b>입니다. 지어낸 예문에 없는 머뭇거림·줄임말·감탄사가 들어 있습니다.
+         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
+         <span lang="en">This is not a scripted textbook but a<b>real interview</b>. It is full of the hesitations, contractions and back-channels that invented examples never have.
+          That is why “understanding on paper” is not enough. <b>Learning it together with the sound</b> is the shortcut.</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>하루 20분이면 된다 · 20 minutes a day is enough</h5>
+         <p>248개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
+          <span lang="en">248 cards in one sitting will not stick. The Today tab slices them for you.<b>A little every day</b> is the only shortcut.</span></p></div>
+        <div class="gtip"><h5>뜻보다 소리 먼저 · Sound before meaning</h5>
+         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
+          <span lang="en">Play each card first <b>with the meaning hidden</b>. Opening the meaning only where you could not catch it makes it stick.</span></p></div>
+        <div class="gtip"><h5>소리 내어 따라 하기 · Say it out loud</h5>
+         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
+          <span lang="en">Use Repeat (<kbd>C</kbd>) to loop the same span and <b>speak over it</b>. Copying the intonation, not just the words, works best.</span></p></div>
+        <div class="gtip"><h5>축약과 필러에 귀 익히기 · Contractions and fillers</h5>
+         <p><b>gonna · wanna · kinda · ’cause · I dunno</b> 같은 축약과 <b>you know · I mean · like · I don’t know</b> 같은 필러는 뜻이 아니라 리듬입니다. 들릴 때마다 뜻을 찾지 말고 흘려 보내는 연습을 하세요. 이 한 편에만 you know 가 12번 나옵니다.
+          <span lang="en">Contractions like <b>gonna · wanna · kinda · ’cause · I dunno</b> and fillers like <b>you know · I mean · like · I don’t know</b> carry rhythm, not meaning. Practice letting them pass instead of looking them up; “you know” alone appears 12 times in this one video.</span></p></div>
+        <div class="gtip"><h5>틀린 것이 보물 · Mistakes are treasure</h5>
+         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
+          <span lang="en">Items you miss in the quiz become your review list.<b>First thing the next day</b>, listen to just those again.</span></p></div>
+        <div class="gtip"><h5>묻는 말투와 답하는 말투 · Asking vs. answering</h5>
+         <p>인터뷰어는 <b>What would you say is…? · How would you describe…? · What’s been…?</b> 처럼 부드럽게 돌려 묻고, 젠데이아는 <b>Yeah, for sure. · Nothing, honestly. · Probably my Converse.</b> 처럼 짧게 답합니다. 질문은 통째로 외워 두면 그대로 쓸 수 있고, 대답은 완전한 문장이 아니어도 된다는 것을 확인하세요.
+          <span lang="en">The interviewer softens questions with <b>What would you say is…? · How would you describe…? · What’s been…?</b>, while Zendaya answers briefly: <b>Yeah, for sure. · Nothing, honestly. · Probably my Converse.</b> Memorize the questions whole, and notice that answers need not be full sentences.</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
+       <span class="meta" id="sCount">0</span>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">출제 범위 · Scope</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">표현 · Expressions</button>
+         <button data-v="V" aria-pressed="false">단어 · Words</button>
+         <button data-v="S" aria-pressed="false">대사 · Lines</button>
+         <button data-v="D" aria-pressed="false">오늘 분량 · Today’s set</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">출제 방식 · Mode</span>
+        <div class="seg" id="qMode">
+         <button data-v="en2ko" aria-pressed="true">EN → KO</button>
+         <button data-v="ko2en" aria-pressed="false">KO → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listening</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">문항 수 · Questions</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">전체 · All</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>시작 · Start</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 정답 · Correct</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>그만 · Quit</button>
+       </div>
+       <div class="qask" id="qAsk" lang="en">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>다시 듣기 · Play again</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>다시 · Again</button>
+        <button class="btn" id="rBack">설정으로 · Settings</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.
+     <span class="sub" lang="en">Click a line to play from there. While playing, the list follows along.</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">E</div>
+   <div><strong>도카도카 영어 공부<span class="sub" lang="en">Dokadoka English</span></strong>
+    <small>젠데이아에게 73가지 질문 · <span class="n">—</span>문장<br><span lang="en">73 Questions With Zendaya · <span class="n">—</span> lines</span></small></div></div>
+
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> 체크함 · <span lang="en">checked</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">장 수정함 · <span lang="en">cards edited</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>내보내기 · Export</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>가져오기 · Import</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    자막은 Vogue 가 영상에 붙인 공식 영어 자막(화자 표시 포함)입니다. 번역·주석은 직접 작성한 것이라 오류가 있을 수 있습니다.<br>
+    <span lang="en">Captions are Vogue’s official English captions (with speaker tags). Translations and notes are hand-written and may contain errors.</span></p>
+  </div>
+
+  <div class="foot">
+   대사·영상 출처 · <span lang="en">Source of lines and video</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   학습용 개인 이용을 전제로 한 페이지입니다.<br>
+   <span lang="en">This page is intended for personal study use.</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const DATA = [{"id":1,"s":3.38,"e":4.43,"en":"Yeah? Come on in.","ko":"네? 들어오세요.","spk":"Zendaya","scene":"hello","note":"Come on in = 들어오세요 (맞이할 때)"},{"id":2,"s":4.43,"e":6.65,"en":"Guess who's here-","ko":"누가 왔게요-","spk":"Interviewer","scene":"hello","note":"Guess who's here = 누가 왔는지 맞혀 봐. 등장 인사"},{"id":3,"s":6.65,"e":8.09,"en":"What's up?","ko":"안녕하세요?","spk":"Zendaya","scene":"hello","note":"What's up? = 캐주얼한 인사. 대답은 보통 Hey / Not much"},{"id":4,"s":6.65,"e":8.09,"en":"Zendaya!","ko":"젠데이아!","spk":"Interviewer","scene":"hello"},{"id":5,"s":8.09,"e":8.93,"en":"Hey.","ko":"안녕하세요.","spk":"Zendaya","scene":"hello"},{"id":6,"s":8.93,"e":11.23,"en":"Thank you so much for having me by, I know how busy you are.","ko":"시간 내 주셔서 정말 고마워요, 바쁘신 거 아는데.","spk":"Interviewer","scene":"hello","note":"have me by = 나를 (집에) 들르게 하다. Thank you for having me 는 초대받은 사람의 정석 인사"},{"id":7,"s":11.23,"e":12.25,"en":"Yeah, of course, thanks for coming.","ko":"네, 당연하죠, 와 주셔서 고마워요.","spk":"Zendaya","scene":"hello","note":"of course = 여기서는 '당연히요·별말씀을'"},{"id":8,"s":12.25,"e":13.89,"en":"I'm gonna ask you 73 questions.","ko":"73가지 질문을 드릴 거예요.","spk":"Interviewer","scene":"hello","note":"I'm gonna = I'm going to 의 구어 축약"},{"id":9,"s":13.89,"e":14.88,"en":"Let's do it.","ko":"해 봐요.","spk":"Zendaya","scene":"hello","note":"Let's do it = 좋아요, 시작하죠"},{"id":10,"s":13.89,"e":16.2,"en":"And, I see that you're picking a bunch of lemons.","ko":"그리고, 레몬을 잔뜩 따고 계시네요.","spk":"Interviewer","scene":"hello","note":"a bunch of = 한 무더기의·잔뜩 (구어)"},{"id":11,"s":16.2,"e":18.05,"en":"Yeah, I'm making lemonade. You want some?","ko":"네, 레모네이드 만들려고요. 좀 드실래요?","spk":"Zendaya","scene":"hello","note":"You want some? = Do you want some? 조동사를 생략한 구어 질문"},{"id":12,"s":18.05,"e":19.04,"en":"I'd love some.","ko":"좋죠.","spk":"Interviewer","scene":"hello","note":"I'd love some = I would love some. '기꺼이요' 정중한 수락"},{"id":13,"s":19.04,"e":19.87,"en":"I got you.","ko":"알겠어요, 제가 챙길게요.","spk":"Zendaya","scene":"hello","note":"I got you = 내가 챙길게·맡겨 (구어)"},{"id":14,"s":19.87,"e":23.28,"en":"Ok so, question number one, where does your name originate?","ko":"자 그럼, 첫 번째 질문, 이름은 어디에서 온 건가요?","spk":"Interviewer","scene":"hello","note":"originate = 유래하다"},{"id":15,"s":23.28,"e":27.87,"en":"Ok so technically it's a long story, but it's based off a word that means to give thanks.","ko":"음, 엄밀히 말하면 긴 얘긴데, '감사하다'라는 뜻의 단어에서 따온 거예요.","spk":"Zendaya","scene":"hello","note":"be based off (of) = ~에 바탕을 두다 (based on 의 구어형)"},{"id":16,"s":27.87,"e":31.05,"en":"That's pretty. And how would you describe your upbringing?","ko":"예쁘네요. 그럼 어린 시절은 어땠다고 표현하시겠어요?","spk":"Interviewer","scene":"roots","note":"upbringing = 성장 환경·가정 교육"},{"id":17,"s":31.05,"e":31.93,"en":"Real.","ko":"리얼했죠.","spk":"Zendaya","scene":"roots","note":"real = 꾸밈없고 진짜인"},{"id":18,"s":31.93,"e":34.41,"en":"Who would you say was your role model growing up?","ko":"자라면서 롤모델은 누구였나요?","spk":"Interviewer","scene":"roots","note":"Who would you say ~ = 누구라고 하시겠어요? 부드럽게 묻는 문형"},{"id":19,"s":34.41,"e":35.29,"en":"My mom.","ko":"엄마요.","spk":"Zendaya","scene":"roots"},{"id":20,"s":35.29,"e":37.05,"en":"And today, has it changed?","ko":"그리고 지금은 바뀌었나요?","spk":"Interviewer","scene":"roots"},{"id":21,"s":37.05,"e":38.07,"en":"No, it's still my mom.","ko":"아니요, 여전히 엄마예요.","spk":"Zendaya","scene":"roots","note":"still = 여전히"},{"id":22,"s":38.07,"e":39.11,"en":"Why?","ko":"왜요?","spk":"Interviewer","scene":"roots"},{"id":23,"s":39.11,"e":43.28,"en":"Because, she's a teacher. You know, and she spent her whole life giving. And, I really admire that.","ko":"엄마는 선생님이시거든요. 있잖아요, 평생을 베풀면서 사셨어요. 그게 정말 존경스러워요.","spk":"Zendaya","scene":"roots","note":"spend one's whole life -ing = 평생을 ~하며 보내다 / admire = 존경하다"},{"id":24,"s":43.28,"e":46.23,"en":"Yeah, and what's the first thing you thought of this morning?","ko":"네, 그럼 오늘 아침에 제일 먼저 든 생각은 뭐였어요?","spk":"Interviewer","scene":"roots","note":"the first thing you thought of = 제일 먼저 떠오른 것"},{"id":25,"s":46.23,"e":47.06,"en":"Can I be honest?","ko":"솔직히 말해도 돼요?","spk":"Zendaya","scene":"roots","note":"Can I be honest? = 솔직히 말할게요, 하고 운을 뗄 때"},{"id":26,"s":47.06,"e":47.9,"en":"Sure.","ko":"그럼요.","spk":"Interviewer","scene":"roots","note":"Sure = 물론이죠"},{"id":27,"s":47.9,"e":51.53,"en":"Blowing my nose because I have a little cold right now, so be careful.","ko":"코 푸는 거요, 지금 감기 기운이 좀 있어서. 조심하세요.","spk":"Zendaya","scene":"roots","note":"blow one's nose = 코를 풀다 / a little cold = 가벼운 감기"},{"id":28,"s":51.53,"e":53.44,"en":"I'm gonna keep my distance.","ko":"거리를 좀 두겠습니다.","spk":"Interviewer","scene":"roots","note":"keep one's distance = 거리를 두다"},{"id":29,"s":51.53,"e":53.44,"en":"All right.","ko":"그래요.","spk":"Zendaya","scene":"roots","note":"All right = 알겠어요·좋아요"},{"id":30,"s":53.44,"e":55.48,"en":"So what's something you do every morning without fail?","ko":"그럼 아침마다 빠짐없이 하는 일은 뭐예요?","spk":"Interviewer","scene":"roots","note":"without fail = 빠짐없이·어김없이"},{"id":31,"s":57.06,"e":58.59,"en":"Oh, unfortunately, I check my phone.","ko":"아, 안타깝게도, 휴대폰을 확인해요.","spk":"Zendaya","scene":"roots","note":"unfortunately = 안타깝게도 (자조적으로)"},{"id":32,"s":58.59,"e":59.52,"en":"Same here.","ko":"저도요.","spk":"Interviewer","scene":"roots","note":"Same here = 저도 마찬가지예요"},{"id":33,"s":59.52,"e":60.35,"en":"Yeah.","ko":"그렇죠.","spk":"Zendaya","scene":"roots"},{"id":34,"s":60.35,"e":62.29,"en":"What gets you out of bed?","ko":"아침에 침대에서 일어나게 하는 건 뭐예요?","spk":"Interviewer","scene":"roots","note":"get you out of bed = 너를 침대에서 나오게 하다"},{"id":35,"s":62.29,"e":63.41,"en":"My dog, Noon.","ko":"제 강아지, 눈이요.","spk":"Zendaya","scene":"roots","note":"Noon = 반려견 이름"},{"id":36,"s":63.41,"e":65.17,"en":"Cute. And you're a Virgo?","ko":"귀엽네요. 그리고 처녀자리시죠?","spk":"Interviewer","scene":"roots","note":"Virgo = 처녀자리 (8/23~9/22)"},{"id":37,"s":65.17,"e":66.0,"en":"Yeah.","ko":"네.","spk":"Zendaya","scene":"roots"},{"id":38,"s":66.0,"e":67.24,"en":"What's the most Virgo thing about you?","ko":"본인의 가장 처녀자리다운 점은요?","spk":"Interviewer","scene":"roots","note":"the most ~ thing about you = 너의 가장 ~다운 점"},{"id":39,"s":67.24,"e":74.42,"en":"Ok now this is going to sound negative but like, I'm a little bit of a control freak. Just a little bit.","ko":"음, 이거 부정적으로 들리겠지만, 저는 약간 통제광이에요. 아주 조금요.","spk":"Zendaya","scene":"roots","note":"control freak = 뭐든 자기가 통제해야 직성이 풀리는 사람 / a little bit of a ~ = 약간 ~한 사람"},{"id":40,"s":71.53,"e":74.42,"en":"Zendaya, aren't we all.","ko":"젠데이아, 우리 다 그렇잖아요.","spk":"Interviewer","scene":"roots","note":"aren't we all = 우리 다 그렇지 않나요 (공감)"},{"id":41,"s":74.42,"e":75.3,"en":"Zen-D!","ko":"젠디!","spk":"Darnell","scene":"roots","note":"Zen-D = 젠데이아의 애칭"},{"id":42,"s":75.3,"e":76.97,"en":"Hey, Darnell. Can you take these for me?","ko":"안녕 다넬. 이것 좀 받아 줄래?","spk":"Zendaya","scene":"roots","note":"Can you take these for me? = 이것 좀 받아 줄래? (부탁)"},{"id":43,"s":76.97,"e":83.75,"en":"This is Darnell, he's my assistant slash brother slash everything, organizer of my life.","ko":"이쪽은 다넬이에요. 제 어시스턴트 겸 오빠 겸 모든 것, 제 인생의 정리 담당이죠.","spk":"Zendaya","scene":"roots","note":"slash = '/'를 소리 내 읽은 것. A 겸 B 를 나열할 때 구어로 씀"},{"id":44,"s":83.75,"e":85.26,"en":"Hey, Darnell.","ko":"안녕하세요, 다넬.","spk":"Interviewer","scene":"roots"},{"id":45,"s":83.75,"e":85.26,"en":"Hey.","ko":"안녕하세요.","spk":"Zendaya","scene":"roots"},{"id":46,"s":85.26,"e":86.29,"en":"Thank you.","ko":"고마워.","spk":"Zendaya","scene":"roots"},{"id":47,"s":86.29,"e":89.39,"en":"Ok, so what's the most Californian thing about you?","ko":"자, 그럼 본인의 가장 캘리포니아다운 점은요?","spk":"Interviewer","scene":"cali","note":"Californian = 캘리포니아 사람(의)"},{"id":48,"s":89.39,"e":93.67,"en":"The most Californian thing about me is that I still get excited when I see snow.","ko":"제 가장 캘리포니아다운 점은 눈을 보면 아직도 신난다는 거예요.","spk":"Zendaya","scene":"cali","note":"get excited = 신나다·들뜨다"},{"id":49,"s":93.67,"e":96.62,"en":"I think it's really, really cool, because obviously we never get snow.","ko":"정말, 정말 멋지다고 생각해요, 당연히 우리는 눈이 안 오니까요.","spk":"Zendaya","scene":"cali","note":"obviously = 당연히·뻔하게도 (구어에서 매우 흔함)"},{"id":50,"s":96.62,"e":100.29,"en":"So, obviously if you see snow all the time, it's not exciting for you, but I think it's cool.","ko":"그러니까, 눈을 늘 보는 사람한테는 당연히 신날 게 없겠지만, 저는 멋지다고 생각해요.","spk":"Zendaya","scene":"cali","note":"all the time = 항상"},{"id":51,"s":100.29,"e":103.26,"en":"And where do you feel most at home?","ko":"그럼 어디에 있을 때 가장 편안한가요?","spk":"Interviewer","scene":"cali","note":"feel at home = 내 집처럼 편안하다"},{"id":52,"s":103.26,"e":104.39,"en":"At home.","ko":"집이요.","spk":"Zendaya","scene":"cali","note":"at home 을 그대로 받아친 말장난"},{"id":53,"s":104.39,"e":107.77,"en":"That makes sense. And who do you feel most at home with?","ko":"말이 되네요. 그럼 누구와 있을 때 가장 편안한가요?","spk":"Interviewer","scene":"cali","note":"That makes sense = 말이 되네요·그렇겠네요"},{"id":54,"s":107.77,"e":110.01,"en":"I think my dog makes me feel most at home.","ko":"제 강아지가 저를 제일 편하게 해 주는 것 같아요.","spk":"Zendaya","scene":"cali","note":"make me feel ~ = 나를 ~하게 느끼게 하다"},{"id":55,"s":110.01,"e":114.59,"en":"Now, I suspect that these are rare for you. But, if you had a full day off, what would you do with it?","ko":"자, 이런 날은 드물 것 같긴 한데요. 그래도 하루를 통째로 쉰다면 뭘 하시겠어요?","spk":"Interviewer","scene":"cali","note":"a full day off = 온전한 하루 휴가 / I suspect = ~일 것 같다"},{"id":56,"s":114.59,"e":117.09,"en":"Nothing. I would do absolutely nothing.","ko":"아무것도요. 정말 아무것도 안 할 거예요.","spk":"Zendaya","scene":"cali","note":"absolutely nothing = 정말 아무것도 (강조)"},{"id":57,"s":117.09,"e":118.59,"en":"How do you unwind?","ko":"어떻게 긴장을 푸세요?","spk":"Interviewer","scene":"cali","note":"unwind = 긴장을 풀다·쉬다"},{"id":58,"s":119.54,"e":124.64,"en":"I do nothing. I just stay inside and watch Harry Potter and just like don't do anything.","ko":"아무것도 안 해요. 그냥 집에 틀어박혀서 해리 포터 보면서 그냥 아무것도 안 해요.","spk":"Zendaya","scene":"cali","note":"stay inside = 집 안에 있다 / just like = 그냥 뭐 (필러)"},{"id":59,"s":124.64,"e":127.81,"en":"What's been taking up your days as of late?","ko":"요즘 뭐 하느라 바쁘세요?","spk":"Interviewer","scene":"euphoria","note":"take up one's days = 하루하루를 차지하다 / as of late = 최근에 (격식)"},{"id":60,"s":127.81,"e":133.02,"en":"I'm finishing up my show, \"Euphoria,\" so that's been a... It's been taking up a lot of time.","ko":"제 드라마 「유포리아」를 마무리하고 있어요, 그래서 그게... 시간이 많이 들어요.","spk":"Zendaya","scene":"euphoria","note":"finish up = 마무리하다 / take up a lot of time = 시간을 많이 잡아먹다"},{"id":61,"s":133.02,"e":135.05,"en":"I had literally a night shoot, last night.","ko":"말 그대로 어젯밤에 야간 촬영이 있었어요.","spk":"Zendaya","scene":"euphoria","note":"literally = 말 그대로 (강조 필러로도 씀) / night shoot = 야간 촬영"},{"id":62,"s":135.05,"e":137.41,"en":"Yeah, \"Euphoria's\" been getting some serious buzz.","ko":"네, 「유포리아」 화제가 대단하던데요.","spk":"Interviewer","scene":"euphoria","note":"get buzz = 화제가 되다 / serious = 여기서는 '상당한'"},{"id":63,"s":137.41,"e":138.86,"en":"Yeah. I'm very excited about it.","ko":"네. 정말 기대돼요.","spk":"Zendaya","scene":"euphoria","note":"be excited about = ~이 기대되다"},{"id":64,"s":138.86,"e":142.41,"en":"And, it's such a departure from Disney. What can you tell us about it?","ko":"그리고 디즈니 시절과는 완전히 다른 작품이잖아요. 어떤 작품인지 말씀해 주실 수 있나요?","spk":"Interviewer","scene":"euphoria","note":"a departure from = ~에서 벗어난 변화"},{"id":65,"s":142.41,"e":148.48,"en":"I mean, I'm excited and equally terrified, but I don't know.","ko":"그러니까, 기대되면서 똑같이 무섭기도 해요, 뭐 모르겠어요.","spk":"Zendaya","scene":"euphoria","note":"equally = 똑같이 / I don't know = 여기서는 '글쎄요' 필러"},{"id":66,"s":148.48,"e":152.79,"en":"I can say that it's the most exciting, exhausting, but fulfilling thing I've ever done.","ko":"제가 해 본 것 중에 가장 신나고, 진 빠지지만, 보람 있는 일이라고는 말할 수 있어요.","spk":"Zendaya","scene":"euphoria","note":"exhausting = 진 빠지는 / fulfilling = 보람 있는"},{"id":67,"s":152.79,"e":154.8,"en":"What is it that attracted you to Rue?","ko":"루라는 인물의 어떤 점에 끌리셨나요?","spk":"Interviewer","scene":"euphoria","note":"What is it that ~? = 강조 의문문 (도대체 무엇이 ~?)"},{"id":68,"s":154.8,"e":162.84,"en":"Honestly, I hate reading scripts and this was one of the first times that I read a script so fast and I just kept reading and reading and reading and I don't know, I just fell in love with her.","ko":"솔직히 저는 대본 읽는 걸 싫어하는데, 이건 대본을 이렇게 빨리 읽은 거의 첫 경험이었어요. 계속 읽고 읽고 또 읽다가, 모르겠어요, 그냥 그녀한테 반해 버렸어요.","spk":"Zendaya","scene":"euphoria","note":"kept reading and reading = 계속 읽고 또 읽었다 / fall in love with = ~에게 반하다"},{"id":69,"s":162.84,"e":164.68,"en":"And what was the most difficult part of playing her?","ko":"그럼 그녀를 연기하면서 가장 어려웠던 부분은요?","spk":"Interviewer","scene":"euphoria","note":"play (a character) = 배역을 연기하다"},{"id":70,"s":165.75,"e":175.46,"en":"I mean, I can only understand how her brain works so much, you know, so I really rely heavily on our writer/creator/ director, Sam Levinson, because Rue is basically him, you know.","ko":"그러니까, 그녀의 머릿속을 제가 이해하는 데는 한계가 있어서요, 작가 겸 제작자 겸 감독인 샘 레빈슨한테 많이 기대요, 루는 기본적으로 그 사람이거든요.","spk":"Zendaya","scene":"euphoria","note":"only ~ so much = ~하는 데 한계가 있다 / rely heavily on = ~에게 크게 의지하다"},{"id":71,"s":175.46,"e":177.23,"en":"It's his life, so I just ask him.","ko":"그의 인생이니까, 그냥 그에게 물어봐요.","spk":"Zendaya","scene":"euphoria"},{"id":72,"s":177.23,"e":179.05,"en":"What are you hoping fans get out of the series?","ko":"팬들이 이 시리즈에서 무엇을 얻어 가길 바라세요?","spk":"Interviewer","scene":"euphoria","note":"get out of = ~에서 얻다"},{"id":73,"s":180.16,"e":185.51,"en":"I hope they feel something. Whatever that is, I don't know, I just, hope they feel something.","ko":"뭔가를 느꼈으면 좋겠어요. 그게 뭐든, 모르겠어요, 그냥, 뭔가를 느끼길 바라요.","spk":"Zendaya","scene":"euphoria","note":"whatever that is = 그게 무엇이든"},{"id":74,"s":185.51,"e":189.88,"en":"Do you feel pressure when you're deciding to post things on your social media?","ko":"SNS에 뭘 올릴지 정할 때 부담을 느끼시나요?","spk":"Interviewer","scene":"social","note":"feel pressure = 부담을 느끼다 / post = (SNS에) 올리다"},{"id":75,"s":189.88,"e":196.6,"en":"You know, it's kind of weird, yeah. I have been more so now than ever before which I think is a little weird for me.","ko":"있잖아요, 좀 이상하긴 한데, 네. 요즘이 그 어느 때보다 더 그래요, 저한텐 좀 낯선 일이죠.","spk":"Zendaya","scene":"social","note":"more so now than ever before = 지금이 그 어느 때보다 더"},{"id":76,"s":196.6,"e":201.0,"en":"But, I just kind of, I don't know, I'm just taking a step back and I haven't posted as much anymore.","ko":"근데 그냥, 뭐랄까, 한 발 물러나 있어요, 예전만큼 많이 안 올리게 됐고요.","spk":"Zendaya","scene":"social","note":"take a step back = 한 발 물러서다 / not as much anymore = 이제는 예전만큼 ~않다"},{"id":77,"s":201.0,"e":202.74,"en":"Do you read the comments?","ko":"댓글은 읽으세요?","spk":"Interviewer","scene":"social"},{"id":78,"s":202.74,"e":207.45,"en":"No, not really. And, less so they're from my friends, then I read those.","ko":"아니요, 별로요. 친구들이 단 거면 모를까, 그건 읽어요.","spk":"Zendaya","scene":"social","note":"not really = 별로요·딱히요 / less so = 덜 그렇다"},{"id":79,"s":207.45,"e":210.25,"en":"How do you deal with negativity?","ko":"악의적인 반응은 어떻게 대처하세요?","spk":"Interviewer","scene":"social","note":"deal with = 대처하다 / negativity = 부정적인 것·악플"},{"id":80,"s":210.25,"e":214.99,"en":"I try to keep in mind that everyone is dealing with something that we have no idea about, you know?","ko":"모두가 우리가 전혀 모르는 뭔가와 싸우고 있다는 걸 잊지 않으려고 해요, 있잖아요?","spk":"Zendaya","scene":"social","note":"keep in mind = 명심하다 / have no idea about = ~을 전혀 모르다"},{"id":81,"s":214.99,"e":217.92,"en":"So, I just try to have compassion for them, you know?","ko":"그래서 그냥 그 사람들에게 연민을 가지려고 해요, 아시죠?","spk":"Zendaya","scene":"social","note":"have compassion for = ~을 가엾게 여기다"},{"id":82,"s":217.92,"e":221.55,"en":"That's very wise. What's something your followers may not know about you?","ko":"아주 현명하네요. 팔로워들이 모를 법한 본인의 모습은요?","spk":"Interviewer","scene":"social","note":"may not know = 모를 수도 있다"},{"id":83,"s":221.55,"e":224.24,"en":"I think they know this, but I'm a very shy, introverted person.","ko":"알 것 같긴 한데, 저는 아주 수줍고 내향적인 사람이에요.","spk":"Zendaya","scene":"social","note":"introverted = 내향적인 (반대는 extroverted)"},{"id":84,"s":224.24,"e":227.57,"en":"And what's been the coolest thing that you've learned from a fan?","ko":"그럼 팬에게 배운 것 중 가장 멋진 건 뭐였나요?","spk":"Interviewer","scene":"social","note":"the coolest thing = 가장 멋진 것"},{"id":85,"s":229.28,"e":236.15,"en":"My fans, they keep me on my toes, they keep me politically aware, they keep me socially aware, and they always correct my grammar and spelling.","ko":"팬들은 저를 긴장하게 만들어요, 정치적으로 깨어 있게 하고, 사회적으로 깨어 있게 하고, 그리고 항상 제 문법이랑 철자를 고쳐 줘요.","spk":"Zendaya","scene":"social","note":"keep me on my toes = 나를 방심 못 하게 하다 / aware = 인식하고 있는"},{"id":86,"s":236.15,"e":239.04,"en":"Ok, I get it, I know I can't spell, ok?","ko":"네, 알았어요, 저 철자 못 쓰는 거 알아요, 네?","spk":"Zendaya","scene":"social","note":"I get it = 알았다고요 / can't spell = 철자를 잘 못 쓰다"},{"id":87,"s":239.04,"e":241.38,"en":"Zendaya, I love this fire pit - but it's kind of hot.","ko":"젠데이아, 이 화덕 마음에 드는데 - 좀 덥네요.","spk":"Interviewer","scene":"style","note":"fire pit = 야외 화덕 / kind of = 좀 (완화)"},{"id":88,"s":241.38,"e":246.92,"en":"Yeah. I get that. I know we're in California and it's sunshiney, but I'm sitting by the fire.","ko":"네. 그렇죠. 여기가 캘리포니아고 햇살 쨍쨍한데 불가에 앉아 있으니.","spk":"Zendaya","scene":"style","note":"I get that = 이해해요 / sunshiney = 햇살 가득한 (구어)"},{"id":89,"s":246.92,"e":248.68,"en":"I see how that could be weird.","ko":"이상하게 보일 수 있다는 거 알아요.","spk":"Zendaya","scene":"style","note":"I see how ~ could be = ~일 수 있다는 걸 이해하다"},{"id":90,"s":248.68,"e":251.44,"en":"How would you describe your personal style?","ko":"본인의 개인 스타일을 어떻게 설명하시겠어요?","spk":"Interviewer","scene":"style","note":"How would you describe ~? = ~을 어떻게 설명하시겠어요? 인터뷰 단골 문형"},{"id":91,"s":251.44,"e":255.05,"en":"You know, the thing is, I don't have one. I don't think I actually have one.","ko":"있잖아요, 문제는, 그런 게 없어요. 정말 없는 것 같아요.","spk":"Zendaya","scene":"style","note":"the thing is = 문제는·실은 (본론을 꺼낼 때)"},{"id":92,"s":255.05,"e":257.14,"en":"What's the most over-worn item in your wardrobe?","ko":"옷장에서 가장 많이 입은 아이템은요?","spk":"Interviewer","scene":"style","note":"over-worn = 너무 많이 입은 / wardrobe = 옷장·옷 전체"},{"id":93,"s":258.76,"e":260.02,"en":"Probably my Converse.","ko":"아마 제 컨버스요.","spk":"Zendaya","scene":"style","note":"Probably = 아마 (짧은 대답에 자주)"},{"id":94,"s":260.02,"e":263.18,"en":"And what's the most luxe thing that you've ever worn?","ko":"그럼 지금까지 착용한 것 중 가장 사치스러운 건요?","spk":"Interviewer","scene":"style","note":"luxe = luxurious 의 줄임, 고급스러운"},{"id":95,"s":263.18,"e":265.37,"en":"It's actually a funny story.","ko":"사실 웃긴 얘기가 있어요.","spk":"Zendaya","scene":"style","note":"It's a funny story = 재밌는 사연이 있어요 (이야기 도입)"},{"id":96,"s":265.37,"e":271.62,"en":"I went to a premiere and I had these earrings, they were big, beautiful earrings and I thought they were fake, to be honest with you.","ko":"시사회에 갔는데 귀걸이를 하고 있었거든요, 크고 예쁜 귀걸이였는데, 솔직히 가짜인 줄 알았어요.","spk":"Zendaya","scene":"style","note":"premiere = 시사회 / to be honest with you = 솔직히 말하면"},{"id":97,"s":271.62,"e":275.47,"en":"And then, there was this article that came out the next day that was like, \"Zendaya wears million dollar earrings.\"","ko":"그런데 다음 날 기사가 났어요, \"젠데이아, 백만 달러짜리 귀걸이 착용\" 이라고요.","spk":"Zendaya","scene":"style","note":"come out = (기사가) 나오다 / be like \"…\" = ~라고 하다 (인용 구어)"},{"id":98,"s":275.47,"e":279.88,"en":"And I was like, \"Law, did you put me in million dollar earrings last night?\" He was like, \"Mm-hmm, probably.\"","ko":"그래서 제가 \"로, 어젯밤에 나한테 백만 달러짜리 귀걸이 채운 거야?\" 했더니 \"음, 아마도\" 하더라고요.","spk":"Zendaya","scene":"style","note":"I was like … He was like … = 대화를 재현하는 구어체"},{"id":99,"s":279.88,"e":281.2,"en":"No, no.","ko":"말도 안 돼.","spk":"Interviewer","scene":"style","note":"No, no = 설마요"},{"id":100,"s":281.2,"e":290.99,"en":"What? What? So, long story short, they're not mine, I gave them back. And, yeah.","ko":"뭐? 뭐라고? 그래서 요약하자면, 제 게 아니에요, 돌려줬어요. 네, 뭐.","spk":"Zendaya","scene":"style","note":"long story short = 요약하자면 / give back = 돌려주다"},{"id":101,"s":291.02,"e":293.48,"en":"That'll probably never happen again because that was so stressful.","ko":"그런 일은 아마 다시는 없을 거예요, 너무 스트레스였거든요.","spk":"Zendaya","scene":"style","note":"That'll never happen again = 다시는 없을 거야"},{"id":102,"s":293.48,"e":295.32,"en":"Who's the most stylish person alive?","ko":"살아 있는 사람 중 가장 스타일리시한 사람은요?","spk":"Interviewer","scene":"style","note":"alive = 살아 있는 (최상급 뒤에서 '현존하는')"},{"id":103,"s":295.32,"e":296.75,"en":"Law Roche, my stylist.","ko":"제 스타일리스트 로 로치요.","spk":"Zendaya","scene":"style","note":"Law Roach = 유명 셀럽 스타일리스트 (자막은 Roche 로 표기)"},{"id":104,"s":296.75,"e":300.11,"en":"What would you consider to be your uniform?","ko":"본인의 '유니폼'이라 할 만한 차림은요?","spk":"Interviewer","scene":"style","note":"uniform = 여기서는 늘 입는 기본 차림"},{"id":105,"s":300.11,"e":303.69,"en":"Probably, just black slacks and a white tee.","ko":"아마 그냥 검정 슬랙스에 흰 티요.","spk":"Zendaya","scene":"style","note":"tee = T-shirt 의 구어"},{"id":106,"s":303.69,"e":305.03,"en":"Vintage or designer?","ko":"빈티지냐 디자이너냐?","spk":"Interviewer","scene":"style","note":"A or B? = 양자택일 질문 (73 Questions 단골)"},{"id":107,"s":305.03,"e":306.12,"en":"Vintage designer.","ko":"빈티지 디자이너요.","spk":"Zendaya","scene":"style"},{"id":108,"s":306.12,"e":307.94,"en":"That's a cheat answer. Sneakers or heels?","ko":"그건 반칙이죠. 스니커즈냐 힐이냐?","spk":"Interviewer","scene":"style","note":"cheat answer = 편법 대답·반칙"},{"id":109,"s":307.94,"e":311.32,"en":"Sneakers at the moment. But I do love some heals.","ko":"지금은 스니커즈요. 근데 힐도 정말 좋아해요.","spk":"Zendaya","scene":"style","note":"at the moment = 지금은 / I do love = 정말 좋아한다 (do 강조). heals 는 heels 의 자막 오타"},{"id":110,"s":311.32,"e":313.29,"en":"What's the all-time greatest purchase you ever made?","ko":"지금까지 한 것 중 최고의 구매는요?","spk":"Interviewer","scene":"style","note":"all-time greatest = 역대 최고의"},{"id":111,"s":314.89,"e":317.08,"en":"That's a tough question, I refuse to answer that one.","ko":"어려운 질문이네요, 그건 대답 안 할래요.","spk":"Zendaya","scene":"style","note":"refuse to = ~하기를 거부하다"},{"id":112,"s":317.08,"e":319.57,"en":"An outfit that maybe you wish you skipped?","ko":"건너뛸 걸 그랬다 싶은 옷차림은요?","spk":"Interviewer","scene":"style","note":"wish you skipped = 건너뛰었으면 좋았을 (후회)"},{"id":113,"s":320.44,"e":325.1,"en":"None of them, actually, because I think they all equally helped me find my confidence and figure out what I like.","ko":"사실 하나도 없어요, 전부 똑같이 제 자신감을 찾고 제 취향을 알아 가는 데 도움이 됐거든요.","spk":"Zendaya","scene":"style","note":"figure out = 알아내다 / find one's confidence = 자신감을 찾다"},{"id":114,"s":325.1,"e":327.39,"en":"So, I wouldn't take it back.","ko":"그러니까, 무르고 싶지 않아요.","spk":"Zendaya","scene":"style","note":"take it back = 물리다·취소하다"},{"id":115,"s":327.39,"e":330.01,"en":"And what would you say is your beauty philosophy?","ko":"그럼 본인의 뷰티 철학은 뭐라고 하시겠어요?","spk":"Interviewer","scene":"beauty","note":"What would you say is ~? = ~은 뭐라고 하시겠어요?"},{"id":116,"s":330.01,"e":331.13,"en":"There are no rules.","ko":"규칙은 없다.","spk":"Zendaya","scene":"beauty","note":"There are no rules = 정해진 규칙은 없다"},{"id":117,"s":331.13,"e":334.07,"en":"How about a beauty product that you don't go a day without wearing?","ko":"하루도 빼놓지 않고 바르는 뷰티 제품은요?","spk":"Interviewer","scene":"beauty","note":"don't go a day without -ing = 하루도 ~하지 않고는 못 지낸다"},{"id":118,"s":334.07,"e":335.11,"en":"SPF.","ko":"선크림이요.","spk":"Zendaya","scene":"beauty","note":"SPF = 자외선 차단 지수, 미국에선 선크림 자체를 가리킴"},{"id":119,"s":335.11,"e":337.26,"en":"What is the best beauty tip you've ever received?","ko":"지금까지 받은 최고의 뷰티 팁은요?","spk":"Interviewer","scene":"beauty"},{"id":120,"s":338.69,"e":344.11,"en":"Take your makeup off before you go to bed. I'm serious, even if you're tired. Do it.","ko":"자기 전에 화장 지우기. 진심이에요, 피곤해도요. 꼭 하세요.","spk":"Zendaya","scene":"beauty","note":"take off = 벗다·지우다 / even if = 설령 ~해도"},{"id":121,"s":343.13,"e":345.74,"en":"Noted. Favorite lip color?","ko":"새겨 둘게요. 좋아하는 립 컬러는요?","spk":"Interviewer","scene":"beauty","note":"Noted = 알아 두겠습니다 (메모했다는 뜻)"},{"id":122,"s":345.74,"e":346.57,"en":"Red.","ko":"빨강이요.","spk":"Zendaya","scene":"beauty"},{"id":123,"s":346.57,"e":348.49,"en":"Your go-to beauty look at this very moment?","ko":"지금 이 순간 즐겨 하는 뷰티 룩은요?","spk":"Interviewer","scene":"beauty","note":"go-to = 늘 찾는·믿고 쓰는"},{"id":124,"s":350.17,"e":353.55,"en":"Nothing, honestly. When I'm not working, just nothing.","ko":"솔직히 아무것도요. 일 안 할 땐, 그냥 아무것도요.","spk":"Zendaya","scene":"beauty","note":"honestly = 솔직히 (대답 앞에 붙이는 습관어)"},{"id":125,"s":353.55,"e":355.37,"en":"Strong lip or strong eye?","ko":"강한 립 아니면 강한 아이?","spk":"Interviewer","scene":"beauty"},{"id":126,"s":355.37,"e":356.2,"en":"Strong eye.","ko":"강한 아이요.","spk":"Zendaya","scene":"beauty"},{"id":127,"s":356.2,"e":358.94,"en":"Now I know you often do your own makeup for events.","ko":"행사 때 직접 메이크업을 자주 하시는 걸로 알아요.","spk":"Interviewer","scene":"beauty","note":"do one's own makeup = 직접 화장하다"},{"id":128,"s":357.52,"e":358.94,"en":"Yeah.","ko":"네.","spk":"Zendaya","scene":"beauty"},{"id":129,"s":358.94,"e":360.46,"en":"Where did you learn those skills?","ko":"그 기술은 어디서 배우셨어요?","spk":"Interviewer","scene":"beauty"},{"id":130,"s":362.36,"e":371.71,"en":"I've had so many makeup horror stories and I've had so many makeup artists in my past that I just kind of took all the good things from each of them and learned how to do it myself.","ko":"메이크업 참사를 하도 많이 겪었고, 지금까지 메이크업 아티스트도 워낙 많이 만나서, 각자의 좋은 점만 모아서 혼자 하는 법을 익혔어요.","spk":"Zendaya","scene":"beauty","note":"horror story = 끔찍한 경험담 / learn how to do it myself = 혼자 하는 법을 배우다"},{"id":131,"s":371.71,"e":375.68,"en":"The act of you doing your own makeup... it's so... I dunno, like old-school theater.","ko":"직접 메이크업을 한다는 게... 뭐랄까... 옛날 연극 같달까요.","spk":"Interviewer","scene":"beauty","note":"I dunno = I don't know 의 구어 / old-school = 옛날식의"},{"id":132,"s":375.68,"e":377.09,"en":"Yeah, for sure.","ko":"네, 정말요.","spk":"Zendaya","scene":"stage","note":"for sure = 물론이죠·확실히 (강한 동의)"},{"id":133,"s":375.68,"e":378.79,"en":"And I've heard you hone your acting skills via Shakespeare.","ko":"그리고 셰익스피어로 연기력을 갈고닦으셨다고 들었어요.","spk":"Interviewer","scene":"stage","note":"hone one's skills = 기술을 연마하다 / via = ~을 통해"},{"id":134,"s":378.79,"e":383.87,"en":"Yeah, my mom actually worked at the California Shakespeare Theater, she's a house manager there since I was two years old.","ko":"네, 엄마가 캘리포니아 셰익스피어 극장에서 일하셨어요, 제가 두 살 때부터 거기 하우스 매니저세요.","spk":"Zendaya","scene":"stage","note":"house manager = 극장 객석 관리 책임자"},{"id":135,"s":383.87,"e":385.73,"en":"How many of his plays have you seen?","ko":"그의 희곡은 몇 편이나 보셨나요?","spk":"Interviewer","scene":"stage","note":"play = 희곡·연극"},{"id":136,"s":385.73,"e":387.27,"en":"Like, all of them several times.","ko":"음, 전부 다 몇 번씩요.","spk":"Zendaya","scene":"stage","note":"Like, = 음, (문두 필러) / several times = 여러 번"},{"id":137,"s":387.27,"e":389.2,"en":"Who's your favorite character in all of Shakespeare?","ko":"셰익스피어 전체에서 가장 좋아하는 인물은요?","spk":"Interviewer","scene":"stage"},{"id":138,"s":390.27,"e":392.52,"en":"Maybe Viola from \"Twelfth Night.\"","ko":"아마 「십이야」의 비올라요.","spk":"Zendaya","scene":"stage","note":"Twelfth Night = 셰익스피어 희극 「십이야」"},{"id":139,"s":392.52,"e":395.08,"en":"How about your favorite line in any play?","ko":"어느 희곡에서든 좋아하는 대사는요?","spk":"Interviewer","scene":"stage","note":"line = 대사"},{"id":140,"s":395.08,"e":397.45,"en":"\"If music be the food of love, play on.\"","ko":"\"음악이 사랑의 양식이라면, 계속 연주하라.\"","spk":"Zendaya","scene":"stage","note":"「십이야」 첫 대사. If … be = 고어체 가정법"},{"id":141,"s":397.45,"e":399.25,"en":"Oh, I like that one, that's not bad.","ko":"오, 그거 좋네요, 나쁘지 않아요.","spk":"Interviewer","scene":"stage","note":"not bad = 꽤 괜찮다 (절제된 칭찬)"},{"id":142,"s":399.25,"e":400.92,"en":"Noonie! Noon! Love me!","ko":"누니! 눈! 나 좀 사랑해 줘!","spk":"Zendaya","scene":"stage","note":"Love me! = 반려견에게 애교 섞인 명령"},{"id":143,"s":400.92,"e":401.75,"en":"Oh!","ko":"오!","spk":"Interviewer","scene":"stage"},{"id":144,"s":402.95,"e":406.47,"en":"Everyone knows that Noon doesn't love me, he loves my mom and Darnell more.","ko":"눈이 저를 안 사랑하는 건 다들 알아요, 엄마랑 다넬을 더 좋아하죠.","spk":"Zendaya","scene":"stage","note":"Everyone knows that ~ = ~은 다 아는 사실이다"},{"id":145,"s":406.47,"e":409.31,"en":"Now, your dog, Noon, has a Twitter account that I saw.","ko":"그런데 반려견 눈이 트위터 계정이 있더라고요.","spk":"Interviewer","scene":"stage"},{"id":146,"s":409.31,"e":411.81,"en":"Come here. Yeah. But, surprisingly... ready, ready. I don't run it.","ko":"이리 와. 그래. 근데, 놀랍게도... 자, 자. 제가 운영하는 건 아니에요.","spk":"Zendaya","scene":"stage","note":"surprisingly = 놀랍게도 / run = 운영하다"},{"id":147,"s":414.78,"e":417.2,"en":"And, what would he Tweet about at this very moment if he did?","ko":"그럼 지금 이 순간 트윗을 한다면 뭐라고 할까요?","spk":"Interviewer","scene":"stage","note":"at this very moment = 바로 지금 이 순간"},{"id":148,"s":418.09,"e":422.22,"en":"He'd probably Tweet, \"Why are you guys in my backyard?\"","ko":"아마 \"왜 너희들 우리 뒷마당에 있어?\" 라고 트윗하겠죠.","spk":"Zendaya","scene":"stage","note":"He'd = He would / you guys = 너희들"},{"id":149,"s":422.22,"e":426.38,"en":"If you could go back and tell 13-year-old Zendaya one thing, what would it be?","ko":"13살의 젠데이아에게 돌아가서 한 가지를 말해 줄 수 있다면, 뭐라고 하시겠어요?","spk":"Interviewer","scene":"stage","note":"If you could ~, what would it be? = 가정법 과거 질문"},{"id":150,"s":426.38,"e":431.76,"en":"It would probably be to follow your instincts and follow your gut, because it's always right.","ko":"아마 네 직감을 따르라고, 네 촉을 따르라고요, 항상 맞으니까요.","spk":"Zendaya","scene":"stage","note":"follow your gut = 직감을 따르다 (gut = 배·본능)"},{"id":151,"s":431.76,"e":435.15,"en":"What would you tell other performers navigating fame at a similar age?","ko":"비슷한 나이에 유명세를 헤쳐 가는 다른 연기자들에게는 뭐라고 하시겠어요?","spk":"Interviewer","scene":"stage","note":"navigate fame = 유명세를 헤쳐 나가다"},{"id":152,"s":435.15,"e":439.87,"en":"Read the contracts. No matter how boring they are, read the contracts.","ko":"계약서를 읽어라. 아무리 지루해도, 계약서를 읽어라.","spk":"Zendaya","scene":"stage","note":"No matter how ~ = 아무리 ~해도"},{"id":153,"s":439.87,"e":443.57,"en":"Ok, finish this sentence for me, \"Hollywood of the future looks like...\"","ko":"자, 이 문장을 완성해 주세요. \"미래의 할리우드는 ...처럼 보인다.\"","spk":"Interviewer","scene":"stage","note":"finish this sentence = 문장을 완성하다"},{"id":154,"s":443.57,"e":445.96,"en":"Hopefully, more diverse.","ko":"바라건대, 더 다양해졌으면.","spk":"Zendaya","scene":"stage","note":"Hopefully = 바라건대 / diverse = 다양한"},{"id":155,"s":445.96,"e":447.32,"en":"Wow, this tree is beautiful.","ko":"와, 이 나무 아름답네요.","spk":"Interviewer","scene":"stage"},{"id":156,"s":447.32,"e":448.15,"en":"Thanks.","ko":"고마워요.","spk":"Zendaya","scene":"stage"},{"id":157,"s":448.15,"e":452.79,"en":"So, dancing, trapeze work, martial arts, your work requires strong physical commitment.","ko":"그러니까, 춤, 공중그네, 무술, 하시는 일이 강한 신체적 헌신을 요구하잖아요.","spk":"Interviewer","scene":"stunts","note":"trapeze = 공중그네 / commitment = 헌신·전념"},{"id":158,"s":452.79,"e":453.62,"en":"Yeah.","ko":"네.","spk":"Zendaya","scene":"stunts"},{"id":159,"s":453.62,"e":455.37,"en":"What's been the hardest role to prepare for?","ko":"준비하기 가장 힘들었던 역할은요?","spk":"Interviewer","scene":"stunts","note":"prepare for = ~을 준비하다"},{"id":160,"s":455.37,"e":460.5,"en":"You know, honestly, \"Euphoria,\" because sometimes the emotional stuff is just as hard as the physical stuff, you know?","ko":"있잖아요, 솔직히 「유포리아」요, 감정적인 부분이 신체적인 부분만큼 힘들 때가 있거든요, 아시죠?","spk":"Zendaya","scene":"stunts","note":"just as hard as = 꼭 그만큼 힘든 / stuff = 것·일 (구어)"},{"id":161,"s":460.5,"e":462.18,"en":"What's been the most difficult stunt to learn?","ko":"배우기 가장 어려웠던 스턴트는요?","spk":"Interviewer","scene":"stunts"},{"id":162,"s":463.02,"e":467.86,"en":"Trapeze was pretty tough. Especially for someone like me who doesn't work out, it was tough.","ko":"공중그네가 꽤 힘들었어요. 특히 저처럼 운동 안 하는 사람한테는, 힘들었어요.","spk":"Zendaya","scene":"stunts","note":"pretty tough = 꽤 힘든 / work out = 운동하다"},{"id":163,"s":467.86,"e":474.22,"en":"Now on average, how many body slams did you and your fellow 73 alum, Zac Efron, endure when filming \"The Greatest Showman.\"","ko":"자, 「위대한 쇼맨」을 찍을 때 73 Questions 선배인 잭 에프론과 평균 몇 번이나 몸으로 부딪히셨나요?","spk":"Interviewer","scene":"stunts","note":"body slam = 몸으로 내리꽂기 / endure = 견디다 / alum = 졸업생·출신"},{"id":164,"s":474.22,"e":476.98,"en":"Oh, quite a lot. Let's just say, we got very close.","ko":"아, 꽤 많이요. 굉장히 가까워졌다고만 해 두죠.","spk":"Zendaya","scene":"stunts","note":"Let's just say = ~라고만 해 두죠 (에두르기)"},{"id":165,"s":476.98,"e":481.82,"en":"Now I saw on Jimmy Fallon that Hugh Jackman may have helped you overcome your fear of heights?","ko":"지미 팰런 쇼에서 봤는데, 휴 잭맨이 고소공포증 극복을 도와줬다고요?","spk":"Interviewer","scene":"stunts","note":"overcome one's fear of heights = 고소공포증을 극복하다"},{"id":166,"s":481.82,"e":482.69,"en":"He called me a, \"Badass.\"","ko":"저더러 \"배드애스\"라고 했어요.","spk":"Zendaya","scene":"stunts","note":"badass = 끝내주게 멋진 사람 (칭찬, 속어)"},{"id":167,"s":482.69,"e":483.67,"en":"He did?","ko":"그랬어요?","spk":"Interviewer","scene":"stunts","note":"He did? = 정말요? (앞 문장의 동사를 did 로 받음)"},{"id":168,"s":483.67,"e":489.01,"en":"Yeah, Logan called me, \"Badass.\" Wolverine called me... \"A badass.\"","ko":"네, 로건이 저더러 \"배드애스\"래요. 울버린이 저를... \"배드애스\"라고요.","spk":"Zendaya","scene":"stunts","note":"Logan / Wolverine = 휴 잭맨의 대표 배역"},{"id":169,"s":489.01,"e":490.21,"en":"That's amazing.","ko":"대단하네요.","spk":"Interviewer","scene":"stunts"},{"id":170,"s":489.01,"e":491.05,"en":"Yeah. Do you want one?","ko":"네. 하나 드실래요?","spk":"Zendaya","scene":"stunts","note":"Do you want one? = 하나 드실래요? (레모네이드)"},{"id":171,"s":491.05,"e":492.33,"en":"Yeah. Sure I'll take it.","ko":"네. 그럼요, 받을게요.","spk":"Interviewer","scene":"stunts","note":"I'll take it = 받을게요·주세요"},{"id":172,"s":491.05,"e":493.28,"en":"Here. I'll start it off for you.","ko":"여기요. 제가 먼저 시작해 드릴게요.","spk":"Zendaya","scene":"stunts","note":"start it off = 먼저 시작해 주다 (마셔 보이기)"},{"id":173,"s":493.28,"e":495.42,"en":"Ok, I trust you.","ko":"네, 믿을게요.","spk":"Interviewer","scene":"stunts","note":"I trust you = 믿어요"},{"id":174,"s":495.42,"e":496.99,"en":"Try it.","ko":"드셔 보세요.","spk":"Zendaya","scene":"stunts","note":"Try it = 먹어 봐요·해 봐요"},{"id":175,"s":496.99,"e":501.07,"en":"Mmm, looks delicious. What's your favorite scene to shoot in the latest installment of Spider-Man?","ko":"음, 맛있어 보이네요. 스파이더맨 최신작에서 가장 좋아하는 촬영 장면은요?","spk":"Interviewer","scene":"stunts","note":"installment = 시리즈의 한 편 / shoot = 촬영하다"},{"id":176,"s":502.4,"e":510.69,"en":"You know, there was this one scene stunt thing we did where basically, they pulled us up like a hundred feet and just dropped us and let us swing.","ko":"있잖아요, 스턴트 장면이 하나 있었는데, 기본적으로 우리를 30미터쯤 끌어올렸다가 그냥 떨어뜨려서 흔들리게 했어요.","spk":"Zendaya","scene":"stunts","note":"pull up = 끌어올리다 / a hundred feet = 약 30 m"},{"id":177,"s":510.69,"e":511.8,"en":"It was- it was pretty nuts.","ko":"그건- 그건 정말 미친 짓이었어요.","spk":"Zendaya","scene":"stunts","note":"nuts = 미친·제정신이 아닌 (구어)"},{"id":178,"s":511.8,"e":513.07,"en":"Whoah, that sounds intense.","ko":"와, 격렬했겠네요.","spk":"Interviewer","scene":"stunts","note":"intense = 강렬한·격렬한"},{"id":179,"s":513.07,"e":514.71,"en":"Yeah, it was. But, it was fun.","ko":"네, 그랬죠. 근데 재밌었어요.","spk":"Zendaya","scene":"stunts"},{"id":180,"s":514.71,"e":517.97,"en":"What's something you can share about your costars, Tom Holland and Jake Gyllenhaal?","ko":"공동 출연자 톰 홀랜드와 제이크 질렌할에 대해 알려 줄 수 있는 건요?","spk":"Interviewer","scene":"stunts","note":"costar = 공동 주연"},{"id":181,"s":517.97,"e":520.35,"en":"That when they are together, no one else exists.","ko":"둘이 같이 있으면 다른 사람은 안 보인다는 거요.","spk":"Zendaya","scene":"stunts","note":"no one else exists = 다른 사람은 존재하지 않는다 (둘만의 세계)"},{"id":182,"s":520.35,"e":523.4,"en":"Were you a fan of the comics before jumping into the project?","ko":"이 작품에 뛰어들기 전에 코믹스 팬이었나요?","spk":"Interviewer","scene":"stunts","note":"jump into = 뛰어들다"},{"id":183,"s":523.4,"e":526.37,"en":"Mm-hmm. I think Spider-Man's always been my favorite superhero.","ko":"음-흠. 스파이더맨은 늘 제가 제일 좋아하는 슈퍼히어로였던 것 같아요.","spk":"Zendaya","scene":"stunts","note":"Mm-hmm = 응 (긍정) / has always been = 늘 ~였다"},{"id":184,"s":526.37,"e":527.96,"en":"Oh me too!","ko":"아 저도요!","spk":"Interviewer","scene":"stunts","note":"me too = 저도요"},{"id":185,"s":526.37,"e":527.96,"en":"He's like, cool, right?","ko":"멋지죠, 그렇죠?","spk":"Zendaya","scene":"stunts","note":"right? = 그렇죠? (동의 구하기)"},{"id":186,"s":527.96,"e":532.51,"en":"Yeah. What traits in your character, MJ, hit closest to home for Zendaya?","ko":"네. 맡은 인물 MJ의 어떤 특성이 젠데이아 본인과 가장 가깝나요?","spk":"Interviewer","scene":"stunts","note":"hit close to home = 자기 얘기처럼 와닿다 / trait = 특성"},{"id":187,"s":532.51,"e":537.37,"en":"I don't know, she's a little bit of a loner. And, kind of like an introvert, so... that's me.","ko":"모르겠어요, 걔는 약간 외톨이예요. 그리고 좀 내향적이고, 그러니까... 그게 저예요.","spk":"Zendaya","scene":"stunts","note":"loner = 혼자 있길 좋아하는 사람 / kind of like = 약간 ~같은"},{"id":188,"s":537.37,"e":538.75,"en":"What do you think makes you an introvert?","ko":"본인을 내향적으로 만드는 건 뭘까요?","spk":"Interviewer","scene":"stunts"},{"id":189,"s":538.75,"e":542.56,"en":"I don't know, I just like to stay at home and stay to myself, I can't help it.","ko":"모르겠어요, 그냥 집에 있는 게 좋고 혼자 있는 게 좋아요, 어쩔 수 없어요.","spk":"Zendaya","scene":"stunts","note":"stay to myself = 혼자 조용히 지내다 / I can't help it = 어쩔 수 없다"},{"id":190,"s":542.56,"e":544.61,"en":"Now, if you had any super power, what would it be?","ko":"자, 초능력을 가질 수 있다면, 뭐가 좋겠어요?","spk":"Interviewer","scene":"stunts","note":"super power = 초능력"},{"id":191,"s":545.86,"e":549.87,"en":"Teleportation, for sure. It would make my life so much easier.","ko":"순간이동이요, 당연히. 제 삶이 훨씬 편해질 거예요.","spk":"Zendaya","scene":"stunts","note":"for sure = 확실히 / so much easier = 훨씬 더 쉬운"},{"id":192,"s":549.87,"e":551.46,"en":"Yeah, cause you travel a lot.","ko":"그렇죠, 여행을 많이 하시니까.","spk":"Interviewer","scene":"stunts","note":"cause = because 의 구어 축약"},{"id":193,"s":551.46,"e":553.72,"en":"A lot.","ko":"많이요.","spk":"Zendaya","scene":"stunts"},{"id":194,"s":551.46,"e":553.72,"en":"Any big trips coming up?","ko":"앞으로 큰 여행 계획 있어요?","spk":"Interviewer","scene":"stunts","note":"coming up = 다가오는·예정된"},{"id":195,"s":553.72,"e":556.58,"en":"Well we have the Spider-Man press tour coming up, which is going to be cool","ko":"음, 스파이더맨 홍보 투어가 있어요, 멋질 거예요","spk":"Zendaya","scene":"stunts","note":"press tour = (영화) 홍보 투어"},{"id":196,"s":555.22,"e":561.29,"en":"Ah, that's really cool. By the way, I heard through the grapevine, you may be involved in an iconic remake.","ko":"아, 정말 멋지네요. 그런데 소문으로 들었는데, 어떤 상징적인 리메이크 작품에 참여하실 수도 있다고요.","spk":"Interviewer","scene":"stunts","note":"hear through the grapevine = 소문으로 듣다 / iconic = 상징적인"},{"id":197,"s":561.29,"e":563.58,"en":"What can you tell me about this?","ko":"이것에 대해 말씀해 주실 수 있는 게 있나요?","spk":"Interviewer","scene":"stunts"},{"id":198,"s":563.58,"e":567.53,"en":"I could tell you, but I'd have to kill you. Don't ask me why I said that in a New York accent.","ko":"말해 줄 수는 있는데, 그러면 당신을 죽여야 해요. 왜 뉴욕 억양으로 말했는지는 묻지 마세요.","spk":"Zendaya","scene":"stunts","note":"I could tell you, but I'd have to kill you = '비밀이야'를 뜻하는 영화 속 유행어"},{"id":199,"s":567.53,"e":571.72,"en":"So, besides acting, music has been such a strong focus in your career.","ko":"자, 연기 말고도 음악이 경력에서 큰 비중을 차지해 왔잖아요.","spk":"Interviewer","scene":"music","note":"besides = ~외에도 / focus = 중심·주력"},{"id":200,"s":571.72,"e":573.36,"en":"Yeah.","ko":"네.","spk":"Zendaya","scene":"music"},{"id":201,"s":571.72,"e":575.28,"en":"Do you feel more connected to acting or making music at this moment?","ko":"지금 이 순간엔 연기와 음악 중 어느 쪽에 더 마음이 가나요?","spk":"Interviewer","scene":"music","note":"feel connected to = ~에 유대감을 느끼다"},{"id":202,"s":575.28,"e":581.05,"en":"I don't know, I mean I always love both. But, I don't know I guess acting has taken a front seat.","ko":"모르겠어요, 그러니까 둘 다 늘 좋아해요. 근데, 글쎄요, 연기가 앞자리에 앉게 된 것 같아요.","spk":"Zendaya","scene":"music","note":"take a front seat = 우선순위가 되다 (반대는 take a back seat)"},{"id":203,"s":581.05,"e":584.71,"en":"What track always ends up on the Zendaya-curated playlist?","ko":"젠데이아가 고른 플레이리스트에 항상 들어가는 트랙은요?","spk":"Interviewer","scene":"music","note":"end up on = 결국 ~에 오르다 / curated = 고른·큐레이션한"},{"id":204,"s":584.71,"e":589.64,"en":"Right now, a lot of Solange. She's been holding me down.","ko":"지금은 솔란지 노래 많이요. 요즘 저를 지탱해 주고 있어요.","spk":"Zendaya","scene":"music","note":"hold me down = 나를 지켜 주다·버팀목이 되다 (속어)"},{"id":205,"s":589.64,"e":592.7,"en":"What's more important at a party, the playlist or the outfit?","ko":"파티에서 더 중요한 건, 플레이리스트냐 옷이냐?","spk":"Interviewer","scene":"music"},{"id":206,"s":592.7,"e":596.59,"en":"Playlist, a thousand percent. If you have a whack playlist, the party will not be popping.","ko":"플레이리스트요, 천 퍼센트. 플레이리스트가 구리면 파티는 안 살아나요.","spk":"Zendaya","scene":"music","note":"a thousand percent = 100% 보다 더 (과장) / whack = 구린 (속어) / popping = 신나게 달아오른"},{"id":207,"s":596.59,"e":602.92,"en":"If you want the party to jump off, side note, and if anybody needs it, play, \"This is How We Do It\".","ko":"파티를 띄우고 싶으면, 여담인데, 필요한 사람 있으면, \"This is How We Do It\" 을 틀어요.","spk":"Zendaya","scene":"music","note":"jump off = (파티가) 시작되어 달아오르다 / side note = 여담이지만"},{"id":208,"s":602.92,"e":604.73,"en":"It works every time.","ko":"매번 통해요.","spk":"Zendaya","scene":"music","note":"It works every time = 매번 효과가 있다"},{"id":209,"s":604.73,"e":607.34,"en":"Now what's a song that you wish you'd written?","ko":"자, 직접 썼으면 하고 바라는 노래는요?","spk":"Interviewer","scene":"music","note":"wish you'd written = 썼더라면 (과거 사실의 반대 소망)"},{"id":210,"s":607.34,"e":609.03,"en":"\"A Song For You\" by Donny Hathaway.","ko":"도니 해서웨이의 \"A Song For You\"요.","spk":"Zendaya","scene":"music"},{"id":211,"s":609.03,"e":610.78,"en":"What's the best concert you've seen this year?","ko":"올해 본 최고의 콘서트는요?","spk":"Interviewer","scene":"music"},{"id":212,"s":610.78,"e":614.66,"en":"I haven't been to a concert this year, because I've been so busy. But we all know, Beyonce has the best concert.","ko":"올해는 콘서트에 못 갔어요, 너무 바빠서요. 그래도 다들 알죠, 비욘세 콘서트가 최고라는 거.","spk":"Zendaya","scene":"music","note":"we all know = 다들 알다시피"},{"id":213,"s":614.66,"e":617.32,"en":"What's the best advice you've ever received?","ko":"지금까지 받은 최고의 조언은요?","spk":"Interviewer","scene":"closing"},{"id":214,"s":617.32,"e":618.75,"en":"That's my cue!","ko":"제 차례네요!","spk":"Darnell","scene":"closing","note":"That's my cue = 내가 나설 차례다 (cue = 신호)"},{"id":215,"s":618.75,"e":623.22,"en":"When life gives you lemons, make lemonade. Well done, Darnell.","ko":"인생이 레몬을 주면, 레모네이드를 만들어라. 잘했어, 다넬.","spk":"Zendaya","scene":"closing","note":"When life gives you lemons, make lemonade = 역경을 기회로 바꿔라 (속담)"},{"id":216,"s":623.22,"e":624.67,"en":"Darnell with the perfect timing!","ko":"다넬, 타이밍 완벽하네요!","spk":"Interviewer","scene":"closing","note":"with the perfect timing = 완벽한 타이밍으로"},{"id":217,"s":624.67,"e":626.54,"en":"I know, was it not?","ko":"그쵸, 안 그래요?","spk":"Zendaya","scene":"closing","note":"was it not? = 그렇지 않았나요? (부가의문)"},{"id":218,"s":624.67,"e":628.09,"en":"What's some advice that you've completely ignored?","ko":"완전히 무시해 버린 조언은요?","spk":"Interviewer","scene":"closing","note":"ignore = 무시하다"},{"id":219,"s":629.8,"e":634.65,"en":"That you can't do it all, because you can. If you feel that you can do it, you can do it.","ko":"다 할 수는 없다는 말이요, 할 수 있으니까요. 할 수 있다고 느끼면, 할 수 있어요.","spk":"Zendaya","scene":"closing","note":"you can't do it all = 다 할 수는 없다"},{"id":220,"s":634.65,"e":637.24,"en":"Zendaya, what do you want to be known for?","ko":"젠데이아, 어떤 사람으로 기억되고 싶어요?","spk":"Interviewer","scene":"closing","note":"be known for = ~으로 알려지다"},{"id":221,"s":638.67,"e":642.62,"en":"You know this is gonna sound really corny but, I don't know, I guess just being a good person.","ko":"있잖아요, 정말 진부하게 들리겠지만, 모르겠어요, 그냥 좋은 사람이요.","spk":"Zendaya","scene":"closing","note":"corny = 진부한·유치한 / this is gonna sound ~ = ~하게 들리겠지만"},{"id":222,"s":642.62,"e":645.76,"en":"That's not corny at all. Is that mine?","ko":"전혀 진부하지 않아요. 그거 제 건가요?","spk":"Interviewer","scene":"closing","note":"not ~ at all = 전혀 ~않다"},{"id":223,"s":643.95,"e":645.76,"en":"Yeah, go for it.","ko":"네, 드세요.","spk":"Zendaya","scene":"closing","note":"go for it = 그렇게 해요·마음껏 해요"},{"id":224,"s":645.76,"e":651.76,"en":"Thank you very, very much. Now, who are the three women that are blowing your mind right now?","ko":"정말 정말 고마워요. 자, 지금 당신을 놀라게 하는 여성 세 명은요?","spk":"Interviewer","scene":"closing","note":"blow one's mind = 넋을 빼놓다·감탄시키다"},{"id":225,"s":651.76,"e":658.17,"en":"I know I mention Beyonce a lot, but always Beyonce. Michelle Obama, Rihanna.","ko":"비욘세 얘기 많이 하는 거 아는데, 언제나 비욘세요. 미셸 오바마, 리한나.","spk":"Zendaya","scene":"closing","note":"mention = 언급하다"},{"id":226,"s":658.17,"e":664.48,"en":"Incredible women. Zendaya, you're a very giving person. What cause would you say is closest to your heart?","ko":"대단한 여성들이네요. 젠데이아, 베푸는 분이잖아요. 마음에 가장 가까운 대의는 뭐라고 하시겠어요?","spk":"Interviewer","scene":"closing","note":"giving = 잘 베푸는 / cause = 대의·사회적 목적 / close to one's heart = 소중한"},{"id":227,"s":664.48,"e":668.86,"en":"Honestly, there's so many things that I'm passionate about that we just have have a separate thing.","ko":"솔직히 제가 열정을 가진 게 너무 많아서 그건 따로 얘기해야 해요.","spk":"Zendaya","scene":"closing","note":"be passionate about = ~에 열정적이다"},{"id":228,"s":668.86,"e":670.87,"en":"You gotta come back and we'll just talk about that.","ko":"다시 오셔야 해요, 그때 그 얘기만 하죠.","spk":"Zendaya","scene":"closing","note":"You gotta = You have got to (구어)"},{"id":229,"s":670.87,"e":673.87,"en":"What's a question you get asked all the time but you wish you didn't?","ko":"늘 받지만 안 받았으면 하는 질문은요?","spk":"Interviewer","scene":"closing","note":"get asked = 질문을 받다 (수동)"},{"id":230,"s":673.87,"e":674.91,"en":"Who are you dating?","ko":"누구 만나요?","spk":"Zendaya","scene":"closing","note":"Who are you dating? = 누구랑 사귀어요?"},{"id":231,"s":674.91,"e":680.17,"en":"By the way, you're one of the most requested asked for a 73 Questions episode, ever.","ko":"그런데, 73 Questions 출연 요청이 역대 가장 많았던 분 중 한 명이에요.","spk":"Interviewer","scene":"closing","note":"requested = 요청된 / ever = 역대"},{"id":232,"s":680.17,"e":681.13,"en":"Really?","ko":"정말요?","spk":"Zendaya","scene":"closing"},{"id":233,"s":680.17,"e":681.13,"en":"Yeah.","ko":"네.","spk":"Interviewer","scene":"closing"},{"id":234,"s":681.13,"e":682.08,"en":"Oh, snap, thanks.","ko":"어머, 세상에, 고마워요.","spk":"Zendaya","scene":"closing","note":"Oh, snap = 어머·헐 (놀람의 속어)"},{"id":235,"s":682.08,"e":684.98,"en":"I'd love to know who would you ask 73 questions to?","ko":"누구에게 73가지 질문을 하고 싶은지 궁금해요.","spk":"Interviewer","scene":"closing","note":"I'd love to know = 정말 궁금해요"},{"id":236,"s":686.01,"e":692.49,"en":"Probably the three women I just mentioned. Plus, maybe Oprah, as well.","ko":"아마 방금 말한 세 여성이요. 그리고, 오프라도요.","spk":"Zendaya","scene":"closing","note":"as well = ~도 (문미)"},{"id":237,"s":692.49,"e":695.96,"en":"Ok, I'm sorry to say this but we're already at question number 73.","ko":"자, 이런 말씀 드려 죄송하지만 벌써 73번째 질문이에요.","spk":"Interviewer","scene":"closing","note":"I'm sorry to say this but = 이런 말 하기 미안하지만"},{"id":238,"s":695.96,"e":697.37,"en":"Geez, that went by really fast.","ko":"어머, 정말 금방 갔네요.","spk":"Zendaya","scene":"closing","note":"Geez = 이런·세상에 / go by = (시간이) 지나가다"},{"id":239,"s":697.37,"e":703.22,"en":"Yeah, I know right? For all your fans who have requested this- what message would you like to send them right now?","ko":"네, 그렇죠? 이 회차를 요청한 모든 팬에게, 지금 어떤 메시지를 보내고 싶어요?","spk":"Interviewer","scene":"closing","note":"I know right? = 그러니까요 (동의)"},{"id":240,"s":704.62,"e":707.73,"en":"I don't know, I think I would just say \"Thank you.\"","ko":"모르겠어요, 그냥 \"고맙다\"고 말할 것 같아요.","spk":"Zendaya","scene":"closing"},{"id":241,"s":707.73,"e":712.37,"en":"You know, because a lot of them have come up with me and grown up with me, literally.","ko":"있잖아요, 많은 팬들이 저와 함께 커 왔거든요, 말 그대로 함께 자랐어요.","spk":"Zendaya","scene":"closing","note":"come up with me = 나와 함께 성장해 오다 / literally = 말 그대로"},{"id":242,"s":712.37,"e":715.32,"en":"Probably the same age and grown up with me.","ko":"아마 같은 나이대고, 저와 같이 자랐죠.","spk":"Zendaya","scene":"closing"},{"id":243,"s":715.32,"e":719.6,"en":"I just appreciate them supporting me through all these different phases of my career, as I continue to grow.","ko":"제 경력의 여러 단계를 거치는 동안, 제가 계속 성장하는 동안 응원해 준 게 정말 고마워요.","spk":"Zendaya","scene":"closing","note":"appreciate ~ -ing = ~해 준 것을 고맙게 여기다 / phase = 단계"},{"id":244,"s":719.6,"e":721.24,"en":"So, I appreciate that.","ko":"그래서, 고마워요.","spk":"Zendaya","scene":"closing"},{"id":245,"s":721.24,"e":723.79,"en":"That's awesome. And, this was delicious.","ko":"멋지네요. 그리고 이거 맛있었어요.","spk":"Interviewer","scene":"closing","note":"awesome = 최고예요"},{"id":246,"s":723.79,"e":725.73,"en":"Thank you. Thank you. Of course.","ko":"고마워요. 고마워요. 별말씀을요.","spk":"Zendaya","scene":"closing","note":"Of course = 여기서는 '별말씀을요·당연하죠'"},{"id":247,"s":724.62,"e":727.15,"en":"Zendaya, thank you so much. This was great. Bye-bye.","ko":"젠데이아, 정말 고마워요. 좋았어요. 안녕히 계세요.","spk":"Interviewer","scene":"closing","note":"Bye-bye = 안녕 (친근한 작별)"},{"id":248,"s":727.15,"e":727.98,"en":"Bye.","ko":"안녕히 가세요.","spk":"Zendaya","scene":"closing"}];
+const SCENES = [{"key": "hello", "ko": "인사 · 레몬 따기", "en": "Hello & lemons", "at": 0}, {"key": "roots", "ko": "이름 · 엄마 · 아침 루틴", "en": "Name, mom & mornings", "at": 27.5}, {"key": "cali", "ko": "캘리포니아 · 집 · 쉬는 날", "en": "California, home & days off", "at": 86}, {"key": "euphoria", "ko": "드라마 「유포리아」", "en": "Euphoria", "at": 124}, {"key": "social", "ko": "SNS · 악플 · 팬", "en": "Social media, negativity & fans", "at": 184}, {"key": "style", "ko": "패션 · 스타일", "en": "Fashion & style", "at": 239}, {"key": "beauty", "ko": "뷰티 팁", "en": "Beauty tips", "at": 326}, {"key": "stage", "ko": "셰익스피어 · 반려견 눈 · 13살의 나", "en": "Shakespeare, Noon & advice to 13", "at": 375}, {"key": "stunts", "ko": "스턴트 · 스파이더맨", "en": "Stunts & Spider-Man", "at": 448}, {"key": "music", "ko": "음악 · 플레이리스트", "en": "Music & playlists", "at": 567}, {"key": "closing", "ko": "조언 · 감사 인사", "en": "Advice & goodbyes", "at": 614}];
+const SPEAKERS = [{"key": "Zendaya", "en": "Zendaya", "ko": "젠데이아", "member": true}, {"key": "Interviewer", "en": "Interviewer (Vogue)", "ko": "인터뷰어 (Vogue)", "member": true}, {"key": "Darnell", "en": "Darnell (assistant)", "ko": "다넬 (어시스턴트)", "member": false}, {"key": "", "en": "Unknown", "ko": "화자 미상", "member": false}];
+const STUDY = [{"t":"E","en":"Thank you so much for having me","ko":"초대해 줘서 정말 고마워요","note":"초대받은 쪽의 정석 인사. 집주인은 Thanks for coming","cids":[6],"ex":6,"hit":"Thank you so much for having me"},{"t":"E","en":"I'm gonna ~","ko":"~할 거예요","note":"going to 의 구어 축약. I'm gonna ask you / I'm gonna keep my distance","cids":[8,28],"ex":8,"hit":"I'm gonna"},{"t":"E","en":"Let's do it","ko":"해 봐요·시작하죠","note":"제안을 흔쾌히 받을 때","cids":[9],"ex":9,"hit":"Let's do it"},{"t":"E","en":"You want some?","ko":"좀 드실래요?","note":"Do you 를 생략한 구어 질문","cids":[11],"ex":11,"hit":"You want some"},{"t":"E","en":"I got you","ko":"맡겨 둬·내가 챙길게","note":"구어. 상황에 따라 '이해했어'로도 씀","cids":[13],"ex":13,"hit":"I got you"},{"t":"E","en":"based off","ko":"~에 바탕을 둔","note":"based on 의 구어형. based off of 라고도 함","cids":[15],"ex":15,"hit":"based off"},{"t":"E","en":"How would you describe ~?","ko":"~을 어떻게 표현하시겠어요?","note":"인터뷰 단골 질문","cids":[16,90],"ex":16,"hit":"how would you describe"},{"t":"E","en":"Who would you say ~?","ko":"누구라고 하시겠어요?","note":"would you say 를 넣어 부드럽게 묻기","cids":[18],"ex":18,"hit":"Who would you say"},{"t":"E","en":"What's the most ~ thing about you?","ko":"당신의 가장 ~한 점은요?","note":"the most Virgo thing / the most Californian thing","cids":[38,47,92,94],"ex":38,"hit":"What's the most"},{"t":"E","en":"Can I be honest?","ko":"솔직히 말해도 돼요?","note":"솔직한 답 앞에 운 떼기","cids":[25],"ex":25,"hit":"Can I be honest"},{"t":"E","en":"without fail","ko":"빠짐없이·어김없이","note":"매일 하는 습관에","cids":[30],"ex":30,"hit":"without fail"},{"t":"E","en":"Same here","ko":"저도요","note":"상대 말에 '나도 마찬가지'","cids":[32],"ex":32,"hit":"Same here"},{"t":"E","en":"a little bit of a control freak","ko":"약간 통제광","note":"a bit of a + 명사 = 약간 ~한 사람","cids":[39],"ex":39,"hit":"a little bit of a control freak"},{"t":"E","en":"aren't we all","ko":"우리 다 그렇잖아요","note":"공감의 반문","cids":[40],"ex":40,"hit":"aren't we all"},{"t":"E","en":"feel most at home","ko":"가장 편안하다","note":"at home = 집처럼 편한","cids":[51,53,54],"ex":51,"hit":"feel most at home"},{"t":"E","en":"That makes sense","ko":"말이 되네요·그렇겠네요","note":"상대 답에 수긍할 때","cids":[53],"ex":53,"hit":"That makes sense"},{"t":"E","en":"as of late","ko":"최근에","note":"lately 의 격식체","cids":[59],"ex":59,"hit":"as of late"},{"t":"E","en":"taking up a lot of time","ko":"시간을 많이 잡아먹는","note":"take up = (시간·공간을) 차지하다","cids":[60],"ex":60,"hit":"taking up a lot of time"},{"t":"E","en":"taking a step back","ko":"한 발 물러나는","note":"take a step back","cids":[76],"ex":76,"hit":"taking a step back"},{"t":"E","en":"not really","ko":"별로요·딱히요","note":"부드러운 부정","cids":[78],"ex":78,"hit":"not really"},{"t":"E","en":"keep in mind","ko":"명심하다","note":"try to keep in mind that ~","cids":[80],"ex":80,"hit":"keep in mind"},{"t":"E","en":"keep me on my toes","ko":"나를 긴장시키다·방심 못 하게 하다","note":"on one's toes = 발끝으로 선 채 = 늘 대비하는","cids":[85],"ex":85,"hit":"keep me on my toes"},{"t":"E","en":"I get it","ko":"알았어요·이해했어요","note":"짜증 섞인 '알았다고요'로도","cids":[86],"ex":86,"hit":"I get it"},{"t":"E","en":"the thing is","ko":"문제는·실은","note":"본론을 꺼내는 신호","cids":[91],"ex":91,"hit":"the thing is"},{"t":"E","en":"to be honest with you","ko":"솔직히 말하면","note":"honestly 와 같음","cids":[96],"ex":96,"hit":"to be honest with you"},{"t":"E","en":"long story short","ko":"요약하자면","note":"to make a long story short 의 줄임","cids":[100],"ex":100,"hit":"long story short"},{"t":"E","en":"That's a cheat answer","ko":"그건 반칙이죠","note":"둘 중 하나를 안 고를 때","cids":[108],"ex":108,"hit":"That's a cheat answer"},{"t":"E","en":"What would you say is ~?","ko":"~은 뭐라고 하시겠어요?","note":"What is ~ 보다 부드러운 질문","cids":[115],"ex":115,"hit":"what would you say is"},{"t":"E","en":"don't go a day without","ko":"하루도 ~없이는 못 산다","note":"not go a day without -ing","cids":[117],"ex":117,"hit":"don't go a day without"},{"t":"E","en":"Noted","ko":"새겨 둘게요","note":"알아 두겠다는 짧은 대답","cids":[121],"ex":121,"hit":"Noted"},{"t":"E","en":"go-to","ko":"늘 찾는·믿고 쓰는","note":"go-to look / go-to place","cids":[123],"ex":123,"hit":"go-to"},{"t":"E","en":"for sure","ko":"물론이죠·확실히","note":"Yeah, for sure. 강한 동의","cids":[132,191],"ex":191,"hit":"for sure"},{"t":"E","en":"follow your gut","ko":"직감을 따르다","note":"gut = 내장 → 본능","cids":[150],"ex":150,"hit":"follow your gut"},{"t":"E","en":"No matter how","ko":"아무리 ~해도","note":"No matter how boring they are","cids":[152],"ex":152,"hit":"No matter how"},{"t":"E","en":"just as hard as","ko":"꼭 그만큼 힘든","note":"just as A as B","cids":[160],"ex":160,"hit":"just as hard as"},{"t":"E","en":"Let's just say","ko":"~라고만 해 두죠","note":"에둘러 말할 때","cids":[164],"ex":164,"hit":"Let's just say"},{"t":"E","en":"hit closest to home","ko":"가장 자기 얘기처럼 와닿다","note":"hit close to home","cids":[186],"ex":186,"hit":"hit closest to home"},{"t":"E","en":"I can't help it","ko":"어쩔 수 없어요","note":"can't help + -ing 도 같은 뜻","cids":[189],"ex":189,"hit":"I can't help it"},{"t":"E","en":"heard through the grapevine","ko":"소문으로 들었다","note":"grapevine = 포도 덩굴 → 소문의 경로","cids":[196],"ex":196,"hit":"heard through the grapevine"},{"t":"E","en":"I could tell you, but I'd have to kill you","ko":"말해 줄 순 있지만 그러면 당신을 죽여야 해요","note":"'비밀이에요'라는 농담","cids":[198],"ex":198,"hit":"I could tell you, but I'd have to kill you"},{"t":"E","en":"taken a front seat","ko":"우선순위가 되었다","note":"take a front seat ↔ take a back seat","cids":[202],"ex":202,"hit":"taken a front seat"},{"t":"E","en":"holding me down","ko":"나를 지탱해 주다","note":"hold someone down (속어) = 곁에서 지켜 주다","cids":[204],"ex":204,"hit":"holding me down"},{"t":"E","en":"a thousand percent","ko":"천 퍼센트·완전히","note":"100% 를 넘는 과장","cids":[206],"ex":206,"hit":"a thousand percent"},{"t":"E","en":"That's my cue","ko":"제 차례네요","note":"cue = (등장) 신호","cids":[214],"ex":214,"hit":"That's my cue"},{"t":"E","en":"When life gives you lemons, make lemonade","ko":"역경을 기회로 바꿔라","note":"미국 속담","cids":[215],"ex":215,"hit":"When life gives you lemons, make lemonade"},{"t":"E","en":"go for it","ko":"그렇게 해요·마음껏 해요","note":"허락·격려","cids":[223],"ex":223,"hit":"go for it"},{"t":"E","en":"blowing your mind","ko":"당신을 놀라게 하는","note":"blow one's mind = 감탄시키다","cids":[224],"ex":224,"hit":"blowing your mind"},{"t":"E","en":"Oh, snap","ko":"어머·헐","note":"놀람의 속어","cids":[234],"ex":234,"hit":"Oh, snap"},{"t":"E","en":"I know right?","ko":"그러니까요","note":"동의 겸 맞장구","cids":[239],"ex":239,"hit":"I know right"},{"t":"V","en":"originate","ko":"유래하다","note":"Where does your name originate?","cids":[14],"ex":14,"hit":"originate"},{"t":"V","en":"upbringing","ko":"성장 환경","cids":[16],"ex":16,"hit":"upbringing"},{"t":"V","en":"role model","ko":"롤모델·본보기","cids":[18],"ex":18,"hit":"role model"},{"t":"V","en":"admire","ko":"존경하다","cids":[23],"ex":23,"hit":"admire"},{"t":"V","en":"unfortunately","ko":"안타깝게도","cids":[31],"ex":31,"hit":"unfortunately"},{"t":"V","en":"Virgo","ko":"처녀자리","cids":[36,38],"ex":36,"hit":"Virgo"},{"t":"V","en":"control freak","ko":"통제광","cids":[39],"ex":39,"hit":"control freak"},{"t":"V","en":"obviously","ko":"당연히·뻔하게","note":"구어 필러로 자주 씀","cids":[49,50],"ex":49,"hit":"obviously"},{"t":"V","en":"suspect","ko":"~일 것 같다·의심하다","note":"I suspect that ~","cids":[55],"ex":55,"hit":"suspect"},{"t":"V","en":"unwind","ko":"긴장을 풀다","cids":[57],"ex":57,"hit":"unwind"},{"t":"V","en":"literally","ko":"말 그대로","note":"강조 필러로도 씀","cids":[61,241],"ex":61,"hit":"literally"},{"t":"V","en":"buzz","ko":"화제·입소문","note":"serious buzz","cids":[62],"ex":62,"hit":"buzz"},{"t":"V","en":"terrified","ko":"겁에 질린","cids":[65],"ex":65,"hit":"terrified"},{"t":"V","en":"exhausting","ko":"진 빠지는","cids":[66],"ex":66,"hit":"exhausting"},{"t":"V","en":"fulfilling","ko":"보람 있는","cids":[66],"ex":66,"hit":"fulfilling"},{"t":"V","en":"attracted","ko":"끌린","note":"What attracted you to ~?","cids":[67],"ex":67,"hit":"attracted"},{"t":"V","en":"basically","ko":"기본적으로·한마디로","cids":[70,176],"ex":176,"hit":"basically"},{"t":"V","en":"pressure","ko":"부담·압박","cids":[74],"ex":74,"hit":"pressure"},{"t":"V","en":"weird","ko":"이상한","cids":[75,89],"ex":89,"hit":"weird"},{"t":"V","en":"negativity","ko":"부정적인 것·악플","cids":[79],"ex":79,"hit":"negativity"},{"t":"V","en":"compassion","ko":"연민","cids":[81],"ex":81,"hit":"compassion"},{"t":"V","en":"wise","ko":"현명한","cids":[82],"ex":82,"hit":"wise"},{"t":"V","en":"introverted","ko":"내향적인","note":"반대는 extroverted","cids":[83],"ex":83,"hit":"introverted"},{"t":"V","en":"aware","ko":"인식하고 있는","note":"politically aware","cids":[85],"ex":85,"hit":"aware"},{"t":"V","en":"grammar","ko":"문법","cids":[85],"ex":85,"hit":"grammar"},{"t":"V","en":"spelling","ko":"철자","cids":[85],"ex":85,"hit":"spelling"},{"t":"V","en":"fire pit","ko":"야외 화덕","cids":[87],"ex":87,"hit":"fire pit"},{"t":"V","en":"wardrobe","ko":"옷장·옷 전체","cids":[92],"ex":92,"hit":"wardrobe"},{"t":"V","en":"luxe","ko":"고급스러운","note":"luxurious 의 줄임","cids":[94],"ex":94,"hit":"luxe"},{"t":"V","en":"premiere","ko":"시사회","cids":[96],"ex":96,"hit":"premiere"},{"t":"V","en":"article","ko":"기사","cids":[97],"ex":97,"hit":"article"},{"t":"V","en":"stressful","ko":"스트레스가 많은","cids":[101],"ex":101,"hit":"stressful"},{"t":"V","en":"slacks","ko":"슬랙스 바지","cids":[105],"ex":105,"hit":"slacks"},{"t":"V","en":"purchase","ko":"구매","cids":[110],"ex":110,"hit":"purchase"},{"t":"V","en":"outfit","ko":"옷차림","cids":[112,205],"ex":112,"hit":"outfit"},{"t":"V","en":"confidence","ko":"자신감","cids":[113],"ex":113,"hit":"confidence"},{"t":"V","en":"philosophy","ko":"철학","cids":[115],"ex":115,"hit":"philosophy"},{"t":"V","en":"horror stories","ko":"끔찍한 경험담","cids":[130],"ex":130,"hit":"horror stories"},{"t":"V","en":"several","ko":"여러","note":"several times","cids":[136],"ex":136,"hit":"several"},{"t":"V","en":"backyard","ko":"뒷마당","cids":[148],"ex":148,"hit":"backyard"},{"t":"V","en":"instincts","ko":"본능·직감","cids":[150],"ex":150,"hit":"instincts"},{"t":"V","en":"gut","ko":"직감·배짱","note":"본래 뜻은 내장","cids":[150],"ex":150,"hit":"gut"},{"t":"V","en":"contracts","ko":"계약서","cids":[152],"ex":152,"hit":"contracts"},{"t":"V","en":"diverse","ko":"다양한","cids":[154],"ex":154,"hit":"diverse"},{"t":"V","en":"trapeze","ko":"공중그네","cids":[157,162],"ex":157,"hit":"trapeze"},{"t":"V","en":"martial arts","ko":"무술","cids":[157],"ex":157,"hit":"martial arts"},{"t":"V","en":"commitment","ko":"헌신·전념","cids":[157],"ex":157,"hit":"commitment"},{"t":"V","en":"emotional","ko":"감정적인","cids":[160],"ex":160,"hit":"emotional"},{"t":"V","en":"endure","ko":"견디다","cids":[163],"ex":163,"hit":"endure"},{"t":"V","en":"badass","ko":"끝내주는 사람","note":"속어. 칭찬","cids":[166,168],"ex":166,"hit":"Badass"},{"t":"V","en":"installment","ko":"(시리즈의) 편","cids":[175],"ex":175,"hit":"installment"},{"t":"V","en":"intense","ko":"강렬한","cids":[178],"ex":178,"hit":"intense"},{"t":"V","en":"costars","ko":"공동 출연자","cids":[180],"ex":180,"hit":"costars"},{"t":"V","en":"traits","ko":"특성","cids":[186],"ex":186,"hit":"traits"},{"t":"V","en":"loner","ko":"외톨이","cids":[187],"ex":187,"hit":"loner"},{"t":"V","en":"teleportation","ko":"순간이동","cids":[191],"ex":191,"hit":"Teleportation"},{"t":"V","en":"press tour","ko":"홍보 투어","cids":[195],"ex":195,"hit":"press tour"},{"t":"V","en":"iconic","ko":"상징적인","cids":[196],"ex":196,"hit":"iconic"},{"t":"V","en":"accent","ko":"억양","cids":[198],"ex":198,"hit":"accent"},{"t":"V","en":"whack","ko":"구린","note":"속어","cids":[206],"ex":206,"hit":"whack"},{"t":"V","en":"popping","ko":"신나게 달아오른","note":"속어","cids":[206],"ex":206,"hit":"popping"},{"t":"V","en":"corny","ko":"진부한·유치한","cids":[221,222],"ex":221,"hit":"corny"},{"t":"V","en":"giving","ko":"잘 베푸는","cids":[23,226],"ex":23,"hit":"giving"},{"t":"V","en":"passionate","ko":"열정적인","cids":[227],"ex":227,"hit":"passionate"},{"t":"V","en":"phases","ko":"단계","cids":[243],"ex":243,"hit":"phases"},{"t":"V","en":"appreciate","ko":"고마워하다","cids":[243,244],"ex":244,"hit":"appreciate"},{"t":"V","en":"awesome","ko":"최고의","cids":[245],"ex":245,"hit":"awesome"}];   /* 표현·단어 (study.txt 유래) */
+const DEFAULT_VID = 'MGO4_8YRKro';
+const LS = 'en-zd73';
+const $ = id => document.getElementById(id);
+/* 한국어를 주, 일본어를 부로 병기한다 */
+const bi = (ko, en) => ko + ' <span class="sub" lang="en">' + en + '</span>';
+const SPK = {}; SPEAKERS.forEach(s => SPK[s.key] = s);
+const spkOf = d => SPK[d.spk] || SPK[''];
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+let videoId = store.get('vid', DEFAULT_VID);
+let checked = new Set(store.get('checked', []));
+let edits = store.get('edits', {});      /* {카드id: {en, ko}} 직접 고친 내용 */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let filt = store.get('filt', 'all');     /* 'all' | 'scene:<key>' | 'spk:<label>' | 'day'(저장하지 않음) */
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.5;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const PAD = 0.2;                                        /* 앞뒤에 항상 더하는 여유(초) */
+const headOf = d => Math.max(0, d.s - PAD);
+const tail = () => Number($('optTail').value) || 0;
+const endOf  = d => Math.max(d.e + tail() + PAD, d.s + MIN_PLAY);
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- filters ---------- */
+/* 같은 표기의 화자(Fan/Fans)는 하나의 버튼으로 묶는다 */
+const SPK_GROUPS = [];
+SPEAKERS.forEach(s => {
+  let g = SPK_GROUPS.find(x => x.ko === s.ko);
+  if(!g){ g = {ko: s.ko, en: s.en, keys: [], member: s.member}; SPK_GROUPS.push(g); }
+  g.keys.push(s.key);
+});
+const pool = () => DATA;
+function matches(d){
+  if(filt === 'all') return true;
+  if(filt === 'day') return dayIds.includes(d.id);
+  if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
+  const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
+  return !!g && g.keys.includes(d.spk);
+}
+
+/* ---------- sidebar ---------- */
+function buildScenes(){
+  const box = $('scenes'); box.textContent = '';
+  const head = (ko, en) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="en">' + en + '</span>'; box.appendChild(h); };
+  const mk = (key, ko, en, n, cls) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key; if(cls) b.className = cls;
+    b.innerHTML = '<span>' + bi(ko, en) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
+    box.appendChild(b);
+  };
+  const P = pool();
+  mk('all', '전체', 'All', P.length);
+  head('장면 · 타임라인', 'Scenes');
+  SCENES.forEach(s => mk('scene:' + s.key, s.ko, s.en, P.filter(d => d.scene === s.key).length));
+  head('화자', 'Speakers');
+  SPK_GROUPS.forEach(g => {
+    const n = P.filter(d => g.keys.includes(d.spk)).length;
+    if(n) mk('spk:' + g.ko, g.ko, g.en, n, g.member ? 'mem' : '');
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  let ko = '전체', en = 'All';
+  if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; en = 'Day ' + dayCur + ' lines'; }
+  if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; en = s.en; } }
+  else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; en = g.en; } }
+  $('sceneTitle').innerHTML = ko + '<span class="inl" lang="en">' + en + '</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- deck ---------- */
+function buildDeck(){
+  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- card ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('en').textContent = '해당 대사가 없습니다 / No matching line'; return; }
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('en').textContent = v.en;
+  $('ko').textContent = v.ko;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="en">' + s.en + '</span>' : '—';
+  const sp = spkOf(d);
+  $('who').className = 'chip spk';
+  $('who').innerHTML = sp.ko + '<span class="sub" lang="en">' + sp.en + '</span>';
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* ---------- script ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div class="who"></div><div><div class="k" lang="en"></div><div class="j"></div></div>';
+    const v = edited(d), sp = spkOf(d);
+    el.querySelector('.who').textContent = sp.ko;
+    el.querySelector('.k').textContent = v.en;
+    el.querySelector('.j').textContent = v.ko;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('카드와 대본은 그대로 쓸 수 있습니다.', 'Cards and script still work.');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API 를 불러오지 못했습니다.', 'Could not load the YouTube API.'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('준비 완료. 대사 위치부터 재생할 수 있습니다.', 'Ready. You can play from any line.'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', 'Cannot play the video (error '+e.data+')。'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', 'Playing…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', 'Paused');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube 를 ' + fmt(d.s) + ' 지점부터 열었습니다.', 'Opened YouTube at ' + fmt(d.s) + '.');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'The player is not ready yet.'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
+  const detailEn = '(speech ' + (d.e - d.s).toFixed(1) + ' s + margin ' + (stopAt - d.e).toFixed(1) + ' s)';
+  $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
+                                 (opts.loop ? 'Repeating ' : 'Playing ') + range + detailEn);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('이 장면 재생이 끝났습니다.', 'Finished playing this line.');
+  }
+}, 120);
+
+/* ---------- controls ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'Repeat off.'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set('checked', [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- manual edits ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edEn').value = v.en; $('edKo').value = v.ko;
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edEn').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const en = $('edEn').value.trim(), ko = $('edKo').value.trim();
+  if(!en){ $('playStatus').innerHTML = bi('대사가 비었습니다.', 'The line is empty.'); return; }
+  const e = {};
+  if(en !== d.en) e.en = en;
+  if(ko !== d.ko) e.ko = ko;
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
+  store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('저장했습니다.', 'Saved.');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('원래대로 되돌렸습니다.', 'Reset to original.');
+};
+
+/* 브라우저 저장은 사라질 수 있으므로 내보내기/가져오기를 둔다 */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'english-zendaya73-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('형식이 다릅니다');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.en === 'string' || typeof row.ko === 'string')){ edits[k] = row; n++; }
+      }
+      store.set('edits', edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '건을 불러왔습니다.', n + ' items imported.');
+    }catch(err){
+      $('playStatus').innerHTML = bi('불러오지 못했습니다.', 'Could not import.');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+$('tabStudy').onclick = () => switchView('study');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+
+/* ====================== study tab ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['듣기', 'Listen', '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
+     'Play with the meaning hidden. Ears first. Not getting it is normal.', '카드'],
+    ['확인', 'Check', '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
+     'Open the meaning and check. Learn expressions and words with their example line.', '표현 · 단어'],
+    ['따라 하기', 'Imitate', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
+     'Loop the same span with Repeat and speak over it. Copy the intonation.', '반복 C'],
+    ['점검', 'Test', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
+     'Quiz only today’s range. Misses become tomorrow’s review list.', '퀴즈']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ko, en, pk, pj, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="en" lang="en"></div><p><span class="k"></span><span lang="en"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ko;
+    el.querySelector('.en').textContent = en;
+    el.querySelector('.k').textContent = pk;
+    el.querySelector('p span[lang=en]').textContent = pj;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.en + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length;
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '해당 없음 · No results'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = r.en;
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 실제로 쓰인 한 문장을 예문으로 보여준다(작문이 아니라 자막 그대로) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '예문 · Example';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'en';
+        const key = r.hit || r.en;
+        const at = v.en.indexOf(key);
+        if(at >= 0){                                   /* 그 말만 강조 */
+          ek.appendChild(document.createTextNode(v.en.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = key; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.en.slice(at + key.length)));
+        } else ek.textContent = v.en;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ko;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = '이 예문 재생 / Play this example';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '회 · ' + cids.length + ' times';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.en;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== daily portions ====================== */
+let dayPace = store.get('pace', 25);
+let dayCur  = store.get('dayCur', 1);
+let daysDone = new Set(store.get('daysDone', []));
+let DAYS = [], dayIds = [];
+
+/* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
+   (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + ' days';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + ' / Lines ' + d.cards.length + ' · Expressions ' + d.expr.length + ' · Words ' + d.word.length
+    + ' (체크함 ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
+  const STEPS = [['듣기','Listen'], ['표현·단어','Expressions & words'], ['퀴즈','Quiz'], ['복습','Review']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ko, en], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ko + ' · ' + en;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.en.slice(0, 30);
+    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.en;
+    b.querySelector('.jj').textContent = r.ko;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set('daysDone', [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- quiz ---------- */
+let qScope = 'E', qMode = 'en2ko', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'en2ko'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="en2ko"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('출제 가능 ' + pool.length + '개 · Available items ' + pool.length + '');
+  if(OFFLINE) msgs.push('듣기는 file:// 에서 쓸 수 없습니다 · Listening is unavailable on file://');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ko2en' ? 'en' : 'ko';       /* what to pick: EN→KO and listening → Korean meaning, KO→EN → English */
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 듣고 뜻 고르기 · Listen and choose';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ko2en'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'en';
+    $('qAsk').textContent = q.item.en;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'en') b.lang = 'en';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  line.innerHTML = (ok ? '<b>정답 · Correct</b> ' : '<b>다시 · Again</b> ')
+    + '<span lang="en"></span> — <span></span>';
+  line.children[1].textContent = q.item.en; line.children[2].textContent = q.item.ko;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '다음 · Next' : '결과 · Results';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · Perfect' : pct >= 80 ? '— 훌륭합니다 · Well done'
+    : pct >= 50 ? '— 조금만 더 · Almost there' : '— 복습해 봅시다 · Time to review');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '틀린 항목 · Missed items (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = it.en;
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ko;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', 'Cannot read the video ID.'); return; }
+  videoId = id; store.set('vid', id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null;
+  if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
+  $('playStatus').innerHTML = bi('영상을 교체했습니다.', 'Video replaced.');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+/* ---------- boot ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+pickSeg2($('qPace'), String(dayPace));
+$('optTail').value = store.get('tail', '0.5');
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('vid').value = videoId;
+$('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
+}
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+</script>
+
+</body></html>

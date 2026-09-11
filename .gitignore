@@ -1,0 +1,8 @@
+# 로컬 도구·캐시 (yt-dlp 용 venv 는 각자 만든다: python3 -m venv .venv && .venv/bin/pip install yt-dlp)
+.venv/
+__pycache__/
+*.pyc
+# OS·에디터
+.DS_Store
+Thumbs.db
+*:Zone.Identifier

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>도카도카 어학 학습 · 일본어 · 한국어 · 영어</title>
+<style>
+:root{--bg:#f4f5f8;--surface:#fff;--line:#e2e5ec;--line-2:#cfd4de;--ink:#21242c;--ink-2:#5c6270;--ink-3:#8b919e;
+ --brand:#3b4a7a;--brand-soft:#e9ecf5;--brand-line:#c2c9df;--green:#1d4f42;--green-soft:#e8efe9;--green-line:#bcd0c2;
+ --blue:#1f4e79;--blue-soft:#e7eef7;--blue-line:#bccde3;
+ --accent:#b0603f;--accent-soft:#fbf1ea;--accent-line:#ead0bd;
+ font-family:"Noto Sans KR","Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:44px 28px 72px}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+h1{font-size:26px;font-weight:650;letter-spacing:-.02em;margin:0;line-height:1.3}
+h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--ink-3);margin-top:4px}
+.lead{margin:14px 0 0;max-width:720px;color:var(--ink-2);font-size:13.5px;line-height:1.75;word-break:keep-all}
+.lead code{background:#e9ecf2;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice{display:none;margin:18px 0 0;padding:12px 15px;border:1px solid var(--accent-line);background:var(--accent-soft);color:#6f4a2b;border-radius:10px;font-size:12.5px;line-height:1.7}
+.notice.on{display:block}
+/* 언어 바로가기 */
+.langnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.langnav a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;box-shadow:0 1px 2px rgba(24,28,40,.05)}
+.langnav a:hover{border-color:var(--line-2)}
+.langnav a b{font-weight:700;font-size:11px;color:var(--ink-3);background:#eef0f4;border-radius:6px;padding:2px 7px}
+/* 언어 섹션 */
+.sect{margin-top:40px;scroll-margin-top:20px}
+.sect-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.sect-head h2{margin:0;font-size:19px;font-weight:650;letter-spacing:-.015em;display:flex;align-items:center;gap:10px}
+.sect-head h2 .flag{font-size:22px}
+.sect-head h2 .native{font-size:13px;font-weight:400;color:var(--ink-3)}
+.sect-head .for{font-size:12px;color:var(--ink-2)}
+.sect-head .cnt{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--ink-3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px;margin-top:18px}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+ box-shadow:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);color:inherit;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(24,28,40,.06),0 14px 32px rgba(24,28,40,.1)}
+.thumb{position:relative;aspect-ratio:16/9;background:#0d0f14 center/cover no-repeat}
+.thumb .dir{position:absolute;left:12px;top:12px;display:inline-flex;gap:6px;align-items:center;padding:5px 10px;border-radius:8px;
+ font-size:11.5px;font-weight:700;letter-spacing:.02em;color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.thumb .len{position:absolute;right:12px;bottom:12px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;background:rgba(0,0,0,.65)}
+.body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.kind{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.kind i{width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block}
+.card.ko .kind i{background:var(--green)}
+.card.en .kind i{background:var(--blue)}
+.card h2{margin:0;font-size:17px;font-weight:650;line-height:1.35;letter-spacing:-.01em;word-break:keep-all}
+.card h2 .src{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.card p{margin:0;font-size:12.5px;line-height:1.7;color:var(--ink-2);word-break:keep-all}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:600;background:#eef0f4;color:var(--ink-2)}
+.chip.lv{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.card.ko .chip.lv{background:var(--green-soft);color:var(--green);box-shadow:inset 0 0 0 1px var(--green-line)}
+.card.en .chip.lv{background:var(--blue-soft);color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue-line)}
+.chip.sub{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.empty{margin-top:18px;padding:22px;border:1px dashed var(--line-2);border-radius:14px;color:var(--ink-3);font-size:12.5px;text-align:center}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-3);font-size:11.5px;line-height:1.8}
+.foot code{background:#e9ecf2;border-radius:4px;padding:1px 6px;font-size:11px}
+</style></head>
+<body>
+<div class="wrap">
+ <p class="eyebrow">Video → Learning cards</p>
+ <h1>도카도카 어학 학습<span class="sub">ドカドカ語学 · Dokadoka Languages — YouTube 영상 한 편 = 학습 콘텐츠 한 세트</span></h1>
+ <p class="lead">배우고 싶은 언어의 영상을 고르면 그 영상의 자막으로 만든 카드 앱이 열립니다. 대사 카드 · 대본 · 구간 재생 · 표현/단어 · 퀴즈 · 일일 분량이 한 파일에 들어 있습니다.
+  각 앱은 독립된 폴더라 폴더째 복사해도 그대로 동작합니다.</p>
+ <div class="notice" id="fileNotice">로컬 파일(<code>file://</code>)로 열었습니다. 각 앱의 카드·대본은 쓸 수 있지만 YouTube 는 이 상태에서 페이지 안 재생을 거부합니다.
+  페이지 안에서 재생하려면 이 폴더의 <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 로 여세요.</div>
+
+ <nav class="langnav" id="langnav"></nav>
+ <div id="sections"></div>
+
+ <div class="foot">
+  새 영상을 추가하려면: <code>japanese-cards/WORKFLOW_PROMPT.md</code> 절차로 앱을 만든 뒤, 이 파일의 <code>APPS</code> 목록에 한 줄을 더하면 됩니다(<code>learn</code> 값에 따라 언어 섹션이 나뉩니다).<br>
+  썸네일은 YouTube 에서 가져오므로 인터넷 연결이 필요합니다. 학습용 개인 이용을 전제로 한 페이지입니다.
+ </div>
+</div>
+<script>
+'use strict';
+/* 언어 섹션. 순서대로 표시된다. for = 누구를 위한 앱인지(학습자 모어) */
+const LANGS = [
+ {key:'ja', flag:'🇯🇵', name:'일본어 배우기', native:'日本語を学ぶ', for:'한국어 모어 학습자용 · 한국어 뜻·히라가나 읽기 병기'},
+ {key:'ko', flag:'🇰🇷', name:'한국어 배우기', native:'韓国語を学ぶ', for:'日本語話者向け · 日本語訳と注記つき (일본어 모어 학습자용)'},
+ {key:'en', flag:'🇺🇸', name:'영어 배우기',   native:'Learn English', for:'한국어 모어 학습자용 · 한국어 뜻·주석 병기'},
+];
+/* 앱 목록. 한 줄 = 영상 한 편. href 는 이 파일 기준 상대 경로. src 의 마지막 `·` 뒤가 길이 배지 */
+const APPS = [
+ /* --- 일본어 --- */
+ {vid:'B46OizvNlbU', href:'yubisaki-cards/Japanese-Yubisaki185-Cards.html', learn:'ja', kind:'애니메이션 · アニメ',
+  title:'ゆびさきと恋々 제1화', src:'フル☆アニメTV (공식) · 2024-01 · 25분',
+  desc:'청각장애가 있는 대학생 유키와 여행자 이츠오미의 첫 만남. 짧고 느린 일상 대화와 속마음 독백 위주라 가장 쉽습니다. 방송용 CC 자막(화자·속마음 구분) 사용.',
+  cards:'185장', level:'쉬움 · 초급', sub:'공식 CC 자막', extra:'속마음 84장'},
+ {vid:'H1w7GqBt2VI', href:'japanese-cards/Japanese-SnowMan105-Cards.html', learn:'ja', kind:'인터뷰 · インタビュー',
+  title:"Snow Man 'Looking back 5 years'", src:'Snow Man 공식 채널 · 2025-01 · 8분',
+  desc:'데뷔 5주년 회고 인터뷰. 멤버 9명이 각 시기를 돌아보며 말합니다. 정중어와 반말이 섞인 자연스러운 발화. 화자명이 붙은 공식 자막 사용.',
+  cards:'105장', level:'보통 · 중급', sub:'공식 자막 · 화자명', extra:'화면 자막 26장'},
+ /* --- 한국어 (한 앱 안에 시리즈 2편. 링크의 #id 로 해당 시리즈가 바로 열린다) --- */
+ {vid:'P7jpejjWGxM', href:'korean-cards/Korean-Cliff389-Cards.html#cliff389', learn:'ko', kind:'예능 · バラエティ',
+  title:'벼랑 끝에 프로미스나인 — 위험한 초대', src:'스프 : 스튜디오 프로미스나인 (공식) · 2026-08 · 27분',
+  desc:'물놀이 예능 한 편. 비명·리액션·반말이 쏟아지는 실제 대화. 일본어 뜻과 주석을 달았습니다. 자동생성 자막을 36곳 교정.',
+  cards:'383장', level:'보통~어려움', sub:'자동생성 자막 · 교정 36건', extra:'무음 컷 89장'},
+ {vid:'SAizVfA26Hk', href:'korean-cards/Korean-Cliff389-Cards.html#yeonhui', learn:'ko', kind:'브이로그 · Vlog',
+  title:'연희동 데이트 — 지원이랑 지헌이를 연희동에 풀어 놓으면', src:'스프 : 스튜디오 프로미스나인 (공식) · 2026-09 · 36분',
+  desc:'두 멤버가 연희동을 걷는 데이트 브이로그. 예능보다 느리고 문장이 길어 일상 회화 연습에 맞습니다. 일본어 뜻과 주석. 대본 25곳 교정.',
+  cards:'306장', level:'보통', sub:'유튜브 대본 · 교정 25건', extra:'무음 컷 100장'},
+ /* --- 영어 --- */
+ {vid:'MGO4_8YRKro', href:'english-cards/English-Zendaya248-Cards.html', learn:'en', kind:'인터뷰 · Interview',
+  title:'73 Questions With Zendaya', src:'Vogue 공식 · 2019-05 · 12분',
+  desc:'인터뷰어가 젠데이아의 집을 돌며 73가지 질문을 던지는 Q&A. 정중한 질문 문형과 짧고 캐주얼한 대답이 반복됩니다. 화자 표시가 붙은 Vogue 공식 캡션 사용.',
+  cards:'248장', level:'보통 · 중급', sub:'공식 캡션 · 화자 표시', extra:'표현 49 · 단어 67'},
+];
+const OFFLINE = location.protocol === 'file:';
+document.getElementById('fileNotice').classList.toggle('on', OFFLINE);
+
+const nav = document.getElementById('langnav');
+const root = document.getElementById('sections');
+LANGS.forEach(L => {
+  const apps = APPS.filter(a => a.learn === L.key);
+  const a = document.createElement('a'); a.href = '#lang-' + L.key;
+  a.innerHTML = '<span></span><span class="nm"></span><b></b>';
+  a.children[0].textContent = L.flag; a.children[1].textContent = L.name; a.children[2].textContent = apps.length + '편';
+  nav.appendChild(a);
+
+  const sect = document.createElement('section'); sect.className = 'sect'; sect.id = 'lang-' + L.key;
+  sect.innerHTML = '<div class="sect-head"><h2><span class="flag"></span><span class="nm"></span><span class="native"></span></h2><span class="for"></span><span class="cnt"></span></div>';
+  sect.querySelector('.flag').textContent = L.flag;
+  sect.querySelector('.nm').textContent = L.name;
+  sect.querySelector('.native').textContent = L.native;
+  sect.querySelector('.for').textContent = L.for;
+  sect.querySelector('.cnt').textContent = apps.length + '편 · ' + apps.reduce((n, x) => n + (parseInt(x.cards, 10) || 0), 0) + '장';
+  if(!apps.length){
+    const e = document.createElement('div'); e.className = 'empty'; e.textContent = '준비 중 — WORKFLOW_PROMPT.md 절차로 앱을 만들면 여기에 실립니다.'; sect.appendChild(e);
+  } else {
+    const g = document.createElement('div'); g.className = 'grid';
+    apps.forEach(app => g.appendChild(cardOf(app, L)));
+    sect.appendChild(g);
+  }
+  root.appendChild(sect);
+});
+
+function cardOf(a, L){
+  const el = document.createElement('a');
+  el.className = 'card ' + a.learn; el.href = a.href;
+  el.innerHTML = '<div class="thumb"><span class="dir"></span><span class="len"></span></div>'
+    + '<div class="body"><span class="kind"><i></i><span></span></span><h2><span class="t"></span><span class="src"></span></h2><p></p>'
+    + '<div class="meta"><span class="chip lv"></span><span class="chip sub"></span><span class="chip"></span><span class="chip"></span></div></div>';
+  el.querySelector('.thumb').style.backgroundImage = 'url(https://i.ytimg.com/vi/' + a.vid + '/hqdefault.jpg)';
+  el.querySelector('.dir').textContent = L.flag + ' ' + L.name;
+  el.querySelector('.len').textContent = a.src.split('·').pop().trim();
+  el.querySelector('.kind span').textContent = a.kind;
+  el.querySelector('h2 .t').textContent = a.title;
+  el.querySelector('h2 .src').textContent = a.src;
+  el.querySelector('p').textContent = a.desc;
+  const ch = el.querySelectorAll('.chip');
+  ch[0].textContent = a.level; ch[1].textContent = a.sub; ch[2].textContent = a.cards; ch[3].textContent = a.extra;
+  return el;
+}
+</script>
+</body></html>

@@ -1,0 +1,122 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모
+#   E = 표현(문형·관용구·구어)   V = 단어
+#   카드 id 는 build.py 가 자막에서 자동으로 찾아 연결한다(클립 재생용).
+#   '~' 는 자리 표시. 매칭은 '~' 로 나눈 조각 중 가장 긴 것으로 하고, 단어는 굴절형(-s/-ed/-ing…)도 같은 것으로 본다.
+# --- 표현 ---------------------------------------------------
+E|Thank you so much for having me|초대해 줘서 정말 고마워요|초대받은 쪽의 정석 인사. 집주인은 Thanks for coming
+E|I'm gonna ~|~할 거예요|going to 의 구어 축약. I'm gonna ask you / I'm gonna keep my distance
+E|Let's do it|해 봐요·시작하죠|제안을 흔쾌히 받을 때
+E|You want some?|좀 드실래요?|Do you 를 생략한 구어 질문
+E|I got you|맡겨 둬·내가 챙길게|구어. 상황에 따라 '이해했어'로도 씀
+E|based off|~에 바탕을 둔|based on 의 구어형. based off of 라고도 함
+E|How would you describe ~?|~을 어떻게 표현하시겠어요?|인터뷰 단골 질문
+E|Who would you say ~?|누구라고 하시겠어요?|would you say 를 넣어 부드럽게 묻기
+E|What's the most ~ thing about you?|당신의 가장 ~한 점은요?|the most Virgo thing / the most Californian thing
+E|Can I be honest?|솔직히 말해도 돼요?|솔직한 답 앞에 운 떼기
+E|without fail|빠짐없이·어김없이|매일 하는 습관에
+E|Same here|저도요|상대 말에 '나도 마찬가지'
+E|a little bit of a control freak|약간 통제광|a bit of a + 명사 = 약간 ~한 사람
+E|aren't we all|우리 다 그렇잖아요|공감의 반문
+E|feel most at home|가장 편안하다|at home = 집처럼 편한
+E|That makes sense|말이 되네요·그렇겠네요|상대 답에 수긍할 때
+E|as of late|최근에|lately 의 격식체
+E|taking up a lot of time|시간을 많이 잡아먹는|take up = (시간·공간을) 차지하다
+E|taking a step back|한 발 물러나는|take a step back
+E|not really|별로요·딱히요|부드러운 부정
+E|keep in mind|명심하다|try to keep in mind that ~
+E|keep me on my toes|나를 긴장시키다·방심 못 하게 하다|on one's toes = 발끝으로 선 채 = 늘 대비하는
+E|I get it|알았어요·이해했어요|짜증 섞인 '알았다고요'로도
+E|the thing is|문제는·실은|본론을 꺼내는 신호
+E|to be honest with you|솔직히 말하면|honestly 와 같음
+E|long story short|요약하자면|to make a long story short 의 줄임
+E|That's a cheat answer|그건 반칙이죠|둘 중 하나를 안 고를 때
+E|What would you say is ~?|~은 뭐라고 하시겠어요?|What is ~ 보다 부드러운 질문
+E|don't go a day without|하루도 ~없이는 못 산다|not go a day without -ing
+E|Noted|새겨 둘게요|알아 두겠다는 짧은 대답
+E|go-to|늘 찾는·믿고 쓰는|go-to look / go-to place
+E|for sure|물론이죠·확실히|Yeah, for sure. 강한 동의
+E|follow your gut|직감을 따르다|gut = 내장 → 본능
+E|No matter how|아무리 ~해도|No matter how boring they are
+E|just as hard as|꼭 그만큼 힘든|just as A as B
+E|Let's just say|~라고만 해 두죠|에둘러 말할 때
+E|hit closest to home|가장 자기 얘기처럼 와닿다|hit close to home
+E|I can't help it|어쩔 수 없어요|can't help + -ing 도 같은 뜻
+E|heard through the grapevine|소문으로 들었다|grapevine = 포도 덩굴 → 소문의 경로
+E|I could tell you, but I'd have to kill you|말해 줄 순 있지만 그러면 당신을 죽여야 해요|'비밀이에요'라는 농담
+E|taken a front seat|우선순위가 되었다|take a front seat ↔ take a back seat
+E|holding me down|나를 지탱해 주다|hold someone down (속어) = 곁에서 지켜 주다
+E|a thousand percent|천 퍼센트·완전히|100% 를 넘는 과장
+E|That's my cue|제 차례네요|cue = (등장) 신호
+E|When life gives you lemons, make lemonade|역경을 기회로 바꿔라|미국 속담
+E|go for it|그렇게 해요·마음껏 해요|허락·격려
+E|blowing your mind|당신을 놀라게 하는|blow one's mind = 감탄시키다
+E|Oh, snap|어머·헐|놀람의 속어
+E|I know right?|그러니까요|동의 겸 맞장구
+# --- 단어 ---------------------------------------------------
+V|originate|유래하다|Where does your name originate?
+V|upbringing|성장 환경|
+V|role model|롤모델·본보기|
+V|admire|존경하다|
+V|unfortunately|안타깝게도|
+V|Virgo|처녀자리|
+V|control freak|통제광|
+V|obviously|당연히·뻔하게|구어 필러로 자주 씀
+V|suspect|~일 것 같다·의심하다|I suspect that ~
+V|unwind|긴장을 풀다|
+V|literally|말 그대로|강조 필러로도 씀
+V|buzz|화제·입소문|serious buzz
+V|terrified|겁에 질린|
+V|exhausting|진 빠지는|
+V|fulfilling|보람 있는|
+V|attracted|끌린|What attracted you to ~?
+V|basically|기본적으로·한마디로|
+V|pressure|부담·압박|
+V|weird|이상한|
+V|negativity|부정적인 것·악플|
+V|compassion|연민|
+V|wise|현명한|
+V|introverted|내향적인|반대는 extroverted
+V|aware|인식하고 있는|politically aware
+V|grammar|문법|
+V|spelling|철자|
+V|fire pit|야외 화덕|
+V|wardrobe|옷장·옷 전체|
+V|luxe|고급스러운|luxurious 의 줄임
+V|premiere|시사회|
+V|article|기사|
+V|stressful|스트레스가 많은|
+V|slacks|슬랙스 바지|
+V|purchase|구매|
+V|outfit|옷차림|
+V|confidence|자신감|
+V|philosophy|철학|
+V|horror stories|끔찍한 경험담|
+V|several|여러|several times
+V|backyard|뒷마당|
+V|instincts|본능·직감|
+V|gut|직감·배짱|본래 뜻은 내장
+V|contracts|계약서|
+V|diverse|다양한|
+V|trapeze|공중그네|
+V|martial arts|무술|
+V|commitment|헌신·전념|
+V|emotional|감정적인|
+V|endure|견디다|
+V|badass|끝내주는 사람|속어. 칭찬
+V|installment|(시리즈의) 편|
+V|intense|강렬한|
+V|costars|공동 출연자|
+V|traits|특성|
+V|loner|외톨이|
+V|teleportation|순간이동|
+V|press tour|홍보 투어|
+V|iconic|상징적인|
+V|accent|억양|
+V|whack|구린|속어
+V|popping|신나게 달아오른|속어
+V|corny|진부한·유치한|
+V|giving|잘 베푸는|
+V|passionate|열정적인|
+V|phases|단계|
+V|appreciate|고마워하다|
+V|awesome|최고의|

@@ -1,0 +1,1571 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1d4f42"><title>도카도카 한국어 공부 · ドカドカ韓国語</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f5f6f2; --surface:#fff; --surface-2:#f3f5f0; --surface-3:#eceee7;
+ --line:#e4e7df; --line-2:#d3d8cc;
+ --ink:#212725; --ink-2:#5d665f; --ink-3:#8d958c;
+ --brand:#1d4f42; --brand-2:#173f35; --brand-soft:#e8efe9; --brand-line:#bcd0c2;
+ --accent:#a2683a; --accent-soft:#faf3e9; --accent-line:#e6d3b8;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,36,30,.05);
+ --sh-2:0 2px 4px rgba(24,36,30,.04),0 8px 24px rgba(24,36,30,.06);
+ font-family:"Noto Sans KR","Noto Sans JP",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* 二段ラベル: 日本語=主, 韓国語=副。副は高さを増やしすぎないよう詰める */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#c2c9ba}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:76px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ home ============ */
+.home{max-width:1180px;margin:auto;padding:64px 32px 72px}
+.hhead{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;flex-wrap:wrap;
+ padding-bottom:26px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+.hbrand{display:flex;gap:14px;align-items:center}
+.hbrand .seal{width:52px;height:58px;font-size:28px;border-radius:12px}
+.hbrand strong{display:block;font-size:25px;font-weight:650;letter-spacing:-.02em}
+.hbrand .sub{font-size:13px;margin-top:2px}
+.htag{margin:0;font-size:12.5px;line-height:1.8;color:var(--ink-3);text-align:right}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+.hcard{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;
+ border:1px solid var(--line);border-radius:var(--r-l);background:var(--surface);
+ box-shadow:var(--sh-2);transition:transform .14s,box-shadow .14s,border-color .14s}
+.hcard:hover{transform:translateY(-2px);border-color:var(--brand-line);
+ box-shadow:0 4px 8px rgba(24,36,30,.06),0 14px 34px rgba(24,36,30,.10)}
+.hthumb{position:relative;aspect-ratio:16/9;background:#0d0f0e;overflow:hidden}
+.hthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hthumb .hseal{position:absolute;left:12px;top:12px;display:grid;place-items:center;width:34px;height:38px;
+ border-radius:8px;background:rgba(29,79,66,.92);color:#fff;font-family:serif;font-size:18px}
+.hbody{padding:16px 18px 18px}
+.hbody h3{margin:0;font-size:17px;font-weight:650;letter-spacing:-.015em;line-height:1.35}
+.hbody .ko{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.hbody .desc{margin:8px 0 0;font-size:11.5px;line-height:1.65;color:var(--ink-3)}
+.hstats{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.hstat{font-size:11px;color:var(--ink-3)}.hstat b{display:block;font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.hprog{margin-top:12px}
+.hprog .bar{margin:0 0 5px}
+.hprog span.t{font-size:10.5px;color:var(--ink-3)}
+.hsoon{display:grid;place-items:center;gap:8px;min-height:260px;border:1px dashed var(--line-2);
+ border-radius:var(--r-l);color:var(--ink-3);font-size:12.5px;text-align:center;padding:24px;background:var(--surface-2)}
+.hsoon b{font-size:14px;color:var(--ink-2);font-weight:650}
+.hfoot{margin-top:38px;font-size:11px;line-height:1.8;color:var(--ink-3)}
+.hfoot span[lang=ko]{display:block}
+#goHome{flex:none;margin-right:4px}
+@media(max-width:700px){.home{padding:36px 18px 48px}.htag{text-align:left}}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 284px;min-height:100vh}
+/* 学習タブではシーン一覧を出さない。画面をまるごと学習に使う */
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .side-title,.side .panel,.side .foot{flex:none}
+/* 장면 목록만 안쪽에서 스크롤된다 — 페이지 전체가 밀리지 않게 */
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;
+ border:2px solid var(--surface-2);background-clip:padding-box}
+.scenes::-webkit-scrollbar-thumb:hover{background:#bcc4b4;background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;
+ padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25;display:flex;align-items:center;gap:9px}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4d26;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f0e3cd;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a44;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f0e;
+ border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);
+ border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;
+ font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);
+ padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;
+ padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);
+ border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.itv{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.ko{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;
+ letter-spacing:-.015em;word-break:keep-all;overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+.raw{display:flex;gap:8px;margin:10px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-3)}
+.raw b{flex:none;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--accent);padding-top:2px}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);
+ color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ja{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);
+ background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent-line);
+ font-size:12px;line-height:1.65;color:#7a5326}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);
+ border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;
+ border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);
+ font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);
+ overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;padding:12px 18px;
+ border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .k{font-size:14.5px;line-height:1.6;word-break:keep-all;font-weight:500}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px}
+
+/* 学習タブでは画面を広く使う。プレーヤーは細く畳む */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+
+/* ============ study ============ */
+/* 学習パネルは画面の高さに収める。はみ出す所だけ内側でスクロールさせる */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 毎日くり返す手順なので、大きなカードではなく細い流れの帯にする */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600;word-break:keep-all}
+.dcRow .jj{color:var(--ink-3);font-size:11px}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 学習法ガイド ---- */
+.guide{padding:26px 24px 30px}
+.gintro{max-width:none;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35}
+.gintro>p[lang=ko]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px}
+.gnote span[lang=ko]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .ko{font-size:11.5px;color:var(--ink-3);margin-bottom:8px}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2)}
+.gstep p span[lang=ko]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2)}
+.gtip p span[lang=ko]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);
+ box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+#sbGuide{margin-left:auto;color:var(--ink-3)}
+#sbGuide[aria-pressed=true]{color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);
+ padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5;word-break:keep-all}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px}
+.srow .btn{flex:none}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);
+ background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6;word-break:keep-all}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;
+ border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);
+ align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.015em;
+ word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;
+ border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#c2c9ba}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;
+ background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;
+ background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;
+ width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.side-title{display:flex;align-items:center;justify-content:space-between;
+ font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:16px 6px 7px}
+.scenes{display:grid;gap:1px}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;
+ text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .itv{padding-left:24px;position:relative}
+.scenes .itv::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;
+ border-radius:50%;background:var(--accent-line)}
+.scenes button[aria-pressed=true].itv{color:var(--accent)}
+.scenes button[aria-pressed=true].itv::before{background:var(--accent)}
+.scenes button[aria-pressed=true].itv .sub{color:var(--accent)}
+.grp{display:flex;align-items:center;gap:8px;margin:12px 6px 5px;
+ font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div id="homeView">
+ <div class="home">
+  <header class="hhead">
+   <div class="hbrand"><div class="seal">韓</div>
+    <div><strong lang="ko">도카도카 한국어 공부</strong><span class="sub" lang="ja">ドカドカ韓国語</span></div></div>
+   <p class="htag">バラエティの生きた会話で学ぶ韓国語<br><span lang="ko">예능의 살아 있는 대화로 배우는 한국어</span></p>
+  </header>
+  <div class="hgrid" id="hgrid"></div>
+  <p class="hfoot">映像は YouTube の公式プレーヤーで再生されます。学習用の個人利用を想定したページです。
+   <span lang="ko">영상은 YouTube 공식 플레이어로 재생됩니다. 학습용 개인 이용을 전제로 한 페이지입니다.</span></p>
+ </div>
+</div>
+
+<div class="wrap" id="appView" hidden>
+ <main class="main">
+  <div class="topbar">
+   <button class="btn btn-sm" id="goHome" title="シリーズ一覧へ / 시리즈 목록으로">
+    <svg class="ic"><use href="#i-left"/></svg><span class="lbl">シリーズ<span class="sub" lang="ko">시리즈</span></span></button>
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">全シーン<span class="inl" lang="ko">전체 장면</span></h1>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">カード<span class="sub" lang="ko">카드</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">台本<span class="sub" lang="ko">대본</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">学習<span class="sub" lang="ko">학습</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>ローカルファイル (<code>file://</code>) で開いています。</strong>
+    YouTube は出所のないページへの埋め込み再生を拒否します (Error 153)。カード・台本・編集はそのまま使え、
+    再生ボタンは YouTube をその台詞の位置から開きます。ページ内で再生するには同梱の
+    <code>start.bat</code> (Windows) か <code>start.sh</code> を実行してください。
+    <span class="sub" lang="ko">로컬 파일(<code>file://</code>)로 열었습니다. YouTube가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153).
+     카드·대본·편집은 그대로 쓸 수 있고, 재생 버튼은 YouTube를 해당 대사 위치부터 엽니다.
+     페이지 안에서 재생하려면 같이 둔 <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>ページ内では再生できません</strong>
+      <span lang="ko">이 페이지 안에서는 재생할 수 없습니다</span>
+      <em>再生ボタンで YouTube を該当の位置から開きます<br><span lang="ko">재생 버튼이 YouTube를 해당 위치부터 엽니다</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 動画ID / 영상 ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">適用<span class="sub" lang="ko">적용</span></span></button>
+    </div>
+    <div class="status" id="playStatus">プレーヤーを読み込んでいます…<span class="sub" lang="ko">플레이어를 불러오는 중…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>編集済み · 수정함</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="ko" id="ko" lang="ko">読み込み中…</div>
+     <p class="raw" id="raw" hidden></p>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">この場面を再生<span class="sub" lang="ko">이 장면 재생</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">リピート<span class="sub" lang="ko">구간 반복</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">チェック<span class="sub" lang="ko">체크</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">編集<span class="sub" lang="ko">편집</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">韓国語の台詞 · 한국어 대사</div>
+       <textarea id="edKo" lang="ko" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">日本語の意味 · 일본어 뜻</div>
+       <textarea id="edJa" spellcheck="false"></textarea>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>保存 · 저장</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>キャンセル · 취소</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>元に戻す · 되돌리기</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">意味を見る<span class="sub" lang="ko">뜻 보기</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>意味 · 뜻</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>隠す · 숨기기</button></div>
+      <p class="ja" id="ja"></p>
+      <p class="note" id="note" hidden></p>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">前へ<span class="sub" lang="ko">이전</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">次へ<span class="sub" lang="ko">다음</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>次のカードを自動再生<br><span class="inl" lang="ko">다음 카드 자동 재생</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>意味を最初から表示<br><span class="inl" lang="ko">뜻 처음부터 표시</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>順番をシャッフル<br><span class="inl" lang="ko">순서 섞기</span></span></label>
+      <label><input type="checkbox" id="optRaw"><span>字幕の原文で表示<br><span class="inl" lang="ko">자막 원문으로 표시</span></span></label>
+      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">再生の余裕 <span class="inl" lang="ko" style="color:var(--ink-3);font-size:11.5px">재생 여유</span></span>
+       <select id="optTail">
+        <option value="0.3">0.3秒 · 0.3초</option><option value="0.5">0.5秒 · 0.5초</option>
+        <option value="0.8">0.8秒 · 0.8초</option><option value="1">1秒 · 1초</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 意味 · 뜻</i><i><kbd>X</kbd><kbd>Space</kbd> 再生 · 재생</i>
+      <i><kbd>C</kbd> リピート · 반복</i><i><kbd>V</kbd><kbd>→</kbd> 次 · 다음</i><i><kbd>←</kbd> 前 · 이전</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">今日<span class="sub" lang="ko">오늘</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">表現<span class="sub" lang="ko">표현</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">単語<span class="sub" lang="ko">단어</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">クイズ<span class="sub" lang="ko">퀴즈</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="学習の進め方 / 학습 진행 방법">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">学習法<span class="sub" lang="ko">학습법</span></span></button>
+     </div>
+
+     <div id="dayPane">
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="20" aria-pressed="false">ゆっくり</button>
+        <button data-v="28" aria-pressed="true">ふつう</button>
+        <button data-v="40" aria-pressed="false">早め</button>
+        <button data-v="55" aria-pressed="false">集中</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">14</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">完了<span class="sub" lang="ko">완료</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>カードで学ぶ · 카드로</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>今日の分で出題 · 오늘 퀴즈</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 台詞 · 대사</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 表現 · 표현</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 単語 · 단어</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>バラエティ1本を「使える韓国語」に変える4ステップ</h3>
+        <p lang="ko">예능 한 편을 「쓸 수 있는 한국어」로 바꾸는 4단계</p>
+        <p class="gnote">この教材は台本ではなく<b>実際の会話</b>です。作られた例文にはない言いよどみ・略し方・リアクションが詰まっています。
+         だからこそ「読んで分かる」だけでは足りません。<b>音とセットで覚える</b>のが近道です。
+         <span lang="ko">이 교재는 대본이 아니라 <b>실제 대화</b>입니다. 지어낸 예문에 없는 머뭇거림·줄임말·리액션이 들어 있습니다.
+          그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>1日20分でいい · 하루 20분이면 된다</h5>
+         <p>383の台詞を一度に浴びても定着しません。「今日」タブが分量を切ってくれます。<b>毎日少しずつ</b>が唯一の近道です。
+          <span lang="ko">383개 대사를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.</span></p></div>
+        <div class="gtip"><h5>意味より先に音 · 뜻보다 소리 먼저</h5>
+         <p>カードはまず<b>意味を隠したまま</b>再生を。聞き取れなかった所だけ意味を開くと、記憶に残りやすくなります。
+          <span lang="ko">카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.</span></p></div>
+        <div class="gtip"><h5>口に出す · 소리 내어 따라 하기</h5>
+         <p>リピート(<kbd>C</kbd>)で同じ区間を繰り返し、<b>声に出して重ねて</b>ください。抑揚ごと写すのが一番効きます。
+          <span lang="ko">반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.</span></p></div>
+        <div class="gtip"><h5>間違いは宝 · 틀린 것이 보물</h5>
+         <p>クイズで間違えた項目はそのまま復習リストになります。<b>翌日の最初</b>にそこだけ聞き直しましょう。
+          <span lang="ko">퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.</span></p></div>
+        <div class="gtip"><h5>字幕は完璧でない · 자막은 완벽하지 않다</h5>
+         <p>自動生成字幕なので誤りが残ります。おかしいと思ったら<b>編集</b>で直せます。直す作業自体が良い練習です。
+          <span lang="ko">자동생성 자막이라 오류가 남아 있습니다. 이상하면 <b>편집</b>으로 고칠 수 있습니다. 고치는 작업 자체가 좋은 연습입니다.</span></p></div>
+        <div class="gtip"><h5>タメ口と敬語 · 반말과 존댓말</h5>
+         <p>メンバー同士は<b>タメ口</b>、カメラに向かっては<b>敬語</b>。同じ内容で語尾が変わる瞬間に注目すると、使い分けが体で分かります。
+          <span lang="ko">멤버끼리는 <b>반말</b>, 카메라를 향해서는 <b>존댓말</b>. 같은 내용인데 말끝이 바뀌는 순간에 주목하면 구분이 몸에 익습니다.</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="韓国語・日本語で絞り込み / 한국어·일본어로 검색" aria-label="検索 / 검색">
+       <span class="meta" id="sCount">0</span>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">出題範囲 · 출제 범위</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">表現 · 표현</button>
+         <button data-v="V" aria-pressed="false">単語 · 단어</button>
+         <button data-v="S" aria-pressed="false">台詞 · 대사</button>
+         <button data-v="D" aria-pressed="false">今日の分 · 오늘 분량</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">出題方式 · 출제 방식</span>
+        <div class="seg" id="qMode">
+         <button data-v="ko2ja" aria-pressed="true">韓 → 日</button>
+         <button data-v="ja2ko" aria-pressed="false">日 → 韓</button>
+         <button data-v="listen" aria-pressed="false">聞き取り · 듣기</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">問題数 · 문항 수</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">全部 · 전체</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>始める · 시작</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 正解 · 정답</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>やめる · 그만</button>
+       </div>
+       <div class="qask" id="qAsk" lang="ko">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>もう一度聞く · 다시 듣기</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>もう一度 · 다시</button>
+        <button class="btn" id="rBack">設定へ · 설정으로</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">行をクリックすると、その台詞の位置から再生します。再生中は自動で追いかけます。
+     <span class="sub" lang="ko">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">韓</div>
+   <div><strong lang="ko">도카도카 한국어 공부<span class="sub" lang="ja">ドカドカ韓国語</span></strong>
+    <small>崖っぷち · <span class="n">—</span>フレーズ<br><span lang="ko">벼랑 끝에 · <span class="n">—</span>문장</span></small></div></div>
+
+  <div class="side-title">シーン <span style="letter-spacing:0;text-transform:none;font-weight:500" lang="ko">장면</span></div>
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> チェック済み · <span lang="ko">체크함</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">枚を手直し · <span lang="ko">장 수정함</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>書き出し · 내보내기</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>読み込み · 가져오기</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    字幕は自動生成のため認識ミスが含まれます。<br>
+    <span lang="ko">자막이 자동생성이라 인식 오류가 섞여 있습니다.</span></p>
+  </div>
+
+  <div class="foot">
+   台詞・映像出典 · <span lang="ko">대사·영상 출처</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   字幕は YouTube の自動生成字幕をそのまま使用。<br>
+   <span lang="ko">학습용 개인 이용을 전제로 한 페이지입니다.</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const SERIES = [{"id":"cliff389","videoId":"P7jpejjWGxM","title":"崖っぷちフロミスナイン","titleKo":"벼랑 끝에 프로미스나인","subtitle":"危険な招待 · 水に落ちるバラエティ","subtitleKo":"위험한 초대 · 물에 빠지는 예능","seal":"崖","scenes":[{"key":"open","label":"オープニング","ko":"오프닝","itv":false,"at":0},{"key":"pr","label":"IBK お知らせ","ko":"IBK 안내","itv":false,"at":102},{"key":"mg","label":"ミニゲーム開始","ko":"미니게임 START!","itv":false,"at":197},{"key":"mg1","label":"ナギョンの最初のミニゲーム","ko":"나경이의 첫 번째 미니게임 공개","itv":false,"at":220},{"key":"dip1","label":"最初の入水","ko":"첫 번째 입수","itv":false,"at":353},{"key":"mg2","label":"ハニー リズム感が家出したリズムゲーム","ko":"허니 리듬감 집 나간 리듬게임","itv":false,"at":405},{"key":"dip2","label":"全員が初入水","ko":"전원 첫 입수","itv":false,"at":477},{"key":"mg3","label":"ハニャンのワニと遊ぼう","ko":"하냥의 악어랑 놀기","itv":false,"at":548},{"key":"mg4","label":"ジウォンのペットボトルショー","ko":"지원이의 페트병 쇼","itv":false,"at":647},{"key":"mg5","label":"最後のミニゲーム チェヨンのランダムアルバムめくり","ko":"마지막 미니게임 채영이의 랜덤 앨범 넘기기","itv":false,"at":835},{"key":"rule","label":"本ゲームのルール説明","ko":"본 게임 룰 설명","itv":false,"at":938},{"key":"i_hy","label":"ハヨン インタビュー","ko":"하영 인터뷰","itv":true,"at":1011},{"key":"i_jw","label":"ジウォン インタビュー","ko":"지원 인터뷰","itv":true,"at":1102},{"key":"i_cy","label":"チェヨン インタビュー","ko":"채영 인터뷰","itv":true,"at":1223},{"key":"i_nk","label":"ナギョン インタビュー","ko":"나경 인터뷰","itv":true,"at":1267},{"key":"i_jh","label":"ジホン インタビュー","ko":"지헌 인터뷰","itv":true,"at":1341},{"key":"after","label":"飛んでみた感想","ko":"물놀이 완료 날아가 본 소감","itv":false,"at":1513},{"key":"cook","label":"おまけ映像","ko":"쿠키 영상","itv":false,"at":1599}],"data":[{"id":1,"s":5.28,"e":10.54,"ko":"아니 물이 일로 들어가는데 나왔다니까 저 지금","ja":"いや、水がこっちから入ってこっちから出たんだってば。私、今","scene":"open","pe":8.03},{"id":3,"s":15.24,"e":22.24,"ko":"진짜 이렇게까지 웬만하면 원망스러웠을 수도 없어 진짜","ja":"本当に、ここまで恨めしいと思ったことないよ、本当に","scene":"open","pe":19.77},{"id":4,"s":24.4,"e":34.32,"ko":"왜 아무도 안 해? 뭐가 껴? 야 너 최대 소리 지른 거야 지금? 와 진짜 귀엽다. 내가 너무 귀여워.","ja":"なんで誰もやらないの？何が挟まってるの？ねえ、今すごい声で叫んだの？わあ本当にかわいい。私がすごくかわいい。","scene":"open"},{"id":5,"s":34.32,"e":37.44,"ko":"우리 촬영 시작한 거죠?","ja":"私たち、撮影もう始まってるんですよね？","scene":"open"},{"id":6,"s":37.44,"e":39.68,"ko":"아니 왜 이렇게 떨려? 뭐가 문제야? 나","ja":"いや、なんでこんなに緊張するの？何が問題なの？私","scene":"open"},{"id":7,"s":39.68,"e":40.84,"ko":"아 무서워.","ja":"ああ、怖い。","scene":"open"},{"id":8,"s":40.84,"e":44.28,"ko":"아니 여러분 여기가 지금 어디죠?","ja":"ねえ皆さん、ここは今どこでしょう？","scene":"open"},{"id":9,"s":44.28,"e":46.08,"ko":"수영장이죠.","ja":"プールですよね。","scene":"open"},{"id":10,"s":46.08,"e":47.88,"ko":"데모 보셨나요?","ja":"デモ、ご覧になりましたか？","scene":"open","raw":"대모 보셨나요?","note":"「대모」は「데모(デモ)」の音声認識ミス"},{"id":11,"s":47.88,"e":48.92,"ko":"아니요.","ja":"いいえ。","scene":"open"},{"id":12,"s":48.92,"e":50.92,"ko":"벼랑 끝에","ja":"崖っぷちに","scene":"open","raw":"별랑끝에","note":"「별랑끝에」は番組名「벼랑 끝에(崖っぷちに)」の認識ミス"},{"id":13,"s":50.92,"e":53.44,"ko":"진짜 벼랑이다. 진짜 벼랑","ja":"本当に崖だ。本当に崖","scene":"open","raw":"진짜 벼랑다. 진짜 별"},{"id":14,"s":53.44,"e":55.16,"ko":"위험한 초대 옛날에 봤어?","ja":"「危険な招待」、昔見た？","scene":"open","raw":"위험한 첫대 옛날에 봤어?","note":"「첫대」は「초대(招待)」の認識ミス"},{"id":15,"s":55.16,"e":57.44,"ko":"나는 잘로 봤어. 나도","ja":"私は縦に見た。私も","scene":"open"},{"id":16,"s":57.44,"e":61.72,"ko":"제가 알기로는 여덟 중에 하신 분이 없는 거 같아서 저희 멤버","ja":"私が知る限り8人の中でやった人がいないみたいで、うちのメンバー","scene":"open","raw":"제가 알기로는 여덟 중에 하신 분이 없는 거 같아서 저멤버"},{"id":17,"s":61.72,"e":63.48,"ko":"여자분이 한 걸 한 번도 못 봤어.","ja":"女性の方がやったのを一度も見たことがない。","scene":"open"},{"id":18,"s":63.48,"e":65.08,"ko":"여자분이","ja":"女性の方が","scene":"open"},{"id":19,"s":65.08,"e":67.48,"ko":"아니 런닝맨이나 이런 데서는 많이 날아가셨을 거.","ja":"いや、ランニングマンとかではたくさん飛ばされてると思う。","scene":"open"},{"id":20,"s":67.48,"e":78.48,"ko":"아 그래 아무튼 여자 아이돌 중에 한 걸 본 적이 없어서 저희 멤버들이 이거 한번 날아가면 어떻겠냐 의견을 냈는데 이날이 이렇게 빨리 올 줄은 몰랐거든요.","ja":"ああ、そう。とにかく女性アイドルでやったのを見たことがなくて、うちのメンバーが「一度飛んでみたらどう？」と意見を出したんですが、その日がこんなに早く来るとは思わなかったんです。","scene":"open"},{"id":21,"s":78.48,"e":80.72,"ko":"나 오늘 약간 꿈꾸는 줄 알았잖아 지금.","ja":"私、今日ちょっと夢を見てるのかと思ったよ、今。","scene":"open"},{"id":22,"s":80.72,"e":84.92,"ko":"그러니까 나 지금 나 꿈 같아. 나 심장이 너무 빨리 뛰어.","ja":"そうだよ、私、今、夢みたい。心臓がすごく速く打ってる。","scene":"open"},{"id":23,"s":84.92,"e":87.64,"ko":"활동 끝난지 얼마나 됐죠? 이틀이요.","ja":"活動が終わってどれくらいですか？二日です。","scene":"open"},{"id":24,"s":87.64,"e":89.48,"ko":"이틀 됐습니다. 활동 끝난 지.","ja":"二日経ちました、活動が終わって。","scene":"open"},{"id":25,"s":89.48,"e":94.88,"ko":"아, 활동 끝나자마자 잡았구나. 피디님 우리 활동 때는 몸살 나면 안 되니까.","ja":"ああ、活動が終わってすぐ押さえたんだ。PDさん、活動中は体調を崩したらいけないから。","scene":"open","raw":"아, 활동 끝나자마자 잡았구나. 비디님 우리 활동 때는 몸살하면 안 되니까.","note":"「비디님」は「피디님(PDさん)」の認識ミス"},{"id":26,"s":94.88,"e":99.48,"ko":"오, 스윗하다. 아, 무사.","ja":"お、スイートだ。ああ、無事。","scene":"open"},{"id":27,"s":99.48,"e":102.84,"ko":"본격적으로 게임 들어가기 전에 여러분들께 알려드릴 소식이 있다고요.","ja":"本格的にゲームに入る前に、皆さんにお知らせすることがあるそうです。","scene":"open","raw":"본격적으로 게임 들어가기 전에 여러분들 알려주실 솔직히 있다고요."},{"id":28,"s":102.84,"e":114.32,"ko":"네. 저희가 이제 활동이 끝났는데 여러분들을 또 만날 수 있는 기회가 있다고 합니다. 여러분 바로 이 페스티벌인데요. 10월 3일에서부터 10월 4일까지 일산 킨텍스에서 진행을 한다고 합니다.","ja":"はい。私たち活動が終わったんですが、皆さんにまた会える機会があるそうです。皆さん、まさにこのフェスティバルなんですが、10月3日から10月4日までキンテックスで行われるそうです。","scene":"pr","raw":"네. 저희가 이제 활동이 끝났는데 여러분들을 또 만날 수 있는 기회가 있다고 합니다. 여러분 바로이 페스티벌인데요. 10월 3일에서부터 10월 4일까지 13 킨텍스에서 진행을 한다고 합니다."},{"id":30,"s":114.32,"e":120.2,"ko":"IBK 기업은행 IBK 페스티벌에 참여하게 되었습니다.","ja":"IBK企業銀行のフェスティバルに参加することになりました。","scene":"pr","pe":118.94,"raw":"IBK 기어는 이쿠 페스티벌에 참여하게 되었습니다.","note":"「기어」「이쿠」はIBK企業銀行の認識ミス"},{"id":31,"s":122.04,"e":139.36,"ko":"그리고 또 좋은 소식이 또 있는데요. 10월 초 IBK 페스티벌이 끝나면 네. 가을밤 감성을 제대로 채워 줄 고품격 IBK 콘서트가 진행된다고 합니다. 무려 성시경 선배님이랑 로이킴 선배님의 공연이 예정되어 있다고 하는데요.","ja":"そしてもう一つ良いニュースがあるんですが、10月初めのフェスティバルが終わったら、はい、秋の夜の感性をしっかり満たしてくれる高品格コンサートが行われるそうです。なんとソン・シギョン先輩とロイ・キム先輩の公演が予定されているそうです。","scene":"pr","raw":"그리고 또 좋은 소식이 또 있는데요. 10월 초 입급 페스티벌이 끝나면 네. 가을밤 감성을 제대로 채워 줄 고품격 입크 콘서트가 진행된다고 합니다. 무려 성시경 선배님이랑 로이킴 선배님의 공연이 예정되어 있다고 하는데요."},{"id":33,"s":139.36,"e":150.84,"ko":"네. 10월 10일은 부산 벡스코에서 11월 8일은 서울 이화여대 대강당에서 진행이 된다고 합니다. 근데 IBK 기업은행은 기업들만 이용하는 곳이 아닌가?","ja":"はい。10月10日は釜山ベクスコで、11月8日はソウル梨花女子大講堂で行われるそうです。ところで、IBK企業銀行は企業だけが利用する所じゃないの？","scene":"pr","raw":"네. 10월 10일은 부산 백스코에서 11월 8일은 서울 이화여대 대강당에서 진행이 된다고 합니다. 근데 IBK 기업은행은 기업들만 이용하는 곳이 아닌가?"},{"id":34,"s":150.84,"e":180.4,"ko":"아직도 그렇게 생각하면 오해입니다. 기업은행은 기업뿐만 아니라 개인 고객들도 편리하게 이용할 수 있답니다. 그래서 우리 같은 개인 고객들을 위해서 멋진 콘서트와 페스티벌을 또 준비를 해 주셨다고 합니다. 네. 그러면 가장 중요한 참여 방법을 알려 드릴게요. IBK 페스티벌은 8월 3일부터 8월 31일까지 IBK 콘서트는 8월 10일부터 9월 7일까지 IBK 기업은행 아이원뱅크 앱에서 응모 가능합니다.","ja":"まだそう思っているなら誤解です。企業銀行は企業だけでなく個人のお客様も便利に利用できるそうです。それで私たちのような個人のお客様のために、素敵なコンサートとフェスティバルを準備してくださったそうです。はい。では一番大事な参加方法をお知らせします。フェスティバルは8月3日から8月31日まで、コンサートは8月10日から9月7日まで、IBK企業銀行のアプリから応募可能です。","scene":"pr","raw":"아직도 그렇게 생각하면 오해입니다. 기업은행은 기업뿐만 아니라 개인 고객들도 편리하게 이용할 수 있답니다. 그래서 우리 같은 개인 고객들을 위해서 멋진 콘서트와 페스티벌을 또 준비를 해 주셨다고 합니다. 네. 그러면 가장 중요한 참여 방법을 알려 드릴게요. IBK 페스티벌은 8월 3일부터 8월 31일까지 IBK 콘서트는 8월 10일부터 9월 7일까지 IBK 기업은행 아이원뱅크 앱에서 응모 가능합니다. 합니다. 네. 그러면 가장 중요한 참여 방법을 알려 드릴게요. 입급 페스티벌은 8월 3일부터 8월 31일까지 입급 콘서트는 8월 10일부터 9월 7일까지 IBK 기업은행 아이크 어플에서 음모 가능합니다.","note":"「음모」は「응모(応募)」の認識ミス"},{"id":37,"s":180.4,"e":185.68,"ko":"벌써 응모 기간이 얼마 남지 않았으니까 얼른 서두르세요. 저희 보러 오세요.","ja":"もう応募期間があまり残っていないので早く急いでください。私たちに会いに来てください。","scene":"pr","raw":"벌써 음모 기간이 얼마 남지 않았으니까 얼른 서두르세요. 저희 포로 오세요."},{"id":38,"s":185.68,"e":197.76,"ko":"그리고 IBK 기업은행 공식 인스타도 팔로우하셔서 계속 업데이트되는 내용들도 놓치지 마세요. 그럼 우리 다 같이 IBK에서 만나요.","ja":"そしてIBK企業銀行の公式インスタもフォローして、更新される内容も見逃さないでください。では皆で会場で会いましょう。","scene":"pr","pe":195.6,"raw":"그리고 IBK 기업은 공식 인스타도 팔로우하셔서 계속 업데이트되는 내용들도 놓치지 마세요. 그럼 우리 다 같이 입구에서 만나요."},{"id":39,"s":199.48,"e":201.4,"ko":"미니게임으로 몸풀기를 할게요.","ja":"ミニゲームでウォーミングアップをします。","scene":"mg"},{"id":40,"s":201.4,"e":202.44,"ko":"네.","ja":"はい。","scene":"mg"},{"id":41,"s":202.44,"e":206.52,"ko":"그래서 다섯 개 게임 준비했는데 나경님부터","ja":"それで5つのゲームを用意しましたが、ナギョンさんから","scene":"mg","raw":"그래서 다섯 개 게임 준비했는데 나님부터"},{"id":42,"s":206.52,"e":208.16,"ko":"아씨 무서워.","ja":"うわ、怖い。","scene":"mg"},{"id":43,"s":208.16,"e":213.04,"ko":"무서워. 아 몸 푸는 거야?","ja":"怖い。あ、ウォーミングアップなの？","scene":"mg","pe":210.6},{"id":44,"s":217.88,"e":221.2,"ko":"봐도 돼요?","ja":"見てもいいですか？","scene":"mg","pe":218.99},{"id":45,"s":222.08,"e":228.84,"ko":"뭐예요? 놀래돌래 이거는 그냥 복불복이잖아.","ja":"何ですか？これはただの運任せじゃない。","scene":"mg1","note":"「놀래돌래」はゲーム名の認識ミスと思われる（正確な名称は未確認）"},{"id":46,"s":229.44,"e":232.44,"ko":"근데 멤버들 이름만 쓸 수 있어. 멤버","ja":"でもメンバーの名前しか書けない。メンバー","scene":"mg1"},{"id":47,"s":232.44,"e":233.48,"ko":"아 누구?","ja":"あ、誰？","scene":"mg1"},{"id":48,"s":233.48,"e":236.4,"ko":"아니 다 다","ja":"いや、全部、全部","scene":"mg1","pe":234.37},{"id":49,"s":236.4,"e":238.04,"ko":"꼬야 오늘 유독 예쁘다.","ja":"コヤ、今日は特にきれいだね。","scene":"mg1"},{"id":50,"s":238.04,"e":240.44,"ko":"꼬야 늘 예뻐.","ja":"コヤ、いつもきれい。","scene":"mg1"},{"id":51,"s":240.44,"e":240.96,"ko":"왜 날 왜봐?","ja":"なんで私を見るの？","scene":"mg1"},{"id":52,"s":240.96,"e":242.52,"ko":"오늘 유독이 아니라 늘 예뻐.","ja":"今日が特に、じゃなくて、いつもきれい。","scene":"mg1"},{"id":53,"s":242.52,"e":246.8,"ko":"뽀야 오늘따라 더 예쁘게 쓴다 야. 누구? 이체형.","ja":"ポヤ、今日に限ってもっときれいに書くね。誰？チェヨン。","scene":"mg1"},{"id":54,"s":246.8,"e":248.68,"ko":"일단 똑같진 않아.이","ja":"とりあえず同じではない。この","scene":"mg1"},{"id":55,"s":248.68,"e":256.52,"ko":"정도면 똑같지 않아? 나였으면 그렇게 안 썼다. 한 명을 두 번 써도 돼요.","ja":"これくらいなら同じじゃない？私だったらそう書かなかった。一人を二回書いてもいいです。","scene":"mg1","pe":254.19},{"id":56,"s":258.48,"e":261.84,"ko":"언니 우리 돌아갈 때 같이 타러 타고 가야 돼.","ja":"お姉さん、私たち帰る時、一緒に乗って行かなきゃ。","scene":"mg1"},{"id":57,"s":261.84,"e":263.16,"ko":"뭔 싼 거 아닌데?","ja":"何、安いものじゃないけど？","scene":"mg1"},{"id":58,"s":263.16,"e":264.96,"ko":"왜 나 먼저 쓰냐고?","ja":"なんで私を先に書くのかって？","scene":"mg1"},{"id":59,"s":264.96,"e":266.4,"ko":"야 여기 제일 작아.","ja":"ねえ、ここが一番小さい。","scene":"mg1"},{"id":60,"s":266.4,"e":272.56,"ko":"그래. 미리 물을 적시고 와야 되나? 잠깐만. 그래","ja":"そう。先に水に濡れてから来なきゃダメかな？ちょっと待って。そう","scene":"mg1"},{"id":61,"s":272.56,"e":273.92,"ko":"심장?","ja":"心臓？","scene":"mg1"},{"id":62,"s":273.92,"e":275.16,"ko":"나도 심장 좀.","ja":"私も心臓、ちょっと。","scene":"mg1"},{"id":63,"s":275.16,"e":276.8,"ko":"나도 심장은 좀 적혀놔야.","ja":"私も心臓は、ちょっと書いておかなきゃ。","scene":"mg1"},{"id":64,"s":276.8,"e":280.0,"ko":"물 차가워.","ja":"水、冷たい。","scene":"mg1","pe":277.91},{"id":65,"s":282.28,"e":288.16,"ko":"물잡아. 나 죽을까 봐 물 많이 묻쳤어.","ja":"水をつかんで。死ぬかと思って水をたくさんつけた。","scene":"mg1","pe":286.63},{"id":66,"s":288.68,"e":289.88,"ko":"저 돌릴게요.","ja":"私、回しますね。","scene":"mg1"},{"id":67,"s":289.88,"e":290.28,"ko":"네.","ja":"はい。","scene":"mg1"},{"id":68,"s":290.28,"e":291.52,"ko":"무서워.","ja":"怖い。","scene":"mg1"},{"id":69,"s":291.52,"e":294.15,"ko":"아","ja":"あ","scene":"mg1","pe":292.32},{"id":70,"s":294.52,"e":299.88,"ko":"나 느낌이 안 좋아. 나 오늘 잠깐만 날리면 안 돼요. 진짜","ja":"私、嫌な予感がする。今日はちょっと、飛ばしちゃダメですよ。本当に","scene":"mg1"},{"id":71,"s":299.88,"e":304.56,"ko":"진짜 나 오늘 안 좋았지.","ja":"本当に私、今日、調子悪かったよね。","scene":"mg1","pe":302.1},{"id":72,"s":304.76,"e":305.28,"ko":"봐봐 꼬야.","ja":"見て、コヤ。","scene":"mg1"},{"id":73,"s":305.28,"e":306.92,"ko":"야 나 왜 이렇게 커?","ja":"ねえ、なんで私こんなに大きいの？","scene":"mg1"},{"id":74,"s":306.92,"e":309.52,"ko":"나 왜 제일 커? 아니야.","ja":"なんで私が一番大きいの？違うよ。","scene":"mg1"},{"id":75,"s":309.52,"e":311.68,"ko":"멤버들 준비됐어.","ja":"メンバーの準備ができた。","scene":"mg1"},{"id":76,"s":311.68,"e":313.48,"ko":"왜 우리는 이렇게 사서 고생하는 거야?","ja":"なんで私たちはこうやって苦労を買ってるの？","scene":"mg1"},{"id":77,"s":313.48,"e":315.32,"ko":"그러니까 왜 누가 하고 싶다는 거야?","ja":"そうだよ、誰がやりたいって言ったの？","scene":"mg1"},{"id":78,"s":315.32,"e":315.8,"ko":"몰라.","ja":"知らない。","scene":"mg1"},{"id":79,"s":315.8,"e":317.4,"ko":"당신이요 당신?","ja":"あなたですよ、あなた？","scene":"mg1"},{"id":80,"s":317.4,"e":318.68,"ko":"나 한다. 진짜.","ja":"私、やる。本当に。","scene":"mg1"},{"id":81,"s":318.68,"e":319.0,"ko":"잠깐만.","ja":"ちょっと待って。","scene":"mg1"},{"id":82,"s":319.0,"e":320.48,"ko":"자기야.","ja":"ねえ、あなた。","scene":"mg1"},{"id":83,"s":320.48,"e":323.56,"ko":"아니야. 언니 빨리 해 해 줘.","ja":"違うよ。お姉さん、早くやってやって。","scene":"mg1"},{"id":84,"s":323.56,"e":336.64,"ko":"나 돌린다. 빨리 해. 야 빨리 해. 빨리 빨리 빨리. 아 빨리 해.이 똥 세. 아 똥 세. Ah.","ja":"私、回すよ。早くやって。ねえ早くやって。早く早く早く。ああ早くやって。","scene":"mg1","pe":333.81},{"id":87,"s":357.48,"e":361.04,"ko":"와 이거 너무","ja":"わあ、これすごく","scene":"dip1","pe":358.59},{"id":88,"s":365.84,"e":368.08,"ko":"이거 너무","ja":"これ、すごく","scene":"dip1","pe":366.73},{"id":89,"s":368.08,"e":372.0,"ko":"야 괜찮아 허나","ja":"ねえ、大丈夫？","scene":"dip1","pe":369.41},{"id":90,"s":375.24,"e":376.2,"ko":"야 홍아 괜찮아","ja":"ねえ、大丈夫？","scene":"dip1"},{"id":91,"s":376.2,"e":377.44,"ko":"야 허아 허아 어때","ja":"ねえ、どう？","scene":"dip1"},{"id":92,"s":377.44,"e":382.36,"ko":"야 허아 너 어 어떻게 날아간 줄 알아 너리까지 날아갔어","ja":"ねえ、あなたどうやって飛んだか分かる？あそこまで飛んで行ったよ","scene":"dip1"},{"id":93,"s":382.36,"e":385.96,"ko":"아니야 근데 생각보다 재밌네 이게","ja":"違う、でも思ったより面白いね、これ","scene":"dip1"},{"id":94,"s":385.96,"e":389.2,"ko":"근데 아니 너무 높게 날지 않았어 재밌는데","ja":"でも、あまりにも高く飛ばなかった？面白いけど","scene":"dip1"},{"id":95,"s":389.2,"e":390.64,"ko":"깜짝 놀랐어 나 진짜","ja":"びっくりした、私、本当に","scene":"dip1"},{"id":96,"s":390.64,"e":394.36,"ko":"아니 이거 솔직히 미리 알기만 하면은 별로 안 무서울 것 같아","ja":"いや、これ正直、前もって分かってさえいれば、あまり怖くなさそう","scene":"dip1"},{"id":97,"s":394.36,"e":396.93,"ko":"아니 난 얘가 너무 커다라 애가","ja":"いや、私はこの子が大きすぎて、子が","scene":"dip1"},{"id":99,"s":399.32,"e":401.04,"ko":"이렇게 날아가는 게","ja":"こうやって飛んでいくのが","scene":"dip1"},{"id":100,"s":401.04,"e":407.36,"ko":"아니 나경 언니가 너무 불쌍하게 날 쳐다봐서 아이씨 나구나.","ja":"いや、ナギョンお姉さんがすごくかわいそうに私を見つめるから、「あっ、私なんだ」って。","scene":"dip1","pe":405.88},{"id":101,"s":408.28,"e":409.52,"ko":"아 어떡하냐?","ja":"ああ、どうしよう？","scene":"mg2"},{"id":102,"s":409.52,"e":410.36,"ko":"아 망했다.","ja":"ああ、終わった。","scene":"mg2"},{"id":103,"s":410.36,"e":413.6,"ko":"아 백 무조건 져요. 이거","ja":"ああ、絶対負けますよ、これ","scene":"mg2"},{"id":104,"s":413.6,"e":414.32,"ko":"망했다.","ja":"終わった。","scene":"mg2"},{"id":105,"s":414.32,"e":415.4,"ko":"나 진짜 못 하거든.","ja":"私、本当に下手なんだけど。","scene":"mg2"},{"id":106,"s":415.4,"e":417.36,"ko":"야 지연아 포기하지 마.","ja":"ねえジヨン、諦めないで。","scene":"mg2"},{"id":107,"s":417.36,"e":420.88,"ko":"진짜요? 이거는 전원 입수예요. 에","ja":"本当ですか？これは全員入水です。え","scene":"mg2"},{"id":108,"s":420.88,"e":424.4,"ko":"실이 전원","ja":"全員","scene":"mg2","pe":421.77},{"id":109,"s":427.08,"e":429.04,"ko":"너는 너 박치 아니잖아.","ja":"あなたはリズム音痴じゃないじゃない。","scene":"mg2"},{"id":110,"s":429.04,"e":431.72,"ko":"근데 난 진짜로 진짜로 노력할 거야. 언니들","ja":"でも私は本当に、本当に頑張るよ、お姉さんたち","scene":"mg2"},{"id":111,"s":431.72,"e":438.08,"ko":"지원아 정신 똑바로 차려. 네네.","ja":"ジウォン、しっかりしなさい。はいはい。","scene":"mg2","pe":435.75},{"id":112,"s":439.12,"e":440.8,"ko":"자","ja":"さあ","scene":"mg2"},{"id":113,"s":440.8,"e":445.52,"ko":"하 지원 지원","ja":"ジウォン、ジウォン","scene":"mg2","pe":441.91},{"id":114,"s":450.92,"e":456.6,"ko":"하세 지원 낙경 지원하세","ja":"ジウォン、ナギョン、ジウォン","scene":"mg2","pe":453.14},{"id":115,"s":457.6,"e":466.88,"ko":"형하 나경 지원 나경 지원 낙경 지원 채형 나경 지원 채형 하영","ja":"ナギョン、ジウォン、チェヨン、ハヨン","scene":"mg2"},{"id":116,"s":466.88,"e":468.28,"ko":"야 똑바로 네.","ja":"ねえ、ちゃんと。はい。","scene":"mg2"},{"id":117,"s":468.28,"e":471.16,"ko":"제발","ja":"お願い","scene":"mg2","pe":469.08},{"id":118,"s":471.16,"e":477.32,"ko":"하영 낙경 지원 최영 낙경 지원","ja":"ハヨン、ナギョン、ジウォン","scene":"mg2","pe":473.83},{"id":120,"s":508.0,"e":510.96,"ko":"지금 멤버 전원을 날린 소감이 어떠신지?","ja":"今、メンバー全員を飛ばした感想はいかがですか？","scene":"dip2"},{"id":121,"s":510.96,"e":512.32,"ko":"어떡해?","ja":"どうしよう？","scene":"dip2"},{"id":122,"s":512.32,"e":518.24,"ko":"다시 제로 제로샷이야. 제로 게임이야 이제. 나도 몰랑.","ja":"またゼロ、ゼロだよ。もうゼロゲームだよ。私も知らない。","scene":"dip2"},{"id":123,"s":518.24,"e":522.12,"ko":"나 그거 된 거 같아. 갓 태어난 망아지.","ja":"私、あれになった気がする。生まれたての子馬。","scene":"dip2"},{"id":124,"s":522.12,"e":525.64,"ko":"아니 물이 일로 들어가서 일로 나왔다니까. 저 지금","ja":"いや、水がこっちから入ってこっちから出たんだってば。私、今","scene":"dip2"},{"id":125,"s":525.64,"e":528.52,"ko":"진짜 저 어떻게 빠졌어요? 일자로 빠졌어요.","ja":"本当に、私どうやって落ちましたか？まっすぐ落ちました。","scene":"dip2"},{"id":126,"s":528.52,"e":529.6,"ko":"언니 옆으로 나눴어.","ja":"お姉さん、横に落ちた。","scene":"dip2"},{"id":127,"s":529.6,"e":532.0,"ko":"와 나 진짜 요청하게 빠진 거 같","ja":"わあ、私、本当に変な感じで落ちた気がする","scene":"dip2"},{"id":128,"s":532.0,"e":535.52,"ko":"아니야. 거야. 너 되게 다이빙 선수처럼 빠졌어.","ja":"違うよ。あなた、すごくダイビング選手みたいに落ちた。","scene":"dip2","raw":"아니야. 거야. 너 되게 프로이빙 선수처럼 빠졌어.","note":"「프로이빙」は「다이빙(ダイビング)」の認識ミス"},{"id":129,"s":535.52,"e":536.4,"ko":"언니 일자 빠졌어.","ja":"お姉さん、まっすぐ落ちた。","scene":"dip2"},{"id":130,"s":536.4,"e":540.76,"ko":"아니 얘 얘 진짜 신기한게 뿅 날아서 뿅.","ja":"いや、この子、この子、本当に不思議なのが、ポンと飛んでポン。","scene":"dip2"},{"id":131,"s":540.76,"e":541.8,"ko":"진짜로","ja":"本当に","scene":"dip2"},{"id":132,"s":541.8,"e":546.99,"ko":"일자로 이렇게 꽂혔어.","ja":"まっすぐ、こうやって刺さった。","scene":"dip2","pe":545.47},{"id":133,"s":548.72,"e":551.4,"ko":"살려줘.","ja":"助けて。","scene":"mg3","pe":549.61},{"id":134,"s":551.4,"e":552.52,"ko":"나 지금 진심 미안.","ja":"私、今、本当にごめん。","scene":"mg3","raw":"나 지금 심심 미안."},{"id":135,"s":552.52,"e":554.28,"ko":"진짜 날리지 말아줘 언니.","ja":"本当に飛ばさないで、お姉さん。","scene":"mg3"},{"id":136,"s":554.28,"e":557.6,"ko":"아 이거는 진짜 운이다. 이건 진짜 운이다.","ja":"ああ、これは本当に運だ。これは本当に運だ。","scene":"mg3"},{"id":137,"s":557.6,"e":561.2,"ko":"이게 뭐예요? 근데 이거 전원이스예요.","ja":"これは何ですか？でもこれ、全員です。","scene":"mg3"},{"id":138,"s":561.2,"e":563.08,"ko":"사냥 센터부터 눌러. 알겠지?","ja":"真ん中から押して。分かった？","scene":"mg3","note":"「사냥 센터」は「센터(センター＝真ん中)」の認識ミス"},{"id":139,"s":563.08,"e":565.04,"ko":"알았어. 갈게요.","ja":"分かった。行きます。","scene":"mg3"},{"id":140,"s":565.04,"e":565.36,"ko":"네.","ja":"はい。","scene":"mg3"},{"id":141,"s":565.36,"e":566.84,"ko":"환영","ja":"歓迎","scene":"mg3"},{"id":142,"s":566.84,"e":567.52,"ko":"게요.","ja":"ますね。","scene":"mg3"},{"id":143,"s":567.52,"e":567.84,"ko":"네.","ja":"はい。","scene":"mg3"},{"id":144,"s":567.84,"e":570.84,"ko":"환영","ja":"歓迎","scene":"mg3","pe":568.64},{"id":146,"s":579.64,"e":590.4,"ko":"한냥. 한냥 그거 확실해? 한냥 한냥 한냥. 근데 근데","ja":"ハナ、それ確か？ハナ、ハナ、ハナ。でも、でも","scene":"mg3","pe":589.2},{"id":147,"s":590.4,"e":594.48,"ko":"하냥 아예 어금니로 가자","ja":"ハナ、いっそ奥歯で行こう","scene":"mg3","pe":592.62},{"id":148,"s":598.8,"e":602.2,"ko":"했어 했어 이제 어금니 두 개 눌러","ja":"やった、やった、もう奥歯を二つ押して","scene":"mg3","raw":"했어 했어 이제 어금리 두 개 눌러"},{"id":149,"s":602.2,"e":604.8,"ko":"한냥 한냥 이제 어금니 두 개 눌러","ja":"ハナ、ハナ、もう奥歯を二つ押して","scene":"mg3"},{"id":150,"s":604.8,"e":605.28,"ko":"아니야","ja":"違うよ","scene":"mg3"},{"id":151,"s":605.28,"e":606.36,"ko":"언니 언니 하고 싶은 대로 해","ja":"お姉さん、お姉さん、やりたいようにやって","scene":"mg3"},{"id":152,"s":606.36,"e":609.32,"ko":"언니 필 강한 대로 해","ja":"お姉さん、フィーリングの強い方でやって","scene":"mg3"},{"id":153,"s":609.32,"e":611.24,"ko":"아 나 지금 제발 제발 제발","ja":"ああ、私、今、お願い、お願い、お願い","scene":"mg3"},{"id":154,"s":611.24,"e":615.32,"ko":"아니 그건 거 같아 그거야","ja":"いや、それだと思う、それだよ","scene":"mg3","pe":613.46},{"id":155,"s":615.32,"e":622.97,"ko":"거라고 아라고 진짜","ja":"それだってば、本当に","scene":"mg3","pe":621.45},{"id":157,"s":637.44,"e":643.96,"ko":"내가 그거라고 했잖아. 이거 많이 해봤단 말이야. 내가 그거라고 했잖아. 어금니","ja":"私がそれだって言ったじゃない。これ、たくさんやったんだってば。私がそれだって言ったじゃない。奥歯","scene":"mg3"},{"id":158,"s":643.96,"e":654.68,"ko":"어금니로 송곳니 쪽이란 말이야. 설마 설마 막려가지고","ja":"奥歯で、犬歯の方だってば。まさか、まさかで","scene":"mg3","pe":652.83,"raw":"어금니로 송곤니 쪽이란 말이야. 설마 설마 막려가지고","note":"「송곤니」は「송곳니(犬歯)」の認識ミス"},{"id":159,"s":654.76,"e":656.0,"ko":"물병","ja":"ペットボトル","scene":"mg4"},{"id":160,"s":656.0,"e":657.36,"ko":"뭐야?","ja":"何？","scene":"mg4"},{"id":161,"s":657.36,"e":659.28,"ko":"잠깐만 왜 이름이 있어요?","ja":"ちょっと待って、なんで名前があるんですか？","scene":"mg4"},{"id":162,"s":659.28,"e":662.0,"ko":"잠깐만","ja":"ちょっと待って","scene":"mg4","pe":660.08},{"id":163,"s":662.0,"e":665.92,"ko":"그럼 쓰러지면 순서대로 날아가는 거예요?","ja":"じゃあ倒れたら、順番に飛ばされるんですか？","scene":"mg4"},{"id":164,"s":665.92,"e":667.4,"ko":"미리 미안해.","ja":"先に謝っとく、ごめん。","scene":"mg4"},{"id":165,"s":667.4,"e":670.36,"ko":"아 언니 정신 똑바로 차리면 할 수 있잖아.","ja":"ああお姉さん、しっかりすればできるじゃない。","scene":"mg4","raw":"아 언니 정신 똑바로 차를 할 수 있잖아."},{"id":166,"s":670.36,"e":674.64,"ko":"나 근데 진짜 하면서 옛날 MC분들 진짜 대단하지 않아?","ja":"でも私、やりながら思ったけど、昔のMCの方々、本当にすごくない？","scene":"mg4"},{"id":167,"s":674.64,"e":679.2,"ko":"나도 그 생각했어. 진짜 이거를 한 몇 번을 한 거잖아. 매주","ja":"私もそう思った。本当にこれを何回やったんだって話じゃない。毎週","scene":"mg4"},{"id":168,"s":679.2,"e":679.8,"ko":"매주마.","ja":"毎週ね。","scene":"mg4"},{"id":169,"s":679.8,"e":682.8,"ko":"우와.","ja":"うわあ。","scene":"mg4","pe":680.6},{"id":170,"s":682.92,"e":686.36,"ko":"여기서 할까?","ja":"ここでやろうか？","scene":"mg4","pe":684.25},{"id":171,"s":686.64,"e":687.48,"ko":"아","ja":"あ","scene":"mg4"},{"id":172,"s":687.48,"e":689.24,"ko":"망했다. 망했다.","ja":"終わった。終わった。","scene":"mg4"},{"id":173,"s":689.24,"e":690.92,"ko":"연습이었어. 산다.","ja":"練習だった。助かった。","scene":"mg4"},{"id":174,"s":690.92,"e":692.28,"ko":"자 수할 거예요.","ja":"さあ、やります。","scene":"mg4"},{"id":175,"s":692.28,"e":696.56,"ko":"네. 시 시작. 도전.","ja":"はい。は、始め。挑戦。","scene":"mg4","pe":694.28},{"id":176,"s":706.72,"e":709.72,"ko":"누구였어?","ja":"誰だった？","scene":"mg4","pe":707.83},{"id":178,"s":719.64,"e":720.84,"ko":"미안해.","ja":"ごめん。","scene":"mg4"},{"id":179,"s":720.84,"e":722.64,"ko":"다음 누구야? 다음 누구?","ja":"次は誰？次、誰？","scene":"mg4"},{"id":180,"s":722.64,"e":731.88,"ko":"이거 순서대로 가자. 순서대로. 아 너무 이거는 가장 무서운 공포 영화야.","ja":"これ、順番に行こう。順番に。ああ、これは一番怖いホラー映画だよ。","scene":"mg4"},{"id":181,"s":731.88,"e":735.2,"ko":"언니 언니 정신 똑바로 차리고 해 봐. 아 진짜","ja":"お姉さん、お姉さん、しっかりしてやってみて。ああ本当に","scene":"mg4"},{"id":182,"s":735.2,"e":741.6,"ko":"연습해서 마지막에 성공하자. 아 너무 미안해. 부전","ja":"練習して最後に成功しよう。ああ、本当にごめん。","scene":"mg4","pe":738.89},{"id":183,"s":753.68,"e":761.64,"ko":"진짜 이렇게까지 멤버가 원망스러웠을 수 없어. 진짜 한번 잘해볼까? 저리 대봐","ja":"本当に、ここまでメンバーが恨めしかったことはない。本当に、一度うまくやってみようか？そっちに出してみて","scene":"mg4"},{"id":184,"s":761.64,"e":765.72,"ko":"아 나도 너무 내가 원망","ja":"ああ、私も自分がすごく恨めしい","scene":"mg4","pe":763.64},{"id":185,"s":772.76,"e":775.76,"ko":"갈게","ja":"行くね","scene":"mg4","pe":773.56},{"id":186,"s":786.36,"e":790.96,"ko":"창이 앞에 서야겠다. 언니","ja":"前に立たなきゃ。お姉さん","scene":"mg4"},{"id":187,"s":790.96,"e":794.32,"ko":"수없이 해왔잖아.","ja":"数え切れないほどやってきたじゃない。","scene":"mg4","pe":792.74},{"id":188,"s":794.32,"e":796.32,"ko":"정신 미안해.","ja":"しっかり、ごめん。","scene":"mg4"},{"id":189,"s":796.32,"e":799.32,"ko":"도전.","ja":"挑戦。","scene":"mg4","pe":797.12},{"id":190,"s":818.88,"e":822.44,"ko":"그냥 물이","ja":"ただ水が","scene":"mg4","pe":819.77},{"id":191,"s":825.6,"e":828.92,"ko":"아 미안해요. 아 너무 미안하다. 진짜","ja":"ああ、ごめんなさい。ああ、本当にごめん。本当に","scene":"mg4"},{"id":192,"s":828.92,"e":834.52,"ko":"나 이제 웃으면서 날라가야지. 이렇게 엔딩 요정처럼","ja":"私、もう笑いながら飛んでいかなきゃ。こうやって、エンディング妖精みたいに","scene":"mg4","pe":833.05,"raw":"나 이제 웃으면서 날라가야지. 이렇게 엔딩 여정처럼","note":"「여정」は「요정(妖精)」の認識ミス"},{"id":193,"s":834.52,"e":840.2,"ko":"마지막 미션 뭔가요? 아, 멤버들 너무 힘들겠다.","ja":"最後のミッションは何ですか？ああ、メンバー、すごく大変そう。","scene":"mg4","pe":838.44},{"id":194,"s":841.84,"e":845.2,"ko":"이게 뭐예요?","ja":"これは何ですか？","scene":"mg5","pe":843.17},{"id":195,"s":845.28,"e":848.52,"ko":"근데 단체면은 생존이에요.","ja":"でも、全体写真なら生存です。","scene":"mg5"},{"id":196,"s":848.52,"e":853.28,"ko":"나이 앨범의 구성이 기억이 안 나. 아니, 처음이나 끝에 있겠지 단체가.","ja":"このアルバムの構成が思い出せない。いや、最初か最後にあるでしょ、全体写真が。","scene":"mg5"},{"id":197,"s":853.28,"e":854.68,"ko":"당연하지, 언니. 이","ja":"当然でしょ、お姉さん。この","scene":"mg5"},{"id":198,"s":854.68,"e":856.68,"ko":"앨범이 어떤 앨범인지 얘기,","ja":"アルバムがどんなアルバムか、話を","scene":"mg5"},{"id":199,"s":856.68,"e":861.8,"ko":"이거요? 이것은 C 버전 앨범입니다.","ja":"これですか？これはCバージョンのアルバムです。","scene":"mg5","pe":860.24},{"id":200,"s":862.2,"e":864.72,"ko":"물론 글로미네","ja":"もちろん","scene":"mg5"},{"id":201,"s":864.72,"e":879.0,"ko":"번만 날아가 봐. 정신이 없어. 이거는 저희 정규 2집 글로우미 앨범입니다. 자, 여기서 지금 나오는 사람이 날아가는 거잖아. 아, 이것도 스트레스 받아. 이것도 너무 미안해.","ja":"一度飛んでみて。気が動転してる。これは私たちの正規2集のアルバムです。さあ、ここで今出てきた人が飛ばされるんじゃない。ああ、これもストレスたまる。これも本当にごめん。","scene":"mg5","raw":"번만 날아가 봐. 정신이 없어. 이거는 저희 정규 이집 글로우미 앨범입니다. 자, 여기서 지금 나오는 사람이 날아가는 거잖아. 아, 이것도 스트레스 받아. 이것도 너무 미안해."},{"id":202,"s":879.0,"e":882.64,"ko":"근데 단체가 나오면 전원 생존이라는 거잖아.","ja":"でも、全体写真が出たら全員生存ってことじゃない。","scene":"mg5"},{"id":203,"s":882.64,"e":884.52,"ko":"언니 우리 진짜 한 번만 쉬자.","ja":"お姉さん、私たち本当に一回だけ休もう。","scene":"mg5"},{"id":204,"s":884.52,"e":887.88,"ko":"나는 안 볼게. 보통 단체가 끝에 있나?","ja":"私は見ないよ。普通、全体写真って最後にあるかな？","scene":"mg5"},{"id":205,"s":887.88,"e":888.84,"ko":"아니지.","ja":"違うでしょ。","scene":"mg5"},{"id":206,"s":888.84,"e":890.72,"ko":"처음에 있나?","ja":"最初にあるかな？","scene":"mg5"},{"id":207,"s":890.72,"e":892.48,"ko":"아, 무서워. 죽겠네, 진짜.","ja":"ああ、怖い。死にそう、本当に。","scene":"mg5"},{"id":208,"s":892.48,"e":900.36,"ko":"잠깐만, 잠깐만, 잠만, 잠만, 잠깐만. 손톱 손톱에","ja":"ちょっと待って、ちょっと待って、ちょっと、ちょっと、ちょっと待って。爪、爪に","scene":"mg5","pe":898.03},{"id":209,"s":902.6,"e":904.72,"ko":"누군데?","ja":"誰なの？","scene":"mg5"},{"id":210,"s":904.72,"e":908.56,"ko":"누군데? 아니야","ja":"誰なの？違う","scene":"mg5","pe":906.28},{"id":211,"s":912.8,"e":914.68,"ko":"하님 백지","ja":"ハヨンさん、白紙","scene":"mg5"},{"id":212,"s":914.68,"e":915.48,"ko":"1번","ja":"1番","scene":"mg5"},{"id":213,"s":915.48,"e":922.52,"ko":"1번 송아이잖아 아 아 이건 생각도 못했다. 생 너의 마음","ja":"1番、ソンアじゃない。ああ、これは考えもしなかった。","scene":"mg5"},{"id":214,"s":922.52,"e":925.68,"ko":"아니야 아니야 나 진짜 앞페이지 표는데 언니가 있었어","ja":"違う違う、私、本当に前のページをめくったらお姉さんがいた","scene":"mg5"},{"id":215,"s":925.68,"e":929.96,"ko":"감독님인데 표정 보고 알 거 같아 하영 언니를 동시에","ja":"監督さんだけど、表情で分かりそう。ハヨンお姉さんを同時に","scene":"mg5","raw":"감독님인데 표정부 알 거 같아 하영 언니를 동시에"},{"id":216,"s":929.96,"e":931.92,"ko":"나를 되게","ja":"私をすごく","scene":"mg5"},{"id":217,"s":931.92,"e":935.44,"ko":"하영 언니 동시에","ja":"ハヨンお姉さん、同時に","scene":"mg5","pe":933.48},{"id":218,"s":935.88,"e":939.12,"ko":"아 재밌다요","ja":"ああ、面白いです","scene":"mg5","pe":936.99},{"id":219,"s":946.76,"e":952.48,"ko":"언니 잠깐만 아 잠깐만 멤버들이 자주하는 행동이나 자주하는 말.","ja":"お姉さん、ちょっと待って、ああちょっと待って。メンバーがよくする行動や、よく言う言葉。","scene":"rule"},{"id":220,"s":952.48,"e":965.2,"ko":"그럼 멤버들이 자주 하는 행동들을 하는게 유리한 거죠. 체력이 많이 빠져야 돼. 그 하영 언니는 멤버들. 그리고 지원 언니에요.","ja":"じゃあ、メンバーがよくする行動をするのが有利なんですね。体力がたくさん奪われなきゃ。ハヨンお姉さんはメンバー、そしてジウォンお姉さんです。","scene":"rule"},{"id":221,"s":965.2,"e":971.8,"ko":"나경이 박수 치는 거 채언니의 아니 지원이는 머리 넘기기.","ja":"ナギョンは拍手すること、チェヨンお姉さんの、いや、ジウォンは髪をかき上げること。","scene":"rule"},{"id":222,"s":971.8,"e":973.0,"ko":"지금 촬영하고 있어요.","ja":"今、撮影しています。","scene":"rule"},{"id":223,"s":973.0,"e":973.88,"ko":"네.","ja":"はい。","scene":"rule"},{"id":224,"s":973.88,"e":975.0,"ko":"마이크 안 찼는데.","ja":"マイク着けてないけど。","scene":"rule"},{"id":225,"s":975.0,"e":976.12,"ko":"마이크 잡았어요?","ja":"マイク、持ちましたか？","scene":"rule"},{"id":226,"s":976.12,"e":977.8,"ko":"언제 잤지?","ja":"いつ寝たっけ？","scene":"rule"},{"id":227,"s":977.8,"e":981.64,"ko":"눌러요? 누가 재워졌어?","ja":"押しますか？誰が寝かされた？","scene":"rule"},{"id":228,"s":981.64,"e":985.76,"ko":"여러분들이 선택한 하영님 그지 행동을","ja":"皆さんが選んだハヨンさんの、その行動を","scene":"rule"},{"id":229,"s":985.76,"e":986.76,"ko":"하면 저희가 날아가요.","ja":"したら、私たちが飛ばされます。","scene":"rule"},{"id":230,"s":986.76,"e":987.56,"ko":"네.","ja":"はい。","scene":"rule"},{"id":231,"s":987.56,"e":993.68,"ko":"나 뭐라 했더라? 제 허니는 오","ja":"私、何て言ったっけ？","scene":"rule","pe":990.23},{"id":232,"s":995.28,"e":1000.04,"ko":"망했다. 아 나 진짜 망했잖아. 아 왜","ja":"終わった。ああ、私、本当に終わったじゃない。ああ、なんで","scene":"rule"},{"id":233,"s":1000.04,"e":1007.64,"ko":"어 나 뭐 했지? 기억이 안 나. 피디님 너무하잖아. 핑받는서 개. 피디 님이 추천해 준 거였어.","ja":"え、私、何したっけ？思い出せない。PDさん、ひどいじゃない。PDさんが推薦してくれたんだった。","scene":"rule","raw":"어 나 뭐 했지? 기억이 안 나. 아디 님 너무하잖아. 핑받는서 개. 피디 님이 추천해 준 거였어."},{"id":234,"s":1007.64,"e":1011.36,"ko":"나 진짜 너무 사악해. 악마 아닐까?","ja":"私、本当に邪悪すぎる。悪魔じゃないかな？","scene":"rule"},{"id":235,"s":1011.36,"e":1017.88,"ko":"이제 하영님한테 인터뷰를 한번 해 볼게. 여러분도 막 궁금한 거 있으면 막 물어봐 주시면 돼요. 시작. 네.","ja":"じゃあ、ハヨンさんにインタビューをしてみます。皆さんも気になることがあれば、どんどん聞いてくださればいいです。始め。はい。","scene":"i_hy"},{"id":236,"s":1017.88,"e":1021.96,"ko":"하영님 요즘 가장 행복한 순간이 언제 하신지 아","ja":"ハヨンさん、最近一番幸せな瞬間はいつですか。あ","scene":"i_hy"},{"id":237,"s":1021.96,"e":1023.64,"ko":"아","ja":"あ","scene":"i_hy"},{"id":238,"s":1023.64,"e":1025.8,"ko":"아 나 뭐였는지 기억이 안 나.","ja":"ああ、私、何だったか思い出せない。","scene":"i_hy","raw":"아 나 뭐였는지 기억이 안다."},{"id":239,"s":1025.8,"e":1030.12,"ko":"우리 고양이랑 같이 함께 할 때 너무 귀여워서","ja":"うちの猫と一緒に過ごす時、すごくかわいくて","scene":"i_hy"},{"id":240,"s":1030.12,"e":1032.92,"ko":"그 멤버들 좀 보니까 어떤 거 같아요?","ja":"メンバーをちょっと見て、どう思いますか？","scene":"i_hy"},{"id":241,"s":1032.92,"e":1033.76,"ko":"귀여워해요.","ja":"かわいがってます。","scene":"i_hy"},{"id":242,"s":1033.76,"e":1040.28,"ko":"어떤게 귀여운 거죠? 어 예쁘고 귀엽고 사랑스러워요.","ja":"どこがかわいいんですか？え、きれいで、かわいくて、愛らしいです。","scene":"i_hy","pe":1038.59},{"id":243,"s":1040.28,"e":1043.08,"ko":"최근들어 가장 칭찬해 주고 싶은 멤버","ja":"最近、一番褒めてあげたいメンバー","scene":"i_hy"},{"id":244,"s":1043.08,"e":1047.32,"ko":"우리 지연이 첫 번째로 빠져서","ja":"うちのジヨンが一番目に落ちて","scene":"i_hy","pe":1045.75},{"id":245,"s":1047.32,"e":1049.44,"ko":"그 10년 후 송아에게 한 말이","ja":"10年後のソンアにかける言葉が","scene":"i_hy"},{"id":246,"s":1049.44,"e":1051.12,"ko":"넌 할 수 있어.","ja":"あなたならできる。","scene":"i_hy"},{"id":247,"s":1051.12,"e":1052.16,"ko":"파이팅.","ja":"ファイト。","scene":"i_hy"},{"id":248,"s":1052.16,"e":1053.8,"ko":"요즘 가장 많이 듣는 노래는","ja":"最近、一番よく聴く歌は","scene":"i_hy"},{"id":249,"s":1053.8,"e":1055.0,"ko":"비타민 미","ja":"ビタミン、ミー","scene":"i_hy"},{"id":250,"s":1055.0,"e":1056.12,"ko":"어","ja":"え","scene":"i_hy"},{"id":251,"s":1056.12,"e":1058.0,"ko":"멤버들한테 하고 싶은 말이 있다면","ja":"メンバーに言いたいことがあるとしたら","scene":"i_hy"},{"id":252,"s":1058.0,"e":1063.64,"ko":"항상 고마워. 이번 활동 중에서 가장 즐거웠던 무대는","ja":"いつもありがとう。今回の活動で一番楽しかったステージは","scene":"i_hy"},{"id":253,"s":1063.64,"e":1069.76,"ko":"무대는 다 좋았는데 음악 방송 막방","ja":"ステージは全部良かったけど、音楽番組の最終ステージ","scene":"i_hy","pe":1067.76},{"id":254,"s":1069.76,"e":1070.4,"ko":"좋았습니다.","ja":"良かったです。","scene":"i_hy"},{"id":255,"s":1070.4,"e":1072.72,"ko":"각자 멤버들한테 한 마디씩 한다면","ja":"それぞれメンバーに一言ずつ言うとしたら","scene":"i_hy"},{"id":256,"s":1072.72,"e":1074.16,"ko":"한마 한 명당이요?","ja":"一言、一人ずつですか？","scene":"i_hy"},{"id":257,"s":1074.16,"e":1075.08,"ko":"네.","ja":"はい。","scene":"i_hy"},{"id":258,"s":1075.08,"e":1077.84,"ko":"아 항수 잘하고 있어.","ja":"ああ、よくやってるよ。","scene":"i_hy"},{"id":259,"s":1077.84,"e":1078.8,"ko":"고마워","ja":"ありがとう","scene":"i_hy"},{"id":260,"s":1078.8,"e":1082.36,"ko":"지원아. 아 몸관리 잘하고","ja":"ジウォン。ああ、体調管理しっかりして","scene":"i_hy"},{"id":261,"s":1082.36,"e":1083.0,"ko":"고마워.","ja":"ありがとう。","scene":"i_hy"},{"id":262,"s":1083.0,"e":1094.36,"ko":"잘하고 있어. 꼬야 아프지 말고 항상 힘내줘. 야 항상 너무 예쁘고 항상 고마워.","ja":"よくやってるよ。コヤ、病気しないで、いつも頑張って。いつもすごくきれいで、いつもありがとう。","scene":"i_hy","pe":1092.29},{"id":263,"s":1094.36,"e":1096.56,"ko":"언니","ja":"お姉さん","scene":"i_hy","pe":1095.16},{"id":264,"s":1096.56,"e":1097.96,"ko":"아무도 안 날라간 거예요.","ja":"誰も飛ばされなかったんですね。","scene":"i_hy"},{"id":265,"s":1097.96,"e":1100.16,"ko":"이거 한 번씩만 하면 끝나는 거예요. 맨더 한 번씩.","ja":"これ、一回ずつやれば終わるんです。一回ずつ。","scene":"i_hy"},{"id":266,"s":1100.16,"e":1101.96,"ko":"나 진짜 손 못 꺼놨다.","ja":"私、本当に手を止められなかった。","scene":"i_hy"},{"id":267,"s":1101.96,"e":1108.56,"ko":"아 모르겠다. 나 그냥 변하게다. 근데 이걸 좀 날아가야지 재밌지. 나는 근데 습관이 없어요.","ja":"ああ、分からない。私、ただやるわ。でも、これちょっと飛ばされてこそ面白いよね。でも私は癖がないんです。","scene":"i_hy"},{"id":268,"s":1108.56,"e":1110.48,"ko":"제발 언니","ja":"お願い、お姉さん","scene":"i_jw"},{"id":269,"s":1110.48,"e":1112.04,"ko":"제발","ja":"お願い","scene":"i_jw"},{"id":270,"s":1112.04,"e":1113.2,"ko":"내가 떨려.","ja":"私が緊張する。","scene":"i_jw"},{"id":271,"s":1113.2,"e":1115.72,"ko":"자 요즘 가장 많이 하는 말은","ja":"さあ、最近一番よく言う言葉は","scene":"i_jw"},{"id":272,"s":1115.72,"e":1121.76,"ko":"내가 모르겠는데 배고파 아 떨려.","ja":"分からないけど、「お腹すいた」。ああ、緊張する。","scene":"i_jw"},{"id":273,"s":1121.76,"e":1123.24,"ko":"가장 웃긴 멤버는","ja":"一番面白いメンバーは","scene":"i_jw"},{"id":274,"s":1123.24,"e":1125.04,"ko":"진짜요?","ja":"本当ですか？","scene":"i_jw"},{"id":275,"s":1125.04,"e":1125.76,"ko":"왜요?","ja":"なぜですか？","scene":"i_jw"},{"id":276,"s":1125.76,"e":1128.2,"ko":"그냥 얼굴 보면 웃겨요.","ja":"ただ顔を見ると笑えます。","scene":"i_jw"},{"id":277,"s":1128.2,"e":1129.48,"ko":"멤버들한테","ja":"メンバーに","scene":"i_jw"},{"id":278,"s":1129.48,"e":1139.12,"ko":"멤버들 어 멤버들 우리 파이팅하자. 사랑해 사랑해. 잠시만요.","ja":"メンバー、え、メンバー、みんな頑張ろう。愛してる、愛してる。ちょっと待ってください。","scene":"i_jw","pe":1137.23},{"id":279,"s":1144.52,"e":1147.28,"ko":"왜 왜 왜","ja":"なんで、なんで、なんで","scene":"i_jw","pe":1145.32},{"id":280,"s":1147.28,"e":1148.08,"ko":"당신요?","ja":"あなたですか？","scene":"i_jw"},{"id":281,"s":1148.08,"e":1151.08,"ko":"왜요?","ja":"なぜですか？","scene":"i_jw","pe":1148.88},{"id":282,"s":1154.6,"e":1157.8,"ko":"왜 그 뭘까?","ja":"なんで、それ、何だろう？","scene":"i_jw","pe":1155.71},{"id":283,"s":1157.8,"e":1159.56,"ko":"구에 한 명만 데려간다면","ja":"一人だけ連れて行くとしたら","scene":"i_jw"},{"id":284,"s":1159.56,"e":1167.04,"ko":"아 송아형을 데려가겠습니다. 왜냐면 부려 먹을 수 있으니까. 노래할 때 가장 심장쓰는","ja":"ああ、ソンアを連れて行きます。なぜなら、こき使えるから。歌う時に一番気を使う","scene":"i_jw"},{"id":285,"s":1167.04,"e":1171.08,"ko":"삑살이 안 나게 잘하자. 내일 뮤지컬 있는데","ja":"音を外さないように、うまくやろう。明日ミュージカルがあるけど","scene":"i_jw"},{"id":286,"s":1171.08,"e":1173.48,"ko":"내일 오시는 관계팀들한테","ja":"明日いらっしゃる皆さんに","scene":"i_jw"},{"id":287,"s":1173.48,"e":1177.08,"ko":"여러분들 해스키지 많이 많이 사랑해 주시고 많이 봐주세요.","ja":"皆さん、たくさん、たくさん愛してくださって、たくさん見てください。","scene":"i_jw"},{"id":288,"s":1177.08,"e":1182.4,"ko":"사랑해요. 잠깐만. 잠깐만.","ja":"愛してます。ちょっと待って。ちょっと待って。","scene":"i_jw"},{"id":289,"s":1182.4,"e":1184.04,"ko":"야, 빨리 앉아.","ja":"ねえ、早く座って。","scene":"i_jw"},{"id":290,"s":1184.04,"e":1187.28,"ko":"너야, 빨리 앉아.","ja":"あなたよ、早く座って。","scene":"i_jw","pe":1185.82},{"id":291,"s":1187.28,"e":1189.4,"ko":"아, 저 떨어질 거예요. 진짜로.","ja":"ああ、私、飛ばされます。本当に。","scene":"i_jw","raw":"아, 저 떠나길 거예요. 진짜로."},{"id":292,"s":1189.4,"e":1192.56,"ko":"딱 날라가야돼.","ja":"ちょうど飛ばされなきゃ。","scene":"i_jw","pe":1190.96},{"id":293,"s":1201.36,"e":1203.52,"ko":"언니 눈치 최고한 거 아니지?","ja":"お姉さん、気づいてないよね？","scene":"i_jw"},{"id":294,"s":1203.52,"e":1212.16,"ko":"몰랐어. 몰랐어. 이제 알겠다. 미안해. 어떡해? 사랑해인가?","ja":"知らなかった。知らなかった。今分かった。ごめん。どうしよう？「愛してる」かな？","scene":"i_jw","pe":1210.49},{"id":295,"s":1212.28,"e":1215.8,"ko":"뭐야? 끝났대. 얼른 와.","ja":"何？終わったって。早く来て。","scene":"i_jw"},{"id":296,"s":1215.8,"e":1216.48,"ko":"미안해.","ja":"ごめん。","scene":"i_jw"},{"id":297,"s":1216.48,"e":1219.24,"ko":"언니야. 이렇게 사랑이 넘친 사람인지 몰랐어.","ja":"お姉さん。こんなに愛があふれる人だとは知らなかった。","scene":"i_jw"},{"id":298,"s":1219.24,"e":1221.4,"ko":"사랑해였어요. 사랑해.","ja":"「愛してる」でした。愛してる。","scene":"i_jw"},{"id":299,"s":1221.4,"e":1223.0,"ko":"너 왜 그거를 뛰어?","ja":"なんで、それをやるの？","scene":"i_jw"},{"id":300,"s":1223.0,"e":1225.36,"ko":"아, 뭘 썼을까? 멤버들이","ja":"ああ、何を書いたんだろう？メンバーが","scene":"i_cy"},{"id":301,"s":1225.36,"e":1226.24,"ko":"나 감이 안 와.","ja":"私、見当がつかない。","scene":"i_cy","raw":"나 감이 안아."},{"id":302,"s":1226.24,"e":1228.2,"ko":"쟤아, 너 그냥 진짜 하고 싶은 거 다 해.","ja":"ねえ、あなた、ただ本当にやりたいこと、全部やって。","scene":"i_cy"},{"id":303,"s":1228.2,"e":1232.68,"ko":"진짜 나 그냥 원래대로 할게 그러면.","ja":"本当に、私、いつも通りやるね、それなら。","scene":"i_cy"},{"id":304,"s":1232.68,"e":1240.04,"ko":"아, 나 처음이 뭐했어요? 나 처음이 못했어. 빨리 빨리 말해요. 빨리. 자신을 세 단어로 표현한다면","ja":"ああ、私、最初に何しましたか？私、最初にできなかった。早く早く言ってください。早く。自分を三つの単語で表現するとしたら","scene":"i_cy"},{"id":305,"s":1240.04,"e":1243.8,"ko":"나를 나 나를 어 대단해.","ja":"私を、私、私を、え、すごい。","scene":"i_cy","pe":1242.26},{"id":306,"s":1243.8,"e":1245.76,"ko":"나경이가 헛소리할 때","ja":"ナギョンがふざけたことを言う時","scene":"i_cy","raw":"난영이가 헛소리할 때"},{"id":307,"s":1245.76,"e":1250.0,"ko":"헛소리할 때 뭐래? 1위 하는 순간 1등 하고 싶었어요.","ja":"ふざけたことを言う時って何？1位になる瞬間、1位になりたかったです。","scene":"i_cy"},{"id":308,"s":1250.0,"e":1253.96,"ko":"기분 기분이 짜져.","ja":"気分が、気分が良くなる。","scene":"i_cy","pe":1251.78},{"id":309,"s":1256.44,"e":1258.24,"ko":"이거 뭐야? 나 왜 이렇게 못해?","ja":"これ何？なんで私、こんなに下手なの？","scene":"i_cy"},{"id":310,"s":1258.24,"e":1259.84,"ko":"야 너 왜 이렇게 못하냐?","ja":"ねえ、あなた、なんでそんなに下手なの？","scene":"i_cy"},{"id":311,"s":1259.84,"e":1262.64,"ko":"뭐 어떻게 대답해야 돼?","ja":"え、どう答えなきゃいけないの？","scene":"i_cy"},{"id":312,"s":1262.64,"e":1265.36,"ko":"아니 멤버들이 지금을 잘 못","ja":"いや、メンバーが今、うまく","scene":"i_cy"},{"id":313,"s":1265.36,"e":1270.76,"ko":"하네. 아 나 지연이 뭔지 알 거 같은데.","ja":"してるね。ああ、私、ジヨンのが何か分かりそうだけど。","scene":"i_cy"},{"id":314,"s":1270.76,"e":1273.36,"ko":"나 기억이 안 나서 너무 무서워요.","ja":"私、思い出せなくてすごく怖いです。","scene":"i_nk"},{"id":315,"s":1273.36,"e":1275.0,"ko":"너무 웃길 때 웃길 때","ja":"すごく笑える時、笑える時","scene":"i_nk","raw":"너무 웃낄 때 웃길 때"},{"id":316,"s":1275.0,"e":1279.76,"ko":"너무 웃길 때 사 때리는가?","ja":"すごく笑える時、叩くのかな？","scene":"i_nk","pe":1277.44,"raw":"너무 웃낄 때 사 때리는가?"},{"id":317,"s":1284.36,"e":1286.8,"ko":"뭐지? 뭐야?","ja":"何だろう？何？","scene":"i_nk"},{"id":318,"s":1286.8,"e":1293.2,"ko":"파트 탐나는 파트 활동하면서 타이 나. 음. 음. 아, think 인트로","ja":"パート、欲しいパート、活動しながら。うーん。うーん。ああ、イントロ","scene":"i_nk"},{"id":319,"s":1293.2,"e":1294.72,"ko":"가장 설렜던 순간","ja":"一番ときめいた瞬間","scene":"i_nk","raw":"가장 설냈던 순간"},{"id":320,"s":1294.72,"e":1298.72,"ko":"가장 설렜던, 콘서트 준비하고 있는데 지금 이 순간","ja":"一番ときめいた、コンサートの準備をしてるけど、今この瞬間","scene":"i_nk","raw":"가장 설랫 콘서트 준비하고 있는데 지금이 순간"},{"id":321,"s":1298.72,"e":1300.96,"ko":"팬들이 또 가줬으면 하는 나의 매력.","ja":"ファンにもっと知ってほしい私の魅力。","scene":"i_nk"},{"id":322,"s":1300.96,"e":1305.32,"ko":"저의 매력이요? 음.","ja":"私の魅力ですか？うーん。","scene":"i_nk","pe":1302.96},{"id":323,"s":1310.88,"e":1313.16,"ko":"아닌가? 알 것 같아.","ja":"違うかな？分かりそう。","scene":"i_nk"},{"id":324,"s":1313.16,"e":1314.96,"ko":"날렸어.","ja":"飛ばした。","scene":"i_nk"},{"id":325,"s":1314.96,"e":1321.36,"ko":"어, 그냥 사랑스러운 매력.게 나스는 가장 잘 어울렸던 콘셉트","ja":"え、ただ愛らしい魅力。一番よく似合ったコンセプト","scene":"i_nk"},{"id":326,"s":1321.36,"e":1323.2,"ko":"컨셉 나와","ja":"コンセプト、出て","scene":"i_nk"},{"id":327,"s":1323.2,"e":1326.2,"ko":"섹시","ja":"セクシー","scene":"i_nk","pe":1324.0},{"id":328,"s":1328.56,"e":1330.8,"ko":"줄 알아","ja":"と思う","scene":"i_nk","pe":1329.36},{"id":329,"s":1330.8,"e":1336.68,"ko":"정요 줄 알았어 근데 나 나","ja":"と思った、でも私、私","scene":"i_nk","pe":1334.1},{"id":330,"s":1336.68,"e":1343.12,"ko":"맞아 머리 넘기기 그리고 언니는 뭐야 옆 사람 때리기","ja":"そう、髪をかき上げること。そしてお姉さんは何？隣の人を叩くこと","scene":"i_nk","pe":1341.05},{"id":331,"s":1343.16,"e":1347.76,"ko":"피디님 님 말이야.","ja":"PDさんだよ。","scene":"i_jh"},{"id":332,"s":1347.76,"e":1349.52,"ko":"망했다.","ja":"終わった。","scene":"i_jh"},{"id":333,"s":1349.52,"e":1350.32,"ko":"망했다.","ja":"終わった。","scene":"i_jh"},{"id":334,"s":1350.32,"e":1353.32,"ko":"이상해.","ja":"おかしい。","scene":"i_jh","pe":1351.21},{"id":335,"s":1357.16,"e":1360.56,"ko":"아니 탑이 탑은 수영구.","ja":"いや、トップは","scene":"i_jh"},{"id":336,"s":1360.56,"e":1365.56,"ko":"자 마지막 게임자 지헌입니다. 인터뷰","ja":"さあ、最後のゲーム、ジウォンです。インタビュー","scene":"i_jh","raw":"자 마지막 게임자 지원입니다. 인터뷰"},{"id":337,"s":1365.56,"e":1366.76,"ko":"잠깐만 시작하지 마요.","ja":"ちょっと待って、始めないでください。","scene":"i_jh"},{"id":338,"s":1366.76,"e":1367.76,"ko":"잠깐만 잠깐만","ja":"ちょっと待って、ちょっと待って","scene":"i_jh"},{"id":339,"s":1367.76,"e":1369.52,"ko":"잠깐만요. 잠깐만 나도","ja":"ちょっと待ってください。ちょっと待って、私も","scene":"i_jh"},{"id":340,"s":1369.52,"e":1373.88,"ko":"지원아 거울 한번 봐. 그래도 너 얼굴이 어떤가? 괜찮지?","ja":"ジウォン、鏡を一度見てみて。それでも、あなた顔はどう？大丈夫でしょ？","scene":"i_jh"},{"id":341,"s":1373.88,"e":1379.0,"ko":"채영아 나도 좀 봐줄래? 나 이거 넘겨줄래?","ja":"チェヨン、私もちょっと見てくれる？これ、めくってくれる？","scene":"i_jh","pe":1377.75,"raw":"체아 나도 좀 봐줄래? 나 이거 넘겨줄래?"},{"id":342,"s":1379.0,"e":1381.36,"ko":"나 얼굴 1.5야.","ja":"私、顔が1.5倍だよ。","scene":"i_jh"},{"id":343,"s":1381.36,"e":1387.4,"ko":"와 하영 언니 아니 잠깐만 안 되겠는데 얼굴","ja":"わあ、ハヨンお姉さん、いや、ちょっと待って、ダメそうだけど、顔","scene":"i_jh","pe":1385.25},{"id":344,"s":1389.4,"e":1393.16,"ko":"아니야 아니야 이게","ja":"違う、違う、これが","scene":"i_jh","pe":1391.18},{"id":345,"s":1393.16,"e":1395.0,"ko":"좋아해 주시겠지 뭐.","ja":"好きになってくださるでしょ。","scene":"i_jh"},{"id":346,"s":1395.0,"e":1399.68,"ko":"시작이 요즘 가장 많이 하는 셀카포즈.","ja":"始め。最近一番よくする自撮りポーズ。","scene":"i_jh"},{"id":347,"s":1399.68,"e":1403.4,"ko":"셀카포즈요? 날아가요.","ja":"自撮りポーズですか？飛ばされます。","scene":"i_jh"},{"id":348,"s":1403.4,"e":1405.0,"ko":"날아가야 되는데.","ja":"飛ばされなきゃいけないんだけど。","scene":"i_jh"},{"id":349,"s":1405.0,"e":1407.96,"ko":"아니야. 뭘 날아가요? 괜찮은데.","ja":"違うよ。何が飛ばされるの？大丈夫だけど。","scene":"i_jh"},{"id":350,"s":1407.96,"e":1412.24,"ko":"올해 가장 느끼는 부분.","ja":"今年、一番感じること。","scene":"i_jh","pe":1410.18},{"id":351,"s":1412.24,"e":1415.48,"ko":"왜 왜 왜 왜 나 아무것도 안 했어?","ja":"なんで、なんで、なんで、なんで、私、何もしてないよ？","scene":"i_jh"},{"id":352,"s":1415.48,"e":1419.44,"ko":"나 아무것도 안 했잖아. 발 동동이에요. 발 동동 안 할게.","ja":"私、何もしてないじゃない。足をバタバタさせることです。足バタバタ、しません。","scene":"i_jh"},{"id":353,"s":1419.44,"e":1419.88,"ko":"뭐야?","ja":"何？","scene":"i_jh"},{"id":354,"s":1419.88,"e":1421.08,"ko":"아무것도 안 하지 않았어?","ja":"何もしてなかったじゃない？","scene":"i_jh"},{"id":355,"s":1421.08,"e":1424.08,"ko":"모르겠어.","ja":"分からない。","scene":"i_jh","pe":1422.19},{"id":356,"s":1424.2,"e":1430.88,"ko":"왜? 왜? 나 아무것도 안 했잖아. 팬들에게 하신 말","ja":"なんで？なんで？私、何もしてないじゃない。ファンに言った言葉","scene":"i_jh","raw":"왜? 왜? 나 아무것도 안 했잖아. 형들에게 하신 말"},{"id":357,"s":1430.88,"e":1432.4,"ko":"사랑해.","ja":"愛してる。","scene":"i_jh"},{"id":358,"s":1432.4,"e":1434.04,"ko":"엄청 많이 사랑해.","ja":"すごく、たくさん愛してる。","scene":"i_jh"},{"id":359,"s":1434.04,"e":1436.56,"ko":"진짜 많이 사랑해.","ja":"本当に、たくさん愛してる。","scene":"i_jh"},{"id":360,"s":1436.56,"e":1439.56,"ko":"왜?","ja":"なんで？","scene":"i_jh","pe":1437.36},{"id":361,"s":1441.44,"e":1453.48,"ko":"아 왜요? 아 미안해. 머리 넘긴 거 안 할게. 안 할게. 안 할게. 미안하다. 아니 왜 다 행동으로 했어?","ja":"ああ、なんでですか？ああ、ごめん。髪をかき上げるの、やめる。やめる。やめる。ごめん。いや、なんで全部、行動でやったの？","scene":"i_jh","pe":1451.84,"raw":"아 왜해요? 아 미안해. 머리 넘긴 거 안 할게. 안 할게. 안 할게. 미안하다. 아니 왜 다 행동으로 했어?"},{"id":362,"s":1453.56,"e":1456.56,"ko":"팬들가","ja":"ファンが","scene":"i_jh","pe":1454.36},{"id":363,"s":1459.08,"e":1461.72,"ko":"저 새끼 일부러","ja":"あの子、わざと","scene":"i_jh","pe":1460.41},{"id":364,"s":1461.72,"e":1462.24,"ko":"잠깐만","ja":"ちょっと待って","scene":"i_jh"},{"id":365,"s":1462.24,"e":1466.56,"ko":"노래 부르기 노래 부르기","ja":"歌を歌うこと、歌を歌うこと","scene":"i_jh","pe":1464.46},{"id":366,"s":1467.16,"e":1471.92,"ko":"잠깐만이 하면","ja":"ちょっと待って","scene":"i_jh","pe":1469.42},{"id":367,"s":1478.48,"e":1480.8,"ko":"잠시만","ja":"ちょっと待って","scene":"i_jh","pe":1479.28},{"id":368,"s":1486.84,"e":1488.64,"ko":"잠시만","ja":"ちょっと待って","scene":"i_jh"},{"id":369,"s":1488.64,"e":1497.16,"ko":"얘도 보내 빨리 애던 잘못했어 개","ja":"この子も早く送って。ごめんなさい","scene":"i_jh","pe":1495.58},{"id":370,"s":1497.16,"e":1504.76,"ko":"저 비켜 주세요 지원 씨 한번 날아가셔야 돼 가지고요. 하나 둘 셋","ja":"どいてください。ジウォンさんが一度飛ばされなきゃいけないので。1、2、3","scene":"i_jh","pe":1502.05},{"id":371,"s":1511.52,"e":1531.32,"ko":"아 미쳤다. 근데 나는 언젠가 한번 이런 거 해 보고 싶었어. 런닝맨이랑 무한도전 보면서 이런 거 꼭 하니까 한번은 해보고 싶었는데 그게 오늘 줄 몰랐고. 아니 내가 유튜브에 이게 여자분들이 그 뒤로 다 넘어가는게 없길래 플라잉제어 걸그룹 이렇게 처음 제 하나도 안 나오","ja":"ああ、やばい。でも私、いつか一度こういうのやってみたかった。ランニングマンや無限挑戦を見ながら、こういうのを必ずやるから、一度はやってみたかったけど、それが今日だとは思わなかった。いや、私がYouTubeでこれを女性の方がその後ろに全部倒れていくのがなくて、「フライング系ガールグループ」こうやって初めて、私、一つも出てこない","scene":"i_jh"},{"id":373,"s":1531.32,"e":1535.16,"ko":"이제 나오겠다 꼬야 다음 주부터 나오겠다 프로미스 나이","ja":"これから出てくるね、コヤ。来週から出てくるね、fromis_9","scene":"after"},{"id":374,"s":1535.16,"e":1537.16,"ko":"왜 왜 안 하는지 알 거 같아","ja":"なんで、なんでやらないのか、分かる気がする","scene":"after"},{"id":375,"s":1537.16,"e":1539.96,"ko":"여러분 하지 마세요 진짜 몸이 아파","ja":"皆さん、やらないでください。本当に体が痛い","scene":"after"},{"id":376,"s":1539.96,"e":1543.16,"ko":"되게 되게 아프고 근데 좀 재밌지 않아","ja":"すごく、すごく痛くて、でも、ちょっと面白くない？","scene":"after"},{"id":377,"s":1543.16,"e":1546.12,"ko":"재밌어 재밌어 오늘 너무 재밌었고","ja":"面白い、面白い。今日すごく面白かったし","scene":"after"},{"id":378,"s":1546.12,"e":1549.36,"ko":"저 진짜 배불러요 물을 너무 많이 먹어 가지고","ja":"私、本当にお腹いっぱいです。水を飲みすぎて","scene":"after"},{"id":379,"s":1549.36,"e":1552.68,"ko":"와 코로 물을 얼마나 마셨는지 나 코척했어.","ja":"わあ、鼻から水をどれだけ飲んだか、鼻がツンとした。","scene":"after"},{"id":380,"s":1552.68,"e":1555.0,"ko":"나는 오늘 수짐을 좀 찾은 거 같아.","ja":"私は今日、ちょっと感覚をつかんだ気がする。","scene":"after"},{"id":381,"s":1555.0,"e":1560.52,"ko":"나는 그냥 옛날에 그때랑 당시 예능 MC분들이 너무 대단하다이 생각밖에 안 들어서 매주 이","ja":"私はただ、昔の、その当時のバラエティのMCの方々が本当にすごい、という考えしか浮かばなくて、毎週これ","scene":"after"},{"id":382,"s":1560.52,"e":1562.0,"ko":"이걸 어떻게 지","ja":"これをどうやって","scene":"after"},{"id":383,"s":1562.0,"e":1565.44,"ko":"근데 뭔가 이거 하니까 다 뭐든 할 수 있을 것 같잖아.","ja":"でも、なんかこれをやったら、何でもできそうじゃない。","scene":"after"},{"id":384,"s":1565.44,"e":1567.76,"ko":"나 이제 진짜 다 할 수 있을 것 같데 공포체험 빼.","ja":"私、もう本当に何でもできそう。ホラー体験を除いて。","scene":"after"},{"id":385,"s":1567.76,"e":1581.84,"ko":"아 나 공포체험 진짜 가야죠.네 네. 저희가 올해 이렇게 여름에 한번 날아가 봤는데요. 저희 보시면서 여름 마무리 잘하셨으면 좋겠고 마지막까지 비타민 많이 사랑해 주셨으면 좋겠습니다. 여러분","ja":"ああ、私、ホラー体験、本当に行かなきゃ。はい、はい。私たち、今年こうやって夏に一度飛んでみましたが、私たちを見ながら夏の締めくくりをうまくされたらいいなと思いますし、最後までビタミン、たくさん愛してくださったらうれしいです。皆さん","scene":"after"},{"id":387,"s":1581.84,"e":1587.08,"ko":"저희가 오늘 날아간 것처럼 여름에 무더위도 날려버리셨으면 좋겠네요.","ja":"私たちが今日飛んだように、夏の猛暑も吹き飛ばしてくださったらいいですね。","scene":"after"},{"id":388,"s":1587.08,"e":1589.28,"ko":"저희가 대신 날려 드립니다.","ja":"私たちが代わりに飛ばして差し上げます。","scene":"after"},{"id":389,"s":1589.28,"e":1590.6,"ko":"대신 날아가 드립니다.","ja":"代わりに飛んで差し上げます。","scene":"after"},{"id":390,"s":1590.6,"e":1593.44,"ko":"대신 날아가 드립니다. 안녕.","ja":"代わりに飛んで差し上げます。さようなら。","scene":"after"},{"id":391,"s":1593.44,"e":1593.88,"ko":"안녕.","ja":"さようなら。","scene":"after"},{"id":392,"s":1593.88,"e":1594.76,"ko":"안녕.","ja":"さようなら。","scene":"after"},{"id":393,"s":1594.76,"e":1597.04,"ko":"다 밝게 밝게. 시작.","ja":"みんな明るく、明るく。始め。","scene":"after"},{"id":394,"s":1597.04,"e":1599.44,"ko":"나 혼이 더 빠졌어.","ja":"私、魂がもっと抜けた。","scene":"after"},{"id":395,"s":1599.44,"e":1602.44,"ko":"가요.","ja":"行きます。","scene":"cook","pe":1600.24},{"id":396,"s":1603.32,"e":1607.44,"ko":"자, 가요.","ja":"さあ、行きます。","scene":"cook","pe":1605.92},{"id":397,"s":1611.28,"e":1615.3,"ko":"해도 돼요?","ja":"やってもいいですか？","scene":"cook","pe":1613.78}],"study":[{"t":"E","ko":"진짜","ja":"本当に・マジで","note":"会話で最も多い強調語。相づちにも使う","cids":[3,4,13,70,71,80,95,105,107,110,125,127,130,131,135,136,155,166,167,181,183,191,203,207,214,232,234,266,274,291,302,303,359,375,378,384,385],"ex":291},{"t":"E","ko":"잠깐만","ja":"ちょっと待って","note":"「잠시만」も同じ。丁寧には「잠깐만요」","cids":[60,70,81,161,162,208,219,288,337,338,339,343,364,366],"ex":161},{"t":"E","ko":"망했다","ja":"やっちゃった・終わった","note":"失敗した瞬間の定番。タメ口","cids":[102,104,172,232,332,333],"ex":172},{"t":"E","ko":"어떡해","ja":"どうしよう","note":"焦り・心配。「어떻게 해」の縮約","cids":[121,294],"ex":294},{"t":"E","ko":"살려줘","ja":"助けて","note":"大げさに騒ぐ時にもよく使う","cids":[133],"ex":133},{"t":"E","ko":"미안해","ja":"ごめん","note":"タメ口。丁寧は「미안해요」「죄송해요」","cids":[164,178,182,188,191,201,294,296,361],"ex":294},{"t":"E","ko":"고마워","ja":"ありがとう","note":"タメ口。丁寧は「고마워요」「감사합니다」","cids":[252,259,261,262],"ex":252},{"t":"E","ko":"사랑해","ja":"愛してる","note":"家族・友人・ファンにも広く使う","cids":[278,287,288,294,298,357,358,359,385],"ex":278},{"t":"E","ko":"제발","ja":"お願いだから","note":"懇願。単独で叫ぶことが多い","cids":[117,153,268,269],"ex":153},{"t":"E","ko":"무서워","ja":"怖い","note":"形容詞「무섭다」のタメ口現在形","cids":[7,42,43,68,207,314],"ex":43},{"t":"E","ko":"괜찮아","ja":"大丈夫","note":"語尾を上げれば「大丈夫？」","cids":[89,90],"ex":89},{"t":"E","ko":"몰라","ja":"知らない・わからない","note":"투정にも使う。丁寧は「몰라요」","cids":[78],"ex":78},{"t":"E","ko":"모르겠어","ja":"わからない","note":"「몰라」より柔らかく考えた末の否定","cids":[355],"ex":355},{"t":"E","ko":"알았어","ja":"わかった","note":"了解。「알겠어」はより丁寧な響き","cids":[139,329],"ex":139},{"t":"E","ko":"정신 똑바로 차려","ja":"しっかりしなさい","note":"「정신을 차리다」＝正気を保つ。命令形","cids":[111],"ex":111},{"t":"E","ko":"포기하지 마","ja":"あきらめないで","note":"「-지 마」＝〜するな","cids":[106],"ex":106},{"t":"E","ko":"깜짝 놀랐어","ja":"びっくりした","note":"「깜짝」は驚きの擬態語","cids":[95],"ex":95},{"t":"E","ko":"기억이 안 나","ja":"思い出せない","note":"「나다」＝出てくる。記憶が出てこない","cids":[196,233,238,314],"ex":238},{"t":"E","ko":"감이 안 와","ja":"見当がつかない","note":"「감」＝勘・感覚","cids":[301],"ex":301},{"t":"E","ko":"생각도 못했다","ja":"思いもしなかった","note":"予想外の時","cids":[213],"ex":213},{"t":"E","ko":"빨리 해","ja":"早くして","note":"急かす命令。丁寧は「빨리 해 주세요」","cids":[83,84],"ex":83},{"t":"E","ko":"한 번만 쉬자","ja":"一回だけ休もう","note":"「-자」＝〜しよう(タメ口の勧誘)","cids":[203],"ex":203},{"t":"E","ko":"하지 마세요","ja":"やめてください","note":"丁寧な禁止","cids":[375],"ex":375},{"t":"E","ko":"재밌어","ja":"面白い","note":"「재미있어」の縮約。会話ではこちらが普通","cids":[377],"ex":377},{"t":"E","ko":"대단하다","ja":"すごい","note":"人や行いへの称賛","cids":[381],"ex":381},{"t":"E","ko":"귀여워","ja":"かわいい","note":"「귀엽다」のタメ口","cids":[4,239,241],"ex":239},{"t":"E","ko":"예쁘다","ja":"きれいだ・かわいい","note":"外見をほめる定番","cids":[49],"ex":49},{"t":"E","ko":"잘하고 있어","ja":"よくやってるよ","note":"励まし。「잘하다」＝上手だ","cids":[258,262],"ex":258},{"t":"E","ko":"넌 할 수 있어","ja":"あなたならできる","note":"「-ㄹ 수 있다」＝〜できる","cids":[246],"ex":246},{"t":"E","ko":"아프지 말고","ja":"体を壊さないで","note":"別れ際の気づかい","cids":[262],"ex":262},{"t":"E","ko":"항상 고마워","ja":"いつもありがとう","note":"「항상」＝いつも","cids":[252,262],"ex":252},{"t":"E","ko":"파이팅","ja":"ファイト","note":"韓国の応援の定番","cids":[247,278],"ex":278},{"t":"E","ko":"진짜요?","ja":"本当ですか？","note":"丁寧。タメ口は「진짜?」","cids":[107,274],"ex":107},{"t":"E","ko":"왜요?","ja":"なぜですか？","note":"丁寧。タメ口は「왜?」","cids":[275,281,361],"ex":275},{"t":"E","ko":"뭐야?","ja":"何？","note":"驚き・不満の両方に使う","cids":[160,295,309,317,353],"ex":295},{"t":"E","ko":"죽겠네","ja":"たまらない・死にそう","note":"大げさな強調。否定的にも肯定的にも","cids":[207],"ex":207},{"t":"E","ko":"느낌이 안 좋아","ja":"嫌な予感がする","note":"「느낌」＝感じ","cids":[70],"ex":70},{"t":"E","ko":"심장이 너무 빨리 뛰어","ja":"心臓がすごく速く打つ","note":"「뛰다」＝走る・跳ねる。鼓動にも使う","cids":[22],"ex":22},{"t":"E","ko":"꿈 같아","ja":"夢みたい","note":"「같다」＝〜のようだ","cids":[22],"ex":22},{"t":"E","ko":"사서 고생","ja":"苦労を買う","note":"わざわざ苦労すること。慣用句","cids":[76],"ex":76},{"t":"E","ko":"얼른 서두르세요","ja":"早く急いでください","note":"「얼른」＝さっと","cids":[37],"ex":37},{"t":"E","ko":"놓치지 마세요","ja":"お見逃しなく","note":"「놓치다」＝逃す","cids":[38],"ex":38},{"t":"E","ko":"준비됐어","ja":"準備できた","note":"語尾を上げれば確認","cids":[75],"ex":75},{"t":"E","ko":"시작","ja":"スタート","note":"ゲーム・撮影の合図","cids":[5,175,235,337,346,393],"ex":5},{"t":"E","ko":"도전","ja":"チャレンジ","note":"挑戦する時のかけ声","cids":[175,189,371],"ex":175},{"t":"E","ko":"안녕","ja":"じゃあね・こんにちは","note":"別れにも出会いにも","cids":[390,391,392],"ex":390},{"t":"E","ko":"어떻게 대답해야 돼?","ja":"どう答えればいい？","note":"「-아야 되다」＝〜しなければならない","cids":[311],"ex":311},{"t":"E","ko":"한 번도 못 봤어","ja":"一度も見たことがない","note":"「-ㄴ 적이 없다」に近い口語","cids":[17],"ex":17},{"t":"E","ko":"이렇게까지","ja":"ここまで","note":"程度の強調","cids":[3,183],"ex":3},{"t":"E","ko":"별로 안 무서울 것 같아","ja":"あまり怖くなさそう","note":"「별로」＝あまり(否定と呼応)","cids":[96],"ex":96},{"t":"V","ko":"진짜","ja":"本当・マジ","note":"名詞にも副詞にもなる","cids":[3,4,13,70,71,80,95,105,107,110,125,127,130,131,135,136,155,166,167,181,183,191,203,207,214,232,234,266,274,291,302,303,359,375,378,384,385],"ex":291},{"t":"V","ko":"언니","ja":"お姉さん","note":"女性が年上の女性を呼ぶ語","cids":[56,83,100,110,126,129,135,151,152,165,181,186,197,203,214,215,217,219,220,221,263,268,293,297,330,343],"ex":165},{"t":"V","ko":"너무","ja":"とても・〜すぎる","note":"本来は否定的だが会話では純粋な強調","cids":[4,22,87,88,94,97,100,180,182,184,191,193,201,233,234,239,262,314,315,316,377,378,381],"ex":316},{"t":"V","ko":"잠깐","ja":"ちょっと・少しの間","cids":[60,70,81,161,162,208,219,288,337,338,339,343,364,366],"ex":161},{"t":"V","ko":"근데","ja":"でも・ところで","note":"「그런데」の縮約","cids":[33,46,93,94,110,137,146,166,195,202,267,329,371,376,383],"ex":137},{"t":"V","ko":"멤버","ja":"メンバー","cids":[16,20,46,75,120,183,193,219,220,240,243,251,255,273,277,278,300,312],"ex":75},{"t":"V","ko":"빨리","ja":"早く","cids":[20,22,83,84,289,290,304,369],"ex":22},{"t":"V","ko":"이렇게","ja":"こうやって・こんなに","cids":[3,6,20,73,76,99,132,183,192,297,309,310,371,385],"ex":73},{"t":"V","ko":"많이","ja":"たくさん","cids":[19,65,157,220,248,271,287,346,358,359,378,385],"ex":19},{"t":"V","ko":"가장","ja":"最も","note":"「제일」も同義でより口語的","cids":[34,180,236,243,248,252,271,273,284,319,320,325,346,350],"ex":346},{"t":"V","ko":"지금","ja":"今","cids":[1,4,8,21,22,120,124,134,153,201,222,312,320],"ex":134},{"t":"V","ko":"우리","ja":"私たち","note":"自分の所属を指す時にも","cids":[5,25,34,38,56,76,203,239,244,278],"ex":5},{"t":"V","ko":"오늘","ja":"今日","cids":[21,49,52,53,70,71,371,377,380,387],"ex":21},{"t":"V","ko":"이제","ja":"もう・これから","cids":[28,122,148,149,192,235,294,373,384],"ex":122},{"t":"V","ko":"한번","ja":"一度・ちょっと","cids":[20,183,235,340,370,371,385],"ex":340},{"t":"V","ko":"그냥","ja":"ただ・なんとなく","note":"会話の頻出語","cids":[45,190,267,276,302,303,325,381],"ex":45},{"t":"V","ko":"활동","ja":"活動","note":"アイドルの新曲プロモ期間も指す","cids":[23,24,25,28,252,318],"ex":23},{"t":"V","ko":"정신","ja":"正気・意識","cids":[111,165,181,188,201],"ex":165},{"t":"V","ko":"처음","ja":"最初・初めて","cids":[196,206,304,371],"ex":196},{"t":"V","ko":"여기","ja":"ここ","cids":[8,59,170,201],"ex":8},{"t":"V","ko":"심장","ja":"心臓","cids":[22,61,62,63,284],"ex":22},{"t":"V","ko":"물","ja":"水","cids":[1,60,64,65,124,190,378,379],"ex":65},{"t":"V","ko":"수영장","ja":"プール","cids":[9],"ex":9},{"t":"V","ko":"무대","ja":"ステージ","cids":[252,253],"ex":252},{"t":"V","ko":"노래","ja":"歌","cids":[248,284,365],"ex":248},{"t":"V","ko":"얼굴","ja":"顔","cids":[276,340,342,343],"ex":276},{"t":"V","ko":"머리","ja":"頭・髪","cids":[221,330,361],"ex":221},{"t":"V","ko":"어금니","ja":"奥歯","cids":[147,148,149,157,158],"ex":148},{"t":"V","ko":"송곳니","ja":"犬歯","cids":[158],"ex":158},{"t":"V","ko":"손톱","ja":"爪","cids":[208],"ex":208},{"t":"V","ko":"앨범","ja":"アルバム","cids":[196,198,199,201],"ex":196},{"t":"V","ko":"콘서트","ja":"コンサート","cids":[31,34,320],"ex":320},{"t":"V","ko":"페스티벌","ja":"フェスティバル","cids":[28,30,31,34],"ex":30},{"t":"V","ko":"게임","ja":"ゲーム","cids":[27,39,41,122,336],"ex":27},{"t":"V","ko":"미션","ja":"ミッション","cids":[193],"ex":193},{"t":"V","ko":"순서","ja":"順番","cids":[163,180],"ex":163},{"t":"V","ko":"단체","ja":"団体・全体","note":"ここではメンバー全員の写真","cids":[195,196,202,204],"ex":195},{"t":"V","ko":"연습","ja":"練習","cids":[173,182],"ex":173},{"t":"V","ko":"소감","ja":"感想","note":"イベント後に聞かれる定番語","cids":[120],"ex":120},{"t":"V","ko":"인터뷰","ja":"インタビュー","cids":[235,336],"ex":336},{"t":"V","ko":"매력","ja":"魅力","cids":[321,322,325],"ex":321},{"t":"V","ko":"콘셉트","ja":"コンセプト","cids":[325],"ex":325},{"t":"V","ko":"파트","ja":"パート","note":"歌の担当部分","cids":[318],"ex":318},{"t":"V","ko":"팬","ja":"ファン","cids":[321,356,362],"ex":321},{"t":"V","ko":"고양이","ja":"猫","cids":[239],"ex":239},{"t":"V","ko":"운","ja":"運","cids":[136],"ex":136},{"t":"V","ko":"습관","ja":"習慣・癖","cids":[267],"ex":267},{"t":"V","ko":"기억","ja":"記憶","cids":[196,233,238,314],"ex":238},{"t":"V","ko":"꿈","ja":"夢","cids":[22],"ex":22},{"t":"V","ko":"여름","ja":"夏","cids":[385,387],"ex":387},{"t":"V","ko":"무더위","ja":"猛暑","cids":[387],"ex":387},{"t":"V","ko":"공포","ja":"恐怖","note":"「공포체험」＝お化け屋敷体験","cids":[180,384,385],"ex":384},{"t":"V","ko":"체험","ja":"体験","cids":[384,385],"ex":384},{"t":"V","ko":"입수","ja":"入水","note":"水に入ること","cids":[107],"ex":107},{"t":"V","ko":"생존","ja":"生存","note":"ゲームで生き残ること","cids":[195,202],"ex":195},{"t":"V","ko":"마지막","ja":"最後","cids":[182,193,336,385],"ex":193},{"t":"V","ko":"다음","ja":"次","cids":[179,373],"ex":179},{"t":"V","ko":"전원","ja":"全員","cids":[107,108,120,137,202],"ex":120},{"t":"V","ko":"여러분","ja":"皆さん","cids":[8,27,28,228,235,287,375,385],"ex":27},{"t":"V","ko":"선배님","ja":"先輩","note":"芸能界で年長者への敬称","cids":[31],"ex":31},{"t":"V","ko":"감독님","ja":"監督","cids":[215],"ex":215},{"t":"V","ko":"피디님","ja":"プロデューサー","note":"放送の「PD」","cids":[25,233,331],"ex":331},{"t":"V","ko":"준비","ja":"準備","cids":[34,41,75,320],"ex":75},{"t":"V","ko":"방법","ja":"方法","cids":[34],"ex":34},{"t":"V","ko":"기회","ja":"機会","cids":[28],"ex":28},{"t":"V","ko":"소식","ja":"知らせ","cids":[27,31],"ex":27},{"t":"V","ko":"참여","ja":"参加","cids":[30,34],"ex":30},{"t":"V","ko":"응모","ja":"応募","cids":[34,37],"ex":37},{"t":"V","ko":"기간","ja":"期間","cids":[37],"ex":37},{"t":"V","ko":"얼른","ja":"早く・さっと","cids":[37,295],"ex":295},{"t":"V","ko":"무조건","ja":"絶対に・無条件で","cids":[103],"ex":103},{"t":"V","ko":"솔직히","ja":"正直に言って","cids":[96],"ex":96},{"t":"V","ko":"아무도","ja":"誰も","note":"否定と呼応","cids":[4,264],"ex":264},{"t":"V","ko":"아무것도","ja":"何も","note":"否定と呼応","cids":[351,352,354,356],"ex":351},{"t":"V","ko":"약간","ja":"ちょっと","cids":[21],"ex":21},{"t":"V","ko":"되게","ja":"すごく","note":"口語的な強調","cids":[128,216,376],"ex":128}]},{"id":"yeonhui","videoId":"SAizVfA26Hk","title":"ヨニドン デート","titleKo":"연희동 데이트","subtitle":"ジウォンとジホン、二人だけのおでかけ","subtitleKo":"지원과 지헌, 둘만의 나들이","seal":"散","scenes":[{"key":"open","label":"オープニング・ヨニドン到着","ko":"오프닝 · 연희동 도착","itv":false,"at":0},{"key":"shop","label":"工房に到着","ko":"공방 도착","itv":false,"at":101},{"key":"pick","label":"デザインを決める","ko":"디자인 고르기","itv":false,"at":143},{"key":"make","label":"こねて形をつくる","ko":"빚어서 모양 만들기","itv":false,"at":210},{"key":"color","label":"色をつくる","ko":"색 만들기","itv":false,"at":363},{"key":"face","label":"仕上げ・顔を描く","ko":"마무리 · 얼굴 그리기","itv":false,"at":548},{"key":"name","label":"名前をつける「コンドリ」","ko":"이름 짓기 「건더이」","itv":false,"at":667},{"key":"cafe","label":"ブランチカフェ","ko":"브런치 카페","itv":false,"at":724},{"key":"hair","label":"ツインテールの話","ko":"양갈래 이야기","itv":true,"at":807},{"key":"early","label":"デビュー初期の話","ko":"데뷔 초 시절 이야기","itv":true,"at":877},{"key":"dorm","label":"宿舎ぐらしの思い出","ko":"숙소 시절 이야기","itv":true,"at":1001},{"key":"food","label":"料理と近況","ko":"음식과 근황","itv":false,"at":1103},{"key":"dance","label":"振り付け練習の話","ko":"안무 연습 이야기","itv":true,"at":1172},{"key":"chair","label":"フライングチェアを振り返る","ko":"플라잉 체어 회상","itv":true,"at":1252},{"key":"photo","label":"写真を撮る","ko":"사진 찍기","itv":false,"at":1341},{"key":"cloth","label":"洋服屋さん","ko":"옷가게","itv":false,"at":1423},{"key":"aland","label":"エーランド","ko":"A랜드","itv":false,"at":1849},{"key":"end","label":"しめくくり","ko":"마무리","itv":false,"at":2054}],"data":[{"id":1,"s":0,"e":1,"ko":"약간 환한 갈데 이건.","ja":"ちょっと明るい所に行こう、これ。","scene":"open"},{"id":2,"s":1,"e":9,"ko":"어머 뭐야 이런 거? 우와 언니가 계속 떠들고 나는 그냥 가만히 있으셔서 우리 둘이 어색한 사이인 줄 알았다고","ja":"あら、何これ？わあ。お姉さんがずっとしゃべって私はただ黙っていたから、私たち二人は気まずい仲だと思われてたって","scene":"open"},{"id":3,"s":9,"e":17,"ko":"진짜 처음에 잠깐만 나 진짜 사촌 동생 데리고 온 거 같아","ja":"本当に最初は、ちょっと待って、私、本当に従妹を連れて来たみたい","scene":"open","pe":13.67,"raw":"진짜 처음에 잠심만 나 진짜 사촌 동생 데고 온 거 같아"},{"id":4,"s":17,"e":26,"ko":"우리 진짜 대는 거 같아 오늘 와봤어","ja":"私たち本当にデートみたいだね、今日来てみて","scene":"open","pe":20.11},{"id":5,"s":26,"e":35,"ko":"나 한 두 번 두 번 응 많이 안 와봤네 어 와을 일이 없어서 오늘 우리 뭐 하러 왔어? 데이트야?","ja":"私、一、二回くらい。うん、あまり来たことないね。来る用事がなくて。今日、私たち何しに来たの？デート？","scene":"open"},{"id":6,"s":35,"e":40,"ko":"응.","ja":"うん。","scene":"open","pe":35.8},{"id":7,"s":35,"e":40,"ko":"아니 우리가 계속 스케줄이 많았잖아. 응.","ja":"いや、私たちずっとスケジュールが多かったじゃない。うん。","scene":"open"},{"id":8,"s":40,"e":45,"ko":"근데 오늘 촬영을 핑계로 이렇게 힐링하러 나오는 거 아니야?","ja":"でも今日は撮影を口実に、こうやって癒されに出てきたんじゃない？","scene":"open"},{"id":9,"s":45,"e":49,"ko":"언니 좋은 거 맞지? 좋은 거 맞으시죠? 어.","ja":"お姉さん、いいことでしょ？いいことですよね？うん。","scene":"open"},{"id":10,"s":49,"e":57,"ko":"왜냐면 계속 일하는 촬영 막 알방가고 나는 계속 그러다가","ja":"だってずっと働く撮影ばかりで、私はずっとそうしてて","scene":"open","pe":54.11},{"id":11,"s":57,"e":62,"ko":"오늘은 그냥 내가 어 내가 하고 싶은 하는 거 아니야?","ja":"今日はただ、私がやりたいことをやるんじゃない？","scene":"open"},{"id":12,"s":62,"e":66,"ko":"그냥 오늘은 즐겨. 놀면 돼. 오늘. 응.","ja":"今日はただ楽しんで。遊べばいい。今日は。うん。","scene":"open"},{"id":13,"s":66,"e":71,"ko":"키링 만들고 진짜 그리고 맛있는 거 먹고. 좋아.","ja":"キーホルダー作って、それから美味しいもの食べて。いいね。","scene":"open"},{"id":14,"s":71,"e":78,"ko":"소품샵 갔다가 응. 우리 또 지헌이 센스니까 연희동 많이 와봤겠네. 이제 대학교가 여기 많으니까.","ja":"雑貨屋に行って、うん。ジホンはセンスがいいから、ヨニドンによく来たでしょ。大学がこの辺に多いから。","scene":"open","raw":"소품샵 갔다가 응. 우리 또 지연이 센스니까 연이동 많이 와봤겠네. 이제 대학교와 여기 많으니까.","note":"「지연이」は「지헌이」、「연이동」は「연희동」の認識ミス"},{"id":15,"s":78,"e":86,"ko":"아 여기서 많이 노는구나. 대학생들은 친구들이랑 막 이런데 가지샵. 예. 인형뽑이죠.","ja":"ああ、ここでよく遊ぶんだね。大学生は友達とこういう所に行くよね。はい。クレーンゲームですよね。","scene":"open"},{"id":16,"s":86,"e":95,"ko":"진짜로.","ja":"本当に。","scene":"open","pe":86.89},{"id":17,"s":86,"e":95,"ko":"응. 아무 귀여운 거 아니야? 여긴가? 여기야. 어. 오늘 완전 제대로 힐링데이네. 오늘 꽤 덥네 날이.","ja":"うん。何かかわいくない？ここかな？ここだ。うん。今日は完全にちゃんとした癒しデーだね。今日けっこう暑いね。","scene":"open"},{"id":18,"s":95,"e":97,"ko":"그래 나 완전 좋다고 생각했는데.","ja":"そう、私は最高だと思ってたのに。","scene":"open"},{"id":19,"s":97,"e":101,"ko":"어 날씨 너무 좋다 이렇게 생각했는 진짜 시원해 요즘.","ja":"うん、天気すごくいいなって思ってた。本当に涼しいよ、最近。","scene":"open"},{"id":20,"s":101,"e":109,"ko":"아 나 언니 계단 힘들어. 아 나와 안녕하세요 언니. 우리 약간 환한 갈데 이","ja":"ああ、お姉さん、階段つらい。あ、こんにちは、お姉さん。ちょっと明るい所に","scene":"shop","pe":107.67},{"id":21,"s":109,"e":112,"ko":"어머 뭐야 이런 거?","ja":"あら、何これ？","scene":"shop","pe":110.78},{"id":22,"s":112,"e":119,"ko":"우와 되게 예쁘다. 우와 이런 거 만드는 거예요? 오늘네. 오늘 만들은 워리스톤.","ja":"わあ、すごくきれい。わあ、こういうの作るんですか？今日作るのはウォーリーストーン。","scene":"shop"},{"id":23,"s":119,"e":127,"ko":"네. 이름처럼 이제 걱정을 완화시켜주는 네. 요렇게 음폭파인 곳을 만들어서 여기를 이제 스톱스","ja":"はい。名前の通り、心配をやわらげてくれる。こうやって窪んだ所を作って、ここを","scene":"shop"},{"id":24,"s":127,"e":135,"ko":"아 약간 요즘 말랑이처럼 약간 신신의 안정을 이렇게 아 귀여워. 하나 만든데 오래 걸려요? 아니요.","ja":"あ、最近のスクイーズみたいに、精神の安定をこうやって。ああ、かわいい。一つ作るのに時間かかりますか？いいえ。","scene":"shop"},{"id":25,"s":135,"e":140,"ko":"한 40분. 겁나 오래 걸리. 오래 걸리는데. 한 10분.","ja":"40分くらい。すごく時間かかる。かかるけど。10分くらい。","scene":"shop"},{"id":26,"s":140,"e":143,"ko":"결정이 빠르시면 빠를수록 1층 만드실 수 있어요.","ja":"決めるのが早ければ早いほど、早く作れますよ。","scene":"shop"},{"id":27,"s":143,"e":150,"ko":"아 여름이니까 약간 과일을 해야 될 거 같아. 아 근데 나이 행원해거 보기 너무 귀엽다. 그니까 귀엽지.","ja":"あ、夏だからフルーツにしないといけない気がする。あ、でもこれ見るとすごくかわいい。だよね、かわいいよね。","scene":"pick"},{"id":28,"s":150,"e":152,"ko":"아 토마토 귀엽다.","ja":"あ、トマトかわいい。","scene":"pick"},{"id":29,"s":152,"e":162,"ko":"토마토해. 여기 토마토 있네. 아 아보카도를 알까? 뭔가 아보카도가 겨. 오늘 나는 만드는 것보다 사는 거를 더 좋아하는 거 같아.","ja":"トマトにしな。ここにトマトあるね。あ、アボカドって分かるかな？なんかアボカドが。今日、私は作るより買う方が好きみたい。","scene":"pick"},{"id":30,"s":162,"e":164,"ko":"선생님 저 디자인 다 했어요.","ja":"先生、私デザイン決まりました。","scene":"pick"},{"id":31,"s":164,"e":168,"ko":"오 진짜 빠르다. 이거 어때요? 아보카도 같아요.","ja":"お、本当に早い。これどうですか？アボカドみたいです。","scene":"pick"},{"id":32,"s":168,"e":172,"ko":"어 색깔을 넣으면 알아볼 수 있지 않을까요?","ja":"あ、色を入れれば分かるんじゃないですか？","scene":"pick"},{"id":33,"s":172,"e":179,"ko":"약간 계란 갖다 보이기도 하지만 색깔을 넣으면 될 거 같아요. 색깔 다 정했어요.","ja":"ちょっと卵みたいにも見えるけど、色を入れれば大丈夫そうです。色は全部決めました。","scene":"pick"},{"id":34,"s":179,"e":187,"ko":"아니면 아니면 오리 개구리 언니 오리해라. 오리 잘 어울 내가 항상 그리는 그 오리 있잖아.","ja":"それか、それかアヒル。カエル。お姉さんアヒルにしなよ。アヒル似合う。私がいつも描いてるあのアヒルあるじゃん。","scene":"pick"},{"id":35,"s":187,"e":190,"ko":"어 그 오리 감었어. 어떻게 그렸더라?","ja":"あ、あのアヒルね。どうやって描いたっけ？","scene":"pick"},{"id":36,"s":190,"e":198,"ko":"내가 항상 그리는 오인데. 왜 어때요? 근데 아보카도 하고 싶어. 뭐 할까요? 뭐야?","ja":"私がいつも描いてるアヒルなんだけど。どう、どうですか？でもアボカドがやりたい。何にしましょう？何？","scene":"pick"},{"id":37,"s":198,"e":203,"ko":"진짜 알았어요. 토마토. 토마토가 이쁜 거 같아.","ja":"本当に分かりました。トマト。トマトがきれいだと思う。","scene":"pick"},{"id":38,"s":203,"e":210,"ko":"왜냐면 나 그룹 메시지에 내 상태 메시지가 설탕 가득한 토마토 먹고 싶어 하거든.","ja":"だって私、グループのメッセージで私のステータスメッセージが「砂糖たっぷりのトマトが食べたい」なんだもん。","scene":"pick"},{"id":39,"s":210,"e":216,"ko":"우리 서로 이제 만들어 주자. 어 내가 오리를 만들었어요.","ja":"お互いに作ってあげよう。あ、私アヒルを作りました。","scene":"make"},{"id":40,"s":216,"e":225,"ko":"그래 오늘 손가락이랑 손끝 위주로난","ja":"そう、今日は指と指先中心で","scene":"make","pe":219.33},{"id":41,"s":225,"e":230,"ko":"진짜 꾸독해 보인다. 어 진짜 이걸로 모양을 만들 수 있을까?","ja":"本当に不器用に見える。え、本当にこれで形を作れるかな？","scene":"make"},{"id":42,"s":230,"e":237,"ko":"아 나 오리 잘 먹었으면 될 거 같 아니 잘했어 일단 먼저 도색을 해야 돼.","ja":"あ、私アヒルがうまくできたらいいんだけど。いや、上手だよ。まず先に色をつけなきゃ。","scene":"make"},{"id":43,"s":237,"e":242,"ko":"아 흰색을 일단 먼저 베이스로 깔아야 될거든 맞죠? 네. 요렇게요.","ja":"あ、白をまずベースに敷かないといけないんですよね？はい。こうやって。","scene":"make"},{"id":44,"s":242,"e":249,"ko":"흰색흰색 저는 토마토니까 빨간색 빨간색 이게 한 번에 너무 많이 하면 네. 많이 하면 엄청 진하거든요.","ja":"白、白。私はトマトだから赤、赤。これ一度に入れすぎると、はい。多く入れるとすごく濃くなるんです。","scene":"make"},{"id":45,"s":249,"e":258,"ko":"그래서 조금씩 넣어서 이렇게 손으로 쭈물조물하면서 뭉치는 부분 없이 잘 섞어 주세요. 슉슉슉.","ja":"なので少しずつ入れて、こうやって手でこねながら、固まりが残らないようによく混ぜてください。しゅっしゅっ。","scene":"make"},{"id":46,"s":258,"e":263,"ko":"아. 아. 조금 아니야. 너무 너무 그거 옅어. 그지?","ja":"あ。あ。ちょっと違う。すごく、すごく薄い。でしょ？","scene":"make"},{"id":47,"s":263,"e":271,"ko":"응. 더 익은 토마토가 됐어. 나 어디서 그런 얘기 들봤는데 언니가 계속 떠들고 나는 그냥 가만히 있으셔서","ja":"うん。もっと熟れたトマトになった。私どこかでそんな話を聞いたんだけど、お姉さんがずっとしゃべって私はただ黙ってたから","scene":"make"},{"id":48,"s":271,"e":279,"ko":"우리 둘이 어색한 사이인 줄 알았다고 진짜 처음에 그래서 맨 처음에 입적했을 때 우리가 어색한 사이인 줄 알았어. 진짜 어사인 줄 알았대.","ja":"私たち二人が気まずい仲だと思われてたって。本当に最初に。だから一番最初に入った時、私たちが気まずい仲だと思われてた。本当に気まずい仲だと思われてたって。","scene":"make"},{"id":49,"s":279,"e":289,"ko":"우리 친해지길 바르지고 있는 거야지금 아씨 진짜 아주 야이 무독히 기지야 머리랑 몸통 따로따로 거죠? 네.","ja":"私たち「仲良くなってほしい」って思われてるんだ、今。ああもう、本当に。頭と胴体は別々ですよね？はい。","scene":"make"},{"id":50,"s":289,"e":300,"ko":"네. 그러면 다 아, 나 손이 많이 가는 애버렸어. 아, 참. 띵.","ja":"はい。そうしたら、あ、私、手のかかる子を作っちゃった。あ、もう。","scene":"make","pe":294.78},{"id":51,"s":300,"e":303,"ko":"어디? 몸은 좀 작게 해야지 귀여울 거.","ja":"どこ？体は少し小さくしないとかわいくなる。","scene":"make"},{"id":52,"s":303,"e":307,"ko":"어, 지 어때? 나 완전 완벽한 동그라미를 만들고 있어.","ja":"ねえ、どう？私、完璧な丸を作ってるよ。","scene":"make"},{"id":53,"s":307,"e":316,"ko":"야, 되게 떡 같다. 맛있어 보이는 떡 그지? 응. 초록색.","ja":"ねえ、すごくお餅みたい。美味しそうなお餅でしょ？うん。緑色。","scene":"make","pe":312.33},{"id":54,"s":316,"e":321,"ko":"오리야. 오리야. 너에게 이름도 지어 줄게.","ja":"アヒルちゃん。アヒルちゃん。あなたに名前もつけてあげる。","scene":"make"},{"id":55,"s":321,"e":332,"ko":"뭐 어떻게 그건 얘가 완성이 되어 나서 얼굴을 봐야지 할 거 같아. 그 예쁘게 비었어. 놔두고 여기서 이렇게 비는 거야. 아 이렇게. 응.","ja":"どうやって？それはこの子が完成してから顔を見て決めることになりそう。きれいに空いてる。置いてここでこうやってくっつけるの。あ、こうやって。うん。","scene":"make"},{"id":56,"s":332,"e":340,"ko":"음. 어이 정도면은 머리. 오케이. 좋았어. 우와 비율이 미쳤어요 선.","ja":"うん。これくらいなら頭。オッケー。よし。わあ、バランスがやばいです、先生。","scene":"make","pe":338.67},{"id":57,"s":340,"e":345,"ko":"UN.","ja":"うーん。","scene":"make","pe":340.8},{"id":58,"s":345,"e":354,"ko":"어. 나 진짜 사촌 동생 데고 온 거 같아. 이게 뭐가 데이트야? 사촌 동생이지? 왜?","ja":"うん。私、本当に従妹を連れて来たみたい。これのどこがデート？従妹でしょ？なんで？","scene":"make","pe":352.56},{"id":59,"s":354,"e":363,"ko":"우리 무슨 촉감 놀래하는 거 같겠지? 모양 만드는게 되게 어렵다. 오리야. 오리야. 어. 어. 예쁜 거 같아.","ja":"私たち、なんか感触遊びしてるみたいに見えるよね？形を作るのがすごく難しい。アヒルちゃん。アヒルちゃん。うん。うん。きれいだと思う。","scene":"make"},{"id":60,"s":363,"e":366,"ko":"얘는 이제 노랑이로 만들 거예요, 선생님. 어, 금색.","ja":"この子はこれから黄色にするんです、先生。あ、金色。","scene":"color"},{"id":61,"s":366,"e":376,"ko":"네. 양을 좀 조절이 하시면은 어, 너무 골든가? 어.","ja":"はい。量を少し調節していただければ。あ、金色すぎるかな？うん。","scene":"color","pe":370.89},{"id":62,"s":376,"e":381,"ko":"얘가 왜 이런 색이 됐을까요? 차에 좀 주황색으로 만들어 볼까?","ja":"この子なんでこんな色になったんでしょう？もう少しオレンジ色にしてみようか？","scene":"color"},{"id":63,"s":381,"e":388,"ko":"그래 주황색으로 사 응금 네고 이게 어떻게 데이트가 되지? 되게","ja":"そう、オレンジ色に。これがどうやってデートになるの？すごく","scene":"color","pe":386.78},{"id":64,"s":388,"e":397,"ko":"고도의 집중력을 발휘하는데 너 집중하고 있었어? 와 예쁘다. 책 저기 하나 언니 나한테 지금 챙이라고 하려했어.","ja":"高度の集中力を発揮してるけど。あんた集中してた？わあ、きれい。お姉さん今、私に「うるさい」って言おうとしたでしょ。","scene":"color"},{"id":65,"s":397,"e":403,"ko":"나 진짜 서운해. 진짜 어이 없어. 선생님 왜 이런 색깔이 나오는 거죠?","ja":"私、本当に寂しい。本当にあきれる。先生、なんでこんな色が出るんでしょう？","scene":"color"},{"id":66,"s":403,"e":408,"ko":"주황색 비슷한 거 같은데요? 선생님 혹시 컬러 마스터 봐주세요?","ja":"オレンジ色に似てると思いますけど？先生、カラーマスター見てもらえますか？","scene":"color"},{"id":67,"s":408,"e":416,"ko":"선생님 이제 진짜 신중하게 골드를 넣고","ja":"先生、今度は本当に慎重に金色を入れて","scene":"color","pe":411.56},{"id":68,"s":416,"e":426,"ko":"이거 토마토 되게 어려운 거구나. 어 되게 섬세하다. 터치가 이런 거 잘하는구나. 지헌아 막 패. 이렇게 패.","ja":"これ、トマトってすごく難しいんだな。うん、すごく繊細。タッチが。こういうの上手なんだね。ジホン、どんどん叩いて。こうやって叩いて。","scene":"color","raw":"이거 토마도 되게 어려운 거구나. 어 되게 섬세하다. 터치가 이런 거 잘하는구나. 지연아 막 패. 이렇게 패.","note":"「지연아」は「지헌아」の認識ミス"},{"id":69,"s":426,"e":430,"ko":"아직도 불리를 만들고 계시면 어떡하다는 거야? 저기요.","ja":"まだ胴体を作ってらっしゃるって、どういうことですか？もしもし。","scene":"color"},{"id":70,"s":430,"e":436,"ko":"집에 안 갈 예정. 아 골드 너무 많이 들어갔나? 아, 만족해.","ja":"家に帰らない予定。あ、金色を入れすぎたかな？あ、満足。","scene":"color"},{"id":71,"s":436,"e":440,"ko":"아, 싫어. 더 이상 없어. 착 착.","ja":"あ、いや。もうない。ぱんぱん。","scene":"color"},{"id":72,"s":440,"e":444,"ko":"아니, 아니야, 언니. 아이고, 아니에요.","ja":"いや、違うよ、お姉さん。ああ、違います。","scene":"color"},{"id":73,"s":444,"e":452,"ko":"왜 계속 돌이킬 수 없는 반 그 실수를 하는 거야? 아, 이런 여자친구 데려오면 진짜 힘들 거 같아. 왜?","ja":"なんで取り返しのつかないミスばかりするの？ああ、こういう彼女を連れてきたら本当に大変そう。なんで？","scene":"color"},{"id":74,"s":452,"e":465,"ko":"아, 진짜 성 가는 여태 데이트 중에서 가장 힘든 데이트예요. 지금 나 오늘 힐링하는 느낌이야. 오늘 많이 말 많이 안 할 거야.","ja":"あ、本当に。今までのデートの中で一番大変なデートです、今。私、今日は癒される感じだよ。今日はあまりしゃべらない。","scene":"color","pe":463.33},{"id":75,"s":465,"e":473,"ko":"어머. 아니면 언니 조금 바에 떼서 빨간 섞어서 한번 확인을 해. 컬러를 되게 떡똑하다. 너 여기서 이래라.","ja":"あら。じゃあお姉さん、少し取って赤を混ぜて一度確認して。色を。すごく賢い。ここでこうやって。","scene":"color"},{"id":76,"s":473,"e":476,"ko":"야 되게 잘한다.","ja":"ねえ、すごく上手。","scene":"color","pe":474.56},{"id":77,"s":476,"e":483,"ko":"어 주황색이 됐다. 괜찮은데 괜찮은데 괜찮아.","ja":"あ、オレンジ色になった。いいじゃん、いいじゃん、いい。","scene":"color","pe":480.44},{"id":78,"s":483,"e":492,"ko":"불이를 만들어 보겠습니다. 선생 도와주는 거야? 응. 너 그럼 발을 만들어 줄래?","ja":"胴体を作ってみます。先生。手伝ってくれるの？うん。じゃあ足を作ってくれる？","scene":"color","pe":490.56},{"id":79,"s":492,"e":501,"ko":"그래. 발이야? 아 귀여워. 괜찮지?","ja":"うん。足？あ、かわいい。いいでしょ？","scene":"color","pe":495.56},{"id":80,"s":501,"e":508,"ko":"어때? 오마이갓. 쏘 큐인데. 쏘빅 쏘빅 뿌리.","ja":"どう？オーマイガー。かわいすぎ。","scene":"color","pe":505.44},{"id":81,"s":508,"e":516,"ko":"너무 웃겨. 너무 하찮게 생겼어. 아 재밌다. 생님 이거 재밌네요.","ja":"おかしすぎる。すごくしょぼい見た目。あ、楽しい。先生、これ楽しいですね。","scene":"color","pe":514.22},{"id":82,"s":516,"e":524,"ko":"어 발 한 짝 더 만들었어? 아니 이거는 그 뭐야? 꼬리.","ja":"え、足もう片方も作った？いや、これはあれだよ、しっぽ。","scene":"color","pe":520.89},{"id":83,"s":524,"e":532,"ko":"꼬이 이렇게 생겼어. 하나 이렇게 이거 넣 거야?","ja":"しっぽ、こういう形なんだ。一つこうやって、これ入れるの？","scene":"color","pe":528.44},{"id":84,"s":532,"e":539,"ko":"진짜 너무 당혹스럽다. 내가 언니 생각보다 귀여운데. 괜찮지? 그니까 넣 거라니까 이거. 아니 괜찮다니까.","ja":"本当に戸惑う。私、お姉さんが思ったよりかわいい。いいでしょ？だから入れるってば、これ。いや、大丈夫だってば。","scene":"color"},{"id":85,"s":539,"e":544,"ko":"꼬리 너무 하차는데요. 머리는 안 해도 될 듯.","ja":"しっぽ、しょぼすぎます。髪はやらなくてもよさそう。","scene":"color"},{"id":86,"s":544,"e":548,"ko":"그래 머리 하지 말자. 너무 힘들다 이제. 어 좋다.","ja":"そう、髪はやめよう。もう疲れた。うん、いいね。","scene":"color"},{"id":87,"s":548,"e":555,"ko":"아 끝. 집중을 너무 많이 했더니 눈도 그려야 돼요 선생님 눈은 그릴게. 아 알겠습니다.","ja":"あ、終わり。集中しすぎた。目も描かなきゃいけないんですよ、先生。目は描くよ。あ、分かりました。","scene":"face"},{"id":88,"s":555,"e":570,"ko":"그러면 지금 엄지 한번","ja":"じゃあ今、親指を一度","scene":"face","pe":557.0},{"id":89,"s":570,"e":577,"ko":"됐다. 어 기계해졌네.","ja":"できた。あ、きれいになったね。","scene":"face","pe":572.22},{"id":90,"s":577,"e":589,"ko":"선 얘 굳이면 좀 엉덩이 하라니까 그러니까 최한 머리 같아요.","ja":"先生、この子、いっそお尻にしなよって。だから短い髪みたいです。","scene":"face","pe":582.56},{"id":91,"s":589,"e":597,"ko":"아 근데 과정에 비해서 되게 귀여운데요. 과정에 비해서 진짜요? 감사해요. 다행이다.","ja":"あ、でも過程のわりにすごくかわいいですね。過程のわりに。本当ですか？ありがとうございます。よかった。","scene":"face"},{"id":92,"s":597,"e":605,"ko":"원래 심플스다. 베스트라고 귀 손재주 되게 좋긴 이걸로 만질만한게 없나? 당근.","ja":"もともとシンプルなのがベストだって。手先が器用だね。これで何か作れるものないかな？にんじん。","scene":"face"},{"id":93,"s":605,"e":606,"ko":"야, 만들어 봐. 여기 또 있어.","ja":"ねえ、作ってみて。ここにもあるよ。","scene":"face"},{"id":94,"s":606,"e":617,"ko":"우리지 손 왜 말을 하길 포기함? 제주가 뛰어나다고?","ja":"私たち、なんで話すのをあきらめたの？手先が器用だって？","scene":"face","pe":610.89},{"id":95,"s":617,"e":623,"ko":"오. 어. 징그러워.이 오리시면 돼요. 악.","ja":"お。え。気持ち悪い。このアヒルにすればいいですよ。うわ。","scene":"face","pe":621.22},{"id":96,"s":623,"e":630,"ko":"내가 나은 애요. 나 이런 애를 나은 적이 없는데. 너 누구니?","ja":"私が産んだ子です。私こんな子を産んだことないのに。あなた誰？","scene":"face","pe":628.56},{"id":97,"s":630,"e":640,"ko":"아, 감사해요. 너무 좋은데.","ja":"あ、ありがとうございます。すごくいいんですけど。","scene":"face","pe":632.89},{"id":98,"s":640,"e":647,"ko":"어머 어머","ja":"あら、あら","scene":"face","pe":640.89},{"id":99,"s":647,"e":655,"ko":"속눈썹이 생겼 연습한 거 같 근데 이게 제일 눈이 이래요라","ja":"まつげができた。練習したみたい。でもこれが一番、目がこうなんです","scene":"face","pe":652.11},{"id":100,"s":655,"e":667,"ko":"몰라 오케이 오케이 좋았어 박지원 아까 재미 없다더니 제일 열심히 미안 귀엽다. 원래. 야 그 당근 너무 귀여운데. 나 가질래?","ja":"分からない。オッケー、オッケー、よし。パク・ジウォン、さっき「つまらない」って言ってた人が一番一生懸命。ごめん。かわいい。もともと。ねえ、そのにんじんすごくかわいい。私にくれない？","scene":"face","raw":"몰라 오케이 오케이 좋았어 백지원 아까 재미 없다오니 제일 열심히 미안 귀엽다. 원래. 야 그 당근 너무 귀여운데. 나 가줄래?","note":"「백지원」は「박지원」の認識ミス"},{"id":101,"s":667,"e":674,"ko":"내가 가질 거야. 이름 지어준다면 그러니까 그게 지금 생각하고 있었어. 이름.","ja":"私がもらう。名前をつけるなら。だから今それを考えてたの。名前。","scene":"name"},{"id":102,"s":674,"e":678,"ko":"덕크 메이징 덕크 덕 건더기 어때?","ja":"ダック、アメイジングダック。ダック。コンドギはどう？","scene":"name"},{"id":103,"s":678,"e":685,"ko":"매건 건덕 건더 건더이 건더이 건덕아","ja":"コンドク、コンド、コンドリ。コンドリ。コンドク。","scene":"name","pe":681.33},{"id":104,"s":685,"e":691,"ko":"괜찮지 않아? 건더이 이름 너무 귀엽잖아요? 건더이 나 건더이 괜찮은데? 건더이로 가야겠다.","ja":"よくない？コンドリ。名前すごくかわいくないですか？コンドリ。私、コンドリいいと思う。コンドリでいこう。","scene":"name"},{"id":105,"s":691,"e":700,"ko":"건더이 우리 건더이 건더이 너무 귀여워. 야 나 볼래 이거 완전 스킨푸드 재질이다. 이거지","ja":"コンドリ。うちのコンドリ。コンドリかわいすぎる。ねえ、私見たい。これ完全にスキンフードの質感だ。","scene":"name"},{"id":106,"s":700,"e":724,"ko":"너무 예쁘다. 근데 언니가 그린 그림이랑 똑같이 나왔어요. 스케치가 애초에 잘못됐네.","ja":"すごくきれい。でもお姉さんが描いた絵とそっくりに出来上がりました。スケッチがそもそも間違ってたんだね。","scene":"name","pe":708.22},{"id":107,"s":724,"e":727,"ko":"어머 뭐야?","ja":"あら、何これ？","scene":"cafe","pe":725.11},{"id":108,"s":727,"e":735,"ko":"너무 예쁘다. 예쁘다. 지헌아 너무 예쁘다. 내가 오늘 찍어 주려고 이거 첫 개시예요 카메라. 야 이 첫 개시야 너를 처음으로 담았다고.","ja":"すごくきれい。きれい。ジホン、すごくきれい。今日撮ってあげようと思って。これ初撮りなんです、カメラ。ねえ、これ初撮りだよ。あなたを最初に収めたって。","scene":"cafe","raw":"너무 예쁘다. 예쁘다. 시원아 너무 예쁘다. 내가 오늘 한이 찍어 주려고 이거 첫 게시에요 카메라. 야이 첫 게시야 너를 처음으로 담았다고.","note":"「시원아」は「지헌아」の認識ミス"},{"id":109,"s":735,"e":743,"ko":"언니 나도 내 카메라 첫 게시 언니잖아. 아 진짜 그때 그 우리 뭐야 언니 중 그 나 중고거래 할 때","ja":"お姉さん、私も自分のカメラの初撮りがお姉さんじゃん。あ、本当にあの時、私が中古取引した時","scene":"cafe"},{"id":110,"s":743,"e":750,"ko":"아 그 카메라야 언니한테 테스트했잖아 아무튼 여기 쿠싸라는 곳이야 언니 쿠싸","ja":"あ、あのカメラね。お姉さんでテストしたじゃん。とにかくここはクサっていう所だよ、お姉さん。クサ。","scene":"cafe"},{"id":111,"s":750,"e":756,"ko":"쿠싸 여기는 아무튼 우리 브런치 카페 로제 파스타 같은 파스타 파스타 맛있겠다.","ja":"クサ。ここはとにかく、うちのブランチカフェ。ロゼパスタみたいなパスタ。パスタ美味しそう。","scene":"cafe"},{"id":112,"s":756,"e":764,"ko":"파스타랑 베네딕트가 유명하대 일단 베네딕트 하나 시키고 파스타 하나 시켜 볼까? 오, 너무 예뻐요.","ja":"パスタとエッグベネディクトが有名だって。まずベネディクト一つ頼んで、パスタ一つ頼んでみようか？お、すごくきれいです。","scene":"cafe"},{"id":113,"s":764,"e":769,"ko":"근데 나 지원 언니가 이쁘다고 하는 거는 약간 못 믿어. 왜?","ja":"でも私、ジウォンお姉さんが「きれい」って言うのはちょっと信じられない。なんで？","scene":"cafe"},{"id":114,"s":769,"e":774,"ko":"지원 언니 약간 나랑 미감 추구미가 달라 가지고 아 왜?","ja":"ジウォンお姉さん、ちょっと私と美的センスが違うから。あ、なんで？","scene":"cafe"},{"id":115,"s":774,"e":781,"ko":"지원 언니는 내가 막 귀여운 걸 좋아해. 약간 예쁜 것보다. 약간 하찮을 때.","ja":"ジウォンお姉さんは私がすごくかわいいものが好きなの。きれいなものより。ちょっとしょぼい時。","scene":"cafe"},{"id":116,"s":781,"e":787,"ko":"아니 너무 예쁜 어 그러네. 분위기가 진짜 그러네. 이런다 그러네. 그러네.","ja":"いや、すごくきれい。あ、そうだね。雰囲気が本当にそうだね。","scene":"cafe"},{"id":117,"s":787,"e":796,"ko":"나도 찍어줘봐. 우리 사 사진 찍고 넣는 거야. 와. 하나 둘 셋.","ja":"私も撮ってよ。写真撮って載せるの。わあ。いち、に、さん。","scene":"cafe","pe":792.78},{"id":118,"s":796,"e":798,"ko":"하나 둘 셋.","ja":"いち、に、さん。","scene":"cafe"},{"id":119,"s":798,"e":807,"ko":"아니 너무 마음에 들어. 진짜이 카메라 이거 우리 미연 언니가 날일날에 선물로 준 건데 드디어 첫개시를 했어.","ja":"いや、すごく気に入った。本当にこのカメラ、ミヨンお姉さんが誕生日にプレゼントしてくれたんだけど、ついに初撮りをした。","scene":"cafe"},{"id":120,"s":807,"e":817,"ko":"아니 내가 이번에 언니한테 얘기했지 않았나? 양갈래를 팬사인에서 했는데 팬분들이 보고 싶어 해가지고 양갈래를 했단 말이에요. 3, 4년 만에.","ja":"あ、私、今回お姉さんに話さなかったっけ？ツインテールをファンサインでやったんだけど、ファンの方が見たがって、ツインテールをしたんですよ。3、4年ぶりに。","scene":"hair"},{"id":121,"s":817,"e":826,"ko":"근데 내가 그 양갈래를 너무 오랜만에 하니까 진짜 멤버들이 다 너무 귀여워 주는데 너무 어색한 거야. 나는 만에 한 거야.","ja":"でも私、そのツインテールを久しぶりにやったから、メンバーがみんなすごくかわいがってくれるのに、すごく気まずいの。私は久しぶりだから。","scene":"hair"},{"id":122,"s":826,"e":827,"ko":"어 진짜로.","ja":"うん、本当に。","scene":"hair"},{"id":123,"s":827,"e":836,"ko":"그래서 꿈에 나와 가지고 이제 내가 16살대로 돌아가서 양갈래 하기 싫어했던 나의 백지원으로 돌아간 거예요.","ja":"それで夢に出てきて、私が16歳に戻って、ツインテールをやりたくなかった私に戻ったんです。","scene":"hair"},{"id":124,"s":836,"e":838,"ko":"그래서 그때 많이 울었거든. 지헌이.","ja":"それで当時はよく泣いてたの。ジホンが。","scene":"hair","raw":"그래서 그때 많이 울었거든. 지연이.","note":"「지연이」は「지헌이」の認識ミス"},{"id":125,"s":838,"e":845,"ko":"어 맨날 울었거든요. 하기 싫어 가지고. 그래서 대표님이 꿈에 나오셔서 오늘 대표님이 오신다.","ja":"うん、毎日泣いてたんです。やりたくなくて。それで代表が夢に出てきて「今日は代表が来る」って。","scene":"hair"},{"id":126,"s":845,"e":853,"ko":"그래서 양갈래를 꼭 해야 된다. 헤오 쌤한테 진짜 양갈래 너무 안 하고 싶다고는 울면서 근데 쌤이","ja":"だからツインテールを必ずしなきゃいけない。ヘアメイクの先生に「本当にツインテールしたくない」って泣きながら。でも先生が","scene":"hair"},{"id":127,"s":853,"e":861,"ko":"그래도 해야지 어쩌겠어 하면서 머리를 해 주는데 조금만 더 내리면 안 돼요. 그때 약간 이런 이런 양갈레었거든.","ja":"「それでもやらなきゃ仕方ないよ」って髪をやってくれるんだけど、「もう少しだけ下げちゃだめですか」って。当時はこういうツインテールだったの。","scene":"hair"},{"id":128,"s":861,"e":868,"ko":"심피스도 이런 피스도 안 붙이고 진짜 내 머리로 근데 그때는 그 그게 예뻤어. 그 나이","ja":"エクステもつけずに本当に自分の髪で。でもその時はそれがきれいだった。その年齢では。","scene":"hair"},{"id":129,"s":868,"e":877,"ko":"지금 보면 예쁘거든요. 어, 지금 보면 예쁜데 그 나이 때에는 안 그래도 사춘기인데 이쁜 거 하고 싶은데 계속 막 막","ja":"今見るときれいなんです。うん、今見るときれいだけど、その年頃には、ただでさえ思春期なのにきれいなことをしたいのに、ずっと","scene":"hair"},{"id":130,"s":877,"e":882,"ko":"아기 같은 거 시키니까 그 시절에는 그 시절에는 우리는 우리가 친구였어.","ja":"赤ちゃんみたいなことをさせられるから。あの頃は、あの頃は私たち、私たちは友達だった。","scene":"early"},{"id":131,"s":882,"e":888,"ko":"근데 이게 그거였어. 언니들은 나갈 수 그냥 통금 시간이 조금 늦었어. 응. 아니요.","ja":"でもこれがあれだった。お姉さんたちは出かけられて、門限が少し遅かったの。うん。","scene":"early"},{"id":132,"s":888,"e":895,"ko":"언니 성인 아니 성인들은 늦었고 이성자는 두시간 일찍 들어와야 했어요. 귀엽다.","ja":"お姉さん、成人。成人は遅くて、未成年は二時間早く帰らなきゃいけなかったんです。かわいい。","scene":"early"},{"id":133,"s":895,"e":896,"ko":"그래서 그랬어.","ja":"だからそうだった。","scene":"early"},{"id":134,"s":896,"e":899,"ko":"어. 나는 미성년자인 시간이 오래였잖아.","ja":"うん。私は未成年でいた期間が長かったじゃない。","scene":"early"},{"id":135,"s":899,"e":910,"ko":"그리고 안 그래도 학교도 거의 많이 못 갔어. 코로나 시절이었으니까 또 이제 학교 다니기 시작할 때부터는 음. 근데 네가 유독 안 나갔었어.","ja":"それにただでさえ学校もほとんど行けなかった。コロナの時期だったから。で、学校に通い始めてからは。でもあなたは特に出かけなかった。","scene":"early"},{"id":136,"s":910,"e":918,"ko":"네가 집에 있는 걸 진짜 좋아했었어. 아니 나갈 수가 없는게 봐봐. 중학교 자태하고 혼자 서울 올라왔어.","ja":"あなたは家にいるのが本当に好きだった。いや、出かけられないんだって、考えてみて。中学を中退して一人でソウルに上京したの。","scene":"early"},{"id":137,"s":918,"e":922,"ko":"중학교 친구 일단 없어. 연습생도 해 본 적이 없으니까 연습생 친구도 없어.","ja":"中学の友達がまずいない。練習生もやったことがないから練習生の友達もいない。","scene":"early"},{"id":138,"s":922,"e":929,"ko":"서울 아예 친구가 없는 상태로 시작이야. 근데 이제 언니들은 성인이고 이제 나랑 좀 나이 차이가 있었잖아.","ja":"ソウルに友達が全くいない状態でのスタートなの。でもお姉さんたちは成人で、私と少し年の差があったじゃない。","scene":"early"},{"id":139,"s":929,"e":937,"ko":"그 밖에 나가서 같이 막 뭔가 할 순 없으니까 집에서 놀아주지 밖에서 같이 뭔가 영화 말고는 할게 없었잖아.","ja":"外に出て一緒に何かはできないから、家で遊んであげるしかない。外で一緒に何かって、映画くらいしかなかったじゃない。","scene":"early"},{"id":140,"s":937,"e":945,"ko":"너는 그때 완전 어렸으니까 뭐 술을 마실 수도 없는 거고 그렇게 그런 곳을 데고 다닐 수가 없어. 우리도 못 갔고. 근데 얘가","ja":"あなたはその時すごく幼かったから、お酒を飲むこともできないし、そういう場所に連れて行けない。私たちも行けなかったし。でもこの子が","scene":"early"},{"id":141,"s":945,"e":948,"ko":"너무 집안에만 있으니까 너 그때 생일이었지.","ja":"家にばかりいるから。あなた、あの時誕生日だったよね。","scene":"early"},{"id":142,"s":948,"e":956,"ko":"지원 언니가 나를 불러줬던 첫 사람이었어. 아, 언니가 혼자 이렇게 집에서 생일 보내고 있는데 엄마 아빠도 못 오고","ja":"ジウォンお姉さんが私を呼んでくれた最初の人だった。あ、一人でこうやって家で誕生日を過ごしてて、お母さんもお父さんも来られなくて","scene":"early"},{"id":143,"s":956,"e":961,"ko":"지원 언니가 전화 와가지고 지헌아 생일 축하해 뭐해? 이랬는데 나 집에 혼자 있다.","ja":"ジウォンお姉さんから電話が来て「ジホン、誕生日おめでとう。何してるの？」って。「家に一人でいる」って。","scene":"early","raw":"지원 언니가 전화 와가지고 시원아 생일 축하해 뭐해? 이랬는데 나 집에 혼자 있다.","note":"「시원아」は「지헌아」の認識ミス"},{"id":144,"s":961,"e":970,"ko":"너무 불쌍해가지고 야 나와 놀아줄게 해가지고 언니가 지금 되게 많이 친구 그래서 내 친구들 소개시켜줬어요.","ja":"かわいそうすぎて「ねえ、出ておいで、遊んであげる」って。お姉さんは今すごく友達が多くて、それで私の友達を紹介してくれました。","scene":"early"},{"id":145,"s":970,"e":977,"ko":"근데 지헌이가 너무 낯을 가려서 막 막 그럴만도 한게 나랑 나이 차이 많은 사람들이","ja":"でもジホンがすごく人見知りで。まあそれも無理ないのが、私と結構年が離れた人たちが","scene":"early","raw":"근데 지언이가 너무 낫지가 막 막 그럴만도 한게 나랑 열쇠 살 차이 많은 사람들이"},{"id":146,"s":977,"e":984,"ko":"맞아. 아니 근데 그리고 막 하영 언니랑 지원 언니랑 나 집에 또 생일 혼자 있을 때 와가지고 미역국끓려주고","ja":"そうだよね。いや、それにハヨンお姉さんとジウォンお姉さんが、私が家で一人で誕生日の時に来てわかめスープを作ってくれて","scene":"early"},{"id":147,"s":984,"e":989,"ko":"왜 이렇게 생일마다 혼자 있었어? 데 친구가 없으니까요.","ja":"なんで誕生日のたびに一人だったの？だって友達がいないんですもん。","scene":"early"},{"id":148,"s":989,"e":996,"ko":"아싸여 가지고 그럼 나는 생일날에 항상 멤버랑 보냈던 거 같은데 맞아. 응.","ja":"ぼっちだったから。じゃあ私は誕生日はいつもメンバーと過ごしてた気がする。そうだよね。うん。","scene":"early"},{"id":149,"s":996,"e":1001,"ko":"나도 그래서 거의 생일을 멤버들 아니면 엄마 아빠랑 보는 거. 맞아 맞아. 난 근데 숙소 살 때 재밌었어.","ja":"私もだから、ほとんど誕生日はメンバーか、お母さんお父さんと過ごすの。そうそう。でも私、宿舎に住んでた時が楽しかった。","scene":"early"},{"id":150,"s":1001,"e":1005,"ko":"숙소 살 때 재밌었어. 우리 우리가 숙소 두 체가 있었거든요.","ja":"宿舎に住んでた時が楽しかった。私たち、宿舎が二軒あったんですよ。","scene":"dorm"},{"id":151,"s":1005,"e":1014,"ko":"허이랑 숙소를 같이 많이 어 안 살았어. 나다 맞아. 근데 나 지원 언니 집 되게 많이 놀러갔어. 아니 언니 집","ja":"一緒の宿舎にはあまり住まなかった。でも私、ジウォンお姉さんの家によく遊びに行った。","scene":"dorm"},{"id":152,"s":1014,"e":1022,"ko":"숙소 가면은 지원 언니랑 하영 언니랑 채영 언니가 맨날 반겨 주거든. 어 그래서 이제 가가지고 아무래도 그때","ja":"宿舎に行くと、ジウォンお姉さんとハヨンお姉さんとチェヨンお姉さんがいつも迎えてくれるの。うん、それで行って。やっぱりあの頃","scene":"dorm","raw":"숙소하면은 지원 언니랑 하 언니가 최원 언니랑 맨날 반겨 주거든. 어 그래서 이제 가가지고 아무래도 그때"},{"id":153,"s":1022,"e":1027,"ko":"내 숙소는 되게 캠플 느낌이었고 여기는 약간 다같이 친구들이 많어요. 예.","ja":"私の宿舎はすごくキャンプみたいな感じで、こっちはちょっとみんなで友達が多い感じでした。はい。","scene":"dorm"},{"id":154,"s":1027,"e":1036,"ko":"약간 놀고 싶을 때 멤버들이랑 놀아야겠다 해서 여기 숙소 가가지고 새벽 7시 8시까지 막 이렇게 누워서 얘기하고 밥 먹고","ja":"遊びたい時に「メンバーと遊ぼう」って、この宿舎に行って、明け方7時8時までこうやって寝転がって話して、ご飯食べて","scene":"dorm"},{"id":155,"s":1036,"e":1045,"ko":"놀고 밥 먹고 수사 떨고 우리는 막 TV 이런 거 진짜 다 같이 자주 봤었는데 막 연프 이런 거 좋아해 가지고 나도 근데 연프 이런 건 많이 봤어.","ja":"遊んでご飯食べて、おしゃべりして。私たちテレビとか本当にみんなでよく見てたんだけど、恋愛リアリティーとか好きで。私も恋愛リアリティーはよく見た。","scene":"dorm"},{"id":156,"s":1045,"e":1052,"ko":"아니 막 쇼미 이런 거 다 같이 여기 가면 진짜 재밌었어. 막 언니들이 막","ja":"いや、ショーミーとか、みんなでここに行くと本当に楽しかった。お姉さんたちが","scene":"dorm"},{"id":157,"s":1052,"e":1056,"ko":"체급으로 막 웃겨주니까 언니들 너무 웃긴 언니들 많잖아.","ja":"格が違う面白さで笑わせてくれるから。お姉さんたち、すごく面白い人が多いじゃん。","scene":"dorm"},{"id":158,"s":1056,"e":1065,"ko":"여기 시끄러운 팀 조용한 팀 이렇게 나눠서 사니까 지원 하영 채영이 있다니까요. 여기 재미가 없을 수가 없어. 진짜 가면은","ja":"ここ、うるさいチームと静かなチームで分かれて住んでたから。ジウォン、ハヨン、チェヨンがいるんですって。ここが面白くないわけがない。本当に行くと","scene":"dorm","raw":"여기 시끄러운 팀 조용한 팀 이렇게 나눠서 사니까 지원 하향 체형이 있다니까요. 여기 재미가 없을 수가 없어. 진짜 가면은"},{"id":159,"s":1065,"e":1075,"ko":"진짜 언니들이 알아서 막 나를 위한 개그 음원처럼 진짜 이제 잘 놀러다겨요. 이제는 언니들이랑 안 놀아죠. 이제","ja":"本当にお姉さんたちが勝手に、私のためのお笑い番組みたいに。本当によく遊びに行ってました。今はもうお姉さんたちと遊ばないでしょ。","scene":"dorm"},{"id":160,"s":1075,"e":1083,"ko":"뭔 소리야? 언니 이제 언니들이 체력이 안 돼서 이렇게 연희동 같은데 나올 수가 없다.","ja":"何言ってるの？お姉さん、もうお姉さんたちは体力がなくて、こうやってヨニドンみたいな所に出て来られないって。","scene":"dorm","raw":"뭔 소리야? 언니 이제 언니들이 체력이 안 돼서 이렇게 연이돈 같은데 나올 수가 없다."},{"id":161,"s":1083,"e":1086,"ko":"아 너무 웃기다.","ja":"あ、おかしすぎる。","scene":"dorm","pe":1084.56},{"id":162,"s":1086,"e":1091,"ko":"근데 좋다 아니 오늘 날씨가 너무 좋은 거예요? 진짜 맞아.","ja":"でもいいね。今日は天気がすごくいいんですよ。本当にそう。","scene":"dorm"},{"id":163,"s":1091,"e":1094,"ko":"무슨 날씨가 갑자기 풀렸어. 입출이 지나고치.","ja":"なんか天気が急に和らいだ。","scene":"dorm"},{"id":164,"s":1094,"e":1103,"ko":"어응. 그리고 오랜만에 이런 아무것도 안 하는 이런 힐링하는 느낌을","ja":"うん。それに久しぶりに、こういう何もしない、癒される感じを","scene":"dorm","pe":1100.22},{"id":165,"s":1103,"e":1111,"ko":"굉장히 오랜만인 거 같아. 너무 좋아요. 안 배우니까 참고해 주시면 되세요. 와, 여기 대박이다.","ja":"すごく久しぶりな気がする。すごくいいです。わあ、ここすごい。","scene":"food"},{"id":166,"s":1111,"e":1121,"ko":"맛있다. 언니. 어, 시키 잘했다. 음요.","ja":"美味しい。お姉さん。うん、頼んでよかった。","scene":"food","pe":1115.0},{"id":167,"s":1121,"e":1129,"ko":"이게 왜 메인인지 알겠다. 먹어 먹어. 완전 촉촉이에요. 우리 집안하네. 아니, 활동 끝나고 좀 쉬웠어.","ja":"これがなんでメインなのか分かる。食べて、食べて。完全にしっとりです。いや、活動が終わって少し休めた。","scene":"food"},{"id":168,"s":1129,"e":1132,"ko":"그젠가? 응. 밤에 연습한잖아.","ja":"一昨日だっけ？うん。夜に練習したじゃん。","scene":"food"},{"id":169,"s":1132,"e":1142,"ko":"나 좀 낮에 아무것도 없어 가지고 나 진짜 자고 먹고 자고 먹고 자고 맞네 너무 행복했어","ja":"私、昼に何もなくて、本当に寝て食べて寝て食べて寝て。そうだね。すごく幸せだった。","scene":"food","pe":1139.56},{"id":170,"s":1142,"e":1151,"ko":"뭐 했죠 끝나고 친구가 전주 살아 가지고 한 명이 음 전주 가서 그래서 그런 거구나지 안에 오피에라는","ja":"何したっけ。終わってから、友達が全州に住んでるから一人。うん、全州に行って。だからそうだったんだ。","scene":"food"},{"id":171,"s":1151,"e":1159,"ko":"연으로 만들고요 위에는네 가지 채소 주어서 올려드렸고 되게 무슨 아트처럼 나온다 여기 다","ja":"練り上げて作って、上には四種類の野菜をのせてお出ししました。すごく何かアートみたいに出てくる。ここ全部","scene":"food"},{"id":172,"s":1159,"e":1166,"ko":"요리가 그러게 되게 예쁘긴 응인다이닝처럼 그러게 예 거의 콘서트랜스 많이 하시 맞아요","ja":"料理が。そうだね、すごくきれい。ファインダイニングみたいに。そうだね。はい。","scene":"food"},{"id":173,"s":1166,"e":1172,"ko":"맞아요 아주 재밌습니다. 지금 얘가 있잖아요. 과부어가 왔어요.","ja":"そうですね。すごく面白いです。今この子があるじゃないですか。","scene":"food"},{"id":174,"s":1172,"e":1182,"ko":"너무 외울게 많은데 하루에 한 곡씩 진도를 나가고 있거든요. 수록곡에 안무를 저희가 욕심이 많아 가지고 진행을 했는데","ja":"覚えることが多すぎるのに、一日一曲ずつ進めてるんです。収録曲の振り付けを、私たち欲張って進めたんですけど","scene":"dance"},{"id":175,"s":1182,"e":1190,"ko":"시간이 없으니까 하루에 한 곡씩 진도를 나가고 있는데 진짜 근데 또 멤버들이 개인 스케줄이 있으니까 다 새벽에 진행을 하거든요.","ja":"時間がないから一日一曲ずつ進めてるんですけど、本当に。でもまたメンバーが個人スケジュールがあるので、全部明け方に進めるんです。","scene":"dance"},{"id":176,"s":1190,"e":1194,"ko":"어 말아야. 그래서 멤버들이 다 멘탈 나가서 온 거야.","ja":"うん、そうなんだよ。だからメンバーがみんなメンタルやられて来たの。","scene":"dance"},{"id":177,"s":1194,"e":1200,"ko":"나 어제 진짜 레전드였어. 나 어제 꿈 꿈 꾸면서 꿈속에서 춤쳤잖아.","ja":"私、昨日本当にレジェンドだった。私、昨日夢を見ながら、夢の中で踊ったんだよ。","scene":"dance"},{"id":178,"s":1200,"e":1209,"ko":"나 지원 언니 보면서이 언니 보내야 될 거 같은데이 언니가 원래는 원래 같으면 콘서트나 우리 타이틀곡 연습할","ja":"私、ジウォンお姉さんを見ながら「このお姉さん、帰らせなきゃ」って思ったんだけど、このお姉さんが普段なら、コンサートとかタイトル曲の練習の時","scene":"dance"},{"id":179,"s":1209,"e":1214,"ko":"때 약간 반장님처럼 우리 조금만 더 연습하고 가자.","ja":"ちょっと班長さんみたいに「私たちもう少しだけ練習して帰ろう」","scene":"dance"},{"id":180,"s":1214,"e":1220,"ko":"우리끼리 조금이나 남아서 하자. 막 이런 파인데이 언니가 너무 칼퇴를 하는 거야.","ja":"「私たちだけで少し残ってやろう」って、そういうタイプなのに、お姉さんが定時退社しちゃうの。","scene":"dance"},{"id":181,"s":1220,"e":1224,"ko":"그래서 보면서 혼언니 안 남아서 연습하는 거 진짜 처음 보는 거 같다.","ja":"それで見ながら「お姉さんが残って練習しないの、本当に初めて見る気がする」","scene":"dance"},{"id":182,"s":1224,"e":1232,"ko":"바로 뒤도 한번 들어보고 집에 바로 가 한시간 최소하면서 해야지 근데 너무 재밌어요 지금 안무가","ja":"すぐ後ろも一度聞いてみて、家にすぐ帰る。一時間くらいにしてやらなきゃ。でもすごく楽しいです、今の振り付けが","scene":"dance"},{"id":183,"s":1232,"e":1235,"ko":"플로버들이 좋아할 거 같고 안무가 진짜 이뻐요.","ja":"フロバーが好きそうだし、振り付けが本当にきれいです。","scene":"dance","raw":"플러버들이 좋아할 거 같고 안무가 진짜 이뻐요."},{"id":184,"s":1235,"e":1243,"ko":"응 지금 배운 안무들이 컨셉을 다 달라 가지고 응. 이거 뭐야? 면이 무슨 면이에요? 동그란 면이라고.","ja":"うん、今習った振り付けはコンセプトが全部違うから。うん。これ何？麺が。何の麺ですか？丸い麺だって。","scene":"dance"},{"id":185,"s":1243,"e":1252,"ko":"동그란면? 음. 맛있네. 음. 응. 박살렘.","ja":"丸い麺？うん。美味しいね。うん。","scene":"dance","pe":1247.22},{"id":186,"s":1252,"e":1260,"ko":"오. 오박. 아 맛집이네. 주변 사람들한테 막 보여줬거든요. 플라잉 체가 있다면서.","ja":"お。あ、名店だね。周りの人に見せたんですよ。フライングチェアがあるって。","scene":"chair"},{"id":187,"s":1260,"e":1263,"ko":"무조러워한다. 어.","ja":"うらやましがってる。うん。","scene":"chair"},{"id":188,"s":1263,"e":1267,"ko":"왜냐면 요즘 예능에서 플라잉 체어를 잘 안 하잖아.","ja":"だって最近はバラエティでフライングチェアをあまりやらないじゃん。","scene":"chair"},{"id":189,"s":1267,"e":1274,"ko":"근데 우리는 그런 걸 보면서 커봤잖아. 그게 우리 다음에 또 하자. 여름에. 나는 괜찮아. 왜?","ja":"でも私たちはそういうのを見て育ったじゃん。それ、私たち次もまたやろう。夏に。私は大丈夫。なんで？","scene":"chair"},{"id":190,"s":1274,"e":1282,"ko":"난 이번에 너무 고통스러웠어. 아. 재밌었다. 아니, 놀이고 그냥 타면 재밌거든. 그래서 첫 번째는 재밌었어.","ja":"私は今回すごくつらかった。あ、楽しかった。いや、遊園地でただ乗るなら楽しいの。だから一回目は楽しかった。","scene":"chair"},{"id":191,"s":1282,"e":1289,"ko":"한 세 번째까지는 재밌었다. 근데 언제부터 제일 무서웠냐면 지원 언니 물병 던지기부터 내가","ja":"三回目くらいまでは楽しかった。でもいつから一番怖かったかというと、ジウォンお姉さんのペットボトル投げから、私が","scene":"chair","raw":"한 세 번째까지는 재밌었다. 근데 언제부터 제일 무서웠냐면 지원니 물병 던지기부터 내가이"},{"id":192,"s":1289,"e":1295,"ko":"그니까 심장이 쫄리잖아요. 내가 나 심장 쫄리는 거 싫어한단 말이야.","ja":"だって心臓がドキドキするじゃないですか。私、心臓がドキドキするの嫌いなんだってば。","scene":"chair"},{"id":193,"s":1295,"e":1299,"ko":"내가 제일 싫어하는게 이게 놀래 끼는 거랑 심장 쫄리는 거야.","ja":"私が一番嫌いなのが、驚かされることと心臓がドキドキすること。","scene":"chair"},{"id":194,"s":1299,"e":1306,"ko":"이게 뭔가 아니 계속 겁을 내고 있어야 되는이 상황이 너무 줄 알아. 괴런 거야.","ja":"なんか、ずっと怖がっていなきゃいけないこの状況が、つらいの。","scene":"chair"},{"id":195,"s":1306,"e":1315,"ko":"계속 언니가 막 연습을 진짜 내 앞에서 겁나 진짜 다음이 내 차뵙는데 연습만 오지게 해.","ja":"ずっとお姉さんが私の目の前ですごく練習するの。次が私の番なのに、練習ばっかりめっちゃやるの。","scene":"chair","pe":1313.78},{"id":196,"s":1315,"e":1323,"ko":"그래서 내 이름이 쓰러져 절대 될 거 같진 않아. 그냥 지금 저 바빠 주시면 돼요? 안 될 거","ja":"だから「私の名前が倒れることは絶対になさそう」。ただ今、私を見逃してくれませんか？無理そう","scene":"chair"},{"id":197,"s":1323,"e":1331,"ko":"같은데. 제발 그냥 보내주세요. 우리 이제 다 먹었다야.","ja":"だけど。お願いだからただ行かせてください。私たちもう全部食べたね。","scene":"chair","pe":1328.33},{"id":198,"s":1331,"e":1341,"ko":"이제 좀 소화 좀 시킬겸. 진짜 다 먹었네. 깨끗하다.","ja":"ちょっと消化させるついでに。本当に全部食べたね。きれい。","scene":"chair","pe":1335.89},{"id":199,"s":1341,"e":1349,"ko":"근데 맛있었잖아 언니. 아 진짜 왜 이렇게 잘 먹어? 브런치 근데 가자. 아 연희동 거리로 왔는데요.","ja":"でも美味しかったじゃん、お姉さん。あ、本当になんでこんなによく食べるの？ブランチ。でも行こう。あ、ヨニドンの通りに来ましたけど。","scene":"photo","raw":"근데 맛있었잖아 언니. 아 진짜 왜 이렇게 잘 먹어? 브런치 근데 가자야. 아 연이동 거리로 왔는데요."},{"id":200,"s":1349,"e":1351,"ko":"점심내니까 조금 더 온 거 같기도 하고.","ja":"お昼を食べたから、少し余計に来た気もするし。","scene":"photo"},{"id":201,"s":1351,"e":1356,"ko":"점심내니까 식권증이 좀 오는 거 같기도 하고. 아니 모노맨션에서 사진 찍을래?","ja":"お昼を食べたから、食後の眠気が少し来てる気もするし。ねえ、モノマンションで写真撮る？","scene":"photo"},{"id":202,"s":1356,"e":1363,"ko":"어디야? 모노맨션 우리 진짜 대는 거 같아 오늘. 그렇지?","ja":"どこ？モノマンション。私たち今日、本当にデートみたいだね。でしょ？","scene":"photo","pe":1361.33},{"id":203,"s":1363,"e":1372,"ko":"응. 뭐야? 좋은데 오늘 우리 진짜 다르게 생길 거 같아.","ja":"うん。何？いいね。今日私たち、本当に違う感じに撮れそう。","scene":"photo","pe":1368.11},{"id":204,"s":1372,"e":1387,"ko":"뭐야? 왜 이렇게 조그해?","ja":"何？なんでこんなに小さいの？","scene":"photo","pe":1374.44},{"id":205,"s":1387,"e":1395,"ko":"찍었어요.","ja":"撮れました。","scene":"photo","pe":1388.11},{"id":206,"s":1395,"e":1403,"ko":"아, 너무 예뻐. 우리 둘 다 진짜 우리 커플들이 하는 거 다 하고 있네. 야, 우리 왜 이렇게 잘 어울리냐? 진짜 그치 않아.","ja":"あ、すごくきれい。私たち二人とも、本当にカップルがやることを全部やってるね。ねえ、私たちなんでこんなに似合うの？本当にそう思わない？","scene":"photo"},{"id":207,"s":1403,"e":1411,"ko":"이거 진짜 다 이거 이쁘게 나어. 너무 이렇게 주게 마음에 든다. 우리 둘 다 너무 잘려.","ja":"これ本当に全部きれいに撮れた。すごく気に入った。私たち二人ともすごくよく撮れてる。","scene":"photo"},{"id":208,"s":1411,"e":1419,"ko":"여기 우리 연희동을 와서 그래. 이 느낌이 나는 거야. 여기 데이트 천국이라서 우리 여기지. 아 여기네.","ja":"ここ、私たちヨニドンに来たからそうなんだ。この感じが出るの。ここはデートの天国だから私たちここだよね。あ、ここだ。","scene":"photo","raw":"여기 우리 연이동을 와서 그래.이 느낌이 나는 거야. 여기 데이트 천국이라서 우리 여기지. 아 여기네."},{"id":209,"s":1419,"e":1423,"ko":"야 야 야 여기 초콜릿 맛있겠다.","ja":"ねえねえねえ、ここチョコレート美味しそう。","scene":"photo"},{"id":210,"s":1423,"e":1436,"ko":"우리 이래서 문제야. 우리 맨날 경로를 이탈해. 아니 어 옷가게네 여기.","ja":"私たち、これだから問題なんだよ。私たちいつもルートを外れる。いや、あ、洋服屋さんだね、ここ。","scene":"cloth","pe":1429.67},{"id":211,"s":1436,"e":1438,"ko":"우리 서로 꾸며주기 할까?","ja":"私たちお互いにコーデしてあげようか？","scene":"cloth"},{"id":212,"s":1438,"e":1443,"ko":"옷 안녕하세요. 안녕하세요.","ja":"こんにちは。こんにちは。","scene":"cloth","pe":1440.89},{"id":213,"s":1443,"e":1451,"ko":"끼 쏘와이. 쏘와이.","ja":"かわいい。","scene":"cloth","pe":1445.0},{"id":214,"s":1451,"e":1453,"ko":"오케이.","ja":"オッケー。","scene":"cloth"},{"id":215,"s":1453,"e":1461,"ko":"오. 예. 어. 야, 예쁜데. 저 목걸리. 이 목걸리 아니면 이거도 예뻐.","ja":"お。うん。ねえ、きれいじゃん。あのネックレス。このネックレス、それかこれもきれい。","scene":"cloth","pe":1459.67},{"id":216,"s":1461,"e":1466,"ko":"어때요? 난 약간 이렇게 볼한 것들이 좋아.","ja":"どう？私はちょっとこういうボリュームのあるものが好き。","scene":"cloth"},{"id":217,"s":1466,"e":1473,"ko":"완전 얇 이거 뭔데 이거 뭔데 예쁜데?","ja":"すごく細い。これ何、これ何、きれいじゃん？","scene":"cloth","pe":1469.33},{"id":218,"s":1473,"e":1476,"ko":"이거 뭔데?","ja":"これ何？","scene":"cloth","pe":1474.11},{"id":219,"s":1476,"e":1477,"ko":"언니 예쁘다.","ja":"お姉さん、きれい。","scene":"cloth"},{"id":220,"s":1477,"e":1488,"ko":"응 나한테 길다 근데 그러네. 근데 옆에 끈 있잖아. 언니 너무 섹시한 옷인데 이거.","ja":"うん、私には長い。でもそうだね。でも横に紐があるじゃん。お姉さん、これすごくセクシーな服だけど。","scene":"cloth","pe":1484.56},{"id":221,"s":1488,"e":1496,"ko":"오이 바지 굉장히 강렬하다.","ja":"このズボン、すごくインパクトある。","scene":"cloth","pe":1490.67},{"id":222,"s":1496,"e":1503,"ko":"약간 중세시대 어때요? 중세 약간 약간 나 이런 거","ja":"ちょっと中世時代みたい。どうですか？中世。ちょっと、ちょっと私こういうの","scene":"cloth","pe":1500.44},{"id":223,"s":1503,"e":1512,"ko":"좋아하는데 무슨 막 이런 식으로 막 많이들 하잖아.","ja":"好きなんだけど。こういう風にみんなやってるじゃん。","scene":"cloth","pe":1507.67},{"id":224,"s":1512,"e":1523,"ko":"그죠? 약간 탐나는데 또 거의 나도 여자랍니다 이거야. 나도 여자랍니다.","ja":"でしょ？ちょっと欲しいけど。「私も女なんです」って感じ。私も女なんです。","scene":"cloth","pe":1518.89},{"id":225,"s":1523,"e":1531,"ko":"너무 예쁘잖아. 재타 그죠? 여기 너무 예쁘잖아. 좀 하셨어요, 여러분?","ja":"すごくきれいじゃん。でしょ？ここ、すごくきれいじゃん。ちょっとやりましたか、皆さん？","scene":"cloth"},{"id":226,"s":1531,"e":1539,"ko":"전혀. 저 맨날 똑같은 옷 입고 다녀요. 아마 플로버는 몇 번 봤을 거야. 나 이제 퇴근길 할 때 옷을","ja":"全然。私、毎日同じ服着て歩いてます。たぶんフロバーは何度か見たと思う。私、退勤の時に服を","scene":"cloth","raw":"전혀. 저 맨날 똑같은 옷 입고 다녀요. 아마 플러보는 몇 번 봤을 거야. 나 이제 퇴근길 할 때 옷을","note":"「플러보」「불러버」は「플로버(ファン名)」の認識ミス"},{"id":227,"s":1539,"e":1544,"ko":"갈아 있잖아. 사복으로 그러면은 몇 번 같은 겹친 의상이 있었을 거예요.","ja":"着替えるじゃん。私服に。そうすると何度か同じ服が重なったことがあったはずです。","scene":"cloth"},{"id":228,"s":1544,"e":1553,"ko":"진짜 옷이 없어서 하이만 바꿔서 입는다던가 그래서 나 오늘이 옷 입고 나오면 안 되는데 나","ja":"本当に服がなくて、下だけ変えて着るとか。だから私、今日この服着て出てきちゃだめなのに。","scene":"cloth"},{"id":229,"s":1553,"e":1558,"ko":"옷 없는 줄 알고 없는 줄 아는 거 아니야? 플로버들이 옷.","ja":"服がないと思われるんじゃない？フロバーに。","scene":"cloth","raw":"옷 없는 줄 알고 없는 줄 아는 거 아니야? 불러버드리 옷."},{"id":230,"s":1558,"e":1565,"ko":"응. 나 근데서 쇼핑을 좀 해야 될 거 같아. 언니 옷 이쁘게 잘 입잖아.","ja":"うん。私、だからちょっと買い物しなきゃいけない気がする。お姉さんは服をおしゃれに着るじゃん。","scene":"cloth"},{"id":231,"s":1565,"e":1569,"ko":"요즘에는 패션에 대한 그거를 이제 내려놨어.","ja":"最近はファッションに対するあれを、もう手放した。","scene":"cloth"},{"id":232,"s":1569,"e":1579,"ko":"그냥 편한게 짱이야. 근데 나 이거 입어 보고 싶어요. 왜? 이거 요거 예쁜 거 같아.","ja":"ただ楽なのが一番。でも私これ着てみたいです。なんで？これ、これきれいだと思う。","scene":"cloth","pe":1576.56},{"id":233,"s":1579,"e":1586,"ko":"근데 너무 빠지면 어떡하지? 어머도 예쁘잖아. 예쁜게 많잖아.","ja":"でも似合わなかったらどうしよう？あら、これもきれいじゃん。きれいなのが多いじゃん。","scene":"cloth"},{"id":234,"s":1586,"e":1593,"ko":"한번 입어 볼게. 아니 입고 나갈 수 있을지 모르겠어.","ja":"一度着てみる。いや、着て出られるか分からない。","scene":"cloth","pe":1590.89},{"id":235,"s":1593,"e":1600,"ko":"이거 너무 예쁜걸. 너무 예쁘잖아.","ja":"これすごくきれいなんだけど。すごくきれいじゃん。","scene":"cloth","pe":1596.33},{"id":236,"s":1600,"e":1612,"ko":"여기 사야겠는데. 드롱 스커트 이거. 이거 픽 이런 것도 이런 것도 이쁘잖아요.","ja":"ここで買わなきゃ。ロングスカート、これ。これいい。こういうのも、こういうのもきれいじゃないですか。","scene":"cloth","pe":1607.33},{"id":237,"s":1612,"e":1621,"ko":"돈을 좀 엄마했어. 너무 속상해. 이것도 소프리티.","ja":"お金をちょっと使っちゃった。すごく残念。これもかわいい。","scene":"cloth","pe":1616.89},{"id":238,"s":1621,"e":1630,"ko":"음. 귀여운데. 귀엽잖아.","ja":"うん。かわいいね。かわいいじゃん。","scene":"cloth","pe":1623.67},{"id":239,"s":1630,"e":1638,"ko":"너무 귀여운데. 엄마한테 혼날 거 같아. 근데 이런 거 사면 너 할머니 같은 걸 입고 있어. 근데 이런 거","ja":"すごくかわいい。お母さんに怒られそう。でもこういうの買うと、おばあちゃんみたいなのを着てるって。でもこういうの","scene":"cloth"},{"id":240,"s":1638,"e":1645,"ko":"진짜 믹스 매치 잘하면 이쁘다고 잘 꾸미면 이런 약간 난해한 것들이 가끔씩 있어 주면은","ja":"本当にミックスマッチが上手だときれいだって。うまく着こなせば、こういうちょっと難解なものがたまにあると","scene":"cloth"},{"id":241,"s":1645,"e":1652,"ko":"이거 너무 이쁘다. 이것도 난 치마가 왜 이렇게 이쁠까?","ja":"これすごくきれい。これも。私、スカートがなんでこんなにきれいなんだろう？","scene":"cloth","pe":1650.11},{"id":242,"s":1652,"e":1656,"ko":"근데 플로버들은 나 바지 입는 걸 좋아하더라고. 난 치마가 좋아.","ja":"でもフロバーは私がズボンをはくのが好きみたい。私はスカートが好き。","scene":"cloth","raw":"근데 플로보들은 나 바지 입는 걸 좋아하더라고. 난 치마가 좋아."},{"id":243,"s":1656,"e":1661,"ko":"어머 이거 너무 파서 입고 못 나갈 것 같아요. 어떡해? 왜? 나 봐봐.","ja":"あら、これ開きすぎてて着て出られなさそうです。どうしよう？なんで？見てよ。","scene":"cloth"},{"id":244,"s":1661,"e":1666,"ko":"아 아 아 아 아 아 아 아 아 근데 색깔 너무 이뻐요.","ja":"あ、あ、あ。でも色がすごくきれいです。","scene":"cloth"},{"id":245,"s":1666,"e":1674,"ko":"할 거만 약간 레이스탑 같은 거 입으면 이쁠듯 아 못 나올 내가 신랑님처럼 너무 그래도 너무","ja":"中にちょっとレースのトップスみたいなのを着たらきれいそう。あ、出られない。それでもすごく","scene":"cloth"},{"id":246,"s":1674,"e":1681,"ko":"예쁜데 하려 했는데 못 나와 못 나와 지금 이렇게","ja":"きれいだけど。出られない、出られない。今こうやって","scene":"cloth","pe":1678.22},{"id":247,"s":1681,"e":1690,"ko":"세네 개 중에서 고민인데 어 이거 이거 하나 사야겠다. 이거는 뭐 비슷한게 있어.","ja":"三、四個の中で迷ってるんだけど、あ、これ、これ一つ買わなきゃ。これは似たようなのがある。","scene":"cloth","pe":1688.33},{"id":248,"s":1690,"e":1700,"ko":"많이 비싼가? 43,000원인 거예요, 여기? 43이라고 한게 43,000원.","ja":"すごく高いかな？43,000ウォンなんですか、これ？43って書いてあるのが43,000ウォン。","scene":"cloth","pe":1698.0},{"id":249,"s":1700,"e":1704,"ko":"응. 안 입어. 안 입어 받으세요.","ja":"うん。着ない。着ないから、どうぞ。","scene":"cloth"},{"id":250,"s":1704,"e":1711,"ko":"이미 나는 이걸로 옷장에 담아 놓는 것만으로 더 행복할 것 같아.","ja":"もう私はこれでクローゼットに入れておくだけで、もっと幸せな気がする。","scene":"cloth","pe":1709.78},{"id":251,"s":1711,"e":1719,"ko":"소풍 사는 것처럼 약간 한편에 작품 사듯이. 언니 뭐 사?","ja":"絵を買うみたいに、ちょっと一角に作品を買うみたいに。お姉さん、何買うの？","scene":"cloth","pe":1716.11},{"id":252,"s":1719,"e":1727,"ko":"오. 예스. 오 웁시 내 스타일이야 오 예스 오 어 오 오 오 완전 내","ja":"お、イエス。お、私のスタイル。お、イエス。完全に私の","scene":"cloth","pe":1724.56},{"id":253,"s":1727,"e":1736,"ko":"스타일 커피 진짜 커피 노 싫어 왜 싫어 내가 이거 너 앞에 나타나면","ja":"スタイル。コーヒー。本当にコーヒー。ノー、嫌。なんで嫌なの？私がこれ、あなたの前に現れたら","scene":"cloth","pe":1732.78},{"id":254,"s":1736,"e":1744,"ko":"어떡할 거야 하다 너무 약한데 이게 나는 골랐어","ja":"どうする？これちょっと弱いけど。私はこれを選んだ。","scene":"cloth","pe":1740.22},{"id":255,"s":1744,"e":1754,"ko":"어 여기도 있었네 이제 봤어 이제 봤잖아 헐 내 잠옷이랑 진짜 똑같이 생겼다. 내 잠옷","ja":"あ、ここにもあったんだ。今見た。今見たじゃん。え、私のパジャマと本当にそっくり。私のパジャマ。","scene":"cloth","pe":1751.56},{"id":256,"s":1754,"e":1769,"ko":"예쁜데 어때요? 어 지원이가 싫어할 스타일인데 이거 봐봐.","ja":"きれいだけど、どう？あ、ジウォンが嫌いそうなスタイルだけど、これ見てよ。","scene":"cloth","pe":1759.56},{"id":257,"s":1769,"e":1775,"ko":"너무 예쁜데 약간 우리 막 시즌 그리팅 이런 거 찍을 때 입을 거 같아.","ja":"すごくきれいなんだけど、ちょっと私たちシーズングリーティングとか撮る時に着そう。","scene":"cloth"},{"id":258,"s":1775,"e":1783,"ko":"이거 소리야 예쁘죠? 이쁜 근데 이거 어디서 입어?","ja":"これどう、きれいでしょ？きれい。でもこれどこで着るの？","scene":"cloth","pe":1779.67},{"id":259,"s":1783,"e":1786,"ko":"어디서 입고 다녀? 이거 어때요?","ja":"どこで着て歩くの？これどうですか？","scene":"cloth"},{"id":260,"s":1786,"e":1796,"ko":"괜찮다. 이거 괜찮지? 뭐 일러 봐 기대 얼마야? 가격?","ja":"いいね。これいいでしょ？いくら？値段？","scene":"cloth","pe":1791.11},{"id":261,"s":1796,"e":1804,"ko":"우와 가격표가 되게 특이하다. 괜찮은데? 이게 괜찮은 가격이야? 51만 원.","ja":"わあ、値札がすごく変わってる。いいじゃん？これがいい値段なの？51万ウォン。","scene":"cloth"},{"id":262,"s":1804,"e":1812,"ko":"5만,000원 나 51만 원인 줄알. 깜짝 놀래? 근데 나이 가방도 잘래.","ja":"5万ウォン。私、51万ウォンかと思った。びっくりした？でも私、このかばんもいい。","scene":"cloth"},{"id":263,"s":1812,"e":1816,"ko":"괜찮네. 아니 너무 귀엽잖아.","ja":"いいね。いや、すごくかわいいじゃん。","scene":"cloth"},{"id":264,"s":1816,"e":1823,"ko":"야 이거 야 우리 꺼플 가방 하나 하자. 어때? 좋다. 어머 귀여워.","ja":"ねえ、これ。ねえ、私たちカップルバッグ一つやろう。どう？いいね。あら、かわいい。","scene":"cloth"},{"id":265,"s":1823,"e":1826,"ko":"너무 귀엽다. 예쁘다.","ja":"すごくかわいい。きれい。","scene":"cloth"},{"id":266,"s":1826,"e":1832,"ko":"근데 약간 사이즈는 이게 더 뭔가 언니 어울리고 어 진짜 옆으로 가로로 긴게 더 잘 어울려.","ja":"でもサイズはこっちの方が、なんかお姉さんに似合って。うん、本当に横に、横長の方がよく似合う。","scene":"cloth"},{"id":267,"s":1832,"e":1841,"ko":"형 들어봐. 이거 이쁘다. 이게 이쁘거. 응. 나도 이거.","ja":"持ってみて。これきれい。これがきれい。うん、私もこれ。","scene":"cloth","pe":1837.33},{"id":268,"s":1841,"e":1849,"ko":"감사합니다. 자기야. 왜 이렇게 빨리 가?","ja":"ありがとうございます。ねえ、なんでこんなに早く行くの？","scene":"cloth","pe":1845.0},{"id":269,"s":1849,"e":1852,"ko":"여기는 A랜드입니다. 연희동 A랜드.","ja":"ここはエーランドです。ヨニドンのエーランド。","scene":"aland","raw":"여기는 A랜드입니다. 연이동 A랜드."},{"id":270,"s":1852,"e":1856,"ko":"지헌아 여기 네가 좋아하는 거 되게 많다.","ja":"ジホン、ここにあなたが好きなものすごく多いよ。","scene":"aland","raw":"지연아 여기 네가 좋아하는 거 되게 많다.","note":"「지연아」は「지헌아」の認識ミス"},{"id":271,"s":1856,"e":1871,"ko":"오늘 날씨가 너무 애들 선물 줘야겠다.","ja":"今日は天気がすごく。子たちにプレゼント買わなきゃ。","scene":"aland","pe":1859.56},{"id":272,"s":1871,"e":1880,"ko":"선발이야. 여긴 뭐야? 아 되는 거야.","ja":"ここは何？","scene":"aland","pe":1874.56},{"id":273,"s":1880,"e":1885,"ko":"나 이제 안 앉아 있어. 쉬고 싶어. 야 지헌아 내가 너 쇼핑하는 거 기다려 줄게.","ja":"私もう座ってられない。休みたい。ねえジホン、私があなたが買い物する間待っててあげる。","scene":"aland","raw":"나 이제 안 앉 안고 있어. 쉬고 싶어. 야 시원아 내가 너 쇼핑하 기다려 줄게."},{"id":274,"s":1885,"e":1893,"ko":"분명히 채영이랑 왔을 때는 채영이가 더 많이 샀던 거 같은데 나 기력이 없어졌어. 이거 예쁘네.","ja":"確かにチェヨンと来た時はチェヨンの方がたくさん買ってた気がするけど。私、気力がなくなった。これきれいだね。","scene":"aland","raw":"분명히 최원이랑 왔을 때는 최원이가 더 많이 샀던 거 같은데 나 무력이 없어졌어. 이거 예쁘네."},{"id":275,"s":1893,"e":1902,"ko":"이거 좋네. 이거 이거 거거런 거 케이스가 너무 귀여운데. 땡땡이","ja":"これいいね。これ、こういうのケースがすごくかわいいんだけど。水玉。","scene":"aland","pe":1899.0},{"id":276,"s":1902,"e":1905,"ko":"데이트인데 우리 각자 데이트 하고 있어.","ja":"デートなのに、私たち別々にデートしてる。","scene":"aland"},{"id":277,"s":1905,"e":1913,"ko":"이것이 바로 여자들의 이게 뭐지? 목걸인가?","ja":"これがまさに女子の。これ何だろう？ネックレスかな？","scene":"aland","pe":1909.22},{"id":278,"s":1913,"e":1920,"ko":"목걸이네. 백지헌. 백지헌 어디 갔어?","ja":"ネックレスだね。ペク・ジホン。ペク・ジホンどこ行った？","scene":"aland","pe":1916.78,"raw":"목걸리네. 백지연. 백지현 어디 갔어?","note":"「백지연」「백지현」は「백지헌」の認識ミス"},{"id":279,"s":1920,"e":1927,"ko":"원래 쇼핑 따로따로 해야 돼. 그러고 만나는 거지. 이거 너무 귀엽잖아.","ja":"もともと買い物は別々にしなきゃ。そうして合流するの。これすごくかわいいじゃん。","scene":"aland"},{"id":280,"s":1927,"e":1933,"ko":"우와 진짜 짱 귀엽다. 맞죠?","ja":"わあ、本当に超かわいい。でしょ？","scene":"aland","pe":1929.67},{"id":281,"s":1933,"e":1948,"ko":"아 귀여워. 지헌이한테 이거 선물 해 줘야겠어.","ja":"あ、かわいい。ジホンにこれプレゼントしてあげなきゃ。","scene":"aland","pe":1938.11,"raw":"아 귀여워. 지연이에 반디 선물 해 줘야겠어. 쏘 키트."},{"id":282,"s":1948,"e":1953,"ko":"잘 어울리는 거 같은데.","ja":"よく似合うと思うけど。","scene":"aland","pe":1950.22},{"id":283,"s":1953,"e":1962,"ko":"약간 이거 쓰면 아무도 날 못 알아볼 듯.","ja":"ちょっとこれかぶったら誰も私だと気づかなそう。","scene":"aland","pe":1956.56},{"id":284,"s":1962,"e":1965,"ko":"약간 사감쌤 스타일 어디 잘 어울리는데요.","ja":"ちょっと寮母先生スタイル。どこか、よく似合いますけど。","scene":"aland"},{"id":285,"s":1965,"e":1975,"ko":"약간 도덕쌤 교감쌤 안녕하세요 선생님. 어 이거 뭐야? 써 봐도 되나?","ja":"ちょっと道徳の先生、教頭先生。こんにちは、先生。あ、これ何？かぶってみてもいいかな？","scene":"aland","pe":1971.44},{"id":286,"s":1975,"e":1978,"ko":"이거 왠지 예쁠 거 같아.","ja":"これ、なんだかきれいそう。","scene":"aland"},{"id":287,"s":1978,"e":1982,"ko":"어 잠시만 이거 진짜 반응이 왜 이래? 왜 뭐라 한 거예요?","ja":"あ、ちょっと待って。これ本当に、反応がなんでこうなの？なんで、何て言ったんですか？","scene":"aland"},{"id":288,"s":1982,"e":1985,"ko":"아니 아니 느낌이 어 이거 이렇게 하면 이쁘다.","ja":"いや、いや、感じが。あ、これこうやるときれい。","scene":"aland"},{"id":289,"s":1985,"e":1994,"ko":"어 진짜네. 예쁜데. 예쁜데 반응이 생각보다 좋아서 깜짝 놀랬어. 예쁘네. 나 이거 괜찮은 거 같아.","ja":"あ、本当だ。きれいじゃん。きれいだけど、反応が思ったより良くてびっくりした。きれいだね。私これ、いいと思う。","scene":"aland"},{"id":290,"s":1994,"e":2005,"ko":"나이 살까? 나 그런 비니가 진짜 많아요. 거음을 주고 산 비니가 집에 박혀 있어. 드디어 마음에 드는 걸 찾은 이게 5만 원이었으면 산다.","ja":"これ買おうかな？私、そういうニット帽が本当に多いんです。大金を出して買ったニット帽が家に眠ってる。ついに気に入るものを見つけた。これが5万ウォンだったら買う。","scene":"aland"},{"id":291,"s":2005,"e":2007,"ko":"예쁜데.","ja":"きれいだけど。","scene":"aland"},{"id":292,"s":2007,"e":2016,"ko":"봐봐. 아니 그렇게 하니까 약간 도미걸. 어 뭐라고? 도미걸 같아.","ja":"見て。いや、そうやるとちょっとドミガール。え、何て？ドミガールみたい。","scene":"aland","pe":2013.22},{"id":293,"s":2016,"e":2021,"ko":"돌을 믿으시나요?","ja":"石を信じますか？","scene":"aland","pe":2017.78},{"id":294,"s":2021,"e":2031,"ko":"그냥 도파민이 좀 안 올라서 제가 마음에 드는게 없나 봐요. 우리 허이 아직도 보고 있어요.","ja":"ただドーパミンが上がらなくて、私が気に入るものがないみたいです。ヒョニ、まだ見てます。","scene":"aland","pe":2029.22},{"id":295,"s":2031,"e":2037,"ko":"자기야 허니 자기야.","ja":"ねえ、ハニー、ねえ。","scene":"aland","pe":2033.0},{"id":296,"s":2037,"e":2045,"ko":"나 데이트 건 최초로 네 데이트 상대가 급격하게 체력을","ja":"私、デート史上初めて、デート相手が急激に体力を","scene":"aland","pe":2041.89},{"id":297,"s":2045,"e":2054,"ko":"잃어버렸는데 아 원래 늘 내가 먼저 체력을 잃었는데 연습씨에서 보던 모습이 아니야 저거","ja":"失ったんだけど。あ、いつもは私が先に体力を失ってたのに。練習室で見てた姿じゃない、あれ。","scene":"aland"},{"id":298,"s":2054,"e":2062,"ko":"연이동이 퍼스널 컬러세요 지금 손님 오늘 진짜 알차게 데이트 한 거 같아","ja":"ヨニドンがパーソナルカラーですね、お客様。今日は本当に充実したデートをした気がする。","scene":"end","pe":2060.44},{"id":299,"s":2062,"e":2069,"ko":"우리 좀 많이 했네 오늘 우리 진짜 좀 많이 했어 근데 마지막이 쇼핑 진짜 중독이야. 너무 좋아해.","ja":"私たち、けっこうやったね。今日、私たち本当にけっこうやった。でも最後が買い物。本当に中毒だよ。すごく好き。","scene":"end"},{"id":300,"s":2069,"e":2075,"ko":"아니 나 언니랑 다니면 약간 나도 피가 되는 거 같아. 약간. 야 너 원래 피안 무슨 소리야 너?","ja":"いや、私、お姉さんと一緒だと、ちょっと私もそうなる気がする。ねえ、あなたもともと。何言ってるの、あなた？","scene":"end"},{"id":301,"s":2075,"e":2083,"ko":"아 뭔 소리야? 언니야 나 계획을 있으면은 그거 이렇게 흩어지는 거 딱 계획 촬영 때는 계획만 딱 하는 거 좋아하는데 아 진짜","ja":"あ、何言ってるの？お姉さん、私は計画があったら、それがこうやって散らばるのが。撮影の時はきっちり計画通りやるのが好きなんだけど。あ、本当に","scene":"end"},{"id":302,"s":2083,"e":2090,"ko":"뭔가 너 패션 제이잖아.이 언니가 계속 뭔가 막 너무 반응이 좋으니까","ja":"なんか、あなたファッションが好きじゃん。このお姉さんがずっと、なんかすごく反応がいいから","scene":"end"},{"id":303,"s":2090,"e":2103,"ko":"막 다 따라줄 거 같으니까 이것도 할까 막 이렇게 하게 되네. 경로를 자꾸 이탈해, 우리. 그럼 우리는 이제 플로버 만나러 갈게요. 안녕.","ja":"全部付き合ってくれそうだから「あれもやろうか」ってこうなっちゃうんだよね。ルートをどんどん外れるね、私たち。じゃあ私たちはこれからフロバーに会いに行きます。バイバイ。","scene":"end","raw":"막 다 따라줄 거 같으니까 뜨거 할까 막 이렇게 하게 되네. 경로를 자꾸 이탈해, 우리. 그럼 우리는 이제 플러브 만나러 갈게요. 안녕."},{"id":304,"s":2103,"e":2111,"ko":"아니, 여기 이거 피온이 이거 유명한데 아니야, 여기.","ja":"いや、ここ、これ有名なんだけど。違う、ここ。","scene":"end","pe":2108.11},{"id":305,"s":2111,"e":2118,"ko":"봐. 왜 이렇게 맛있냐? 진짜 맛있다. 아, 그만 먹어.","ja":"見て。なんでこんなに美味しいの？本当に美味しい。あ、もう食べないで。","scene":"end","pe":2116.11},{"id":306,"s":2118,"e":2123,"ko":"너무 안 달아. 적당히 달아. Mm. Mm.","ja":"すごく甘くない。ちょうどいい甘さ。","scene":"end"}],"study":[{"t":"E","ko":"약간","ja":"ちょっと・なんか","note":"会話でぼかす時の最頻出。断定を避ける","cids":[1,20,24,27,33,113,114,115,127,153,154,179,216,222,224,240,245,251,257,266,283,284,285,292,300],"ex":1},{"t":"E","ko":"되게","ja":"すごく","note":"「너무」より軽い強調。若い世代の口語","cids":[22,53,59,63,68,75,76,91,92,144,151,153,171,172,261,270],"ex":270},{"t":"E","ko":"뭔가","ja":"なんか・何となく","note":"言葉を探す時のつなぎ","cids":[29,139,194,266,302],"ex":302},{"t":"E","ko":"그러네","ja":"そうだね・確かに","note":"相手に気づかされた時の相づち","cids":[116,220],"ex":116},{"t":"E","ko":"맞아","ja":"そう・その通り","note":"同意の定番","cids":[146,148,149,151,162,172,173],"ex":162},{"t":"E","ko":"어때?","ja":"どう？","note":"感想を尋ねる。丁寧は「어때요?」","cids":[52,80,102,264],"ex":52},{"t":"E","ko":"괜찮지?","ja":"いいでしょ？","note":"同意を求める。語尾を上げる","cids":[79,84,260],"ex":79},{"t":"E","ko":"너무 귀엽다","ja":"かわいすぎる","note":"「귀엽다」の強調。この動画の口ぐせ","cids":[27,265],"ex":265},{"t":"E","ko":"하찮게 생겼어","ja":"しょぼい見た目","note":"「하찮다」＝取るに足らない。愛嬌としてほめ言葉に使う","cids":[81],"ex":81},{"t":"E","ko":"잘 어울려","ja":"よく似合う","note":"服・小物をほめる定番","cids":[266],"ex":266},{"t":"E","ko":"입어 볼게","ja":"着てみるね","note":"「-아/어 볼게」＝〜してみるね","cids":[234],"ex":234},{"t":"E","ko":"얼마야?","ja":"いくら？","note":"タメ口。丁寧は「얼마예요?」","cids":[260],"ex":260},{"t":"E","ko":"마음에 들어","ja":"気に入った","note":"「마음에 들다」＝気に入る","cids":[119],"ex":119},{"t":"E","ko":"어이 없어","ja":"あきれる","note":"軽い冗談として友達同士でよく使う","cids":[65],"ex":65},{"t":"E","ko":"나 진짜 서운해","ja":"本当に寂しい・傷ついた","note":"「서운하다」＝期待が外れて寂しい。日本語に一語で訳しにくい","cids":[65],"ex":65},{"t":"E","ko":"깜짝 놀래","ja":"びっくりする","note":"「놀라다」の口語形","cids":[262],"ex":262},{"t":"E","ko":"경로를 이탈해","ja":"ルートを外れる","note":"予定からそれること。この二人の合言葉","cids":[210],"ex":210},{"t":"E","ko":"칼퇴","ja":"定時退社","note":"「칼같이 퇴근」の略。練習を切り上げる意味でも","cids":[180],"ex":180},{"t":"E","ko":"멘탈 나가서","ja":"メンタルがやられて","note":"疲れ果てた状態","cids":[176],"ex":176},{"t":"E","ko":"심장 쫄리는 거","ja":"心臓がドキドキすること","note":"「쫄다」＝びびる。緊張で縮こまる感じ","cids":[192,193],"ex":192},{"t":"E","ko":"겁을 내고","ja":"怖がって","note":"「겁」＝恐れ","cids":[194],"ex":194},{"t":"E","ko":"손이 많이 가는","ja":"手のかかる","note":"人にも物にも使う","cids":[50],"ex":50},{"t":"E","ko":"과정에 비해서","ja":"過程のわりに","note":"「-에 비해서」＝〜に比べて","cids":[91],"ex":91},{"t":"E","ko":"낯을 가려서","ja":"人見知りして","note":"「낯을 가리다」＝人見知りする","cids":[145],"ex":145},{"t":"E","ko":"반응이 좋으니까","ja":"反応がいいから","cids":[302],"ex":302},{"t":"E","ko":"내려놨어","ja":"手放した","note":"こだわりを捨てた、の意","cids":[231],"ex":231},{"t":"E","ko":"편한게 짱이야","ja":"楽なのが一番","note":"「짱」＝最高(俗語)","cids":[232],"ex":232},{"t":"E","ko":"믹스 매치","ja":"ミックスマッチ","note":"服の合わせ方","cids":[240],"ex":240},{"t":"E","ko":"진도를 나가고","ja":"進度を進めて","note":"勉強・練習が進むこと","cids":[174,175],"ex":175},{"t":"E","ko":"욕심이 많아","ja":"欲張りだ","note":"良い意味の向上心にも使う","cids":[174],"ex":174},{"t":"E","ko":"오랜만에","ja":"久しぶりに","cids":[121,164],"ex":164},{"t":"E","ko":"그 시절에는","ja":"あの頃は","note":"昔話を始める合図","cids":[130],"ex":130},{"t":"E","ko":"혼자 있다","ja":"一人でいる","cids":[143],"ex":143},{"t":"E","ko":"생일 축하해","ja":"誕生日おめでとう","note":"タメ口。丁寧は「생일 축하해요」","cids":[143],"ex":143},{"t":"E","ko":"놀아줄게","ja":"遊んであげる","note":"「-아/어 줄게」＝〜してあげる","cids":[144],"ex":144},{"t":"E","ko":"나갈 수가 없는","ja":"出かけられない","note":"「-ㄹ 수가 없다」＝〜できない(強い否定)","cids":[136],"ex":136},{"t":"E","ko":"친구가 없으니까","ja":"友達がいないから","cids":[147],"ex":147},{"t":"E","ko":"그럴만도 한게","ja":"そうなるのも無理はなくて","note":"理解を示す言い回し","cids":[145],"ex":145},{"t":"E","ko":"무슨 소리야","ja":"何言ってるの","note":"驚き・反論。「뭔 소리야」とも","cids":[300],"ex":300},{"t":"E","ko":"써 봐도 되나?","ja":"かぶってみてもいい？","note":"「-아/어 보다」＝〜してみる","cids":[285],"ex":285},{"t":"E","ko":"이게 뭐가 데이트야?","ja":"これのどこがデート？","note":"「뭐가 -야?」＝〜なわけない","cids":[58],"ex":58},{"t":"E","ko":"시켜 볼까?","ja":"頼んでみようか？","note":"注文する時の「시키다」","cids":[112],"ex":112},{"t":"E","ko":"다 먹었다","ja":"全部食べた","cids":[197],"ex":197},{"t":"E","ko":"사야겠는데","ja":"買わなきゃ","note":"「-아/어야겠다」＝〜しなきゃ","cids":[236],"ex":236},{"t":"E","ko":"못 믿어","ja":"信じられない","note":"「못 -」＝〜できない","cids":[113],"ex":113},{"t":"E","ko":"기다려 줄게","ja":"待っててあげる","cids":[273],"ex":273},{"t":"E","ko":"안녕","ja":"バイバイ","note":"別れのあいさつ。動画の締めにも","cids":[20,212,285,303],"ex":212},{"t":"V","ko":"데이트","ja":"デート","cids":[5,58,63,74,208,276,296,298],"ex":276},{"t":"V","ko":"연희동","ja":"ヨニドン","note":"ソウルの町の名前。カフェと雑貨屋が多い","cids":[14,160,199,208,269],"ex":269},{"t":"V","ko":"힐링","ja":"癒し","note":"韓国でそのまま名詞として使う","cids":[8,17,74,164],"ex":8},{"t":"V","ko":"키링","ja":"キーホルダー","note":"key ring から","cids":[13],"ex":13},{"t":"V","ko":"소품샵","ja":"雑貨屋","cids":[14],"ex":14},{"t":"V","ko":"퇴근길","ja":"退勤の道","note":"アイドルが仕事終わりに見せる私服姿も指す","cids":[226],"ex":226},{"t":"V","ko":"선생님","ja":"先生","note":"店の講師にも使う敬称","cids":[30,60,65,66,67,87,285],"ex":30},{"t":"V","ko":"색깔","ja":"色","cids":[32,33,65,244],"ex":32},{"t":"V","ko":"주황색","ja":"オレンジ色","cids":[62,63,66,77],"ex":62},{"t":"V","ko":"흰색","ja":"白","cids":[43,44],"ex":43},{"t":"V","ko":"빨간색","ja":"赤","cids":[44],"ex":44},{"t":"V","ko":"노랑","ja":"黄色","cids":[60],"ex":60},{"t":"V","ko":"초록색","ja":"緑色","cids":[53],"ex":53},{"t":"V","ko":"금색","ja":"金色","cids":[60],"ex":60},{"t":"V","ko":"오리","ja":"アヒル","cids":[34,35,39,42,54,59,95],"ex":35},{"t":"V","ko":"토마토","ja":"トマト","cids":[28,29,37,38,44,47,68],"ex":28},{"t":"V","ko":"아보카도","ja":"アボカド","cids":[29,31,36],"ex":31},{"t":"V","ko":"당근","ja":"にんじん","cids":[92,100],"ex":92},{"t":"V","ko":"꼬리","ja":"しっぽ","cids":[82,85],"ex":82},{"t":"V","ko":"몸통","ja":"胴体","cids":[49],"ex":49},{"t":"V","ko":"머리","ja":"頭・髪","cids":[49,56,85,86,90,127,128],"ex":56},{"t":"V","ko":"속눈썹","ja":"まつげ","cids":[99],"ex":99},{"t":"V","ko":"모양","ja":"形","cids":[41,59],"ex":41},{"t":"V","ko":"디자인","ja":"デザイン","cids":[30],"ex":30},{"t":"V","ko":"손재주","ja":"手先の器用さ","cids":[92],"ex":92},{"t":"V","ko":"집중력","ja":"集中力","cids":[64],"ex":64},{"t":"V","ko":"카메라","ja":"カメラ","cids":[108,109,110,119],"ex":110},{"t":"V","ko":"사진","ja":"写真","cids":[117,201],"ex":117},{"t":"V","ko":"파스타","ja":"パスタ","cids":[111,112],"ex":111},{"t":"V","ko":"브런치","ja":"ブランチ","cids":[111,199],"ex":111},{"t":"V","ko":"카페","ja":"カフェ","cids":[111],"ex":111},{"t":"V","ko":"요리","ja":"料理","cids":[172],"ex":172},{"t":"V","ko":"채소","ja":"野菜","cids":[171],"ex":171},{"t":"V","ko":"미역국","ja":"わかめスープ","note":"誕生日に食べる韓国の習慣","cids":[146],"ex":146},{"t":"V","ko":"생일","ja":"誕生日","cids":[141,142,143,146,147,148,149],"ex":141},{"t":"V","ko":"숙소","ja":"宿舎","note":"アイドルの共同生活の家","cids":[149,150,151,152,153,154],"ex":150},{"t":"V","ko":"멤버","ja":"メンバー","cids":[121,148,149,154,175,176],"ex":176},{"t":"V","ko":"친구","ja":"友達","cids":[15,73,130,137,138,144,147,153,170],"ex":130},{"t":"V","ko":"혼자","ja":"一人","cids":[136,142,143,146,147],"ex":147},{"t":"V","ko":"통금","ja":"門限","cids":[131],"ex":131},{"t":"V","ko":"미성년자","ja":"未成年","cids":[134],"ex":134},{"t":"V","ko":"성인","ja":"成人","cids":[132,138],"ex":132},{"t":"V","ko":"중학교","ja":"中学校","cids":[136,137],"ex":137},{"t":"V","ko":"연습생","ja":"練習生","note":"デビュー前の期間","cids":[137],"ex":137},{"t":"V","ko":"서울","ja":"ソウル","cids":[136,138],"ex":136},{"t":"V","ko":"양갈래","ja":"ツインテール","cids":[120,121,123,126],"ex":123},{"t":"V","ko":"팬사인","ja":"ファンサイン会","cids":[120],"ex":120},{"t":"V","ko":"대표님","ja":"代表・社長","cids":[125],"ex":125},{"t":"V","ko":"안무","ja":"振り付け","cids":[174,182,183,184],"ex":183},{"t":"V","ko":"수록곡","ja":"収録曲","cids":[174],"ex":174},{"t":"V","ko":"타이틀곡","ja":"タイトル曲","cids":[178],"ex":178},{"t":"V","ko":"콘서트","ja":"コンサート","cids":[172,178],"ex":172},{"t":"V","ko":"연습","ja":"練習","cids":[99,137,168,178,179,181,195,297],"ex":168},{"t":"V","ko":"스케줄","ja":"スケジュール","cids":[7,175],"ex":7},{"t":"V","ko":"새벽","ja":"明け方","cids":[154,175],"ex":175},{"t":"V","ko":"체력","ja":"体力","cids":[160,296,297],"ex":296},{"t":"V","ko":"날씨","ja":"天気","cids":[19,162,163,271],"ex":19},{"t":"V","ko":"계단","ja":"階段","cids":[20],"ex":20},{"t":"V","ko":"쇼핑","ja":"買い物","cids":[230,273,279,299],"ex":279},{"t":"V","ko":"옷가게","ja":"洋服屋","cids":[210],"ex":210},{"t":"V","ko":"목걸이","ja":"ネックレス","cids":[278],"ex":278},{"t":"V","ko":"가방","ja":"かばん","cids":[262,264],"ex":264},{"t":"V","ko":"치마","ja":"スカート","cids":[241,242],"ex":242},{"t":"V","ko":"바지","ja":"ズボン","cids":[221,242],"ex":242},{"t":"V","ko":"잠옷","ja":"パジャマ","cids":[255],"ex":255},{"t":"V","ko":"비니","ja":"ニット帽","cids":[290],"ex":290},{"t":"V","ko":"가격","ja":"値段","cids":[260,261],"ex":260},{"t":"V","ko":"선물","ja":"プレゼント","cids":[119,271,281],"ex":281},{"t":"V","ko":"사이즈","ja":"サイズ","cids":[266],"ex":266},{"t":"V","ko":"스타일","ja":"スタイル","cids":[252,253,256,284],"ex":256},{"t":"V","ko":"분위기","ja":"雰囲気","cids":[116],"ex":116},{"t":"V","ko":"느낌","ja":"感じ","cids":[74,153,164,208,288],"ex":288}]}];
+/* 今開いているシリーズの中身。openSeries() で入れ替える */
+let DATA = [], SCENES = [], STUDY = [], videoId = '', SID = '';
+const LS = 'kr389';
+const $ = id => document.getElementById(id);
+/* 日本語を主、韓国語を副として併記する */
+const bi = (ja, ko) => ja + ' <span class="sub" lang="ko">' + ko + '</span>';
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+const pk = k => SID + '.' + k;            /* 進み具合はシリーズごとに分けて持つ */
+let checked = new Set();
+let edits = {};                          /* {カードid: {ko, ja}} 手で直した内容 */
+/* 手直しがあればそれを優先して表示する。原本(d)は書き換えない */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let sceneKey = 'all';
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// では YouTube が埋め込み再生を拒む (Error 153)。その場合は YouTube 本体を該当秒から開く */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.5;                                   /* 短すぎる字幕でも最低これだけ再生する(秒) */
+const PAD = 0.2;                                        /* 頭とお尻に常に足す余裕(秒) */
+const headOf = d => Math.max(0, d.s - PAD);             /* 少し手前から鳴らす */
+const tail = () => Number($('optTail').value) || 0;     /* 発話の終わりから何秒多く再生するか */
+/* d.pe = 字幕末尾の無音を除いた「発話の終わり」。無い場合は字幕の終了時刻をそのまま使う */
+const spoken = d => (d.pe != null ? d.pe : d.e);
+const endOf  = d => Math.max(spoken(d) + tail() + PAD, d.s + MIN_PLAY);
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- サイドバー / 사이드바 ---------- */
+function buildScenes(){
+  const box = $('scenes');
+  const mk = (key, ja, ko, n, itv) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key;
+    if(itv) b.className = 'itv';
+    b.innerHTML = '<span>' + bi(ja, ko) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { sceneKey = key; store.set(pk('scene'), key); buildDeck(); };
+    box.appendChild(b);
+  };
+  mk('all', '全シーン', '전체 장면', DATA.length);
+  let grouped = false;
+  SCENES.forEach(s => {
+    /* インタビューはメンバー別に見分けられるよう、見出しを立てて分ける */
+    if(s.itv && !grouped){
+      grouped = true;
+      const h = document.createElement('div');
+      h.className = 'grp';
+      h.innerHTML = 'メンバー別インタビュー <span lang="ko">멤버별 인터뷰</span>';
+      box.appendChild(h);
+    }
+    mk(s.key, s.label, s.ko, DATA.filter(d => d.scene === s.key).length, s.itv);
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  [...$('scenes').children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === sceneKey)));
+  if(sceneKey === '__day'){
+    $('sceneTitle').innerHTML = 'Day ' + dayCur + ' の台詞<span class="inl" lang="ko">Day ' + dayCur + ' 대사</span>';
+    return;
+  }
+  const s = SCENES.find(x => x.key === sceneKey);
+  $('sceneTitle').innerHTML = s
+    ? s.label + '<span class="inl" lang="ko">' + s.ko + '</span>'
+    : '全シーン<span class="inl" lang="ko">전체 장면</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- デッキ / 덱 ---------- */
+function buildDeck(){
+  if(sceneKey === '__day'){ const s = new Set(dayIds); deck = DATA.filter(d => s.has(d.id)); }
+  else deck = sceneKey === 'all' ? DATA.slice() : DATA.filter(d => d.scene === sceneKey);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- カード / 카드 ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('ko').textContent = '該当する台詞がありません / 해당 대사가 없습니다'; return; }
+  const useRaw = $('optRaw').checked;
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('ko').textContent = (useRaw && d.raw) ? d.raw : v.ko;
+  /* 手直しした行だけ、もう一方を小さく併記して見比べられるようにする */
+  $('raw').hidden = !d.raw;
+  if(d.raw){
+    $('raw').textContent = '';
+    const tag = document.createElement('b');
+    tag.textContent = useRaw ? '手直し·교정' : '原文·원문';
+    const body = document.createElement('span');
+    body.lang = 'ko';
+    body.textContent = ' ' + (useRaw ? v.ko : d.raw);
+    $('raw').append(tag, body);
+  }
+  $('ja').textContent = v.ja;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').className = 'chip' + (s && s.itv ? ' itv' : '');
+  $('scene').innerHTML = s ? s.label + '<span class="sub" lang="ko">' + s.ko + '</span>' : '—';
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* ---------- 台本 / 대본 ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div><div class="k" lang="ko"></div><div class="j"></div></div>';
+    const v = edited(d);
+    el.querySelector('.k').textContent = ($('optRaw').checked && d.raw) ? d.raw : v.ko;
+    el.querySelector('.j').textContent = v.ja;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('カードと台本はそのまま使えます。', '카드와 대본은 그대로 쓸 수 있습니다.');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API を読み込めませんでした。', 'YouTube API를 불러오지 못했습니다.'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('準備完了。台詞の位置から再生できます。', '준비 완료. 대사 위치부터 재생할 수 있습니다.'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('動画を再生できません (エラー '+e.data+')。', '영상을 재생할 수 없습니다 (오류 '+e.data+').'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('再生中…', '재생 중…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('一時停止', '일시정지');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube を ' + fmt(d.s) + ' から開きました。', 'YouTube를 ' + fmt(d.s) + ' 지점부터 열었습니다.');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('プレーヤーがまだ準備できていません。', '플레이어가 아직 준비되지 않았습니다.'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const cut = d.pe != null ? '・無音-' + (d.e - d.pe).toFixed(1) + '秒' : '';
+  const cutKo = d.pe != null ? '·무음-' + (d.e - d.pe).toFixed(1) + '초' : '';
+  const detail = '（発話 ' + (spoken(d) - d.s).toFixed(1) + '秒 + 余裕 ' + (stopAt - spoken(d)).toFixed(1) + '秒' + cut + '）';
+  const detailKo = '(발화 ' + (spoken(d) - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - spoken(d)).toFixed(1) + '초' + cutKo + ')';
+  $('playStatus').innerHTML = bi((opts.loop ? 'リピート再生中 ' : '再生中 ') + range + detail,
+                                 (opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);   /* 追従は字幕の区間そのままで判定する */
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('この場面の再生が終わりました。', '이 장면 재생이 끝났습니다.');
+  }
+}, 120);
+
+/* ---------- 操作 / 조작 ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('リピートを解除しました。', '구간 반복을 해제했습니다.'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set(pk('checked'), [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- 手直し / 직접 수정 ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edKo').value = v.ko; $('edJa').value = v.ja;
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edKo').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const ko = $('edKo').value.trim(), ja = $('edJa').value.trim();
+  if(!ko){ $('playStatus').innerHTML = bi('台詞が空です。', '대사가 비었습니다.'); return; }
+  const e = {};
+  if(ko !== d.ko) e.ko = ko;
+  if(ja !== d.ja) e.ja = ja;
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 原本と同じなら記録しない */
+  store.set(pk('edits'), edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('保存しました。', '저장했습니다.');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set(pk('edits'), edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('元に戻しました。', '원래대로 되돌렸습니다.');
+};
+
+/* ブラウザの保存領域は消えることがあるので、書き出し / 読み込みを用意する */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'korean-cliff-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('形式が違います');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.ko === 'string' || typeof row.ja === 'string')){ edits[k] = row; n++; }
+      }
+      store.set(pk('edits'), edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '件を読み込みました。', n + '건을 불러왔습니다.');
+    }catch(err){
+      $('playStatus').innerHTML = bi('読み込めませんでした。', '불러오지 못했습니다.');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optRaw').onchange = () => { store.set('raw', $('optRaw').checked); showCard(); buildScript(); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+$('tabStudy').onclick = () => switchView('study');
+
+/* ====================== 学習タブ / 학습 탭 ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['聞く', '듣기', '意味を隠して再生。まず耳だけで挑む。分からなくて当たり前。',
+     '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.', 'カード'],
+    ['確かめる', '확인', '意味を開いて答え合わせ。表現・単語は例文とセットで覚える。',
+     '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.', '表現 · 単語'],
+    ['真似る', '따라 하기', 'リピートで同じ区間を繰り返し、声に出して重ねる。抑揚ごと写す。',
+     '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.', 'リピート C'],
+    ['試す', '점검', 'クイズで today の範囲だけ出題。間違いは翌日の復習リストになる。',
+     '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.', 'クイズ']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ja, ko, pj, pk, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="ko" lang="ko"></div><p><span class="j"></span><span lang="ko"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ja;
+    el.querySelector('.ko').textContent = ko;
+    el.querySelector('.j').textContent = pj;
+    el.querySelector('p span[lang=ko]').textContent = pk;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.ko + ' ' + r.ja + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length;
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '該当なし · 해당 없음'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'ko'; k.textContent = r.ko;
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ja;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 実際に使われている一文を例として見せる(作文ではなく字幕そのもの) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '例文 · 예문';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'ko';
+        const at = v.ko.indexOf(r.ko);
+        if(at >= 0){                                   /* その語だけ強調する */
+          ek.appendChild(document.createTextNode(v.ko.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = r.ko; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.ko.slice(at + r.ko.length)));
+        } else ek.textContent = v.ko;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ja;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = 'この例文を再生 / 이 예문 재생';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+
+    /* 出てくる場面を全部ならべる。押すとその位置から再生 */
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '回 · ' + cids.length + '회';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.ko;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== 毎日の分量 / 데일리 ====================== */
+let dayPace = store.get('pace', 28);
+let dayCur  = 1;
+let daysDone = new Set();
+let DAYS = [], dayIds = [];
+
+/* 台詞は時間順に等分。表現・単語は「初出の早い順」に並べてから均等に配る
+   (初出そのままだと よく出る語が初日に固まってしまうため) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '本を ' + DAYS.length + '日で · ' + DAYS.length + '일 완성';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '台詞 ' + d.cards.length + ' · 表現 ' + d.expr.length + ' · 単語 ' + d.word.length
+    + '　/　대사 ' + d.cards.length + '개 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + '　(チェック済み ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set(pk('dayCur'), dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 毎日同じ手順なので帯で示すだけにする。詳しい説明は「学習法」タブに置いた */
+  const STEPS = [['聞く','듣기'], ['表現・単語','표현·단어'], ['クイズ','퀴즈'], ['復習','복습']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ja, ko], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ja + ' · ' + ko;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="ko"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.ko.slice(0, 34);
+    b.querySelector('.jj').textContent = v.ja.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="ko"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.ko;
+    b.querySelector('.jj').textContent = r.ja;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ sceneKey = '__day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg($('qScope'));
+  $('qScope').querySelector('[data-v="D"]').setAttribute('aria-pressed', 'true');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set(pk('daysDone'), [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set(pk('dayCur'), 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- クイズ / 퀴즈 ---------- */
+let qScope = 'E', qMode = 'ko2ja', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({ko: edited(c).ko, ja: edited(c).ja, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 今日の表現・単語・台詞をまとめて */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({ko: r.ko, ja: r.ja, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({ko: edited(c).ko, ja: edited(c).ja, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({ko: r.ko, ja: r.ja, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  /* 聞き取りは字幕に紐づいた項目と、再生できる環境が要る */
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'ko2ja'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="ko2ja"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('出題できる項目 ' + pool.length + ' 件 · 출제 가능 ' + pool.length + '개');
+  if(OFFLINE) msgs.push('聞き取りは file:// では使えません · 듣기는 file:// 에서 쓸 수 없습니다');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ja2ko' ? 'ko' : 'ja';
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    /* 出題のたびに別の出現箇所を使う */
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 聞いて意味を選ぶ · 듣고 뜻 고르기';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ja2ko'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ja;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'ko';
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'ko') b.lang = 'ko';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  line.innerHTML = (ok ? '<b>正解 · 정답</b>　' : '<b>もう一度 · 다시</b>　')
+    + '<span lang="ko">' + q.item.ko + '</span> — ' + q.item.ja;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '次へ · 다음' : '結果 · 결과';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 満点 · 만점' : pct >= 80 ? '— よくできました · 훌륭합니다'
+    : pct >= 50 ? '— もう一息 · 조금만 더' : '— 復習しましょう · 복습해 봅시다');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '間違えた項目 · 틀린 항목 (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'ko'; k.textContent = it.ko;
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ja;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('動画IDを読み取れません。', '영상 ID를 읽을 수 없습니다.'); return; }
+  videoId = id; store.set(pk('vid'), id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null;
+  if(OFFLINE){ /* 開くリンクの id が変わるだけ */ }
+  else if(ready && player) player.loadVideoById(id); else loadAPI();
+  $('playStatus').innerHTML = bi('動画を差し替えました。', '영상을 교체했습니다.');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+/* ====================== ホーム / 메인 ====================== */
+function renderHome(){
+  const g = $('hgrid'); g.textContent = '';
+  SERIES.forEach(s => {
+    const done = new Set(store.get(s.id + '.checked', [])).size;
+    const card = document.createElement('button'); card.className = 'hcard'; card.type = 'button';
+    card.innerHTML =
+      '<div class="hthumb"><img loading="lazy" alt=""><span class="hseal"></span></div>' +
+      '<div class="hbody"><h3></h3><div class="ko" lang="ko"></div><p class="desc"></p>' +
+      '<div class="hstats">' +
+        '<span class="hstat"><b></b>台詞 · 대사</span>' +
+        '<span class="hstat"><b></b>表現 · 표현</span>' +
+        '<span class="hstat"><b></b>単語 · 단어</span>' +
+      '</div><div class="hprog"><div class="bar"><span></span></div><span class="t"></span></div></div>';
+    card.querySelector('img').src = 'https://i.ytimg.com/vi/' + s.videoId + '/hqdefault.jpg';
+    card.querySelector('.hseal').textContent = s.seal || '韓';
+    card.querySelector('h3').textContent = s.title;
+    card.querySelector('.ko').textContent = s.titleKo || '';
+    card.querySelector('.desc').textContent = (s.subtitle || '') + (s.subtitleKo ? '　/　' + s.subtitleKo : '');
+    const b = card.querySelectorAll('.hstat b');
+    b[0].textContent = s.data.length;
+    b[1].textContent = s.study.filter(r => r.t === 'E').length;
+    b[2].textContent = s.study.filter(r => r.t === 'V').length;
+    card.querySelector('.bar span').style.width = (s.data.length ? done / s.data.length * 100 : 0) + '%';
+    card.querySelector('.t').textContent = 'チェック ' + done + ' / ' + s.data.length + ' · 체크 ' + done;
+    card.onclick = () => openSeries(s.id);
+    g.appendChild(card);
+  });
+  const soon = document.createElement('div'); soon.className = 'hsoon';
+  soon.innerHTML = '<b>次のシリーズは準備中</b><span lang="ko">다음 시리즈는 준비 중</span>' +
+    '<span style="font-size:11px">別の動画の字幕を src/series/ に足すと、ここに並びます<br>' +
+    '<span lang="ko">다른 영상 자막을 src/series/ 에 넣으면 여기에 나타납니다</span></span>';
+  g.appendChild(soon);
+}
+function openSeries(id){
+  const s = SERIES.find(x => x.id === id); if(!s) return;
+  SID = s.id; DATA = s.data; SCENES = s.scenes; STUDY = s.study;
+  videoId = store.get(pk('vid'), s.videoId);
+  checked  = new Set(store.get(pk('checked'), []));
+  edits    = store.get(pk('edits'), {});
+  sceneKey = store.get(pk('scene'), 'all');
+  dayCur   = store.get(pk('dayCur'), 1);
+  daysDone = new Set(store.get(pk('daysDone'), []));
+  store.set('last', id);
+
+  $('homeView').hidden = true; $('appView').hidden = false;
+  $('vid').value = videoId;
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+  $('scenes').textContent = '';
+  buildScenes(); paintProgress(); paintEditCount(); buildDeck();
+  buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI();
+  setSub('D'); switchView('card');
+  if(!OFFLINE && ready && player) player.loadVideoById(videoId); else loadAPI();
+}
+function goHome(){
+  stopAt = null; loopSeg = null;
+  if(!OFFLINE && ready && player) player.pauseVideo();
+  $('appView').hidden = true; $('homeView').hidden = false;
+  renderHome();
+}
+$('goHome').onclick = goHome;
+
+/* ---------- 起動 / 기동 ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+$('optRaw').checked = store.get('raw', false);
+$('optTail').value = store.get('tail', '1');
+if(!$('optTail').value){ $('optTail').value = '1'; store.set('tail', '1'); }  /* 上限を下げる前の保存値を捨てる */
+pickSeg2($('qPace'), String(dayPace));
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube で開く<span class="sub" lang="ko">YouTube에서 열기</span>';
+}
+renderHome();
+/* 関門ページ(../index.html)から #<シリーズid> 付きで開かれたら、そのシリーズを直接開く */
+const wantSeries = decodeURIComponent(location.hash.slice(1));
+if(wantSeries && SERIES.some(x => x.id === wantSeries)) openSeries(wantSeries);
+</script>
+
+</body></html>
