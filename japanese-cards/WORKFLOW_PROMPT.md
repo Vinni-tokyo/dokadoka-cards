@@ -151,6 +151,13 @@ YouTube 영상 하나를 골라, 그 자막을 **대사 카드(원문 + 읽기 +
 - 오인식은 `fixes.txt`(`id|교정문`)로 고치고 원문을 `raw` 로 남겨 앱에 병기합니다. 184장 중 106장을 고쳤습니다 — 자동자막 앱은 이 정도 교정을 각오해야 합니다. 어절 사이 띄어쓰기도 교정에 포함합니다(가독성·한자어 매칭에 도움).
 - 학습 항목 매칭과 한자 풀이는 **교정문 기준**으로 돌립니다(build.py 가 `s['ja']` 를 교정문으로 바꾼 뒤 처리).
 
+### 3-F'. 노래 (자막 없음) — `firstlove-cards/src/align.py`, `reasons-cards/src/align.py`
+- 가사는 `lyrics.txt` 에 **불리는 순서대로**(반복 후렴 포함) 적고 빈 줄로 구간을 나눈다. 카드 = 줄.
+- `yt-dlp -x --audio-format wav` 로 음원을 받아 faster-whisper(medium, word_timestamps, initial_prompt 에 가사 앞부분)로 단어 시각을 얻고 `align.py` 로 줄과 맞춘다. 일본어는 문자 단위 유사도(한자·가나·영숫자만 남김)로 순서대로 창을 찾는다(`firstlove-cards`), 영어는 단어 단위(`reasons-cards`). 유사도 0.5 미만은 보간 + REPORT.
+- `beats.py <wav>` 로 BPM·박 그리드를 만들면 마디 반복이 켜진다(`subtitles.srt` 가 먼저 있어야 한다). 발라드는 위상 일관성이 낮게 나와도 정상 — 앱의 ±1박 보정으로 맞춘다.
+- 템플릿은 언어 family 의 최신 템플릿(드릴·음원 포함)을 복사하고 `patch_song.py`(노래방 탭·마디 반복, 감상 탭은 숨김)를 적용한다. 페이스는 줄 수에 맞춰 7/10/14/28 처럼 작게.
+- 음원·인식 결과(wav·words.json)는 리포에 넣지 않는다. README 에 재현 명령을 적어 둔다.
+
 ### 3-F. 출력 확인
 ```bash
 python3 src/seg.py

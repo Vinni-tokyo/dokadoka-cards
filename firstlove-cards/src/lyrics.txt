@@ -1,0 +1,33 @@
+# 宇多田ヒカル「First Love」 가사 — 불리는 순서대로. 한 줄 = 카드 1장, 빈 줄 = 구간 경계 (build.py 의 SECTIONS 와 순서가 같아야 한다)
+最後のキスは タバコの flavor がした
+苦くて切ない香り
+明日の今頃には あなたはどこにいるんだろう
+誰を想ってるんだろう
+
+You are always gonna be my love
+いつか誰かとまた恋に落ちても
+I'll remember to love
+You taught me how
+You are always gonna be the one
+今はまだ悲しい love song
+新しい歌 うたえるまで
+
+立ち止まる時間が 動き出そうとしてる
+忘れたくないことばかり
+明日の今頃には 私はきっと泣いてる
+あなたを想ってるんだろう
+
+You will always be inside my heart
+いつもあなただけの場所があるから
+I hope that I have a place in your heart too
+Now and forever you are still the one
+今はまだ悲しい love song
+新しい歌 うたえるまで
+
+You are always gonna be my love
+いつか誰かとまた恋に落ちても
+I'll remember to love
+You taught me how
+You are always gonna be the one
+まだ悲しい love song
+Now and forever

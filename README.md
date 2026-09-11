@@ -22,6 +22,7 @@ dokadoka-cards/
 ├─ japanese-cards/            🇯🇵 Snow Man 인터뷰 · 105장 · 포트 8099 · WORKFLOW_PROMPT.md(정본 작업 지시서)
 ├─ yubisaki-cards/            🇯🇵 ゆびさきと恋々 1화 · 185장 · 포트 8097
 ├─ bokuyaba-cards/            🇯🇵 僕の心のヤバイやつ 1화 · 184장 · 포트 8093 (자동자막 교정 106건·한자 풀이)
+├─ firstlove-cards/           🇯🇵 宇多田ヒカル 「First Love」 노래 · 28줄 · 포트 8091 (노래방·마디 반복·음성 인식 타이밍)
 ├─ korean-cards/              🇰🇷 프로미스나인 예능·브이로그 2시리즈 · 383+306장 · 포트 8098 (일본어 모어 학습자용)
 ├─ vitaminme-cards/           🇰🇷 fromis_9 「Vitamin ME」 노래 가사 · 84줄(가나 읽기) · 포트 8093 (일본어 모어 학습자용)
 ├─ english-cards/             🇺🇸 73 Questions With Zendaya · 248장 · 포트 8096
@@ -51,7 +52,7 @@ dokadoka-cards/
 python3 yubisaki-cards/src/build.py                  # 생성한 음원을 HTML 에 심는다
 ```
 
-음성은 `tools/make_study_audio.py` 의 `FAMILY` 표에서 앱별로 정합니다(일본어 Nanami, 영어 Ava/Andrew, 한국어 SunHi). 노래 앱 2편은 대상이 아닙니다.
+음성은 `tools/make_study_audio.py` 의 `FAMILY` 표에서 앱별로 정합니다(일본어 Nanami, 영어 Ava/Andrew, 한국어 SunHi). 노래 앱 중 First Love 는 대상이고, 10,000 Reasons·Vitamin ME 는 대상이 아닙니다.
 
 ## 재빌드
 
@@ -59,6 +60,7 @@ python3 yubisaki-cards/src/build.py                  # 생성한 음원을 HTML 
 python3 japanese-cards/src/build.py
 python3 yubisaki-cards/src/build.py
 python3 bokuyaba-cards/src/build.py
+python3 firstlove-cards/src/build.py
 python3 korean-cards/src/build.py
 python3 english-cards/src/build.py
 python3 altman-cards/src/build.py
