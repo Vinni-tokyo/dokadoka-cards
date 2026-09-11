@@ -167,6 +167,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
 .playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
 .playrow .btn{flex:none}
+.bars{margin:12px 0 0;padding:12px 13px;border:1px dashed var(--line-2);border-radius:var(--r-m);background:var(--surface-2)}
+.bars-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.bars-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.bars .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.bars .seg button{padding:6px 10px;font-size:12px}
 .reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);
  color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
 .reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
@@ -568,6 +573,22 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <span class="lbl">チェック<span class="sub" lang="ko">체크</span></span></button>
       <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
        <span class="lbl">編集<span class="sub" lang="ko">편집</span></span></button>
+     </div>
+
+     <div class="bars" id="barBox" hidden>
+      <div class="bars-head"><span class="cap">小節リピート · 마디 반복</span><span class="meta" id="barInfo">—</span></div>
+      <div class="bars-row">
+       <div class="seg" id="barLen"><button data-v="1" aria-pressed="false">1小節</button><button data-v="2" aria-pressed="true">2小節</button><button data-v="4" aria-pressed="false">4小節</button><button data-v="8" aria-pressed="false">8小節</button></div>
+       <button class="btn btn-sm btn-primary" id="barLine"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">この行の小節<span class="sub" lang="ko">이 줄의 마디</span></span></button>
+       <button class="btn btn-sm" id="barPrev" title="前の小節へ / 이전 마디">◀</button><button class="btn btn-sm" id="barNext" title="次の小節へ / 다음 마디">▶</button>
+       <button class="btn btn-sm" id="barStop" disabled>停止 · 정지</button>
+      </div>
+      <div class="bars-row">
+       <span class="cap">速度 · 속도</span>
+       <div class="seg" id="rate"><button data-v="0.5">0.5×</button><button data-v="0.75">0.75×</button><button data-v="1" aria-pressed="true">1×</button></div>
+       <span class="cap" style="margin-left:6px">小節の頭 · 마디 시작</span>
+       <button class="btn btn-sm" id="barShiftM" title="小節の頭を1拍前へ / 마디 시작을 한 박 앞으로">−1拍</button><button class="btn btn-sm" id="barShiftP" title="小節の頭を1拍後ろへ / 마디 시작을 한 박 뒤로">+1拍</button>
+      </div>
      </div>
 
      <div class="edit" id="editBox" hidden>
@@ -1025,7 +1046,7 @@ function onAPI(){
     videoId: videoId,
     playerVars: { rel:0, playsinline:1, modestbranding:1 },
     events: {
-      onReady: () => { ready = true; $('playStatus').innerHTML = bi('準備完了。台詞の位置から再生できます。', '준비 완료. 대사 위치부터 재생할 수 있습니다.'); },
+      onReady: () => { ready = true; try{ player.setPlaybackRate(rate); }catch(e){} $('playStatus').innerHTML = bi('準備完了。台詞の位置から再生できます。', '준비 완료. 대사 위치부터 재생할 수 있습니다.'); },
       onError: e => { ready = false; $('playStatus').innerHTML = bi('動画を再生できません (エラー '+e.data+')。', '영상을 재생할 수 없습니다 (오류 '+e.data+').'); },
       onStateChange: e => {
         if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('再生中…', '재생 중…');
@@ -1042,11 +1063,19 @@ function playSeg(d, opts){
     return;
   }
   if(!ready || !player){ $('playStatus').innerHTML = bi('プレーヤーがまだ準備できていません。', '플레이어가 아직 준비되지 않았습니다.'); return; }
-  player.seekTo(headOf(d), true);
+  const exact = !!opts.exact;                          /* 小節リピート: 余裕を足さず境界ぴったりで回す */
+  const from = exact ? d.s : headOf(d);
+  player.seekTo(from, true);
   player.playVideo();
-  stopAt = endOf(d);
-  loopSeg = opts.loop ? d : null;
+  stopAt = exact ? d.e : endOf(d);
+  loopSeg = opts.loop ? Object.assign({}, d, {from: from}) : null;
+  if(!exact){ barAt = null; paintBars(); }
   paintLoop();
+  if(exact){
+    $('playStatus').innerHTML = bi('小節リピート中 ' + fmt(from) + ' → ' + fmt(stopAt) + '（' + (stopAt - from).toFixed(1) + '秒）',
+                                   '마디 반복 중 ' + fmt(from) + ' → ' + fmt(stopAt) + ' (' + (stopAt - from).toFixed(1) + '초)');
+    return;
+  }
   const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
   const cut = d.pe != null ? '・無音-' + (d.e - d.pe).toFixed(1) + '秒' : '';
   const cutKo = d.pe != null ? '·무음-' + (d.e - d.pe).toFixed(1) + '초' : '';
@@ -1063,7 +1092,7 @@ setInterval(() => {
     if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
   }
   if(stopAt === null || t < stopAt) return;
-  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  if(loopSeg){ player.seekTo(loopSeg.from != null ? loopSeg.from : headOf(loopSeg), true); return; }
   stopAt = null;
   if($('optAuto').checked && index < deck.length-1){
     index++; showCard(); playSeg(deck[index]);
@@ -1599,6 +1628,7 @@ function renderHome(){
 function openSeries(id){
   const s = SERIES.find(x => x.id === id); if(!s) return;
   SID = s.id; DATA = s.data; SCENES = s.scenes; STUDY = s.study;
+  BEATS = s.beats || []; BPM = s.bpm || 0; PHASE = s.phase || 0; barShift = store.get(pk('barShift'), 0); barAt = null; rebuildBars(); paintBars();
   videoId = store.get(pk('vid'), s.videoId);
   checked  = new Set(store.get(pk('checked'), []));
   edits    = store.get(pk('edits'), {});
@@ -1623,6 +1653,40 @@ function goHome(){
   renderHome();
 }
 $('goHome').onclick = goHome;
+
+
+/* ====================== 小節リピート / 마디 반복 ======================
+   beats.py が音声から求めた拍列(BEATS)を 4拍ごとに区切って小節の頭(BARS)を作る。
+   DJ のループのように 1/2/4/8 小節を境界ぴったりで回す。小節の頭がずれて聞こえたら ±1拍で直せる(曲ごとに保存)。 */
+let BEATS = [], BPM = 0, PHASE = 0, BARS = [], barShift = 0, barLen = 2, barAt = null, rate = Number(store.get('rate', 1)) || 1;
+function rebuildBars(){
+  const ph = ((PHASE + barShift) % 4 + 4) % 4;
+  BARS = BEATS.filter((_, i) => i % 4 === ph);
+  $('barBox').hidden = BARS.length < 2 || OFFLINE;
+}
+function barOf(t){ let i = 0; while(i + 1 < BARS.length && BARS[i + 1] <= t + 0.05) i++; return i; }
+function playBars(i, n){
+  if(BARS.length < 2) return;
+  i = Math.max(0, Math.min(i, BARS.length - 2)); const j = Math.min(i + n, BARS.length - 1);
+  barAt = i; playSeg({id: -1, s: BARS[i], e: BARS[j]}, {loop: true, exact: true}); paintBars();
+}
+function paintBars(){
+  if(!$('barInfo')) return;
+  const head = BPM ? Math.round(BPM) + ' BPM · 4/4 · ' + Math.max(0, BARS.length - 1) + '小節' : '—';
+  const cur = barAt != null ? '　▶ ' + (barAt + 1) + '–' + Math.min(barAt + barLen, BARS.length - 1) + '小節 (' + fmt(BARS[barAt]) + '–' + fmt(BARS[Math.min(barAt + barLen, BARS.length - 1)]) + ')' : '';
+  $('barInfo').textContent = head + cur;
+  $('barStop').disabled = barAt == null;
+}
+const nowBar = () => barAt != null ? barAt : barOf(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
+segWire('barLen', v => { barLen = Number(v); if(barAt != null) playBars(barAt, barLen); else paintBars(); });
+segWire('rate', v => { rate = Number(v); store.set('rate', rate); if(player && ready) player.setPlaybackRate(rate); });
+$('barLine').onclick = () => { const d = deck[index]; if(!d || BARS.length < 2) return; const i = barOf(d.s + 0.2), j = barOf(Math.max(d.s + 0.2, d.e - 0.2)); barLen = Math.max(1, j - i + 1); pickSeg2($('barLen'), String(barLen)); playBars(i, barLen); };
+$('barPrev').onclick = () => playBars(nowBar() - barLen, barLen);
+$('barNext').onclick = () => playBars(nowBar() + barLen, barLen);
+$('barStop').onclick = () => { barAt = null; if(loopSeg) $('loop').click(); paintBars(); };
+$('barShiftM').onclick = () => { barShift--; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
+$('barShiftP').onclick = () => { barShift++; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
+pickSeg2($('rate'), String(rate));
 
 /* ---------- 起動 / 기동 ---------- */
 $('optShuffle').checked = store.get('shuffle', false);

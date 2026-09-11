@@ -12,6 +12,24 @@ YouTube 공식 MV 「fromis_9 (프로미스나인) 'Vitamin ME' MV」(fromis_9 �
 
 대본 탭 각 줄의 ↻ 로 **한 줄만 반복**해 따라 부를 수 있고, 반복 중 다음을 누르면 다음 줄로 반복이 옮겨 갑니다.
 
+### 마디 반복 (DJ 식 루프)
+
+카드 뷰의 「小節リピート · 마디 반복」 상자에서 노래를 **마디 단위**로 되풀이합니다.
+
+- **BPM 117 · 4/4 · 103마디** — `src/beats.py` 가 MV 음성에서 박(418개)을 찾고 4박마다 마디 시작점을 잡아 `src/beats.json` 에 저장. 앱은 이 그리드로 여유 없이 경계 딱 맞춰 반복
+- **1 · 2 · 4 · 8마디** 길이 선택, ◀ ▶ 로 마디 단위 이동, 「이 줄의 마디」는 지금 카드의 가사 줄을 덮는 마디 구간을 자동으로 잡아 반복
+- **속도 0.5× · 0.75× · 1×** — YouTube 플레이어의 재생 속도. 어려운 줄은 느리게 따라 부르기
+- **마디 시작 ±1박** — 박 추정은 정확하지만 어느 박이 마디의 첫 박인지는 확률적으로 고른 것이라, 귀로 들어 어긋나면 한 박씩 밀어 맞춤(곡별로 저장)
+
+음성 파일은 분석에만 쓰고 리포에 넣지 않습니다. 다시 구하려면:
+
+```bash
+../.venv/bin/yt-dlp -x --audio-format wav -o /tmp/song.wav -- https://www.youtube.com/watch?v=sLk8zWUuYTA
+../.venv/bin/pip install librosa soundfile      # 최초 1회
+../.venv/bin/python src/beats.py /tmp/song.wav  # → src/beats.json
+python3 src/build.py
+```
+
 ---
 
 ## 실행
@@ -36,6 +54,7 @@ vitaminme-cards/
    ├─ subtitles.en.srt             영어 자막 (참고용, 26행부터 한 줄 어긋나 있어 미사용)
    ├─ rd.txt                       가나 읽기·문법 메모 `id|読み|注記` (한글 33줄)
    ├─ study.txt                    학습 표현·단어 40건 `종류|한국어|일본어|메모`
+   ├─ beats.py / beats.json        음성에서 구한 BPM·박·마디 시작점 (마디 반복용)
    ├─ build.py                     최종 HTML 생성 (자막 행 대응·읽기 누락을 assert 로 검사)
    └─ tpl.html                     화면 템플릿 (korean-cards 템플릿 + 읽기 줄·영어 줄 옵션)
 ```

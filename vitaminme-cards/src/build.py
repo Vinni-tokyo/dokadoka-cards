@@ -125,6 +125,10 @@ series = {
  'scenes': [{'key': k, 'label': j, 'ko': kk, 'itv': False, 'at': at} for k, at, j, kk in SCENES],
  'data': data, 'study': study,
 }
+bp = os.path.join(S, 'beats.json')
+if os.path.exists(bp):
+    b = json.load(io.open(bp, encoding='utf-8'))
+    series.update({'bpm': b['bpm'], 'phase': b['phase'], 'beats': b['beats']})     # 小節リピート用の拍グリッド(beats.py 出力)
 N = len(data)
 OUT = os.path.join(ROOT, 'Korean-%s%d-Cards.html' % (NICK, N))
 tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
@@ -134,6 +138,7 @@ io.open(OUT, 'w', encoding='utf-8').write(html)
 print('生成:', OUT, '(%.1f KB)' % (os.path.getsize(OUT)/1024))
 print('カード:', N, '| ハングル行:', sum(1 for d in data if not d.get('en')), '| 英語だけの行:', sum(1 for d in data if d.get('en')),
       '| 読みあり:', sum(1 for d in data if 'rd' in d), '| 注記あり:', sum(1 for d in data if 'note' in d))
+print('拍グリッド:', ('BPM %.1f · 拍 %d · 位相 %d' % (series['bpm'], len(series['beats']), series['phase'])) if 'beats' in series else 'なし')
 print('学習:', len(study), '件 (表現', sum(1 for r in study if r['t']=='E'), '/ 単語', sum(1 for r in study if r['t']=='V'), ')',
       '· 連結', sum(1 for r in study if r['cids']), '件 / クリップ', sum(len(r['cids']) for r in study), '本')
 print('  0件:', ', '.join(r['ko'] for r in study if not r['cids']) or 'なし')
