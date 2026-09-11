@@ -753,8 +753,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        </div>
        <div class="qrow">
         <button class="btn btn-primary" id="dStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">始める<span class="sub" lang="ko">시작</span></span></button>
-        <button class="btn" id="dCont"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">続けて聞く<span class="sub" lang="ko">이어 듣기</span></span></button>
-        <button class="btn" id="dAuto"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">自動でくり返し聞く</span></button>
+        <button class="btn" id="dCont"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">聞くだけ · 採点なし<span class="sub" lang="ko">듣기만 · 채점 없음</span></span></button>
+        <button class="btn" id="dAuto" hidden><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">自動でくり返し聞く</span></button>
        </div>
        <p class="qhint" id="dHint"></p>
       </div>
@@ -783,8 +783,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        </div>
        <div class="dbtns">
         <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">答えを見る<span class="sub" lang="ko">답 보기</span></span></button>
-        <button class="btn" id="dContIn" data-cont="続けて聞く" data-back="採点に戻る"><svg class="ic fill"><use href="#i-play"/></svg>続けて聞く</button>
-        <button class="btn" id="dLoop"><svg class="ic"><use href="#i-repeat"/></svg>くり返し聞く</button>
+        <button class="btn" id="dContIn" hidden data-cont="続けて聞く" data-back="採点に戻る"><svg class="ic fill"><use href="#i-play"/></svg>続けて聞く</button>
+        <button class="btn" id="dLoop" hidden><svg class="ic"><use href="#i-repeat"/></svg>くり返し聞く</button>
         <button class="btn" id="dAgain"><svg class="ic"><use href="#i-sound"/></svg>もう一度</button>
         <button class="btn" id="dVideo" hidden><svg class="ic fill"><use href="#i-play"/></svg>動画</button>
        </div>
@@ -793,7 +793,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <button class="btn g2" id="dG2">あいまい<small>2</small></button>
         <button class="btn g3" id="dG3">わかる<small>3</small></button>
        </div>
-       <div class="dhint">Space 答え・次 / 1 わからない · 2 あいまい · 3 わかる / R もう一度 · L くり返し</div>
+       <div class="dhint">Space 答えを見る → 次 / 1 わからない · 2 あいまい · 3 わかる / R もう一度</div>
       </div>
 
       <div class="ddone" id="ddone" hidden>
@@ -1966,6 +1966,7 @@ function dReveal(){
   else { $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang'); }
   $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
   $('dGrade').hidden = false; $('dReveal').hidden = true;
+  dShowFirstEx();                                   /* 영상 속 예문을 답과 함께 */
   if($('dSpeak').checked && dMode === 'rev') aPlay(it[DR.L2], 1);
 }
 function dGrade(g){
@@ -1992,6 +1993,12 @@ $('dAgain').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1],
 $('dLoop').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1], aRep(), dRevealed && $('dWithMean').checked); };
 $('dRepeat').onchange = () => store.set('drepeat', $('dRepeat').value);
 let dExIdx = -1;
+/* 첫 등장 장면을 예문으로 보여 준다(영상은 재생하지 않음). 「영상」 버튼이 다음 등장 장면으로 넘긴다 */
+function dShowFirstEx(){
+  const ids = (dCur && dCur.it.cids) || [];
+  if(!ids.length){ $('dEx').hidden = true; return; }
+  dExIdx = 0; const c = cardOf(ids[0]); if(c) dShowEx(c, 0, ids.length);
+}
 function dShowEx(c, i, n){
   const v = (typeof edited === 'function') ? edited(c) : c;
   const key = dCur.it.hit || aKey(dCur.it[DR.L2]);
@@ -2027,7 +2034,7 @@ function dAutoStep(){
   $('dBack').hidden = false; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang');
   $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
   $('dGrade').hidden = true; $('dReveal').hidden = true; $('dVideo').hidden = true;
-  dPaintTop();
+  dPaintTop(); dShowFirstEx();
   const wait = ms => new Promise(r => { dAutoTimer = setTimeout(r, ms); });
   const play = (t, n, w) => new Promise(r => aPlay(t, n, 450, r, w));
   const withMean = $('dWithMean').checked, times = dAutoTimes;
@@ -2063,7 +2070,7 @@ $('dContIn').onclick = () => {
   b.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>' + b.dataset.back; b.setAttribute('aria-pressed', 'true');
   dAutoStep();
 };
-$('dCont').onclick = () => dAutoStart(1);
+$('dCont').onclick = () => dAutoStart(aRep());   /* 듣기만: 반복 횟수 설정을 따른다 */
 $('dWithMean').onchange = () => store.set('dwithmean', $('dWithMean').checked);
 function dKey_(e){
   if(view !== 'study' || $('drillPane').hidden || !dActive || dAutoOn) return false;
