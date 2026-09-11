@@ -877,14 +877,14 @@ const nextOf = d => DATA[DATA.indexOf(d) + 1];
 function headOf(d){
   let t = d.s + lead() + offs(d).ds;
   const p = prevOf(d);
-  if($('optGuard').checked && p && d.s - p.e < 1.0) t = Math.max(t, p.e + offs(p).de + GUARD);
+  if($('optGuard').checked && p && d.s - p.e < 1.0 && p.e < d.e - 0.5) t = Math.max(t, p.e + offs(p).de + GUARD);   /* 앞 카드와 구간이 겹치면(같은 큐를 나눈 경우) 자르지 않는다 */
   return Math.max(0, Math.min(t, d.e - 0.3));
 }
 /* 끝: 자막 끝 + 여유 + 카드 조정. 다음 카드가 바로 붙어 있으면 그 시작 전에서 멈춘다(다음 대사가 딸려 오는 것을 막는다) */
 function endOf(d){
   let t = Math.max(d.e + tail() + offs(d).de, d.s + MIN_PLAY);
   const n = nextOf(d);
-  if($('optGuard').checked && n && n.s - d.e < 1.0) t = Math.min(t, Math.max(n.s + offs(n).ds - GUARD, d.s + 0.6));
+  if($('optGuard').checked && n && n.s - d.e < 1.0 && n.s > d.s + 0.5) t = Math.min(t, Math.max(n.s + offs(n).ds - GUARD, d.s + 0.6));   /* 다음 카드가 실제로 뒤에 시작할 때만 */
   return t;
 }
 
