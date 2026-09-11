@@ -29,7 +29,7 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--ink-3);margin-t
 .sect-head h2 .native{font-size:13px;font-weight:400;color:var(--ink-3)}
 .sect-head .for{font-size:12px;color:var(--ink-2)}
 .sect-head .cnt{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--ink-3)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:20px;margin-top:18px}
 .card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;
  box-shadow:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);color:inherit;text-decoration:none;transition:transform .12s,box-shadow .12s}
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(24,28,40,.06),0 14px 32px rgba(24,28,40,.1)}
@@ -54,6 +54,7 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--ink-3);margin-t
 .empty{margin-top:18px;padding:22px;border:1px dashed var(--line-2);border-radius:14px;color:var(--ink-3);font-size:12.5px;text-align:center}
 .foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink-3);font-size:11.5px;line-height:1.8}
 .foot code{background:#e9ecf2;border-radius:4px;padding:1px 6px;font-size:11px}
+@media(max-width:600px){.wrap{padding:24px 14px 48px}h1{font-size:22px}.sect-head .cnt{margin-left:0;width:100%}.langnav a{flex:1 1 auto;justify-content:center;white-space:nowrap}}
 </style></head>
 <body>
 <div class="wrap">

@@ -75,6 +75,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
 .topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
 .topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.scene-sel{display:none;width:100%;margin-top:10px;padding:10px 12px;font-size:14px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--ink)}
 .tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
 .tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
  font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
@@ -164,7 +165,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
 /* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
 .stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
-@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+@media(max-width:1280px){.stage.wide{grid-template-columns:minmax(0,1fr)}}
 
 /* ============ study ============ */
 /* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
@@ -339,17 +340,42 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
 .foot a:hover{border-bottom-color:var(--brand)}
 
-@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
-@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+@media(max-width:1280px){.stage{grid-template-columns:minmax(0,1fr)}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:minmax(0,1fr)}.scene-sel{display:block}
  .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
  .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
  .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
  .line{grid-template-columns:44px minmax(0,1fr) 34px}.line .who{grid-column:2}.line>div:nth-child(3){grid-column:2}.line .lrep{grid-column:3;grid-row:1/3;align-self:center}}
 /* 좁은 화면: 여백·탭·버튼을 손가락 크기에 맞춘다. 키보드 안내는 터치 기기에서 숨긴다 */
-@media(max-width:600px){.player-box{position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:6px;margin:0 -12px;padding-left:12px;padding-right:12px}.status{font-size:11.5px}
- .main{padding:14px 12px 28px}.topbar{gap:10px;margin-bottom:14px}.tabs{margin-left:0;width:100%}.tab{flex:1;justify-content:center}
- .card{padding:16px 14px 18px}.en{font-size:20px;margin-top:14px}.playrow .btn{flex:1 1 45%}.nav .btn{flex:1}
- .script{max-height:none}.line{padding:10px 10px;gap:8px}.line .k{font-size:15px}.line .j{font-size:12.5px}}
+@media(max-width:600px){
+ /* 플레이어: 카드·대본 뷰에서는 상단 고정, 학습 뷰(nosides)에서는 흐름대로 */
+ .player-box{position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:6px;margin:0 -12px;padding-left:12px;padding-right:12px}
+ .wrap.nosides .player-box{position:static;margin:0;padding:0}
+ .status{font-size:11.5px}.vidrow{margin-top:10px}
+ /* 상단·탭 */
+ .main{padding:14px 12px 28px}.topbar{gap:10px;margin-bottom:14px}.topbar h1{font-size:18px}.tabs{margin-left:0;width:100%}.tab{flex:1;justify-content:center;padding:6px 8px}
+ /* 카드 */
+ .card{padding:16px 14px 18px}.card-top{flex-wrap:wrap}.en{font-size:20px;margin-top:14px}.playrow .btn{flex:1 1 45%}.nav .btn{flex:1}
+ .answer{padding:14px 14px}.edit{padding:12px}
+ /* 대본 */
+ .script{max-height:none}.line{padding:10px 10px;gap:8px}.line .k{font-size:15px}.line .j{font-size:12.5px}
+ /* 학습: 하위 탭은 두 줄로, 페이스·Day 띠·버튼은 가로 폭 가득 */
+ .study{max-height:none;border-radius:12px}
+ .subtabs{flex-wrap:wrap;gap:4px;padding:8px}.subtabs .tab{flex:1 1 30%;justify-content:center;padding:7px 6px;gap:5px}
+ .dayctl{padding:10px 12px;gap:8px}.dayctl .seg{width:100%}.dayctl .seg button{flex:1;padding:9px 4px}
+ .dayctl .meta{width:100%;margin:0}.daystrip{margin-left:0;width:100%}.dbtn{flex:1 1 0;min-width:0;padding:8px 0}
+ .dayhead{flex-wrap:wrap;padding:12px 12px 8px;gap:10px}.dayhead h3{font-size:16px}
+ .flow{padding:8px 12px}.flowacts{margin-left:0;width:100%}.flowacts .btn{flex:1}
+ .daycol{padding:10px 12px}.dcList{max-height:none;overflow:visible}.dcRow{flex-wrap:wrap;padding:8px 6px}
+ .slist{max-height:none;overflow:visible}
+ .searchrow{padding:10px 12px}.srow{padding:12px 12px;gap:10px}.srow .k{font-size:15px}.ex{padding:8px 10px}
+ .qsetup{padding:16px 12px;gap:12px}.qrow{flex-direction:column;align-items:stretch;gap:6px}.qrow .cap{min-width:0}
+ .seg{flex-wrap:wrap}.seg button{flex:1 1 auto;padding:10px 10px}
+ .qplay,.qdone{padding:16px 12px}.qtop{gap:8px;margin-bottom:14px}.qask{font-size:19px;min-height:0;margin-bottom:12px}.qc{padding:12px 12px;font-size:14px}
+ .guide{padding:16px 12px}.gintro h3{font-size:19px}
+ /* 사이드바(맨 아래): 탭 크기 */
+ .side{padding:16px 12px 28px}.scenes button{padding:9px 10px;font-size:13px}
+}
 @media(hover:none){.keys{display:none}}
 </style>
 </head>
@@ -383,6 +409,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div>
     <p class="eyebrow">Scene</p>
     <h1 id="sceneTitle">전체<span class="inl" lang="en">All</span></h1>
+    <select id="sceneSel" class="scene-sel" aria-label="장면·화자 선택 / Scene or speaker"></select>
    </div>
    <div class="tabs">
     <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
@@ -766,6 +793,7 @@ function matches(d){
 /* ---------- sidebar ---------- */
 function buildScenes(){
   const box = $('scenes'); box.textContent = '';
+  const sel = $('sceneSel'); sel.textContent = '';
   const head = (ko, en) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="en">' + en + '</span>'; box.appendChild(h); };
   const mk = (key, ko, en, n, cls) => {
     const b = document.createElement('button');
@@ -773,6 +801,7 @@ function buildScenes(){
     b.innerHTML = '<span>' + bi(ko, en) + '</span><span class="badge">' + n + '</span>';
     b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
     box.appendChild(b);
+    sel.appendChild(new Option(ko + ' · ' + n, key));          /* 모바일용 셀렉트에도 같은 항목 */
   };
   const P = pool();
   mk('all', '전체', 'All', P.length);
@@ -789,6 +818,7 @@ function buildScenes(){
 function paintScenes(){
   if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
   [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  if([...$('sceneSel').options].some(o => o.value === filt)) $('sceneSel').value = filt;
   let ko = '전체', en = 'All';
   if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; en = 'Day ' + dayCur + ' lines'; }
   if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; en = s.en; } }
@@ -1021,6 +1051,7 @@ $('edFile').onchange = e => {
   r.readAsText(f);
 };
 
+$('sceneSel').onchange = e => { filt = e.target.value; store.set('filt', filt); buildDeck(); };
 $('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
 $('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
 $('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
