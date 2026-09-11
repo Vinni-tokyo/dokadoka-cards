@@ -594,6 +594,23 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="cap">日本語の意味 · 일본어 뜻</div>
        <textarea id="edJa" spellcheck="false"></textarea>
       </div>
+      <div>
+       <div class="cap">再生区間の調整 · 재생 구간 조정 <span style="font-weight:400;letter-spacing:0;text-transform:none">— このカードだけ。保存なしですぐ反映</span></div>
+       <div class="row" style="align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">開始</span>
+        <button class="btn btn-sm" id="adjS-">−0.3</button><button class="btn btn-sm" id="adjS+">+0.3</button>
+        <button class="btn btn-sm" id="adjSNow" title="プレーヤーの現在位置をこのカードの開始にする / 지금 위치를 시작으로">今の位置に</button>
+        <span class="meta" id="adjSVal" style="min-width:52px">+0.0秒</span>
+       </div>
+       <div class="row" style="align-items:center;gap:6px;margin-top:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">終わり</span>
+        <button class="btn btn-sm" id="adjE-">−0.3</button><button class="btn btn-sm" id="adjE+">+0.3</button>
+        <button class="btn btn-sm" id="adjENow" title="プレーヤーの現在位置をこのカードの終わりにする / 지금 위치를 끝으로">今の位置に</button>
+        <span class="meta" id="adjEVal" style="min-width:52px">+0.0秒</span>
+        <button class="btn btn-sm" id="adjReset" style="margin-left:auto">調整をリセット</button>
+        <button class="btn btn-sm" id="adjPlay"><svg class="ic fill"><use href="#i-play"/></svg>聞いてみる</button>
+       </div>
+      </div>
       <div class="row">
        <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>保存 · 저장</button>
        <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>キャンセル · 취소</button>
@@ -624,10 +641,17 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <label><input type="checkbox" id="optShow"><span>意味を最初から表示<br><span class="inl" lang="ko">뜻 처음부터 표시</span></span></label>
       <label><input type="checkbox" id="optShuffle"><span>順番をシャッフル<br><span class="inl" lang="ko">순서 섞기</span></span></label>
       <label><input type="checkbox" id="optRaw"><span>字幕の原文で表示<br><span class="inl" lang="ko">자막 원문으로 표시</span></span></label>
-      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">再生の余裕 <span class="inl" lang="ko" style="color:var(--ink-3);font-size:11.5px">재생 여유</span></span>
+      <label><input type="checkbox" id="optGuard"><span>隣のカードに食い込まない<br><span class="inl" lang="ko">옆 카드 침범 금지</span></span></label>
+      <div class="wide" style="flex-wrap:wrap">
+       <span style="font-size:12.5px;color:var(--ink-2)">余裕 <span class="inl" lang="ko" style="color:var(--ink-3);font-size:11.5px">재생 여유</span></span>
        <select id="optTail">
-        <option value="0.3">0.3秒 · 0.3초</option><option value="0.5">0.5秒 · 0.5초</option>
+        <option value="0">0秒 · 0초</option><option value="0.3">0.3秒 · 0.3초</option><option value="0.5">0.5秒 · 0.5초</option>
         <option value="0.8">0.8秒 · 0.8초</option><option value="1">1秒 · 1초</option>
+       </select>
+       <span style="font-size:12.5px;color:var(--ink-2);margin-left:6px">開始位置 <span class="inl" lang="ko" style="color:var(--ink-3);font-size:11.5px">시작 보정</span></span>
+       <select id="optLead">
+        <option value="-0.3">−0.3秒</option><option value="-0.15">−0.15秒</option><option value="0">0</option>
+        <option value="0.15">+0.15秒</option><option value="0.3">+0.3秒</option><option value="0.5">+0.5秒</option>
        </select></div>
      </div>
 
@@ -889,13 +913,29 @@ let view = 'card';
 /* file:// では YouTube が埋め込み再生を拒む (Error 153)。その場合は YouTube 本体を該当秒から開く */
 const OFFLINE = location.protocol === 'file:';
 const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
-const MIN_PLAY = 1.5;                                   /* 短すぎる字幕でも最低これだけ再生する(秒) */
-const PAD = 0.2;                                        /* 頭とお尻に常に足す余裕(秒) */
-const headOf = d => Math.max(0, d.s - PAD);             /* 少し手前から鳴らす */
+const MIN_PLAY = 1.2;                                   /* 短すぎる字幕でも最低これだけ再生する(秒) */
+const GUARD = 0.05;                                     /* 隣のカードとの間に置く最小の間隔(秒) */
 const tail = () => Number($('optTail').value) || 0;     /* 発話の終わりから何秒多く再生するか */
+const lead = () => Number($('optLead').value) || 0;     /* 開始位置の補正(秒)。負なら少し手前から */
+const offs = d => { const e = edits[d.id] || {}; return {ds: Number(e.ds) || 0, de: Number(e.de) || 0}; };   /* カード別の微調整 */
+const prevOf = d => DATA[DATA.indexOf(d) - 1];
+const nextOf = d => DATA[DATA.indexOf(d) + 1];
 /* d.pe = 字幕末尾の無音を除いた「発話の終わり」。無い場合は字幕の終了時刻をそのまま使う */
 const spoken = d => (d.pe != null ? d.pe : d.e);
-const endOf  = d => Math.max(spoken(d) + tail() + PAD, d.s + MIN_PLAY);
+/* 開始: 字幕開始 + 補正 + カード調整。前のカードが密着していればその終わりより手前には戻らない(前の台詞の尻尾が混ざるのを防ぐ) */
+function headOf(d){
+  let t = d.s + lead() + offs(d).ds;
+  const p = prevOf(d);
+  if($('optGuard').checked && p && d.s - p.e < 1.0 && p.e < d.e - 0.5) t = Math.max(t, spoken(p) + offs(p).de + GUARD);
+  return Math.max(0, Math.min(t, d.e - 0.3));
+}
+/* 終わり: 発話の終わり + 余裕 + カード調整。次のカードが密着していればその開始の手前で止める(次の台詞の頭が付いてくるのを防ぐ) */
+function endOf(d){
+  let t = Math.max(spoken(d) + tail() + offs(d).de, d.s + MIN_PLAY);
+  const n = nextOf(d);
+  if($('optGuard').checked && n && n.s - d.e < 1.0 && n.s > d.s + 0.5) t = Math.min(t, Math.max(n.s + offs(n).ds - GUARD, d.s + 0.6));
+  return t;
+}
 
 function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
 function parseId(v){
@@ -1078,8 +1118,9 @@ function playSeg(d, opts){
   const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
   const cut = d.pe != null ? '・無音-' + (d.e - d.pe).toFixed(1) + '秒' : '';
   const cutKo = d.pe != null ? '·무음-' + (d.e - d.pe).toFixed(1) + '초' : '';
-  const detail = '（発話 ' + (spoken(d) - d.s).toFixed(1) + '秒 + 余裕 ' + (stopAt - spoken(d)).toFixed(1) + '秒' + cut + '）';
-  const detailKo = '(발화 ' + (spoken(d) - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - spoken(d)).toFixed(1) + '초' + cutKo + ')';
+  const o = offs(d), adj = (o.ds || o.de) ? '・調整 ' + (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '/' + (o.de >= 0 ? '+' : '') + o.de.toFixed(1) : '';
+  const detail = '（' + (stopAt - headOf(d)).toFixed(1) + '秒' + cut + adj + '）';
+  const detailKo = '(' + (stopAt - headOf(d)).toFixed(1) + '초' + cutKo + ')';
   $('playStatus').innerHTML = bi((opts.loop ? 'リピート再生中 ' : '再生中 ') + range + detail,
                                  (opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo);
 }
@@ -1126,6 +1167,7 @@ function openEdit(){
   const d = deck[index]; if(!d) return;
   const v = edited(d);
   $('edKo').value = v.ko; $('edJa').value = v.ja;
+  paintAdj();
   $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
   $('edKo').focus();
 }
@@ -1138,11 +1180,38 @@ $('edSave').onclick = () => {
   const e = {};
   if(ko !== d.ko) e.ko = ko;
   if(ja !== d.ja) e.ja = ja;
+  const o = offs(d); if(o.ds) e.ds = o.ds; if(o.de) e.de = o.de;      /* 区間の調整はそのまま残す */
   if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 原本と同じなら記録しない */
   store.set(pk('edits'), edits);
   paintEditCount(); closeEdit(); showCard(); buildScript();
   $('playStatus').innerHTML = bi('保存しました。', '저장했습니다.');
 };
+/* ---------- カード別の再生区間調整 / 카드별 재생 구간 조정 ---------- */
+function paintAdj(){
+  const d = deck[index]; if(!d) return;
+  const o = offs(d);
+  $('adjSVal').textContent = (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '秒';
+  $('adjEVal').textContent = (o.de >= 0 ? '+' : '') + o.de.toFixed(1) + '秒';
+}
+function setAdj(key, val){
+  const d = deck[index]; if(!d) return;
+  const e = Object.assign({}, edits[d.id] || {});
+  val = Math.round(val * 10) / 10;
+  if(val) e[key] = val; else delete e[key];
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];
+  store.set(pk('edits'), edits); paintEditCount(); paintAdj();
+  $('editedTag').hidden = !edits[d.id];
+  if(stopAt !== null) stopAt = endOf(d);
+}
+const nowT = () => (!OFFLINE && ready && player && typeof player.getCurrentTime === 'function') ? player.getCurrentTime() : null;
+$('adjS-').onclick = () => setAdj('ds', offs(deck[index]).ds - 0.3);
+$('adjS+').onclick = () => setAdj('ds', offs(deck[index]).ds + 0.3);
+$('adjE-').onclick = () => setAdj('de', offs(deck[index]).de - 0.3);
+$('adjE+').onclick = () => setAdj('de', offs(deck[index]).de + 0.3);
+$('adjSNow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('ds', t - d.s - lead()); };
+$('adjENow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('de', t - spoken(d) - tail()); };
+$('adjReset').onclick = () => { const d = deck[index]; if(!d) return; setAdj('ds', 0); setAdj('de', 0); };
+$('adjPlay').onclick = () => { const d = deck[index]; if(d) playSeg(d); };
 $('edReset').onclick = () => {
   const d = deck[index]; if(!d) return;
   delete edits[d.id]; store.set(pk('edits'), edits);
@@ -1170,7 +1239,7 @@ $('edFile').onchange = e => {
       let n = 0;
       for(const k of Object.keys(got)){
         const row = got[k];
-        if(row && typeof row === 'object' && (typeof row.ko === 'string' || typeof row.ja === 'string')){ edits[k] = row; n++; }
+        if(row && typeof row === 'object' && (typeof row.ko === 'string' || typeof row.ja === 'string' || typeof row.ds === 'number' || typeof row.de === 'number')){ edits[k] = row; n++; }
       }
       store.set(pk('edits'), edits);
       paintEditCount(); showCard(); buildScript();
@@ -1189,6 +1258,8 @@ $('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
 $('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
 $('optRaw').onchange = () => { store.set('raw', $('optRaw').checked); showCard(); buildScript(); };
 $('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+$('optLead').onchange = () => store.set('lead', $('optLead').value);
+$('optGuard').onchange = () => { store.set('guard', $('optGuard').checked); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
 
 $('tabCard').onclick = () => switchView('card');
 $('tabScript').onclick = () => switchView('script');
@@ -1694,8 +1765,10 @@ $('optShuffle').checked = store.get('shuffle', false);
 $('optAuto').checked = store.get('auto', false);
 $('optShow').checked = store.get('show', false);
 $('optRaw').checked = store.get('raw', false);
-$('optTail').value = store.get('tail', '1');
-if(!$('optTail').value){ $('optTail').value = '1'; store.set('tail', '1'); }  /* 上限を下げる前の保存値を捨てる */
+$('optTail').value = store.get('tail', '0.5');
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }  /* 一覧にない保存値を捨てる */
+$('optLead').value = store.get('lead', '0'); if(!$('optLead').value) $('optLead').value = '0';
+$('optGuard').checked = store.get('guard', true);
 pickSeg2($('qPace'), String(dayPace));
 $('fileNotice').hidden = !OFFLINE;
 if(OFFLINE){
