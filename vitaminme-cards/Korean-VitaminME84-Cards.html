@@ -172,6 +172,28 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .bars-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
 .bars .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .bars .seg button{padding:6px 10px;font-size:12px}
+/* ===== カラオケ / 노래방 ===== */
+.kara{background:#14171f;color:#fff;border-radius:var(--r-l);padding:22px 26px 18px;box-shadow:var(--sh-2);min-height:380px;display:flex;flex-direction:column;gap:10px}
+.kara-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.kara-top .btn{background:#232838;border-color:#2f364a;color:#e9ecf5}.kara-top .btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.kara-top .meta{margin-left:auto;color:#8b93a8}
+.kara-opt{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c6ccdc;cursor:pointer}
+.kara-opt input{accent-color:var(--brand)}
+.kara-prev,.kara-next,.kara-next2{font-size:clamp(15px,1.6vw,19px);line-height:1.5;color:#6f778c;min-height:1.5em;cursor:pointer;word-break:keep-all}
+.kara-prev{color:#4d5468;text-align:left}.kara-next2{color:#4d5468}
+.kara-now{padding:10px 0 6px;display:flex;flex-direction:column;gap:6px;min-height:150px;justify-content:center}
+.kara-line{font-size:clamp(26px,3.4vw,44px);font-weight:800;line-height:1.35;letter-spacing:-.01em;word-break:keep-all;
+ color:#b8bfd2;background-image:linear-gradient(90deg,#ffd166 0,#ffd166 var(--p,0%),#b8bfd2 var(--p,0%),#b8bfd2 100%);
+ -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transition:none}
+.kara-line.done{--p:100%}
+.kara-rd{font-size:clamp(15px,1.7vw,20px);color:#ffe9a8;letter-spacing:.02em}
+.kara-ja{font-size:clamp(13px,1.4vw,16px);color:#9aa3b8}
+.kara-wait{display:flex;gap:8px;align-items:center;font-size:13px;color:#ffd166;letter-spacing:.2em}
+.kara-wait i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ffd166;opacity:.25}
+.kara-wait i.on{opacity:1}
+.kara-bar{height:4px;border-radius:4px;background:#2a3040;overflow:hidden;margin-top:auto}
+.kara-bar span{display:block;height:100%;width:0;background:#ffd166}
+@media(max-width:600px){.kara{padding:16px 14px 14px;min-height:0}.kara-now{min-height:120px}}
 .barlyrics{display:flex;flex-direction:column;gap:2px;margin-top:8px}
 .barlyrics:empty{display:none}
 .barlyrics button{display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;align-items:start;text-align:left;padding:7px 9px;border-radius:7px;font-size:14px;line-height:1.45;background:var(--surface);border:1px solid var(--line)}
@@ -526,6 +548,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      <span class="lbl">台本<span class="sub" lang="ko">대본</span></span></button>
     <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
      <span class="lbl">学習<span class="sub" lang="ko">학습</span></span></button>
+    <button class="tab" id="tabKara" aria-pressed="false"><svg class="ic"><use href="#i-sound"/></svg>
+     <span class="lbl">カラオケ<span class="sub" lang="ko">노래방</span></span></button>
    </div>
   </div>
 
@@ -818,6 +842,31 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       </div>
      </div>
     </div>
+   </div>
+
+   <div id="karaView" hidden>
+    <div class="kara">
+     <div class="kara-top">
+      <button class="btn btn-primary btn-sm" id="karaStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">最初から<span class="sub" lang="ko">처음부터</span></span></button>
+      <button class="btn btn-sm" id="karaHere"><span class="lbl">この行から<span class="sub" lang="ko">이 줄부터</span></span></button>
+      <button class="btn btn-sm" id="karaPause"><span class="lbl">一時停止<span class="sub" lang="ko">일시정지</span></span></button>
+      <label class="kara-opt"><input type="checkbox" id="karaRd" checked> 読み · 읽기</label>
+      <label class="kara-opt"><input type="checkbox" id="karaJa" checked> 意味 · 뜻</label>
+      <span class="meta" id="karaPos">—</span>
+     </div>
+     <div class="kara-prev" id="karaPrev"></div>
+     <div class="kara-now">
+      <div class="kara-wait" id="karaWait" hidden></div>
+      <div class="kara-line" id="karaLine" lang="ko">♪</div>
+      <div class="kara-rd" id="karaRdLine"></div>
+      <div class="kara-ja" id="karaJaLine"></div>
+    </div>
+     <div class="kara-next" id="karaNext"></div>
+     <div class="kara-next2" id="karaNext2"></div>
+     <div class="kara-bar"><span id="karaBar"></span></div>
+    </div>
+    <div class="status">歌詞は字幕の開始・終了時刻に合わせて左から塗られます（音節ごとの同期ではなく行ごとの等速）。行をタップすると、その行から再生。
+     <span class="sub" lang="ko">가사는 자막의 시작·끝 시각에 맞춰 왼쪽부터 채워집니다(음절 단위가 아닌 줄 단위 등속). 줄을 누르면 그 줄부터 재생.</span></div>
    </div>
 
    <div id="scriptView" hidden>
@@ -1213,13 +1262,17 @@ function switchView(v){
   $('cardView').hidden = v !== 'card';
   $('scriptView').hidden = v !== 'script';
   $('studyView').hidden = v !== 'study';
+  $('karaView').hidden = v !== 'kara';
   document.querySelector('.stage').classList.toggle('wide', v === 'study');
   document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
   $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
   $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
   $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  $('tabKara').setAttribute('aria-pressed', String(v === 'kara'));
   if(v === 'script' && deck[index]) highlight(deck[index].id);
+  if(v === 'kara') karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
 }
+$('tabKara').onclick = () => switchView('kara');
 $('tabStudy').onclick = () => switchView('study');
 
 /* ====================== 学習タブ / 학습 탭 ====================== */
@@ -1733,6 +1786,66 @@ $('barStop').onclick = () => { barAt = null; if(loopSeg) $('loop').click(); pain
 $('barShiftM').onclick = () => { barShift--; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
 $('barShiftP').onclick = () => { barShift++; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
 pickSeg2($('rate'), String(rate));
+
+
+/* ====================== カラオケ / 노래방 ======================
+   字幕の行の開始・終了時刻を使って、今歌っている行を大きく出し、左から等速で塗る。
+   同期は行単位(音節ごとのタイミングは字幕に無い)。前後の行も薄く出す。 */
+function karaLines(){ return DATA; }                                   /* 英語行も歌うので全行 */
+function karaAt(t){
+  const L = karaLines();
+  let cur = -1;
+  for(let i = 0; i < L.length; i++){ if(t >= L[i].s) cur = i; else break; }
+  return cur;
+}
+let karaLast = -2;
+function karaSet(el, d, withRd){
+  if(!d){ el.textContent = ''; return; }
+  const v = edited(d);
+  el.textContent = v.ko + ((withRd && $('karaRd').checked && v.rd) ? '　' + v.rd : '');
+  el.onclick = () => { if(player && ready){ player.seekTo(d.s, true); player.playVideo(); stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); } };
+}
+function karaPaint(t){
+  const L = karaLines(); if(!L.length) return;
+  const i = karaAt(t);
+  const cur = i >= 0 ? L[i] : null, nxt = L[i + 1], nxt2 = L[i + 2], prv = i > 0 ? L[i - 1] : null;
+  if(i !== karaLast){
+    karaLast = i;
+    karaSet($('karaPrev'), prv, false);
+    if(cur){
+      const v = edited(cur);
+      $('karaLine').textContent = v.ko;
+      $('karaRdLine').textContent = ($('karaRd').checked && v.rd) ? v.rd : '';
+      $('karaJaLine').textContent = ($('karaJa').checked && v.ja !== v.ko) ? v.ja : '';
+    } else { $('karaLine').textContent = '♪'; $('karaRdLine').textContent = ''; $('karaJaLine').textContent = ''; }
+    karaSet($('karaNext'), nxt, true); karaSet($('karaNext2'), nxt2, false);
+    $('karaPos').textContent = cur ? (i + 1) + ' / ' + L.length + ' · ' + fmt(cur.s) : fmt(t);
+    /* カード側も今の行に合わせる(ループ中は除く) */
+    if(cur && stopAt === null){ const k = deck.findIndex(x => x.id === cur.id); if(k >= 0 && k !== index){ index = k; showCard(); } }
+  }
+  let p = 0;
+  if(cur){
+    const end = Math.max(cur.e, cur.s + 0.5);
+    p = t >= end ? 1 : Math.max(0, (t - cur.s) / (end - cur.s));
+  }
+  $('karaLine').style.setProperty('--p', (p * 100).toFixed(1) + '%');
+  $('karaBar').style.width = (L.length ? ((i + p) / L.length * 100) : 0) + '%';
+  /* 次の行まで間があるときはカウントダウンの点 */
+  const gapTo = cur && t > cur.e && nxt ? nxt.s - t : (!cur && nxt ? nxt.s - t : 0);
+  const w = $('karaWait');
+  if(gapTo > 0.8){
+    w.hidden = false; const n = Math.min(4, Math.ceil(gapTo)); w.textContent = '';
+    for(let k = 0; k < 4; k++){ const dot = document.createElement('i'); if(k < n) dot.className = 'on'; w.appendChild(dot); }
+  } else w.hidden = true;
+}
+(function karaLoop(){
+  if(view === 'kara' && !OFFLINE && ready && player && typeof player.getCurrentTime === 'function') karaPaint(player.getCurrentTime());
+  requestAnimationFrame(karaLoop);
+})();
+$('karaStart').onclick = () => { if(!(player && ready)) return; stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); player.seekTo(0, true); player.playVideo(); };
+$('karaHere').onclick  = () => { const d = deck[index]; if(!(d && player && ready)) return; stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); player.seekTo(Math.max(0, d.s - 0.3), true); player.playVideo(); };
+$('karaPause').onclick = () => { if(player && ready){ const st = player.getPlayerState(); if(st === 1) player.pauseVideo(); else player.playVideo(); } };
+$('karaRd').onchange = $('karaJa').onchange = () => { karaLast = -2; karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0); };
 
 /* ---------- 起動 / 기동 ---------- */
 $('optShuffle').checked = store.get('shuffle', false);
