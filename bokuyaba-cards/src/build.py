@@ -172,6 +172,15 @@ html = (tpl
     .replace('/*__SPEAKERS__*/', json.dumps([{'key': k, 'ja': ja_, 'ko': ko_, 'member': bool(m)} for k, ja_, ko_, m in SPEAKERS], ensure_ascii=False))
     .replace('/*__STUDY__*/',    json.dumps(STUDY, ensure_ascii=False, separators=(',', ':')))
     .replace('/*__VID__*/',      VID))
+# 학습 음원(src/audio/*.mp3, tools/make_study_audio.py 가 생성)을 data URI 로 심는다. 없으면 빈 객체 → 앱은 브라우저 TTS 로 폴백
+_adir = os.path.join(S, 'audio'); _amap = {}
+if os.path.exists(os.path.join(_adir, 'index.json')):
+    import base64
+    for _k, _fn in json.load(open(os.path.join(_adir, 'index.json'), encoding='utf-8')).items():
+        _fp = os.path.join(_adir, _fn)
+        if os.path.exists(_fp): _amap[_k] = 'data:audio/mpeg;base64,' + base64.b64encode(open(_fp, 'rb').read()).decode()
+html = html.replace('/*__AUDIO__*/', json.dumps(_amap, ensure_ascii=False))
+print('학습 음원:', len(_amap), '건 심음')
 open(OUT, 'w', encoding='utf-8').write(html)
 
 print('생성:', OUT)

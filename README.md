@@ -41,6 +41,18 @@ dokadoka-cards/
 3. 파일명 · 포트 · LocalStorage 키(`LS`) · 내보내기 파일명 4곳을 바꿉니다(안 바꾸면 앱 간 진도가 섞입니다).
 4. `index.html` 의 `APPS` 에 한 줄(`learn: 'ja'|'ko'|'en'`)을 더하면 관문에 실립니다.
 
+## 학습 음원 (표현·단어)
+
+각 앱의 표현·단어에는 로컬 mp3 음원이 심겨 있습니다. 항목을 고치거나 새 앱을 만들면 다시 생성합니다(인터넷 필요, 증분).
+
+```bash
+.venv/bin/pip install edge-tts                       # 최초 1회
+.venv/bin/python tools/make_study_audio.py yubisaki-cards   # 또는 --all
+python3 yubisaki-cards/src/build.py                  # 생성한 음원을 HTML 에 심는다
+```
+
+음성은 `tools/make_study_audio.py` 의 `FAMILY` 표에서 앱별로 정합니다(일본어 Nanami, 영어 Ava/Andrew, 한국어 SunHi). 노래 앱 2편은 대상이 아닙니다.
+
 ## 재빌드
 
 ```bash
