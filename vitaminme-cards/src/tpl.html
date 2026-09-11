@@ -172,6 +172,15 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .bars-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
 .bars .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .bars .seg button{padding:6px 10px;font-size:12px}
+.barlyrics{display:flex;flex-direction:column;gap:2px;margin-top:8px}
+.barlyrics:empty{display:none}
+.barlyrics button{display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;align-items:start;text-align:left;padding:7px 9px;border-radius:7px;font-size:14px;line-height:1.45;background:var(--surface);border:1px solid var(--line)}
+.barlyrics button[aria-current=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.barlyrics button[aria-current=true] .t,.barlyrics button[aria-current=true] .r,.barlyrics button[aria-current=true] .j{color:rgba(255,255,255,.8)}
+.barlyrics .t{font-size:10.5px;font-weight:700;color:var(--ink-3);padding-top:3px}
+.barlyrics .k{font-weight:600}
+.barlyrics .r{font-size:11.5px;color:var(--ink-3);margin-left:6px}
+.barlyrics .j{display:block;font-size:11.5px;color:var(--ink-3)}
 .reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);
  color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
 .reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
@@ -589,6 +598,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <span class="cap" style="margin-left:6px">小節の頭 · 마디 시작</span>
        <button class="btn btn-sm" id="barShiftM" title="小節の頭を1拍前へ / 마디 시작을 한 박 앞으로">−1拍</button><button class="btn btn-sm" id="barShiftP" title="小節の頭を1拍後ろへ / 마디 시작을 한 박 뒤로">+1拍</button>
       </div>
+      <div class="barlyrics" id="barLyrics"></div>
      </div>
 
      <div class="edit" id="editBox" hidden>
@@ -1087,6 +1097,7 @@ function playSeg(d, opts){
 setInterval(() => {
   if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
   const t = player.getCurrentTime();
+  if(loopSeg && loopSeg.from != null) syncBarLyric(t);          /* 小節ループ中は歌詞行を追従 */
   if(view === 'script' && follow && stopAt === null){
     const cur = deck.find(d => t >= d.s && t < d.e);   /* 追従は字幕の区間そのままで判定する */
     if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
@@ -1111,8 +1122,8 @@ $('loop').onclick  = () => {
 };
 $('reveal').onclick = () => setReveal(true);
 $('hide').onclick   = () => setReveal(false);
-$('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
-$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } } };
 $('check').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
@@ -1190,7 +1201,7 @@ $('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked)
 $('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
 $('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
 $('optRaw').onchange = () => { store.set('raw', $('optRaw').checked); showCard(); buildScript(); };
-$('optRead').onchange = () => { store.set('read', $('optRead').checked); showCard(); buildScript(); };
+$('optRead').onchange = () => { store.set('read', $('optRead').checked); showCard(); buildScript(); paintBarLyrics(); };
 $('optEn').onchange = () => { store.set('en', $('optEn').checked); buildScenes(); buildDeck(); };
 $('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
 
@@ -1587,7 +1598,7 @@ document.addEventListener('keydown', e => {
   else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
   else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
   else if(k === 'r'){ e.preventDefault(); $('optRead').checked = !$('optRead').checked; $('optRead').onchange(); }
-  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
 });
 
@@ -1668,7 +1679,7 @@ function barOf(t){ let i = 0; while(i + 1 < BARS.length && BARS[i + 1] <= t + 0.
 function playBars(i, n){
   if(BARS.length < 2) return;
   i = Math.max(0, Math.min(i, BARS.length - 2)); const j = Math.min(i + n, BARS.length - 1);
-  barAt = i; playSeg({id: -1, s: BARS[i], e: BARS[j]}, {loop: true, exact: true}); paintBars();
+  barAt = i; playSeg({id: -1, s: BARS[i], e: BARS[j]}, {loop: true, exact: true}); paintBars(); paintBarLyrics();
 }
 function paintBars(){
   if(!$('barInfo')) return;
@@ -1677,13 +1688,38 @@ function paintBars(){
   $('barInfo').textContent = head + cur;
   $('barStop').disabled = barAt == null;
 }
+/* 小節ループに掛かる歌詞行を並べ、再生時刻に合わせて今の行を光らせる。カード本文もその行に追従 */
+function paintBarLyrics(){
+  const box = $('barLyrics'); box.textContent = '';
+  if(!(loopSeg && loopSeg.from != null)) return;
+  const from = loopSeg.from, to = loopSeg.e;
+  pool().filter(d => d.s < to && d.e > from).forEach(d => {
+    const v = edited(d);
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.id = d.id;
+    b.innerHTML = '<span class="t"></span><span><span class="k" lang="ko"></span><span class="r"></span><span class="j"></span></span>';
+    b.querySelector('.t').textContent = fmt(d.s);
+    b.querySelector('.k').textContent = v.ko;
+    b.querySelector('.r').textContent = ($('optRead').checked && v.rd) ? v.rd : '';
+    b.querySelector('.j').textContent = v.ja;
+    b.onclick = () => { const i = deck.findIndex(x => x.id === d.id); if(i >= 0){ index = i; showCard(); } if(player && ready) player.seekTo(Math.max(from, d.s), true); };
+    box.appendChild(b);
+  });
+}
+function syncBarLyric(t){
+  let cur = null;
+  [...$('barLyrics').children].forEach(b => {
+    const d = DATA.find(x => x.id === Number(b.dataset.id));
+    const on = !!d && t >= d.s && t < d.e; b.setAttribute('aria-current', String(on)); if(on) cur = d;
+  });
+  if(cur && deck[index] && cur.id !== deck[index].id){ const i = deck.indexOf(cur); if(i >= 0){ index = i; showCard(); } }
+}
 const nowBar = () => barAt != null ? barAt : barOf(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
 segWire('barLen', v => { barLen = Number(v); if(barAt != null) playBars(barAt, barLen); else paintBars(); });
 segWire('rate', v => { rate = Number(v); store.set('rate', rate); if(player && ready) player.setPlaybackRate(rate); });
 $('barLine').onclick = () => { const d = deck[index]; if(!d || BARS.length < 2) return; const i = barOf(d.s + 0.2), j = barOf(Math.max(d.s + 0.2, d.e - 0.2)); barLen = Math.max(1, j - i + 1); pickSeg2($('barLen'), String(barLen)); playBars(i, barLen); };
 $('barPrev').onclick = () => playBars(nowBar() - barLen, barLen);
 $('barNext').onclick = () => playBars(nowBar() + barLen, barLen);
-$('barStop').onclick = () => { barAt = null; if(loopSeg) $('loop').click(); paintBars(); };
+$('barStop').onclick = () => { barAt = null; if(loopSeg) $('loop').click(); paintBars(); paintBarLyrics(); };
 $('barShiftM').onclick = () => { barShift--; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
 $('barShiftP').onclick = () => { barShift++; store.set(pk('barShift'), barShift); rebuildBars(); if(barAt != null) playBars(barAt, barLen); paintBars(); };
 pickSeg2($('rate'), String(rate));
