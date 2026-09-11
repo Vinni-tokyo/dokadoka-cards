@@ -1,0 +1,2239 @@
+1
+00:00:03,360 --> 00:00:05,520
+I hear you love walk and talks.
+
+2
+00:00:05,520 --> 00:00:08,840
+Yes, because we sit too much. Yeah.
+
+3
+00:00:08,840 --> 00:00:11,200
+And also our company is just next
+
+4
+00:00:11,200 --> 00:00:13,640
+to this park, so it's great.
+
+5
+00:00:13,640 --> 00:00:16,440
+Is it all AI talk all the time here?
+
+6
+00:00:16,440 --> 00:00:18,040
+I don't know other people's talk,
+
+7
+00:00:18,040 --> 00:00:20,760
+but I talk AI all the time.
+
+8
+00:00:20,760 --> 00:00:22,120
+But that's the only thing I know.
+
+9
+00:00:22,960 --> 00:00:25,880
+Fei-Fei Li is a giant in
+the field of computer vision,
+
+10
+00:00:25,880 --> 00:00:29,400
+a branch of AI dedicated to
+teaching machines to see.
+
+11
+00:00:29,400 --> 00:00:32,560
+She made a breakthrough with
+ImageNet, a visual library
+
+12
+00:00:32,560 --> 00:00:35,040
+that sparked the modern AI revolution,
+
+13
+00:00:35,040 --> 00:00:37,880
+earning her the title, 'Godmother of AI'.
+
+14
+00:00:37,880 --> 00:00:40,920
+And she's been a pioneer
+at AI's center ever since,
+
+15
+00:00:40,920 --> 00:00:44,400
+as a Stanford professor, a
+Google executive, an advisor
+
+16
+00:00:44,400 --> 00:00:47,000
+to US presidents, and
+a relentless advocate
+
+17
+00:00:47,000 --> 00:00:49,160
+for AI that serves people.
+
+18
+00:00:49,160 --> 00:00:50,280
+I feel the leaders
+
+19
+00:00:50,280 --> 00:00:54,120
+of AI are not talking enough
+about empowering humanity.
+
+20
+00:00:54,120 --> 00:00:56,720
+They're talking too much
+about replacing humanity,
+
+21
+00:00:56,720 --> 00:00:57,920
+replacing jobs.
+
+22
+00:00:57,920 --> 00:01:01,440
+Now she's adding startup
+co-founder to her star resume.
+
+23
+00:01:01,440 --> 00:01:03,880
+What's it like running your own shop? I
+
+24
+00:01:03,880 --> 00:01:05,360
+feel like a tiger mom.
+
+25
+00:01:05,360 --> 00:01:07,840
+While the rest of the AI
+world doubles down on large
+
+26
+00:01:07,840 --> 00:01:09,720
+language models like ChatGPT
+
+27
+00:01:09,720 --> 00:01:14,040
+and Claude, Li is betting on
+a new frontier, world models.
+
+28
+00:01:14,040 --> 00:01:16,160
+She's building AI that aims to predict
+
+29
+00:01:16,160 --> 00:01:18,080
+what happens next in the real world,
+
+30
+00:01:18,080 --> 00:01:20,560
+not just the next word in a sentence.
+
+31
+00:01:20,560 --> 00:01:22,520
+So what can world models do ultimately
+
+32
+00:01:22,520 --> 00:01:24,520
+that LLMs will never be able to?
+
+33
+00:01:24,520 --> 00:01:28,760
+Can words put down fires?
+Can words cook an omelet?
+
+34
+00:01:28,760 --> 00:01:30,840
+Li and her startup, World Labs,
+
+35
+00:01:30,840 --> 00:01:33,080
+is competing in a crowded field of rivals,
+
+36
+00:01:33,080 --> 00:01:34,840
+all making the same bet
+
+37
+00:01:34,840 --> 00:01:38,120
+that world models are
+the next big leap in AI.
+
+38
+00:01:38,120 --> 00:01:40,600
+Did you ever imagine AI would be this big?
+
+39
+00:01:40,600 --> 00:01:44,920
+Have I imagined the
+entire civilization is going
+
+40
+00:01:44,920 --> 00:01:46,880
+to be redefined by AI?
+
+41
+00:01:46,880 --> 00:01:51,160
+The cultural shifts, the
+geopolitical landscape?
+
+42
+00:01:51,160 --> 00:01:52,600
+I would not have imagined that.
+
+43
+00:01:58,600 --> 00:02:01,000
+Before she became a
+leading AI scientist,
+
+44
+00:02:01,000 --> 00:02:04,200
+Li was just a curious
+kid looking at the world.
+
+45
+00:02:04,200 --> 00:02:06,880
+What was young Fei-Fei like as a kid?
+
+46
+00:02:06,880 --> 00:02:11,080
+It was '80s and '90s in
+China. My city was Chengdu.
+
+47
+00:02:11,080 --> 00:02:13,840
+My dad is quite a curious
+soul about nature,
+
+48
+00:02:13,840 --> 00:02:17,760
+so I got quite a dosage
+of chasing after bugs and,
+
+49
+00:02:17,760 --> 00:02:19,440
+and running after puppies
+
+50
+00:02:19,440 --> 00:02:22,520
+and going to the mountains to, to draw
+
+51
+00:02:22,520 --> 00:02:24,000
+and sketch with my dad.
+
+52
+00:02:24,000 --> 00:02:25,560
+And, you know, reading.
+
+53
+00:02:25,560 --> 00:02:29,120
+Cutting your hair short,
+loving aerospace and physics.
+
+54
+00:02:29,120 --> 00:02:29,953
+Did you see yourself as a rebel?
+
+55
+00:02:29,953 --> 00:02:30,786
+As a kid, right? You're preteen.
+
+56
+00:02:34,440 --> 00:02:36,480
+You almost have to be a rebel just
+
+57
+00:02:36,480 --> 00:02:38,640
+because you want to make
+a statement for yourself.
+
+58
+00:02:38,640 --> 00:02:41,560
+But the love of nature and science
+
+59
+00:02:41,560 --> 00:02:43,880
+and physics, the love of aerospace
+
+60
+00:02:43,880 --> 00:02:47,400
+and outer space, those are
+part of my identity. You
+
+61
+00:02:47,400 --> 00:02:50,000
+emigrated from China to the US in - New
+
+62
+00:02:50,000 --> 00:02:51,360
+Jersey. In the 90s.
+
+63
+00:02:51,360 --> 00:02:52,560
+Yeah. What was it like coming here
+
+64
+00:02:52,560 --> 00:02:54,160
+as a teenager back then?
+
+65
+00:02:54,160 --> 00:02:58,200
+That was tough. Shifting
+the whole thing, culture,
+
+66
+00:02:58,200 --> 00:03:00,160
+language, life
+
+67
+00:03:01,160 --> 00:03:04,240
+as a teenager is perhaps
+one of the hardest times
+
+68
+00:03:05,240 --> 00:03:06,720
+because you're finding who you are
+
+69
+00:03:06,720 --> 00:03:10,600
+and then suddenly you don't
+even know the world, right?
+
+70
+00:03:10,600 --> 00:03:12,960
+Li learned English,
+finished high school,
+
+71
+00:03:12,960 --> 00:03:15,680
+studied physics at Princeton
+while running the family dry
+
+72
+00:03:15,680 --> 00:03:17,240
+cleaning business on weekends,
+
+73
+00:03:17,240 --> 00:03:20,680
+and followed her dreams to
+Caltech, where she earned her PhD
+
+74
+00:03:20,680 --> 00:03:22,720
+and became a computer scientist.
+
+75
+00:03:22,720 --> 00:03:25,080
+You've been studying artificial
+intelligence since then.
+
+76
+00:03:25,080 --> 00:03:26,360
+It was super niche. Yes.
+
+77
+00:03:26,360 --> 00:03:28,080
+What
+was the field like back then?
+
+78
+00:03:28,080 --> 00:03:29,680
+That was a beautiful period.
+
+79
+00:03:29,680 --> 00:03:31,600
+It was really pure curiosity
+
+80
+00:03:31,600 --> 00:03:33,880
+because there was no
+money, there was no power,
+
+81
+00:03:33,880 --> 00:03:35,960
+there was no fanfare, there was no hype.
+
+82
+00:03:35,960 --> 00:03:38,320
+We were there just the same
+
+83
+00:03:38,320 --> 00:03:43,080
+as scientists look into the
+sky, go down in the ocean.
+
+84
+00:03:43,080 --> 00:03:44,520
+I was deeply curious.
+
+85
+00:03:44,520 --> 00:03:46,040
+How does AI see
+
+86
+00:03:46,040 --> 00:03:48,600
+and how is it different
+from how you or I see?
+
+87
+00:03:48,600 --> 00:03:53,240
+We use our eyes to
+drive the sensory system
+
+88
+00:03:53,240 --> 00:03:55,880
+to turn that into signals in the brain,
+
+89
+00:03:55,880 --> 00:03:57,480
+and the brain does computing.
+
+90
+00:03:57,480 --> 00:03:59,400
+It's not that different for computers.
+
+91
+00:03:59,400 --> 00:04:01,720
+We need to learn the pattern of the world
+
+92
+00:04:01,720 --> 00:04:06,720
+and understand objects,
+colors, environments.
+
+93
+00:04:06,720 --> 00:04:10,440
+A lot of seeing is
+preparing humans to act.
+
+94
+00:04:10,440 --> 00:04:12,840
+You wake up this morning,
+you hug your kids,
+
+95
+00:04:12,840 --> 00:04:17,080
+you go downstairs, prepare
+some breakfast, grab your key,
+
+96
+00:04:17,080 --> 00:04:18,400
+drive to your work.
+
+97
+00:04:18,400 --> 00:04:21,880
+Everything I've described
+so far, you've done that
+
+98
+00:04:21,880 --> 00:04:23,760
+with your spatial intelligence. So
+
+99
+00:04:23,760 --> 00:04:26,080
+it's got to be hard to
+get computers to do that.
+
+100
+00:04:26,080 --> 00:04:29,480
+Yes.
+Li was working on this back in 2006.
+
+101
+00:04:29,480 --> 00:04:31,880
+She built ImageNet, a massive catalog
+
+102
+00:04:31,880 --> 00:04:35,440
+of 14 million pictures in
+over 21,000 categories,
+
+103
+00:04:35,440 --> 00:04:37,760
+the largest assembled at that time,
+
+104
+00:04:37,760 --> 00:04:41,800
+because Li saw that algorithms
+needed data to get smarter.
+
+105
+00:04:41,800 --> 00:04:44,040
+So what was the spark for ImageNet?
+
+106
+00:04:44,040 --> 00:04:47,280
+Nobody was paying attention to data.
+
+107
+00:04:47,280 --> 00:04:51,840
+My students and I had that
+epiphany that learning needs
+
+108
+00:04:51,840 --> 00:04:53,440
+to be driven by data.
+
+109
+00:04:53,440 --> 00:04:56,840
+In 2010, Li turned
+ImageNet into a competition.
+
+110
+00:04:56,840 --> 00:04:58,560
+Who could build the best algorithm
+
+111
+00:04:58,560 --> 00:05:01,000
+to correctly identify the most images?
+
+112
+00:05:01,000 --> 00:05:04,880
+In 2012, Geoffrey Hinton's
+University of Toronto team entered
+
+113
+00:05:04,880 --> 00:05:09,080
+with AlexNet, an algorithm
+powered by NVIDIA Graphics cards.
+
+114
+00:05:09,080 --> 00:05:10,840
+The result marked a turning point.
+
+115
+00:05:10,840 --> 00:05:14,360
+That combination, massive
+amount of data, neural networks,
+
+116
+00:05:14,360 --> 00:05:17,520
+and GPU computing power
+became the golden recipe
+
+117
+00:05:17,520 --> 00:05:20,360
+for modern AI and cemented Li's legacy.
+
+118
+00:05:22,080 --> 00:05:24,160
+What do you feel when you look at this?
+
+119
+00:05:24,160 --> 00:05:27,960
+It's not the eight of us.
+It's the entire humanity.
+
+120
+00:05:27,960 --> 00:05:30,040
+That's really the main story here.
+
+121
+00:05:30,040 --> 00:05:33,600
+Because this comes from
+the photo of, what,
+
+122
+00:05:33,600 --> 00:05:38,600
+about a hundred years ago when
+industrialization was in the
+
+123
+00:05:38,760 --> 00:05:43,200
+booming phase and big urban
+skylines are being built.
+
+124
+00:05:43,200 --> 00:05:45,520
+That was a civilizational moment.
+
+125
+00:05:45,520 --> 00:05:47,680
+It's amazing that you're
+being recognized here,
+
+126
+00:05:47,680 --> 00:05:49,920
+but like, could they
+have centered the photo?
+
+127
+00:05:50,920 --> 00:05:54,680
+Come on. It's true because
+there's more space here.
+
+128
+00:05:54,680 --> 00:05:57,360
+I asked you about being the godmother
+
+129
+00:05:57,360 --> 00:05:58,193
+of AI a few years ago. You
+
+130
+00:05:58,193 --> 00:05:59,026
+did. How
+
+131
+00:06:00,280 --> 00:06:02,400
+do you feel about that title?
+
+132
+00:06:02,400 --> 00:06:03,440
+You know, Emily,
+
+133
+00:06:03,440 --> 00:06:06,400
+I would never call myself
+godmother of anything.
+
+134
+00:06:06,400 --> 00:06:09,440
+Remember, Emily, when you
+asked me, I was like, oh.
+
+135
+00:06:09,440 --> 00:06:10,840
+I was taken aback
+
+136
+00:06:10,840 --> 00:06:13,240
+because I don't naturally
+think about myself
+
+137
+00:06:14,280 --> 00:06:15,720
+as godmother of anything.
+
+138
+00:06:15,720 --> 00:06:18,480
+That's not my personality.
+I focus on work.
+
+139
+00:06:18,480 --> 00:06:23,440
+If I rejected that on
+that spot, we once again
+
+140
+00:06:23,440 --> 00:06:24,880
+would be in a situation
+
+141
+00:06:24,880 --> 00:06:29,280
+where women just don't get
+recognized the same way as men.
+
+142
+00:06:29,280 --> 00:06:33,760
+I want more women to be
+called godmother of whatever
+
+143
+00:06:33,760 --> 00:06:37,560
+creation, innovation,
+discovery that they have done.
+
+144
+00:06:37,560 --> 00:06:40,440
+So do you embrace the term now or?
+
+145
+00:06:40,440 --> 00:06:42,360
+Embrace is a big word.
+
+146
+00:06:42,360 --> 00:06:44,760
+I don't go around and
+say, "Hi, I'm Fei-Fei
+
+147
+00:06:44,760 --> 00:06:49,760
+I'm the godmother of AI."
+But people have adopted
+
+148
+00:06:49,840 --> 00:06:51,800
+that term thanks to you.
+
+149
+00:06:51,800 --> 00:06:54,440
+Artificial intelligence had
+long been discussed in policy
+
+150
+00:06:54,440 --> 00:06:56,480
+and tech circles as something perpetually
+
+151
+00:06:56,480 --> 00:06:58,160
+right around the corner.
+
+152
+00:06:58,160 --> 00:07:02,400
+Until ChatGPT, AI went
+from a niche research field
+
+153
+00:07:02,400 --> 00:07:05,120
+to the most talked about
+technology on the planet.
+
+154
+00:07:05,120 --> 00:07:08,920
+Large language models, image
+generators, video generators.
+
+155
+00:07:08,920 --> 00:07:11,080
+Suddenly it seemed like everyone was
+
+156
+00:07:11,080 --> 00:07:13,320
+or wanted to be in the AI business.
+
+157
+00:07:13,320 --> 00:07:15,960
+And let's be honest, things
+have come pretty far.
+
+158
+00:07:17,200 --> 00:07:21,280
+Li saw an opportunity and
+launched her own startup in 2024.
+
+159
+00:07:21,280 --> 00:07:23,720
+What's it like running your own shop?
+
+160
+00:07:23,720 --> 00:07:25,320
+So here's the thing. I'm
+
+161
+00:07:25,320 --> 00:07:27,640
+by far the most senior in the company.
+
+162
+00:07:27,640 --> 00:07:30,880
+From my co-founders to my
+engineers and researchers
+
+163
+00:07:30,880 --> 00:07:34,320
+and scientists, they're so
+talented, but they're also young.
+
+164
+00:07:34,320 --> 00:07:36,080
+I do feel like a mom.
+
+165
+00:07:37,440 --> 00:07:40,720
+And oftentimes I feel like a tiger mom.
+
+166
+00:07:40,720 --> 00:07:44,360
+I do run this shop as, I
+would say, high standard.
+
+167
+00:07:44,360 --> 00:07:46,840
+Li is working on
+advancing world models.
+
+168
+00:07:46,840 --> 00:07:50,360
+If ImageNet taught AI how
+to see, this technology aims
+
+169
+00:07:50,360 --> 00:07:52,280
+to guide AI through the physical world
+
+170
+00:07:52,280 --> 00:07:53,960
+because describing how to catch a ball
+
+171
+00:07:53,960 --> 00:07:56,280
+and actually catching one
+are very different things.
+
+172
+00:07:57,600 --> 00:08:00,240
+And super intelligence,
+she's betting that lies
+
+173
+00:08:00,240 --> 00:08:01,760
+beyond chatbots.
+
+174
+00:08:01,760 --> 00:08:04,480
+The rest of the AI industry
+is focusing on LLMs.
+
+175
+00:08:05,400 --> 00:08:08,080
+What can't LLMs do?
+
+176
+00:08:08,080 --> 00:08:13,000
+If we want to create a
+world where we continue
+
+177
+00:08:13,000 --> 00:08:15,120
+to push scientific discovery,
+
+178
+00:08:15,120 --> 00:08:19,680
+where we want machines like
+robots to be a partner to us,
+
+179
+00:08:19,680 --> 00:08:22,360
+all this language cannot do it alone.
+
+180
+00:08:22,360 --> 00:08:23,600
+Building world model
+
+181
+00:08:23,600 --> 00:08:27,240
+and spatial intelligence
+is not about anti - LLM.
+
+182
+00:08:27,240 --> 00:08:30,360
+It's about the next frontier
+and the next chapter.
+
+183
+00:08:30,360 --> 00:08:33,360
+So what exactly is a world model? World
+
+184
+00:08:33,360 --> 00:08:35,920
+model at this point
+is an overloaded term.
+
+185
+00:08:35,920 --> 00:08:38,240
+We look at spatial intelligence
+
+186
+00:08:38,240 --> 00:08:41,160
+as three different kind of functions.
+
+187
+00:08:41,160 --> 00:08:44,040
+One is rendering, one is simulation,
+
+188
+00:08:44,040 --> 00:08:47,080
+and the third one is planning.
+
+189
+00:08:47,080 --> 00:08:51,360
+Rendering is the world model outputs
+
+190
+00:08:51,360 --> 00:08:54,280
+beautiful pixels for humans to consume.
+
+191
+00:08:54,280 --> 00:08:57,160
+Most likely you're thinking
+about [OpenAI's] Sora.
+
+192
+00:08:57,160 --> 00:09:00,840
+The second class of world
+model is they do simulation,
+
+193
+00:09:00,840 --> 00:09:03,480
+but it doesn't serve just humans.
+
+194
+00:09:03,480 --> 00:09:04,880
+It serves machines.
+
+195
+00:09:04,880 --> 00:09:08,560
+They are focused on capturing
+the actual structure
+
+196
+00:09:08,560 --> 00:09:12,120
+of the world, the geometry
+structure based on physics.
+
+197
+00:09:12,120 --> 00:09:16,160
+The third kind of world model
+planning helps you to know
+
+198
+00:09:16,160 --> 00:09:18,080
+what is the next thing you need to do.
+
+199
+00:09:18,080 --> 00:09:22,800
+For example, if you have
+a cup, a world model
+
+200
+00:09:22,800 --> 00:09:27,640
+that serves as a planner will
+let the robot know, pick it up
+
+201
+00:09:27,640 --> 00:09:28,800
+and put it somewhere else.
+
+202
+00:09:29,640 --> 00:09:34,320
+And that is a world model
+that is very closely coupled
+
+203
+00:09:34,320 --> 00:09:35,840
+with robotics.
+
+204
+00:09:35,840 --> 00:09:38,000
+Marble is World Lab's first step towards
+
+205
+00:09:38,000 --> 00:09:39,360
+creating a world model.
+
+206
+00:09:39,360 --> 00:09:42,400
+It's a platform that lets
+anyone generate an explorable,
+
+207
+00:09:42,400 --> 00:09:46,320
+editable 3D world from a
+single visual or text prompt.
+
+208
+00:09:46,320 --> 00:09:50,840
+Now, this is a showcase page
+of some user-generated world.
+
+209
+00:09:50,840 --> 00:09:54,760
+You can see they created
+a room, a beautiful room.
+
+210
+00:09:54,760 --> 00:09:56,880
+Now you look at this,
+you're like, Fei-Fei,
+
+211
+00:09:56,880 --> 00:09:58,960
+this is no different from a picture.
+
+212
+00:09:58,960 --> 00:10:00,280
+But here's the thing.
+
+213
+00:10:00,280 --> 00:10:04,160
+It actually is a world
+because I can navigate in it.
+
+214
+00:10:04,160 --> 00:10:08,760
+So like a game, I can move
+forward. I can turn around.
+
+215
+00:10:08,760 --> 00:10:10,680
+I can go anywhere.
+
+216
+00:10:10,680 --> 00:10:14,920
+Here, it's a fully consistent 3D world.
+
+217
+00:10:14,920 --> 00:10:17,160
+So who or what companies are using
+
+218
+00:10:17,160 --> 00:10:18,360
+Marbel right now?
+
+219
+00:10:18,360 --> 00:10:22,400
+Why is Marble useful? For
+example, virtual production.
+
+220
+00:10:22,400 --> 00:10:25,120
+In movies, people are using Marble
+
+221
+00:10:25,120 --> 00:10:29,160
+because they can shoot
+actors in any environment.
+
+222
+00:10:29,160 --> 00:10:30,600
+Game developers.
+
+223
+00:10:30,600 --> 00:10:34,560
+Marble has completely lowered
+the amount of resource
+
+224
+00:10:34,560 --> 00:10:36,360
+and time one needs.
+
+225
+00:10:36,360 --> 00:10:38,400
+We also have robotics example.
+
+226
+00:10:38,400 --> 00:10:41,360
+This is a collaboration with NVIDIA where
+
+227
+00:10:41,360 --> 00:10:43,560
+they're using Marble environments
+
+228
+00:10:43,560 --> 00:10:46,480
+to augment the training of robots.
+
+229
+00:10:46,480 --> 00:10:47,880
+What are you training these models on
+
+230
+00:10:47,880 --> 00:10:49,400
+that others don't have?
+
+231
+00:10:49,400 --> 00:10:53,920
+We are training these
+models on two things, right?
+
+232
+00:10:53,920 --> 00:10:56,440
+One is specially prepared data.
+
+233
+00:10:56,440 --> 00:11:00,040
+Pixel data are more nuanced than
+
+234
+00:11:00,040 --> 00:11:01,880
+language data in the sense that
+
+235
+00:11:02,960 --> 00:11:05,000
+there's more information in a picture.
+
+236
+00:11:05,880 --> 00:11:07,920
+There's camera information.
+
+237
+00:11:07,920 --> 00:11:11,800
+Another one is algorithmic
+and architectural innovation
+
+238
+00:11:11,800 --> 00:11:13,920
+because no one has created
+
+239
+00:11:15,440 --> 00:11:20,440
+generative world models as we
+have in terms of creating 3D
+
+240
+00:11:20,440 --> 00:11:22,440
+and eventually 4D worlds. So would
+
+241
+00:11:22,440 --> 00:11:24,000
+you say that's the secret?
+
+242
+00:11:24,000 --> 00:11:25,200
+Yeah, I guess so.
+
+243
+00:11:25,200 --> 00:11:28,640
+Well, the real secrets are
+people, as I always say.
+
+244
+00:11:28,640 --> 00:11:30,640
+But yes, the data and the algorithm
+
+245
+00:11:30,640 --> 00:11:32,880
+and the, the system we have built.
+
+246
+00:11:32,880 --> 00:11:34,040
+You've raised a billion dollars.
+
+247
+00:11:34,040 --> 00:11:35,760
+How is the business doing? The
+
+248
+00:11:35,760 --> 00:11:37,000
+business is still early.
+
+249
+00:11:37,000 --> 00:11:38,920
+This phase of World Labs,
+
+250
+00:11:38,920 --> 00:11:41,280
+we're focusing on building the technology.
+
+251
+00:11:41,280 --> 00:11:43,960
+Building the technology
+isn't the only part of the job.
+
+252
+00:11:43,960 --> 00:11:46,160
+When Li isn't heads down at World Labs,
+
+253
+00:11:46,160 --> 00:11:49,040
+she's out making the case
+for the next frontier of AI.
+
+254
+00:11:54,800 --> 00:11:58,200
+Absolutely.
+Please welcome to the stage.
+
+255
+00:11:58,200 --> 00:12:00,200
+Fei-Fei Li, co-founder
+
+256
+00:12:00,200 --> 00:12:02,880
+and CEO at World Labs for a conversation
+
+257
+00:12:02,880 --> 00:12:04,880
+with Bloomberg's Emily Chang. All
+
+258
+00:12:04,880 --> 00:12:07,080
+of this rolls up into
+robotics, so I, I want
+
+259
+00:12:07,080 --> 00:12:08,240
+to get your take on the field.
+
+260
+00:12:08,240 --> 00:12:09,760
+And humanoids in particular.
+
+261
+00:12:09,760 --> 00:12:12,600
+Funding for humanoids hit $6 billion,
+
+262
+00:12:12,600 --> 00:12:14,680
+but you know, they still can't load my
+
+263
+00:12:14,680 --> 00:12:16,160
+dishwasher as fast as I can.
+
+264
+00:12:16,160 --> 00:12:18,120
+They still can't go
+get my Amazon packages.
+
+265
+00:12:18,120 --> 00:12:21,760
+Will world models,
+world labs close the gap
+
+266
+00:12:21,760 --> 00:12:24,240
+between hype and reality? That's
+
+267
+00:12:24,240 --> 00:12:25,600
+a loaded question, Emily.
+
+268
+00:12:25,600 --> 00:12:29,200
+First of all, first of all,
+robotics is going to be one
+
+269
+00:12:29,200 --> 00:12:33,120
+of the most important revolution
+in human industrialization.
+
+270
+00:12:33,120 --> 00:12:36,520
+$6 billion is too small, right?
+
+271
+00:12:36,520 --> 00:12:39,120
+If you look at self-driving
+cars investment,
+
+272
+00:12:39,120 --> 00:12:42,160
+if you look at language models investment,
+
+273
+00:12:42,160 --> 00:12:44,240
+it took way more than $6 billion.
+
+274
+00:12:44,240 --> 00:12:45,800
+Are we going to close the gap?
+
+275
+00:12:45,800 --> 00:12:48,880
+I do believe World Labs is working on one
+
+276
+00:12:48,880 --> 00:12:51,920
+of the most critical technology in the
+
+277
+00:12:51,920 --> 00:12:54,120
+spatial physical intelligence.
+
+278
+00:12:54,120 --> 00:12:57,640
+And obviously that's
+the, that's the hope. But
+
+279
+00:12:57,640 --> 00:12:58,640
+Li isn't alone.
+
+280
+00:12:58,640 --> 00:13:01,680
+World models are the tech
+industry's latest obsession
+
+281
+00:13:01,680 --> 00:13:04,000
+with startups and tech giants alike all
+
+282
+00:13:04,000 --> 00:13:05,440
+sprinting to build them.
+
+283
+00:13:05,440 --> 00:13:09,000
+For anything from design to
+self-driving cars, robots
+
+284
+00:13:09,000 --> 00:13:11,560
+and factories, to eventually machines
+
+285
+00:13:11,560 --> 00:13:13,840
+that can navigate the
+unpredictable reality
+
+286
+00:13:13,840 --> 00:13:14,840
+of the human home.
+
+287
+00:13:18,720 --> 00:13:22,080
+You're competing against big
+players with deep pockets.
+
+288
+00:13:22,080 --> 00:13:24,160
+How worried are you about that? As
+
+289
+00:13:24,160 --> 00:13:26,880
+an entrepreneur and a co-founder, CEO,
+
+290
+00:13:26,880 --> 00:13:28,240
+I'm paranoid every day.
+
+291
+00:13:29,200 --> 00:13:32,400
+I don't think there's a moment
+I would say, "Hey, I feel
+
+292
+00:13:32,400 --> 00:13:34,880
+so relaxed." You know?
+
+293
+00:13:34,880 --> 00:13:39,880
+So yes, I am worried, but am
+I paralyzed? Absolutely not.
+
+294
+00:13:40,040 --> 00:13:43,960
+We have an incredible team.
+We also have the focus.
+
+295
+00:13:44,840 --> 00:13:47,320
+You know, a lot of big
+companies, they have
+
+296
+00:13:48,160 --> 00:13:50,400
+a lot on the, on the table.
+
+297
+00:13:50,400 --> 00:13:52,640
+We have one thing on the table,
+
+298
+00:13:52,640 --> 00:13:54,920
+and we're focusing on that thing. Emily,
+
+299
+00:13:55,760 --> 00:13:56,800
+Nice to meet you.
+
+300
+00:13:56,800 --> 00:13:58,520
+The war for talent is so fierce.
+
+301
+00:13:58,520 --> 00:14:01,120
+Why work with Fei-Fei
+when there are so many
+
+302
+00:14:01,120 --> 00:14:04,320
+powerful AI companies out there? Well,
+
+303
+00:14:04,320 --> 00:14:06,520
+I started working with Fei-Fei
+way before it was cool in
+
+304
+00:14:07,720 --> 00:14:10,440
+2012. Yeah, I did my PhD
+
+305
+00:14:10,440 --> 00:14:13,120
+with Fei-Fei at Stanford
+way back in the day.
+
+306
+00:14:13,120 --> 00:14:14,440
+You can go to a lot of big tech,
+
+307
+00:14:14,440 --> 00:14:15,880
+but your hands can't change
+
+308
+00:14:15,880 --> 00:14:17,640
+that trajectory in, in many instances.
+
+309
+00:14:18,480 --> 00:14:20,480
+Here,
+we're 50 people.
+
+310
+00:14:20,480 --> 00:14:22,960
+Your hands can change the
+trajectory of this company.
+
+311
+00:14:22,960 --> 00:14:25,360
+That's a beautiful thing
+to have in your life.
+
+312
+00:14:25,360 --> 00:14:27,040
+World Labs may be a small team,
+
+313
+00:14:27,040 --> 00:14:30,040
+but the investment in
+world models is gigantic.
+
+314
+00:14:30,040 --> 00:14:33,840
+$3 billion and growing.
+Still, it's early days.
+
+315
+00:14:33,840 --> 00:14:36,800
+The field hasn't even agreed
+on how to build them yet.
+
+316
+00:14:36,800 --> 00:14:39,840
+Would you say it's like 2019 for chatbots
+
+317
+00:14:39,840 --> 00:14:41,760
+where everyone was chasing LLMs
+
+318
+00:14:41,760 --> 00:14:42,840
+and trying to make it happen,
+
+319
+00:14:42,840 --> 00:14:44,480
+but they hadn't cracked the code yet?
+
+320
+00:14:44,480 --> 00:14:46,480
+Is that where we are for world models?
+
+321
+00:14:46,480 --> 00:14:50,360
+Yeah, that's probably a
+fair description. We're early.
+
+322
+00:14:50,360 --> 00:14:53,320
+We're a lot earlier compared to LLMs. But
+
+323
+00:14:53,320 --> 00:14:55,000
+Will there be some sort of explosion
+
+324
+00:14:55,000 --> 00:14:58,920
+and aha moment where we're like,
+"Oh, now we understand." If
+
+325
+00:14:58,920 --> 00:15:00,120
+we do it right, yes.
+
+326
+00:15:00,120 --> 00:15:02,600
+That's the magic of
+technology and science.
+
+327
+00:15:02,600 --> 00:15:07,440
+When it hits that milestone,
+it becomes magical. There
+
+328
+00:15:07,440 --> 00:15:08,640
+are skeptics in the AI
+
+329
+00:15:08,640 --> 00:15:10,120
+and robotics world that say,
+
+330
+00:15:10,120 --> 00:15:11,880
+"This isn't the next breakthrough.
+
+331
+00:15:11,880 --> 00:15:15,080
+It's just the next hype cycle."
+What do you say to that?
+
+332
+00:15:15,080 --> 00:15:18,680
+I think even a good
+science can be hyped.
+
+333
+00:15:19,800 --> 00:15:21,760
+I believe spatial intelligence
+
+334
+00:15:21,760 --> 00:15:24,640
+and physical intelligence are fundamental
+
+335
+00:15:24,640 --> 00:15:26,520
+to machine intelligence.
+
+336
+00:15:26,520 --> 00:15:30,080
+And these are the frontier questions
+
+337
+00:15:30,080 --> 00:15:33,920
+that I believe firmly in as a
+scientist, as a technologist,
+
+338
+00:15:33,920 --> 00:15:36,080
+and also as an entrepreneur.
+
+339
+00:15:36,080 --> 00:15:38,600
+I believe they will provide incredible
+
+340
+00:15:38,600 --> 00:15:39,880
+market value. Building
+
+341
+00:15:39,880 --> 00:15:42,080
+wrld models is incredibly
+resource intensive.
+
+342
+00:15:42,080 --> 00:15:44,800
+Do you need more power? Do you
+need more capital to get to
+
+343
+00:15:44,800 --> 00:15:46,760
+where you want to be? That
+
+344
+00:15:46,760 --> 00:15:47,760
+we don't know yet.
+
+345
+00:15:47,760 --> 00:15:49,960
+We're too early. We're
+likely to need more power
+
+346
+00:15:49,960 --> 00:15:51,640
+and more resources.
+
+347
+00:15:51,640 --> 00:15:53,360
+And can you get that?
+I don't know.
+
+348
+00:15:55,160 --> 00:15:57,920
+We have to do a good job to, to earn it.
+
+349
+00:15:57,920 --> 00:15:59,040
+Getting world models out
+
+350
+00:15:59,040 --> 00:16:01,360
+of the demo phase will
+take more time and money.
+
+351
+00:16:01,360 --> 00:16:04,600
+Meanwhile, investment in
+generative AI has soared,
+
+352
+00:16:04,600 --> 00:16:07,040
+and Americans have
+strong feelings about it.
+
+353
+00:16:07,040 --> 00:16:09,360
+I'm sure you've seen the
+video of former Google CEO,
+
+354
+00:16:09,360 --> 00:16:12,120
+Eric Schmidt, getting booed
+at a college graduation.
+
+355
+00:16:12,120 --> 00:16:14,520
+So today we stand on this edge
+
+356
+00:16:14,520 --> 00:16:16,680
+of another technological transformation.
+
+357
+00:16:19,800 --> 00:16:23,760
+You spend a lot of time with
+students. What are they saying?
+
+358
+00:16:23,760 --> 00:16:27,560
+And if they're scared, are
+the fears justified? Yeah,
+
+359
+00:16:27,560 --> 00:16:29,680
+I do spend a lot of time with students.
+
+360
+00:16:29,680 --> 00:16:34,520
+Even Stanford students reflect
+some of this mixed sentiment.
+
+361
+00:16:34,520 --> 00:16:37,240
+There is anxiety. There is sense of hope.
+
+362
+00:16:37,240 --> 00:16:41,040
+There is also excitement.
+There is also confusion.
+
+363
+00:16:41,040 --> 00:16:44,760
+There is also simultaneously
+a sense of dignity
+
+364
+00:16:44,760 --> 00:16:47,640
+and agency when AI can help me do things
+
+365
+00:16:47,640 --> 00:16:49,080
+that I couldn't do before.
+
+366
+00:16:49,080 --> 00:16:51,120
+And a sense of loss of dignity
+
+367
+00:16:51,120 --> 00:16:54,040
+and agency if AI is going to take my job.
+
+368
+00:16:56,560 --> 00:16:57,447
+AI
+Has
+
+369
+00:16:57,447 --> 00:16:58,393
+Got to go.
+
+370
+00:16:58,393 --> 00:17:01,600
+So what happens if the US
+loses faith in this technology
+
+371
+00:17:01,600 --> 00:17:04,520
+while the rest of the world races ahead?
+
+372
+00:17:04,520 --> 00:17:09,240
+US is such an important
+country in terms of its impact
+
+373
+00:17:09,240 --> 00:17:14,240
+to the world that if we are not showing a
+
+374
+00:17:14,240 --> 00:17:15,600
+positive attitude
+
+375
+00:17:15,600 --> 00:17:19,800
+and positive path towards
+AI, everybody loses.
+
+376
+00:17:19,800 --> 00:17:21,200
+And I don't wish for that
+
+377
+00:17:21,200 --> 00:17:24,960
+because US has been a thought
+leader in the world when it
+
+378
+00:17:24,960 --> 00:17:28,280
+comes to technology and
+science and economy.
+
+379
+00:17:28,280 --> 00:17:33,280
+And if we can show that we can
+create incredible technology
+
+380
+00:17:33,400 --> 00:17:37,120
+and incredible economic value using AI
+
+381
+00:17:37,120 --> 00:17:39,880
+and have a positive cultural impact,
+
+382
+00:17:39,880 --> 00:17:43,200
+the world will see it as a role model. Li
+
+383
+00:17:43,200 --> 00:17:45,680
+knows a thing or two
+about AI and its impact.
+
+384
+00:17:45,680 --> 00:17:48,560
+Over her career, she took
+roles at big tech companies,
+
+385
+00:17:48,560 --> 00:17:49,840
+venture capital firms,
+
+386
+00:17:49,840 --> 00:17:52,240
+co-founded an AI institute at Stanford,
+
+387
+00:17:52,240 --> 00:17:53,800
+and advised US presidents
+
+388
+00:17:53,800 --> 00:17:56,400
+and the United Nations on AI policy.
+
+389
+00:17:56,400 --> 00:17:59,960
+There's nothing artificial
+about artificial intelligence.
+
+390
+00:17:59,960 --> 00:18:03,600
+It's inspired by people.
+It's created by people.
+
+391
+00:18:03,600 --> 00:18:07,400
+And most importantly, it
+has an impact on people.
+
+392
+00:18:07,400 --> 00:18:11,600
+You've advised President
+Biden, President Trump, the UN
+
+393
+00:18:11,600 --> 00:18:13,720
+on technology and AI policy.
+
+394
+00:18:13,720 --> 00:18:17,440
+How do you approach conversations
+with world leaders? I
+
+395
+00:18:17,440 --> 00:18:18,560
+don't go in hyping.
+
+396
+00:18:19,600 --> 00:18:23,200
+I don't go in providing extreme rhetoric.
+
+397
+00:18:23,200 --> 00:18:26,800
+Either it's total utopia
+or total doomsday.
+
+398
+00:18:26,800 --> 00:18:30,880
+It's very important that
+whoever I talk to knows
+
+399
+00:18:30,880 --> 00:18:32,560
+that I'm a scientist.
+
+400
+00:18:32,560 --> 00:18:35,640
+What do they need? They
+need scientific facts,
+
+401
+00:18:35,640 --> 00:18:40,080
+but I think it's important
+to be at their service
+
+402
+00:18:40,080 --> 00:18:44,040
+and to speak my mind, to
+push back if they're wrong,
+
+403
+00:18:44,040 --> 00:18:46,320
+because that's my responsibility.
+
+404
+00:18:47,400 --> 00:18:50,880
+And have they been wrong?
+Oh, yes, for sure.
+
+405
+00:18:50,880 --> 00:18:53,680
+We all have been wrong. This
+technology moves so fast.
+
+406
+00:18:53,680 --> 00:18:55,000
+I don't blame them. Most
+
+407
+00:18:55,000 --> 00:18:57,280
+of our policymakers don't come from
+
+408
+00:18:57,280 --> 00:18:59,240
+computer science background. What
+
+409
+00:18:59,240 --> 00:19:00,280
+is the role of regulation?
+
+410
+00:19:00,280 --> 00:19:02,120
+What should that look like?
+
+411
+00:19:02,120 --> 00:19:04,160
+First and foremost, root
+
+412
+00:19:04,160 --> 00:19:06,720
+that in science, not science fiction.
+
+413
+00:19:06,720 --> 00:19:11,040
+A lot of the AI policy world conversation
+
+414
+00:19:11,040 --> 00:19:15,880
+with people from Silicon Valley
+talk about the extinction
+
+415
+00:19:15,880 --> 00:19:20,560
+of humanity, the, the,
+the AGI machine overlord
+
+416
+00:19:20,560 --> 00:19:23,200
+that distracts the real policy work.
+
+417
+00:19:23,200 --> 00:19:28,120
+The second recommendation is
+ensure a healthy ecosystem,
+
+418
+00:19:28,120 --> 00:19:29,520
+resource the public sector,
+
+419
+00:19:30,520 --> 00:19:35,360
+resource STEM education in K-12 or K-16.
+
+420
+00:19:35,360 --> 00:19:36,840
+Human capital at the end
+
+421
+00:19:36,840 --> 00:19:41,320
+of the day is the most
+important resource of our world.
+
+422
+00:19:41,320 --> 00:19:44,280
+And we want a thriving society of people,
+
+423
+00:19:44,280 --> 00:19:47,040
+not a thriving society
+of just machines. What
+
+424
+00:19:47,040 --> 00:19:49,520
+do you worry could go
+wrong with world models?
+
+425
+00:19:49,520 --> 00:19:52,040
+Like if we're giving
+people even more realistic
+
+426
+00:19:52,040 --> 00:19:54,480
+and more powerful AI, does
+
+427
+00:19:54,480 --> 00:19:57,040
+that create even more opportunities
+
+428
+00:19:57,040 --> 00:19:58,920
+for really bad things to happen?
+
+429
+00:19:58,920 --> 00:20:02,240
+World models, language models,
+these are powerful models
+
+430
+00:20:02,240 --> 00:20:05,400
+that can create mis and disinformation.
+
+431
+00:20:05,400 --> 00:20:08,600
+Empowered robots can be
+weaponized by bad actors
+
+432
+00:20:08,600 --> 00:20:10,800
+and students who
+
+433
+00:20:10,800 --> 00:20:14,360
+are not properly motivated
+can use technology
+
+434
+00:20:14,360 --> 00:20:19,080
+as a lazy crutch instead of
+a empowering learning tool.
+
+435
+00:20:19,080 --> 00:20:21,160
+I, I worry about that a lot.
+
+436
+00:20:21,160 --> 00:20:23,240
+So I think a lot of things can go wrong
+
+437
+00:20:23,240 --> 00:20:24,920
+with technology, not just AI.
+
+438
+00:20:24,920 --> 00:20:28,600
+It could have gone wrong with
+electricity, with cars, with,
+
+439
+00:20:28,600 --> 00:20:31,200
+you know, PC, with internet. Some
+
+440
+00:20:31,200 --> 00:20:33,920
+of the most powerful CEOs
+in AI right now have been
+
+441
+00:20:33,920 --> 00:20:36,560
+accused of having God complexes
+
+442
+00:20:36,560 --> 00:20:38,600
+because they seem to think they know
+
+443
+00:20:38,600 --> 00:20:40,200
+what's best for humanity.
+
+444
+00:20:40,200 --> 00:20:42,080
+What do you think of that term? I
+
+445
+00:20:42,080 --> 00:20:44,600
+think it's dangerous for any individual
+
+446
+00:20:44,600 --> 00:20:47,120
+to think they know better
+than everybody else.
+
+447
+00:20:47,120 --> 00:20:51,680
+As a CEO, as an entrepreneur,
+our founding premise is
+
+448
+00:20:51,680 --> 00:20:54,680
+we are here to contribute to the society
+
+449
+00:20:54,680 --> 00:20:56,880
+and to empower people.
+
+450
+00:20:56,880 --> 00:20:58,480
+It's not our position
+
+451
+00:20:58,480 --> 00:21:01,640
+to make every single
+decision for people. But
+
+452
+00:21:01,640 --> 00:21:02,880
+isn't that the path we're on?
+
+453
+00:21:02,880 --> 00:21:03,880
+I mean, these are really
+
+454
+00:21:04,840 --> 00:21:06,200
+powerful people.
+
+455
+00:21:06,200 --> 00:21:09,320
+I think it's too early to tell
+Emily. I'm not being naive.
+
+456
+00:21:09,320 --> 00:21:13,160
+I know what you're talking
+about. I also have my concern.
+
+457
+00:21:13,160 --> 00:21:16,600
+I don't think having God
+complex is constructive,
+
+458
+00:21:16,600 --> 00:21:18,680
+and I wouldn't want to do that myself,
+
+459
+00:21:18,680 --> 00:21:21,080
+but we have a democratic society.
+
+460
+00:21:21,080 --> 00:21:24,760
+This is another reason I
+think our civil society should
+
+461
+00:21:24,760 --> 00:21:25,960
+not give up on AI.
+
+462
+00:21:25,960 --> 00:21:30,440
+We need the voices. We need
+the collective governance.
+
+463
+00:21:30,440 --> 00:21:33,680
+But let's now throw the
+baby with the bathwater.
+
+464
+00:21:33,680 --> 00:21:36,560
+The governance shouldn't
+be, let's stop AI,
+
+465
+00:21:36,560 --> 00:21:41,280
+because this is a technology
+that can discover cure for
+
+466
+00:21:41,280 --> 00:21:43,840
+diseases, can empower students
+
+467
+00:21:43,840 --> 00:21:46,800
+and teachers, can help our elderly.
+
+468
+00:21:46,800 --> 00:21:48,240
+So that's the baby here.
+
+469
+00:21:48,240 --> 00:21:52,120
+But right now, we are
+in a very messy period.
+
+470
+00:21:52,120 --> 00:21:57,120
+This is also why I feel
+personal responsibility
+
+471
+00:21:57,520 --> 00:21:59,760
+to speak the truth I believe in
+
+472
+00:21:59,760 --> 00:22:02,120
+as a scientist and an educator.
+
+473
+00:22:02,120 --> 00:22:04,960
+Li has spent her life
+teaching machines to see.
+
+474
+00:22:04,960 --> 00:22:07,040
+She gave AI its eyes.
+
+475
+00:22:07,040 --> 00:22:09,120
+Now in her second act, she's trying
+
+476
+00:22:09,120 --> 00:22:11,040
+to give it a world to live in.
+
+477
+00:22:11,040 --> 00:22:14,200
+As the scientist who helped
+spark the modern AI revolution,
+
+478
+00:22:14,200 --> 00:22:16,560
+perhaps we shouldn't put it past her.
+
+479
+00:22:16,560 --> 00:22:20,040
+Where is this all going? Where
+are we in five years? This
+
+480
+00:22:20,040 --> 00:22:22,680
+This is where I reveal I'm an optimist.
+
+481
+00:22:23,720 --> 00:22:28,440
+The, the arc of history
+is long. I paraphrase Dr.
+
+482
+00:22:28,440 --> 00:22:31,200
+King. I believe it bends
+towards benevolence.
+
+483
+00:22:32,160 --> 00:22:36,560
+Now, we're not a perfect world of people
+
+484
+00:22:36,560 --> 00:22:41,400
+and community, but 2026
+today is better than
+
+485
+00:22:41,400 --> 00:22:46,400
+2026 BC for the majority
+of the population.
+
+486
+00:22:46,600 --> 00:22:50,960
+And I think it's because despite
+all of our dark underbelly,
+
+487
+00:22:50,960 --> 00:22:52,880
+we have it in our DNA.
+
+488
+00:22:52,880 --> 00:22:56,200
+We want our offsprings
+to live a better life,
+
+489
+00:22:56,200 --> 00:23:00,440
+and we have moral compasses collectively
+
+490
+00:23:00,440 --> 00:23:03,720
+to move the society towards benevolence.
+
+491
+00:23:03,720 --> 00:23:06,240
+My hope is in humanity.
+
+492
+00:23:19,680 --> 00:23:22,200
+Is it true you're
+obsessed with UFOs? When I
+
+493
+00:23:22,200 --> 00:23:23,480
+was a kid. Like,
+
+494
+00:23:23,480 --> 00:23:26,680
+Have you read the documents
+they're declassifying?
+
+495
+00:23:26,680 --> 00:23:27,680
+No.
+
+496
+00:23:28,760 --> 00:23:31,960
+I think it's part of
+that dreamy curiosity
+
+497
+00:23:31,960 --> 00:23:34,000
+as a kid is what's out there. Do
+
+498
+00:23:34,000 --> 00:23:36,240
+you think there's aliens out there? So
+
+499
+00:23:36,240 --> 00:23:38,920
+as a physics student,
+you learn Drake's equation.
+
+500
+00:23:38,920 --> 00:23:43,280
+Drake's equation computes
+the probability of potential
+
+501
+00:23:43,280 --> 00:23:45,840
+of outer space aliens.
+
+502
+00:23:45,840 --> 00:23:48,680
+So there is a potential number. Wow.
+
+503
+00:23:48,680 --> 00:23:50,920
+Okay. Favorite sci-fi movie?
+
+504
+00:23:50,920 --> 00:23:54,120
+Contact. By far my
+favorite. There you go.
+
+505
+00:23:54,120 --> 00:23:56,600
+Intelligence...
+somewhere out there. Yeah.
+

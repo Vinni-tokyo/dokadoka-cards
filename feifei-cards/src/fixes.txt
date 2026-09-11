@@ -1,0 +1,5 @@
+# 자막 오류 교정.  형식: 카드id|교정문   — 원문은 빌드가 raw 로 보존한다. 뜻이 바뀌거나 표기가 틀린 곳만 고친다.
+102|Most likely you're thinking about OpenAI's Sora.
+114|So who or what companies are using Marble right now?
+173|Building world models is incredibly resource intensive. Do you need more power?
+226|We need the collective governance. But let's not throw the baby out with the bathwater.

@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b4a7a"><title>도카도카 영어 공부 · Dokadoka English</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f4f5f8; --surface:#fff; --surface-2:#f1f3f7; --surface-3:#e9ecf2;
+ --line:#e2e5ec; --line-2:#cfd4de;
+ --ink:#21242c; --ink-2:#5c6270; --ink-3:#8b919e;
+ --brand:#3b4a7a; --brand-2:#2e3b63; --brand-soft:#e9ecf5; --brand-line:#c2c9df;
+ --accent:#b0603f; --accent-soft:#fbf1ea; --accent-line:#ead0bd;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,28,40,.05);
+ --sh-2:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);
+ font-family:"Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+[lang=en]{font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Noto Sans KR",sans-serif}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* two-line labels: Korean primary, English secondary */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:64px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 292px;min-height:100vh}
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .panel,.side .foot{flex:none}
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;border:2px solid var(--surface-2);background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f1e2d4;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a4c;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f14;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.spk{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.chip.cap{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.en{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;letter-spacing:.005em;
+ overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ko{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0;word-break:keep-all}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);background:var(--accent-soft);
+ box-shadow:inset 0 0 0 1px var(--accent-line);font-size:12px;line-height:1.65;color:#7a5330}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr);gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .who{font-size:11px;font-weight:600;color:var(--brand);padding-top:3px;line-height:1.35;word-break:keep-all}
+.line .who.cap{color:var(--accent)}
+.line .k{font-size:14.5px;line-height:1.6;font-weight:500}
+.line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+
+/* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+
+/* ============ study ============ */
+/* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3;word-break:keep-all}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 매일 되풀이하는 순서라 큰 카드 대신 얇은 흐름 띠로 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600}
+.dcRow .jj{color:var(--ink-3);font-size:11px;word-break:keep-all}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 학습법 가이드 ---- */
+.guide{padding:26px 24px 30px}
+.gintro{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.gintro>p[lang=en]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px;word-break:keep-all}
+.gnote span[lang=en]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .en{font-size:11.5px;color:var(--ink-3);margin:0 0 8px;min-height:0;display:block;font-weight:400;line-height:1.4}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2);word-break:keep-all}
+.gstep p span[lang=en]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2);word-break:keep-all}
+.gtip p span[lang=en]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5}
+.srow .k small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:7px}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px;word-break:keep-all}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.01em;word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s;word-break:keep-all}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.grp{display:flex;align-items:center;gap:8px;margin:14px 6px 6px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+.scenes{display:block}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s;margin-bottom:1px}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .mem{padding-left:24px;position:relative}
+.scenes .mem::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+.scenes button[aria-pressed=true].mem::before{background:var(--brand)}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
+ .line{grid-template-columns:44px minmax(0,1fr)}.line .who{grid-column:2}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+ <main class="main">
+  <div class="topbar">
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">전체<span class="inl" lang="en">All</span></h1>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">카드<span class="sub" lang="en">Cards</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">대본<span class="sub" lang="en">Script</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">학습<span class="sub" lang="en">Study</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>로컬 파일(<code>file://</code>)로 열었습니다.</strong>
+    YouTube 가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153). 카드·대본·편집은 그대로 쓸 수 있고,
+    재생 버튼은 YouTube 를 해당 대사 위치부터 엽니다. 페이지 안에서 재생하려면 같이 둔
+    <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.
+    <span class="sub" lang="en">Opened as a local file (<code>file://</code>). YouTube refuses embedded playback from a page with no origin (Error 153).
+     Cards, script and editing still work, and the play button opens YouTube at that line. To play inside the page, run the bundled
+     <code>start.bat</code>(Windows) or <code>start.sh</code> .</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>이 페이지 안에서는 재생할 수 없습니다</strong>
+      <span lang="en">Cannot play inside this page</span>
+      <em>재생 버튼이 YouTube 를 해당 위치부터 엽니다<br><span lang="en">The play button opens YouTube at that position</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 영상 ID / Video ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">적용<span class="sub" lang="en">Apply</span></span></button>
+    </div>
+    <div class="status" id="playStatus">플레이어를 불러오는 중…<span class="sub" lang="en">Loading player…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="chip spk" id="who">—</span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · Edited</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="en" id="en" lang="en">불러오는 중…</div>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">이 장면 재생<span class="sub" lang="en">Play this line</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">구간 반복<span class="sub" lang="en">Repeat</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">체크<span class="sub" lang="en">Check</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">편집<span class="sub" lang="en">Edit</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">영어 대사 · English line</div>
+       <textarea id="edEn" lang="en" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">한국어 뜻 · Korean meaning</div>
+       <textarea id="edKo" spellcheck="false"></textarea>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · Save</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · Cancel</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>되돌리기 · Reset</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">뜻 보기<span class="sub" lang="en">Show meaning</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>뜻 · Meaning</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · Hide</button></div>
+      <p class="ko" id="ko"></p>
+      <p class="note" id="note" hidden></p>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">이전<span class="sub" lang="en">Prev</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">다음<span class="sub" lang="en">Next</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="en">Auto-play next card</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="en">Show meaning from the start</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="en">Shuffle order</span></span></label>
+      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="en" style="color:var(--ink-3);font-size:11.5px">Playback margin</span></span>
+       <select id="optTail">
+        <option value="0.3">0.3초 · 0.3 s</option><option value="0.5">0.5초 · 0.5 s</option>
+        <option value="0.8">0.8초 · 0.8 s</option><option value="1">1초 · 1 s</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 뜻 · Meaning</i><i><kbd>X</kbd><kbd>Space</kbd> 재생 · Play</i>
+      <i><kbd>C</kbd> 반복 · Repeat</i><i><kbd>V</kbd><kbd>→</kbd> 다음 · Next</i><i><kbd>←</kbd> 이전 · Prev</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / How to study">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
+     </div>
+
+     <div id="dayPane">
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="9" aria-pressed="false">천천히</button>
+        <button data-v="13" aria-pressed="true">보통</button>
+        <button data-v="18" aria-pressed="false">빠르게</button>
+        <button data-v="25" aria-pressed="false">집중</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">7</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · Study as cards</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · Quiz on today’s set</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 대사 · Lines</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 표현 · Expressions</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 단어 · Words</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>인터뷰 한 편을 「쓸 수 있는 영어」로 바꾸는 4단계</h3>
+        <p lang="en">Four steps to turn one interview into English you can use</p>
+        <p class="gnote">이 교재는 대본이 아니라 <b>실제 인터뷰</b>입니다. 지어낸 예문에 없는 머뭇거림·줄임말·감탄사가 들어 있습니다.
+         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
+         <span lang="en">This is not a scripted textbook but a<b>real interview</b>. It is full of the hesitations, contractions and back-channels that invented examples never have.
+          That is why “understanding on paper” is not enough. <b>Learning it together with the sound</b> is the shortcut.</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>하루 20분이면 된다 · 20 minutes a day is enough</h5>
+         <p>123개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
+          <span lang="en">123 cards in one sitting will not stick. The Today tab slices them for you.<b>A little every day</b> is the only shortcut.</span></p></div>
+        <div class="gtip"><h5>뜻보다 소리 먼저 · Sound before meaning</h5>
+         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
+          <span lang="en">Play each card first <b>with the meaning hidden</b>. Opening the meaning only where you could not catch it makes it stick.</span></p></div>
+        <div class="gtip"><h5>소리 내어 따라 하기 · Say it out loud</h5>
+         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
+          <span lang="en">Use Repeat (<kbd>C</kbd>) to loop the same span and <b>speak over it</b>. Copying the intonation, not just the words, works best.</span></p></div>
+        <div class="gtip"><h5>축약과 필러에 귀 익히기 · Contractions and fillers</h5>
+         <p><b>gonna · wanna · kinda · ’cause · I dunno</b> 같은 축약과 <b>you know · I mean · like · I don’t know</b> 같은 필러는 뜻이 아니라 리듬입니다. 들릴 때마다 뜻을 찾지 말고 흘려 보내는 연습을 하세요. 이 한 편에만 you know 가 18번 나옵니다.
+          <span lang="en">Contractions like <b>gonna · wanna · kinda · ’cause · I dunno</b> and fillers like <b>you know · I mean · like · I don’t know</b> carry rhythm, not meaning. Practice letting them pass instead of looking them up; “you know” alone appears 18 times in this one video.</span></p></div>
+        <div class="gtip"><h5>틀린 것이 보물 · Mistakes are treasure</h5>
+         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
+          <span lang="en">Items you miss in the quiz become your review list.<b>First thing the next day</b>, listen to just those again.</span></p></div>
+        <div class="gtip"><h5>묻는 말투와 답하는 말투 · Asking vs. answering</h5>
+         <p>인터뷰어는 <b>What was the thinking behind that…? · Could you go into that a little bit? · What's your view of that…?</b> 처럼 길게 맥락을 깔고 묻고, 올트먼은 <b>So it's worth pointing out that… · We want to be clear. · I think it's very important to note…</b> 처럼 주장의 틀을 먼저 세웁니다. 질문의 전제 부분과 답의 첫 문장을 통째로 외우면 토론·발표에 그대로 씁니다.
+          <span lang="en">The anchor lays out context before asking: <b>What was the thinking behind that…? · Could you go into that a little bit? · What's your view of that…?</b> Altman frames his answers first: <b>So it's worth pointing out that… · We want to be clear. · I think it's very important to note…</b> Memorize the setup of the questions and the first sentence of the answers for discussions and presentations.</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
+       <span class="meta" id="sCount">0</span>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">출제 범위 · Scope</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">표현 · Expressions</button>
+         <button data-v="V" aria-pressed="false">단어 · Words</button>
+         <button data-v="S" aria-pressed="false">대사 · Lines</button>
+         <button data-v="D" aria-pressed="false">오늘 분량 · Today’s set</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">출제 방식 · Mode</span>
+        <div class="seg" id="qMode">
+         <button data-v="en2ko" aria-pressed="true">EN → KO</button>
+         <button data-v="ko2en" aria-pressed="false">KO → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listening</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">문항 수 · Questions</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">전체 · All</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>시작 · Start</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 정답 · Correct</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>그만 · Quit</button>
+       </div>
+       <div class="qask" id="qAsk" lang="en">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>다시 듣기 · Play again</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>다시 · Again</button>
+        <button class="btn" id="rBack">설정으로 · Settings</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.
+     <span class="sub" lang="en">Click a line to play from there. While playing, the list follows along.</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">E</div>
+   <div><strong>도카도카 영어 공부<span class="sub" lang="en">Dokadoka English</span></strong>
+    <small>샘 올트먼 · Bloomberg 인터뷰 · <span class="n">—</span>문장<br><span lang="en">Sam Altman on Bloomberg TV · <span class="n">—</span> lines</span></small></div></div>
+
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> 체크함 · <span lang="en">checked</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">장 수정함 · <span lang="en">cards edited</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>내보내기 · Export</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>가져오기 · Import</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    자막은 Bloomberg 가 영상에 붙인 공식 영어 자막입니다(화자 표시는 없어 직접 지정). 번역·주석은 직접 작성한 것이라 오류가 있을 수 있습니다.<br>
+    <span lang="en">Captions are Bloomberg’s official English captions (speakers assigned by hand). Translations and notes are hand-written and may contain errors.</span></p>
+  </div>
+
+  <div class="foot">
+   대사·영상 출처 · <span lang="en">Source of lines and video</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   학습용 개인 이용을 전제로 한 페이지입니다.<br>
+   <span lang="en">This page is intended for personal study use.</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const DATA = [{"id":1,"s":0.03,"e":5.36,"en":"The way that OpenAI is framing Astra is basically an early step toward AGI,","ko":"OpenAI 는 Astra 를 기본적으로 AGI 를 향한 초기 단계로 규정하고 있는데요,","spk":"Interviewer","scene":"astra","note":"frame A as B = A 를 B 로 규정하다·프레이밍하다"},{"id":2,"s":5.36,"e":13.35,"en":"but I thought we could start a conversation just with basically what's fundamentally different with Astra relative to prior generations of model.","ko":"그래도 대화는 우선 이전 세대 모델과 비교해 Astra 가 근본적으로 무엇이 다른지에서 시작해 보고 싶습니다.","spk":"Interviewer","scene":"astra","note":"relative to = ~에 비해 / prior generations = 이전 세대"},{"id":3,"s":14.58,"e":16.62,"en":"It feels, first of all, thank you for having me.","ko":"느낌은, 우선, 불러 주셔서 감사합니다.","spk":"Altman","scene":"astra","note":"thank you for having me = 초대 감사 인사(정석)"},{"id":4,"s":16.95,"e":30.92,"en":"It feels like a new step in this process towards models that can really help us create value, do work, uh, discover new science, help us create help, start new companies or create new products.","ko":"우리가 가치를 만들고, 일을 하고, 새 과학을 발견하고, 새 회사를 세우거나 새 제품을 만드는 걸 정말로 도와주는 모델을 향한 여정에서 새로운 한 걸음 같은 느낌입니다.","spk":"Altman","scene":"astra","note":"a new step in this process towards ~ = ~를 향한 과정의 새 단계"},{"id":5,"s":30.98,"e":35.61,"en":"Using it subjectively feels to me very different than any model before.","ko":"직접 써 보면 주관적으로는 이전 어떤 모델과도 아주 다르게 느껴집니다.","spk":"Altman","scene":"astra","note":"subjectively = 주관적으로 / feel different than = ~와 다르게 느껴지다"},{"id":6,"s":35.68,"e":39.91,"en":"What's the kind of principal use case that's different this time around?","ko":"이번에 달라진 대표적인 활용 사례는 어떤 건가요?","spk":"Interviewer","scene":"astra","note":"principal use case = 대표적·주된 활용 사례"},{"id":7,"s":39.96,"e":43.89,"en":"You know, I think we can get into the generations of model that we're very coding focused.","ko":"아시다시피 그동안의 모델 세대는 코딩에 아주 집중돼 있었죠.","spk":"Interviewer","scene":"astra","note":"coding focused = 코딩 중심의 (명사+focused)"},{"id":8,"s":43.9,"e":54.91,"en":"I know a lot of the development was very cybersecurity focused, but taking it away from the software engineer, what is the everyday person unlocking AI that they weren't able to do previously?","ko":"개발 과정 상당 부분이 사이버보안에 집중된 것도 알지만, 소프트웨어 엔지니어 얘기를 떠나서, 일반인은 이전에 못 하던 무엇을 AI 로 할 수 있게 되나요?","spk":"Interviewer","scene":"astra","note":"taking it away from ~ = ~에서 벗어나서 / unlock = (능력을) 열다·가능하게 하다"},{"id":9,"s":54.98,"e":66.54,"en":"One thing that I think people will immediately notice is if you have an idea and you want to work interactively with an AI to get, uh, you know, a complex piece of a whole piece of software built.","ko":"사람들이 바로 알아차릴 한 가지는, 아이디어가 있고 AI 와 상호작용하면서 복잡한 소프트웨어 한 벌을 통째로 만들고 싶을 때입니다.","spk":"Altman","scene":"astra","note":"work interactively with = ~와 주고받으며 작업하다 / a whole piece of software = 소프트웨어 한 벌"},{"id":10,"s":66.61,"e":71.53,"en":"This is the first model to me where I could sort of tell someone, like, just give it a try. There's.","ko":"제가 누군가에게 \"그냥 한번 써 봐\"라고 말할 수 있는 첫 모델이에요. 그러니까.","spk":"Altman","scene":"astra","note":"give it a try = 한번 해 보다"},{"id":11,"s":71.57,"e":77.49,"en":"There's a good chance it'll work. And, you know, I've watched people make computer games.","ko":"될 가능성이 꽤 높거든요. 사람들이 컴퓨터 게임을 만드는 걸 봤고요.","spk":"Altman","scene":"astra","note":"there's a good chance (that) ~ = ~할 가능성이 꽤 높다"},{"id":12,"s":77.49,"e":83.7,"en":"I watch people do sort of like home sort of DIY electrical engineering projects.","ko":"집에서 DIY 전자공학 프로젝트 같은 걸 하는 것도 봤습니다.","spk":"Altman","scene":"astra","note":"sort of like = 뭐랄까 (완화 필러)"},{"id":13,"s":84.06,"e":89.03,"en":"Uh, I've watched people do very complex simulations for some piece of science they're working on.","ko":"자기가 하는 과학 연구를 위해 아주 복잡한 시뮬레이션을 돌리는 것도 봤어요.","spk":"Altman","scene":"astra","note":"some piece of science they're working on = 각자 진행 중인 과학 연구"},{"id":14,"s":89.08,"e":103.28,"en":"Uh, certainly a lot of the work where you would sort of normally sit down and have to, you know, build a financial model here and then a PowerPoint presentation around it and then figure out how to, like, make a little interactive piece of code to sort of try different simulations.","ko":"보통은 앉아서 재무 모델을 만들고, 그걸 둘러싼 파워포인트를 만들고, 다른 시뮬레이션을 돌려 볼 작은 인터랙티브 코드를 어떻게 만들지 궁리해야 했던 그런 일들의 상당수가요.","spk":"Altman","scene":"astra","note":"sit down and have to ~ = 앉아서 ~해야 하다 / figure out how to = ~할 방법을 궁리하다"},{"id":15,"s":103.33,"e":105.33,"en":"That stuff is it's all so doable now.","ko":"그런 게 이제 다 정말 쉽게 됩니다.","spk":"Altman","scene":"astra","note":"doable = 해낼 수 있는·가능한"},{"id":16,"s":105.63,"e":115.76,"en":"Um, what I hope will happen is people I think people will be surprised at the beginning, but then as they build up more trust in the model and more like, wow, I can really do this.","ko":"제가 바라는 건, 처음엔 사람들이 놀라겠지만, 모델에 대한 신뢰가 쌓이고 \"와, 정말 되네\" 하는 느낌이 커지면서,","spk":"Altman","scene":"astra","note":"build up trust in = ~에 대한 신뢰를 쌓다"},{"id":17,"s":115.82,"e":120.09,"en":"Just start throwing harder and harder tasks and more creative ideas at it.","ko":"점점 더 어려운 과제와 더 창의적인 아이디어를 계속 던져 보는 겁니다.","spk":"Altman","scene":"astra","note":"throw ~ at it = ~을 (시험 삼아) 던져 보다 / harder and harder = 점점 더 어려운"},{"id":18,"s":120.14,"e":123.9,"en":"And uh, they will find out what the model can really do for them.","ko":"그러면 모델이 자기를 위해 실제로 무엇을 해 줄 수 있는지 알게 될 거예요.","spk":"Altman","scene":"astra","note":"find out = 알아내다"},{"id":19,"s":123.96,"e":126.83,"en":"So the specifics of how Astra's being released.","ko":"그럼 Astra 의 구체적인 출시 방식 얘기인데요.","spk":"Interviewer","scene":"astra","note":"the specifics of = ~의 세부 사항"},{"id":20,"s":126.89,"e":131.54,"en":"I think it's important so that a version of it with specific guardrails.","ko":"특정한 가드레일을 단 버전으로 낸다는 게 중요해 보입니다.","spk":"Interviewer","scene":"guardrails","note":"guardrails = 가드레일·안전장치 (AI 문맥의 관용어)"},{"id":21,"s":131.61,"e":137.75,"en":"Um, what was the thinking behind that and what are those specific guardrails, uh, in this early release of it?","ko":"그렇게 한 배경은 무엇이고, 이번 초기 출시에서 그 가드레일은 구체적으로 어떤 건가요?","spk":"Interviewer","scene":"guardrails","note":"the thinking behind ~ = ~의 배경이 된 생각"},{"id":22,"s":138.38,"e":153.8,"en":"Yeah. So the the challenge of our industry is that we have these models that are getting incredibly capable and incredibly useful and that people want to use to everything from, you know, make their lives a little easier to starting new companies.","ko":"네. 우리 업계의 과제는, 모델이 엄청나게 유능하고 유용해지면서 사람들이 생활을 조금 편하게 하는 것부터 새 회사를 차리는 것까지 온갖 일에 쓰고 싶어 한다는 겁니다.","spk":"Altman","scene":"guardrails","note":"the challenge of our industry is that ~ = 우리 업계의 과제는 ~라는 것 / everything from A to B = A 부터 B 까지 온갖 것"},{"id":23,"s":154.07,"e":160.82,"en":"And then, on the other hand, as these models get more capable, um, the risks that we have to mitigate, uh, also become more serious.","ko":"그런데 다른 한편으로, 모델이 유능해질수록 우리가 완화해야 할 위험도 더 심각해집니다.","spk":"Altman","scene":"guardrails","note":"on the other hand = 다른 한편으로 / mitigate risks = 위험을 완화하다"},{"id":24,"s":160.82,"e":164.72,"en":"The models could do more damage if we don't, um, if we don't do a good job at that.","ko":"우리가 그 일을 잘 못 하면 모델이 더 큰 피해를 줄 수 있어요.","spk":"Altman","scene":"guardrails","note":"do damage = 피해를 주다 / do a good job at = ~을 잘 해내다"},{"id":25,"s":164.79,"e":169.81,"en":"And so we have spent, uh, you know, obviously this model took us a little longer to release than we were hoping.","ko":"그래서 우리는 시간을 들였고, 솔직히 이 모델은 기대보다 출시가 좀 늦어졌습니다.","spk":"Altman","scene":"guardrails","note":"took us longer than we were hoping = 기대보다 오래 걸렸다"},{"id":26,"s":169.82,"e":175.46,"en":"I think it'll be worth the wait, but we really wanted to spend the time on the safety and security alignment of this model.","ko":"기다린 보람이 있을 거라고 보지만, 이 모델의 안전성·보안·정렬에 정말로 시간을 쓰고 싶었습니다.","spk":"Altman","scene":"guardrails","note":"worth the wait = 기다릴 가치가 있는 / alignment = (AI) 정렬"},{"id":27,"s":175.52,"e":182.66,"en":"Yes. Um, and I think as people understand the power and impact and capabilities, they will be, they will be happy that we did.","ko":"네. 그리고 사람들이 그 힘과 영향과 능력을 이해하게 되면, 우리가 그렇게 한 걸 반길 겁니다.","spk":"Altman","scene":"guardrails","note":"they will be happy that we did = 우리가 그렇게 한 것을 기뻐할 것이다"},{"id":28,"s":183.02,"e":189.93,"en":"Um, we will, uh, we'll have different tiers of cyber access for this model, for cyber in particular.","ko":"이 모델에는 사이버 접근 등급을 여러 단계로 둘 겁니다, 특히 사이버 분야에서요.","spk":"Altman","scene":"guardrails","note":"tiers of access = 접근 등급 / in particular = 특히"},{"id":29,"s":189.98,"e":193.27,"en":"Today we're rolling it out, uh, to Trusted Access Partners.","ko":"오늘은 신뢰 접근 파트너에게 먼저 배포합니다.","spk":"Altman","scene":"guardrails","note":"roll out = (제품을) 단계적으로 배포하다"},{"id":30,"s":193.32,"e":197.3,"en":"And then in the coming days, assuming everything goes well, we'll roll it out more broadly.","ko":"그리고 며칠 안에, 모든 게 순조롭다는 전제로, 더 넓게 배포할 겁니다.","spk":"Altman","scene":"guardrails","note":"assuming everything goes well = 모든 게 잘 된다는 전제로"},{"id":31,"s":197.75,"e":199.88,"en":"Um, you couldn't say.","ko":"이렇게 말할 수도 있겠죠.","spk":"Altman","scene":"guardrails","note":"you could say = ~라고 할 수도 있다 (자막은 couldn't 로 오기)"},{"id":32,"s":199.88,"e":205.33,"en":"Well, you know, if this model is, you know, has a cyber problem, why let anyone use it for cyber?","ko":"\"이 모델에 사이버 문제가 있다면, 왜 누구든 사이버 용도로 쓰게 두느냐\"고요.","spk":"Altman","scene":"guardrails","note":"why let anyone ~ = 왜 아무나 ~하게 두느냐"},{"id":33,"s":205.39,"e":213.88,"en":"And I think it's very important to note, to note that the world is very close to a complete change in the landscape of cyber attacks,","ko":"그런데 꼭 짚고 싶은 건, 세계가 사이버 공격 지형의 완전한 변화에 아주 가까이 와 있다는 점이고,","spk":"Altman","scene":"guardrails","note":"it's very important to note that ~ = ~라는 점을 꼭 짚어야 한다 / landscape = 지형·판도"},{"id":34,"s":213.88,"e":229.71,"en":"and the only way that we see for society to collectively defend itself against this coming wave of models, um, from around the world and from other companies, is to use tools like Astra to rapidly defend against these new kind of cyber threats.","ko":"전 세계와 다른 회사들에서 밀려올 이 모델의 물결로부터 사회가 스스로를 집단적으로 방어하는 유일한 길은 Astra 같은 도구로 새로운 사이버 위협을 신속히 막아 내는 것이라고 봅니다.","spk":"Altman","scene":"guardrails","note":"the only way that we see for ~ to … is to ~ = ~가 …할 유일한 길은 ~하는 것 / collectively = 집단적으로"},{"id":35,"s":229.79,"e":236.45,"en":"Um, so we will have multiple programs, uh, for people with sort of different levels of verification and trust.","ko":"그래서 검증과 신뢰 수준이 다른 사람들을 위한 여러 프로그램을 둘 겁니다.","spk":"Altman","scene":"guardrails","note":"levels of verification = 검증 수준"},{"id":36,"s":236.45,"e":242.34,"en":"But we do think it's quite important that the world use these models to, uh, collectively defend ourselves.","ko":"하지만 세계가 이 모델들을 써서 집단적으로 스스로를 지키는 게 상당히 중요하다고 봅니다.","spk":"Altman","scene":"guardrails","note":"quite important = 상당히 중요한"},{"id":37,"s":242.4,"e":245.47,"en":"What happened prior to release is important, right?","ko":"출시 전에 있었던 일이 중요하죠?","spk":"Interviewer","scene":"pause","note":"prior to = ~에 앞서 (before 의 격식체)"},{"id":38,"s":245.54,"e":252.4,"en":"You determined that Astra can find and develop zero day exploits without any human intervention, essentially.","ko":"Astra 가 사람의 개입 없이 제로데이 익스플로잇을 사실상 스스로 찾아내고 개발할 수 있다고 판단하셨고요.","spk":"Interviewer","scene":"pause","note":"zero day exploit = 제로데이 취약점 공격 / without any human intervention = 인간 개입 없이"},{"id":39,"s":252.4,"e":257.8,"en":"And so you paused some of the work to strengthen the safeguards.","ko":"그래서 안전장치를 강화하려고 일부 작업을 중단했습니다.","spk":"Interviewer","scene":"pause","note":"strengthen the safeguards = 안전장치를 강화하다"},{"id":40,"s":258.46,"e":264.39,"en":"What specifically was it that you saw that made you hit pause the behavior, I suppose, of the model.","ko":"구체적으로 무엇을 보고 멈추기로 했나요, 모델의 어떤 행동이었을까요.","spk":"Interviewer","scene":"pause","note":"hit pause = 일시 중지하다 / I suppose = 아마도·~인 것 같은데요"},{"id":41,"s":264.46,"e":269.17,"en":"So it's worth pointing out that, um, the model that we're launching today is GPT six.","ko":"짚어 둘 점은, 오늘 출시하는 모델은 GPT-6 라는 겁니다.","spk":"Altman","scene":"pause","note":"it's worth pointing out that ~ = ~라는 점은 짚어 둘 만하다"},{"id":42,"s":269.17,"e":271.0,"en":"Astra has been done training for a while.","ko":"Astra 는 학습이 끝난 지 꽤 됐어요.","spk":"Altman","scene":"pause","note":"has been done training for a while = 학습이 끝난 지 한참 됐다"},{"id":43,"s":271.21,"e":274.81,"en":"Um, the model that we recently talked about pausing, uh, as a future model.","ko":"최근에 중단한다고 말한 모델은 차기 모델입니다.","spk":"Altman","scene":"pause","note":"a future model = 향후 모델"},{"id":44,"s":275.17,"e":278.83,"en":"Um, but with Astra, we we did hit cyber critical.","ko":"하지만 Astra 로도 '사이버 위험 임계' 등급에는 도달했습니다.","spk":"Altman","scene":"pause","note":"hit critical = 임계 등급에 도달하다 (OpenAI 준비태세 체계의 위험 등급)"},{"id":45,"s":279.13,"e":288.4,"en":"And there that required, under our preparedness framework, a new set of safeguards just to be able to release Astra, um, because of those cyber capabilities you talked about.","ko":"그래서 우리 준비태세 체계에 따라, 말씀하신 그 사이버 능력 때문에, Astra 를 출시하려면 새로운 안전장치 세트가 필요했습니다.","spk":"Altman","scene":"pause","note":"under our preparedness framework = 우리 준비태세 체계에 따라 / a new set of = 새로운 한 세트의"},{"id":46,"s":288.47,"e":293.17,"en":"I got a lot of questions for you, Sam, about Astra and chain of thought.","ko":"샘, Astra 와 사고 사슬에 관해 질문이 많이 들어왔습니다.","spk":"Interviewer","scene":"cot","note":"chain of thought = 사고 사슬(모델의 추론 과정)"},{"id":47,"s":293.23,"e":302.62,"en":"Um, I don't know if that comes as a surprise to you or not, but as Astra becomes more autonomous for future generations of the model, become more autonomous, can OpenAI—","ko":"의외일지 모르겠지만, Astra 가, 그리고 향후 세대 모델이 더 자율적이 될 때, OpenAI 는","spk":"Interviewer","scene":"cot","raw":"Um, I don't know if that comes as a surprise to you or not, but as Astra becomes more autonomous for future generations of the model, become more autonomous, can open.","note":"autonomous = 자율적인 / comes as a surprise = 의외로 다가오다"},{"id":48,"s":302.62,"e":309.7,"en":"—sort of say with confidence that you see and understand what the model is planning before it acts.","ko":"모델이 행동하기 전에 무엇을 계획하는지 보고 이해한다고 자신 있게 말할 수 있나요.","spk":"Interviewer","scene":"cot","raw":"I sort of say with confidence that you see and understand what the model is planning before it acts.","note":"say with confidence = 자신 있게 말하다 / before it acts = 행동하기 전에"},{"id":49,"s":309.76,"e":316.24,"en":"In other words, you have visibility into the reasoning that basically users of the model can't see, OpenAI—","ko":"다시 말해 모델 사용자는 볼 수 없는 추론 과정을 OpenAI 는","spk":"Interviewer","scene":"cot","raw":"In other words, you have visibility into the reasoning that basically uses of the model can't see open.","note":"in other words = 다시 말해 / visibility into = ~에 대한 가시성"},{"id":50,"s":316.24,"e":319.45,"en":"—can, for obvious reasons. Could you go into that a little bit?","ko":"당연한 이유로 볼 수 있다는 건데, 그 부분을 조금 설명해 주시겠어요?","spk":"Interviewer","scene":"cot","raw":"I can for obvious reasons. Could you go into that a little bit?","note":"for obvious reasons = 당연한 이유로 / go into = 자세히 설명하다"},{"id":51,"s":319.57,"e":324.49,"en":"Yeah. So we have talked for a long time about the importance of monitor ability of models.","ko":"네. 우리는 모델의 감시 가능성이 중요하다는 얘기를 오래전부터 해 왔습니다.","spk":"Altman","scene":"cot","note":"monitorability = 감시 가능성 (자막은 monitor ability 로 분리 표기)"},{"id":52,"s":324.67,"e":330.61,"en":"We've also said that we believe in defense in depth and this is only one part of it. There is sandboxing.","ko":"또 우리는 심층 방어를 믿는다고 말해 왔고, 이건 그중 한 부분일 뿐입니다. 샌드박싱이 있고요.","spk":"Altman","scene":"cot","note":"defense in depth = 심층 방어(여러 겹의 방어) / sandboxing = 격리 실행"},{"id":53,"s":330.64,"e":332.83,"en":"Uh, maybe most importantly there is alignment.","ko":"아마 가장 중요하게는 정렬이 있습니다.","spk":"Altman","scene":"cot","note":"most importantly = 가장 중요하게는"},{"id":54,"s":333.25,"e":338.86,"en":"There are a number of things that come together to be able to make the safety guarantees that we want to be able to make with a model.","ko":"모델로 우리가 하고자 하는 안전 보증을 하려면 여러 요소가 함께 맞물려야 합니다.","spk":"Altman","scene":"cot","note":"come together = 맞물리다·합쳐지다 / safety guarantees = 안전 보증"},{"id":55,"s":339.07,"e":341.32,"en":"But monitor ability is an important thing.","ko":"하지만 감시 가능성은 중요한 요소입니다.","spk":"Altman","scene":"cot"},{"id":56,"s":341.32,"e":353.44,"en":"And we've been talking, I think, for well over a year now about the importance of chain of thought monitoring and how we have made various decisions there that help us preserve chain of thought monitorability.","ko":"그리고 우리는 1년도 훨씬 넘게 사고 사슬 모니터링의 중요성과, 사고 사슬의 감시 가능성을 지키기 위해 어떤 결정들을 내려 왔는지 이야기해 왔습니다.","spk":"Altman","scene":"cot","raw":"And we've been talking, I think, for well over a year now about the importance of chain of thought monitoring and how we have made various decisions there that help us preserve chain of thought vulnerability.","note":"well over a year = 1년을 훨씬 넘게 / preserve = 보존하다 (자막은 vulnerability 로 오기)"},{"id":57,"s":353.77,"e":357.19,"en":"Um, even if it means we don't maximize the capabilities we could otherwise get.","ko":"그것이 원래 얻을 수 있었을 성능을 최대화하지 않는다는 뜻이더라도요.","spk":"Altman","scene":"cot","note":"even if it means ~ = 설령 ~을 의미하더라도 / otherwise = 그렇지 않았다면"},{"id":58,"s":357.52,"e":362.2,"en":"And we think that is important. Um, it's an important component. We also, uh, we want to be clear.","ko":"우리는 그게 중요하다고 봅니다. 중요한 요소예요. 다만 분명히 해 두고 싶은 건,","spk":"Altman","scene":"cot","note":"we want to be clear = 분명히 해 두고 싶다"},{"id":59,"s":362.25,"e":364.88,"en":"We don't think it's the only component that matters.","ko":"그것만이 유일하게 중요한 요소라고는 생각하지 않는다는 겁니다.","spk":"Altman","scene":"cot","note":"the only ~ that matters = 유일하게 중요한 ~"},{"id":60,"s":364.95,"e":371.71,"en":"We live on Bloomberg Television and on Bloomberg Radio, and we're speaking to Sam Altman, the CEO of OpenAI.","ko":"저희는 지금 Bloomberg 텔레비전과 Bloomberg 라디오로 생방송 중이고, OpenAI CEO 샘 올트먼과 이야기하고 있습니다.","spk":"Interviewer","scene":"cot","note":"we live on ~ = ~로 생방송 중 (방송 관용구)"},{"id":61,"s":372.04,"e":379.51,"en":"Um, you know, there's a lot of bad PR in the world around AI at the moment, every day citizen sort of worry about the impact.","ko":"요즘 세상에는 AI 를 둘러싼 나쁜 평판이 많고, 보통 시민들은 그 영향을 걱정합니다.","spk":"Interviewer","scene":"shutdown","note":"bad PR = 나쁜 평판·여론 / everyday citizen = 보통 시민"},{"id":62,"s":379.81,"e":381.13,"en":"One way I kind of wanted to put that to you.","ko":"그 질문을 이렇게 드려 보고 싶은데요.","spk":"Interviewer","scene":"shutdown","note":"put that to you = 그 질문을 당신에게 던지다"},{"id":63,"s":381.13,"e":391.99,"en":"Is it whether you can say sort of unequivocally there, if Astra or any future generation of AI behaved in a way that was dangerous, that you would be able to detect it and then shut it down.","ko":"Astra 든 향후 어떤 세대의 AI 든 위험한 방식으로 행동한다면, 그걸 감지하고 차단할 수 있다고 명확히 말씀하실 수 있습니까.","spk":"Interviewer","scene":"shutdown","raw":"Is it whether you can say sort of unequivocally there, if Astra or any future generation of all behaved in a way that was dangerous, that you would be able to detect it and then shut it down.","note":"unequivocally = 명확하게·모호함 없이 / shut it down = 정지시키다"},{"id":64,"s":394.51,"e":400.53,"en":"The obvious hard part of that, uh, question is that people have different opinions about what model should be able to do and shouldn't be able to do.","ko":"그 질문의 뻔히 어려운 부분은, 모델이 무엇을 할 수 있어야 하고 무엇은 하면 안 되는지에 대해 사람마다 의견이 다르다는 겁니다.","spk":"Altman","scene":"shutdown","note":"the hard part of that question is that ~ = 그 질문의 어려운 대목은 ~"},{"id":65,"s":400.56,"e":404.26,"en":"Yes, we think there are some things that very clearly model should not be able to do.","ko":"네, 모델이 절대 하면 안 되는 일이 몇 가지 아주 분명히 있다고 봅니다.","spk":"Altman","scene":"shutdown","note":"very clearly = 아주 분명히"},{"id":66,"s":404.34,"e":410.41,"en":"Uh, there are some clear red lines, and we talk a lot about being able to detect those.","ko":"분명한 금지선이 있고, 우리는 그것을 감지하는 능력에 대해 많이 이야기합니다.","spk":"Altman","scene":"shutdown","note":"red lines = 금지선·넘어선 안 되는 선"},{"id":67,"s":410.41,"e":419.28,"en":"But people also have strong opinions about things within the broad bounds of what is possible about how they use AI and or how they want to be able to use AI.","ko":"그러나 가능한 범위 안에서 AI 를 어떻게 쓰는지, 어떻게 쓰고 싶은지에 대해서도 사람들은 강한 의견을 갖고 있습니다.","spk":"Altman","scene":"shutdown","note":"within the broad bounds of = ~의 넓은 범위 안에서"},{"id":68,"s":419.34,"e":429.23,"en":"And this is going to be a difficult question for society, because there is not going to be agreement on, you know, what is and isn't acceptable use of AI.","ko":"그리고 이건 사회에 어려운 질문이 될 겁니다. 무엇이 AI 의 허용 가능한 사용이고 아닌지에 대해 합의가 이뤄지지 않을 테니까요.","spk":"Altman","scene":"shutdown","raw":"And this is going to be a difficult question for society, because there is not going to be agreement on, you know, what is and isn't acceptable use of I.","note":"there is not going to be agreement on = ~에 대해 합의가 없을 것이다 / acceptable use = 허용 가능한 사용"},{"id":69,"s":429.29,"e":436.75,"en":"I think it's very important in the same way that, you know, people do things with electricity that I may not always like,","ko":"이건 이렇게 생각하면 아주 중요합니다. 사람들이 전기로 하는 일 중에는 제가 늘 좋아하지 않는 것도 있지만,","spk":"Altman","scene":"shutdown","raw":"I think it's very important in the same way that, you know, people do things electricity that I may not always like,","note":"in the same way that ~ = ~와 같은 방식으로"},{"id":70,"s":436.75,"e":441.57,"en":"but I think everybody has a right to electricity that we say, you know, there are going to be some rules for society.","ko":"모두에게 전기를 쓸 권리가 있다고 보고, 사회에 몇 가지 규칙을 두자고 말하는 것과 같아요.","spk":"Altman","scene":"shutdown","raw":"but I think everybody has a right to electricity that we say, you know, there going to be some rules for society.","note":"have a right to = ~에 대한 권리가 있다"},{"id":71,"s":441.61,"e":444.06,"en":"You can't go like electrocute somebody else on the street.","ko":"길에서 남을 감전시켜서는 안 되죠.","spk":"Altman","scene":"shutdown","note":"electrocute = 감전시키다 / go like ~ = 막 ~하다 (구어)"},{"id":72,"s":444.12,"e":449.24,"en":"But this is an important platform that belongs to all of us and that we need to be able to, to use.","ko":"하지만 이건 우리 모두의 것이고 우리가 쓸 수 있어야 하는 중요한 플랫폼입니다.","spk":"Altman","scene":"shutdown","note":"belong to all of us = 우리 모두의 것이다"},{"id":73,"s":449.25,"e":453.89,"en":"So there will be, uh, ongoing conversation, negotiation in society.","ko":"그래서 사회 안에서 계속 대화와 협상이 이어질 겁니다.","spk":"Altman","scene":"shutdown","note":"ongoing = 진행 중인·계속되는 / negotiation = 협상"},{"id":74,"s":453.9,"e":457.38,"en":"There will, of course, be some things that we agree on that people just should not do with AI.","ko":"물론 사람들이 AI 로 절대 해서는 안 된다고 우리가 합의하는 일도 있을 겁니다.","spk":"Altman","scene":"shutdown","raw":"There will, of course, be some things that we agree on that people just should not do with. I.","note":"of course = 물론"},{"id":75,"s":457.68,"e":461.49,"en":"But there's a lot of edges that we're now going to have to feel our way through.","ko":"하지만 이제 더듬어 가며 헤쳐 나가야 할 경계선이 많습니다.","spk":"Altman","scene":"shutdown","note":"edges = 가장자리·경계 사례 / feel our way through = 더듬어 헤쳐 나가다"},{"id":76,"s":461.54,"e":466.23,"en":"And giving people autonomy and freedom to use AI is important to our mission.","ko":"그리고 사람들에게 AI 를 쓸 자율성과 자유를 주는 것이 우리 사명에 중요합니다.","spk":"Altman","scene":"shutdown","note":"autonomy = 자율성 / mission = 사명"},{"id":77,"s":466.29,"e":476.79,"en":"Sam, at the G20 this week, um, Treasury Secretary Scott Bessent said that the AI industry had done a terrible job of explaining how AI benefits ordinary Americans.","ko":"샘, 이번 주 G20 에서 스콧 베센트 재무장관이 AI 업계가 AI 가 보통 미국인에게 어떻게 이로운지 설명하는 데 형편없었다고 했습니다.","spk":"Interviewer","scene":"messaging","raw":"Sam at the G20 this week, um, Treasury Secretary Scott Besson said that the eye industry had done a terrible job of explaining how AI benefits ordinary Americans.","note":"do a terrible job of -ing = ~을 형편없이 하다 / ordinary Americans = 보통 미국인"},{"id":78,"s":477.48,"e":484.19,"en":"What's your view of that and whether you would, on reflection, consider OpenAI to be in that bucket?","ko":"그 말을 어떻게 보시고, 돌이켜 보면 OpenAI 도 거기에 해당한다고 보십니까?","spk":"Interviewer","scene":"messaging","note":"on reflection = 돌이켜 보면 / in that bucket = 그 범주에 속하는"},{"id":79,"s":484.28,"e":495.81,"en":"Uh, I think the industry has done a terrible job of this on the whole, um, I think we have done a bad job ourselves, uh, you know, maybe better than some others.","ko":"업계 전체가 이 점에서 형편없었다고 보고, 우리 스스로도 잘 못했다고 봅니다. 어떤 회사보다는 낫고,","spk":"Altman","scene":"messaging","note":"on the whole = 전체적으로 / better than some others = 일부보다는 낫다"},{"id":80,"s":495.81,"e":497.31,"en":"Worse than some others.","ko":"어떤 회사보다는 못하고요.","spk":"Altman","scene":"messaging"},{"id":81,"s":497.37,"e":505.95,"en":"Um, it is difficult, of course, to explain, but this is, uh, we, the world, in my opinion, should want us to worry a lot about this technology.","ko":"물론 설명하기 어려운 일이지만, 제 생각에 세계는 우리가 이 기술을 크게 걱정하길 바라야 합니다.","spk":"Altman","scene":"messaging","raw":"Um, it is difficult, of course, to explain, but this is, uh, we eat the world, in my opinion, should want us to worry a lot about this technology.","note":"the world should want us to ~ = 세계는 우리가 ~하길 바라야 한다"},{"id":82,"s":505.99,"e":509.27,"en":"The world should want us to think about all the ways that could go wrong.","ko":"세계는 우리가 잘못될 수 있는 모든 경우를 생각하길 바라야 합니다.","spk":"Altman","scene":"messaging","note":"all the ways that could go wrong = 잘못될 수 있는 모든 경우"},{"id":83,"s":509.32,"e":515.04,"en":"To talk about what we see coming, but not to sort of, like, stir up doom or concentrate power for ourselves.","ko":"우리가 보는 것을 말하되, 파멸론을 부추기거나 우리 자신에게 권력을 집중시키려 해선 안 되고요.","spk":"Altman","scene":"messaging","note":"stir up doom = 파멸론을 부추기다 / concentrate power = 권력을 집중시키다"},{"id":84,"s":515.04,"e":526.44,"en":"Just because in the history of technology, the way you solve the hard problems is to look at them, talk clearly about them, have scientists debate them, uh, work really hard to prevent and mitigate them.","ko":"기술의 역사에서 어려운 문제를 푸는 방법은 그것을 직시하고, 분명히 말하고, 과학자들이 토론하고, 예방하고 완화하려고 정말 열심히 일하는 것이었으니까요.","spk":"Altman","scene":"messaging","note":"the way you solve ~ is to … = ~을 푸는 방법은 …하는 것 / prevent and mitigate = 예방하고 완화하다"},{"id":85,"s":526.83,"e":532.09,"en":"And that has been our intention. But clearly, sometimes it ends up scaring people.","ko":"그게 우리 의도였습니다. 하지만 분명히, 때로는 사람들을 겁먹게 하고 맙니다.","spk":"Altman","scene":"messaging","note":"end up -ing = 결국 ~하게 되다"},{"id":86,"s":532.13,"e":534.87,"en":"Now, there's another thing that I think has gone really bad.","ko":"그리고 정말 잘못됐다고 생각하는 또 한 가지가 있어요.","spk":"Altman","scene":"messaging","note":"go really bad = 아주 잘못되다"},{"id":87,"s":534.92,"e":546.67,"en":"Besides talking about the ways this has got could go wrong, which is, um, I don't think we've done a great job as an industry of really talking about how to empower people with this technology.","ko":"잘못될 수 있는 경우를 얘기하는 것 말고도, 업계로서 이 기술로 사람들에게 어떻게 힘을 실어 줄지를 제대로 말하지 못했다는 겁니다.","spk":"Altman","scene":"messaging","note":"besides = ~외에도 / empower people = 사람들에게 힘·권한을 주다"},{"id":88,"s":546.74,"e":551.26,"en":"Um, right. You know, you hear some people talk about, well, we're going to give you a cure for cancer.","ko":"어떤 사람들은 이렇게 말하죠, \"우리가 암 치료법을 줄 것이다.\"","spk":"Altman","scene":"messaging","note":"a cure for cancer = 암 치료법"},{"id":89,"s":551.3,"e":552.09,"en":"And that's so great.","ko":"그건 정말 좋은 일이죠.","spk":"Altman","scene":"messaging"},{"id":90,"s":552.09,"e":555.86,"en":"So we're going to, you know, take these risks and you're going to have to have less power and autonomy.","ko":"\"그러니 이런 위험을 감수할 것이고, 여러분은 힘과 자율성을 덜 갖게 될 것이다\"라고요.","spk":"Altman","scene":"messaging","note":"take risks = 위험을 감수하다"},{"id":91,"s":555.9,"e":559.88,"en":"We want people to have more power and autonomy. You know, I don't think a cure for cancer is enough.","ko":"우리는 사람들이 더 많은 힘과 자율성을 갖길 바랍니다. 암 치료법으로는 충분하지 않다고 봐요.","spk":"Altman","scene":"messaging","note":"not enough = 충분하지 않다"},{"id":92,"s":559.93,"e":563.79,"en":"I mean, wonderful thing to have, obviously, but we should set our sights higher.","ko":"물론 있으면 멋진 일이지만, 우리는 목표를 더 높이 잡아야 합니다.","spk":"Altman","scene":"messaging","note":"set our sights higher = 목표를 더 높이 잡다"},{"id":93,"s":564.35,"e":571.89,"en":"We want these tool tools to enable a boom in creativity and entrepreneurship, in people figuring out new ways to be useful to each other,","ko":"우리는 이 도구들이 창의성과 창업의 붐을, 사람들이 서로에게 쓸모 있어질 새로운 방법을 찾아내는 붐을 일으키길 바라고,","spk":"Altman","scene":"messaging","note":"a boom in = ~의 붐 / be useful to each other = 서로에게 쓸모 있다"},{"id":94,"s":571.89,"e":575.21,"en":"and wonderful products and services to enable each other with.","ko":"서로에게 힘이 되어 줄 멋진 제품과 서비스를 만들길 바랍니다.","spk":"Altman","scene":"messaging","note":"enable each other with = ~로 서로를 도우다"},{"id":95,"s":575.54,"e":579.35,"en":"And I think that has been lost in the messaging.","ko":"그 부분이 메시지에서 사라졌다고 생각합니다.","spk":"Altman","scene":"messaging","note":"get lost in the messaging = 메시지 전달 과정에서 묻히다"},{"id":96,"s":579.35,"e":584.16,"en":"And I also think there's some companies that, um, have a different opinion there.","ko":"그리고 그 점에서 다른 의견을 가진 회사들도 있다고 봅니다.","spk":"Altman","scene":"messaging","note":"have a different opinion there = 그 점에 대해 다른 의견을 갖다"},{"id":97,"s":584.22,"e":591.5,"en":"But, but it's very, very important to us that this technology is something where people get more power and more autonomy, not less.","ko":"하지만 이 기술이 사람들에게 더 많은 힘과 자율성을, 덜이 아니라 더 많이 주는 것이 우리에겐 정말 정말 중요합니다.","spk":"Altman","scene":"messaging","note":"not less = 덜이 아니라"},{"id":98,"s":591.57,"e":596.78,"en":"And I think people rightly get afraid when they feel like AI leaders might not quite want that for them.","ko":"그리고 AI 리더들이 자기들에게 그것을 바라지 않는 것 같다고 느낄 때 사람들이 두려워하는 건 당연합니다.","spk":"Altman","scene":"messaging","raw":"And I think people rightly get afraid when they feel like I leaders might not quite want that for them.","note":"rightly = 당연히·마땅히 / might not quite want = 그다지 바라지 않을지 모른다"},{"id":99,"s":598.08,"e":603.41,"en":"So that's in part where I wanted to ask you about pricing on Astra, but also just generally. Right.","ko":"그 연장선에서 Astra 의 가격, 그리고 가격 전반에 대해 여쭙고 싶었습니다. 네.","spk":"Interviewer","scene":"pricing","note":"in part = 부분적으로 / pricing = 가격 책정"},{"id":100,"s":603.41,"e":607.19,"en":"I think the direction of travel has been that you've cut prices.","ko":"그동안의 방향은 가격을 내리는 쪽이었다고 봅니다.","spk":"Interviewer","scene":"pricing","note":"the direction of travel = 진행 방향·추세 (영국식 관용구)"},{"id":101,"s":607.52,"e":610.89,"en":"There is competition, of course, with the other Frontier labs. Um, anthropic.","ko":"물론 다른 프론티어 랩들과의 경쟁이 있죠. Anthropic 같은.","spk":"Interviewer","scene":"pricing","note":"frontier labs = 최전선 AI 연구소들"},{"id":102,"s":610.95,"e":615.55,"en":"But you know, how much is that the balance of access to the technology.","ko":"하지만 그게 기술 접근성의 균형과는 얼마나 관계가 있나요.","spk":"Interviewer","scene":"pricing","note":"the balance of access = 접근성의 균형"},{"id":103,"s":615.62,"e":624.94,"en":"You need to move quickly in releasing the technology and also still trying to sort of find fair market value of how you price the technology","ko":"기술을 빨리 내놓아야 하면서도 가격의 공정한 시장 가치를 찾아가야 하는데요","spk":"Interviewer","scene":"pricing","note":"fair market value = 공정 시장 가치"},{"id":104,"s":625.03,"e":631.13,"en":"we want to create incredibly capable, incredibly low cost, incredibly abundant intelligence.","ko":"우리는 엄청나게 유능하고, 엄청나게 저렴하고, 엄청나게 풍부한 지능을 만들고 싶습니다.","spk":"Altman","scene":"pricing","note":"incredibly ~, incredibly ~, incredibly ~ = 삼중 반복 강조 / abundant = 풍부한"},{"id":105,"s":631.13,"e":636.92,"en":"And I think Astra is a great step forward there. The token efficiency of Astra is so impressive to me.","ko":"Astra 는 그 방향으로 큰 진전이라고 봅니다. Astra 의 토큰 효율은 제게 정말 인상적이에요.","spk":"Altman","scene":"pricing","raw":"And I think Aster is a great step forward there. The token efficiency of Aster is so impressive to me.","note":"a great step forward = 큰 진전 / token efficiency = 토큰 효율"},{"id":106,"s":637.28,"e":646.42,"en":"Um, the amount of work you can get done with a relatively small amount of tokens, and the kind of the price per dollar of a task that you might like, I think is just remarkable.","ko":"비교적 적은 토큰으로 해낼 수 있는 일의 양, 그리고 과제당 달러 대비 가격이 그냥 놀랍습니다.","spk":"Altman","scene":"pricing","note":"price per dollar of a task = 과제 하나의 달러당 가격 / remarkable = 놀라운"},{"id":107,"s":646.46,"e":650.96,"en":"Um, only a few weeks ago, we cut the price of Luna, our small model, by 80%.","ko":"불과 몇 주 전에 우리 소형 모델 Luna 의 가격을 80% 내렸습니다.","spk":"Altman","scene":"pricing","note":"cut the price by 80% = 가격을 80% 내리다"},{"id":108,"s":651.03,"e":657.28,"en":"Um, uh, and our goal is to have the best price performance at every level of intelligence all the way along the curve.","ko":"우리 목표는 곡선 전 구간에서, 모든 지능 수준마다 최고의 가격 대비 성능을 갖는 것입니다.","spk":"Altman","scene":"pricing","note":"price performance = 가격 대비 성능 / all the way along the curve = 곡선 전 구간에 걸쳐"},{"id":109,"s":657.34,"e":660.45,"en":"Um, we will continue to keep dropping prices dramatically.","ko":"우리는 계속해서 가격을 큰 폭으로 내릴 겁니다.","spk":"Altman","scene":"pricing","note":"dramatically = 큰 폭으로"},{"id":110,"s":660.5,"e":664.49,"en":"Um, I'm confident in the shape of the technology and the work we're doing to enable that to happen.","ko":"기술의 형태와 그것을 가능하게 하려는 우리 작업에 자신이 있습니다.","spk":"Altman","scene":"pricing","note":"the shape of the technology = 기술의 형태·방향"},{"id":111,"s":665.03,"e":669.89,"en":"And, um, you know, of course, like, we'll make some money along the way,","ko":"물론 그 과정에서 돈도 좀 벌겠지만,","spk":"Altman","scene":"pricing","note":"along the way = 그 과정에서"},{"id":112,"s":669.89,"e":678.53,"en":"but I think the opportunity in front of us is so huge, we will be able to continue to bring prices down and still have huge revenue.","ko":"우리 앞의 기회가 워낙 커서 가격을 계속 내리면서도 큰 매출을 낼 수 있을 겁니다.","spk":"Altman","scene":"pricing","note":"the opportunity in front of us = 우리 앞에 놓인 기회 / revenue = 매출"},{"id":113,"s":680.33,"e":682.2,"en":"Let's end our conversation here.","ko":"여기서 대화를 마무리하죠.","spk":"Interviewer","scene":"public","note":"Let's end our conversation here = 마무리 신호"},{"id":114,"s":682.26,"e":688.28,"en":"Sam, with Astra as a big step towards AI actually doing work autonomously, right?","ko":"샘, Astra 가 AI 가 실제로 자율적으로 일하는 쪽으로 큰 걸음이라면요,","spk":"Interviewer","scene":"public","raw":"Sam with Aster is a big step towards I actually doing work autonomously, right?","note":"autonomously = 자율적으로"},{"id":115,"s":688.34,"e":691.75,"en":"I've come to sort of see the emphasis on that.","ko":"그 부분이 강조되고 있다는 걸 알게 됐는데요.","spk":"Interviewer","scene":"public","note":"I've come to see = ~을 알게 되었다"},{"id":116,"s":691.75,"e":706.6,"en":"If staying ahead in the race that you've just outlined requires OpenAI to just keep investing more heavily, maybe than expected, to keep pushing out the boundaries of what the model is capable of doing, the cadence of release.","ko":"방금 말씀하신 경쟁에서 앞서 나가려면 OpenAI 가 예상보다 훨씬 더 많이 투자해서 모델 능력의 경계와 출시 주기를 계속 밀어붙여야 한다면,","spk":"Interviewer","scene":"public","raw":"If you staying ahead in the race that you've just outlined requires OpenAI to just keep investing more heavily, maybe than expected, to keep pushing out the boundaries of what the model is capable of doing, the cadence of release.","note":"stay ahead in the race = 경쟁에서 앞서다 / cadence of release = 출시 주기"},{"id":117,"s":707.65,"e":714.13,"en":"Where do you do you sit right now on your considerations of doing that as a private company versus doing that as a public company,","ko":"그걸 비상장 회사로 하는 것과 상장 회사로 하는 것 사이에서 지금 어디쯤에 서 계십니까,","spk":"Interviewer","scene":"public","note":"private company vs public company = 비상장 회사 대 상장 회사"},{"id":118,"s":714.13,"e":726.28,"en":"where the sort of financial incentive and fiduciary duty of being a public company isn't necessarily the same as being committed to developing the technology, getting the technology released out into the world.","ko":"상장 회사의 재무적 유인과 수탁 의무는 기술을 개발하고 세상에 내놓는 데 전념하는 것과 꼭 같지는 않으니까요.","spk":"Interviewer","scene":"public","note":"fiduciary duty = 수탁자 의무(주주에 대한 법적 의무) / be committed to = ~에 전념하다"},{"id":119,"s":727.78,"e":730.84,"en":"Um, if we do go public someday, which I assume we will.","ko":"언젠가 상장을 한다면, 그럴 거라고 보는데요.","spk":"Altman","scene":"public","note":"go public = 상장하다"},{"id":120,"s":730.87,"e":740.49,"en":"I plan to spend a lot of time reminding people who might want to buy or might not want to buy our our stock that we are mission first and that we're also extremely long term oriented.","ko":"우리 주식을 사려는, 혹은 사지 않으려는 사람들에게 우리가 사명이 먼저이고 극도로 장기 지향적이라는 걸 상기시키는 데 많은 시간을 쓸 계획입니다.","spk":"Altman","scene":"public","note":"mission first = 사명 우선 / long term oriented = 장기 지향적인"},{"id":121,"s":740.54,"e":745.99,"en":"So we are going to make decisions for, um, what we think is best for society as a whole with this technology.","ko":"그래서 우리는 이 기술로 사회 전체에 가장 좋다고 생각하는 것을 위해 결정을 내릴 겁니다.","spk":"Altman","scene":"public","note":"society as a whole = 사회 전체"},{"id":122,"s":746.29,"e":748.78,"en":"And we're going to make decisions on a multi-decade timeframe.","ko":"그리고 수십 년 단위의 시간 틀로 결정을 내릴 겁니다.","spk":"Altman","scene":"public","note":"multi-decade timeframe = 수십 년의 시간 틀"},{"id":123,"s":749.17,"e":752.83,"en":"Um, and we think we'll do really great as a company. Uh, but we're gonna put those things first.","ko":"회사로서도 아주 잘 해낼 거라고 보지만, 그런 것들을 먼저 두겠습니다.","spk":"Altman","scene":"public","note":"put those things first = 그것들을 우선하다"}];
+const SCENES = [{"key": "astra", "ko": "Astra 는 무엇이 다른가", "en": "What is different about Astra", "at": 0}, {"key": "guardrails", "ko": "가드레일 · 사이버 접근 단계", "en": "Guardrails & cyber access tiers", "at": 124}, {"key": "pause", "ko": "출시 전 일시중단 · 준비태세 체계", "en": "The pause & preparedness framework", "at": 242}, {"key": "cot", "ko": "사고 사슬 모니터링", "en": "Chain-of-thought monitoring", "at": 288}, {"key": "shutdown", "ko": "위험 감지와 차단 · 사회적 합의", "en": "Detecting danger & societal consent", "at": 365}, {"key": "messaging", "ko": "업계의 설명 실패 · 권한 부여", "en": "The industry's messaging & empowerment", "at": 466}, {"key": "pricing", "ko": "가격 · 토큰 효율", "en": "Pricing & token efficiency", "at": 598}, {"key": "public", "ko": "상장과 사명", "en": "Going public & the mission", "at": 680}];
+const SPEAKERS = [{"key": "Altman", "en": "Sam Altman (OpenAI CEO)", "ko": "샘 올트먼 (OpenAI CEO)", "member": true}, {"key": "Interviewer", "en": "Anchor (Bloomberg TV)", "ko": "진행자 (Bloomberg TV)", "member": true}, {"key": "", "en": "Unknown", "ko": "화자 미상", "member": false}];
+const STUDY = [{"t":"E","en":"framing ~ as","ko":"~을 …로 규정하다","note":"OpenAI is framing Astra as an early step","cids":[1],"ex":1,"hit":"framing"},{"t":"E","en":"relative to","ko":"~에 비해","note":"prior generations 와 함께 비교 구문","cids":[2],"ex":2,"hit":"relative to"},{"t":"E","en":"thank you for having me","ko":"불러 주셔서 감사합니다","note":"인터뷰 첫 인사","cids":[3],"ex":3,"hit":"thank you for having me"},{"t":"E","en":"a new step in this process towards","ko":"~를 향한 여정의 새 단계","note":"점진적 진보를 말할 때","cids":[4],"ex":4,"hit":"a new step in this process towards"},{"t":"E","en":"this time around","ko":"이번에는","note":"around 가 '이번 차례'를 뜻함","cids":[6],"ex":6,"hit":"this time around"},{"t":"E","en":"taking it away from","ko":"~에서 벗어나서","note":"화제를 옮길 때","cids":[8],"ex":8,"hit":"taking it away from"},{"t":"E","en":"give it a try","ko":"한번 해 보다","cids":[10],"ex":10,"hit":"give it a try"},{"t":"E","en":"there's a good chance","ko":"~할 가능성이 꽤 높다","note":"there's a good chance it'll work","cids":[11],"ex":11,"hit":"There's a good chance"},{"t":"E","en":"sit down and have to","ko":"앉아서 ~해야 하다","note":"수고스러운 과정을 묘사","cids":[14],"ex":14,"hit":"sit down and have to"},{"t":"E","en":"figure out how to","ko":"~할 방법을 궁리하다","cids":[14],"ex":14,"hit":"figure out how to"},{"t":"E","en":"build up more trust in","ko":"~에 대한 신뢰를 쌓다","note":"build up = 차곡차곡 쌓다","cids":[16],"ex":16,"hit":"build up more trust in"},{"t":"E","en":"harder and harder","ko":"점점 더 어려운","note":"비교급 반복 = 점점 더","cids":[17],"ex":17,"hit":"harder and harder"},{"t":"E","en":"find out what ~ can really do","ko":"~이 실제로 무엇을 할 수 있는지 알아내다","cids":[18],"ex":18,"hit":"find out what"},{"t":"E","en":"the specifics of","ko":"~의 세부 사항","cids":[19],"ex":19,"hit":"the specifics of"},{"t":"E","en":"the thinking behind","ko":"~의 배경이 된 생각","note":"What was the thinking behind that?","cids":[21],"ex":21,"hit":"the thinking behind"},{"t":"E","en":"on the other hand","ko":"다른 한편으로","note":"대조","cids":[23],"ex":23,"hit":"on the other hand"},{"t":"E","en":"do a good job at","ko":"~을 잘 해내다","note":"반대는 do a bad job","cids":[24],"ex":24,"hit":"do a good job at"},{"t":"E","en":"worth the wait","ko":"기다린 보람이 있는","cids":[26],"ex":26,"hit":"worth the wait"},{"t":"E","en":"roll it out","ko":"배포하다","note":"roll out = 단계적으로 내놓다","cids":[29,30],"ex":29,"hit":"rolling it out"},{"t":"E","en":"assuming everything goes well","ko":"모든 게 순조롭다는 전제로","note":"assuming (that) = ~라고 가정하면","cids":[30],"ex":30,"hit":"assuming everything goes well"},{"t":"E","en":"it's very important to note","ko":"꼭 짚어 둘 점은","note":"주장 도입","cids":[33],"ex":33,"hit":"it's very important to note"},{"t":"E","en":"the only way that we see","ko":"우리가 보기에 유일한 길은","cids":[34],"ex":34,"hit":"the only way that we see"},{"t":"E","en":"prior to release","ko":"출시 전에","note":"prior to = before 의 격식체","cids":[37],"ex":37,"hit":"prior to release"},{"t":"E","en":"without any human intervention","ko":"사람의 개입 없이","cids":[38],"ex":38,"hit":"without any human intervention"},{"t":"E","en":"hit pause","ko":"일시 중지하다","cids":[40],"ex":40,"hit":"hit pause"},{"t":"E","en":"it's worth pointing out that","ko":"~라는 점은 짚어 둘 만하다","note":"답변의 틀 잡기","cids":[41],"ex":41,"hit":"it's worth pointing out that"},{"t":"E","en":"for a while","ko":"한동안","cids":[42],"ex":42,"hit":"for a while"},{"t":"E","en":"in other words","ko":"다시 말해","note":"바꿔 말하기","cids":[49],"ex":49,"hit":"In other words"},{"t":"E","en":"for obvious reasons","ko":"당연한 이유로","cids":[50],"ex":50,"hit":"for obvious reasons"},{"t":"E","en":"could you go into that a little bit","ko":"그 부분을 조금 설명해 주시겠어요","note":"go into = 자세히 다루다","cids":[50],"ex":50,"hit":"Could you go into that a little bit"},{"t":"E","en":"defense in depth","ko":"심층 방어","note":"여러 겹의 안전장치 (보안 용어)","cids":[52],"ex":52,"hit":"defense in depth"},{"t":"E","en":"most importantly","ko":"가장 중요하게는","cids":[53],"ex":53,"hit":"most importantly"},{"t":"E","en":"come together","ko":"맞물리다","note":"여러 요소가 합쳐질 때","cids":[54],"ex":54,"hit":"come together"},{"t":"E","en":"well over a year","ko":"1년을 훨씬 넘게","note":"well over = ~을 훌쩍 넘는","cids":[56],"ex":56,"hit":"well over a year"},{"t":"E","en":"even if it means","ko":"설령 ~을 뜻하더라도","cids":[57],"ex":57,"hit":"even if it means"},{"t":"E","en":"we want to be clear","ko":"분명히 해 두고 싶다","cids":[58],"ex":58,"hit":"we want to be clear"},{"t":"E","en":"put that to you","ko":"그 질문을 드리다","note":"put a question to someone","cids":[62],"ex":62,"hit":"put that to you"},{"t":"E","en":"shut it down","ko":"정지시키다","cids":[63],"ex":63,"hit":"shut it down"},{"t":"E","en":"hard part of that","ko":"그 질문의 어려운 대목","cids":[64],"ex":64,"hit":"hard part of that"},{"t":"E","en":"red lines","ko":"금지선","note":"넘어서는 안 되는 선","cids":[66],"ex":66,"hit":"red lines"},{"t":"E","en":"within the broad bounds of","ko":"~의 넓은 범위 안에서","cids":[67],"ex":67,"hit":"within the broad bounds of"},{"t":"E","en":"in the same way that","ko":"~와 같은 방식으로","note":"비유 도입","cids":[69],"ex":69,"hit":"in the same way that"},{"t":"E","en":"has a right to","ko":"~에 대한 권리가 있다","cids":[70],"ex":70,"hit":"has a right to"},{"t":"E","en":"feel our way through","ko":"더듬어 헤쳐 나가다","note":"불확실한 상황을 조심스레 진행","cids":[75],"ex":75,"hit":"feel our way through"},{"t":"E","en":"a terrible job of","ko":"~을 형편없이 하다","cids":[77,79],"ex":79,"hit":"a terrible job of"},{"t":"E","en":"on reflection","ko":"돌이켜 보면","cids":[78],"ex":78,"hit":"on reflection"},{"t":"E","en":"in that bucket","ko":"그 범주에","note":"bucket = 분류 묶음","cids":[78],"ex":78,"hit":"in that bucket"},{"t":"E","en":"on the whole","ko":"전체적으로","cids":[79],"ex":79,"hit":"on the whole"},{"t":"E","en":"go wrong","ko":"잘못되다","note":"all the ways that could go wrong","cids":[82,87],"ex":82,"hit":"go wrong"},{"t":"E","en":"stir up doom","ko":"파멸론을 부추기다","note":"stir up = 선동하다","cids":[83],"ex":83,"hit":"stir up doom"},{"t":"E","en":"end up scaring people","ko":"결국 사람들을 겁먹게 하다","note":"end up -ing","cids":[85],"ex":85,"hit":"ends up scaring people"},{"t":"E","en":"a cure for cancer","ko":"암 치료법","cids":[88,91],"ex":91,"hit":"a cure for cancer"},{"t":"E","en":"set our sights higher","ko":"목표를 더 높이 잡다","note":"set one's sights on","cids":[92],"ex":92,"hit":"set our sights higher"},{"t":"E","en":"lost in the messaging","ko":"메시지 전달 과정에서 묻힌","cids":[95],"ex":95,"hit":"lost in the messaging"},{"t":"E","en":"not less","ko":"덜이 아니라","note":"more ~, not less 구조","cids":[97],"ex":97,"hit":"not less"},{"t":"E","en":"the direction of travel","ko":"진행 방향·추세","note":"영국식 관용구","cids":[100],"ex":100,"hit":"the direction of travel"},{"t":"E","en":"a great step forward","ko":"큰 진전","cids":[105],"ex":105,"hit":"a great step forward"},{"t":"E","en":"along the way","ko":"그 과정에서","cids":[111],"ex":111,"hit":"along the way"},{"t":"E","en":"the opportunity in front of us","ko":"우리 앞에 놓인 기회","cids":[112],"ex":112,"hit":"the opportunity in front of us"},{"t":"E","en":"let's end our conversation here","ko":"여기서 대화를 마무리하죠","note":"마무리 신호","cids":[113],"ex":113,"hit":"Let's end our conversation here"},{"t":"E","en":"I've come to","ko":"~하게 되었다","note":"come to see/realize","cids":[115],"ex":115,"hit":"I've come to"},{"t":"E","en":"stay ahead in the race","ko":"경쟁에서 앞서다","cids":[116],"ex":116,"hit":"staying ahead in the race"},{"t":"E","en":"go public","ko":"상장하다","cids":[119],"ex":119,"hit":"go public"},{"t":"E","en":"mission first","ko":"사명 우선","cids":[120],"ex":120,"hit":"mission first"},{"t":"E","en":"as a whole","ko":"전체로서","note":"society as a whole","cids":[121],"ex":121,"hit":"as a whole"},{"t":"E","en":"put those things first","ko":"그것들을 먼저 두다","note":"우선순위 표현","cids":[123],"ex":123,"hit":"put those things first"},{"t":"V","en":"fundamentally","ko":"근본적으로","cids":[2],"ex":2,"hit":"fundamentally"},{"t":"V","en":"subjectively","ko":"주관적으로","cids":[5],"ex":5,"hit":"subjectively"},{"t":"V","en":"principal","ko":"주된·대표적인","note":"principal use case","cids":[6],"ex":6,"hit":"principal"},{"t":"V","en":"unlock","ko":"가능하게 하다·열다","cids":[8],"ex":8,"hit":"unlocking"},{"t":"V","en":"interactively","ko":"상호작용하며","cids":[9],"ex":9,"hit":"interactively"},{"t":"V","en":"simulation","ko":"시뮬레이션","cids":[13,14],"ex":13,"hit":"simulations"},{"t":"V","en":"doable","ko":"해낼 수 있는","cids":[15],"ex":15,"hit":"doable"},{"t":"V","en":"guardrails","ko":"가드레일·안전장치","note":"AI 정책 용어","cids":[20,21],"ex":20,"hit":"guardrails"},{"t":"V","en":"capable","ko":"유능한","note":"incredibly capable","cids":[22,23,104,116],"ex":104,"hit":"capable"},{"t":"V","en":"mitigate","ko":"완화하다","note":"mitigate risks","cids":[23,84],"ex":23,"hit":"mitigate"},{"t":"V","en":"alignment","ko":"(AI) 정렬","note":"목표를 인간 의도에 맞추기","cids":[26,53],"ex":53,"hit":"alignment"},{"t":"V","en":"tiers","ko":"등급·단계","note":"tiers of access","cids":[28],"ex":28,"hit":"tiers"},{"t":"V","en":"verification","ko":"검증","cids":[35],"ex":35,"hit":"verification"},{"t":"V","en":"collectively","ko":"집단적으로","cids":[34,36],"ex":36,"hit":"collectively"},{"t":"V","en":"landscape","ko":"지형·판도","note":"the landscape of cyber attacks","cids":[33],"ex":33,"hit":"landscape"},{"t":"V","en":"safeguards","ko":"안전장치","cids":[39,45],"ex":39,"hit":"safeguards"},{"t":"V","en":"exploits","ko":"익스플로잇·취약점 공격","note":"zero day exploits","cids":[38],"ex":38,"hit":"exploits"},{"t":"V","en":"intervention","ko":"개입","cids":[38],"ex":38,"hit":"intervention"},{"t":"V","en":"preparedness","ko":"준비태세","note":"preparedness framework","cids":[45],"ex":45,"hit":"preparedness"},{"t":"V","en":"autonomous","ko":"자율적인","cids":[47,114],"ex":114,"hit":"autonomously"},{"t":"V","en":"visibility","ko":"가시성","note":"visibility into the reasoning","cids":[49],"ex":49,"hit":"visibility"},{"t":"V","en":"monitorability","ko":"감시 가능성","note":"자막에는 monitor ability 로 표기","cids":[56],"ex":56,"hit":"monitorability"},{"t":"V","en":"sandboxing","ko":"샌드박싱·격리 실행","cids":[52],"ex":52,"hit":"sandboxing"},{"t":"V","en":"preserve","ko":"보존하다","cids":[56],"ex":56,"hit":"preserve"},{"t":"V","en":"maximize","ko":"최대화하다","cids":[57],"ex":57,"hit":"maximize"},{"t":"V","en":"component","ko":"구성 요소","cids":[58,59],"ex":58,"hit":"component"},{"t":"V","en":"unequivocally","ko":"명확하게","cids":[63],"ex":63,"hit":"unequivocally"},{"t":"V","en":"detect","ko":"감지하다","cids":[63,66],"ex":66,"hit":"detect"},{"t":"V","en":"acceptable","ko":"허용 가능한","note":"acceptable use","cids":[68],"ex":68,"hit":"acceptable"},{"t":"V","en":"electrocute","ko":"감전시키다","cids":[71],"ex":71,"hit":"electrocute"},{"t":"V","en":"negotiation","ko":"협상","cids":[73],"ex":73,"hit":"negotiation"},{"t":"V","en":"autonomy","ko":"자율성","cids":[76,90,91,97],"ex":76,"hit":"autonomy"},{"t":"V","en":"ordinary","ko":"보통의","note":"ordinary Americans","cids":[77],"ex":77,"hit":"ordinary"},{"t":"V","en":"concentrate","ko":"집중시키다","note":"concentrate power","cids":[83],"ex":83,"hit":"concentrate"},{"t":"V","en":"debate","ko":"토론하다","cids":[84],"ex":84,"hit":"debate"},{"t":"V","en":"prevent","ko":"예방하다","cids":[84],"ex":84,"hit":"prevent"},{"t":"V","en":"intention","ko":"의도","cids":[85],"ex":85,"hit":"intention"},{"t":"V","en":"empower","ko":"힘을 실어 주다","cids":[87],"ex":87,"hit":"empower"},{"t":"V","en":"creativity","ko":"창의성","cids":[93],"ex":93,"hit":"creativity"},{"t":"V","en":"entrepreneurship","ko":"창업 정신·기업가 정신","cids":[93],"ex":93,"hit":"entrepreneurship"},{"t":"V","en":"rightly","ko":"당연히·마땅히","cids":[98],"ex":98,"hit":"rightly"},{"t":"V","en":"competition","ko":"경쟁","cids":[101],"ex":101,"hit":"competition"},{"t":"V","en":"abundant","ko":"풍부한","cids":[104],"ex":104,"hit":"abundant"},{"t":"V","en":"efficiency","ko":"효율","note":"token efficiency","cids":[105],"ex":105,"hit":"efficiency"},{"t":"V","en":"remarkable","ko":"놀라운","cids":[106],"ex":106,"hit":"remarkable"},{"t":"V","en":"dramatically","ko":"극적으로·큰 폭으로","cids":[109],"ex":109,"hit":"dramatically"},{"t":"V","en":"revenue","ko":"매출","cids":[112],"ex":112,"hit":"revenue"},{"t":"V","en":"autonomously","ko":"자율적으로","cids":[114],"ex":114,"hit":"autonomously"},{"t":"V","en":"cadence","ko":"주기·박자","note":"cadence of release","cids":[116],"ex":116,"hit":"cadence"},{"t":"V","en":"fiduciary","ko":"수탁자의","note":"fiduciary duty","cids":[118],"ex":118,"hit":"fiduciary"},{"t":"V","en":"committed","ko":"전념하는","note":"be committed to","cids":[118],"ex":118,"hit":"committed"},{"t":"V","en":"oriented","ko":"~지향적인","note":"long term oriented","cids":[120],"ex":120,"hit":"oriented"},{"t":"V","en":"timeframe","ko":"시간 틀","note":"multi-decade timeframe","cids":[122],"ex":122,"hit":"timeframe"}];   /* 표현·단어 (study.txt 유래) */
+const DEFAULT_VID = 'YxjL1wLLnHE';
+const LS = 'en-altman';
+const $ = id => document.getElementById(id);
+/* 한국어를 주, 일본어를 부로 병기한다 */
+const bi = (ko, en) => ko + ' <span class="sub" lang="en">' + en + '</span>';
+const SPK = {}; SPEAKERS.forEach(s => SPK[s.key] = s);
+const spkOf = d => SPK[d.spk] || SPK[''];
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+let videoId = store.get('vid', DEFAULT_VID);
+let checked = new Set(store.get('checked', []));
+let edits = store.get('edits', {});      /* {카드id: {en, ko}} 직접 고친 내용 */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let filt = store.get('filt', 'all');     /* 'all' | 'scene:<key>' | 'spk:<label>' | 'day'(저장하지 않음) */
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.5;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const PAD = 0.2;                                        /* 앞뒤에 항상 더하는 여유(초) */
+const headOf = d => Math.max(0, d.s - PAD);
+const tail = () => Number($('optTail').value) || 0;
+const endOf  = d => Math.max(d.e + tail() + PAD, d.s + MIN_PLAY);
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- filters ---------- */
+/* 같은 표기의 화자(Fan/Fans)는 하나의 버튼으로 묶는다 */
+const SPK_GROUPS = [];
+SPEAKERS.forEach(s => {
+  let g = SPK_GROUPS.find(x => x.ko === s.ko);
+  if(!g){ g = {ko: s.ko, en: s.en, keys: [], member: s.member}; SPK_GROUPS.push(g); }
+  g.keys.push(s.key);
+});
+const pool = () => DATA;
+function matches(d){
+  if(filt === 'all') return true;
+  if(filt === 'day') return dayIds.includes(d.id);
+  if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
+  const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
+  return !!g && g.keys.includes(d.spk);
+}
+
+/* ---------- sidebar ---------- */
+function buildScenes(){
+  const box = $('scenes'); box.textContent = '';
+  const head = (ko, en) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="en">' + en + '</span>'; box.appendChild(h); };
+  const mk = (key, ko, en, n, cls) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key; if(cls) b.className = cls;
+    b.innerHTML = '<span>' + bi(ko, en) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
+    box.appendChild(b);
+  };
+  const P = pool();
+  mk('all', '전체', 'All', P.length);
+  head('장면 · 타임라인', 'Scenes');
+  SCENES.forEach(s => mk('scene:' + s.key, s.ko, s.en, P.filter(d => d.scene === s.key).length));
+  head('화자', 'Speakers');
+  SPK_GROUPS.forEach(g => {
+    const n = P.filter(d => g.keys.includes(d.spk)).length;
+    if(n) mk('spk:' + g.ko, g.ko, g.en, n, g.member ? 'mem' : '');
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  let ko = '전체', en = 'All';
+  if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; en = 'Day ' + dayCur + ' lines'; }
+  if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; en = s.en; } }
+  else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; en = g.en; } }
+  $('sceneTitle').innerHTML = ko + '<span class="inl" lang="en">' + en + '</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- deck ---------- */
+function buildDeck(){
+  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- card ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('en').textContent = '해당 대사가 없습니다 / No matching line'; return; }
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('en').textContent = v.en;
+  $('ko').textContent = v.ko;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="en">' + s.en + '</span>' : '—';
+  const sp = spkOf(d);
+  $('who').className = 'chip spk';
+  $('who').innerHTML = sp.ko + '<span class="sub" lang="en">' + sp.en + '</span>';
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* ---------- script ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div class="who"></div><div><div class="k" lang="en"></div><div class="j"></div></div>';
+    const v = edited(d), sp = spkOf(d);
+    el.querySelector('.who').textContent = sp.ko;
+    el.querySelector('.k').textContent = v.en;
+    el.querySelector('.j').textContent = v.ko;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('카드와 대본은 그대로 쓸 수 있습니다.', 'Cards and script still work.');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API 를 불러오지 못했습니다.', 'Could not load the YouTube API.'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('준비 완료. 대사 위치부터 재생할 수 있습니다.', 'Ready. You can play from any line.'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', 'Cannot play the video (error '+e.data+')。'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', 'Playing…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', 'Paused');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube 를 ' + fmt(d.s) + ' 지점부터 열었습니다.', 'Opened YouTube at ' + fmt(d.s) + '.');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'The player is not ready yet.'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
+  const detailEn = '(speech ' + (d.e - d.s).toFixed(1) + ' s + margin ' + (stopAt - d.e).toFixed(1) + ' s)';
+  $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
+                                 (opts.loop ? 'Repeating ' : 'Playing ') + range + detailEn);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('이 장면 재생이 끝났습니다.', 'Finished playing this line.');
+  }
+}, 120);
+
+/* ---------- controls ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'Repeat off.'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set('checked', [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- manual edits ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edEn').value = v.en; $('edKo').value = v.ko;
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edEn').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const en = $('edEn').value.trim(), ko = $('edKo').value.trim();
+  if(!en){ $('playStatus').innerHTML = bi('대사가 비었습니다.', 'The line is empty.'); return; }
+  const e = {};
+  if(en !== d.en) e.en = en;
+  if(ko !== d.ko) e.ko = ko;
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
+  store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('저장했습니다.', 'Saved.');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('원래대로 되돌렸습니다.', 'Reset to original.');
+};
+
+/* 브라우저 저장은 사라질 수 있으므로 내보내기/가져오기를 둔다 */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'english-altman-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('형식이 다릅니다');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.en === 'string' || typeof row.ko === 'string')){ edits[k] = row; n++; }
+      }
+      store.set('edits', edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '건을 불러왔습니다.', n + ' items imported.');
+    }catch(err){
+      $('playStatus').innerHTML = bi('불러오지 못했습니다.', 'Could not import.');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+$('tabStudy').onclick = () => switchView('study');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+
+/* ====================== study tab ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['듣기', 'Listen', '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
+     'Play with the meaning hidden. Ears first. Not getting it is normal.', '카드'],
+    ['확인', 'Check', '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
+     'Open the meaning and check. Learn expressions and words with their example line.', '표현 · 단어'],
+    ['따라 하기', 'Imitate', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
+     'Loop the same span with Repeat and speak over it. Copy the intonation.', '반복 C'],
+    ['점검', 'Test', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
+     'Quiz only today’s range. Misses become tomorrow’s review list.', '퀴즈']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ko, en, pk, pj, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="en" lang="en"></div><p><span class="k"></span><span lang="en"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ko;
+    el.querySelector('.en').textContent = en;
+    el.querySelector('.k').textContent = pk;
+    el.querySelector('p span[lang=en]').textContent = pj;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.en + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length;
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '해당 없음 · No results'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = r.en;
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 실제로 쓰인 한 문장을 예문으로 보여준다(작문이 아니라 자막 그대로) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '예문 · Example';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'en';
+        const key = r.hit || r.en;
+        const at = v.en.indexOf(key);
+        if(at >= 0){                                   /* 그 말만 강조 */
+          ek.appendChild(document.createTextNode(v.en.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = key; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.en.slice(at + key.length)));
+        } else ek.textContent = v.en;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ko;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = '이 예문 재생 / Play this example';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '회 · ' + cids.length + ' times';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.en;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== daily portions ====================== */
+let dayPace = store.get('pace', 13);
+let dayCur  = store.get('dayCur', 1);
+let daysDone = new Set(store.get('daysDone', []));
+let DAYS = [], dayIds = [];
+
+/* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
+   (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + ' days';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + ' / Lines ' + d.cards.length + ' · Expressions ' + d.expr.length + ' · Words ' + d.word.length
+    + ' (체크함 ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
+  const STEPS = [['듣기','Listen'], ['표현·단어','Expressions & words'], ['퀴즈','Quiz'], ['복습','Review']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ko, en], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ko + ' · ' + en;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.en.slice(0, 30);
+    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.en;
+    b.querySelector('.jj').textContent = r.ko;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set('daysDone', [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- quiz ---------- */
+let qScope = 'E', qMode = 'en2ko', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'en2ko'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="en2ko"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('출제 가능 ' + pool.length + '개 · Available items ' + pool.length + '');
+  if(OFFLINE) msgs.push('듣기는 file:// 에서 쓸 수 없습니다 · Listening is unavailable on file://');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ko2en' ? 'en' : 'ko';       /* what to pick: EN→KO and listening → Korean meaning, KO→EN → English */
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 듣고 뜻 고르기 · Listen and choose';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ko2en'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'en';
+    $('qAsk').textContent = q.item.en;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'en') b.lang = 'en';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  line.innerHTML = (ok ? '<b>정답 · Correct</b> ' : '<b>다시 · Again</b> ')
+    + '<span lang="en"></span> — <span></span>';
+  line.children[1].textContent = q.item.en; line.children[2].textContent = q.item.ko;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '다음 · Next' : '결과 · Results';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · Perfect' : pct >= 80 ? '— 훌륭합니다 · Well done'
+    : pct >= 50 ? '— 조금만 더 · Almost there' : '— 복습해 봅시다 · Time to review');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '틀린 항목 · Missed items (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = it.en;
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ko;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', 'Cannot read the video ID.'); return; }
+  videoId = id; store.set('vid', id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null;
+  if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
+  $('playStatus').innerHTML = bi('영상을 교체했습니다.', 'Video replaced.');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+/* ---------- boot ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+pickSeg2($('qPace'), String(dayPace));
+$('optTail').value = store.get('tail', '0.5');
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('vid').value = videoId;
+$('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
+}
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+</script>
+
+</body></html>

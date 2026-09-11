@@ -1,0 +1,1752 @@
+[
+ {
+  "id": 1,
+  "s": 3.36,
+  "e": 5.52,
+  "en": "I hear you love walk and talks.",
+  "spk": "Emily"
+ },
+ {
+  "id": 2,
+  "s": 5.52,
+  "e": 13.64,
+  "en": "Yes, because we sit too much. Yeah. And also our company is just next to this park, so it's great.",
+  "spk": "Li"
+ },
+ {
+  "id": 3,
+  "s": 13.64,
+  "e": 16.44,
+  "en": "Is it all AI talk all the time here?",
+  "spk": "Emily"
+ },
+ {
+  "id": 4,
+  "s": 16.44,
+  "e": 22.12,
+  "en": "I don't know other people's talk, but I talk AI all the time. But that's the only thing I know.",
+  "spk": "Li"
+ },
+ {
+  "id": 5,
+  "s": 22.96,
+  "e": 29.4,
+  "en": "Fei-Fei Li is a giant in the field of computer vision, a branch of AI dedicated to teaching machines to see.",
+  "spk": "Narration"
+ },
+ {
+  "id": 6,
+  "s": 29.4,
+  "e": 37.88,
+  "en": "She made a breakthrough with ImageNet, a visual library that sparked the modern AI revolution, earning her the title, 'Godmother of AI'.",
+  "spk": "Narration"
+ },
+ {
+  "id": 7,
+  "s": 37.88,
+  "e": 49.16,
+  "en": "And she's been a pioneer at AI's center ever since, as a Stanford professor, a Google executive, an advisor to US presidents, and a relentless advocate for AI that serves people.",
+  "spk": "Narration"
+ },
+ {
+  "id": 8,
+  "s": 49.16,
+  "e": 54.12,
+  "en": "I feel the leaders of AI are not talking enough about empowering humanity.",
+  "spk": "Li"
+ },
+ {
+  "id": 9,
+  "s": 54.12,
+  "e": 57.92,
+  "en": "They're talking too much about replacing humanity, replacing jobs.",
+  "spk": "Li"
+ },
+ {
+  "id": 10,
+  "s": 57.92,
+  "e": 61.44,
+  "en": "Now she's adding startup co-founder to her star resume.",
+  "spk": "Narration"
+ },
+ {
+  "id": 11,
+  "s": 61.44,
+  "e": 63.75,
+  "en": "What's it like running your own shop?",
+  "spk": "Emily"
+ },
+ {
+  "id": 12,
+  "s": 63.82,
+  "e": 65.36,
+  "en": "I feel like a tiger mom.",
+  "spk": "Li"
+ },
+ {
+  "id": 13,
+  "s": 65.36,
+  "e": 74.04,
+  "en": "While the rest of the AI world doubles down on large language models like ChatGPT and Claude, Li is betting on a new frontier, world models.",
+  "spk": "Narration"
+ },
+ {
+  "id": 14,
+  "s": 74.04,
+  "e": 80.56,
+  "en": "She's building AI that aims to predict what happens next in the real world, not just the next word in a sentence.",
+  "spk": "Narration"
+ },
+ {
+  "id": 15,
+  "s": 80.56,
+  "e": 84.52,
+  "en": "So what can world models do ultimately that LLMs will never be able to?",
+  "spk": "Emily"
+ },
+ {
+  "id": 16,
+  "s": 84.52,
+  "e": 88.76,
+  "en": "Can words put down fires? Can words cook an omelet?",
+  "spk": "Li"
+ },
+ {
+  "id": 17,
+  "s": 88.76,
+  "e": 98.12,
+  "en": "Li and her startup, World Labs, is competing in a crowded field of rivals, all making the same bet that world models are the next big leap in AI.",
+  "spk": "Narration"
+ },
+ {
+  "id": 18,
+  "s": 98.12,
+  "e": 100.6,
+  "en": "Did you ever imagine AI would be this big?",
+  "spk": "Emily"
+ },
+ {
+  "id": 19,
+  "s": 100.6,
+  "e": 106.88,
+  "en": "Have I imagined the entire civilization is going to be redefined by AI?",
+  "spk": "Li"
+ },
+ {
+  "id": 20,
+  "s": 106.88,
+  "e": 112.6,
+  "en": "The cultural shifts, the geopolitical landscape? I would not have imagined that.",
+  "spk": "Li"
+ },
+ {
+  "id": 21,
+  "s": 118.6,
+  "e": 124.2,
+  "en": "Before she became a leading AI scientist, Li was just a curious kid looking at the world.",
+  "spk": "Narration"
+ },
+ {
+  "id": 22,
+  "s": 124.2,
+  "e": 126.88,
+  "en": "What was young Fei-Fei like as a kid?",
+  "spk": "Emily"
+ },
+ {
+  "id": 23,
+  "s": 126.88,
+  "e": 131.08,
+  "en": "It was '80s and '90s in China. My city was Chengdu.",
+  "spk": "Li"
+ },
+ {
+  "id": 24,
+  "s": 131.08,
+  "e": 144.0,
+  "en": "My dad is quite a curious soul about nature, so I got quite a dosage of chasing after bugs and, and running after puppies and going to the mountains to, to draw and sketch with my dad.",
+  "spk": "Li"
+ },
+ {
+  "id": 25,
+  "s": 144.0,
+  "e": 145.56,
+  "en": "And, you know, reading.",
+  "spk": "Li"
+ },
+ {
+  "id": 26,
+  "s": 145.56,
+  "e": 149.95,
+  "en": "Cutting your hair short, loving aerospace and physics. Did you see yourself as a rebel?",
+  "spk": "Emily"
+ },
+ {
+  "id": 27,
+  "s": 149.95,
+  "e": 150.79,
+  "en": "As a kid, right? You're preteen.",
+  "spk": "Li"
+ },
+ {
+  "id": 28,
+  "s": 154.44,
+  "e": 158.64,
+  "en": "You almost have to be a rebel just because you want to make a statement for yourself.",
+  "spk": "Li"
+ },
+ {
+  "id": 29,
+  "s": 158.64,
+  "e": 167.12,
+  "en": "But the love of nature and science and physics, the love of aerospace and outer space, those are part of my identity.",
+  "spk": "Li"
+ },
+ {
+  "id": 30,
+  "s": 167.19,
+  "e": 171.36,
+  "en": "You emigrated from China to the US in - New Jersey. In the 90s.",
+  "spk": "Emily"
+ },
+ {
+  "id": 31,
+  "s": 171.36,
+  "e": 171.54,
+  "en": "Yeah.",
+  "spk": "Li"
+ },
+ {
+  "id": 32,
+  "s": 171.57,
+  "e": 174.16,
+  "en": "What was it like coming here as a teenager back then?",
+  "spk": "Emily"
+ },
+ {
+  "id": 33,
+  "s": 174.16,
+  "e": 175.37,
+  "en": "That was tough.",
+  "spk": "Li"
+ },
+ {
+  "id": 34,
+  "s": 175.45,
+  "e": 190.6,
+  "en": "Shifting the whole thing, culture, language, life as a teenager is perhaps one of the hardest times because you're finding who you are and then suddenly you don't even know the world, right?",
+  "spk": "Li"
+ },
+ {
+  "id": 35,
+  "s": 190.6,
+  "e": 197.24,
+  "en": "Li learned English, finished high school, studied physics at Princeton while running the family dry cleaning business on weekends,",
+  "spk": "Narration"
+ },
+ {
+  "id": 36,
+  "s": 197.24,
+  "e": 202.72,
+  "en": "and followed her dreams to Caltech, where she earned her PhD and became a computer scientist.",
+  "spk": "Narration"
+ },
+ {
+  "id": 37,
+  "s": 202.72,
+  "e": 206.09,
+  "en": "You've been studying artificial intelligence since then. It was super niche.",
+  "spk": "Emily"
+ },
+ {
+  "id": 38,
+  "s": 206.15,
+  "e": 206.36,
+  "en": "Yes.",
+  "spk": "Li"
+ },
+ {
+  "id": 39,
+  "s": 206.36,
+  "e": 208.08,
+  "en": "What was the field like back then?",
+  "spk": "Emily"
+ },
+ {
+  "id": 40,
+  "s": 208.08,
+  "e": 209.68,
+  "en": "That was a beautiful period.",
+  "spk": "Li"
+ },
+ {
+  "id": 41,
+  "s": 209.68,
+  "e": 215.96,
+  "en": "It was really pure curiosity because there was no money, there was no power, there was no fanfare, there was no hype.",
+  "spk": "Li"
+ },
+ {
+  "id": 42,
+  "s": 215.96,
+  "e": 224.52,
+  "en": "We were there just the same as scientists look into the sky, go down in the ocean. I was deeply curious.",
+  "spk": "Li"
+ },
+ {
+  "id": 43,
+  "s": 224.52,
+  "e": 228.6,
+  "en": "How does AI see and how is it different from how you or I see?",
+  "spk": "Emily"
+ },
+ {
+  "id": 44,
+  "s": 228.6,
+  "e": 237.48,
+  "en": "We use our eyes to drive the sensory system to turn that into signals in the brain, and the brain does computing.",
+  "spk": "Li"
+ },
+ {
+  "id": 45,
+  "s": 237.48,
+  "e": 239.4,
+  "en": "It's not that different for computers.",
+  "spk": "Li"
+ },
+ {
+  "id": 46,
+  "s": 239.4,
+  "e": 246.72,
+  "en": "We need to learn the pattern of the world and understand objects, colors, environments.",
+  "spk": "Li"
+ },
+ {
+  "id": 47,
+  "s": 246.72,
+  "e": 250.44,
+  "en": "A lot of seeing is preparing humans to act.",
+  "spk": "Li"
+ },
+ {
+  "id": 48,
+  "s": 250.44,
+  "e": 258.4,
+  "en": "You wake up this morning, you hug your kids, you go downstairs, prepare some breakfast, grab your key, drive to your work.",
+  "spk": "Li"
+ },
+ {
+  "id": 49,
+  "s": 258.4,
+  "e": 263.59,
+  "en": "Everything I've described so far, you've done that with your spatial intelligence.",
+  "spk": "Li"
+ },
+ {
+  "id": 50,
+  "s": 263.65,
+  "e": 266.08,
+  "en": "So it's got to be hard to get computers to do that.",
+  "spk": "Emily"
+ },
+ {
+  "id": 51,
+  "s": 266.08,
+  "e": 266.41,
+  "en": "Yes.",
+  "spk": "Li"
+ },
+ {
+  "id": 52,
+  "s": 266.49,
+  "e": 269.48,
+  "en": "Li was working on this back in 2006.",
+  "spk": "Narration"
+ },
+ {
+  "id": 53,
+  "s": 269.48,
+  "e": 281.8,
+  "en": "She built ImageNet, a massive catalog of 14 million pictures in over 21,000 categories, the largest assembled at that time, because Li saw that algorithms needed data to get smarter.",
+  "spk": "Narration"
+ },
+ {
+  "id": 54,
+  "s": 281.8,
+  "e": 284.04,
+  "en": "So what was the spark for ImageNet?",
+  "spk": "Emily"
+ },
+ {
+  "id": 55,
+  "s": 284.04,
+  "e": 287.28,
+  "en": "Nobody was paying attention to data.",
+  "spk": "Li"
+ },
+ {
+  "id": 56,
+  "s": 287.28,
+  "e": 293.44,
+  "en": "My students and I had that epiphany that learning needs to be driven by data.",
+  "spk": "Li"
+ },
+ {
+  "id": 57,
+  "s": 293.44,
+  "e": 296.84,
+  "en": "In 2010, Li turned ImageNet into a competition.",
+  "spk": "Narration"
+ },
+ {
+  "id": 58,
+  "s": 296.84,
+  "e": 301.0,
+  "en": "Who could build the best algorithm to correctly identify the most images?",
+  "spk": "Narration"
+ },
+ {
+  "id": 59,
+  "s": 301.0,
+  "e": 309.08,
+  "en": "In 2012, Geoffrey Hinton's University of Toronto team entered with AlexNet, an algorithm powered by NVIDIA Graphics cards.",
+  "spk": "Narration"
+ },
+ {
+  "id": 60,
+  "s": 309.08,
+  "e": 310.84,
+  "en": "The result marked a turning point.",
+  "spk": "Narration"
+ },
+ {
+  "id": 61,
+  "s": 310.84,
+  "e": 320.36,
+  "en": "That combination, massive amount of data, neural networks, and GPU computing power became the golden recipe for modern AI and cemented Li's legacy.",
+  "spk": "Narration"
+ },
+ {
+  "id": 62,
+  "s": 322.08,
+  "e": 324.16,
+  "en": "What do you feel when you look at this?",
+  "spk": "Emily"
+ },
+ {
+  "id": 63,
+  "s": 324.16,
+  "e": 330.04,
+  "en": "It's not the eight of us. It's the entire humanity. That's really the main story here.",
+  "spk": "Li"
+ },
+ {
+  "id": 64,
+  "s": 330.04,
+  "e": 343.2,
+  "en": "Because this comes from the photo of, what, about a hundred years ago when industrialization was in the booming phase and big urban skylines are being built.",
+  "spk": "Li"
+ },
+ {
+  "id": 65,
+  "s": 343.2,
+  "e": 345.52,
+  "en": "That was a civilizational moment.",
+  "spk": "Li"
+ },
+ {
+  "id": 66,
+  "s": 345.52,
+  "e": 349.92,
+  "en": "It's amazing that you're being recognized here, but like, could they have centered the photo?",
+  "spk": "Emily"
+ },
+ {
+  "id": 67,
+  "s": 350.92,
+  "e": 354.68,
+  "en": "Come on. It's true because there's more space here.",
+  "spk": "Li"
+ },
+ {
+  "id": 68,
+  "s": 354.68,
+  "e": 358.06,
+  "en": "I asked you about being the godmother of AI a few years ago.",
+  "spk": "Emily"
+ },
+ {
+  "id": 69,
+  "s": 358.1,
+  "e": 358.61,
+  "en": "You did.",
+  "spk": "Li"
+ },
+ {
+  "id": 70,
+  "s": 358.71,
+  "e": 362.4,
+  "en": "How do you feel about that title?",
+  "spk": "Emily"
+ },
+ {
+  "id": 71,
+  "s": 362.4,
+  "e": 366.4,
+  "en": "You know, Emily, I would never call myself godmother of anything.",
+  "spk": "Li"
+ },
+ {
+  "id": 72,
+  "s": 366.4,
+  "e": 369.44,
+  "en": "Remember, Emily, when you asked me, I was like, oh.",
+  "spk": "Li"
+ },
+ {
+  "id": 73,
+  "s": 369.44,
+  "e": 375.72,
+  "en": "I was taken aback because I don't naturally think about myself as godmother of anything.",
+  "spk": "Li"
+ },
+ {
+  "id": 74,
+  "s": 375.72,
+  "e": 378.48,
+  "en": "That's not my personality. I focus on work.",
+  "spk": "Li"
+ },
+ {
+  "id": 75,
+  "s": 378.48,
+  "e": 389.28,
+  "en": "If I rejected that on that spot, we once again would be in a situation where women just don't get recognized the same way as men.",
+  "spk": "Li"
+ },
+ {
+  "id": 76,
+  "s": 389.28,
+  "e": 397.56,
+  "en": "I want more women to be called godmother of whatever creation, innovation, discovery that they have done.",
+  "spk": "Li"
+ },
+ {
+  "id": 77,
+  "s": 397.56,
+  "e": 400.44,
+  "en": "So do you embrace the term now or?",
+  "spk": "Emily"
+ },
+ {
+  "id": 78,
+  "s": 400.44,
+  "e": 407.31,
+  "en": "Embrace is a big word. I don't go around and say, \"Hi, I'm Fei-Fei I'm the godmother of AI.\"",
+  "spk": "Li"
+ },
+ {
+  "id": 79,
+  "s": 407.41,
+  "e": 411.8,
+  "en": "But people have adopted that term thanks to you.",
+  "spk": "Emily"
+ },
+ {
+  "id": 80,
+  "s": 411.8,
+  "e": 418.16,
+  "en": "Artificial intelligence had long been discussed in policy and tech circles as something perpetually right around the corner.",
+  "spk": "Narration"
+ },
+ {
+  "id": 81,
+  "s": 418.16,
+  "e": 425.12,
+  "en": "Until ChatGPT, AI went from a niche research field to the most talked about technology on the planet.",
+  "spk": "Narration"
+ },
+ {
+  "id": 82,
+  "s": 425.12,
+  "e": 428.92,
+  "en": "Large language models, image generators, video generators.",
+  "spk": "Narration"
+ },
+ {
+  "id": 83,
+  "s": 428.92,
+  "e": 433.32,
+  "en": "Suddenly it seemed like everyone was or wanted to be in the AI business.",
+  "spk": "Narration"
+ },
+ {
+  "id": 84,
+  "s": 433.32,
+  "e": 441.28,
+  "en": "And let's be honest, things have come pretty far. Li saw an opportunity and launched her own startup in 2024.",
+  "spk": "Narration"
+ },
+ {
+  "id": 85,
+  "s": 441.28,
+  "e": 443.72,
+  "en": "What's it like running your own shop?",
+  "spk": "Emily"
+ },
+ {
+  "id": 86,
+  "s": 443.72,
+  "e": 447.64,
+  "en": "So here's the thing. I'm by far the most senior in the company.",
+  "spk": "Li"
+ },
+ {
+  "id": 87,
+  "s": 447.64,
+  "e": 454.32,
+  "en": "From my co-founders to my engineers and researchers and scientists, they're so talented, but they're also young.",
+  "spk": "Li"
+ },
+ {
+  "id": 88,
+  "s": 454.32,
+  "e": 460.72,
+  "en": "I do feel like a mom. And oftentimes I feel like a tiger mom.",
+  "spk": "Li"
+ },
+ {
+  "id": 89,
+  "s": 460.72,
+  "e": 464.36,
+  "en": "I do run this shop as, I would say, high standard.",
+  "spk": "Li"
+ },
+ {
+  "id": 90,
+  "s": 464.36,
+  "e": 466.84,
+  "en": "Li is working on advancing world models.",
+  "spk": "Narration"
+ },
+ {
+  "id": 91,
+  "s": 466.84,
+  "e": 476.28,
+  "en": "If ImageNet taught AI how to see, this technology aims to guide AI through the physical world because describing how to catch a ball and actually catching one are very different things.",
+  "spk": "Narration"
+ },
+ {
+  "id": 92,
+  "s": 477.6,
+  "e": 481.76,
+  "en": "And super intelligence, she's betting that lies beyond chatbots.",
+  "spk": "Narration"
+ },
+ {
+  "id": 93,
+  "s": 481.76,
+  "e": 488.08,
+  "en": "The rest of the AI industry is focusing on LLMs. What can't LLMs do?",
+  "spk": "Emily"
+ },
+ {
+  "id": 94,
+  "s": 488.08,
+  "e": 502.36,
+  "en": "If we want to create a world where we continue to push scientific discovery, where we want machines like robots to be a partner to us, all this language cannot do it alone.",
+  "spk": "Li"
+ },
+ {
+  "id": 95,
+  "s": 502.36,
+  "e": 507.24,
+  "en": "Building world model and spatial intelligence is not about anti - LLM.",
+  "spk": "Li"
+ },
+ {
+  "id": 96,
+  "s": 507.24,
+  "e": 510.36,
+  "en": "It's about the next frontier and the next chapter.",
+  "spk": "Li"
+ },
+ {
+  "id": 97,
+  "s": 510.36,
+  "e": 512.9,
+  "en": "So what exactly is a world model?",
+  "spk": "Emily"
+ },
+ {
+  "id": 98,
+  "s": 512.98,
+  "e": 515.92,
+  "en": "World model at this point is an overloaded term.",
+  "spk": "Li"
+ },
+ {
+  "id": 99,
+  "s": 515.92,
+  "e": 521.16,
+  "en": "We look at spatial intelligence as three different kind of functions.",
+  "spk": "Li"
+ },
+ {
+  "id": 100,
+  "s": 521.16,
+  "e": 527.08,
+  "en": "One is rendering, one is simulation, and the third one is planning.",
+  "spk": "Li"
+ },
+ {
+  "id": 101,
+  "s": 527.08,
+  "e": 534.28,
+  "en": "Rendering is the world model outputs beautiful pixels for humans to consume.",
+  "spk": "Li"
+ },
+ {
+  "id": 102,
+  "s": 534.28,
+  "e": 537.16,
+  "en": "Most likely you're thinking about [OpenAI's] Sora.",
+  "spk": "Li"
+ },
+ {
+  "id": 103,
+  "s": 537.16,
+  "e": 544.88,
+  "en": "The second class of world model is they do simulation, but it doesn't serve just humans. It serves machines.",
+  "spk": "Li"
+ },
+ {
+  "id": 104,
+  "s": 544.88,
+  "e": 552.12,
+  "en": "They are focused on capturing the actual structure of the world, the geometry structure based on physics.",
+  "spk": "Li"
+ },
+ {
+  "id": 105,
+  "s": 552.12,
+  "e": 558.08,
+  "en": "The third kind of world model planning helps you to know what is the next thing you need to do.",
+  "spk": "Li"
+ },
+ {
+  "id": 106,
+  "s": 558.08,
+  "e": 568.8,
+  "en": "For example, if you have a cup, a world model that serves as a planner will let the robot know, pick it up and put it somewhere else.",
+  "spk": "Li"
+ },
+ {
+  "id": 107,
+  "s": 569.64,
+  "e": 575.84,
+  "en": "And that is a world model that is very closely coupled with robotics.",
+  "spk": "Li"
+ },
+ {
+  "id": 108,
+  "s": 575.84,
+  "e": 579.36,
+  "en": "Marble is World Lab's first step towards creating a world model.",
+  "spk": "Narration"
+ },
+ {
+  "id": 109,
+  "s": 579.36,
+  "e": 586.32,
+  "en": "It's a platform that lets anyone generate an explorable, editable 3D world from a single visual or text prompt.",
+  "spk": "Narration"
+ },
+ {
+  "id": 110,
+  "s": 586.32,
+  "e": 594.76,
+  "en": "Now, this is a showcase page of some user-generated world. You can see they created a room, a beautiful room.",
+  "spk": "Li"
+ },
+ {
+  "id": 111,
+  "s": 594.76,
+  "e": 600.28,
+  "en": "Now you look at this, you're like, Fei-Fei, this is no different from a picture. But here's the thing.",
+  "spk": "Li"
+ },
+ {
+  "id": 112,
+  "s": 600.28,
+  "e": 608.76,
+  "en": "It actually is a world because I can navigate in it. So like a game, I can move forward. I can turn around.",
+  "spk": "Li"
+ },
+ {
+  "id": 113,
+  "s": 608.76,
+  "e": 614.92,
+  "en": "I can go anywhere. Here, it's a fully consistent 3D world.",
+  "spk": "Li"
+ },
+ {
+  "id": 114,
+  "s": 614.92,
+  "e": 618.36,
+  "en": "So who or what companies are using Marbel right now?",
+  "spk": "Emily"
+ },
+ {
+  "id": 115,
+  "s": 618.36,
+  "e": 622.4,
+  "en": "Why is Marble useful? For example, virtual production.",
+  "spk": "Li"
+ },
+ {
+  "id": 116,
+  "s": 622.4,
+  "e": 630.6,
+  "en": "In movies, people are using Marble because they can shoot actors in any environment. Game developers.",
+  "spk": "Li"
+ },
+ {
+  "id": 117,
+  "s": 630.6,
+  "e": 638.4,
+  "en": "Marble has completely lowered the amount of resource and time one needs. We also have robotics example.",
+  "spk": "Li"
+ },
+ {
+  "id": 118,
+  "s": 638.4,
+  "e": 646.48,
+  "en": "This is a collaboration with NVIDIA where they're using Marble environments to augment the training of robots.",
+  "spk": "Li"
+ },
+ {
+  "id": 119,
+  "s": 646.48,
+  "e": 649.4,
+  "en": "What are you training these models on that others don't have?",
+  "spk": "Emily"
+ },
+ {
+  "id": 120,
+  "s": 649.4,
+  "e": 656.44,
+  "en": "We are training these models on two things, right? One is specially prepared data.",
+  "spk": "Li"
+ },
+ {
+  "id": 121,
+  "s": 656.44,
+  "e": 665.0,
+  "en": "Pixel data are more nuanced than language data in the sense that there's more information in a picture.",
+  "spk": "Li"
+ },
+ {
+  "id": 122,
+  "s": 665.88,
+  "e": 667.92,
+  "en": "There's camera information.",
+  "spk": "Li"
+ },
+ {
+  "id": 123,
+  "s": 667.92,
+  "e": 681.91,
+  "en": "Another one is algorithmic and architectural innovation because no one has created generative world models as we have in terms of creating 3D and eventually 4D worlds.",
+  "spk": "Li"
+ },
+ {
+  "id": 124,
+  "s": 681.97,
+  "e": 684.0,
+  "en": "So would you say that's the secret?",
+  "spk": "Emily"
+ },
+ {
+  "id": 125,
+  "s": 684.0,
+  "e": 688.64,
+  "en": "Yeah, I guess so. Well, the real secrets are people, as I always say.",
+  "spk": "Li"
+ },
+ {
+  "id": 126,
+  "s": 688.64,
+  "e": 692.88,
+  "en": "But yes, the data and the algorithm and the, the system we have built.",
+  "spk": "Li"
+ },
+ {
+  "id": 127,
+  "s": 692.88,
+  "e": 695.53,
+  "en": "You've raised a billion dollars. How is the business doing?",
+  "spk": "Emily"
+ },
+ {
+  "id": 128,
+  "s": 695.59,
+  "e": 701.28,
+  "en": "The business is still early. This phase of World Labs, we're focusing on building the technology.",
+  "spk": "Li"
+ },
+ {
+  "id": 129,
+  "s": 701.28,
+  "e": 703.96,
+  "en": "Building the technology isn't the only part of the job.",
+  "spk": "Narration"
+ },
+ {
+  "id": 130,
+  "s": 703.96,
+  "e": 709.04,
+  "en": "When Li isn't heads down at World Labs, she's out making the case for the next frontier of AI.",
+  "spk": "Narration"
+ },
+ {
+  "id": 131,
+  "s": 714.8,
+  "e": 718.2,
+  "en": "Absolutely. Please welcome to the stage.",
+  "spk": "Announcer"
+ },
+ {
+  "id": 132,
+  "s": 718.2,
+  "e": 724.64,
+  "en": "Fei-Fei Li, co-founder and CEO at World Labs for a conversation with Bloomberg's Emily Chang.",
+  "spk": "Announcer"
+ },
+ {
+  "id": 133,
+  "s": 724.7,
+  "e": 729.76,
+  "en": "All of this rolls up into robotics, so I, I want to get your take on the field. And humanoids in particular.",
+  "spk": "Emily"
+ },
+ {
+  "id": 134,
+  "s": 729.76,
+  "e": 736.16,
+  "en": "Funding for humanoids hit $6 billion, but you know, they still can't load my dishwasher as fast as I can.",
+  "spk": "Emily"
+ },
+ {
+  "id": 135,
+  "s": 736.16,
+  "e": 738.12,
+  "en": "They still can't go get my Amazon packages.",
+  "spk": "Emily"
+ },
+ {
+  "id": 136,
+  "s": 738.12,
+  "e": 743.7,
+  "en": "Will world models, world labs close the gap between hype and reality?",
+  "spk": "Emily"
+ },
+ {
+  "id": 137,
+  "s": 743.77,
+  "e": 745.6,
+  "en": "That's a loaded question, Emily.",
+  "spk": "Li"
+ },
+ {
+  "id": 138,
+  "s": 745.6,
+  "e": 756.52,
+  "en": "First of all, first of all, robotics is going to be one of the most important revolution in human industrialization. $6 billion is too small, right?",
+  "spk": "Li"
+ },
+ {
+  "id": 139,
+  "s": 756.52,
+  "e": 764.24,
+  "en": "If you look at self-driving cars investment, if you look at language models investment, it took way more than $6 billion.",
+  "spk": "Li"
+ },
+ {
+  "id": 140,
+  "s": 764.24,
+  "e": 765.8,
+  "en": "Are we going to close the gap?",
+  "spk": "Li"
+ },
+ {
+  "id": 141,
+  "s": 765.8,
+  "e": 774.12,
+  "en": "I do believe World Labs is working on one of the most critical technology in the spatial physical intelligence.",
+  "spk": "Li"
+ },
+ {
+  "id": 142,
+  "s": 774.12,
+  "e": 777.33,
+  "en": "And obviously that's the, that's the hope.",
+  "spk": "Li"
+ },
+ {
+  "id": 143,
+  "s": 777.41,
+  "e": 778.64,
+  "en": "But Li isn't alone.",
+  "spk": "Narration"
+ },
+ {
+  "id": 144,
+  "s": 778.64,
+  "e": 785.44,
+  "en": "World models are the tech industry's latest obsession with startups and tech giants alike all sprinting to build them.",
+  "spk": "Narration"
+ },
+ {
+  "id": 145,
+  "s": 785.44,
+  "e": 794.84,
+  "en": "For anything from design to self-driving cars, robots and factories, to eventually machines that can navigate the unpredictable reality of the human home.",
+  "spk": "Narration"
+ },
+ {
+  "id": 146,
+  "s": 798.72,
+  "e": 803.98,
+  "en": "You're competing against big players with deep pockets. How worried are you about that?",
+  "spk": "Emily"
+ },
+ {
+  "id": 147,
+  "s": 804.04,
+  "e": 808.24,
+  "en": "As an entrepreneur and a co-founder, CEO, I'm paranoid every day.",
+  "spk": "Li"
+ },
+ {
+  "id": 148,
+  "s": 809.2,
+  "e": 814.88,
+  "en": "I don't think there's a moment I would say, \"Hey, I feel so relaxed.\" You know?",
+  "spk": "Li"
+ },
+ {
+  "id": 149,
+  "s": 814.88,
+  "e": 823.96,
+  "en": "So yes, I am worried, but am I paralyzed? Absolutely not. We have an incredible team. We also have the focus.",
+  "spk": "Li"
+ },
+ {
+  "id": 150,
+  "s": 824.84,
+  "e": 830.4,
+  "en": "You know, a lot of big companies, they have a lot on the, on the table.",
+  "spk": "Li"
+ },
+ {
+  "id": 151,
+  "s": 830.4,
+  "e": 834.52,
+  "en": "We have one thing on the table, and we're focusing on that thing.",
+  "spk": "Li"
+ },
+ {
+  "id": 152,
+  "s": 834.58,
+  "e": 836.8,
+  "en": "Emily, Nice to meet you.",
+  "spk": "Justin"
+ },
+ {
+  "id": 153,
+  "s": 836.8,
+  "e": 843.81,
+  "en": "The war for talent is so fierce. Why work with Fei-Fei when there are so many powerful AI companies out there?",
+  "spk": "Emily"
+ },
+ {
+  "id": 154,
+  "s": 843.9,
+  "e": 848.29,
+  "en": "Well, I started working with Fei-Fei way before it was cool in 2012.",
+  "spk": "Justin"
+ },
+ {
+  "id": 155,
+  "s": 848.4,
+  "e": 853.12,
+  "en": "Yeah, I did my PhD with Fei-Fei at Stanford way back in the day.",
+  "spk": "Justin"
+ },
+ {
+  "id": 156,
+  "s": 853.12,
+  "e": 857.64,
+  "en": "You can go to a lot of big tech, but your hands can't change that trajectory in, in many instances.",
+  "spk": "Justin"
+ },
+ {
+  "id": 157,
+  "s": 858.48,
+  "e": 862.96,
+  "en": "Here, we're 50 people. Your hands can change the trajectory of this company.",
+  "spk": "Justin"
+ },
+ {
+  "id": 158,
+  "s": 862.96,
+  "e": 865.36,
+  "en": "That's a beautiful thing to have in your life.",
+  "spk": "Justin"
+ },
+ {
+  "id": 159,
+  "s": 865.36,
+  "e": 871.9,
+  "en": "World Labs may be a small team, but the investment in world models is gigantic. $3 billion and growing.",
+  "spk": "Narration"
+ },
+ {
+  "id": 160,
+  "s": 871.98,
+  "e": 876.8,
+  "en": "Still, it's early days. The field hasn't even agreed on how to build them yet.",
+  "spk": "Narration"
+ },
+ {
+  "id": 161,
+  "s": 876.8,
+  "e": 884.48,
+  "en": "Would you say it's like 2019 for chatbots where everyone was chasing LLMs and trying to make it happen, but they hadn't cracked the code yet?",
+  "spk": "Emily"
+ },
+ {
+  "id": 162,
+  "s": 884.48,
+  "e": 886.48,
+  "en": "Is that where we are for world models?",
+  "spk": "Emily"
+ },
+ {
+  "id": 163,
+  "s": 886.48,
+  "e": 893.32,
+  "en": "Yeah, that's probably a fair description. We're early. We're a lot earlier compared to LLMs. But",
+  "spk": "Li"
+ },
+ {
+  "id": 164,
+  "s": 893.32,
+  "e": 898.72,
+  "en": "Will there be some sort of explosion and aha moment where we're like, \"Oh, now we understand.\"",
+  "spk": "Emily"
+ },
+ {
+  "id": 165,
+  "s": 898.79,
+  "e": 902.6,
+  "en": "If we do it right, yes. That's the magic of technology and science.",
+  "spk": "Li"
+ },
+ {
+  "id": 166,
+  "s": 902.6,
+  "e": 906.9,
+  "en": "When it hits that milestone, it becomes magical.",
+  "spk": "Li"
+ },
+ {
+  "id": 167,
+  "s": 906.99,
+  "e": 911.88,
+  "en": "There are skeptics in the AI and robotics world that say, \"This isn't the next breakthrough.",
+  "spk": "Emily"
+ },
+ {
+  "id": 168,
+  "s": 911.88,
+  "e": 915.08,
+  "en": "It's just the next hype cycle.\" What do you say to that?",
+  "spk": "Emily"
+ },
+ {
+  "id": 169,
+  "s": 915.08,
+  "e": 918.68,
+  "en": "I think even a good science can be hyped.",
+  "spk": "Li"
+ },
+ {
+  "id": 170,
+  "s": 919.8,
+  "e": 926.52,
+  "en": "I believe spatial intelligence and physical intelligence are fundamental to machine intelligence.",
+  "spk": "Li"
+ },
+ {
+  "id": 171,
+  "s": 926.52,
+  "e": 936.08,
+  "en": "And these are the frontier questions that I believe firmly in as a scientist, as a technologist, and also as an entrepreneur.",
+  "spk": "Li"
+ },
+ {
+  "id": 172,
+  "s": 936.08,
+  "e": 939.36,
+  "en": "I believe they will provide incredible market value.",
+  "spk": "Li"
+ },
+ {
+  "id": 173,
+  "s": 939.41,
+  "e": 943.16,
+  "en": "Building wrld models is incredibly resource intensive. Do you need more power?",
+  "spk": "Emily"
+ },
+ {
+  "id": 174,
+  "s": 943.21,
+  "e": 946.38,
+  "en": "Do you need more capital to get to where you want to be?",
+  "spk": "Emily"
+ },
+ {
+  "id": 175,
+  "s": 946.46,
+  "e": 951.64,
+  "en": "That we don't know yet. We're too early. We're likely to need more power and more resources.",
+  "spk": "Li"
+ },
+ {
+  "id": 176,
+  "s": 951.64,
+  "e": 952.67,
+  "en": "And can you get that?",
+  "spk": "Emily"
+ },
+ {
+  "id": 177,
+  "s": 952.72,
+  "e": 957.92,
+  "en": "I don't know. We have to do a good job to, to earn it.",
+  "spk": "Li"
+ },
+ {
+  "id": 178,
+  "s": 957.92,
+  "e": 961.36,
+  "en": "Getting world models out of the demo phase will take more time and money.",
+  "spk": "Narration"
+ },
+ {
+  "id": 179,
+  "s": 961.36,
+  "e": 967.04,
+  "en": "Meanwhile, investment in generative AI has soared, and Americans have strong feelings about it.",
+  "spk": "Narration"
+ },
+ {
+  "id": 180,
+  "s": 967.04,
+  "e": 972.12,
+  "en": "I'm sure you've seen the video of former Google CEO, Eric Schmidt, getting booed at a college graduation.",
+  "spk": "Narration"
+ },
+ {
+  "id": 181,
+  "s": 972.12,
+  "e": 976.68,
+  "en": "So today we stand on this edge of another technological transformation.",
+  "spk": "Schmidt"
+ },
+ {
+  "id": 182,
+  "s": 979.8,
+  "e": 987.13,
+  "en": "You spend a lot of time with students. What are they saying? And if they're scared, are the fears justified?",
+  "spk": "Emily"
+ },
+ {
+  "id": 183,
+  "s": 987.2,
+  "e": 994.52,
+  "en": "Yeah, I do spend a lot of time with students. Even Stanford students reflect some of this mixed sentiment.",
+  "spk": "Li"
+ },
+ {
+  "id": 184,
+  "s": 994.52,
+  "e": 1001.04,
+  "en": "There is anxiety. There is sense of hope. There is also excitement. There is also confusion.",
+  "spk": "Li"
+ },
+ {
+  "id": 185,
+  "s": 1001.04,
+  "e": 1009.08,
+  "en": "There is also simultaneously a sense of dignity and agency when AI can help me do things that I couldn't do before.",
+  "spk": "Li"
+ },
+ {
+  "id": 186,
+  "s": 1009.08,
+  "e": 1014.04,
+  "en": "And a sense of loss of dignity and agency if AI is going to take my job.",
+  "spk": "Li"
+ },
+ {
+  "id": 187,
+  "s": 1016.56,
+  "e": 1018.39,
+  "en": "AI Has Got to go.",
+  "spk": "Crowd"
+ },
+ {
+  "id": 188,
+  "s": 1018.39,
+  "e": 1024.52,
+  "en": "So what happens if the US loses faith in this technology while the rest of the world races ahead?",
+  "spk": "Emily"
+ },
+ {
+  "id": 189,
+  "s": 1024.52,
+  "e": 1039.8,
+  "en": "US is such an important country in terms of its impact to the world that if we are not showing a positive attitude and positive path towards AI, everybody loses.",
+  "spk": "Li"
+ },
+ {
+  "id": 190,
+  "s": 1039.8,
+  "e": 1048.28,
+  "en": "And I don't wish for that because US has been a thought leader in the world when it comes to technology and science and economy.",
+  "spk": "Li"
+ },
+ {
+  "id": 191,
+  "s": 1048.28,
+  "e": 1062.96,
+  "en": "And if we can show that we can create incredible technology and incredible economic value using AI and have a positive cultural impact, the world will see it as a role model.",
+  "spk": "Li"
+ },
+ {
+  "id": 192,
+  "s": 1063.04,
+  "e": 1065.68,
+  "en": "Li knows a thing or two about AI and its impact.",
+  "spk": "Narration"
+ },
+ {
+  "id": 193,
+  "s": 1065.68,
+  "e": 1076.4,
+  "en": "Over her career, she took roles at big tech companies, venture capital firms, co-founded an AI institute at Stanford, and advised US presidents and the United Nations on AI policy.",
+  "spk": "Narration"
+ },
+ {
+  "id": 194,
+  "s": 1076.4,
+  "e": 1083.6,
+  "en": "There's nothing artificial about artificial intelligence. It's inspired by people. It's created by people.",
+  "spk": "Li"
+ },
+ {
+  "id": 195,
+  "s": 1083.6,
+  "e": 1087.4,
+  "en": "And most importantly, it has an impact on people.",
+  "spk": "Li"
+ },
+ {
+  "id": 196,
+  "s": 1087.4,
+  "e": 1093.72,
+  "en": "You've advised President Biden, President Trump, the UN on technology and AI policy.",
+  "spk": "Emily"
+ },
+ {
+  "id": 197,
+  "s": 1093.72,
+  "e": 1097.3,
+  "en": "How do you approach conversations with world leaders?",
+  "spk": "Emily"
+ },
+ {
+  "id": 198,
+  "s": 1097.37,
+  "e": 1106.8,
+  "en": "I don't go in hyping. I don't go in providing extreme rhetoric. Either it's total utopia or total doomsday.",
+  "spk": "Li"
+ },
+ {
+  "id": 199,
+  "s": 1106.8,
+  "e": 1113.77,
+  "en": "It's very important that whoever I talk to knows that I'm a scientist. What do they need?",
+  "spk": "Li"
+ },
+ {
+  "id": 200,
+  "s": 1113.83,
+  "e": 1126.32,
+  "en": "They need scientific facts, but I think it's important to be at their service and to speak my mind, to push back if they're wrong, because that's my responsibility.",
+  "spk": "Li"
+ },
+ {
+  "id": 201,
+  "s": 1127.4,
+  "e": 1129.38,
+  "en": "And have they been wrong?",
+  "spk": "Emily"
+ },
+ {
+  "id": 202,
+  "s": 1129.46,
+  "e": 1134.72,
+  "en": "Oh, yes, for sure. We all have been wrong. This technology moves so fast. I don't blame them.",
+  "spk": "Li"
+ },
+ {
+  "id": 203,
+  "s": 1134.78,
+  "e": 1138.94,
+  "en": "Most of our policymakers don't come from computer science background.",
+  "spk": "Li"
+ },
+ {
+  "id": 204,
+  "s": 1139.0,
+  "e": 1142.12,
+  "en": "What is the role of regulation? What should that look like?",
+  "spk": "Emily"
+ },
+ {
+  "id": 205,
+  "s": 1142.12,
+  "e": 1146.72,
+  "en": "First and foremost, root that in science, not science fiction.",
+  "spk": "Li"
+ },
+ {
+  "id": 206,
+  "s": 1146.72,
+  "e": 1163.2,
+  "en": "A lot of the AI policy world conversation with people from Silicon Valley talk about the extinction of humanity, the, the, the AGI machine overlord that distracts the real policy work.",
+  "spk": "Li"
+ },
+ {
+  "id": 207,
+  "s": 1163.2,
+  "e": 1175.36,
+  "en": "The second recommendation is ensure a healthy ecosystem, resource the public sector, resource STEM education in K-12 or K-16.",
+  "spk": "Li"
+ },
+ {
+  "id": 208,
+  "s": 1175.36,
+  "e": 1181.32,
+  "en": "Human capital at the end of the day is the most important resource of our world.",
+  "spk": "Li"
+ },
+ {
+  "id": 209,
+  "s": 1181.32,
+  "e": 1186.73,
+  "en": "And we want a thriving society of people, not a thriving society of just machines.",
+  "spk": "Li"
+ },
+ {
+  "id": 210,
+  "s": 1186.79,
+  "e": 1189.52,
+  "en": "What do you worry could go wrong with world models?",
+  "spk": "Emily"
+ },
+ {
+  "id": 211,
+  "s": 1189.52,
+  "e": 1198.92,
+  "en": "Like if we're giving people even more realistic and more powerful AI, does that create even more opportunities for really bad things to happen?",
+  "spk": "Emily"
+ },
+ {
+  "id": 212,
+  "s": 1198.92,
+  "e": 1205.4,
+  "en": "World models, language models, these are powerful models that can create mis and disinformation.",
+  "spk": "Li"
+ },
+ {
+  "id": 213,
+  "s": 1205.4,
+  "e": 1219.08,
+  "en": "Empowered robots can be weaponized by bad actors and students who are not properly motivated can use technology as a lazy crutch instead of a empowering learning tool.",
+  "spk": "Li"
+ },
+ {
+  "id": 214,
+  "s": 1219.08,
+  "e": 1224.92,
+  "en": "I, I worry about that a lot. So I think a lot of things can go wrong with technology, not just AI.",
+  "spk": "Li"
+ },
+ {
+  "id": 215,
+  "s": 1224.92,
+  "e": 1230.81,
+  "en": "It could have gone wrong with electricity, with cars, with, you know, PC, with internet.",
+  "spk": "Li"
+ },
+ {
+  "id": 216,
+  "s": 1230.88,
+  "e": 1240.2,
+  "en": "Some of the most powerful CEOs in AI right now have been accused of having God complexes because they seem to think they know what's best for humanity.",
+  "spk": "Emily"
+ },
+ {
+  "id": 217,
+  "s": 1240.2,
+  "e": 1241.97,
+  "en": "What do you think of that term?",
+  "spk": "Emily"
+ },
+ {
+  "id": 218,
+  "s": 1242.02,
+  "e": 1247.12,
+  "en": "I think it's dangerous for any individual to think they know better than everybody else.",
+  "spk": "Li"
+ },
+ {
+  "id": 219,
+  "s": 1247.12,
+  "e": 1256.88,
+  "en": "As a CEO, as an entrepreneur, our founding premise is we are here to contribute to the society and to empower people.",
+  "spk": "Li"
+ },
+ {
+  "id": 220,
+  "s": 1256.88,
+  "e": 1261.36,
+  "en": "It's not our position to make every single decision for people.",
+  "spk": "Li"
+ },
+ {
+  "id": 221,
+  "s": 1261.43,
+  "e": 1266.2,
+  "en": "But isn't that the path we're on? I mean, these are really powerful people.",
+  "spk": "Emily"
+ },
+ {
+  "id": 222,
+  "s": 1266.2,
+  "e": 1271.54,
+  "en": "I think it's too early to tell Emily. I'm not being naive. I know what you're talking about.",
+  "spk": "Li"
+ },
+ {
+  "id": 223,
+  "s": 1271.61,
+  "e": 1273.16,
+  "en": "I also have my concern.",
+  "spk": "Li"
+ },
+ {
+  "id": 224,
+  "s": 1273.16,
+  "e": 1281.08,
+  "en": "I don't think having God complex is constructive, and I wouldn't want to do that myself, but we have a democratic society.",
+  "spk": "Li"
+ },
+ {
+  "id": 225,
+  "s": 1281.08,
+  "e": 1287.54,
+  "en": "This is another reason I think our civil society should not give up on AI. We need the voices.",
+  "spk": "Li"
+ },
+ {
+  "id": 226,
+  "s": 1287.62,
+  "e": 1293.68,
+  "en": "We need the collective governance. But let's now throw the baby with the bathwater.",
+  "spk": "Li"
+ },
+ {
+  "id": 227,
+  "s": 1293.68,
+  "e": 1306.8,
+  "en": "The governance shouldn't be, let's stop AI, because this is a technology that can discover cure for diseases, can empower students and teachers, can help our elderly.",
+  "spk": "Li"
+ },
+ {
+  "id": 228,
+  "s": 1306.8,
+  "e": 1312.12,
+  "en": "So that's the baby here. But right now, we are in a very messy period.",
+  "spk": "Li"
+ },
+ {
+  "id": 229,
+  "s": 1312.12,
+  "e": 1322.12,
+  "en": "This is also why I feel personal responsibility to speak the truth I believe in as a scientist and an educator.",
+  "spk": "Li"
+ },
+ {
+  "id": 230,
+  "s": 1322.12,
+  "e": 1327.04,
+  "en": "Li has spent her life teaching machines to see. She gave AI its eyes.",
+  "spk": "Narration"
+ },
+ {
+  "id": 231,
+  "s": 1327.04,
+  "e": 1331.04,
+  "en": "Now in her second act, she's trying to give it a world to live in.",
+  "spk": "Narration"
+ },
+ {
+  "id": 232,
+  "s": 1331.04,
+  "e": 1336.56,
+  "en": "As the scientist who helped spark the modern AI revolution, perhaps we shouldn't put it past her.",
+  "spk": "Narration"
+ },
+ {
+  "id": 233,
+  "s": 1336.56,
+  "e": 1339.73,
+  "en": "Where is this all going? Where are we in five years?",
+  "spk": "Emily"
+ },
+ {
+  "id": 234,
+  "s": 1339.8,
+  "e": 1348.75,
+  "en": "This This is where I reveal I'm an optimist. The, the arc of history is long. I paraphrase Dr. King.",
+  "spk": "Li"
+ },
+ {
+  "id": 235,
+  "s": 1348.81,
+  "e": 1351.2,
+  "en": "I believe it bends towards benevolence.",
+  "spk": "Li"
+ },
+ {
+  "id": 236,
+  "s": 1352.16,
+  "e": 1366.4,
+  "en": "Now, we're not a perfect world of people and community, but 2026 today is better than 2026 BC for the majority of the population.",
+  "spk": "Li"
+ },
+ {
+  "id": 237,
+  "s": 1366.6,
+  "e": 1372.88,
+  "en": "And I think it's because despite all of our dark underbelly, we have it in our DNA.",
+  "spk": "Li"
+ },
+ {
+  "id": 238,
+  "s": 1372.88,
+  "e": 1383.72,
+  "en": "We want our offsprings to live a better life, and we have moral compasses collectively to move the society towards benevolence.",
+  "spk": "Li"
+ },
+ {
+  "id": 239,
+  "s": 1383.72,
+  "e": 1386.24,
+  "en": "My hope is in humanity.",
+  "spk": "Li"
+ },
+ {
+  "id": 240,
+  "s": 1399.68,
+  "e": 1401.8,
+  "en": "Is it true you're obsessed with UFOs?",
+  "spk": "Emily"
+ },
+ {
+  "id": 241,
+  "s": 1401.86,
+  "e": 1403.48,
+  "en": "When I was a kid. Like,",
+  "spk": "Li"
+ },
+ {
+  "id": 242,
+  "s": 1403.48,
+  "e": 1406.68,
+  "en": "Have you read the documents they're declassifying?",
+  "spk": "Emily"
+ },
+ {
+  "id": 243,
+  "s": 1406.68,
+  "e": 1413.81,
+  "en": "No. I think it's part of that dreamy curiosity as a kid is what's out there.",
+  "spk": "Li"
+ },
+ {
+  "id": 244,
+  "s": 1413.87,
+  "e": 1416.06,
+  "en": "Do you think there's aliens out there?",
+  "spk": "Emily"
+ },
+ {
+  "id": 245,
+  "s": 1416.12,
+  "e": 1418.92,
+  "en": "So as a physics student, you learn Drake's equation.",
+  "spk": "Li"
+ },
+ {
+  "id": 246,
+  "s": 1418.92,
+  "e": 1428.29,
+  "en": "Drake's equation computes the probability of potential of outer space aliens. So there is a potential number.",
+  "spk": "Li"
+ },
+ {
+  "id": 247,
+  "s": 1428.36,
+  "e": 1430.92,
+  "en": "Wow. Okay. Favorite sci-fi movie?",
+  "spk": "Emily"
+ },
+ {
+  "id": 248,
+  "s": 1430.92,
+  "e": 1433.05,
+  "en": "Contact. By far my favorite.",
+  "spk": "Li"
+ },
+ {
+  "id": 249,
+  "s": 1433.13,
+  "e": 1434.12,
+  "en": "There you go.",
+  "spk": "Emily"
+ },
+ {
+  "id": 250,
+  "s": 1434.12,
+  "e": 1436.6,
+  "en": "Intelligence... somewhere out there. Yeah.",
+  "spk": "Li"
+ }
+]

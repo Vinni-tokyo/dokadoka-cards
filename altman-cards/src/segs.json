@@ -1,0 +1,863 @@
+[
+ {
+  "id": 1,
+  "s": 0.03,
+  "e": 5.36,
+  "en": "The way that OpenAI is framing Astra is basically an early step toward AGI,",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 2,
+  "s": 5.36,
+  "e": 13.35,
+  "en": "but I thought we could start a conversation just with basically what's fundamentally different with Astra relative to prior generations of model.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 3,
+  "s": 14.58,
+  "e": 16.62,
+  "en": "It feels, first of all, thank you for having me.",
+  "spk": "Altman"
+ },
+ {
+  "id": 4,
+  "s": 16.95,
+  "e": 30.92,
+  "en": "It feels like a new step in this process towards models that can really help us create value, do work, uh, discover new science, help us create help, start new companies or create new products.",
+  "spk": "Altman"
+ },
+ {
+  "id": 5,
+  "s": 30.98,
+  "e": 35.61,
+  "en": "Using it subjectively feels to me very different than any model before.",
+  "spk": "Altman"
+ },
+ {
+  "id": 6,
+  "s": 35.68,
+  "e": 39.91,
+  "en": "What's the kind of principal use case that's different this time around?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 7,
+  "s": 39.96,
+  "e": 43.89,
+  "en": "You know, I think we can get into the generations of model that we're very coding focused.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 8,
+  "s": 43.9,
+  "e": 54.91,
+  "en": "I know a lot of the development was very cybersecurity focused, but taking it away from the software engineer, what is the everyday person unlocking AI that they weren't able to do previously?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 9,
+  "s": 54.98,
+  "e": 66.54,
+  "en": "One thing that I think people will immediately notice is if you have an idea and you want to work interactively with an AI to get, uh, you know, a complex piece of a whole piece of software built.",
+  "spk": "Altman"
+ },
+ {
+  "id": 10,
+  "s": 66.61,
+  "e": 71.53,
+  "en": "This is the first model to me where I could sort of tell someone, like, just give it a try. There's.",
+  "spk": "Altman"
+ },
+ {
+  "id": 11,
+  "s": 71.57,
+  "e": 77.49,
+  "en": "There's a good chance it'll work. And, you know, I've watched people make computer games.",
+  "spk": "Altman"
+ },
+ {
+  "id": 12,
+  "s": 77.49,
+  "e": 83.7,
+  "en": "I watch people do sort of like home sort of DIY electrical engineering projects.",
+  "spk": "Altman"
+ },
+ {
+  "id": 13,
+  "s": 84.06,
+  "e": 89.03,
+  "en": "Uh, I've watched people do very complex simulations for some piece of science they're working on.",
+  "spk": "Altman"
+ },
+ {
+  "id": 14,
+  "s": 89.08,
+  "e": 103.28,
+  "en": "Uh, certainly a lot of the work where you would sort of normally sit down and have to, you know, build a financial model here and then a PowerPoint presentation around it and then figure out how to, like, make a little interactive piece of code to sort of try different simulations.",
+  "spk": "Altman"
+ },
+ {
+  "id": 15,
+  "s": 103.33,
+  "e": 105.33,
+  "en": "That stuff is it's all so doable now.",
+  "spk": "Altman"
+ },
+ {
+  "id": 16,
+  "s": 105.63,
+  "e": 115.76,
+  "en": "Um, what I hope will happen is people I think people will be surprised at the beginning, but then as they build up more trust in the model and more like, wow, I can really do this.",
+  "spk": "Altman"
+ },
+ {
+  "id": 17,
+  "s": 115.82,
+  "e": 120.09,
+  "en": "Just start throwing harder and harder tasks and more creative ideas at it.",
+  "spk": "Altman"
+ },
+ {
+  "id": 18,
+  "s": 120.14,
+  "e": 123.9,
+  "en": "And uh, they will find out what the model can really do for them.",
+  "spk": "Altman"
+ },
+ {
+  "id": 19,
+  "s": 123.96,
+  "e": 126.83,
+  "en": "So the specifics of how Astra's being released.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 20,
+  "s": 126.89,
+  "e": 131.54,
+  "en": "I think it's important so that a version of it with specific guardrails.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 21,
+  "s": 131.61,
+  "e": 137.75,
+  "en": "Um, what was the thinking behind that and what are those specific guardrails, uh, in this early release of it?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 22,
+  "s": 138.38,
+  "e": 153.8,
+  "en": "Yeah. So the the challenge of our industry is that we have these models that are getting incredibly capable and incredibly useful and that people want to use to everything from, you know, make their lives a little easier to starting new companies.",
+  "spk": "Altman"
+ },
+ {
+  "id": 23,
+  "s": 154.07,
+  "e": 160.82,
+  "en": "And then, on the other hand, as these models get more capable, um, the risks that we have to mitigate, uh, also become more serious.",
+  "spk": "Altman"
+ },
+ {
+  "id": 24,
+  "s": 160.82,
+  "e": 164.72,
+  "en": "The models could do more damage if we don't, um, if we don't do a good job at that.",
+  "spk": "Altman"
+ },
+ {
+  "id": 25,
+  "s": 164.79,
+  "e": 169.81,
+  "en": "And so we have spent, uh, you know, obviously this model took us a little longer to release than we were hoping.",
+  "spk": "Altman"
+ },
+ {
+  "id": 26,
+  "s": 169.82,
+  "e": 175.46,
+  "en": "I think it'll be worth the wait, but we really wanted to spend the time on the safety and security alignment of this model.",
+  "spk": "Altman"
+ },
+ {
+  "id": 27,
+  "s": 175.52,
+  "e": 182.66,
+  "en": "Yes. Um, and I think as people understand the power and impact and capabilities, they will be, they will be happy that we did.",
+  "spk": "Altman"
+ },
+ {
+  "id": 28,
+  "s": 183.02,
+  "e": 189.93,
+  "en": "Um, we will, uh, we'll have different tiers of cyber access for this model, for cyber in particular.",
+  "spk": "Altman"
+ },
+ {
+  "id": 29,
+  "s": 189.98,
+  "e": 193.27,
+  "en": "Today we're rolling it out, uh, to Trusted Access Partners.",
+  "spk": "Altman"
+ },
+ {
+  "id": 30,
+  "s": 193.32,
+  "e": 197.3,
+  "en": "And then in the coming days, assuming everything goes well, we'll roll it out more broadly.",
+  "spk": "Altman"
+ },
+ {
+  "id": 31,
+  "s": 197.75,
+  "e": 199.88,
+  "en": "Um, you couldn't say.",
+  "spk": "Altman"
+ },
+ {
+  "id": 32,
+  "s": 199.88,
+  "e": 205.33,
+  "en": "Well, you know, if this model is, you know, has a cyber problem, why let anyone use it for cyber?",
+  "spk": "Altman"
+ },
+ {
+  "id": 33,
+  "s": 205.39,
+  "e": 213.88,
+  "en": "And I think it's very important to note, to note that the world is very close to a complete change in the landscape of cyber attacks,",
+  "spk": "Altman"
+ },
+ {
+  "id": 34,
+  "s": 213.88,
+  "e": 229.71,
+  "en": "and the only way that we see for society to collectively defend itself against this coming wave of models, um, from around the world and from other companies, is to use tools like Astra to rapidly defend against these new kind of cyber threats.",
+  "spk": "Altman"
+ },
+ {
+  "id": 35,
+  "s": 229.79,
+  "e": 236.45,
+  "en": "Um, so we will have multiple programs, uh, for people with sort of different levels of verification and trust.",
+  "spk": "Altman"
+ },
+ {
+  "id": 36,
+  "s": 236.45,
+  "e": 242.34,
+  "en": "But we do think it's quite important that the world use these models to, uh, collectively defend ourselves.",
+  "spk": "Altman"
+ },
+ {
+  "id": 37,
+  "s": 242.4,
+  "e": 245.47,
+  "en": "What happened prior to release is important, right?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 38,
+  "s": 245.54,
+  "e": 252.4,
+  "en": "You determined that Astra can find and develop zero day exploits without any human intervention, essentially.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 39,
+  "s": 252.4,
+  "e": 257.8,
+  "en": "And so you paused some of the work to strengthen the safeguards.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 40,
+  "s": 258.46,
+  "e": 264.39,
+  "en": "What specifically was it that you saw that made you hit pause the behavior, I suppose, of the model.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 41,
+  "s": 264.46,
+  "e": 269.17,
+  "en": "So it's worth pointing out that, um, the model that we're launching today is GPT six.",
+  "spk": "Altman"
+ },
+ {
+  "id": 42,
+  "s": 269.17,
+  "e": 271.0,
+  "en": "Astra has been done training for a while.",
+  "spk": "Altman"
+ },
+ {
+  "id": 43,
+  "s": 271.21,
+  "e": 274.81,
+  "en": "Um, the model that we recently talked about pausing, uh, as a future model.",
+  "spk": "Altman"
+ },
+ {
+  "id": 44,
+  "s": 275.17,
+  "e": 278.83,
+  "en": "Um, but with Astra, we we did hit cyber critical.",
+  "spk": "Altman"
+ },
+ {
+  "id": 45,
+  "s": 279.13,
+  "e": 288.4,
+  "en": "And there that required, under our preparedness framework, a new set of safeguards just to be able to release Astra, um, because of those cyber capabilities you talked about.",
+  "spk": "Altman"
+ },
+ {
+  "id": 46,
+  "s": 288.47,
+  "e": 293.17,
+  "en": "I got a lot of questions for you, Sam, about Astra and chain of thought.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 47,
+  "s": 293.23,
+  "e": 302.62,
+  "en": "Um, I don't know if that comes as a surprise to you or not, but as Astra becomes more autonomous for future generations of the model, become more autonomous, can open.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 48,
+  "s": 302.62,
+  "e": 309.7,
+  "en": "I sort of say with confidence that you see and understand what the model is planning before it acts.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 49,
+  "s": 309.76,
+  "e": 316.24,
+  "en": "In other words, you have visibility into the reasoning that basically uses of the model can't see open.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 50,
+  "s": 316.24,
+  "e": 319.45,
+  "en": "I can for obvious reasons. Could you go into that a little bit?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 51,
+  "s": 319.57,
+  "e": 324.49,
+  "en": "Yeah. So we have talked for a long time about the importance of monitor ability of models.",
+  "spk": "Altman"
+ },
+ {
+  "id": 52,
+  "s": 324.67,
+  "e": 330.61,
+  "en": "We've also said that we believe in defense in depth and this is only one part of it. There is sandboxing.",
+  "spk": "Altman"
+ },
+ {
+  "id": 53,
+  "s": 330.64,
+  "e": 332.83,
+  "en": "Uh, maybe most importantly there is alignment.",
+  "spk": "Altman"
+ },
+ {
+  "id": 54,
+  "s": 333.25,
+  "e": 338.86,
+  "en": "There are a number of things that come together to be able to make the safety guarantees that we want to be able to make with a model.",
+  "spk": "Altman"
+ },
+ {
+  "id": 55,
+  "s": 339.07,
+  "e": 341.32,
+  "en": "But monitor ability is an important thing.",
+  "spk": "Altman"
+ },
+ {
+  "id": 56,
+  "s": 341.32,
+  "e": 353.44,
+  "en": "And we've been talking, I think, for well over a year now about the importance of chain of thought monitoring and how we have made various decisions there that help us preserve chain of thought vulnerability.",
+  "spk": "Altman"
+ },
+ {
+  "id": 57,
+  "s": 353.77,
+  "e": 357.19,
+  "en": "Um, even if it means we don't maximize the capabilities we could otherwise get.",
+  "spk": "Altman"
+ },
+ {
+  "id": 58,
+  "s": 357.52,
+  "e": 362.2,
+  "en": "And we think that is important. Um, it's an important component. We also, uh, we want to be clear.",
+  "spk": "Altman"
+ },
+ {
+  "id": 59,
+  "s": 362.25,
+  "e": 364.88,
+  "en": "We don't think it's the only component that matters.",
+  "spk": "Altman"
+ },
+ {
+  "id": 60,
+  "s": 364.95,
+  "e": 371.71,
+  "en": "We live on Bloomberg Television and on Bloomberg Radio, and we're speaking to Sam Altman, the CEO of OpenAI.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 61,
+  "s": 372.04,
+  "e": 379.51,
+  "en": "Um, you know, there's a lot of bad PR in the world around AI at the moment, every day citizen sort of worry about the impact.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 62,
+  "s": 379.81,
+  "e": 381.13,
+  "en": "One way I kind of wanted to put that to you.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 63,
+  "s": 381.13,
+  "e": 391.99,
+  "en": "Is it whether you can say sort of unequivocally there, if Astra or any future generation of all behaved in a way that was dangerous, that you would be able to detect it and then shut it down.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 64,
+  "s": 394.51,
+  "e": 400.53,
+  "en": "The obvious hard part of that, uh, question is that people have different opinions about what model should be able to do and shouldn't be able to do.",
+  "spk": "Altman"
+ },
+ {
+  "id": 65,
+  "s": 400.56,
+  "e": 404.26,
+  "en": "Yes, we think there are some things that very clearly model should not be able to do.",
+  "spk": "Altman"
+ },
+ {
+  "id": 66,
+  "s": 404.34,
+  "e": 410.41,
+  "en": "Uh, there are some clear red lines, and we talk a lot about being able to detect those.",
+  "spk": "Altman"
+ },
+ {
+  "id": 67,
+  "s": 410.41,
+  "e": 419.28,
+  "en": "But people also have strong opinions about things within the broad bounds of what is possible about how they use AI and or how they want to be able to use AI.",
+  "spk": "Altman"
+ },
+ {
+  "id": 68,
+  "s": 419.34,
+  "e": 429.23,
+  "en": "And this is going to be a difficult question for society, because there is not going to be agreement on, you know, what is and isn't acceptable use of I.",
+  "spk": "Altman"
+ },
+ {
+  "id": 69,
+  "s": 429.29,
+  "e": 436.75,
+  "en": "I think it's very important in the same way that, you know, people do things electricity that I may not always like,",
+  "spk": "Altman"
+ },
+ {
+  "id": 70,
+  "s": 436.75,
+  "e": 441.57,
+  "en": "but I think everybody has a right to electricity that we say, you know, there going to be some rules for society.",
+  "spk": "Altman"
+ },
+ {
+  "id": 71,
+  "s": 441.61,
+  "e": 444.06,
+  "en": "You can't go like electrocute somebody else on the street.",
+  "spk": "Altman"
+ },
+ {
+  "id": 72,
+  "s": 444.12,
+  "e": 449.24,
+  "en": "But this is an important platform that belongs to all of us and that we need to be able to, to use.",
+  "spk": "Altman"
+ },
+ {
+  "id": 73,
+  "s": 449.25,
+  "e": 453.89,
+  "en": "So there will be, uh, ongoing conversation, negotiation in society.",
+  "spk": "Altman"
+ },
+ {
+  "id": 74,
+  "s": 453.9,
+  "e": 457.38,
+  "en": "There will, of course, be some things that we agree on that people just should not do with. I.",
+  "spk": "Altman"
+ },
+ {
+  "id": 75,
+  "s": 457.68,
+  "e": 461.49,
+  "en": "But there's a lot of edges that we're now going to have to feel our way through.",
+  "spk": "Altman"
+ },
+ {
+  "id": 76,
+  "s": 461.54,
+  "e": 466.23,
+  "en": "And giving people autonomy and freedom to use AI is important to our mission.",
+  "spk": "Altman"
+ },
+ {
+  "id": 77,
+  "s": 466.29,
+  "e": 476.79,
+  "en": "Sam at the G20 this week, um, Treasury Secretary Scott Besson said that the eye industry had done a terrible job of explaining how AI benefits ordinary Americans.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 78,
+  "s": 477.48,
+  "e": 484.19,
+  "en": "What's your view of that and whether you would, on reflection, consider OpenAI to be in that bucket?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 79,
+  "s": 484.28,
+  "e": 495.81,
+  "en": "Uh, I think the industry has done a terrible job of this on the whole, um, I think we have done a bad job ourselves, uh, you know, maybe better than some others.",
+  "spk": "Altman"
+ },
+ {
+  "id": 80,
+  "s": 495.81,
+  "e": 497.31,
+  "en": "Worse than some others.",
+  "spk": "Altman"
+ },
+ {
+  "id": 81,
+  "s": 497.37,
+  "e": 505.95,
+  "en": "Um, it is difficult, of course, to explain, but this is, uh, we eat the world, in my opinion, should want us to worry a lot about this technology.",
+  "spk": "Altman"
+ },
+ {
+  "id": 82,
+  "s": 505.99,
+  "e": 509.27,
+  "en": "The world should want us to think about all the ways that could go wrong.",
+  "spk": "Altman"
+ },
+ {
+  "id": 83,
+  "s": 509.32,
+  "e": 515.04,
+  "en": "To talk about what we see coming, but not to sort of, like, stir up doom or concentrate power for ourselves.",
+  "spk": "Altman"
+ },
+ {
+  "id": 84,
+  "s": 515.04,
+  "e": 526.44,
+  "en": "Just because in the history of technology, the way you solve the hard problems is to look at them, talk clearly about them, have scientists debate them, uh, work really hard to prevent and mitigate them.",
+  "spk": "Altman"
+ },
+ {
+  "id": 85,
+  "s": 526.83,
+  "e": 532.09,
+  "en": "And that has been our intention. But clearly, sometimes it ends up scaring people.",
+  "spk": "Altman"
+ },
+ {
+  "id": 86,
+  "s": 532.13,
+  "e": 534.87,
+  "en": "Now, there's another thing that I think has gone really bad.",
+  "spk": "Altman"
+ },
+ {
+  "id": 87,
+  "s": 534.92,
+  "e": 546.67,
+  "en": "Besides talking about the ways this has got could go wrong, which is, um, I don't think we've done a great job as an industry of really talking about how to empower people with this technology.",
+  "spk": "Altman"
+ },
+ {
+  "id": 88,
+  "s": 546.74,
+  "e": 551.26,
+  "en": "Um, right. You know, you hear some people talk about, well, we're going to give you a cure for cancer.",
+  "spk": "Altman"
+ },
+ {
+  "id": 89,
+  "s": 551.3,
+  "e": 552.09,
+  "en": "And that's so great.",
+  "spk": "Altman"
+ },
+ {
+  "id": 90,
+  "s": 552.09,
+  "e": 555.86,
+  "en": "So we're going to, you know, take these risks and you're going to have to have less power and autonomy.",
+  "spk": "Altman"
+ },
+ {
+  "id": 91,
+  "s": 555.9,
+  "e": 559.88,
+  "en": "We want people to have more power and autonomy. You know, I don't think a cure for cancer is enough.",
+  "spk": "Altman"
+ },
+ {
+  "id": 92,
+  "s": 559.93,
+  "e": 563.79,
+  "en": "I mean, wonderful thing to have, obviously, but we should set our sights higher.",
+  "spk": "Altman"
+ },
+ {
+  "id": 93,
+  "s": 564.35,
+  "e": 571.89,
+  "en": "We want these tool tools to enable a boom in creativity and entrepreneurship, in people figuring out new ways to be useful to each other,",
+  "spk": "Altman"
+ },
+ {
+  "id": 94,
+  "s": 571.89,
+  "e": 575.21,
+  "en": "and wonderful products and services to enable each other with.",
+  "spk": "Altman"
+ },
+ {
+  "id": 95,
+  "s": 575.54,
+  "e": 579.35,
+  "en": "And I think that has been lost in the messaging.",
+  "spk": "Altman"
+ },
+ {
+  "id": 96,
+  "s": 579.35,
+  "e": 584.16,
+  "en": "And I also think there's some companies that, um, have a different opinion there.",
+  "spk": "Altman"
+ },
+ {
+  "id": 97,
+  "s": 584.22,
+  "e": 591.5,
+  "en": "But, but it's very, very important to us that this technology is something where people get more power and more autonomy, not less.",
+  "spk": "Altman"
+ },
+ {
+  "id": 98,
+  "s": 591.57,
+  "e": 596.78,
+  "en": "And I think people rightly get afraid when they feel like I leaders might not quite want that for them.",
+  "spk": "Altman"
+ },
+ {
+  "id": 99,
+  "s": 598.08,
+  "e": 603.41,
+  "en": "So that's in part where I wanted to ask you about pricing on Astra, but also just generally. Right.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 100,
+  "s": 603.41,
+  "e": 607.19,
+  "en": "I think the direction of travel has been that you've cut prices.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 101,
+  "s": 607.52,
+  "e": 610.89,
+  "en": "There is competition, of course, with the other Frontier labs. Um, anthropic.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 102,
+  "s": 610.95,
+  "e": 615.55,
+  "en": "But you know, how much is that the balance of access to the technology.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 103,
+  "s": 615.62,
+  "e": 624.94,
+  "en": "You need to move quickly in releasing the technology and also still trying to sort of find fair market value of how you price the technology",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 104,
+  "s": 625.03,
+  "e": 631.13,
+  "en": "we want to create incredibly capable, incredibly low cost, incredibly abundant intelligence.",
+  "spk": "Altman"
+ },
+ {
+  "id": 105,
+  "s": 631.13,
+  "e": 636.92,
+  "en": "And I think Aster is a great step forward there. The token efficiency of Aster is so impressive to me.",
+  "spk": "Altman"
+ },
+ {
+  "id": 106,
+  "s": 637.28,
+  "e": 646.42,
+  "en": "Um, the amount of work you can get done with a relatively small amount of tokens, and the kind of the price per dollar of a task that you might like, I think is just remarkable.",
+  "spk": "Altman"
+ },
+ {
+  "id": 107,
+  "s": 646.46,
+  "e": 650.96,
+  "en": "Um, only a few weeks ago, we cut the price of Luna, our small model, by 80%.",
+  "spk": "Altman"
+ },
+ {
+  "id": 108,
+  "s": 651.03,
+  "e": 657.28,
+  "en": "Um, uh, and our goal is to have the best price performance at every level of intelligence all the way along the curve.",
+  "spk": "Altman"
+ },
+ {
+  "id": 109,
+  "s": 657.34,
+  "e": 660.45,
+  "en": "Um, we will continue to keep dropping prices dramatically.",
+  "spk": "Altman"
+ },
+ {
+  "id": 110,
+  "s": 660.5,
+  "e": 664.49,
+  "en": "Um, I'm confident in the shape of the technology and the work we're doing to enable that to happen.",
+  "spk": "Altman"
+ },
+ {
+  "id": 111,
+  "s": 665.03,
+  "e": 669.89,
+  "en": "And, um, you know, of course, like, we'll make some money along the way,",
+  "spk": "Altman"
+ },
+ {
+  "id": 112,
+  "s": 669.89,
+  "e": 678.53,
+  "en": "but I think the opportunity in front of us is so huge, we will be able to continue to bring prices down and still have huge revenue.",
+  "spk": "Altman"
+ },
+ {
+  "id": 113,
+  "s": 680.33,
+  "e": 682.2,
+  "en": "Let's end our conversation here.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 114,
+  "s": 682.26,
+  "e": 688.28,
+  "en": "Sam with Aster is a big step towards I actually doing work autonomously, right?",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 115,
+  "s": 688.34,
+  "e": 691.75,
+  "en": "I've come to sort of see the emphasis on that.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 116,
+  "s": 691.75,
+  "e": 706.6,
+  "en": "If you staying ahead in the race that you've just outlined requires OpenAI to just keep investing more heavily, maybe than expected, to keep pushing out the boundaries of what the model is capable of doing, the cadence of release.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 117,
+  "s": 707.65,
+  "e": 714.13,
+  "en": "Where do you do you sit right now on your considerations of doing that as a private company versus doing that as a public company,",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 118,
+  "s": 714.13,
+  "e": 726.28,
+  "en": "where the sort of financial incentive and fiduciary duty of being a public company isn't necessarily the same as being committed to developing the technology, getting the technology released out into the world.",
+  "spk": "Interviewer"
+ },
+ {
+  "id": 119,
+  "s": 727.78,
+  "e": 730.84,
+  "en": "Um, if we do go public someday, which I assume we will.",
+  "spk": "Altman"
+ },
+ {
+  "id": 120,
+  "s": 730.87,
+  "e": 740.49,
+  "en": "I plan to spend a lot of time reminding people who might want to buy or might not want to buy our our stock that we are mission first and that we're also extremely long term oriented.",
+  "spk": "Altman"
+ },
+ {
+  "id": 121,
+  "s": 740.54,
+  "e": 745.99,
+  "en": "So we are going to make decisions for, um, what we think is best for society as a whole with this technology.",
+  "spk": "Altman"
+ },
+ {
+  "id": 122,
+  "s": 746.29,
+  "e": 748.78,
+  "en": "And we're going to make decisions on a multi-decade timeframe.",
+  "spk": "Altman"
+ },
+ {
+  "id": 123,
+  "s": 749.17,
+  "e": 752.83,
+  "en": "Um, and we think we'll do really great as a company. Uh, but we're gonna put those things first.",
+  "spk": "Altman"
+ }
+]

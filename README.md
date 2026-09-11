@@ -23,6 +23,8 @@ dokadoka-cards/
 ├─ yubisaki-cards/            🇯🇵 ゆびさきと恋々 1화 · 185장 · 포트 8097
 ├─ korean-cards/              🇰🇷 프로미스나인 예능·브이로그 2시리즈 · 383+306장 · 포트 8098 (일본어 모어 학습자용)
 ├─ english-cards/             🇺🇸 73 Questions With Zendaya · 248장 · 포트 8096
+├─ altman-cards/              🇺🇸 Sam Altman · Bloomberg TV 인터뷰(고급) · 123장 · 포트 8095
+├─ feifei-cards/              🇺🇸 Fei-Fei Li · The Circuit 다큐 인터뷰(고급) · 250장 · 포트 8094
 └─ .venv/                     (gitignore) yt-dlp — 자막 내려받기용
 ```
 
@@ -43,6 +45,8 @@ python3 japanese-cards/src/build.py
 python3 yubisaki-cards/src/build.py
 python3 korean-cards/src/build.py
 python3 english-cards/src/build.py
+python3 altman-cards/src/build.py
+python3 feifei-cards/src/build.py
 ```
 
 각 빌드는 번역 id ↔ 카드 id 전수 대응, 학습 항목의 자막 내 존재(`0개: 없음`)를 assert 로 검사합니다.

@@ -1,0 +1,124 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모
+#   E = 표현(문형·관용구·담화 표지)   V = 단어
+#   매칭은 '~' 로 나눈 조각 중 가장 긴 것으로 하고, 단어는 굴절형도 같은 것으로 본다. 교정문(fixes.txt) 기준으로 찾는다.
+# --- 표현 ---------------------------------------------------
+E|framing ~ as|~을 …로 규정하다|OpenAI is framing Astra as an early step
+E|relative to|~에 비해|prior generations 와 함께 비교 구문
+E|thank you for having me|불러 주셔서 감사합니다|인터뷰 첫 인사
+E|a new step in this process towards|~를 향한 여정의 새 단계|점진적 진보를 말할 때
+E|this time around|이번에는|around 가 '이번 차례'를 뜻함
+E|taking it away from|~에서 벗어나서|화제를 옮길 때
+E|give it a try|한번 해 보다|
+E|there's a good chance|~할 가능성이 꽤 높다|there's a good chance it'll work
+E|sit down and have to|앉아서 ~해야 하다|수고스러운 과정을 묘사
+E|figure out how to|~할 방법을 궁리하다|
+E|build up more trust in|~에 대한 신뢰를 쌓다|build up = 차곡차곡 쌓다
+E|harder and harder|점점 더 어려운|비교급 반복 = 점점 더
+E|find out what ~ can really do|~이 실제로 무엇을 할 수 있는지 알아내다|
+E|the specifics of|~의 세부 사항|
+E|the thinking behind|~의 배경이 된 생각|What was the thinking behind that?
+E|on the other hand|다른 한편으로|대조
+E|do a good job at|~을 잘 해내다|반대는 do a bad job
+E|worth the wait|기다린 보람이 있는|
+E|roll it out|배포하다|roll out = 단계적으로 내놓다
+E|assuming everything goes well|모든 게 순조롭다는 전제로|assuming (that) = ~라고 가정하면
+E|it's very important to note|꼭 짚어 둘 점은|주장 도입
+E|the only way that we see|우리가 보기에 유일한 길은|
+E|prior to release|출시 전에|prior to = before 의 격식체
+E|without any human intervention|사람의 개입 없이|
+E|hit pause|일시 중지하다|
+E|it's worth pointing out that|~라는 점은 짚어 둘 만하다|답변의 틀 잡기
+E|for a while|한동안|
+E|in other words|다시 말해|바꿔 말하기
+E|for obvious reasons|당연한 이유로|
+E|could you go into that a little bit|그 부분을 조금 설명해 주시겠어요|go into = 자세히 다루다
+E|defense in depth|심층 방어|여러 겹의 안전장치 (보안 용어)
+E|most importantly|가장 중요하게는|
+E|come together|맞물리다|여러 요소가 합쳐질 때
+E|well over a year|1년을 훨씬 넘게|well over = ~을 훌쩍 넘는
+E|even if it means|설령 ~을 뜻하더라도|
+E|we want to be clear|분명히 해 두고 싶다|
+E|put that to you|그 질문을 드리다|put a question to someone
+E|shut it down|정지시키다|
+E|hard part of that|그 질문의 어려운 대목|
+E|red lines|금지선|넘어서는 안 되는 선
+E|within the broad bounds of|~의 넓은 범위 안에서|
+E|in the same way that|~와 같은 방식으로|비유 도입
+E|has a right to|~에 대한 권리가 있다|
+E|feel our way through|더듬어 헤쳐 나가다|불확실한 상황을 조심스레 진행
+E|a terrible job of|~을 형편없이 하다|
+E|on reflection|돌이켜 보면|
+E|in that bucket|그 범주에|bucket = 분류 묶음
+E|on the whole|전체적으로|
+E|go wrong|잘못되다|all the ways that could go wrong
+E|stir up doom|파멸론을 부추기다|stir up = 선동하다
+E|end up scaring people|결국 사람들을 겁먹게 하다|end up -ing
+E|a cure for cancer|암 치료법|
+E|set our sights higher|목표를 더 높이 잡다|set one's sights on
+E|lost in the messaging|메시지 전달 과정에서 묻힌|
+E|not less|덜이 아니라|more ~, not less 구조
+E|the direction of travel|진행 방향·추세|영국식 관용구
+E|a great step forward|큰 진전|
+E|along the way|그 과정에서|
+E|the opportunity in front of us|우리 앞에 놓인 기회|
+E|let's end our conversation here|여기서 대화를 마무리하죠|마무리 신호
+E|I've come to|~하게 되었다|come to see/realize
+E|stay ahead in the race|경쟁에서 앞서다|
+E|go public|상장하다|
+E|mission first|사명 우선|
+E|as a whole|전체로서|society as a whole
+E|put those things first|그것들을 먼저 두다|우선순위 표현
+# --- 단어 ---------------------------------------------------
+V|fundamentally|근본적으로|
+V|subjectively|주관적으로|
+V|principal|주된·대표적인|principal use case
+V|unlock|가능하게 하다·열다|
+V|interactively|상호작용하며|
+V|simulation|시뮬레이션|
+V|doable|해낼 수 있는|
+V|guardrails|가드레일·안전장치|AI 정책 용어
+V|capable|유능한|incredibly capable
+V|mitigate|완화하다|mitigate risks
+V|alignment|(AI) 정렬|목표를 인간 의도에 맞추기
+V|tiers|등급·단계|tiers of access
+V|verification|검증|
+V|collectively|집단적으로|
+V|landscape|지형·판도|the landscape of cyber attacks
+V|safeguards|안전장치|
+V|exploits|익스플로잇·취약점 공격|zero day exploits
+V|intervention|개입|
+V|preparedness|준비태세|preparedness framework
+V|autonomous|자율적인|
+V|visibility|가시성|visibility into the reasoning
+V|monitorability|감시 가능성|자막에는 monitor ability 로 표기
+V|sandboxing|샌드박싱·격리 실행|
+V|preserve|보존하다|
+V|maximize|최대화하다|
+V|component|구성 요소|
+V|unequivocally|명확하게|
+V|detect|감지하다|
+V|acceptable|허용 가능한|acceptable use
+V|electrocute|감전시키다|
+V|negotiation|협상|
+V|autonomy|자율성|
+V|ordinary|보통의|ordinary Americans
+V|concentrate|집중시키다|concentrate power
+V|debate|토론하다|
+V|prevent|예방하다|
+V|intention|의도|
+V|empower|힘을 실어 주다|
+V|creativity|창의성|
+V|entrepreneurship|창업 정신·기업가 정신|
+V|rightly|당연히·마땅히|
+V|competition|경쟁|
+V|abundant|풍부한|
+V|efficiency|효율|token efficiency
+V|remarkable|놀라운|
+V|dramatically|극적으로·큰 폭으로|
+V|revenue|매출|
+V|autonomously|자율적으로|
+V|cadence|주기·박자|cadence of release
+V|fiduciary|수탁자의|fiduciary duty
+V|committed|전념하는|be committed to
+V|oriented|~지향적인|long term oriented
+V|timeframe|시간 틀|multi-decade timeframe

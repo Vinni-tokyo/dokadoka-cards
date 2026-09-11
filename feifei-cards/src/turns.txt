@@ -1,0 +1,123 @@
+# 구절|화자  — 그 구절부터 화자가 바뀐다. 첫 줄 = 영상 첫 문장.
+# Emily = 에밀리 창(진행자, 화면 위 질문) / Narration = 내레이션(에밀리 창 목소리) / Li = 페이페이 리
+I hear you love walk and talks.|Emily
+Yes, because we sit too much.|Li
+Is it all AI talk all the time here?|Emily
+I don't know other people's talk,|Li
+Fei-Fei Li is a giant in the field|Narration
+I feel the leaders of AI are not talking|Li
+Now she's adding startup co-founder|Narration
+What's it like running your own shop? I feel|Emily
+I feel like a tiger mom. While|Li
+While the rest of the AI world|Narration
+So what can world models do ultimately|Emily
+Can words put down fires?|Li
+Li and her startup, World Labs,|Narration
+Did you ever imagine AI would be this big?|Emily
+Have I imagined the entire civilization|Li
+Before she became a leading AI scientist,|Narration
+What was young Fei-Fei like as a kid?|Emily
+It was '80s and '90s in China.|Li
+Cutting your hair short, loving aerospace|Emily
+As a kid, right? You're preteen.|Li
+You emigrated from China to the US|Emily
+Yeah. What was it like coming here|Li
+What was it like coming here as a teenager|Emily
+That was tough.|Li
+Li learned English, finished high school,|Narration
+You've been studying artificial intelligence since then.|Emily
+Yes. What was the field like|Li
+What was the field like back then?|Emily
+That was a beautiful period.|Li
+How does AI see and how is it different|Emily
+We use our eyes to drive the sensory system|Li
+So it's got to be hard to get computers|Emily
+Yes. Li was working on this|Li
+Li was working on this back in 2006.|Narration
+So what was the spark for ImageNet?|Emily
+Nobody was paying attention to data.|Li
+In 2010, Li turned ImageNet into a competition.|Narration
+What do you feel when you look at this?|Emily
+It's not the eight of us.|Li
+It's amazing that you're being recognized here,|Emily
+Come on. It's true because there's more space here.|Li
+I asked you about being the godmother|Emily
+You did. How do you feel|Li
+How do you feel about that title?|Emily
+You know, Emily, I would never call myself|Li
+So do you embrace the term now or?|Emily
+Embrace is a big word.|Li
+But people have adopted that term thanks to you.|Emily
+Artificial intelligence had long been discussed|Narration
+What's it like running your own shop? So here's|Emily
+So here's the thing. I'm by far|Li
+Li is working on advancing world models.|Narration
+The rest of the AI industry is focusing on LLMs.|Emily
+If we want to create a world where we continue|Li
+So what exactly is a world model?|Emily
+World model at this point is an overloaded term.|Li
+Marble is World Lab's first step|Narration
+Now, this is a showcase page|Li
+So who or what companies are using Marbel right now?|Emily
+Why is Marble useful?|Li
+What are you training these models on|Emily
+We are training these models on two things|Li
+So would you say that's the secret?|Emily
+Yeah, I guess so.|Li
+You've raised a billion dollars.|Emily
+The business is still early.|Li
+Building the technology isn't the only part of the job.|Narration
+Absolutely. Please welcome to the stage.|Announcer
+All of this rolls up into robotics|Emily
+That's a loaded question, Emily.|Li
+But Li isn't alone.|Narration
+You're competing against big players with deep pockets.|Emily
+As an entrepreneur and a co-founder, CEO,|Li
+Emily, Nice to meet you.|Justin
+The war for talent is so fierce.|Emily
+Well, I started working with Fei-Fei|Justin
+World Labs may be a small team,|Narration
+Would you say it's like 2019 for chatbots|Emily
+Yeah, that's probably a fair description.|Li
+Will there be some sort of explosion|Emily
+If we do it right, yes.|Li
+There are skeptics in the AI and robotics world|Emily
+I think even a good science can be hyped.|Li
+Building wrld models is incredibly resource intensive.|Emily
+That we don't know yet.|Li
+And can you get that?|Emily
+I don't know. We have to do a good job|Li
+Getting world models out of the demo phase|Narration
+So today we stand on this edge|Schmidt
+You spend a lot of time with students.|Emily
+Yeah, I do spend a lot of time with students.|Li
+AI Has Got to go.|Crowd
+So what happens if the US loses faith|Emily
+US is such an important country|Li
+Li knows a thing or two about AI|Narration
+There's nothing artificial about artificial intelligence.|Li
+You've advised President Biden|Emily
+I don't go in hyping.|Li
+And have they been wrong?|Emily
+Oh, yes, for sure.|Li
+What is the role of regulation?|Emily
+First and foremost, root that in science|Li
+What do you worry could go wrong with world models?|Emily
+World models, language models, these are powerful models|Li
+Some of the most powerful CEOs in AI right now|Emily
+I think it's dangerous for any individual|Li
+But isn't that the path we're on?|Emily
+I think it's too early to tell Emily.|Li
+Li has spent her life teaching machines to see.|Narration
+Where is this all going?|Emily
+This This is where I reveal I'm an optimist.|Li
+Is it true you're obsessed with UFOs?|Emily
+When I was a kid. Like,|Li
+Have you read the documents they're declassifying?|Emily
+No. I think it's part of that dreamy curiosity|Li
+Do you think there's aliens out there?|Emily
+So as a physics student, you learn Drake's equation.|Li
+Wow. Okay. Favorite sci-fi movie?|Emily
+Contact. By far my favorite.|Li
+There you go.|Emily
+Intelligence... somewhere out there. Yeah.|Li

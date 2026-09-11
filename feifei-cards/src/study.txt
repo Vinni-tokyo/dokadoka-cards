@@ -1,0 +1,184 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모
+#   E = 표현(문형·관용구·담화 표지)   V = 단어
+#   매칭은 '~' 로 나눈 조각 중 가장 긴 것으로 하고, 단어는 굴절형도 같은 것으로 본다. 교정문(fixes.txt) 기준으로 찾는다.
+# --- 표현 ---------------------------------------------------
+E|walk and talk|걸으며 하는 대화|산책 회의
+E|all the time|항상|
+E|a giant in the field of|~ 분야의 거장|
+E|made a breakthrough|돌파구를 열다|made a breakthrough with ImageNet
+E|ever since|그 뒤로 줄곧|
+E|running your own shop|자기 회사를 꾸리다|shop = 가게 → 회사
+E|double down on|~에 더 크게 걸다|카드 게임에서 온 표현
+E|betting on|~에 걸다|Li is betting on world models
+E|the next big leap|다음 큰 도약|
+E|would not have imagined|상상하지 못했을 것이다|가정법 과거완료
+E|see yourself as|스스로를 ~로 여기다|
+E|make a statement for yourself|자기 존재를 드러내다|
+E|part of my identity|내 정체성의 일부|
+E|back then|그 당시|
+E|find who you are|자기가 누구인지 찾다|
+E|follow her dreams|꿈을 좇다|
+E|it's got to be hard|어려울 게 틀림없다|got to = must
+E|pay attention to|~에 주목하다|
+E|marked a turning point|전환점이 되었다|mark a turning point
+E|golden recipe|황금 레시피·성공 공식|
+E|the main story|핵심 이야기|
+E|was taken aback|당황하다|
+E|on that spot|그 자리에서|
+E|a big word|거창한 말|Embrace is a big word.
+E|go around and say|~라고 말하고 다니다|
+E|thanks to|~ 덕분에|
+E|right around the corner|코앞에 있는|perpetually right around the corner
+E|the most talked about|가장 많이 회자되는|
+E|let's be honest|솔직히 말해|
+E|here's the thing|실은 이래요|본론 도입
+E|by far the most|단연 가장|by far = 단연
+E|high standard|높은 기준|
+E|lie beyond|~ 너머에 있다|
+E|cannot do it alone|혼자서는 할 수 없다|
+E|the next frontier|다음 개척지|
+E|an overloaded term|뜻이 과적된 용어|
+E|closely coupled with|~와 밀접하게 결합된|
+E|first step towards|~를 향한 첫걸음|
+E|no different from|~와 다를 게 없는|
+E|in the sense that|~라는 점에서|
+E|in terms of|~라는 면에서|
+E|as I always say|늘 말하듯|
+E|heads down|몰두한|When Li isn't heads down
+E|making the case for|~을 역설하다|
+E|get your take on|~에 대한 견해를 듣다|take = 견해
+E|close the gap between|~ 사이의 간극을 메우다|
+E|a loaded question|의도가 실린 질문|loaded = 장전된
+E|first of all|우선|
+E|way more than|~보다 훨씬 많이|way = 훨씬 (구어)
+E|that's the hope|그게 바라는 바다|
+E|deep pockets|두둑한 자금|
+E|on the table|(안건·일이) 올라와 있는|a lot on the table = 벌여 놓은 일이 많은
+E|way before it was cool|유행하기 훨씬 전부터|
+E|way back in the day|아주 옛날에|
+E|change the trajectory|궤적을 바꾸다|
+E|early days|초기|it's early days
+E|crack the code|해법을 찾다|
+E|make it happen|실현시키다|
+E|a fair description|적절한 묘사|
+E|aha moment|깨달음의 순간|
+E|if we do it right|제대로 하면|
+E|hit that milestone|그 이정표에 도달하다|
+E|hype cycle|과열 주기|
+E|What do you say to that?|그에 뭐라고 답하시겠어요|반론에 대한 답 요구
+E|believe firmly in|~을 굳게 믿다|
+E|resource intensive|자원 집약적인|
+E|likely to|~할 가능성이 높다|
+E|earn it|노력으로 얻다|
+E|getting booed|야유를 받다|
+E|stand on this edge of|~의 문턱에 서다|
+E|are the fears justified|그 두려움은 정당한가|
+E|mixed sentiment|엇갈린 정서|
+E|dignity and agency|존엄과 주체성|
+E|lose faith in|~에 대한 믿음을 잃다|
+E|race ahead|앞서 달리다|
+E|everybody loses|모두가 진다|
+E|thought leader|사상적 선도자|
+E|when it comes to|~에 관한 한|
+E|know a thing or two about|~에 대해 좀 안다|겸양의 반어
+E|has an impact on|~에 영향을 미치다|
+E|speak my mind|소신을 말하다|
+E|push back|반박하다|
+E|I don't blame them|그들을 탓하지 않는다|
+E|first and foremost|무엇보다 먼저|
+E|root that in science|과학에 뿌리를 두다|root A in B
+E|at the end of the day|결국|
+E|could have gone wrong|잘못될 수도 있었다|
+E|been accused of|~라는 비난을 받다|
+E|know better than|~보다 더 잘 알다|
+E|it's not our position to|~하는 것은 우리 자리가 아니다|
+E|too early to tell|말하기 이르다|
+E|give up on|~을 포기하다|
+E|throw the baby out with the bathwater|좋은 것까지 버리다|속담
+E|second act|제2막|인생의 다음 단계
+E|put it past her|그가 못 할 거라 여기다|부정문 wouldn't put it past
+E|the arc of history is long|역사의 호는 길다|마틴 루서 킹 인용
+E|bends towards|~쪽으로 휘다|
+E|dark underbelly|어두운 이면|
+E|moral compasses|도덕적 나침반|
+E|obsessed with|~에 푹 빠지다|
+E|by far my favorite|단연 제일 좋아하는|
+E|There you go|역시·그렇죠|
+E|somewhere out there|저 밖 어딘가에|
+# --- 단어 ---------------------------------------------------
+V|pioneer|선구자|
+V|relentless|끈질긴|relentless advocate
+V|advocate|옹호자|
+V|empower|힘을 실어 주다|
+V|frontier|개척지|
+V|predict|예측하다|
+V|ultimately|궁극적으로|
+V|rivals|경쟁자|
+V|civilization|문명|
+V|geopolitical|지정학적인|
+V|curious|호기심 많은|
+V|rebel|반항아|
+V|identity|정체성|
+V|emigrate|이민 가다|
+V|niche|틈새의|super niche
+V|fanfare|요란한 선전|
+V|hype|과대광고|
+V|sensory|감각의|sensory system
+V|spatial|공간의|spatial intelligence
+V|massive|방대한|
+V|algorithm|알고리즘|
+V|epiphany|깨달음|
+V|cement|굳히다|cemented Li's legacy
+V|legacy|유산|
+V|industrialization|산업화|
+V|godmother|대모|
+V|embrace|받아들이다|
+V|perpetually|영원히|
+V|talented|재능 있는|
+V|oftentimes|종종|
+V|rendering|렌더링|
+V|simulation|시뮬레이션|
+V|geometry|기하 구조|
+V|explorable|탐색 가능한|
+V|navigate|돌아다니다·헤쳐 가다|
+V|consistent|일관된|
+V|augment|보강하다|
+V|nuanced|미묘한|
+V|architectural|아키텍처의|
+V|generative|생성형의|
+V|humanoids|휴머노이드|
+V|revolution|혁명|
+V|obsession|집착|
+V|unpredictable|예측 불가한|
+V|paranoid|편집증적인|
+V|paralyzed|마비된|
+V|fierce|치열한|
+V|trajectory|궤적|
+V|gigantic|거대한|
+V|skeptics|회의론자|
+V|milestone|이정표|
+V|fundamental|근본적인|
+V|capital|자본|
+V|soared|치솟았다|soar
+V|transformation|변혁|
+V|anxiety|불안|
+V|simultaneously|동시에|
+V|dignity|존엄|
+V|policymakers|정책 입안자|
+V|regulation|규제|
+V|rhetoric|수사|extreme rhetoric
+V|doomsday|종말의 날|
+V|extinction|멸종|
+V|overlord|지배자|
+V|ecosystem|생태계|
+V|thriving|번성하는|
+V|weaponized|무기화된|
+V|crutch|목발|a lazy crutch
+V|constructive|건설적인|
+V|governance|거버넌스·통치|
+V|optimist|낙관주의자|
+V|paraphrase|바꿔 말하다|
+V|benevolence|선의|
+V|offsprings|자손|표준형은 offspring(단복 동형)
+V|declassifying|기밀 해제하는|declassify
+V|probability|확률|

@@ -1,0 +1,125 @@
+# 형식: id|한국어 뜻|주석   — id 는 seg.py 의 분할 결과(segs.json)에 대응.
+# 말투: 진행자·올트먼 모두 격식 있는 해요체. um/uh 같은 필러는 뜻에서 뺀다.
+1|OpenAI 는 Astra 를 기본적으로 AGI 를 향한 초기 단계로 규정하고 있는데요,|frame A as B = A 를 B 로 규정하다·프레이밍하다
+2|그래도 대화는 우선 이전 세대 모델과 비교해 Astra 가 근본적으로 무엇이 다른지에서 시작해 보고 싶습니다.|relative to = ~에 비해 / prior generations = 이전 세대
+3|느낌은, 우선, 불러 주셔서 감사합니다.|thank you for having me = 초대 감사 인사(정석)
+4|우리가 가치를 만들고, 일을 하고, 새 과학을 발견하고, 새 회사를 세우거나 새 제품을 만드는 걸 정말로 도와주는 모델을 향한 여정에서 새로운 한 걸음 같은 느낌입니다.|a new step in this process towards ~ = ~를 향한 과정의 새 단계
+5|직접 써 보면 주관적으로는 이전 어떤 모델과도 아주 다르게 느껴집니다.|subjectively = 주관적으로 / feel different than = ~와 다르게 느껴지다
+6|이번에 달라진 대표적인 활용 사례는 어떤 건가요?|principal use case = 대표적·주된 활용 사례
+7|아시다시피 그동안의 모델 세대는 코딩에 아주 집중돼 있었죠.|coding focused = 코딩 중심의 (명사+focused)
+8|개발 과정 상당 부분이 사이버보안에 집중된 것도 알지만, 소프트웨어 엔지니어 얘기를 떠나서, 일반인은 이전에 못 하던 무엇을 AI 로 할 수 있게 되나요?|taking it away from ~ = ~에서 벗어나서 / unlock = (능력을) 열다·가능하게 하다
+9|사람들이 바로 알아차릴 한 가지는, 아이디어가 있고 AI 와 상호작용하면서 복잡한 소프트웨어 한 벌을 통째로 만들고 싶을 때입니다.|work interactively with = ~와 주고받으며 작업하다 / a whole piece of software = 소프트웨어 한 벌
+10|제가 누군가에게 "그냥 한번 써 봐"라고 말할 수 있는 첫 모델이에요. 그러니까.|give it a try = 한번 해 보다
+11|될 가능성이 꽤 높거든요. 사람들이 컴퓨터 게임을 만드는 걸 봤고요.|there's a good chance (that) ~ = ~할 가능성이 꽤 높다
+12|집에서 DIY 전자공학 프로젝트 같은 걸 하는 것도 봤습니다.|sort of like = 뭐랄까 (완화 필러)
+13|자기가 하는 과학 연구를 위해 아주 복잡한 시뮬레이션을 돌리는 것도 봤어요.|some piece of science they're working on = 각자 진행 중인 과학 연구
+14|보통은 앉아서 재무 모델을 만들고, 그걸 둘러싼 파워포인트를 만들고, 다른 시뮬레이션을 돌려 볼 작은 인터랙티브 코드를 어떻게 만들지 궁리해야 했던 그런 일들의 상당수가요.|sit down and have to ~ = 앉아서 ~해야 하다 / figure out how to = ~할 방법을 궁리하다
+15|그런 게 이제 다 정말 쉽게 됩니다.|doable = 해낼 수 있는·가능한
+16|제가 바라는 건, 처음엔 사람들이 놀라겠지만, 모델에 대한 신뢰가 쌓이고 "와, 정말 되네" 하는 느낌이 커지면서,|build up trust in = ~에 대한 신뢰를 쌓다
+17|점점 더 어려운 과제와 더 창의적인 아이디어를 계속 던져 보는 겁니다.|throw ~ at it = ~을 (시험 삼아) 던져 보다 / harder and harder = 점점 더 어려운
+18|그러면 모델이 자기를 위해 실제로 무엇을 해 줄 수 있는지 알게 될 거예요.|find out = 알아내다
+19|그럼 Astra 의 구체적인 출시 방식 얘기인데요.|the specifics of = ~의 세부 사항
+20|특정한 가드레일을 단 버전으로 낸다는 게 중요해 보입니다.|guardrails = 가드레일·안전장치 (AI 문맥의 관용어)
+21|그렇게 한 배경은 무엇이고, 이번 초기 출시에서 그 가드레일은 구체적으로 어떤 건가요?|the thinking behind ~ = ~의 배경이 된 생각
+22|네. 우리 업계의 과제는, 모델이 엄청나게 유능하고 유용해지면서 사람들이 생활을 조금 편하게 하는 것부터 새 회사를 차리는 것까지 온갖 일에 쓰고 싶어 한다는 겁니다.|the challenge of our industry is that ~ = 우리 업계의 과제는 ~라는 것 / everything from A to B = A 부터 B 까지 온갖 것
+23|그런데 다른 한편으로, 모델이 유능해질수록 우리가 완화해야 할 위험도 더 심각해집니다.|on the other hand = 다른 한편으로 / mitigate risks = 위험을 완화하다
+24|우리가 그 일을 잘 못 하면 모델이 더 큰 피해를 줄 수 있어요.|do damage = 피해를 주다 / do a good job at = ~을 잘 해내다
+25|그래서 우리는 시간을 들였고, 솔직히 이 모델은 기대보다 출시가 좀 늦어졌습니다.|took us longer than we were hoping = 기대보다 오래 걸렸다
+26|기다린 보람이 있을 거라고 보지만, 이 모델의 안전성·보안·정렬에 정말로 시간을 쓰고 싶었습니다.|worth the wait = 기다릴 가치가 있는 / alignment = (AI) 정렬
+27|네. 그리고 사람들이 그 힘과 영향과 능력을 이해하게 되면, 우리가 그렇게 한 걸 반길 겁니다.|they will be happy that we did = 우리가 그렇게 한 것을 기뻐할 것이다
+28|이 모델에는 사이버 접근 등급을 여러 단계로 둘 겁니다, 특히 사이버 분야에서요.|tiers of access = 접근 등급 / in particular = 특히
+29|오늘은 신뢰 접근 파트너에게 먼저 배포합니다.|roll out = (제품을) 단계적으로 배포하다
+30|그리고 며칠 안에, 모든 게 순조롭다는 전제로, 더 넓게 배포할 겁니다.|assuming everything goes well = 모든 게 잘 된다는 전제로
+31|이렇게 말할 수도 있겠죠.|you could say = ~라고 할 수도 있다 (자막은 couldn't 로 오기)
+32|"이 모델에 사이버 문제가 있다면, 왜 누구든 사이버 용도로 쓰게 두느냐"고요.|why let anyone ~ = 왜 아무나 ~하게 두느냐
+33|그런데 꼭 짚고 싶은 건, 세계가 사이버 공격 지형의 완전한 변화에 아주 가까이 와 있다는 점이고,|it's very important to note that ~ = ~라는 점을 꼭 짚어야 한다 / landscape = 지형·판도
+34|전 세계와 다른 회사들에서 밀려올 이 모델의 물결로부터 사회가 스스로를 집단적으로 방어하는 유일한 길은 Astra 같은 도구로 새로운 사이버 위협을 신속히 막아 내는 것이라고 봅니다.|the only way that we see for ~ to … is to ~ = ~가 …할 유일한 길은 ~하는 것 / collectively = 집단적으로
+35|그래서 검증과 신뢰 수준이 다른 사람들을 위한 여러 프로그램을 둘 겁니다.|levels of verification = 검증 수준
+36|하지만 세계가 이 모델들을 써서 집단적으로 스스로를 지키는 게 상당히 중요하다고 봅니다.|quite important = 상당히 중요한
+37|출시 전에 있었던 일이 중요하죠?|prior to = ~에 앞서 (before 의 격식체)
+38|Astra 가 사람의 개입 없이 제로데이 익스플로잇을 사실상 스스로 찾아내고 개발할 수 있다고 판단하셨고요.|zero day exploit = 제로데이 취약점 공격 / without any human intervention = 인간 개입 없이
+39|그래서 안전장치를 강화하려고 일부 작업을 중단했습니다.|strengthen the safeguards = 안전장치를 강화하다
+40|구체적으로 무엇을 보고 멈추기로 했나요, 모델의 어떤 행동이었을까요.|hit pause = 일시 중지하다 / I suppose = 아마도·~인 것 같은데요
+41|짚어 둘 점은, 오늘 출시하는 모델은 GPT-6 라는 겁니다.|it's worth pointing out that ~ = ~라는 점은 짚어 둘 만하다
+42|Astra 는 학습이 끝난 지 꽤 됐어요.|has been done training for a while = 학습이 끝난 지 한참 됐다
+43|최근에 중단한다고 말한 모델은 차기 모델입니다.|a future model = 향후 모델
+44|하지만 Astra 로도 '사이버 위험 임계' 등급에는 도달했습니다.|hit critical = 임계 등급에 도달하다 (OpenAI 준비태세 체계의 위험 등급)
+45|그래서 우리 준비태세 체계에 따라, 말씀하신 그 사이버 능력 때문에, Astra 를 출시하려면 새로운 안전장치 세트가 필요했습니다.|under our preparedness framework = 우리 준비태세 체계에 따라 / a new set of = 새로운 한 세트의
+46|샘, Astra 와 사고 사슬에 관해 질문이 많이 들어왔습니다.|chain of thought = 사고 사슬(모델의 추론 과정)
+47|의외일지 모르겠지만, Astra 가, 그리고 향후 세대 모델이 더 자율적이 될 때, OpenAI 는|autonomous = 자율적인 / comes as a surprise = 의외로 다가오다
+48|모델이 행동하기 전에 무엇을 계획하는지 보고 이해한다고 자신 있게 말할 수 있나요.|say with confidence = 자신 있게 말하다 / before it acts = 행동하기 전에
+49|다시 말해 모델 사용자는 볼 수 없는 추론 과정을 OpenAI 는|in other words = 다시 말해 / visibility into = ~에 대한 가시성
+50|당연한 이유로 볼 수 있다는 건데, 그 부분을 조금 설명해 주시겠어요?|for obvious reasons = 당연한 이유로 / go into = 자세히 설명하다
+51|네. 우리는 모델의 감시 가능성이 중요하다는 얘기를 오래전부터 해 왔습니다.|monitorability = 감시 가능성 (자막은 monitor ability 로 분리 표기)
+52|또 우리는 심층 방어를 믿는다고 말해 왔고, 이건 그중 한 부분일 뿐입니다. 샌드박싱이 있고요.|defense in depth = 심층 방어(여러 겹의 방어) / sandboxing = 격리 실행
+53|아마 가장 중요하게는 정렬이 있습니다.|most importantly = 가장 중요하게는
+54|모델로 우리가 하고자 하는 안전 보증을 하려면 여러 요소가 함께 맞물려야 합니다.|come together = 맞물리다·합쳐지다 / safety guarantees = 안전 보증
+55|하지만 감시 가능성은 중요한 요소입니다.|
+56|그리고 우리는 1년도 훨씬 넘게 사고 사슬 모니터링의 중요성과, 사고 사슬의 감시 가능성을 지키기 위해 어떤 결정들을 내려 왔는지 이야기해 왔습니다.|well over a year = 1년을 훨씬 넘게 / preserve = 보존하다 (자막은 vulnerability 로 오기)
+57|그것이 원래 얻을 수 있었을 성능을 최대화하지 않는다는 뜻이더라도요.|even if it means ~ = 설령 ~을 의미하더라도 / otherwise = 그렇지 않았다면
+58|우리는 그게 중요하다고 봅니다. 중요한 요소예요. 다만 분명히 해 두고 싶은 건,|we want to be clear = 분명히 해 두고 싶다
+59|그것만이 유일하게 중요한 요소라고는 생각하지 않는다는 겁니다.|the only ~ that matters = 유일하게 중요한 ~
+60|저희는 지금 Bloomberg 텔레비전과 Bloomberg 라디오로 생방송 중이고, OpenAI CEO 샘 올트먼과 이야기하고 있습니다.|we live on ~ = ~로 생방송 중 (방송 관용구)
+61|요즘 세상에는 AI 를 둘러싼 나쁜 평판이 많고, 보통 시민들은 그 영향을 걱정합니다.|bad PR = 나쁜 평판·여론 / everyday citizen = 보통 시민
+62|그 질문을 이렇게 드려 보고 싶은데요.|put that to you = 그 질문을 당신에게 던지다
+63|Astra 든 향후 어떤 세대의 AI 든 위험한 방식으로 행동한다면, 그걸 감지하고 차단할 수 있다고 명확히 말씀하실 수 있습니까.|unequivocally = 명확하게·모호함 없이 / shut it down = 정지시키다
+64|그 질문의 뻔히 어려운 부분은, 모델이 무엇을 할 수 있어야 하고 무엇은 하면 안 되는지에 대해 사람마다 의견이 다르다는 겁니다.|the hard part of that question is that ~ = 그 질문의 어려운 대목은 ~
+65|네, 모델이 절대 하면 안 되는 일이 몇 가지 아주 분명히 있다고 봅니다.|very clearly = 아주 분명히
+66|분명한 금지선이 있고, 우리는 그것을 감지하는 능력에 대해 많이 이야기합니다.|red lines = 금지선·넘어선 안 되는 선
+67|그러나 가능한 범위 안에서 AI 를 어떻게 쓰는지, 어떻게 쓰고 싶은지에 대해서도 사람들은 강한 의견을 갖고 있습니다.|within the broad bounds of = ~의 넓은 범위 안에서
+68|그리고 이건 사회에 어려운 질문이 될 겁니다. 무엇이 AI 의 허용 가능한 사용이고 아닌지에 대해 합의가 이뤄지지 않을 테니까요.|there is not going to be agreement on = ~에 대해 합의가 없을 것이다 / acceptable use = 허용 가능한 사용
+69|이건 이렇게 생각하면 아주 중요합니다. 사람들이 전기로 하는 일 중에는 제가 늘 좋아하지 않는 것도 있지만,|in the same way that ~ = ~와 같은 방식으로
+70|모두에게 전기를 쓸 권리가 있다고 보고, 사회에 몇 가지 규칙을 두자고 말하는 것과 같아요.|have a right to = ~에 대한 권리가 있다
+71|길에서 남을 감전시켜서는 안 되죠.|electrocute = 감전시키다 / go like ~ = 막 ~하다 (구어)
+72|하지만 이건 우리 모두의 것이고 우리가 쓸 수 있어야 하는 중요한 플랫폼입니다.|belong to all of us = 우리 모두의 것이다
+73|그래서 사회 안에서 계속 대화와 협상이 이어질 겁니다.|ongoing = 진행 중인·계속되는 / negotiation = 협상
+74|물론 사람들이 AI 로 절대 해서는 안 된다고 우리가 합의하는 일도 있을 겁니다.|of course = 물론
+75|하지만 이제 더듬어 가며 헤쳐 나가야 할 경계선이 많습니다.|edges = 가장자리·경계 사례 / feel our way through = 더듬어 헤쳐 나가다
+76|그리고 사람들에게 AI 를 쓸 자율성과 자유를 주는 것이 우리 사명에 중요합니다.|autonomy = 자율성 / mission = 사명
+77|샘, 이번 주 G20 에서 스콧 베센트 재무장관이 AI 업계가 AI 가 보통 미국인에게 어떻게 이로운지 설명하는 데 형편없었다고 했습니다.|do a terrible job of -ing = ~을 형편없이 하다 / ordinary Americans = 보통 미국인
+78|그 말을 어떻게 보시고, 돌이켜 보면 OpenAI 도 거기에 해당한다고 보십니까?|on reflection = 돌이켜 보면 / in that bucket = 그 범주에 속하는
+79|업계 전체가 이 점에서 형편없었다고 보고, 우리 스스로도 잘 못했다고 봅니다. 어떤 회사보다는 낫고,|on the whole = 전체적으로 / better than some others = 일부보다는 낫다
+80|어떤 회사보다는 못하고요.|
+81|물론 설명하기 어려운 일이지만, 제 생각에 세계는 우리가 이 기술을 크게 걱정하길 바라야 합니다.|the world should want us to ~ = 세계는 우리가 ~하길 바라야 한다
+82|세계는 우리가 잘못될 수 있는 모든 경우를 생각하길 바라야 합니다.|all the ways that could go wrong = 잘못될 수 있는 모든 경우
+83|우리가 보는 것을 말하되, 파멸론을 부추기거나 우리 자신에게 권력을 집중시키려 해선 안 되고요.|stir up doom = 파멸론을 부추기다 / concentrate power = 권력을 집중시키다
+84|기술의 역사에서 어려운 문제를 푸는 방법은 그것을 직시하고, 분명히 말하고, 과학자들이 토론하고, 예방하고 완화하려고 정말 열심히 일하는 것이었으니까요.|the way you solve ~ is to … = ~을 푸는 방법은 …하는 것 / prevent and mitigate = 예방하고 완화하다
+85|그게 우리 의도였습니다. 하지만 분명히, 때로는 사람들을 겁먹게 하고 맙니다.|end up -ing = 결국 ~하게 되다
+86|그리고 정말 잘못됐다고 생각하는 또 한 가지가 있어요.|go really bad = 아주 잘못되다
+87|잘못될 수 있는 경우를 얘기하는 것 말고도, 업계로서 이 기술로 사람들에게 어떻게 힘을 실어 줄지를 제대로 말하지 못했다는 겁니다.|besides = ~외에도 / empower people = 사람들에게 힘·권한을 주다
+88|어떤 사람들은 이렇게 말하죠, "우리가 암 치료법을 줄 것이다."|a cure for cancer = 암 치료법
+89|그건 정말 좋은 일이죠.|
+90|"그러니 이런 위험을 감수할 것이고, 여러분은 힘과 자율성을 덜 갖게 될 것이다"라고요.|take risks = 위험을 감수하다
+91|우리는 사람들이 더 많은 힘과 자율성을 갖길 바랍니다. 암 치료법으로는 충분하지 않다고 봐요.|not enough = 충분하지 않다
+92|물론 있으면 멋진 일이지만, 우리는 목표를 더 높이 잡아야 합니다.|set our sights higher = 목표를 더 높이 잡다
+93|우리는 이 도구들이 창의성과 창업의 붐을, 사람들이 서로에게 쓸모 있어질 새로운 방법을 찾아내는 붐을 일으키길 바라고,|a boom in = ~의 붐 / be useful to each other = 서로에게 쓸모 있다
+94|서로에게 힘이 되어 줄 멋진 제품과 서비스를 만들길 바랍니다.|enable each other with = ~로 서로를 도우다
+95|그 부분이 메시지에서 사라졌다고 생각합니다.|get lost in the messaging = 메시지 전달 과정에서 묻히다
+96|그리고 그 점에서 다른 의견을 가진 회사들도 있다고 봅니다.|have a different opinion there = 그 점에 대해 다른 의견을 갖다
+97|하지만 이 기술이 사람들에게 더 많은 힘과 자율성을, 덜이 아니라 더 많이 주는 것이 우리에겐 정말 정말 중요합니다.|not less = 덜이 아니라
+98|그리고 AI 리더들이 자기들에게 그것을 바라지 않는 것 같다고 느낄 때 사람들이 두려워하는 건 당연합니다.|rightly = 당연히·마땅히 / might not quite want = 그다지 바라지 않을지 모른다
+99|그 연장선에서 Astra 의 가격, 그리고 가격 전반에 대해 여쭙고 싶었습니다. 네.|in part = 부분적으로 / pricing = 가격 책정
+100|그동안의 방향은 가격을 내리는 쪽이었다고 봅니다.|the direction of travel = 진행 방향·추세 (영국식 관용구)
+101|물론 다른 프론티어 랩들과의 경쟁이 있죠. Anthropic 같은.|frontier labs = 최전선 AI 연구소들
+102|하지만 그게 기술 접근성의 균형과는 얼마나 관계가 있나요.|the balance of access = 접근성의 균형
+103|기술을 빨리 내놓아야 하면서도 가격의 공정한 시장 가치를 찾아가야 하는데요|fair market value = 공정 시장 가치
+104|우리는 엄청나게 유능하고, 엄청나게 저렴하고, 엄청나게 풍부한 지능을 만들고 싶습니다.|incredibly ~, incredibly ~, incredibly ~ = 삼중 반복 강조 / abundant = 풍부한
+105|Astra 는 그 방향으로 큰 진전이라고 봅니다. Astra 의 토큰 효율은 제게 정말 인상적이에요.|a great step forward = 큰 진전 / token efficiency = 토큰 효율
+106|비교적 적은 토큰으로 해낼 수 있는 일의 양, 그리고 과제당 달러 대비 가격이 그냥 놀랍습니다.|price per dollar of a task = 과제 하나의 달러당 가격 / remarkable = 놀라운
+107|불과 몇 주 전에 우리 소형 모델 Luna 의 가격을 80% 내렸습니다.|cut the price by 80% = 가격을 80% 내리다
+108|우리 목표는 곡선 전 구간에서, 모든 지능 수준마다 최고의 가격 대비 성능을 갖는 것입니다.|price performance = 가격 대비 성능 / all the way along the curve = 곡선 전 구간에 걸쳐
+109|우리는 계속해서 가격을 큰 폭으로 내릴 겁니다.|dramatically = 큰 폭으로
+110|기술의 형태와 그것을 가능하게 하려는 우리 작업에 자신이 있습니다.|the shape of the technology = 기술의 형태·방향
+111|물론 그 과정에서 돈도 좀 벌겠지만,|along the way = 그 과정에서
+112|우리 앞의 기회가 워낙 커서 가격을 계속 내리면서도 큰 매출을 낼 수 있을 겁니다.|the opportunity in front of us = 우리 앞에 놓인 기회 / revenue = 매출
+113|여기서 대화를 마무리하죠.|Let's end our conversation here = 마무리 신호
+114|샘, Astra 가 AI 가 실제로 자율적으로 일하는 쪽으로 큰 걸음이라면요,|autonomously = 자율적으로
+115|그 부분이 강조되고 있다는 걸 알게 됐는데요.|I've come to see = ~을 알게 되었다
+116|방금 말씀하신 경쟁에서 앞서 나가려면 OpenAI 가 예상보다 훨씬 더 많이 투자해서 모델 능력의 경계와 출시 주기를 계속 밀어붙여야 한다면,|stay ahead in the race = 경쟁에서 앞서다 / cadence of release = 출시 주기
+117|그걸 비상장 회사로 하는 것과 상장 회사로 하는 것 사이에서 지금 어디쯤에 서 계십니까,|private company vs public company = 비상장 회사 대 상장 회사
+118|상장 회사의 재무적 유인과 수탁 의무는 기술을 개발하고 세상에 내놓는 데 전념하는 것과 꼭 같지는 않으니까요.|fiduciary duty = 수탁자 의무(주주에 대한 법적 의무) / be committed to = ~에 전념하다
+119|언젠가 상장을 한다면, 그럴 거라고 보는데요.|go public = 상장하다
+120|우리 주식을 사려는, 혹은 사지 않으려는 사람들에게 우리가 사명이 먼저이고 극도로 장기 지향적이라는 걸 상기시키는 데 많은 시간을 쓸 계획입니다.|mission first = 사명 우선 / long term oriented = 장기 지향적인
+121|그래서 우리는 이 기술로 사회 전체에 가장 좋다고 생각하는 것을 위해 결정을 내릴 겁니다.|society as a whole = 사회 전체
+122|그리고 수십 년 단위의 시간 틀로 결정을 내릴 겁니다.|multi-decade timeframe = 수십 년의 시간 틀
+123|회사로서도 아주 잘 해낼 거라고 보지만, 그런 것들을 먼저 두겠습니다.|put those things first = 그것들을 우선하다

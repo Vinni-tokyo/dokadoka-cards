@@ -1,0 +1,1414 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b4a7a"><title>도카도카 영어 공부 · Dokadoka English</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f4f5f8; --surface:#fff; --surface-2:#f1f3f7; --surface-3:#e9ecf2;
+ --line:#e2e5ec; --line-2:#cfd4de;
+ --ink:#21242c; --ink-2:#5c6270; --ink-3:#8b919e;
+ --brand:#3b4a7a; --brand-2:#2e3b63; --brand-soft:#e9ecf5; --brand-line:#c2c9df;
+ --accent:#b0603f; --accent-soft:#fbf1ea; --accent-line:#ead0bd;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,28,40,.05);
+ --sh-2:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);
+ font-family:"Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+[lang=en]{font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Noto Sans KR",sans-serif}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* two-line labels: Korean primary, English secondary */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:64px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 292px;min-height:100vh}
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .panel,.side .foot{flex:none}
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;border:2px solid var(--surface-2);background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f1e2d4;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a4c;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f14;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.spk{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.chip.cap{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.en{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;letter-spacing:.005em;
+ overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ko{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0;word-break:keep-all}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);background:var(--accent-soft);
+ box-shadow:inset 0 0 0 1px var(--accent-line);font-size:12px;line-height:1.65;color:#7a5330}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr);gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .who{font-size:11px;font-weight:600;color:var(--brand);padding-top:3px;line-height:1.35;word-break:keep-all}
+.line .who.cap{color:var(--accent)}
+.line .k{font-size:14.5px;line-height:1.6;font-weight:500}
+.line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+
+/* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:1fr}}
+
+/* ============ study ============ */
+/* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3;word-break:keep-all}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 매일 되풀이하는 순서라 큰 카드 대신 얇은 흐름 띠로 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600}
+.dcRow .jj{color:var(--ink-3);font-size:11px;word-break:keep-all}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 학습법 가이드 ---- */
+.guide{padding:26px 24px 30px}
+.gintro{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.gintro>p[lang=en]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px;word-break:keep-all}
+.gnote span[lang=en]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .en{font-size:11.5px;color:var(--ink-3);margin:0 0 8px;min-height:0;display:block;font-weight:400;line-height:1.4}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2);word-break:keep-all}
+.gstep p span[lang=en]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2);word-break:keep-all}
+.gtip p span[lang=en]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5}
+.srow .k small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:7px}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px;word-break:keep-all}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.01em;word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s;word-break:keep-all}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.grp{display:flex;align-items:center;gap:8px;margin:14px 6px 6px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+.scenes{display:block}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s;margin-bottom:1px}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .mem{padding-left:24px;position:relative}
+.scenes .mem::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+.scenes button[aria-pressed=true].mem::before{background:var(--brand)}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:1fr}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:1fr}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
+ .line{grid-template-columns:44px minmax(0,1fr)}.line .who{grid-column:2}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+ <main class="main">
+  <div class="topbar">
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">전체<span class="inl" lang="en">All</span></h1>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">카드<span class="sub" lang="en">Cards</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">대본<span class="sub" lang="en">Script</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">학습<span class="sub" lang="en">Study</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>로컬 파일(<code>file://</code>)로 열었습니다.</strong>
+    YouTube 가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153). 카드·대본·편집은 그대로 쓸 수 있고,
+    재생 버튼은 YouTube 를 해당 대사 위치부터 엽니다. 페이지 안에서 재생하려면 같이 둔
+    <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.
+    <span class="sub" lang="en">Opened as a local file (<code>file://</code>). YouTube refuses embedded playback from a page with no origin (Error 153).
+     Cards, script and editing still work, and the play button opens YouTube at that line. To play inside the page, run the bundled
+     <code>start.bat</code>(Windows) or <code>start.sh</code> .</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>이 페이지 안에서는 재생할 수 없습니다</strong>
+      <span lang="en">Cannot play inside this page</span>
+      <em>재생 버튼이 YouTube 를 해당 위치부터 엽니다<br><span lang="en">The play button opens YouTube at that position</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 영상 ID / Video ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">적용<span class="sub" lang="en">Apply</span></span></button>
+    </div>
+    <div class="status" id="playStatus">플레이어를 불러오는 중…<span class="sub" lang="en">Loading player…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="chip spk" id="who">—</span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · Edited</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="en" id="en" lang="en">불러오는 중…</div>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">이 장면 재생<span class="sub" lang="en">Play this line</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">구간 반복<span class="sub" lang="en">Repeat</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">체크<span class="sub" lang="en">Check</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">편집<span class="sub" lang="en">Edit</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">영어 대사 · English line</div>
+       <textarea id="edEn" lang="en" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">한국어 뜻 · Korean meaning</div>
+       <textarea id="edKo" spellcheck="false"></textarea>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · Save</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · Cancel</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>되돌리기 · Reset</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">뜻 보기<span class="sub" lang="en">Show meaning</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>뜻 · Meaning</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · Hide</button></div>
+      <p class="ko" id="ko"></p>
+      <p class="note" id="note" hidden></p>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">이전<span class="sub" lang="en">Prev</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">다음<span class="sub" lang="en">Next</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="en">Auto-play next card</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="en">Show meaning from the start</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="en">Shuffle order</span></span></label>
+      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="en" style="color:var(--ink-3);font-size:11.5px">Playback margin</span></span>
+       <select id="optTail">
+        <option value="0.3">0.3초 · 0.3 s</option><option value="0.5">0.5초 · 0.5 s</option>
+        <option value="0.8">0.8초 · 0.8 s</option><option value="1">1초 · 1 s</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 뜻 · Meaning</i><i><kbd>X</kbd><kbd>Space</kbd> 재생 · Play</i>
+      <i><kbd>C</kbd> 반복 · Repeat</i><i><kbd>V</kbd><kbd>→</kbd> 다음 · Next</i><i><kbd>←</kbd> 이전 · Prev</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / How to study">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
+     </div>
+
+     <div id="dayPane">
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="18" aria-pressed="false">천천히</button>
+        <button data-v="25" aria-pressed="true">보통</button>
+        <button data-v="36" aria-pressed="false">빠르게</button>
+        <button data-v="50" aria-pressed="false">집중</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">7</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · Study as cards</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · Quiz on today’s set</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 대사 · Lines</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 표현 · Expressions</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 단어 · Words</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>인터뷰 한 편을 「쓸 수 있는 영어」로 바꾸는 4단계</h3>
+        <p lang="en">Four steps to turn one interview into English you can use</p>
+        <p class="gnote">이 교재는 대본이 아니라 <b>실제 인터뷰</b>입니다. 지어낸 예문에 없는 머뭇거림·줄임말·감탄사가 들어 있습니다.
+         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
+         <span lang="en">This is not a scripted textbook but a<b>real interview</b>. It is full of the hesitations, contractions and back-channels that invented examples never have.
+          That is why “understanding on paper” is not enough. <b>Learning it together with the sound</b> is the shortcut.</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>하루 20분이면 된다 · 20 minutes a day is enough</h5>
+         <p>250개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
+          <span lang="en">250 cards in one sitting will not stick. The Today tab slices them for you.<b>A little every day</b> is the only shortcut.</span></p></div>
+        <div class="gtip"><h5>뜻보다 소리 먼저 · Sound before meaning</h5>
+         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
+          <span lang="en">Play each card first <b>with the meaning hidden</b>. Opening the meaning only where you could not catch it makes it stick.</span></p></div>
+        <div class="gtip"><h5>소리 내어 따라 하기 · Say it out loud</h5>
+         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
+          <span lang="en">Use Repeat (<kbd>C</kbd>) to loop the same span and <b>speak over it</b>. Copying the intonation, not just the words, works best.</span></p></div>
+        <div class="gtip"><h5>축약과 필러에 귀 익히기 · Contractions and fillers</h5>
+         <p><b>gonna · wanna · kinda · ’cause · I dunno</b> 같은 축약과 <b>you know · I mean · like · I don’t know</b> 같은 필러는 뜻이 아니라 리듬입니다. 들릴 때마다 뜻을 찾지 말고 흘려 보내는 연습을 하세요. 이 한 편에만 you know 가 6번 나옵니다.
+          <span lang="en">Contractions like <b>gonna · wanna · kinda · ’cause · I dunno</b> and fillers like <b>you know · I mean · like · I don’t know</b> carry rhythm, not meaning. Practice letting them pass instead of looking them up; “you know” alone appears 6 times in this one video.</span></p></div>
+        <div class="gtip"><h5>틀린 것이 보물 · Mistakes are treasure</h5>
+         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
+          <span lang="en">Items you miss in the quiz become your review list.<b>First thing the next day</b>, listen to just those again.</span></p></div>
+        <div class="gtip"><h5>묻는 말투와 답하는 말투 · Asking vs. answering</h5>
+         <p>내레이션은 <b>She made a breakthrough with… · Li is betting on… · Still, it's early days.</b> 처럼 압축된 서술문이고, 진행자의 질문은 <b>What's it like…? · Would you say…? · What do you say to that?</b> 처럼 짧습니다. 리 박사는 <b>First of all… · Here's the thing. · I believe firmly…</b> 로 답의 뼈대를 세웁니다. 세 층위의 말투를 구분해 들으세요.
+          <span lang="en">The narration is compressed prose (<b>She made a breakthrough with… · Li is betting on… · Still, it's early days.</b>), the host's questions are short (<b>What's it like…? · Would you say…? · What do you say to that?</b>), and Dr. Li frames her answers with <b>First of all… · Here's the thing. · I believe firmly…</b> Listen for the three registers.</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
+       <span class="meta" id="sCount">0</span>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">출제 범위 · Scope</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">표현 · Expressions</button>
+         <button data-v="V" aria-pressed="false">단어 · Words</button>
+         <button data-v="S" aria-pressed="false">대사 · Lines</button>
+         <button data-v="D" aria-pressed="false">오늘 분량 · Today’s set</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">출제 방식 · Mode</span>
+        <div class="seg" id="qMode">
+         <button data-v="en2ko" aria-pressed="true">EN → KO</button>
+         <button data-v="ko2en" aria-pressed="false">KO → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listening</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">문항 수 · Questions</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">전체 · All</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>시작 · Start</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 정답 · Correct</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>그만 · Quit</button>
+       </div>
+       <div class="qask" id="qAsk" lang="en">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>다시 듣기 · Play again</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>다시 · Again</button>
+        <button class="btn" id="rBack">설정으로 · Settings</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.
+     <span class="sub" lang="en">Click a line to play from there. While playing, the list follows along.</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">E</div>
+   <div><strong>도카도카 영어 공부<span class="sub" lang="en">Dokadoka English</span></strong>
+    <small>페이페이 리 · The Circuit · <span class="n">—</span>문장<br><span lang="en">Fei-Fei Li on The Circuit · <span class="n">—</span> lines</span></small></div></div>
+
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> 체크함 · <span lang="en">checked</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">장 수정함 · <span lang="en">cards edited</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>내보내기 · Export</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>가져오기 · Import</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    자막은 Bloomberg 가 영상에 붙인 공식 영어 자막입니다(화자 표시는 없어 직접 지정). 번역·주석은 직접 작성한 것이라 오류가 있을 수 있습니다.<br>
+    <span lang="en">Captions are Bloomberg’s official English captions (speakers assigned by hand). Translations and notes are hand-written and may contain errors.</span></p>
+  </div>
+
+  <div class="foot">
+   대사·영상 출처 · <span lang="en">Source of lines and video</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   학습용 개인 이용을 전제로 한 페이지입니다.<br>
+   <span lang="en">This page is intended for personal study use.</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const DATA = [{"id":1,"s":3.36,"e":5.52,"en":"I hear you love walk and talks.","ko":"산책하면서 얘기하는 걸 좋아하신다고 들었어요.","spk":"Emily","scene":"walk","note":"walk and talk = 걸으며 하는 대화·회의"},{"id":2,"s":5.52,"e":13.64,"en":"Yes, because we sit too much. Yeah. And also our company is just next to this park, so it's great.","ko":"네, 우리가 너무 앉아 있으니까요. 그리고 회사가 바로 이 공원 옆이라 좋아요.","spk":"Li","scene":"walk","note":"next to = ~ 바로 옆에"},{"id":3,"s":13.64,"e":16.44,"en":"Is it all AI talk all the time here?","ko":"여기선 항상 AI 얘기만 하나요?","spk":"Emily","scene":"walk","note":"all the time = 항상"},{"id":4,"s":16.44,"e":22.12,"en":"I don't know other people's talk, but I talk AI all the time. But that's the only thing I know.","ko":"다른 사람들은 모르겠지만, 저는 늘 AI 얘기를 해요. 아는 게 그것뿐이라서요.","spk":"Li","scene":"walk","note":"that's the only thing I know = 아는 게 그것뿐이다 (겸손한 농담)"},{"id":5,"s":22.96,"e":29.4,"en":"Fei-Fei Li is a giant in the field of computer vision, a branch of AI dedicated to teaching machines to see.","ko":"페이페이 리는 기계에게 보는 법을 가르치는 AI 의 한 분야, 컴퓨터 비전의 거장이다.","spk":"Narration","scene":"walk","note":"a giant in the field of = ~ 분야의 거장 / dedicated to = ~에 바쳐진"},{"id":6,"s":29.4,"e":37.88,"en":"She made a breakthrough with ImageNet, a visual library that sparked the modern AI revolution, earning her the title, 'Godmother of AI'.","ko":"그는 현대 AI 혁명에 불을 붙인 시각 자료 라이브러리 ImageNet 으로 돌파구를 열었고, 'AI 의 대모'라는 칭호를 얻었다.","spk":"Narration","scene":"walk","note":"make a breakthrough = 돌파구를 열다 / spark = 불을 붙이다 / earn her the title = 그에게 칭호를 안기다"},{"id":7,"s":37.88,"e":49.16,"en":"And she's been a pioneer at AI's center ever since, as a Stanford professor, a Google executive, an advisor to US presidents, and a relentless advocate for AI that serves people.","ko":"그리고 그 뒤로 줄곧 스탠퍼드 교수, 구글 임원, 미국 대통령들의 자문, 사람을 위한 AI 의 끈질긴 옹호자로서 AI 의 중심에 있어 온 선구자다.","spk":"Narration","scene":"walk","note":"ever since = 그 뒤로 줄곧 / relentless advocate = 끈질긴 옹호자"},{"id":8,"s":49.16,"e":54.12,"en":"I feel the leaders of AI are not talking enough about empowering humanity.","ko":"저는 AI 리더들이 인류에게 힘을 실어 주는 얘기를 충분히 하지 않는다고 느껴요.","spk":"Li","scene":"walk","note":"empower humanity = 인류에게 힘을 주다"},{"id":9,"s":54.12,"e":57.92,"en":"They're talking too much about replacing humanity, replacing jobs.","ko":"인류를 대체하고 일자리를 대체하는 얘기만 너무 많이 하죠.","spk":"Li","scene":"walk","note":"replace = 대체하다"},{"id":10,"s":57.92,"e":61.44,"en":"Now she's adding startup co-founder to her star resume.","ko":"이제 그는 화려한 이력에 스타트업 공동창업자를 더하고 있다.","spk":"Narration","scene":"walk","note":"add ~ to one's resume = 이력에 ~을 더하다"},{"id":11,"s":61.44,"e":63.75,"en":"What's it like running your own shop?","ko":"직접 회사를 운영하는 건 어때요?","spk":"Emily","scene":"walk","note":"run your own shop = 자기 가게(회사)를 꾸리다"},{"id":12,"s":63.82,"e":65.36,"en":"I feel like a tiger mom.","ko":"타이거 맘이 된 기분이에요.","spk":"Li","scene":"walk","note":"tiger mom = 엄격한 교육열의 어머니"},{"id":13,"s":65.36,"e":74.04,"en":"While the rest of the AI world doubles down on large language models like ChatGPT and Claude, Li is betting on a new frontier, world models.","ko":"나머지 AI 업계가 ChatGPT·Claude 같은 대형 언어 모델에 판돈을 키우는 동안, 리는 새로운 개척지인 월드 모델에 걸고 있다.","spk":"Narration","scene":"walk","note":"double down on = ~에 더 크게 걸다 / bet on = ~에 걸다"},{"id":14,"s":74.04,"e":80.56,"en":"She's building AI that aims to predict what happens next in the real world, not just the next word in a sentence.","ko":"문장의 다음 단어가 아니라 현실 세계에서 다음에 일어날 일을 예측하는 AI 를 만들고 있다.","spk":"Narration","scene":"walk","note":"predict what happens next = 다음에 일어날 일을 예측하다"},{"id":15,"s":80.56,"e":84.52,"en":"So what can world models do ultimately that LLMs will never be able to?","ko":"그럼 결국 월드 모델이 할 수 있고 LLM 은 영원히 못 할 일은 뭔가요?","spk":"Emily","scene":"walk","note":"ultimately = 궁극적으로"},{"id":16,"s":84.52,"e":88.76,"en":"Can words put down fires? Can words cook an omelet?","ko":"말이 불을 끌 수 있나요? 말이 오믈렛을 만들 수 있나요?","spk":"Li","scene":"walk","note":"put down fires = 불을 끄다 (put out 이 일반적)"},{"id":17,"s":88.76,"e":98.12,"en":"Li and her startup, World Labs, is competing in a crowded field of rivals, all making the same bet that world models are the next big leap in AI.","ko":"리와 그의 스타트업 World Labs 는 월드 모델이 AI 의 다음 큰 도약이라는 같은 판돈을 건 경쟁자들로 붐비는 분야에서 겨루고 있다.","spk":"Narration","scene":"walk","note":"a crowded field of rivals = 경쟁자로 붐비는 분야 / the next big leap = 다음 큰 도약"},{"id":18,"s":98.12,"e":100.6,"en":"Did you ever imagine AI would be this big?","ko":"AI 가 이렇게 커질 줄 상상하셨나요?","spk":"Emily","scene":"kid"},{"id":19,"s":100.6,"e":106.88,"en":"Have I imagined the entire civilization is going to be redefined by AI?","ko":"문명 전체가 AI 로 재정의될 거라고 상상했느냐고요?","spk":"Li","scene":"kid","note":"redefine = 재정의하다"},{"id":20,"s":106.88,"e":112.6,"en":"The cultural shifts, the geopolitical landscape? I would not have imagined that.","ko":"문화적 변동, 지정학적 지형까지요? 그건 상상 못 했을 거예요.","spk":"Li","scene":"kid","note":"geopolitical landscape = 지정학적 지형 / would not have imagined = 상상하지 못했을 것이다 (가정법 과거완료)"},{"id":21,"s":118.6,"e":124.2,"en":"Before she became a leading AI scientist, Li was just a curious kid looking at the world.","ko":"선도적인 AI 과학자가 되기 전, 리는 세상을 바라보는 호기심 많은 아이였다.","spk":"Narration","scene":"kid","note":"leading = 선도적인"},{"id":22,"s":124.2,"e":126.88,"en":"What was young Fei-Fei like as a kid?","ko":"어린 시절의 페이페이는 어떤 아이였나요?","spk":"Emily","scene":"kid"},{"id":23,"s":126.88,"e":131.08,"en":"It was '80s and '90s in China. My city was Chengdu.","ko":"1980~90년대 중국이었고, 제 고향은 청두였어요.","spk":"Li","scene":"kid"},{"id":24,"s":131.08,"e":144.0,"en":"My dad is quite a curious soul about nature, so I got quite a dosage of chasing after bugs and, and running after puppies and going to the mountains to, to draw and sketch with my dad.","ko":"아버지가 자연에 호기심이 많은 분이라 벌레를 쫓고 강아지를 따라다니고 산에 가서 아버지와 그림을 그리는 일을 듬뿍 했죠.","spk":"Li","scene":"kid","note":"a curious soul = 호기심 많은 사람 / a dosage of = ~을 한 움큼 (dose 의 변형)"},{"id":25,"s":144.0,"e":145.56,"en":"And, you know, reading.","ko":"그리고, 독서요.","spk":"Li","scene":"kid"},{"id":26,"s":145.56,"e":149.95,"en":"Cutting your hair short, loving aerospace and physics. Did you see yourself as a rebel?","ko":"머리를 짧게 자르고, 항공우주와 물리학을 사랑하고. 스스로를 반항아라고 생각하셨나요?","spk":"Emily","scene":"kid","note":"see yourself as = 스스로를 ~로 여기다 / rebel = 반항아"},{"id":27,"s":149.95,"e":150.79,"en":"As a kid, right? You're preteen.","ko":"아이였을 때요? 사춘기 전이었죠.","spk":"Li","scene":"kid","note":"preteen = 십 대 이전(10~12세)"},{"id":28,"s":154.44,"e":158.64,"en":"You almost have to be a rebel just because you want to make a statement for yourself.","ko":"자기 존재를 드러내고 싶으니까 거의 반항아가 될 수밖에 없어요.","spk":"Li","scene":"kid","note":"make a statement for yourself = 자기 주장을 드러내다"},{"id":29,"s":158.64,"e":167.12,"en":"But the love of nature and science and physics, the love of aerospace and outer space, those are part of my identity.","ko":"하지만 자연과 과학과 물리학에 대한 사랑, 항공우주와 우주에 대한 사랑, 그건 제 정체성의 일부예요.","spk":"Li","scene":"kid","note":"part of my identity = 정체성의 일부"},{"id":30,"s":167.19,"e":171.36,"en":"You emigrated from China to the US in - New Jersey. In the 90s.","ko":"중국에서 미국 뉴저지로 이민 오셨죠. 90년대에요.","spk":"Emily","scene":"kid","note":"emigrate from A to B = A 에서 B 로 이민 가다"},{"id":31,"s":171.36,"e":171.54,"en":"Yeah.","ko":"네.","spk":"Li","scene":"kid"},{"id":32,"s":171.57,"e":174.16,"en":"What was it like coming here as a teenager back then?","ko":"그때 십 대로 여기 오는 건 어땠나요?","spk":"Emily","scene":"kid","note":"back then = 그 당시"},{"id":33,"s":174.16,"e":175.37,"en":"That was tough.","ko":"힘들었어요.","spk":"Li","scene":"kid","note":"tough = 힘든"},{"id":34,"s":175.45,"e":190.6,"en":"Shifting the whole thing, culture, language, life as a teenager is perhaps one of the hardest times because you're finding who you are and then suddenly you don't even know the world, right?","ko":"십 대에 문화·언어·삶 전부가 바뀌는 건 아마 가장 힘든 시기예요. 자기가 누군지 찾는 중인데 갑자기 세상조차 모르게 되니까요.","spk":"Li","scene":"kid","note":"shifting the whole thing = 모든 걸 바꾸는 것 / find who you are = 자기가 누구인지 찾다"},{"id":35,"s":190.6,"e":197.24,"en":"Li learned English, finished high school, studied physics at Princeton while running the family dry cleaning business on weekends,","ko":"리는 영어를 익히고 고등학교를 마쳤으며, 주말에는 가족의 세탁소를 꾸리면서 프린스턴에서 물리학을 공부했고,","spk":"Narration","scene":"kid","note":"while running the family business = 가업을 꾸리면서"},{"id":36,"s":197.24,"e":202.72,"en":"and followed her dreams to Caltech, where she earned her PhD and became a computer scientist.","ko":"꿈을 좇아 칼텍으로 가 박사 학위를 받고 컴퓨터 과학자가 되었다.","spk":"Narration","scene":"kid","note":"follow one's dreams = 꿈을 좇다 / earn a PhD = 박사 학위를 받다"},{"id":37,"s":202.72,"e":206.09,"en":"You've been studying artificial intelligence since then. It was super niche.","ko":"그때부터 인공지능을 연구해 오셨어요. 아주 비주류였죠.","spk":"Emily","scene":"imagenet","note":"super niche = 아주 틈새의·비주류의"},{"id":38,"s":206.15,"e":206.36,"en":"Yes.","ko":"네.","spk":"Li","scene":"imagenet"},{"id":39,"s":206.36,"e":208.08,"en":"What was the field like back then?","ko":"당시 그 분야는 어땠나요?","spk":"Emily","scene":"imagenet"},{"id":40,"s":208.08,"e":209.68,"en":"That was a beautiful period.","ko":"아름다운 시절이었어요.","spk":"Li","scene":"imagenet"},{"id":41,"s":209.68,"e":215.96,"en":"It was really pure curiosity because there was no money, there was no power, there was no fanfare, there was no hype.","ko":"돈도 없고 권력도 없고 요란함도 없고 과대광고도 없었으니 정말 순수한 호기심이었죠.","spk":"Li","scene":"imagenet","note":"fanfare = 요란한 선전 / hype = 과대광고·과열"},{"id":42,"s":215.96,"e":224.52,"en":"We were there just the same as scientists look into the sky, go down in the ocean. I was deeply curious.","ko":"과학자들이 하늘을 올려다보고 바다 밑으로 내려가듯 우리도 그저 그렇게 있었어요. 저는 깊이 궁금했어요.","spk":"Li","scene":"imagenet","note":"just the same as = ~와 똑같이"},{"id":43,"s":224.52,"e":228.6,"en":"How does AI see and how is it different from how you or I see?","ko":"AI 는 어떻게 보고, 그건 당신이나 제가 보는 것과 어떻게 다른가요?","spk":"Emily","scene":"imagenet"},{"id":44,"s":228.6,"e":237.48,"en":"We use our eyes to drive the sensory system to turn that into signals in the brain, and the brain does computing.","ko":"우리는 눈으로 감각 체계를 움직여 그걸 뇌 속 신호로 바꾸고, 뇌가 연산을 해요.","spk":"Li","scene":"imagenet","note":"sensory system = 감각 체계 / turn A into B = A 를 B 로 바꾸다"},{"id":45,"s":237.48,"e":239.4,"en":"It's not that different for computers.","ko":"컴퓨터도 크게 다르지 않아요.","spk":"Li","scene":"imagenet","note":"not that different = 그렇게 다르지 않다"},{"id":46,"s":239.4,"e":246.72,"en":"We need to learn the pattern of the world and understand objects, colors, environments.","ko":"세상의 패턴을 학습하고 사물·색·환경을 이해해야 하죠.","spk":"Li","scene":"imagenet"},{"id":47,"s":246.72,"e":250.44,"en":"A lot of seeing is preparing humans to act.","ko":"본다는 것의 많은 부분은 사람이 행동하도록 준비시키는 거예요.","spk":"Li","scene":"imagenet","note":"prepare ~ to act = ~가 행동하도록 준비시키다"},{"id":48,"s":250.44,"e":258.4,"en":"You wake up this morning, you hug your kids, you go downstairs, prepare some breakfast, grab your key, drive to your work.","ko":"오늘 아침에 일어나 아이들을 안고, 아래층에 내려가 아침을 차리고, 열쇠를 집어 직장으로 운전하죠.","spk":"Li","scene":"imagenet","note":"grab your key = 열쇠를 집다"},{"id":49,"s":258.4,"e":263.59,"en":"Everything I've described so far, you've done that with your spatial intelligence.","ko":"지금까지 제가 묘사한 모든 걸, 당신은 공간 지능으로 해낸 거예요.","spk":"Li","scene":"imagenet","note":"spatial intelligence = 공간 지능 (리 박사의 핵심 용어)"},{"id":50,"s":263.65,"e":266.08,"en":"So it's got to be hard to get computers to do that.","ko":"그럼 컴퓨터가 그걸 하게 만드는 건 분명 어렵겠네요.","spk":"Emily","scene":"imagenet","note":"it's got to be hard = 어려울 게 틀림없다 (got to = must)"},{"id":51,"s":266.08,"e":266.41,"en":"Yes.","ko":"네.","spk":"Li","scene":"imagenet"},{"id":52,"s":266.49,"e":269.48,"en":"Li was working on this back in 2006.","ko":"리는 2006년에 이미 이 문제에 매달리고 있었다.","spk":"Narration","scene":"imagenet","note":"back in 2006 = 2006년 당시"},{"id":53,"s":269.48,"e":281.8,"en":"She built ImageNet, a massive catalog of 14 million pictures in over 21,000 categories, the largest assembled at that time, because Li saw that algorithms needed data to get smarter.","ko":"알고리즘이 더 똑똑해지려면 데이터가 필요하다고 보았기에, 그는 2만 1천여 범주에 1,400만 장의 사진을 담은 당시 최대 규모의 목록 ImageNet 을 구축했다.","spk":"Narration","scene":"imagenet","note":"massive catalog = 방대한 목록 / the largest assembled at that time = 당시 조립된 것 중 최대"},{"id":54,"s":281.8,"e":284.04,"en":"So what was the spark for ImageNet?","ko":"그럼 ImageNet 의 계기는 뭐였나요?","spk":"Emily","scene":"imagenet","note":"spark = 계기·불씨"},{"id":55,"s":284.04,"e":287.28,"en":"Nobody was paying attention to data.","ko":"아무도 데이터에 주목하지 않았어요.","spk":"Li","scene":"imagenet","note":"pay attention to = ~에 주목하다"},{"id":56,"s":287.28,"e":293.44,"en":"My students and I had that epiphany that learning needs to be driven by data.","ko":"학생들과 저는 학습이 데이터로 구동돼야 한다는 깨달음을 얻었죠.","spk":"Li","scene":"imagenet","note":"epiphany = 깨달음·통찰의 순간 / driven by data = 데이터로 구동되는"},{"id":57,"s":293.44,"e":296.84,"en":"In 2010, Li turned ImageNet into a competition.","ko":"2010년, 리는 ImageNet 을 경진대회로 바꿨다.","spk":"Narration","scene":"imagenet","note":"turn A into B = A 를 B 로 바꾸다"},{"id":58,"s":296.84,"e":301.0,"en":"Who could build the best algorithm to correctly identify the most images?","ko":"누가 가장 많은 이미지를 정확히 식별하는 최고의 알고리즘을 만들 것인가?","spk":"Narration","scene":"imagenet","note":"identify = 식별하다"},{"id":59,"s":301.0,"e":309.08,"en":"In 2012, Geoffrey Hinton's University of Toronto team entered with AlexNet, an algorithm powered by NVIDIA Graphics cards.","ko":"2012년, 제프리 힌턴의 토론토대 팀이 NVIDIA 그래픽카드로 구동되는 알고리즘 AlexNet 으로 참가했다.","spk":"Narration","scene":"imagenet","note":"enter with = ~로 (대회에) 참가하다 / powered by = ~로 구동되는"},{"id":60,"s":309.08,"e":310.84,"en":"The result marked a turning point.","ko":"그 결과는 전환점이 되었다.","spk":"Narration","scene":"imagenet","note":"mark a turning point = 전환점이 되다"},{"id":61,"s":310.84,"e":320.36,"en":"That combination, massive amount of data, neural networks, and GPU computing power became the golden recipe for modern AI and cemented Li's legacy.","ko":"방대한 데이터, 신경망, GPU 연산력의 조합은 현대 AI 의 황금 레시피가 되었고 리의 유산을 굳혔다.","spk":"Narration","scene":"imagenet","note":"golden recipe = 황금 레시피·성공 공식 / cement one's legacy = 유산을 굳히다"},{"id":62,"s":322.08,"e":324.16,"en":"What do you feel when you look at this?","ko":"이걸 보면 어떤 기분이 드세요?","spk":"Emily","scene":"godmother"},{"id":63,"s":324.16,"e":330.04,"en":"It's not the eight of us. It's the entire humanity. That's really the main story here.","ko":"우리 여덟 명이 아니에요. 인류 전체죠. 그게 진짜 핵심이에요.","spk":"Li","scene":"godmother","note":"the main story = 핵심 이야기"},{"id":64,"s":330.04,"e":343.2,"en":"Because this comes from the photo of, what, about a hundred years ago when industrialization was in the booming phase and big urban skylines are being built.","ko":"이건 약 백 년 전, 산업화가 한창이고 도시의 큰 스카이라인이 세워지던 때의 사진에서 온 거니까요.","spk":"Li","scene":"godmother","note":"in the booming phase = 한창 붐이던 시기"},{"id":65,"s":343.2,"e":345.52,"en":"That was a civilizational moment.","ko":"그건 문명사적 순간이었어요.","spk":"Li","scene":"godmother","note":"civilizational moment = 문명 차원의 순간"},{"id":66,"s":345.52,"e":349.92,"en":"It's amazing that you're being recognized here, but like, could they have centered the photo?","ko":"여기 이름이 오른 건 대단한데, 사진을 가운데 맞출 수는 없었을까요?","spk":"Emily","scene":"godmother","note":"be recognized = 인정받다 / center the photo = 사진을 가운데 맞추다"},{"id":67,"s":350.92,"e":354.68,"en":"Come on. It's true because there's more space here.","ko":"에이. 맞는 말이에요, 이쪽에 공간이 더 있잖아요.","spk":"Li","scene":"godmother","note":"Come on = 에이·왜 이래요"},{"id":68,"s":354.68,"e":358.06,"en":"I asked you about being the godmother of AI a few years ago.","ko":"몇 년 전에 'AI 의 대모'라는 것에 대해 여쭤봤었죠.","spk":"Emily","scene":"godmother"},{"id":69,"s":358.1,"e":358.61,"en":"You did.","ko":"그러셨죠.","spk":"Li","scene":"godmother","note":"You did = 그랬죠 (앞 문장의 동사를 did 로 받음)"},{"id":70,"s":358.71,"e":362.4,"en":"How do you feel about that title?","ko":"그 호칭에 대해 어떻게 느끼세요?","spk":"Emily","scene":"godmother"},{"id":71,"s":362.4,"e":366.4,"en":"You know, Emily, I would never call myself godmother of anything.","ko":"있잖아요 에밀리, 저는 제 자신을 무엇의 대모라고도 부르지 않을 거예요.","spk":"Li","scene":"godmother","note":"would never call myself ~ = 결코 스스로를 ~라 부르지 않겠다"},{"id":72,"s":366.4,"e":369.44,"en":"Remember, Emily, when you asked me, I was like, oh.","ko":"기억나세요 에밀리, 물어보셨을 때 저는 \"어…\" 했죠.","spk":"Li","scene":"godmother","note":"I was like, oh = 나는 '어…' 했다 (be like 인용)"},{"id":73,"s":369.44,"e":375.72,"en":"I was taken aback because I don't naturally think about myself as godmother of anything.","ko":"저는 스스로를 무엇의 대모로 생각하지 않기 때문에 당황했어요.","spk":"Li","scene":"godmother","note":"be taken aback = 당황하다·허를 찔리다"},{"id":74,"s":375.72,"e":378.48,"en":"That's not my personality. I focus on work.","ko":"그건 제 성격이 아니에요. 저는 일에 집중해요.","spk":"Li","scene":"godmother"},{"id":75,"s":378.48,"e":389.28,"en":"If I rejected that on that spot, we once again would be in a situation where women just don't get recognized the same way as men.","ko":"그 자리에서 그걸 거부했다면, 여성이 남성과 같은 방식으로 인정받지 못하는 상황이 또 반복됐을 거예요.","spk":"Li","scene":"godmother","note":"on that spot = 그 자리에서 / once again = 또다시"},{"id":76,"s":389.28,"e":397.56,"en":"I want more women to be called godmother of whatever creation, innovation, discovery that they have done.","ko":"저는 더 많은 여성이 자기가 이룬 창조·혁신·발견의 대모라고 불리길 바라요.","spk":"Li","scene":"godmother","note":"whatever ~ that they have done = 그들이 이룬 그 무엇이든"},{"id":77,"s":397.56,"e":400.44,"en":"So do you embrace the term now or?","ko":"그럼 지금은 그 용어를 받아들이시나요, 아니면?","spk":"Emily","scene":"godmother","note":"embrace the term = 그 용어를 받아들이다"},{"id":78,"s":400.44,"e":407.31,"en":"Embrace is a big word. I don't go around and say, \"Hi, I'm Fei-Fei I'm the godmother of AI.\"","ko":"'받아들인다'는 건 큰 말이죠. \"안녕하세요, 저는 AI 의 대모 페이페이입니다\" 하고 다니진 않아요.","spk":"Li","scene":"godmother","note":"a big word = 거창한 말 / go around and say = ~라고 말하고 다니다"},{"id":79,"s":407.41,"e":411.8,"en":"But people have adopted that term thanks to you.","ko":"하지만 당신 덕분에 사람들이 그 용어를 받아들였죠.","spk":"Emily","scene":"godmother","note":"thanks to = ~ 덕분에"},{"id":80,"s":411.8,"e":418.16,"en":"Artificial intelligence had long been discussed in policy and tech circles as something perpetually right around the corner.","ko":"인공지능은 오래도록 정책·기술계에서 영원히 '코앞'에 있는 무엇으로 논의돼 왔다.","spk":"Narration","scene":"startup","note":"perpetually right around the corner = 영원히 코앞에 있는"},{"id":81,"s":418.16,"e":425.12,"en":"Until ChatGPT, AI went from a niche research field to the most talked about technology on the planet.","ko":"ChatGPT 가 나오기까지, AI 는 틈새 연구 분야에서 지구상 가장 많이 회자되는 기술이 되었다.","spk":"Narration","scene":"startup","note":"go from A to B = A 에서 B 로 변하다 / the most talked about = 가장 많이 회자되는"},{"id":82,"s":425.12,"e":428.92,"en":"Large language models, image generators, video generators.","ko":"대형 언어 모델, 이미지 생성기, 영상 생성기.","spk":"Narration","scene":"startup"},{"id":83,"s":428.92,"e":433.32,"en":"Suddenly it seemed like everyone was or wanted to be in the AI business.","ko":"갑자기 모두가 AI 사업을 하거나 하고 싶어 하는 것처럼 보였다.","spk":"Narration","scene":"startup","note":"be in the AI business = AI 사업을 하다"},{"id":84,"s":433.32,"e":441.28,"en":"And let's be honest, things have come pretty far. Li saw an opportunity and launched her own startup in 2024.","ko":"그리고 솔직히 말해, 꽤 멀리 왔다. 리는 기회를 보고 2024년 자신의 스타트업을 세웠다.","spk":"Narration","scene":"startup","note":"let's be honest = 솔직히 말해 / come pretty far = 꽤 멀리 오다"},{"id":85,"s":441.28,"e":443.72,"en":"What's it like running your own shop?","ko":"직접 회사를 운영하는 건 어때요?","spk":"Emily","scene":"startup"},{"id":86,"s":443.72,"e":447.64,"en":"So here's the thing. I'm by far the most senior in the company.","ko":"그러니까 이런 거예요. 제가 회사에서 단연 최고참이에요.","spk":"Li","scene":"startup","note":"here's the thing = 실은 이래요 / by far the most senior = 단연 최고참"},{"id":87,"s":447.64,"e":454.32,"en":"From my co-founders to my engineers and researchers and scientists, they're so talented, but they're also young.","ko":"공동창업자부터 엔지니어·연구자·과학자까지 다들 정말 재능 있지만 젊기도 해요.","spk":"Li","scene":"startup","note":"talented = 재능 있는"},{"id":88,"s":454.32,"e":460.72,"en":"I do feel like a mom. And oftentimes I feel like a tiger mom.","ko":"정말 엄마가 된 기분이에요. 그리고 종종 타이거 맘이 된 기분이죠.","spk":"Li","scene":"startup","note":"oftentimes = 종종 (often 의 변형)"},{"id":89,"s":460.72,"e":464.36,"en":"I do run this shop as, I would say, high standard.","ko":"이 회사를 제 기준으로는 높은 수준으로 운영하고 있어요.","spk":"Li","scene":"startup","note":"high standard = 높은 기준"},{"id":90,"s":464.36,"e":466.84,"en":"Li is working on advancing world models.","ko":"리는 월드 모델을 발전시키는 일을 하고 있다.","spk":"Narration","scene":"worldmodel","note":"advance = 발전시키다"},{"id":91,"s":466.84,"e":476.28,"en":"If ImageNet taught AI how to see, this technology aims to guide AI through the physical world because describing how to catch a ball and actually catching one are very different things.","ko":"ImageNet 이 AI 에게 보는 법을 가르쳤다면, 이 기술은 AI 를 물리 세계로 안내하려 한다. 공을 잡는 법을 설명하는 것과 실제로 잡는 것은 아주 다른 일이기 때문이다.","spk":"Narration","scene":"worldmodel","note":"guide ~ through = ~을 …로 안내하다"},{"id":92,"s":477.6,"e":481.76,"en":"And super intelligence, she's betting that lies beyond chatbots.","ko":"그리고 초지능은 챗봇 너머에 있다고 그는 건다.","spk":"Narration","scene":"worldmodel","note":"lie beyond = ~ 너머에 있다"},{"id":93,"s":481.76,"e":488.08,"en":"The rest of the AI industry is focusing on LLMs. What can't LLMs do?","ko":"나머지 AI 업계는 LLM 에 집중하고 있어요. LLM 이 못 하는 건 뭔가요?","spk":"Emily","scene":"worldmodel"},{"id":94,"s":488.08,"e":502.36,"en":"If we want to create a world where we continue to push scientific discovery, where we want machines like robots to be a partner to us, all this language cannot do it alone.","ko":"과학적 발견을 계속 밀어붙이고 로봇 같은 기계가 우리의 동반자가 되는 세상을 만들려면, 언어만으로는 할 수 없어요.","spk":"Li","scene":"worldmodel","note":"push scientific discovery = 과학적 발견을 밀어붙이다 / cannot do it alone = 혼자서는 할 수 없다"},{"id":95,"s":502.36,"e":507.24,"en":"Building world model and spatial intelligence is not about anti - LLM.","ko":"월드 모델과 공간 지능을 만드는 건 반(反) LLM 이 아니에요.","spk":"Li","scene":"worldmodel","note":"not about ~ = ~의 문제가 아니다"},{"id":96,"s":507.24,"e":510.36,"en":"It's about the next frontier and the next chapter.","ko":"다음 개척지, 다음 장에 관한 거죠.","spk":"Li","scene":"worldmodel","note":"the next frontier = 다음 개척지"},{"id":97,"s":510.36,"e":512.9,"en":"So what exactly is a world model?","ko":"그럼 월드 모델이 정확히 뭔가요?","spk":"Emily","scene":"worldmodel"},{"id":98,"s":512.98,"e":515.92,"en":"World model at this point is an overloaded term.","ko":"월드 모델은 지금 시점에서 뜻이 너무 많이 실린 용어예요.","spk":"Li","scene":"worldmodel","note":"overloaded term = 의미가 과적된 용어"},{"id":99,"s":515.92,"e":521.16,"en":"We look at spatial intelligence as three different kind of functions.","ko":"우리는 공간 지능을 세 가지 기능으로 봐요.","spk":"Li","scene":"worldmodel"},{"id":100,"s":521.16,"e":527.08,"en":"One is rendering, one is simulation, and the third one is planning.","ko":"하나는 렌더링, 하나는 시뮬레이션, 세 번째는 계획이에요.","spk":"Li","scene":"worldmodel","note":"rendering / simulation / planning = 렌더링·시뮬레이션·계획"},{"id":101,"s":527.08,"e":534.28,"en":"Rendering is the world model outputs beautiful pixels for humans to consume.","ko":"렌더링은 월드 모델이 사람이 소비할 아름다운 픽셀을 출력하는 거예요.","spk":"Li","scene":"worldmodel","note":"for humans to consume = 사람이 소비하도록"},{"id":102,"s":534.28,"e":537.16,"en":"Most likely you're thinking about OpenAI's Sora.","ko":"아마 OpenAI 의 Sora 를 떠올리실 거예요.","spk":"Li","scene":"worldmodel","raw":"Most likely you're thinking about [OpenAI's] Sora.","note":"most likely = 아마도"},{"id":103,"s":537.16,"e":544.88,"en":"The second class of world model is they do simulation, but it doesn't serve just humans. It serves machines.","ko":"두 번째 부류의 월드 모델은 시뮬레이션을 하는데, 사람만 위한 게 아니에요. 기계를 위한 거죠.","spk":"Li","scene":"worldmodel","note":"serve = ~을 위해 봉사하다·쓰이다"},{"id":104,"s":544.88,"e":552.12,"en":"They are focused on capturing the actual structure of the world, the geometry structure based on physics.","ko":"세상의 실제 구조, 물리에 기반한 기하 구조를 포착하는 데 집중해요.","spk":"Li","scene":"worldmodel","note":"capture the structure = 구조를 포착하다 / geometry = 기하"},{"id":105,"s":552.12,"e":558.08,"en":"The third kind of world model planning helps you to know what is the next thing you need to do.","ko":"세 번째 종류인 계획 월드 모델은 다음에 해야 할 일이 무엇인지 알게 해 줘요.","spk":"Li","scene":"worldmodel"},{"id":106,"s":558.08,"e":568.8,"en":"For example, if you have a cup, a world model that serves as a planner will let the robot know, pick it up and put it somewhere else.","ko":"예를 들어 컵이 있으면, 계획자 역할의 월드 모델은 로봇에게 그걸 집어서 다른 곳에 놓으라고 알려 주죠.","spk":"Li","scene":"worldmodel","note":"serve as a planner = 계획자 역할을 하다"},{"id":107,"s":569.64,"e":575.84,"en":"And that is a world model that is very closely coupled with robotics.","ko":"그게 로보틱스와 아주 밀접하게 결합된 월드 모델이에요.","spk":"Li","scene":"worldmodel","note":"closely coupled with = ~와 밀접하게 결합된"},{"id":108,"s":575.84,"e":579.36,"en":"Marble is World Lab's first step towards creating a world model.","ko":"Marble 은 월드 모델을 만들기 위한 World Labs 의 첫걸음이다.","spk":"Narration","scene":"marble","note":"first step towards = ~를 향한 첫걸음"},{"id":109,"s":579.36,"e":586.32,"en":"It's a platform that lets anyone generate an explorable, editable 3D world from a single visual or text prompt.","ko":"누구나 이미지나 텍스트 프롬프트 하나로 탐색·편집 가능한 3D 세계를 만들 수 있게 하는 플랫폼이다.","spk":"Narration","scene":"marble","note":"explorable, editable = 탐색·편집 가능한 / from a single prompt = 프롬프트 하나로"},{"id":110,"s":586.32,"e":594.76,"en":"Now, this is a showcase page of some user-generated world. You can see they created a room, a beautiful room.","ko":"자, 이건 사용자가 만든 세계의 쇼케이스 페이지예요. 방을 하나 만들었죠, 아름다운 방을요.","spk":"Li","scene":"marble","note":"user-generated = 사용자 생성의"},{"id":111,"s":594.76,"e":600.28,"en":"Now you look at this, you're like, Fei-Fei, this is no different from a picture. But here's the thing.","ko":"이걸 보면 \"페이페이, 이건 그림이랑 다를 게 없잖아\" 하시겠죠. 그런데 여기가 핵심이에요.","spk":"Li","scene":"marble","note":"no different from = ~와 다를 게 없는"},{"id":112,"s":600.28,"e":608.76,"en":"It actually is a world because I can navigate in it. So like a game, I can move forward. I can turn around.","ko":"안에서 돌아다닐 수 있으니까 실제로 세계예요. 게임처럼 앞으로 가고, 돌아설 수 있어요.","spk":"Li","scene":"marble","note":"navigate in = ~ 안을 돌아다니다"},{"id":113,"s":608.76,"e":614.92,"en":"I can go anywhere. Here, it's a fully consistent 3D world.","ko":"어디든 갈 수 있어요. 여기는 완전히 일관된 3D 세계예요.","spk":"Li","scene":"marble","note":"fully consistent = 완전히 일관된"},{"id":114,"s":614.92,"e":618.36,"en":"So who or what companies are using Marble right now?","ko":"그럼 지금 Marble 을 누가, 어떤 회사가 쓰고 있나요?","spk":"Emily","scene":"marble","raw":"So who or what companies are using Marbel right now?"},{"id":115,"s":618.36,"e":622.4,"en":"Why is Marble useful? For example, virtual production.","ko":"Marble 이 왜 유용하냐면요. 예를 들어 가상 프로덕션이요.","spk":"Li","scene":"marble","note":"virtual production = 가상 프로덕션(영상 제작 기법)"},{"id":116,"s":622.4,"e":630.6,"en":"In movies, people are using Marble because they can shoot actors in any environment. Game developers.","ko":"영화에서는 배우를 어떤 환경에서든 촬영할 수 있어서 Marble 을 써요. 게임 개발자들도요.","spk":"Li","scene":"marble","note":"shoot actors = 배우를 촬영하다"},{"id":117,"s":630.6,"e":638.4,"en":"Marble has completely lowered the amount of resource and time one needs. We also have robotics example.","ko":"Marble 은 필요한 자원과 시간을 완전히 낮췄어요. 로보틱스 사례도 있어요.","spk":"Li","scene":"marble","note":"lower the amount of = ~의 양을 낮추다"},{"id":118,"s":638.4,"e":646.48,"en":"This is a collaboration with NVIDIA where they're using Marble environments to augment the training of robots.","ko":"이건 NVIDIA 와의 협업인데, 로봇 훈련을 보강하려고 Marble 환경을 쓰고 있어요.","spk":"Li","scene":"marble","note":"augment the training = 훈련을 보강하다"},{"id":119,"s":646.48,"e":649.4,"en":"What are you training these models on that others don't have?","ko":"다른 곳에는 없는 무엇으로 이 모델들을 훈련하시나요?","spk":"Emily","scene":"marble","note":"train ~ on = ~으로 훈련시키다"},{"id":120,"s":649.4,"e":656.44,"en":"We are training these models on two things, right? One is specially prepared data.","ko":"두 가지로 훈련해요. 하나는 특별히 준비한 데이터예요.","spk":"Li","scene":"marble","note":"specially prepared = 특별히 준비된"},{"id":121,"s":656.44,"e":665.0,"en":"Pixel data are more nuanced than language data in the sense that there's more information in a picture.","ko":"픽셀 데이터는 언어 데이터보다 미묘해요, 그림 한 장에 더 많은 정보가 있다는 점에서요.","spk":"Li","scene":"marble","note":"nuanced = 미묘한 / in the sense that = ~라는 점에서"},{"id":122,"s":665.88,"e":667.92,"en":"There's camera information.","ko":"카메라 정보도 있고요.","spk":"Li","scene":"marble"},{"id":123,"s":667.92,"e":681.91,"en":"Another one is algorithmic and architectural innovation because no one has created generative world models as we have in terms of creating 3D and eventually 4D worlds.","ko":"또 하나는 알고리즘·아키텍처 혁신이에요. 3D 그리고 결국 4D 세계를 만드는 생성형 월드 모델은 우리처럼 만든 곳이 없거든요.","spk":"Li","scene":"marble","note":"architectural innovation = 아키텍처 혁신 / in terms of = ~라는 면에서"},{"id":124,"s":681.97,"e":684.0,"en":"So would you say that's the secret?","ko":"그게 비결이라고 하시겠어요?","spk":"Emily","scene":"marble","note":"the secret = 비결"},{"id":125,"s":684.0,"e":688.64,"en":"Yeah, I guess so. Well, the real secrets are people, as I always say.","ko":"네, 그런 것 같아요. 뭐, 늘 말하듯 진짜 비결은 사람이죠.","spk":"Li","scene":"marble","note":"as I always say = 늘 말하듯"},{"id":126,"s":688.64,"e":692.88,"en":"But yes, the data and the algorithm and the, the system we have built.","ko":"하지만 네, 데이터와 알고리즘, 그리고 우리가 만든 시스템이요.","spk":"Li","scene":"marble"},{"id":127,"s":692.88,"e":695.53,"en":"You've raised a billion dollars. How is the business doing?","ko":"10억 달러를 조달하셨죠. 사업은 어떤가요?","spk":"Emily","scene":"marble","note":"raise (money) = 자금을 조달하다"},{"id":128,"s":695.59,"e":701.28,"en":"The business is still early. This phase of World Labs, we're focusing on building the technology.","ko":"사업은 아직 초기예요. World Labs 의 이 단계에서는 기술을 만드는 데 집중하고 있어요.","spk":"Li","scene":"marble","note":"still early = 아직 초기"},{"id":129,"s":701.28,"e":703.96,"en":"Building the technology isn't the only part of the job.","ko":"기술을 만드는 것만이 일의 전부는 아니다.","spk":"Narration","scene":"stage"},{"id":130,"s":703.96,"e":709.04,"en":"When Li isn't heads down at World Labs, she's out making the case for the next frontier of AI.","ko":"리는 World Labs 에서 몰두하고 있지 않을 때면 밖에서 AI 의 다음 개척지를 역설한다.","spk":"Narration","scene":"stage","note":"heads down = 몰두한 / make the case for = ~을 옹호·역설하다"},{"id":131,"s":714.8,"e":718.2,"en":"Absolutely. Please welcome to the stage.","ko":"네. 무대로 모시겠습니다.","spk":"Announcer","scene":"stage","note":"Please welcome to the stage = 무대로 모십니다"},{"id":132,"s":718.2,"e":724.64,"en":"Fei-Fei Li, co-founder and CEO at World Labs for a conversation with Bloomberg's Emily Chang.","ko":"World Labs 공동창업자 겸 CEO 페이페이 리, Bloomberg 의 에밀리 창과 대담을 나누겠습니다.","spk":"Announcer","scene":"stage"},{"id":133,"s":724.7,"e":729.76,"en":"All of this rolls up into robotics, so I, I want to get your take on the field. And humanoids in particular.","ko":"이 모든 게 로보틱스로 이어지니, 이 분야에 대한 견해를 듣고 싶어요. 특히 휴머노이드요.","spk":"Emily","scene":"stage","note":"roll up into = ~로 모이다·귀결되다 / get your take on = ~에 대한 견해를 듣다"},{"id":134,"s":729.76,"e":736.16,"en":"Funding for humanoids hit $6 billion, but you know, they still can't load my dishwasher as fast as I can.","ko":"휴머노이드 투자가 60억 달러에 이르렀지만, 아직 제가 하는 것만큼 빨리 식기세척기를 채우지 못하잖아요.","spk":"Emily","scene":"stage","note":"hit $6 billion = 60억 달러에 이르다"},{"id":135,"s":736.16,"e":738.12,"en":"They still can't go get my Amazon packages.","ko":"아마존 택배도 못 가져오고요.","spk":"Emily","scene":"stage"},{"id":136,"s":738.12,"e":743.7,"en":"Will world models, world labs close the gap between hype and reality?","ko":"월드 모델이, World Labs 가 과장과 현실의 간극을 메울까요?","spk":"Emily","scene":"stage","note":"close the gap between hype and reality = 과장과 현실의 간극을 메우다"},{"id":137,"s":743.77,"e":745.6,"en":"That's a loaded question, Emily.","ko":"의도가 실린 질문이네요, 에밀리.","spk":"Li","scene":"stage","note":"a loaded question = 특정 답을 유도하는·함정이 있는 질문"},{"id":138,"s":745.6,"e":756.52,"en":"First of all, first of all, robotics is going to be one of the most important revolution in human industrialization. $6 billion is too small, right?","ko":"우선, 우선 로보틱스는 인류 산업화에서 가장 중요한 혁명 중 하나가 될 거예요. 60억 달러는 너무 적어요, 그렇죠?","spk":"Li","scene":"stage","note":"first of all = 우선"},{"id":139,"s":756.52,"e":764.24,"en":"If you look at self-driving cars investment, if you look at language models investment, it took way more than $6 billion.","ko":"자율주행차 투자를 보세요, 언어 모델 투자를 보세요, 60억 달러보다 훨씬 많이 들었어요.","spk":"Li","scene":"stage","note":"way more than = ~보다 훨씬 많이"},{"id":140,"s":764.24,"e":765.8,"en":"Are we going to close the gap?","ko":"간극을 메울 거냐고요?","spk":"Li","scene":"stage"},{"id":141,"s":765.8,"e":774.12,"en":"I do believe World Labs is working on one of the most critical technology in the spatial physical intelligence.","ko":"World Labs 가 공간·물리 지능에서 가장 중요한 기술 중 하나에 매달리고 있다고 정말 믿어요.","spk":"Li","scene":"stage","note":"critical technology = 핵심 기술"},{"id":142,"s":774.12,"e":777.33,"en":"And obviously that's the, that's the hope.","ko":"그리고 물론, 그게 바라는 바예요.","spk":"Li","scene":"stage","note":"that's the hope = 그게 희망이다"},{"id":143,"s":777.41,"e":778.64,"en":"But Li isn't alone.","ko":"하지만 리만 그런 건 아니다.","spk":"Narration","scene":"stage"},{"id":144,"s":778.64,"e":785.44,"en":"World models are the tech industry's latest obsession with startups and tech giants alike all sprinting to build them.","ko":"월드 모델은 스타트업과 거대 기술기업이 너도나도 만들려고 전력 질주하는, 기술 업계의 최신 집착 대상이다.","spk":"Narration","scene":"stage","note":"latest obsession = 최신 집착 대상 / sprint to = ~하려고 전력 질주하다"},{"id":145,"s":785.44,"e":794.84,"en":"For anything from design to self-driving cars, robots and factories, to eventually machines that can navigate the unpredictable reality of the human home.","ko":"디자인부터 자율주행차·로봇·공장, 그리고 결국 인간의 집이라는 예측 불가한 현실을 헤쳐 갈 기계까지, 무엇에든 쓰기 위해서다.","spk":"Narration","scene":"stage","note":"navigate the unpredictable reality = 예측 불가한 현실을 헤쳐 가다"},{"id":146,"s":798.72,"e":803.98,"en":"You're competing against big players with deep pockets. How worried are you about that?","ko":"자금이 두둑한 큰 회사들과 경쟁하고 계시죠. 얼마나 걱정되세요?","spk":"Emily","scene":"stage","note":"deep pockets = 두둑한 자금"},{"id":147,"s":804.04,"e":808.24,"en":"As an entrepreneur and a co-founder, CEO, I'm paranoid every day.","ko":"기업가이자 공동창업자·CEO 로서 저는 매일 편집증적으로 걱정해요.","spk":"Li","scene":"stage","note":"paranoid = 편집증적인·늘 경계하는"},{"id":148,"s":809.2,"e":814.88,"en":"I don't think there's a moment I would say, \"Hey, I feel so relaxed.\" You know?","ko":"\"아, 정말 편하다\" 하고 말할 순간이 있을 것 같지 않아요.","spk":"Li","scene":"stage"},{"id":149,"s":814.88,"e":823.96,"en":"So yes, I am worried, but am I paralyzed? Absolutely not. We have an incredible team. We also have the focus.","ko":"그러니 네, 걱정돼요. 하지만 마비됐느냐? 전혀요. 우리는 훌륭한 팀이 있고 집중력도 있어요.","spk":"Li","scene":"stage","note":"paralyzed = 마비된 / Absolutely not = 전혀 아니다"},{"id":150,"s":824.84,"e":830.4,"en":"You know, a lot of big companies, they have a lot on the, on the table.","ko":"큰 회사들은 식탁 위에 놓인 게 많아요.","spk":"Li","scene":"stage","note":"a lot on the table = 벌여 놓은 일이 많은"},{"id":151,"s":830.4,"e":834.52,"en":"We have one thing on the table, and we're focusing on that thing.","ko":"우리는 한 가지만 올려놓고 그것에 집중해요.","spk":"Li","scene":"stage"},{"id":152,"s":834.58,"e":836.8,"en":"Emily, Nice to meet you.","ko":"에밀리, 만나서 반가워요.","spk":"Justin","scene":"stage"},{"id":153,"s":836.8,"e":843.81,"en":"The war for talent is so fierce. Why work with Fei-Fei when there are so many powerful AI companies out there?","ko":"인재 전쟁이 정말 치열하죠. 강력한 AI 회사가 이렇게 많은데 왜 페이페이와 일하시나요?","spk":"Emily","scene":"stage","note":"the war for talent = 인재 전쟁 / fierce = 치열한"},{"id":154,"s":843.9,"e":848.29,"en":"Well, I started working with Fei-Fei way before it was cool in 2012.","ko":"저는 2012년, 그게 유행이 되기 훨씬 전부터 페이페이와 일하기 시작했어요.","spk":"Justin","scene":"stage","note":"way before it was cool = 유행하기 훨씬 전부터"},{"id":155,"s":848.4,"e":853.12,"en":"Yeah, I did my PhD with Fei-Fei at Stanford way back in the day.","ko":"네, 옛날에 스탠퍼드에서 페이페이 밑에서 박사를 했어요.","spk":"Justin","scene":"stage","note":"way back in the day = 아주 옛날에"},{"id":156,"s":853.12,"e":857.64,"en":"You can go to a lot of big tech, but your hands can't change that trajectory in, in many instances.","ko":"큰 기술기업에 갈 수도 있지만, 거기서는 많은 경우 내 손으로 그 궤적을 바꿀 수 없어요.","spk":"Justin","scene":"stage","note":"change that trajectory = 그 궤적을 바꾸다 / in many instances = 많은 경우"},{"id":157,"s":858.48,"e":862.96,"en":"Here, we're 50 people. Your hands can change the trajectory of this company.","ko":"여기는 50명이에요. 내 손으로 이 회사의 궤적을 바꿀 수 있죠.","spk":"Justin","scene":"stage"},{"id":158,"s":862.96,"e":865.36,"en":"That's a beautiful thing to have in your life.","ko":"인생에서 그런 걸 갖는 건 아름다운 일이에요.","spk":"Justin","scene":"stage"},{"id":159,"s":865.36,"e":871.9,"en":"World Labs may be a small team, but the investment in world models is gigantic. $3 billion and growing.","ko":"World Labs 는 작은 팀일지 몰라도 월드 모델에 대한 투자는 거대하다. 30억 달러, 그리고 늘고 있다.","spk":"Narration","scene":"early","note":"gigantic = 거대한 / and growing = 그리고 늘고 있는"},{"id":160,"s":871.98,"e":876.8,"en":"Still, it's early days. The field hasn't even agreed on how to build them yet.","ko":"그래도 아직 초기다. 이 분야는 어떻게 만들지조차 아직 합의하지 못했다.","spk":"Narration","scene":"early","note":"early days = 초기 / crack = (문제를) 풀다"},{"id":161,"s":876.8,"e":884.48,"en":"Would you say it's like 2019 for chatbots where everyone was chasing LLMs and trying to make it happen, but they hadn't cracked the code yet?","ko":"모두가 LLM 을 쫓으며 되게 하려 했지만 아직 해법을 찾지 못했던 2019년의 챗봇 같다고 하시겠어요?","spk":"Emily","scene":"early","note":"crack the code = 해법을 찾다 / make it happen = 실현시키다"},{"id":162,"s":884.48,"e":886.48,"en":"Is that where we are for world models?","ko":"월드 모델은 지금 그 지점인가요?","spk":"Emily","scene":"early"},{"id":163,"s":886.48,"e":893.32,"en":"Yeah, that's probably a fair description. We're early. We're a lot earlier compared to LLMs. But","ko":"네, 아마 적절한 묘사예요. 우리는 초기예요. LLM 에 비하면 훨씬 더 초기죠. 하지만","spk":"Li","scene":"early","note":"a fair description = 적절한 묘사"},{"id":164,"s":893.32,"e":898.72,"en":"Will there be some sort of explosion and aha moment where we're like, \"Oh, now we understand.\"","ko":"\"아, 이제 알겠다\" 하는 폭발적인 순간, 유레카의 순간이 올까요?","spk":"Emily","scene":"early","note":"aha moment = 깨달음의 순간"},{"id":165,"s":898.79,"e":902.6,"en":"If we do it right, yes. That's the magic of technology and science.","ko":"제대로 하면, 네. 그게 기술과 과학의 마법이죠.","spk":"Li","scene":"early","note":"if we do it right = 제대로 하면"},{"id":166,"s":902.6,"e":906.9,"en":"When it hits that milestone, it becomes magical.","ko":"그 이정표에 닿는 순간 마법이 돼요.","spk":"Li","scene":"early","note":"hit a milestone = 이정표에 도달하다"},{"id":167,"s":906.99,"e":911.88,"en":"There are skeptics in the AI and robotics world that say, \"This isn't the next breakthrough.","ko":"AI·로보틱스 업계의 회의론자들은 \"이건 다음 돌파구가 아니라","spk":"Emily","scene":"early","note":"skeptics = 회의론자"},{"id":168,"s":911.88,"e":915.08,"en":"It's just the next hype cycle.\" What do you say to that?","ko":"그저 다음 과열 주기일 뿐\"이라고 해요. 뭐라고 답하시겠어요?","spk":"Emily","scene":"early","note":"hype cycle = 과열 주기 / What do you say to that? = 그에 뭐라고 답하시겠어요"},{"id":169,"s":915.08,"e":918.68,"en":"I think even a good science can be hyped.","ko":"좋은 과학도 과대광고될 수 있다고 생각해요.","spk":"Li","scene":"early","note":"be hyped = 과대광고되다"},{"id":170,"s":919.8,"e":926.52,"en":"I believe spatial intelligence and physical intelligence are fundamental to machine intelligence.","ko":"저는 공간 지능과 물리 지능이 기계 지능의 근본이라고 믿어요.","spk":"Li","scene":"early","note":"fundamental to = ~의 근본인"},{"id":171,"s":926.52,"e":936.08,"en":"And these are the frontier questions that I believe firmly in as a scientist, as a technologist, and also as an entrepreneur.","ko":"그리고 이것들은 제가 과학자로서, 기술자로서, 또 기업가로서 굳게 믿는 개척지의 질문들이에요.","spk":"Li","scene":"early","note":"believe firmly in = ~을 굳게 믿다"},{"id":172,"s":936.08,"e":939.36,"en":"I believe they will provide incredible market value.","ko":"엄청난 시장 가치를 제공할 거라고 믿어요.","spk":"Li","scene":"early","note":"market value = 시장 가치"},{"id":173,"s":939.41,"e":943.16,"en":"Building world models is incredibly resource intensive. Do you need more power?","ko":"월드 모델을 만드는 건 자원이 엄청나게 들어요. 컴퓨팅 파워가 더 필요한가요?","spk":"Emily","scene":"early","raw":"Building wrld models is incredibly resource intensive. Do you need more power?","note":"resource intensive = 자원 집약적인"},{"id":174,"s":943.21,"e":946.38,"en":"Do you need more capital to get to where you want to be?","ko":"원하는 곳까지 가려면 자본이 더 필요한가요?","spk":"Emily","scene":"early","note":"capital = 자본"},{"id":175,"s":946.46,"e":951.64,"en":"That we don't know yet. We're too early. We're likely to need more power and more resources.","ko":"그건 아직 몰라요. 너무 초기예요. 더 많은 파워와 자원이 필요할 가능성이 높아요.","spk":"Li","scene":"early","note":"be likely to = ~할 가능성이 높다"},{"id":176,"s":951.64,"e":952.67,"en":"And can you get that?","ko":"그리고 구할 수 있나요?","spk":"Emily","scene":"early"},{"id":177,"s":952.72,"e":957.92,"en":"I don't know. We have to do a good job to, to earn it.","ko":"모르겠어요. 잘해서 그걸 얻어 내야죠.","spk":"Li","scene":"early","note":"earn it = 노력으로 얻다"},{"id":178,"s":957.92,"e":961.36,"en":"Getting world models out of the demo phase will take more time and money.","ko":"월드 모델을 데모 단계에서 꺼내려면 더 많은 시간과 돈이 들 것이다.","spk":"Narration","scene":"society","note":"get ~ out of the demo phase = ~을 데모 단계에서 벗어나게 하다"},{"id":179,"s":961.36,"e":967.04,"en":"Meanwhile, investment in generative AI has soared, and Americans have strong feelings about it.","ko":"한편 생성형 AI 투자는 치솟았고, 미국인들은 그것에 강한 감정을 갖고 있다.","spk":"Narration","scene":"society","note":"soar = 치솟다 / have strong feelings about = ~에 강한 감정을 갖다"},{"id":180,"s":967.04,"e":972.12,"en":"I'm sure you've seen the video of former Google CEO, Eric Schmidt, getting booed at a college graduation.","ko":"전 구글 CEO 에릭 슈밋이 대학 졸업식에서 야유받는 영상을 보셨을 것이다.","spk":"Narration","scene":"society","note":"get booed = 야유를 받다"},{"id":181,"s":972.12,"e":976.68,"en":"So today we stand on this edge of another technological transformation.","ko":"그래서 오늘 우리는 또 하나의 기술적 변혁의 문턱에 서 있습니다.","spk":"Schmidt","scene":"society","note":"stand on the edge of = ~의 문턱에 서다"},{"id":182,"s":979.8,"e":987.13,"en":"You spend a lot of time with students. What are they saying? And if they're scared, are the fears justified?","ko":"학생들과 시간을 많이 보내시죠. 뭐라고들 하나요? 두려워한다면, 그 두려움은 정당한가요?","spk":"Emily","scene":"society","note":"are the fears justified = 그 두려움은 정당한가"},{"id":183,"s":987.2,"e":994.52,"en":"Yeah, I do spend a lot of time with students. Even Stanford students reflect some of this mixed sentiment.","ko":"네, 학생들과 시간을 많이 보내요. 스탠퍼드 학생들조차 이 엇갈린 정서를 어느 정도 보여요.","spk":"Li","scene":"society","note":"mixed sentiment = 엇갈린 정서"},{"id":184,"s":994.52,"e":1001.04,"en":"There is anxiety. There is sense of hope. There is also excitement. There is also confusion.","ko":"불안이 있어요. 희망도 있어요. 흥분도 있고 혼란도 있죠.","spk":"Li","scene":"society","note":"anxiety = 불안"},{"id":185,"s":1001.04,"e":1009.08,"en":"There is also simultaneously a sense of dignity and agency when AI can help me do things that I couldn't do before.","ko":"또 동시에 AI 가 전에 못 하던 일을 하게 도와줄 때의 존엄과 주체성의 감각도 있고,","spk":"Li","scene":"society","note":"dignity and agency = 존엄과 주체성"},{"id":186,"s":1009.08,"e":1014.04,"en":"And a sense of loss of dignity and agency if AI is going to take my job.","ko":"AI 가 내 일자리를 가져간다면 존엄과 주체성을 잃는 감각도 있어요.","spk":"Li","scene":"society","note":"a sense of loss = 상실감"},{"id":187,"s":1016.56,"e":1018.39,"en":"AI Has Got to go.","ko":"AI 는 물러가라.","spk":"Crowd","scene":"society","note":"has got to go = 없어져야 한다 (시위 구호)"},{"id":188,"s":1018.39,"e":1024.52,"en":"So what happens if the US loses faith in this technology while the rest of the world races ahead?","ko":"그럼 나머지 세계가 앞서 달리는 동안 미국이 이 기술에 대한 믿음을 잃으면 어떻게 되나요?","spk":"Emily","scene":"society","note":"lose faith in = ~에 대한 믿음을 잃다 / race ahead = 앞서 달리다"},{"id":189,"s":1024.52,"e":1039.8,"en":"US is such an important country in terms of its impact to the world that if we are not showing a positive attitude and positive path towards AI, everybody loses.","ko":"미국은 세계에 미치는 영향에서 너무 중요한 나라라, 우리가 AI 에 긍정적 태도와 긍정적 길을 보여 주지 못하면 모두가 지는 거예요.","spk":"Li","scene":"society","note":"in terms of = ~의 측면에서 / everybody loses = 모두가 진다"},{"id":190,"s":1039.8,"e":1048.28,"en":"And I don't wish for that because US has been a thought leader in the world when it comes to technology and science and economy.","ko":"그리고 저는 그걸 바라지 않아요. 미국은 기술·과학·경제에서 세계의 사상적 리더였으니까요.","spk":"Li","scene":"society","note":"thought leader = 사상적 선도자 / when it comes to = ~에 관한 한"},{"id":191,"s":1048.28,"e":1062.96,"en":"And if we can show that we can create incredible technology and incredible economic value using AI and have a positive cultural impact, the world will see it as a role model.","ko":"우리가 AI 로 놀라운 기술과 경제적 가치를 만들고 긍정적인 문화적 영향을 줄 수 있음을 보여 주면, 세계는 그걸 롤모델로 볼 거예요.","spk":"Li","scene":"society","note":"role model = 본보기"},{"id":192,"s":1063.04,"e":1065.68,"en":"Li knows a thing or two about AI and its impact.","ko":"리는 AI 와 그 영향에 대해 잘 안다.","spk":"Narration","scene":"society","note":"know a thing or two about = ~에 대해 좀 안다 (겸양의 반어)"},{"id":193,"s":1065.68,"e":1076.4,"en":"Over her career, she took roles at big tech companies, venture capital firms, co-founded an AI institute at Stanford, and advised US presidents and the United Nations on AI policy.","ko":"경력 동안 그는 거대 기술기업과 벤처캐피털에서 일했고, 스탠퍼드에 AI 연구소를 공동 설립했으며, 미국 대통령들과 유엔에 AI 정책을 자문했다.","spk":"Narration","scene":"society","note":"take roles at = ~에서 직책을 맡다"},{"id":194,"s":1076.4,"e":1083.6,"en":"There's nothing artificial about artificial intelligence. It's inspired by people. It's created by people.","ko":"인공지능에 인공적인 건 없어요. 사람에게서 영감을 받고, 사람이 만들어요.","spk":"Li","scene":"society","note":"nothing artificial about ~ = ~에 인공적인 것은 없다 (말장난)"},{"id":195,"s":1083.6,"e":1087.4,"en":"And most importantly, it has an impact on people.","ko":"그리고 가장 중요하게는, 사람에게 영향을 미치죠.","spk":"Li","scene":"society","note":"have an impact on = ~에 영향을 미치다"},{"id":196,"s":1087.4,"e":1093.72,"en":"You've advised President Biden, President Trump, the UN on technology and AI policy.","ko":"바이든 대통령, 트럼프 대통령, 유엔에 기술·AI 정책을 자문하셨죠.","spk":"Emily","scene":"society","note":"advise ~ on = ~에게 …을 자문하다"},{"id":197,"s":1093.72,"e":1097.3,"en":"How do you approach conversations with world leaders?","ko":"세계 지도자들과의 대화에는 어떻게 접근하세요?","spk":"Emily","scene":"society","note":"approach = 접근하다"},{"id":198,"s":1097.37,"e":1106.8,"en":"I don't go in hyping. I don't go in providing extreme rhetoric. Either it's total utopia or total doomsday.","ko":"과장하며 들어가지 않아요. 극단적 수사를 들고 가지도 않고요. 완전한 유토피아냐 완전한 종말이냐 같은 거요.","spk":"Li","scene":"society","note":"extreme rhetoric = 극단적 수사 / doomsday = 종말의 날"},{"id":199,"s":1106.8,"e":1113.77,"en":"It's very important that whoever I talk to knows that I'm a scientist. What do they need?","ko":"누구와 얘기하든 제가 과학자라는 걸 아는 게 아주 중요해요. 그들에게 필요한 게 뭘까요?","spk":"Li","scene":"society"},{"id":200,"s":1113.83,"e":1126.32,"en":"They need scientific facts, but I think it's important to be at their service and to speak my mind, to push back if they're wrong, because that's my responsibility.","ko":"과학적 사실이 필요하죠. 하지만 그들을 위해 봉사하면서도 제 생각을 말하고, 틀렸으면 반박하는 게 중요하다고 봐요. 그게 제 책임이니까요.","spk":"Li","scene":"society","note":"be at their service = 그들을 위해 봉사하다 / speak my mind = 소신을 말하다 / push back = 반박하다"},{"id":201,"s":1127.4,"e":1129.38,"en":"And have they been wrong?","ko":"그리고 그들이 틀린 적이 있나요?","spk":"Emily","scene":"society"},{"id":202,"s":1129.46,"e":1134.72,"en":"Oh, yes, for sure. We all have been wrong. This technology moves so fast. I don't blame them.","ko":"아, 네, 물론이죠. 우리 모두 틀린 적이 있어요. 이 기술은 너무 빨리 움직여요. 그들을 탓하지 않아요.","spk":"Li","scene":"society","note":"I don't blame them = 그들을 탓하지 않는다"},{"id":203,"s":1134.78,"e":1138.94,"en":"Most of our policymakers don't come from computer science background.","ko":"정책 입안자 대부분은 컴퓨터과학 배경이 아니에요.","spk":"Li","scene":"society","note":"policymakers = 정책 입안자"},{"id":204,"s":1139.0,"e":1142.12,"en":"What is the role of regulation? What should that look like?","ko":"규제의 역할은 뭔가요? 어떤 모습이어야 하나요?","spk":"Emily","scene":"society","note":"regulation = 규제"},{"id":205,"s":1142.12,"e":1146.72,"en":"First and foremost, root that in science, not science fiction.","ko":"무엇보다 먼저, 공상과학이 아니라 과학에 뿌리를 두는 거예요.","spk":"Li","scene":"society","note":"first and foremost = 무엇보다 먼저 / root ~ in = ~에 뿌리를 두다"},{"id":206,"s":1146.72,"e":1163.2,"en":"A lot of the AI policy world conversation with people from Silicon Valley talk about the extinction of humanity, the, the, the AGI machine overlord that distracts the real policy work.","ko":"실리콘밸리 사람들과의 AI 정책 대화 상당수가 인류 멸종이니 AGI 기계 지배자니 하는데, 그게 진짜 정책 작업을 흐트러뜨려요.","spk":"Li","scene":"society","note":"machine overlord = 기계 지배자 / distract = 주의를 흐트러뜨리다"},{"id":207,"s":1163.2,"e":1175.36,"en":"The second recommendation is ensure a healthy ecosystem, resource the public sector, resource STEM education in K-12 or K-16.","ko":"두 번째 권고는 건강한 생태계를 확보하고, 공공 부문에 자원을 대고, K-12 나 K-16 의 STEM 교육에 자원을 대는 거예요.","spk":"Li","scene":"society","note":"resource (동사) = 자원을 공급하다 / K-12 = 유치원~12학년"},{"id":208,"s":1175.36,"e":1181.32,"en":"Human capital at the end of the day is the most important resource of our world.","ko":"결국 인적 자본이 우리 세계의 가장 중요한 자원이에요.","spk":"Li","scene":"society","note":"at the end of the day = 결국 / human capital = 인적 자본"},{"id":209,"s":1181.32,"e":1186.73,"en":"And we want a thriving society of people, not a thriving society of just machines.","ko":"우리는 기계만 번성하는 사회가 아니라 사람이 번성하는 사회를 원하니까요.","spk":"Li","scene":"society","note":"thriving = 번성하는"},{"id":210,"s":1186.79,"e":1189.52,"en":"What do you worry could go wrong with world models?","ko":"월드 모델에서 무엇이 잘못될까 걱정되세요?","spk":"Emily","scene":"society"},{"id":211,"s":1189.52,"e":1198.92,"en":"Like if we're giving people even more realistic and more powerful AI, does that create even more opportunities for really bad things to happen?","ko":"사람들에게 더 사실적이고 더 강력한 AI 를 주면, 정말 나쁜 일이 일어날 기회도 더 많아지지 않나요?","spk":"Emily","scene":"risks","note":"create opportunities for = ~의 기회를 만들다"},{"id":212,"s":1198.92,"e":1205.4,"en":"World models, language models, these are powerful models that can create mis and disinformation.","ko":"월드 모델, 언어 모델은 허위·역정보를 만들 수 있는 강력한 모델이에요.","spk":"Li","scene":"risks","note":"mis and disinformation = 오정보와 역정보"},{"id":213,"s":1205.4,"e":1219.08,"en":"Empowered robots can be weaponized by bad actors and students who are not properly motivated can use technology as a lazy crutch instead of a empowering learning tool.","ko":"힘을 얻은 로봇은 악의적 행위자에게 무기화될 수 있고, 동기가 부족한 학생은 기술을 힘을 주는 학습 도구가 아니라 게으른 목발로 쓸 수 있죠.","spk":"Li","scene":"risks","note":"be weaponized by bad actors = 악의적 행위자에게 무기화되다 / a lazy crutch = 게으른 목발(의존 수단)"},{"id":214,"s":1219.08,"e":1224.92,"en":"I, I worry about that a lot. So I think a lot of things can go wrong with technology, not just AI.","ko":"그게 정말 걱정돼요. 그러니 기술에서는 많은 게 잘못될 수 있어요, AI 만이 아니라요.","spk":"Li","scene":"risks"},{"id":215,"s":1224.92,"e":1230.81,"en":"It could have gone wrong with electricity, with cars, with, you know, PC, with internet.","ko":"전기, 자동차, PC, 인터넷에서도 잘못될 수 있었죠.","spk":"Li","scene":"risks","note":"could have gone wrong = 잘못될 수도 있었다"},{"id":216,"s":1230.88,"e":1240.2,"en":"Some of the most powerful CEOs in AI right now have been accused of having God complexes because they seem to think they know what's best for humanity.","ko":"지금 AI 의 가장 힘 있는 CEO 몇몇은 인류에게 무엇이 최선인지 자기들이 안다고 여기는 듯해서 신 콤플렉스가 있다는 비난을 받아요.","spk":"Emily","scene":"risks","note":"be accused of = ~라는 비난을 받다 / God complex = 신 콤플렉스(자기 전능감)"},{"id":217,"s":1240.2,"e":1241.97,"en":"What do you think of that term?","ko":"그 말을 어떻게 생각하세요?","spk":"Emily","scene":"risks"},{"id":218,"s":1242.02,"e":1247.12,"en":"I think it's dangerous for any individual to think they know better than everybody else.","ko":"어떤 개인이든 자기가 다른 모두보다 잘 안다고 생각하는 건 위험하다고 봐요.","spk":"Li","scene":"risks","note":"know better than = ~보다 더 잘 알다"},{"id":219,"s":1247.12,"e":1256.88,"en":"As a CEO, as an entrepreneur, our founding premise is we are here to contribute to the society and to empower people.","ko":"CEO 로서, 기업가로서 우리의 창업 전제는 사회에 기여하고 사람들에게 힘을 주려고 여기 있다는 거예요.","spk":"Li","scene":"risks","note":"founding premise = 창업 전제"},{"id":220,"s":1256.88,"e":1261.36,"en":"It's not our position to make every single decision for people.","ko":"사람들을 대신해 모든 결정을 내리는 건 우리 자리가 아니에요.","spk":"Li","scene":"risks","note":"it's not our position to = ~하는 것은 우리 자리가 아니다"},{"id":221,"s":1261.43,"e":1266.2,"en":"But isn't that the path we're on? I mean, these are really powerful people.","ko":"하지만 지금 그 길로 가고 있지 않나요? 정말 힘 있는 사람들이잖아요.","spk":"Emily","scene":"risks","note":"the path we're on = 우리가 가고 있는 길"},{"id":222,"s":1266.2,"e":1271.54,"en":"I think it's too early to tell Emily. I'm not being naive. I know what you're talking about.","ko":"아직 말하기 이르다고 봐요, 에밀리. 순진한 게 아니에요. 무슨 말씀인지 알아요.","spk":"Li","scene":"risks","note":"too early to tell = 말하기 이르다 / naive = 순진한"},{"id":223,"s":1271.61,"e":1273.16,"en":"I also have my concern.","ko":"저도 우려가 있어요.","spk":"Li","scene":"risks"},{"id":224,"s":1273.16,"e":1281.08,"en":"I don't think having God complex is constructive, and I wouldn't want to do that myself, but we have a democratic society.","ko":"신 콤플렉스는 건설적이지 않고 저도 그러고 싶지 않지만, 우리에겐 민주 사회가 있어요.","spk":"Li","scene":"risks","note":"constructive = 건설적인"},{"id":225,"s":1281.08,"e":1287.54,"en":"This is another reason I think our civil society should not give up on AI. We need the voices.","ko":"그게 시민 사회가 AI 를 포기하면 안 된다고 생각하는 또 하나의 이유예요. 목소리가 필요해요.","spk":"Li","scene":"risks","note":"give up on = ~을 포기하다"},{"id":226,"s":1287.62,"e":1293.68,"en":"We need the collective governance. But let's not throw the baby out with the bathwater.","ko":"집단적 거버넌스가 필요해요. 하지만 목욕물 버리다 아기까지 버리진 맙시다.","spk":"Li","scene":"risks","raw":"We need the collective governance. But let's now throw the baby with the bathwater.","note":"throw the baby out with the bathwater = 나쁜 것을 버리다 좋은 것까지 버리다 (자막은 now 로 오기)"},{"id":227,"s":1293.68,"e":1306.8,"en":"The governance shouldn't be, let's stop AI, because this is a technology that can discover cure for diseases, can empower students and teachers, can help our elderly.","ko":"거버넌스가 'AI 를 멈추자'여선 안 돼요. 이건 질병 치료법을 찾고, 학생과 교사에게 힘을 주고, 노인을 도울 수 있는 기술이니까요.","spk":"Li","scene":"risks","note":"the elderly = 노인"},{"id":228,"s":1306.8,"e":1312.12,"en":"So that's the baby here. But right now, we are in a very messy period.","ko":"그게 여기서 '아기'예요. 하지만 지금 우리는 아주 혼란스러운 시기에 있어요.","spk":"Li","scene":"risks","note":"messy period = 혼란스러운 시기"},{"id":229,"s":1312.12,"e":1322.12,"en":"This is also why I feel personal responsibility to speak the truth I believe in as a scientist and an educator.","ko":"그래서 저는 과학자이자 교육자로서 제가 믿는 진실을 말할 개인적 책임을 느껴요.","spk":"Li","scene":"risks","note":"speak the truth = 진실을 말하다"},{"id":230,"s":1322.12,"e":1327.04,"en":"Li has spent her life teaching machines to see. She gave AI its eyes.","ko":"리는 평생 기계에게 보는 법을 가르쳤다. AI 에게 눈을 준 것이다.","spk":"Narration","scene":"future"},{"id":231,"s":1327.04,"e":1331.04,"en":"Now in her second act, she's trying to give it a world to live in.","ko":"이제 제2막에서 그는 AI 에게 살아갈 세계를 주려 한다.","spk":"Narration","scene":"future","note":"second act = 제2막(인생의 다음 단계)"},{"id":232,"s":1331.04,"e":1336.56,"en":"As the scientist who helped spark the modern AI revolution, perhaps we shouldn't put it past her.","ko":"현대 AI 혁명에 불을 붙이는 데 힘을 보탠 과학자이니, 못 할 거라 단정하지 않는 게 좋겠다.","spk":"Narration","scene":"future","note":"put it past someone = ~가 못 할 거라 여기다 (부정문으로 씀)"},{"id":233,"s":1336.56,"e":1339.73,"en":"Where is this all going? Where are we in five years?","ko":"이 모든 게 어디로 가나요? 5년 뒤 우리는 어디에 있을까요?","spk":"Emily","scene":"future"},{"id":234,"s":1339.8,"e":1348.75,"en":"This This is where I reveal I'm an optimist. The, the arc of history is long. I paraphrase Dr. King.","ko":"여기서 제가 낙관주의자라는 걸 밝히게 되네요. 역사의 호는 길어요. 킹 목사의 말을 바꿔 말하자면요.","spk":"Li","scene":"future","note":"the arc of history is long = 역사의 호는 길다 (마틴 루서 킹의 명구) / paraphrase = 바꿔 말하다"},{"id":235,"s":1348.81,"e":1351.2,"en":"I believe it bends towards benevolence.","ko":"저는 그 호가 선의를 향해 휜다고 믿어요.","spk":"Li","scene":"future","note":"bend towards = ~쪽으로 휘다 / benevolence = 선의·자비"},{"id":236,"s":1352.16,"e":1366.4,"en":"Now, we're not a perfect world of people and community, but 2026 today is better than 2026 BC for the majority of the population.","ko":"우리가 완벽한 사람들과 공동체는 아니지만, 대다수에게 2026년 오늘은 기원전 2026년보다 나아요.","spk":"Li","scene":"future","note":"BC = 기원전 / the majority of = 대다수의"},{"id":237,"s":1366.6,"e":1372.88,"en":"And I think it's because despite all of our dark underbelly, we have it in our DNA.","ko":"그건 우리의 온갖 어두운 이면에도 불구하고 우리 DNA 에 그게 있기 때문이라고 생각해요.","spk":"Li","scene":"future","note":"dark underbelly = 어두운 이면"},{"id":238,"s":1372.88,"e":1383.72,"en":"We want our offsprings to live a better life, and we have moral compasses collectively to move the society towards benevolence.","ko":"우리는 자손이 더 나은 삶을 살길 바라고, 사회를 선의 쪽으로 움직일 도덕적 나침반을 집단적으로 갖고 있어요.","spk":"Li","scene":"future","note":"moral compass = 도덕적 나침반 / offspring = 자손"},{"id":239,"s":1383.72,"e":1386.24,"en":"My hope is in humanity.","ko":"제 희망은 인류에게 있어요.","spk":"Li","scene":"future"},{"id":240,"s":1399.68,"e":1401.8,"en":"Is it true you're obsessed with UFOs?","ko":"UFO 에 푹 빠져 있다는 게 사실인가요?","spk":"Emily","scene":"future","note":"be obsessed with = ~에 푹 빠지다"},{"id":241,"s":1401.86,"e":1403.48,"en":"When I was a kid. Like,","ko":"어릴 때요. 뭐랄까,","spk":"Li","scene":"future"},{"id":242,"s":1403.48,"e":1406.68,"en":"Have you read the documents they're declassifying?","ko":"기밀 해제되고 있는 문서들은 읽어 보셨어요?","spk":"Emily","scene":"future","note":"declassify = 기밀을 해제하다"},{"id":243,"s":1406.68,"e":1413.81,"en":"No. I think it's part of that dreamy curiosity as a kid is what's out there.","ko":"아니요. 어릴 때 그 꿈꾸는 듯한 호기심의 일부였다고 생각해요, 저 밖에 뭐가 있을까 하는.","spk":"Li","scene":"future","note":"dreamy curiosity = 꿈꾸는 듯한 호기심"},{"id":244,"s":1413.87,"e":1416.06,"en":"Do you think there's aliens out there?","ko":"외계인이 있다고 생각하세요?","spk":"Emily","scene":"future"},{"id":245,"s":1416.12,"e":1418.92,"en":"So as a physics student, you learn Drake's equation.","ko":"물리학 전공생이면 드레이크 방정식을 배워요.","spk":"Li","scene":"future","note":"Drake's equation = 드레이크 방정식(외계 문명 수 추정식)"},{"id":246,"s":1418.92,"e":1428.29,"en":"Drake's equation computes the probability of potential of outer space aliens. So there is a potential number.","ko":"드레이크 방정식은 외계 생명체가 있을 확률을 계산해요. 그러니 잠재적인 숫자가 있죠.","spk":"Li","scene":"future","note":"compute the probability = 확률을 계산하다"},{"id":247,"s":1428.36,"e":1430.92,"en":"Wow. Okay. Favorite sci-fi movie?","ko":"와. 좋아요. 좋아하는 SF 영화는요?","spk":"Emily","scene":"future"},{"id":248,"s":1430.92,"e":1433.05,"en":"Contact. By far my favorite.","ko":"「콘택트」요. 단연 제일 좋아해요.","spk":"Li","scene":"future","note":"by far = 단연"},{"id":249,"s":1433.13,"e":1434.12,"en":"There you go.","ko":"그럼 그렇죠.","spk":"Emily","scene":"future","note":"There you go = 역시·그럴 줄 알았다"},{"id":250,"s":1434.12,"e":1436.6,"en":"Intelligence... somewhere out there. Yeah.","ko":"지능은… 저 밖 어딘가에 있어요. 네.","spk":"Li","scene":"future","note":"somewhere out there = 저 밖 어딘가에"}];
+const SCENES = [{"key": "walk", "ko": "산책 인터뷰 · 소개", "en": "Walk and talk & intro", "at": 0}, {"key": "kid", "ko": "어린 시절 · 이민", "en": "Childhood & emigration", "at": 98}, {"key": "imagenet", "ko": "초기 AI 연구 · ImageNet", "en": "Early AI research & ImageNet", "at": 202}, {"key": "godmother", "ko": "「AI 의 대모」 라는 호칭", "en": "The Godmother title", "at": 322}, {"key": "startup", "ko": "창업 · World Labs", "en": "Founding World Labs", "at": 411}, {"key": "worldmodel", "ko": "월드 모델이란", "en": "What is a world model", "at": 464}, {"key": "marble", "ko": "Marble 시연 · 데이터·비결", "en": "Marble demo, data & the secret", "at": 575}, {"key": "stage", "ko": "무대 대담 · 로봇 · 경쟁", "en": "On stage: robots & competition", "at": 701}, {"key": "early", "ko": "아직 이른 분야 · 회의론", "en": "Early days & skeptics", "at": 865}, {"key": "society", "ko": "학생 · 미국 · 정책", "en": "Students, the US & policy", "at": 957}, {"key": "risks", "ko": "위험 · 신 콤플렉스 · 거버넌스", "en": "Risks, god complexes & governance", "at": 1187}, {"key": "future", "ko": "미래 · 낙관 · UFO", "en": "The future, optimism & UFOs", "at": 1322}];
+const SPEAKERS = [{"key": "Li", "en": "Fei-Fei Li (World Labs)", "ko": "페이페이 리 (World Labs)", "member": true}, {"key": "Emily", "en": "Emily Chang (host)", "ko": "에밀리 창 (진행자)", "member": true}, {"key": "Narration", "en": "Narration (Emily Chang)", "ko": "내레이션", "member": false}, {"key": "Justin", "en": "Justin Johnson (co-founder)", "ko": "저스틴 존슨 (공동창업자)", "member": false}, {"key": "Announcer", "en": "Stage announcer", "ko": "무대 안내", "member": false}, {"key": "Schmidt", "en": "Eric Schmidt (clip)", "ko": "에릭 슈밋 (자료 영상)", "member": false}, {"key": "Crowd", "en": "Students (clip)", "ko": "학생들 (자료 영상)", "member": false}, {"key": "", "en": "Unknown", "ko": "화자 미상", "member": false}];
+const STUDY = [{"t":"E","en":"walk and talk","ko":"걸으며 하는 대화","note":"산책 회의","cids":[1],"ex":1,"hit":"walk and talks"},{"t":"E","en":"all the time","ko":"항상","cids":[3,4],"ex":3,"hit":"all the time"},{"t":"E","en":"a giant in the field of","ko":"~ 분야의 거장","cids":[5],"ex":5,"hit":"a giant in the field of"},{"t":"E","en":"made a breakthrough","ko":"돌파구를 열다","note":"made a breakthrough with ImageNet","cids":[6],"ex":6,"hit":"made a breakthrough"},{"t":"E","en":"ever since","ko":"그 뒤로 줄곧","cids":[7],"ex":7,"hit":"ever since"},{"t":"E","en":"running your own shop","ko":"자기 회사를 꾸리다","note":"shop = 가게 → 회사","cids":[11,85],"ex":11,"hit":"running your own shop"},{"t":"E","en":"double down on","ko":"~에 더 크게 걸다","note":"카드 게임에서 온 표현","cids":[13],"ex":13,"hit":"doubles down on"},{"t":"E","en":"betting on","ko":"~에 걸다","note":"Li is betting on world models","cids":[13],"ex":13,"hit":"betting on"},{"t":"E","en":"the next big leap","ko":"다음 큰 도약","cids":[17],"ex":17,"hit":"the next big leap"},{"t":"E","en":"would not have imagined","ko":"상상하지 못했을 것이다","note":"가정법 과거완료","cids":[20],"ex":20,"hit":"would not have imagined"},{"t":"E","en":"see yourself as","ko":"스스로를 ~로 여기다","cids":[26],"ex":26,"hit":"see yourself as"},{"t":"E","en":"make a statement for yourself","ko":"자기 존재를 드러내다","cids":[28],"ex":28,"hit":"make a statement for yourself"},{"t":"E","en":"part of my identity","ko":"내 정체성의 일부","cids":[29],"ex":29,"hit":"part of my identity"},{"t":"E","en":"back then","ko":"그 당시","cids":[32,39],"ex":32,"hit":"back then"},{"t":"E","en":"find who you are","ko":"자기가 누구인지 찾다","cids":[34],"ex":34,"hit":"finding who you are"},{"t":"E","en":"follow her dreams","ko":"꿈을 좇다","cids":[36],"ex":36,"hit":"followed her dreams"},{"t":"E","en":"it's got to be hard","ko":"어려울 게 틀림없다","note":"got to = must","cids":[50],"ex":50,"hit":"it's got to be hard"},{"t":"E","en":"pay attention to","ko":"~에 주목하다","cids":[55],"ex":55,"hit":"paying attention to"},{"t":"E","en":"marked a turning point","ko":"전환점이 되었다","note":"mark a turning point","cids":[60],"ex":60,"hit":"marked a turning point"},{"t":"E","en":"golden recipe","ko":"황금 레시피·성공 공식","cids":[61],"ex":61,"hit":"golden recipe"},{"t":"E","en":"the main story","ko":"핵심 이야기","cids":[63],"ex":63,"hit":"the main story"},{"t":"E","en":"was taken aback","ko":"당황하다","cids":[73],"ex":73,"hit":"was taken aback"},{"t":"E","en":"on that spot","ko":"그 자리에서","cids":[75],"ex":75,"hit":"on that spot"},{"t":"E","en":"a big word","ko":"거창한 말","note":"Embrace is a big word.","cids":[78],"ex":78,"hit":"a big word"},{"t":"E","en":"go around and say","ko":"~라고 말하고 다니다","cids":[78],"ex":78,"hit":"go around and say"},{"t":"E","en":"thanks to","ko":"~ 덕분에","cids":[79],"ex":79,"hit":"thanks to"},{"t":"E","en":"right around the corner","ko":"코앞에 있는","note":"perpetually right around the corner","cids":[80],"ex":80,"hit":"right around the corner"},{"t":"E","en":"the most talked about","ko":"가장 많이 회자되는","cids":[81],"ex":81,"hit":"the most talked about"},{"t":"E","en":"let's be honest","ko":"솔직히 말해","cids":[84],"ex":84,"hit":"let's be honest"},{"t":"E","en":"here's the thing","ko":"실은 이래요","note":"본론 도입","cids":[86,111],"ex":86,"hit":"here's the thing"},{"t":"E","en":"by far the most","ko":"단연 가장","note":"by far = 단연","cids":[86],"ex":86,"hit":"by far the most"},{"t":"E","en":"high standard","ko":"높은 기준","cids":[89],"ex":89,"hit":"high standard"},{"t":"E","en":"lie beyond","ko":"~ 너머에 있다","cids":[92],"ex":92,"hit":"lies beyond"},{"t":"E","en":"cannot do it alone","ko":"혼자서는 할 수 없다","cids":[94],"ex":94,"hit":"cannot do it alone"},{"t":"E","en":"the next frontier","ko":"다음 개척지","cids":[96,130],"ex":96,"hit":"the next frontier"},{"t":"E","en":"an overloaded term","ko":"뜻이 과적된 용어","cids":[98],"ex":98,"hit":"an overloaded term"},{"t":"E","en":"closely coupled with","ko":"~와 밀접하게 결합된","cids":[107],"ex":107,"hit":"closely coupled with"},{"t":"E","en":"first step towards","ko":"~를 향한 첫걸음","cids":[108],"ex":108,"hit":"first step towards"},{"t":"E","en":"no different from","ko":"~와 다를 게 없는","cids":[111],"ex":111,"hit":"no different from"},{"t":"E","en":"in the sense that","ko":"~라는 점에서","cids":[121],"ex":121,"hit":"in the sense that"},{"t":"E","en":"in terms of","ko":"~라는 면에서","cids":[123,189],"ex":189,"hit":"in terms of"},{"t":"E","en":"as I always say","ko":"늘 말하듯","cids":[125],"ex":125,"hit":"as I always say"},{"t":"E","en":"heads down","ko":"몰두한","note":"When Li isn't heads down","cids":[130],"ex":130,"hit":"heads down"},{"t":"E","en":"making the case for","ko":"~을 역설하다","cids":[130],"ex":130,"hit":"making the case for"},{"t":"E","en":"get your take on","ko":"~에 대한 견해를 듣다","note":"take = 견해","cids":[133],"ex":133,"hit":"get your take on"},{"t":"E","en":"close the gap between","ko":"~ 사이의 간극을 메우다","cids":[136],"ex":136,"hit":"close the gap between"},{"t":"E","en":"a loaded question","ko":"의도가 실린 질문","note":"loaded = 장전된","cids":[137],"ex":137,"hit":"a loaded question"},{"t":"E","en":"first of all","ko":"우선","cids":[138],"ex":138,"hit":"First of all"},{"t":"E","en":"way more than","ko":"~보다 훨씬 많이","note":"way = 훨씬 (구어)","cids":[139],"ex":139,"hit":"way more than"},{"t":"E","en":"that's the hope","ko":"그게 바라는 바다","cids":[142],"ex":142,"hit":"that's the hope"},{"t":"E","en":"deep pockets","ko":"두둑한 자금","cids":[146],"ex":146,"hit":"deep pockets"},{"t":"E","en":"on the table","ko":"(안건·일이) 올라와 있는","note":"a lot on the table = 벌여 놓은 일이 많은","cids":[150,151],"ex":150,"hit":"on the table"},{"t":"E","en":"way before it was cool","ko":"유행하기 훨씬 전부터","cids":[154],"ex":154,"hit":"way before it was cool"},{"t":"E","en":"way back in the day","ko":"아주 옛날에","cids":[155],"ex":155,"hit":"way back in the day"},{"t":"E","en":"change the trajectory","ko":"궤적을 바꾸다","cids":[157],"ex":157,"hit":"change the trajectory"},{"t":"E","en":"early days","ko":"초기","note":"it's early days","cids":[160],"ex":160,"hit":"early days"},{"t":"E","en":"crack the code","ko":"해법을 찾다","cids":[161],"ex":161,"hit":"cracked the code"},{"t":"E","en":"make it happen","ko":"실현시키다","cids":[161],"ex":161,"hit":"make it happen"},{"t":"E","en":"a fair description","ko":"적절한 묘사","cids":[163],"ex":163,"hit":"a fair description"},{"t":"E","en":"aha moment","ko":"깨달음의 순간","cids":[164],"ex":164,"hit":"aha moment"},{"t":"E","en":"if we do it right","ko":"제대로 하면","cids":[165],"ex":165,"hit":"If we do it right"},{"t":"E","en":"hit that milestone","ko":"그 이정표에 도달하다","cids":[166],"ex":166,"hit":"hits that milestone"},{"t":"E","en":"hype cycle","ko":"과열 주기","cids":[168],"ex":168,"hit":"hype cycle"},{"t":"E","en":"What do you say to that?","ko":"그에 뭐라고 답하시겠어요","note":"반론에 대한 답 요구","cids":[168],"ex":168,"hit":"What do you say to that"},{"t":"E","en":"believe firmly in","ko":"~을 굳게 믿다","cids":[171],"ex":171,"hit":"believe firmly in"},{"t":"E","en":"resource intensive","ko":"자원 집약적인","cids":[173],"ex":173,"hit":"resource intensive"},{"t":"E","en":"likely to","ko":"~할 가능성이 높다","cids":[175],"ex":175,"hit":"likely to"},{"t":"E","en":"earn it","ko":"노력으로 얻다","cids":[177],"ex":177,"hit":"earn it"},{"t":"E","en":"getting booed","ko":"야유를 받다","cids":[180],"ex":180,"hit":"getting booed"},{"t":"E","en":"stand on this edge of","ko":"~의 문턱에 서다","cids":[181],"ex":181,"hit":"stand on this edge of"},{"t":"E","en":"are the fears justified","ko":"그 두려움은 정당한가","cids":[182],"ex":182,"hit":"are the fears justified"},{"t":"E","en":"mixed sentiment","ko":"엇갈린 정서","cids":[183],"ex":183,"hit":"mixed sentiment"},{"t":"E","en":"dignity and agency","ko":"존엄과 주체성","cids":[185,186],"ex":186,"hit":"dignity and agency"},{"t":"E","en":"lose faith in","ko":"~에 대한 믿음을 잃다","cids":[188],"ex":188,"hit":"loses faith in"},{"t":"E","en":"race ahead","ko":"앞서 달리다","cids":[188],"ex":188,"hit":"races ahead"},{"t":"E","en":"everybody loses","ko":"모두가 진다","cids":[189],"ex":189,"hit":"everybody loses"},{"t":"E","en":"thought leader","ko":"사상적 선도자","cids":[190],"ex":190,"hit":"thought leader"},{"t":"E","en":"when it comes to","ko":"~에 관한 한","cids":[190],"ex":190,"hit":"when it comes to"},{"t":"E","en":"know a thing or two about","ko":"~에 대해 좀 안다","note":"겸양의 반어","cids":[192],"ex":192,"hit":"knows a thing or two about"},{"t":"E","en":"has an impact on","ko":"~에 영향을 미치다","cids":[195],"ex":195,"hit":"has an impact on"},{"t":"E","en":"speak my mind","ko":"소신을 말하다","cids":[200],"ex":200,"hit":"speak my mind"},{"t":"E","en":"push back","ko":"반박하다","cids":[200],"ex":200,"hit":"push back"},{"t":"E","en":"I don't blame them","ko":"그들을 탓하지 않는다","cids":[202],"ex":202,"hit":"I don't blame them"},{"t":"E","en":"first and foremost","ko":"무엇보다 먼저","cids":[205],"ex":205,"hit":"First and foremost"},{"t":"E","en":"root that in science","ko":"과학에 뿌리를 두다","note":"root A in B","cids":[205],"ex":205,"hit":"root that in science"},{"t":"E","en":"at the end of the day","ko":"결국","cids":[208],"ex":208,"hit":"at the end of the day"},{"t":"E","en":"could have gone wrong","ko":"잘못될 수도 있었다","cids":[215],"ex":215,"hit":"could have gone wrong"},{"t":"E","en":"been accused of","ko":"~라는 비난을 받다","cids":[216],"ex":216,"hit":"been accused of"},{"t":"E","en":"know better than","ko":"~보다 더 잘 알다","cids":[218],"ex":218,"hit":"know better than"},{"t":"E","en":"it's not our position to","ko":"~하는 것은 우리 자리가 아니다","cids":[220],"ex":220,"hit":"It's not our position to"},{"t":"E","en":"too early to tell","ko":"말하기 이르다","cids":[222],"ex":222,"hit":"too early to tell"},{"t":"E","en":"give up on","ko":"~을 포기하다","cids":[225],"ex":225,"hit":"give up on"},{"t":"E","en":"throw the baby out with the bathwater","ko":"좋은 것까지 버리다","note":"속담","cids":[226],"ex":226,"hit":"throw the baby out with the bathwater"},{"t":"E","en":"second act","ko":"제2막","note":"인생의 다음 단계","cids":[231],"ex":231,"hit":"second act"},{"t":"E","en":"put it past her","ko":"그가 못 할 거라 여기다","note":"부정문 wouldn't put it past","cids":[232],"ex":232,"hit":"put it past her"},{"t":"E","en":"the arc of history is long","ko":"역사의 호는 길다","note":"마틴 루서 킹 인용","cids":[234],"ex":234,"hit":"the arc of history is long"},{"t":"E","en":"bends towards","ko":"~쪽으로 휘다","cids":[235],"ex":235,"hit":"bends towards"},{"t":"E","en":"dark underbelly","ko":"어두운 이면","cids":[237],"ex":237,"hit":"dark underbelly"},{"t":"E","en":"moral compasses","ko":"도덕적 나침반","cids":[238],"ex":238,"hit":"moral compasses"},{"t":"E","en":"obsessed with","ko":"~에 푹 빠지다","cids":[240],"ex":240,"hit":"obsessed with"},{"t":"E","en":"by far my favorite","ko":"단연 제일 좋아하는","cids":[248],"ex":248,"hit":"By far my favorite"},{"t":"E","en":"There you go","ko":"역시·그렇죠","cids":[249],"ex":249,"hit":"There you go"},{"t":"E","en":"somewhere out there","ko":"저 밖 어딘가에","cids":[250],"ex":250,"hit":"somewhere out there"},{"t":"V","en":"pioneer","ko":"선구자","cids":[7],"ex":7,"hit":"pioneer"},{"t":"V","en":"relentless","ko":"끈질긴","note":"relentless advocate","cids":[7],"ex":7,"hit":"relentless"},{"t":"V","en":"advocate","ko":"옹호자","cids":[7],"ex":7,"hit":"advocate"},{"t":"V","en":"empower","ko":"힘을 실어 주다","cids":[8,213,219,227],"ex":8,"hit":"empowering"},{"t":"V","en":"frontier","ko":"개척지","cids":[13,96,130,171],"ex":96,"hit":"frontier"},{"t":"V","en":"predict","ko":"예측하다","cids":[14],"ex":14,"hit":"predict"},{"t":"V","en":"ultimately","ko":"궁극적으로","cids":[15],"ex":15,"hit":"ultimately"},{"t":"V","en":"rivals","ko":"경쟁자","cids":[17],"ex":17,"hit":"rivals"},{"t":"V","en":"civilization","ko":"문명","cids":[19],"ex":19,"hit":"civilization"},{"t":"V","en":"geopolitical","ko":"지정학적인","cids":[20],"ex":20,"hit":"geopolitical"},{"t":"V","en":"curious","ko":"호기심 많은","cids":[21,24,42],"ex":21,"hit":"curious"},{"t":"V","en":"rebel","ko":"반항아","cids":[26,28],"ex":26,"hit":"rebel"},{"t":"V","en":"identity","ko":"정체성","cids":[29],"ex":29,"hit":"identity"},{"t":"V","en":"emigrate","ko":"이민 가다","cids":[30],"ex":30,"hit":"emigrated"},{"t":"V","en":"niche","ko":"틈새의","note":"super niche","cids":[37,81],"ex":37,"hit":"niche"},{"t":"V","en":"fanfare","ko":"요란한 선전","cids":[41],"ex":41,"hit":"fanfare"},{"t":"V","en":"hype","ko":"과대광고","cids":[41,136,168,169],"ex":136,"hit":"hype"},{"t":"V","en":"sensory","ko":"감각의","note":"sensory system","cids":[44],"ex":44,"hit":"sensory"},{"t":"V","en":"spatial","ko":"공간의","note":"spatial intelligence","cids":[49,95,99,141,170],"ex":49,"hit":"spatial"},{"t":"V","en":"massive","ko":"방대한","cids":[53,61],"ex":61,"hit":"massive"},{"t":"V","en":"algorithm","ko":"알고리즘","cids":[53,58,59,126],"ex":58,"hit":"algorithm"},{"t":"V","en":"epiphany","ko":"깨달음","cids":[56],"ex":56,"hit":"epiphany"},{"t":"V","en":"cement","ko":"굳히다","note":"cemented Li's legacy","cids":[61],"ex":61,"hit":"cemented"},{"t":"V","en":"legacy","ko":"유산","cids":[61],"ex":61,"hit":"legacy"},{"t":"V","en":"industrialization","ko":"산업화","cids":[64,138],"ex":138,"hit":"industrialization"},{"t":"V","en":"godmother","ko":"대모","cids":[6,68,71,73,76,78],"ex":68,"hit":"godmother"},{"t":"V","en":"embrace","ko":"받아들이다","cids":[77,78],"ex":77,"hit":"embrace"},{"t":"V","en":"perpetually","ko":"영원히","cids":[80],"ex":80,"hit":"perpetually"},{"t":"V","en":"talented","ko":"재능 있는","cids":[87],"ex":87,"hit":"talented"},{"t":"V","en":"oftentimes","ko":"종종","cids":[88],"ex":88,"hit":"oftentimes"},{"t":"V","en":"rendering","ko":"렌더링","cids":[100,101],"ex":100,"hit":"rendering"},{"t":"V","en":"simulation","ko":"시뮬레이션","cids":[100,103],"ex":100,"hit":"simulation"},{"t":"V","en":"geometry","ko":"기하 구조","cids":[104],"ex":104,"hit":"geometry"},{"t":"V","en":"explorable","ko":"탐색 가능한","cids":[109],"ex":109,"hit":"explorable"},{"t":"V","en":"navigate","ko":"돌아다니다·헤쳐 가다","cids":[112,145],"ex":112,"hit":"navigate"},{"t":"V","en":"consistent","ko":"일관된","cids":[113],"ex":113,"hit":"consistent"},{"t":"V","en":"augment","ko":"보강하다","cids":[118],"ex":118,"hit":"augment"},{"t":"V","en":"nuanced","ko":"미묘한","cids":[121],"ex":121,"hit":"nuanced"},{"t":"V","en":"architectural","ko":"아키텍처의","cids":[123],"ex":123,"hit":"architectural"},{"t":"V","en":"generative","ko":"생성형의","cids":[123,179],"ex":179,"hit":"generative"},{"t":"V","en":"humanoids","ko":"휴머노이드","cids":[133,134],"ex":134,"hit":"humanoids"},{"t":"V","en":"revolution","ko":"혁명","cids":[6,138,232],"ex":232,"hit":"revolution"},{"t":"V","en":"obsession","ko":"집착","cids":[144],"ex":144,"hit":"obsession"},{"t":"V","en":"unpredictable","ko":"예측 불가한","cids":[145],"ex":145,"hit":"unpredictable"},{"t":"V","en":"paranoid","ko":"편집증적인","cids":[147],"ex":147,"hit":"paranoid"},{"t":"V","en":"paralyzed","ko":"마비된","cids":[149],"ex":149,"hit":"paralyzed"},{"t":"V","en":"fierce","ko":"치열한","cids":[153],"ex":153,"hit":"fierce"},{"t":"V","en":"trajectory","ko":"궤적","cids":[156,157],"ex":156,"hit":"trajectory"},{"t":"V","en":"gigantic","ko":"거대한","cids":[159],"ex":159,"hit":"gigantic"},{"t":"V","en":"skeptics","ko":"회의론자","cids":[167],"ex":167,"hit":"skeptics"},{"t":"V","en":"milestone","ko":"이정표","cids":[166],"ex":166,"hit":"milestone"},{"t":"V","en":"fundamental","ko":"근본적인","cids":[170],"ex":170,"hit":"fundamental"},{"t":"V","en":"capital","ko":"자본","cids":[174,193,208],"ex":174,"hit":"capital"},{"t":"V","en":"soared","ko":"치솟았다","note":"soar","cids":[179],"ex":179,"hit":"soared"},{"t":"V","en":"transformation","ko":"변혁","cids":[181],"ex":181,"hit":"transformation"},{"t":"V","en":"anxiety","ko":"불안","cids":[184],"ex":184,"hit":"anxiety"},{"t":"V","en":"simultaneously","ko":"동시에","cids":[185],"ex":185,"hit":"simultaneously"},{"t":"V","en":"dignity","ko":"존엄","cids":[185,186],"ex":186,"hit":"dignity"},{"t":"V","en":"policymakers","ko":"정책 입안자","cids":[203],"ex":203,"hit":"policymakers"},{"t":"V","en":"regulation","ko":"규제","cids":[204],"ex":204,"hit":"regulation"},{"t":"V","en":"rhetoric","ko":"수사","note":"extreme rhetoric","cids":[198],"ex":198,"hit":"rhetoric"},{"t":"V","en":"doomsday","ko":"종말의 날","cids":[198],"ex":198,"hit":"doomsday"},{"t":"V","en":"extinction","ko":"멸종","cids":[206],"ex":206,"hit":"extinction"},{"t":"V","en":"overlord","ko":"지배자","cids":[206],"ex":206,"hit":"overlord"},{"t":"V","en":"ecosystem","ko":"생태계","cids":[207],"ex":207,"hit":"ecosystem"},{"t":"V","en":"thriving","ko":"번성하는","cids":[209],"ex":209,"hit":"thriving"},{"t":"V","en":"weaponized","ko":"무기화된","cids":[213],"ex":213,"hit":"weaponized"},{"t":"V","en":"crutch","ko":"목발","note":"a lazy crutch","cids":[213],"ex":213,"hit":"crutch"},{"t":"V","en":"constructive","ko":"건설적인","cids":[224],"ex":224,"hit":"constructive"},{"t":"V","en":"governance","ko":"거버넌스·통치","cids":[226,227],"ex":226,"hit":"governance"},{"t":"V","en":"optimist","ko":"낙관주의자","cids":[234],"ex":234,"hit":"optimist"},{"t":"V","en":"paraphrase","ko":"바꿔 말하다","cids":[234],"ex":234,"hit":"paraphrase"},{"t":"V","en":"benevolence","ko":"선의","cids":[235,238],"ex":235,"hit":"benevolence"},{"t":"V","en":"offsprings","ko":"자손","note":"표준형은 offspring(단복 동형)","cids":[238],"ex":238,"hit":"offsprings"},{"t":"V","en":"declassifying","ko":"기밀 해제하는","note":"declassify","cids":[242],"ex":242,"hit":"declassifying"},{"t":"V","en":"probability","ko":"확률","cids":[246],"ex":246,"hit":"probability"}];   /* 표현·단어 (study.txt 유래) */
+const DEFAULT_VID = 'ITxsc3mgqts';
+const LS = 'en-feifei';
+const $ = id => document.getElementById(id);
+/* 한국어를 주, 일본어를 부로 병기한다 */
+const bi = (ko, en) => ko + ' <span class="sub" lang="en">' + en + '</span>';
+const SPK = {}; SPEAKERS.forEach(s => SPK[s.key] = s);
+const spkOf = d => SPK[d.spk] || SPK[''];
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+let videoId = store.get('vid', DEFAULT_VID);
+let checked = new Set(store.get('checked', []));
+let edits = store.get('edits', {});      /* {카드id: {en, ko}} 직접 고친 내용 */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let filt = store.get('filt', 'all');     /* 'all' | 'scene:<key>' | 'spk:<label>' | 'day'(저장하지 않음) */
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.5;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const PAD = 0.2;                                        /* 앞뒤에 항상 더하는 여유(초) */
+const headOf = d => Math.max(0, d.s - PAD);
+const tail = () => Number($('optTail').value) || 0;
+const endOf  = d => Math.max(d.e + tail() + PAD, d.s + MIN_PLAY);
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- filters ---------- */
+/* 같은 표기의 화자(Fan/Fans)는 하나의 버튼으로 묶는다 */
+const SPK_GROUPS = [];
+SPEAKERS.forEach(s => {
+  let g = SPK_GROUPS.find(x => x.ko === s.ko);
+  if(!g){ g = {ko: s.ko, en: s.en, keys: [], member: s.member}; SPK_GROUPS.push(g); }
+  g.keys.push(s.key);
+});
+const pool = () => DATA;
+function matches(d){
+  if(filt === 'all') return true;
+  if(filt === 'day') return dayIds.includes(d.id);
+  if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
+  const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
+  return !!g && g.keys.includes(d.spk);
+}
+
+/* ---------- sidebar ---------- */
+function buildScenes(){
+  const box = $('scenes'); box.textContent = '';
+  const head = (ko, en) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="en">' + en + '</span>'; box.appendChild(h); };
+  const mk = (key, ko, en, n, cls) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key; if(cls) b.className = cls;
+    b.innerHTML = '<span>' + bi(ko, en) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
+    box.appendChild(b);
+  };
+  const P = pool();
+  mk('all', '전체', 'All', P.length);
+  head('장면 · 타임라인', 'Scenes');
+  SCENES.forEach(s => mk('scene:' + s.key, s.ko, s.en, P.filter(d => d.scene === s.key).length));
+  head('화자', 'Speakers');
+  SPK_GROUPS.forEach(g => {
+    const n = P.filter(d => g.keys.includes(d.spk)).length;
+    if(n) mk('spk:' + g.ko, g.ko, g.en, n, g.member ? 'mem' : '');
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  let ko = '전체', en = 'All';
+  if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; en = 'Day ' + dayCur + ' lines'; }
+  if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; en = s.en; } }
+  else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; en = g.en; } }
+  $('sceneTitle').innerHTML = ko + '<span class="inl" lang="en">' + en + '</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- deck ---------- */
+function buildDeck(){
+  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- card ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('en').textContent = '해당 대사가 없습니다 / No matching line'; return; }
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('en').textContent = v.en;
+  $('ko').textContent = v.ko;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="en">' + s.en + '</span>' : '—';
+  const sp = spkOf(d);
+  $('who').className = 'chip spk';
+  $('who').innerHTML = sp.ko + '<span class="sub" lang="en">' + sp.en + '</span>';
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* ---------- script ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div class="who"></div><div><div class="k" lang="en"></div><div class="j"></div></div>';
+    const v = edited(d), sp = spkOf(d);
+    el.querySelector('.who').textContent = sp.ko;
+    el.querySelector('.k').textContent = v.en;
+    el.querySelector('.j').textContent = v.ko;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('카드와 대본은 그대로 쓸 수 있습니다.', 'Cards and script still work.');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API 를 불러오지 못했습니다.', 'Could not load the YouTube API.'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('준비 완료. 대사 위치부터 재생할 수 있습니다.', 'Ready. You can play from any line.'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', 'Cannot play the video (error '+e.data+')。'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', 'Playing…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', 'Paused');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube 를 ' + fmt(d.s) + ' 지점부터 열었습니다.', 'Opened YouTube at ' + fmt(d.s) + '.');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'The player is not ready yet.'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
+  const detailEn = '(speech ' + (d.e - d.s).toFixed(1) + ' s + margin ' + (stopAt - d.e).toFixed(1) + ' s)';
+  $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
+                                 (opts.loop ? 'Repeating ' : 'Playing ') + range + detailEn);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('이 장면 재생이 끝났습니다.', 'Finished playing this line.');
+  }
+}, 120);
+
+/* ---------- controls ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'Repeat off.'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set('checked', [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- manual edits ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edEn').value = v.en; $('edKo').value = v.ko;
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edEn').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const en = $('edEn').value.trim(), ko = $('edKo').value.trim();
+  if(!en){ $('playStatus').innerHTML = bi('대사가 비었습니다.', 'The line is empty.'); return; }
+  const e = {};
+  if(en !== d.en) e.en = en;
+  if(ko !== d.ko) e.ko = ko;
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
+  store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('저장했습니다.', 'Saved.');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('원래대로 되돌렸습니다.', 'Reset to original.');
+};
+
+/* 브라우저 저장은 사라질 수 있으므로 내보내기/가져오기를 둔다 */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'english-feifei-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('형식이 다릅니다');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.en === 'string' || typeof row.ko === 'string')){ edits[k] = row; n++; }
+      }
+      store.set('edits', edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '건을 불러왔습니다.', n + ' items imported.');
+    }catch(err){
+      $('playStatus').innerHTML = bi('불러오지 못했습니다.', 'Could not import.');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+$('tabStudy').onclick = () => switchView('study');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+
+/* ====================== study tab ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['듣기', 'Listen', '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
+     'Play with the meaning hidden. Ears first. Not getting it is normal.', '카드'],
+    ['확인', 'Check', '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
+     'Open the meaning and check. Learn expressions and words with their example line.', '표현 · 단어'],
+    ['따라 하기', 'Imitate', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
+     'Loop the same span with Repeat and speak over it. Copy the intonation.', '반복 C'],
+    ['점검', 'Test', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
+     'Quiz only today’s range. Misses become tomorrow’s review list.', '퀴즈']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ko, en, pk, pj, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="en" lang="en"></div><p><span class="k"></span><span lang="en"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ko;
+    el.querySelector('.en').textContent = en;
+    el.querySelector('.k').textContent = pk;
+    el.querySelector('p span[lang=en]').textContent = pj;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.en + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length;
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '해당 없음 · No results'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = r.en;
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 실제로 쓰인 한 문장을 예문으로 보여준다(작문이 아니라 자막 그대로) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '예문 · Example';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'en';
+        const key = r.hit || r.en;
+        const at = v.en.indexOf(key);
+        if(at >= 0){                                   /* 그 말만 강조 */
+          ek.appendChild(document.createTextNode(v.en.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = key; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.en.slice(at + key.length)));
+        } else ek.textContent = v.en;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ko;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = '이 예문 재생 / Play this example';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '회 · ' + cids.length + ' times';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.en;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== daily portions ====================== */
+let dayPace = store.get('pace', 25);
+let dayCur  = store.get('dayCur', 1);
+let daysDone = new Set(store.get('daysDone', []));
+let DAYS = [], dayIds = [];
+
+/* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
+   (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + ' days';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + ' / Lines ' + d.cards.length + ' · Expressions ' + d.expr.length + ' · Words ' + d.word.length
+    + ' (체크함 ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
+  const STEPS = [['듣기','Listen'], ['표현·단어','Expressions & words'], ['퀴즈','Quiz'], ['복습','Review']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ko, en], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ko + ' · ' + en;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.en.slice(0, 30);
+    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.en;
+    b.querySelector('.jj').textContent = r.ko;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set('daysDone', [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- quiz ---------- */
+let qScope = 'E', qMode = 'en2ko', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'en2ko'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="en2ko"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('출제 가능 ' + pool.length + '개 · Available items ' + pool.length + '');
+  if(OFFLINE) msgs.push('듣기는 file:// 에서 쓸 수 없습니다 · Listening is unavailable on file://');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ko2en' ? 'en' : 'ko';       /* what to pick: EN→KO and listening → Korean meaning, KO→EN → English */
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 듣고 뜻 고르기 · Listen and choose';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ko2en'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'en';
+    $('qAsk').textContent = q.item.en;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'en') b.lang = 'en';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  line.innerHTML = (ok ? '<b>정답 · Correct</b> ' : '<b>다시 · Again</b> ')
+    + '<span lang="en"></span> — <span></span>';
+  line.children[1].textContent = q.item.en; line.children[2].textContent = q.item.ko;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '다음 · Next' : '결과 · Results';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · Perfect' : pct >= 80 ? '— 훌륭합니다 · Well done'
+    : pct >= 50 ? '— 조금만 더 · Almost there' : '— 복습해 봅시다 · Time to review');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '틀린 항목 · Missed items (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = it.en;
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ko;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', 'Cannot read the video ID.'); return; }
+  videoId = id; store.set('vid', id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null;
+  if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
+  $('playStatus').innerHTML = bi('영상을 교체했습니다.', 'Video replaced.');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+/* ---------- boot ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+pickSeg2($('qPace'), String(dayPace));
+$('optTail').value = store.get('tail', '0.5');
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('vid').value = videoId;
+$('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
+}
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+</script>
+
+</body></html>

@@ -1,0 +1,19 @@
+# 구절|화자  — 그 구절부터 화자가 바뀐다. 첫 줄 = 영상 첫 문장.
+The way that OpenAI is framing Astra|Interviewer
+It feels, first of all, thank you for having me.|Altman
+What's the kind of principal use case|Interviewer
+One thing that I think people will immediately notice|Altman
+So the specifics of how Astra's being released.|Interviewer
+Yeah. So the the challenge of our industry|Altman
+What happened prior to release is important, right?|Interviewer
+So it's worth pointing out that, um, the model|Altman
+I got a lot of questions for you, Sam,|Interviewer
+Yeah. So we have talked for a long time|Altman
+We live on Bloomberg Television|Interviewer
+The obvious hard part of that, uh, question|Altman
+Sam at the G20 this week|Interviewer
+Uh, I think the industry has done a terrible job|Altman
+So that's in part where I wanted to ask you about pricing|Interviewer
+we want to create incredibly capable,|Altman
+Let's end our conversation here.|Interviewer
+Um, if we do go public someday|Altman

@@ -1,0 +1,1005 @@
+1
+00:00:00,030 --> 00:00:05,640
+The way that OpenAI is framing Astra is
+basically an early step toward AGI, but
+
+2
+00:00:05,640 --> 00:00:09,510
+I thought we could start a conversation
+just with basically what's fundamentally
+
+3
+00:00:09,510 --> 00:00:13,350
+different with Astra relative to prior
+generations of model.
+
+4
+00:00:14,580 --> 00:00:16,620
+It feels, first of all, thank you for
+having me.
+
+5
+00:00:16,950 --> 00:00:22,860
+It feels like a new step in this process
+towards models that can really help us
+
+6
+00:00:23,310 --> 00:00:28,830
+create value, do work, uh, discover new
+science, help us create help, start new
+
+7
+00:00:28,830 --> 00:00:33,390
+companies or create new products.
+Using it subjectively feels to me very
+
+8
+00:00:33,390 --> 00:00:38,250
+different than any model before.
+What's the kind of principal use case
+
+9
+00:00:38,250 --> 00:00:41,760
+that's different this time around?
+You know, I think we can get into the
+
+10
+00:00:41,760 --> 00:00:43,890
+generations of model that we're very
+coding focused.
+
+11
+00:00:43,900 --> 00:00:47,970
+I know a lot of the development was very
+cybersecurity focused, but taking it
+
+12
+00:00:47,970 --> 00:00:52,800
+away from the software engineer, what is
+the everyday person unlocking AI that
+
+13
+00:00:52,800 --> 00:00:57,030
+they weren't able to do previously?
+One thing that I think people will
+
+14
+00:00:57,030 --> 00:01:01,620
+immediately notice is if you have an
+idea and you want to work interactively
+
+15
+00:01:01,620 --> 00:01:05,550
+with an AI to get, uh, you know, a
+complex piece of a whole piece of
+
+16
+00:01:05,550 --> 00:01:09,060
+software built.
+This is the first model to me where I
+
+17
+00:01:09,060 --> 00:01:11,200
+could sort of tell someone, like, just
+give it a try.
+
+18
+00:01:11,220 --> 00:01:12,840
+There's.
+There's a good chance it'll work.
+
+19
+00:01:13,290 --> 00:01:17,490
+And, you know, I've watched people make
+computer games.
+
+20
+00:01:17,490 --> 00:01:23,700
+I watch people do sort of like home sort
+of DIY electrical engineering projects.
+
+21
+00:01:24,060 --> 00:01:28,170
+Uh, I've watched people do very complex
+simulations for some piece of science
+
+22
+00:01:28,170 --> 00:01:30,750
+they're working on.
+Uh, certainly a lot of the work where
+
+23
+00:01:30,750 --> 00:01:33,960
+you would sort of normally sit down and
+have to, you know, build a financial
+
+24
+00:01:33,960 --> 00:01:37,530
+model here and then a PowerPoint
+presentation around it and then figure
+
+25
+00:01:37,530 --> 00:01:42,090
+out how to, like, make a little
+interactive piece of code to sort of try
+
+26
+00:01:42,090 --> 00:01:45,330
+different simulations.
+That stuff is it's all so doable now.
+
+27
+00:01:45,630 --> 00:01:51,300
+Um, what I hope will happen is people
+I think people will be surprised at the
+
+28
+00:01:51,300 --> 00:01:54,150
+beginning, but then as they build up
+more trust in the model and more like,
+
+29
+00:01:54,150 --> 00:01:58,110
+wow, I can really do this.
+Just start throwing harder and harder
+
+30
+00:01:58,110 --> 00:02:02,070
+tasks and more creative ideas at it.
+And uh, they will find out what the
+
+31
+00:02:02,070 --> 00:02:06,290
+model can really do for them.
+So the specifics of how Astra's being
+
+32
+00:02:06,290 --> 00:02:09,289
+released.
+I think it's important so that a version
+
+33
+00:02:09,289 --> 00:02:14,300
+of it with specific guardrails.
+Um, what was the thinking behind that
+
+34
+00:02:14,300 --> 00:02:17,750
+and what are those specific guardrails,
+uh, in this early release of it?
+
+35
+00:02:18,380 --> 00:02:22,430
+Yeah.
+So the the challenge of our industry is
+
+36
+00:02:22,430 --> 00:02:25,850
+that we have these models that are
+getting incredibly capable and
+
+37
+00:02:25,850 --> 00:02:30,500
+incredibly useful and that people want
+to use to everything from, you know,
+
+38
+00:02:30,920 --> 00:02:33,800
+make their lives a little easier to
+starting new companies.
+
+39
+00:02:34,070 --> 00:02:38,060
+And then, on the other hand, as these
+models get more capable, um, the risks
+
+40
+00:02:38,060 --> 00:02:40,820
+that we have to mitigate, uh, also
+become more serious.
+
+41
+00:02:40,820 --> 00:02:44,390
+The models could do more damage if we
+don't, um, if we don't do a good job at
+
+42
+00:02:44,390 --> 00:02:47,120
+that.
+And so we have spent, uh, you know,
+
+43
+00:02:47,120 --> 00:02:49,810
+obviously this model took us a little
+longer to release than we were hoping.
+
+44
+00:02:49,820 --> 00:02:53,450
+I think it'll be worth the wait, but we
+really wanted to spend the time on the
+
+45
+00:02:53,450 --> 00:02:55,460
+safety and security alignment of this
+model.
+
+46
+00:02:55,520 --> 00:02:59,360
+Yes.
+Um, and I think as people understand the
+
+47
+00:02:59,360 --> 00:03:02,660
+power and impact and capabilities, they
+will be, they will be happy that we did.
+
+48
+00:03:03,020 --> 00:03:08,510
+Um, we will, uh, we'll have different
+tiers of cyber access for this model,
+
+49
+00:03:08,510 --> 00:03:11,990
+for cyber in particular.
+Today we're rolling it out, uh, to
+
+50
+00:03:11,990 --> 00:03:15,290
+Trusted Access Partners.
+And then in the coming days, assuming
+
+51
+00:03:15,290 --> 00:03:17,300
+everything goes well, we'll roll it out
+more broadly.
+
+52
+00:03:17,750 --> 00:03:19,880
+Um,
+you couldn't say.
+
+53
+00:03:19,880 --> 00:03:23,810
+Well, you know, if this model is,
+you know, has a cyber problem, why let
+
+54
+00:03:23,810 --> 00:03:27,920
+anyone use it for cyber?
+And I think it's very important to note,
+
+55
+00:03:28,100 --> 00:03:32,960
+to note that the world is very close to
+a complete change in the landscape of
+
+56
+00:03:32,960 --> 00:03:38,090
+cyber attacks, and the only way that we
+see for society to collectively defend
+
+57
+00:03:38,090 --> 00:03:41,750
+itself against this coming wave of
+models, um, from around the world and
+
+58
+00:03:41,750 --> 00:03:47,360
+from other companies, is to use tools
+like Astra to rapidly defend against
+
+59
+00:03:47,360 --> 00:03:52,580
+these new kind of cyber threats.
+Um, so we will have multiple programs,
+
+60
+00:03:52,580 --> 00:03:56,450
+uh, for people with sort of different
+levels of verification and trust.
+
+61
+00:03:56,450 --> 00:04:00,490
+But we do think it's quite important
+that the world use these models to, uh,
+
+62
+00:04:00,530 --> 00:04:04,400
+collectively defend ourselves.
+What happened prior to release is
+
+63
+00:04:04,400 --> 00:04:07,940
+important, right?
+You determined that Astra can find and
+
+64
+00:04:07,940 --> 00:04:12,400
+develop zero day exploits without any
+human intervention, essentially.
+
+65
+00:04:12,400 --> 00:04:17,800
+And so you paused some of the work to
+strengthen the safeguards.
+
+66
+00:04:18,459 --> 00:04:22,990
+What specifically was it that you saw
+that made you hit pause the behavior, I
+
+67
+00:04:22,990 --> 00:04:27,010
+suppose, of the model.
+So it's worth pointing out that, um, the
+
+68
+00:04:27,010 --> 00:04:29,170
+model that we're launching today is GPT
+six.
+
+69
+00:04:29,170 --> 00:04:31,000
+Astra has been done training for a
+while.
+
+70
+00:04:31,210 --> 00:04:34,810
+Um, the model that we recently talked
+about pausing, uh, as a future model.
+
+71
+00:04:35,170 --> 00:04:38,830
+Um, but with Astra, we we did hit cyber
+critical.
+
+72
+00:04:39,130 --> 00:04:42,760
+And there that required, under our
+preparedness framework, a new set of
+
+73
+00:04:42,760 --> 00:04:46,300
+safeguards just to be able to release
+Astra, um, because of those cyber
+
+74
+00:04:46,300 --> 00:04:51,130
+capabilities you talked about.
+I got a lot of questions for you, Sam,
+
+75
+00:04:51,130 --> 00:04:55,390
+about Astra and chain of thought.
+Um, I don't know if that comes as a
+
+76
+00:04:55,390 --> 00:04:58,810
+surprise to you or not, but as Astra
+becomes more autonomous for future
+
+77
+00:04:58,810 --> 00:05:02,620
+generations of the model, become more
+autonomous, can open.
+
+78
+00:05:02,620 --> 00:05:08,170
+I sort of say with confidence that you
+see and understand what the model is
+
+79
+00:05:08,170 --> 00:05:12,310
+planning before it acts.
+In other words, you have visibility into
+
+80
+00:05:12,310 --> 00:05:16,240
+the reasoning that basically uses of the
+model can't see open.
+
+81
+00:05:16,240 --> 00:05:19,450
+I can for obvious reasons.
+Could you go into that a little bit?
+
+82
+00:05:19,570 --> 00:05:22,210
+Yeah.
+So we have talked for a long time about
+
+83
+00:05:22,210 --> 00:05:24,490
+the importance of monitor ability of
+models.
+
+84
+00:05:24,670 --> 00:05:28,150
+We've also said that we believe in
+defense in depth and this is only one
+
+85
+00:05:28,150 --> 00:05:30,610
+part of it.
+There is sandboxing.
+
+86
+00:05:30,640 --> 00:05:32,830
+Uh, maybe most importantly there is
+alignment.
+
+87
+00:05:33,250 --> 00:05:36,670
+There are a number of things that come
+together to be able to make the safety
+
+88
+00:05:36,670 --> 00:05:38,860
+guarantees that we want to be able to
+make with a model.
+
+89
+00:05:39,070 --> 00:05:41,320
+But monitor ability is an important
+thing.
+
+90
+00:05:41,320 --> 00:05:45,490
+And we've been talking, I think, for
+well over a year now about the
+
+91
+00:05:45,490 --> 00:05:49,720
+importance of chain of thought
+monitoring and how we have made various
+
+92
+00:05:49,720 --> 00:05:53,440
+decisions there that help us preserve
+chain of thought vulnerability.
+
+93
+00:05:53,770 --> 00:05:57,190
+Um, even if it means we don't maximize
+the capabilities we could otherwise get.
+
+94
+00:05:57,520 --> 00:06:00,760
+And we think that is important.
+Um, it's an important component.
+
+95
+00:06:00,760 --> 00:06:03,910
+We also, uh, we want to be clear.
+We don't think it's the only component
+
+96
+00:06:03,910 --> 00:06:07,780
+that matters.
+We live on Bloomberg Television and on
+
+97
+00:06:07,780 --> 00:06:11,710
+Bloomberg Radio, and we're speaking to
+Sam Altman, the CEO of OpenAI.
+
+98
+00:06:12,040 --> 00:06:16,510
+Um, you know, there's a lot of bad PR in
+the world around AI at the moment, every
+
+99
+00:06:16,510 --> 00:06:19,510
+day citizen sort of worry about the
+impact.
+
+100
+00:06:19,810 --> 00:06:21,130
+One way I kind of wanted to put that to
+you.
+
+101
+00:06:21,130 --> 00:06:25,120
+Is it whether you can say sort of
+unequivocally there, if Astra or any
+
+102
+00:06:25,120 --> 00:06:29,380
+future generation of all behaved in a
+way that was dangerous, that you would
+
+103
+00:06:29,380 --> 00:06:31,990
+be able to detect it and then shut it
+down.
+
+104
+00:06:34,510 --> 00:06:37,750
+The obvious hard part of that, uh,
+question is that people have different
+
+105
+00:06:37,750 --> 00:06:40,530
+opinions about what model should be able
+to do and shouldn't be able to do.
+
+106
+00:06:40,560 --> 00:06:44,020
+Yes, we think there are some things that
+very clearly model should not be able to
+
+107
+00:06:44,020 --> 00:06:47,500
+do.
+Uh, there are some clear red lines, and
+
+108
+00:06:47,500 --> 00:06:50,410
+we talk a lot about being able to detect
+those.
+
+109
+00:06:50,410 --> 00:06:55,240
+But people also have strong opinions
+about things within the broad bounds of
+
+110
+00:06:55,240 --> 00:06:59,110
+what is possible about how they use AI
+and or how they want to be able to use
+
+111
+00:06:59,110 --> 00:07:01,360
+AI.
+And this is going to be a difficult
+
+112
+00:07:01,360 --> 00:07:06,670
+question for society, because there is
+not going to be agreement on, you know,
+
+113
+00:07:06,760 --> 00:07:11,830
+what is and isn't acceptable use of I.
+I think it's very important in the same
+
+114
+00:07:11,830 --> 00:07:16,750
+way that, you know, people do things
+electricity that I may not always like,
+
+115
+00:07:16,750 --> 00:07:20,310
+but I think everybody has a right to
+electricity that we say, you know, there
+
+116
+00:07:20,310 --> 00:07:22,980
+going to be some rules for society.
+You can't go like electrocute somebody
+
+117
+00:07:22,980 --> 00:07:26,280
+else on the street.
+But this is an important platform that
+
+118
+00:07:26,280 --> 00:07:29,240
+belongs to all of us and that we need to
+be able to, to use.
+
+119
+00:07:29,250 --> 00:07:33,890
+So there will be, uh, ongoing
+conversation, negotiation in society.
+
+120
+00:07:33,900 --> 00:07:36,480
+There will, of course, be some things
+that we agree on that people just should
+
+121
+00:07:36,480 --> 00:07:37,380
+not do with.
+I.
+
+122
+00:07:37,680 --> 00:07:41,070
+But there's a lot of edges that we're
+now going to have to feel our way
+
+123
+00:07:41,070 --> 00:07:43,530
+through.
+And giving people autonomy and freedom
+
+124
+00:07:43,890 --> 00:07:48,630
+to use AI is important to our mission.
+Sam at the G20 this week, um, Treasury
+
+125
+00:07:48,630 --> 00:07:53,490
+Secretary Scott Besson said that the eye
+industry had done a terrible job of
+
+126
+00:07:53,490 --> 00:07:56,790
+explaining how AI benefits ordinary
+Americans.
+
+127
+00:07:57,480 --> 00:08:02,580
+What's your view of that and whether you
+would, on reflection, consider OpenAI to
+
+128
+00:08:02,580 --> 00:08:07,410
+be in that bucket?
+Uh, I think the industry has done a
+
+129
+00:08:07,410 --> 00:08:11,280
+terrible job of this on the whole, um, I
+think we have done
+
+130
+00:08:12,600 --> 00:08:15,810
+a bad job ourselves, uh, you know, maybe
+better than some others.
+
+131
+00:08:15,810 --> 00:08:19,590
+Worse than some others.
+Um, it is difficult, of course, to
+
+132
+00:08:19,590 --> 00:08:24,390
+explain, but this is, uh, we eat the
+world, in my opinion, should want us to
+
+133
+00:08:24,390 --> 00:08:27,780
+worry a lot about this technology.
+The world should want us to think about
+
+134
+00:08:27,780 --> 00:08:30,990
+all the ways that could go wrong.
+To talk about what we see coming, but
+
+135
+00:08:30,990 --> 00:08:35,039
+not to sort of, like, stir up doom or
+concentrate power for ourselves.
+
+136
+00:08:35,039 --> 00:08:38,250
+Just because in the history of
+technology, the way you solve the hard
+
+137
+00:08:38,250 --> 00:08:43,140
+problems is to look at them, talk
+clearly about them, have scientists
+
+138
+00:08:43,140 --> 00:08:46,440
+debate them, uh, work really hard to
+prevent and mitigate them.
+
+139
+00:08:46,830 --> 00:08:51,150
+And that has been our intention.
+But clearly, sometimes it ends up
+
+140
+00:08:51,390 --> 00:08:53,940
+scaring people.
+Now, there's another thing that I think
+
+141
+00:08:53,940 --> 00:08:56,730
+has gone really bad.
+Besides talking about the ways this has
+
+142
+00:08:56,730 --> 00:09:01,080
+got could go wrong, which is, um, I
+don't think we've done a great job as an
+
+143
+00:09:01,080 --> 00:09:05,580
+industry of really
+talking about how to empower people with
+
+144
+00:09:05,580 --> 00:09:07,420
+this technology.
+Um, right.
+
+145
+00:09:07,440 --> 00:09:10,620
+You know, you hear some people talk
+about, well, we're going to give you a
+
+146
+00:09:10,620 --> 00:09:12,090
+cure for cancer.
+And that's so great.
+
+147
+00:09:12,090 --> 00:09:14,880
+So we're going to, you know, take these
+risks and you're going to have to have
+
+148
+00:09:14,880 --> 00:09:17,400
+less power and autonomy.
+We want people to have more power and
+
+149
+00:09:17,400 --> 00:09:19,170
+autonomy.
+You know, I don't think a cure for
+
+150
+00:09:19,170 --> 00:09:21,270
+cancer is enough.
+I mean, wonderful thing to have,
+
+151
+00:09:21,270 --> 00:09:23,790
+obviously, but we should set our sights
+higher.
+
+152
+00:09:24,350 --> 00:09:28,910
+We want these tool tools to enable a
+boom in creativity and entrepreneurship,
+
+153
+00:09:28,910 --> 00:09:32,600
+in people figuring out new ways to be
+useful to each other, and wonderful
+
+154
+00:09:32,600 --> 00:09:35,210
+products and services to enable each
+other with.
+
+155
+00:09:35,540 --> 00:09:39,350
+And I think that has been lost in the
+messaging.
+
+156
+00:09:39,350 --> 00:09:43,790
+And I also think there's some companies
+that, um, have a different opinion
+
+157
+00:09:43,790 --> 00:09:46,700
+there.
+But, but it's very, very important to us
+
+158
+00:09:47,000 --> 00:09:50,900
+that this technology is something where
+people get more power and more autonomy,
+
+159
+00:09:50,900 --> 00:09:54,050
+not less.
+And I think people rightly get afraid
+
+160
+00:09:54,050 --> 00:09:56,780
+when they feel like I leaders might not
+quite want that for them.
+
+161
+00:09:58,080 --> 00:10:02,480
+So that's in part where I wanted to ask
+you about pricing on Astra, but also
+
+162
+00:10:02,480 --> 00:10:03,410
+just generally.
+Right.
+
+163
+00:10:03,410 --> 00:10:07,190
+I think the direction of travel has been
+that you've cut prices.
+
+164
+00:10:07,520 --> 00:10:10,010
+There is competition, of course, with
+the other Frontier labs.
+
+165
+00:10:10,070 --> 00:10:12,950
+Um, anthropic.
+But you know, how much is that the
+
+166
+00:10:12,950 --> 00:10:18,290
+balance of access to the technology.
+You need to move quickly in releasing
+
+167
+00:10:18,290 --> 00:10:22,790
+the technology and also still trying to
+sort of find fair market value of how
+
+168
+00:10:22,790 --> 00:10:28,340
+you price the technology
+we want to create incredibly capable,
+
+169
+00:10:28,340 --> 00:10:31,130
+incredibly low cost, incredibly abundant
+intelligence.
+
+170
+00:10:31,130 --> 00:10:33,890
+And I think Aster is a great step
+forward there.
+
+171
+00:10:34,010 --> 00:10:36,920
+The token efficiency of Aster is so
+impressive to me.
+
+172
+00:10:37,280 --> 00:10:40,790
+Um, the amount of work you can get done
+with a relatively small amount of
+
+173
+00:10:40,790 --> 00:10:45,320
+tokens, and the kind of the price per
+dollar of a task that you might like, I
+
+174
+00:10:45,320 --> 00:10:48,050
+think is just remarkable.
+Um, only a few weeks ago, we cut the
+
+175
+00:10:48,050 --> 00:10:54,020
+price of Luna, our small model, by 80%.
+Um, uh, and our goal is to have the best
+
+176
+00:10:54,020 --> 00:10:56,930
+price performance at every level of
+intelligence all the way along the
+
+177
+00:10:56,930 --> 00:10:59,510
+curve.
+Um, we will continue to keep dropping
+
+178
+00:10:59,510 --> 00:11:02,240
+prices dramatically.
+Um, I'm confident in the shape of the
+
+179
+00:11:02,240 --> 00:11:04,490
+technology and the work we're doing to
+enable that to happen.
+
+180
+00:11:05,030 --> 00:11:10,160
+And, um, you know, of course, like,
+we'll make some money along the way, but
+
+181
+00:11:10,160 --> 00:11:15,380
+I think the opportunity in front of us
+is so huge, we will be able to continue
+
+182
+00:11:15,380 --> 00:11:18,530
+to bring prices down and still have huge
+revenue.
+
+183
+00:11:20,330 --> 00:11:22,730
+Let's end our conversation here.
+Sam with
+
+184
+00:11:24,020 --> 00:11:28,280
+Aster is a big step towards I actually
+doing work autonomously, right?
+
+185
+00:11:28,340 --> 00:11:31,750
+I've come to sort of see the emphasis on
+that.
+
+186
+00:11:31,750 --> 00:11:36,550
+If you staying ahead in the race that
+you've just outlined requires OpenAI to
+
+187
+00:11:36,550 --> 00:11:43,360
+just keep investing more heavily, maybe
+than expected, to keep pushing out the
+
+188
+00:11:43,360 --> 00:11:46,600
+boundaries of what the model is capable
+of doing, the cadence of release.
+
+189
+00:11:47,650 --> 00:11:51,340
+Where do you do you sit right now on
+your considerations of doing that as a
+
+190
+00:11:51,340 --> 00:11:55,060
+private company versus doing that as a
+public company, where the sort of
+
+191
+00:11:55,060 --> 00:11:59,320
+financial incentive and fiduciary duty
+of being a public company isn't
+
+192
+00:11:59,320 --> 00:12:04,300
+necessarily the same as being committed
+to developing the technology, getting
+
+193
+00:12:04,300 --> 00:12:06,280
+the technology released out into the
+world.
+
+194
+00:12:07,780 --> 00:12:10,840
+Um, if we do go public someday, which I
+assume we will.
+
+195
+00:12:10,870 --> 00:12:14,680
+I plan to spend a lot of time reminding
+people who might want to buy or might
+
+196
+00:12:14,680 --> 00:12:18,850
+not want to buy our our stock that we
+are mission first and that we're also
+
+197
+00:12:18,850 --> 00:12:22,690
+extremely long term oriented.
+So we are going to make decisions for,
+
+198
+00:12:22,960 --> 00:12:25,990
+um, what we think is best for society as
+a whole with this technology.
+
+199
+00:12:26,290 --> 00:12:28,780
+And we're going to make decisions on a
+multi-decade timeframe.
+
+200
+00:12:29,170 --> 00:12:31,600
+Um, and we think we'll do really great
+as a company.
+
+201
+00:12:31,630 --> 00:12:32,830
+Uh, but we're gonna put those things
+first.
+

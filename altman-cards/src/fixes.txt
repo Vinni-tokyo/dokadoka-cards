@@ -1,0 +1,18 @@
+# 자막 오류 교정.  형식: 카드id|교정문   — 원문은 빌드가 raw 로 보존한다.
+# Bloomberg 공식 캡션이지만 "AI"→"I"/"eye", "Astra"→"Aster" 류 오기가 있다. 뜻이 바뀌는 곳만 고친다.
+47|Um, I don't know if that comes as a surprise to you or not, but as Astra becomes more autonomous for future generations of the model, become more autonomous, can OpenAI—
+48|—sort of say with confidence that you see and understand what the model is planning before it acts.
+49|In other words, you have visibility into the reasoning that basically users of the model can't see, OpenAI—
+50|—can, for obvious reasons. Could you go into that a little bit?
+56|And we've been talking, I think, for well over a year now about the importance of chain of thought monitoring and how we have made various decisions there that help us preserve chain of thought monitorability.
+63|Is it whether you can say sort of unequivocally there, if Astra or any future generation of AI behaved in a way that was dangerous, that you would be able to detect it and then shut it down.
+68|And this is going to be a difficult question for society, because there is not going to be agreement on, you know, what is and isn't acceptable use of AI.
+69|I think it's very important in the same way that, you know, people do things with electricity that I may not always like,
+70|but I think everybody has a right to electricity that we say, you know, there are going to be some rules for society.
+74|There will, of course, be some things that we agree on that people just should not do with AI.
+77|Sam, at the G20 this week, um, Treasury Secretary Scott Bessent said that the AI industry had done a terrible job of explaining how AI benefits ordinary Americans.
+81|Um, it is difficult, of course, to explain, but this is, uh, we, the world, in my opinion, should want us to worry a lot about this technology.
+98|And I think people rightly get afraid when they feel like AI leaders might not quite want that for them.
+105|And I think Astra is a great step forward there. The token efficiency of Astra is so impressive to me.
+114|Sam, with Astra as a big step towards AI actually doing work autonomously, right?
+116|If staying ahead in the race that you've just outlined requires OpenAI to just keep investing more heavily, maybe than expected, to keep pushing out the boundaries of what the model is capable of doing, the cadence of release.
