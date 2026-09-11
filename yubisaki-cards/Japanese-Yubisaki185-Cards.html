@@ -513,6 +513,23 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="cap">한국어 뜻 · 韓国語の意味</div>
        <textarea id="edKo" spellcheck="false"></textarea>
       </div>
+      <div>
+       <div class="cap">재생 구간 조정 · 再生区間の調整 <span style="font-weight:400;letter-spacing:0;text-transform:none">— 이 카드만. 저장 없이 바로 적용됩니다</span></div>
+       <div class="row" style="align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">시작</span>
+        <button class="btn btn-sm" id="adjS-">−0.3</button><button class="btn btn-sm" id="adjS+">+0.3</button>
+        <button class="btn btn-sm" id="adjSNow" title="플레이어의 현재 위치를 이 카드의 시작으로">지금 위치로</button>
+        <span class="meta" id="adjSVal" style="min-width:52px">+0.0초</span>
+       </div>
+       <div class="row" style="align-items:center;gap:6px;margin-top:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">끝</span>
+        <button class="btn btn-sm" id="adjE-">−0.3</button><button class="btn btn-sm" id="adjE+">+0.3</button>
+        <button class="btn btn-sm" id="adjENow" title="플레이어의 현재 위치를 이 카드의 끝으로">지금 위치로</button>
+        <span class="meta" id="adjEVal" style="min-width:52px">+0.0초</span>
+        <button class="btn btn-sm" id="adjReset" style="margin-left:auto">조정 초기화</button>
+        <button class="btn btn-sm" id="adjPlay"><svg class="ic fill"><use href="#i-play"/></svg>들어보기</button>
+       </div>
+      </div>
       <div class="row">
        <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · 保存</button>
        <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · キャンセル</button>
@@ -552,10 +569,17 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="ja">順番をシャッフル</span></span></label>
       <label><input type="checkbox" id="optRead"><span>읽기(히라가나) 표시<br><span class="inl" lang="ja">読みを表示</span></span></label>
       <label><input type="checkbox" id="optCap"><span>속마음〈〉도 카드에 포함<br><span class="inl" lang="ja">心の声もカードに含める</span></span></label>
-      <div class="wide"><span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="ja" style="color:var(--ink-3);font-size:11.5px">再生の余裕</span></span>
+      <label><input type="checkbox" id="optGuard"><span>옆 카드 침범 금지<br><span class="inl" lang="ja">隣のカードに食い込まない</span></span></label>
+      <div class="wide" style="flex-wrap:wrap">
+       <span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="ja" style="color:var(--ink-3);font-size:11.5px">余裕</span></span>
        <select id="optTail">
-        <option value="0.3">0.3초 · 0.3秒</option><option value="0.5">0.5초 · 0.5秒</option>
+        <option value="0">0초 · 0秒</option><option value="0.3">0.3초 · 0.3秒</option><option value="0.5">0.5초 · 0.5秒</option>
         <option value="0.8">0.8초 · 0.8秒</option><option value="1">1초 · 1秒</option>
+       </select>
+       <span style="font-size:12.5px;color:var(--ink-2);margin-left:6px">시작 보정 <span class="inl" lang="ja" style="color:var(--ink-3);font-size:11.5px">開始位置</span></span>
+       <select id="optLead">
+        <option value="-0.3">−0.3초</option><option value="-0.15">−0.15초</option><option value="0">0</option>
+        <option value="0.15">+0.15초</option><option value="0.3">+0.3초</option><option value="0.5">+0.5초</option>
        </select></div>
      </div>
 
@@ -799,11 +823,27 @@ let view = 'card';
 /* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
 const OFFLINE = location.protocol === 'file:';
 const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
-const MIN_PLAY = 1.5;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
-const PAD = 0.2;                                        /* 앞뒤에 항상 더하는 여유(초) */
-const headOf = d => Math.max(0, d.s - PAD);
-const tail = () => Number($('optTail').value) || 0;
-const endOf  = d => Math.max(d.e + tail() + PAD, d.s + MIN_PLAY);
+const MIN_PLAY = 1.2;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const GUARD = 0.05;                                     /* 옆 카드와 사이에 두는 최소 간격(초) */
+const tail = () => Number($('optTail').value) || 0;     /* 발화 끝 뒤 여유(초) */
+const lead = () => Number($('optLead').value) || 0;     /* 시작 위치 보정(초). 음수=조금 앞부터 */
+const offs = d => { const e = edits[d.id] || {}; return {ds: Number(e.ds) || 0, de: Number(e.de) || 0}; };   /* 카드별 미세 조정 */
+const prevOf = d => DATA[DATA.indexOf(d) - 1];
+const nextOf = d => DATA[DATA.indexOf(d) + 1];
+/* 시작: 자막 시작 + 옵션 보정 + 카드 조정. 앞 카드가 바로 붙어 있으면 그 끝보다 앞으로는 가지 않는다(앞 대사가 새어 들어오는 것을 막는다) */
+function headOf(d){
+  let t = d.s + lead() + offs(d).ds;
+  const p = prevOf(d);
+  if($('optGuard').checked && p && d.s - p.e < 1.0) t = Math.max(t, p.e + offs(p).de + GUARD);
+  return Math.max(0, Math.min(t, d.e - 0.3));
+}
+/* 끝: 자막 끝 + 여유 + 카드 조정. 다음 카드가 바로 붙어 있으면 그 시작 전에서 멈춘다(다음 대사가 딸려 오는 것을 막는다) */
+function endOf(d){
+  let t = Math.max(d.e + tail() + offs(d).de, d.s + MIN_PLAY);
+  const n = nextOf(d);
+  if($('optGuard').checked && n && n.s - d.e < 1.0) t = Math.min(t, Math.max(n.s + offs(n).ds - GUARD, d.s + 0.6));
+  return t;
+}
 
 function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
 function parseId(v){
@@ -1027,8 +1067,9 @@ function playSeg(d, opts){
   loopSeg = opts.loop ? d : null;
   paintLoop();
   const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
-  const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
-  const detailJa = '（発話 ' + (d.e - d.s).toFixed(1) + '秒 + 余裕 ' + (stopAt - d.e).toFixed(1) + '秒）';
+  const o = offs(d), adj = (o.ds || o.de) ? ' · 조정 ' + (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '/' + (o.de >= 0 ? '+' : '') + o.de.toFixed(1) : '';
+  const detailKo = '(' + (stopAt - headOf(d)).toFixed(1) + '초' + adj + ')';
+  const detailJa = '（' + (stopAt - headOf(d)).toFixed(1) + '秒）';
   $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
                                  (opts.loop ? 'リピート再生中 ' : '再生中 ') + range + detailJa);
 }
@@ -1075,10 +1116,37 @@ function openEdit(){
   const d = deck[index]; if(!d) return;
   const v = edited(d);
   $('edJa').value = v.ja; $('edRd').value = v.rd || ''; $('edKo').value = v.ko;
+  paintAdj();
   $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
   $('edJa').focus();
 }
 $('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+/* ---------- 카드별 재생 구간 조정 / 区間の微調整 ---------- */
+function paintAdj(){
+  const d = deck[index]; if(!d) return;
+  const o = offs(d);
+  $('adjSVal').textContent = (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '초';
+  $('adjEVal').textContent = (o.de >= 0 ? '+' : '') + o.de.toFixed(1) + '초';
+}
+function setAdj(key, val){
+  const d = deck[index]; if(!d) return;
+  const e = Object.assign({}, edits[d.id] || {});
+  val = Math.round(val * 10) / 10;
+  if(val) e[key] = val; else delete e[key];
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];
+  store.set('edits', edits); paintEditCount(); paintAdj();
+  $('editedTag').hidden = !edits[d.id];
+  if(stopAt !== null) stopAt = endOf(d);
+}
+const nowT = () => (!OFFLINE && ready && player && typeof player.getCurrentTime === 'function') ? player.getCurrentTime() : null;
+$('adjS-').onclick = () => setAdj('ds', offs(deck[index]).ds - 0.3);
+$('adjS+').onclick = () => setAdj('ds', offs(deck[index]).ds + 0.3);
+$('adjE-').onclick = () => setAdj('de', offs(deck[index]).de - 0.3);
+$('adjE+').onclick = () => setAdj('de', offs(deck[index]).de + 0.3);
+$('adjSNow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('ds', t - d.s - lead()); };
+$('adjENow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('de', t - d.e - tail()); };
+$('adjReset').onclick = () => { const d = deck[index]; if(!d) return; setAdj('ds', 0); setAdj('de', 0); };
+$('adjPlay').onclick = () => { const d = deck[index]; if(d) playSeg(d); };
 $('edCancel').onclick = () => closeEdit();
 $('edSave').onclick = () => {
   const d = deck[index]; if(!d) return;
@@ -1088,6 +1156,7 @@ $('edSave').onclick = () => {
   if(ja !== d.ja) e.ja = ja;
   if(rd !== (d.rd || '')) e.rd = rd;
   if(ko !== d.ko) e.ko = ko;
+  const o = offs(d); if(o.ds) e.ds = o.ds; if(o.de) e.de = o.de;      /* 구간 조정은 그대로 유지 */
   if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
   store.set('edits', edits);
   paintEditCount(); closeEdit(); showCard(); buildScript();
@@ -1120,7 +1189,7 @@ $('edFile').onchange = e => {
       let n = 0;
       for(const k of Object.keys(got)){
         const row = got[k];
-        if(row && typeof row === 'object' && (typeof row.ja === 'string' || typeof row.ko === 'string' || typeof row.rd === 'string')){ edits[k] = row; n++; }
+        if(row && typeof row === 'object' && (typeof row.ja === 'string' || typeof row.ko === 'string' || typeof row.rd === 'string' || typeof row.ds === 'number' || typeof row.de === 'number')){ edits[k] = row; n++; }
       }
       store.set('edits', edits);
       paintEditCount(); showCard(); buildScript();
@@ -1140,6 +1209,8 @@ $('optShow').onchange = () => { store.set('show', $('optShow').checked); setReve
 $('optRead').onchange = () => { store.set('read', $('optRead').checked); showCard(); buildScript(); };
 $('optCap').onchange = () => { store.set('cap', $('optCap').checked); buildScenes(); buildDeck(); };
 $('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+$('optLead').onchange = () => store.set('lead', $('optLead').value);
+$('optGuard').onchange = () => { store.set('guard', $('optGuard').checked); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
 
 $('tabCard').onclick = () => switchView('card');
 $('tabScript').onclick = () => switchView('script');
@@ -1544,8 +1615,10 @@ $('optShow').checked = store.get('show', false);
 $('optRead').checked = store.get('read', true);
 $('optCap').checked = store.get('cap', true);
 pickSeg2($('qPace'), String(dayPace));
-$('optTail').value = store.get('tail', '0.5');
-if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('optTail').value = store.get('tail', '0.3');
+if(!$('optTail').value){ $('optTail').value = '0.3'; store.set('tail', '0.3'); }
+$('optLead').value = store.get('lead', '0'); if(!$('optLead').value) $('optLead').value = '0';
+$('optGuard').checked = store.get('guard', true);
 $('vid').value = videoId;
 $('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
 $('fileNotice').hidden = !OFFLINE;
