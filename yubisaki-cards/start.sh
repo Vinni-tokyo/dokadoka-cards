@@ -5,9 +5,18 @@ set -u
 cd "$(dirname "$0")"
 PORT="${PORT:-8097}"
 PAGE="Japanese-Yubisaki185-Cards.html"
-
 command -v python3 >/dev/null || { echo "[!] python3 가 필요합니다."; exit 1; }
-# 포트가 이미 쓰이면 다음 포트로 물러난다
+
+# 그 포트가 "이 폴더"를 서빙하는지 응답으로 확인한다.
+# (폴더를 옮기면 옛 서버가 살아 있어도 404 만 낸다 — 포트가 열렸는지만 보면 속는다)
+code=$(curl -s -o /dev/null -m 3 -w '%{http_code}' "http://localhost:$PORT/$PAGE" 2>/dev/null || true)
+if [ "$code" = "200" ]; then
+  echo "이미 서버가 실행 중입니다: http://localhost:$PORT/$PAGE"
+  ( xdg-open "http://localhost:$PORT/$PAGE" || open "http://localhost:$PORT/$PAGE" ) >/dev/null 2>&1 || true
+  exit 0
+fi
+
+# 200 이 아닌데 포트가 막혀 있으면 낡은 서버나 다른 앱이다. 빈 포트로 물러난다.
 while command -v ss >/dev/null && ss -ltn 2>/dev/null | grep -q ":$PORT "; do
   PORT=$((PORT+1))
 done
