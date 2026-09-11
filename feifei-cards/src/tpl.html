@@ -663,9 +663,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <span class="cap" style="min-width:0;margin-left:8px">반복</span>
         <select id="dRepeat"><option value="1">1회</option><option value="2">2회</option><option value="3" selected>3회</option><option value="5">5회</option></select>
         <span class="meta" id="dSrc"></span>
+        <label class="dauto" style="margin-left:6px"><input type="checkbox" id="dWithMean" checked><span>뜻과 함께</span></label>
        </div>
        <div class="qrow">
         <button class="btn btn-primary" id="dStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">시작<span class="sub" lang="en">Start</span></span></button>
+        <button class="btn" id="dCont"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">이어 듣기<span class="sub" lang="en">Play through</span></span></button>
         <button class="btn" id="dAuto"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">자동 반복 듣기</span></button>
        </div>
        <p class="qhint" id="dHint"></p>
@@ -803,7 +805,9 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-search"/></svg>
        <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
        <span class="meta" id="sCount">0</span>
-       <button class="btn btn-sm" id="lAuto" title="목록 전체 반복 듣기"><svg class="ic"><use href="#i-repeat"/></svg>목록 전체 반복 듣기</button>
+       <label class="dauto"><input type="checkbox" id="lWithMean" checked><span>뜻과 함께</span></label>
+       <button class="btn btn-sm" id="lCont"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
+       <button class="btn btn-sm" id="lAuto"><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
       </div>
       <div class="slist" id="slist"></div>
      </div>
@@ -1426,9 +1430,9 @@ function renderList(){
     /* 로컬 음원: 한 번 / 반복(드릴의 반복 횟수) */
     const ab = document.createElement('div'); ab.className = 'lab';
     const b1 = document.createElement('button'); b1.className = 'btn btn-sm'; b1.title = '🔊'; b1.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
-    b1.onclick = () => { lStop(); aPlay(r['en'], 1); };
+    b1.onclick = () => { lStop(); aPlayPair(r['en'], r['ko'], 1, aMean()); };
     const b2 = document.createElement('button'); b2.className = 'btn btn-sm'; b2.title = '반복 듣기'; b2.innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>';
-    b2.onclick = () => { lStop(); aPlay(r['en'], aRep(), 450); };
+    b2.onclick = () => { lStop(); aPlayPair(r['en'], r['ko'], aRep(), aMean()); };
     ab.append(b1, b2); el.appendChild(ab); el.dataset.k = aKey(r['en']);
     frag.appendChild(el);
   });
@@ -1704,21 +1708,27 @@ $('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
 
 /* ---------- 목록 전체 반복 듣기 / 一覧のくり返し ---------- */
 let lRows = [], lOn = false, lIdx = 0, lTimer = null;
-function lStop(){ if(!lOn) return; lOn = false; if(lTimer){ clearTimeout(lTimer); lTimer = null; } aStopAll(); $('lAuto').setAttribute('aria-pressed', 'false'); $('lAuto').innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>목록 전체 반복 듣기'; [...$('slist').children].forEach(x => x.removeAttribute('aria-current')); }
+let lTimes = 1;
+function lStop(){ if(!lOn) return; lOn = false; if(lTimer){ clearTimeout(lTimer); lTimer = null; } aStopAll(); $('lCont').setAttribute('aria-pressed', 'false'); $('lCont').innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>이어 듣기'; $('lAuto').setAttribute('aria-pressed', 'false'); $('lAuto').innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>목록 전체 반복 듣기'; [...$('slist').children].forEach(x => x.removeAttribute('aria-current')); }
 function lStep(){
   if(!lOn) return;
   if(lIdx >= lRows.length){ lIdx = 0; }                      /* 끝나면 처음부터 다시 */
   const r = lRows[lIdx]; if(!r){ lStop(); return; }
   const k = aKey(r['en']);
   [...$('slist').children].forEach(x => { const on = x.dataset.k === k; x.setAttribute('aria-current', String(on)); if(on) x.scrollIntoView({block: 'nearest'}); });
-  aPlay(r['en'], aRep(), 450, () => { if(!lOn) return; lTimer = setTimeout(() => { lIdx++; lStep(); }, 800); });
+  aPlayPair(r['en'], r['ko'], lTimes, aMean(), () => { if(!lOn) return; lTimer = setTimeout(() => { lIdx++; lStep(); }, 800); });
 }
-$('lAuto').onclick = () => {
+function lStart(times){
   if(lOn){ lStop(); return; }
   if(!lRows.length) return;
-  lOn = true; lIdx = 0; $('lAuto').setAttribute('aria-pressed', 'true'); $('lAuto').innerHTML = '<svg class="ic"><use href="#i-x"/></svg>정지';
+  lOn = true; lIdx = 0; lTimes = times;
+  const b = times > 1 ? $('lAuto') : $('lCont');
+  b.setAttribute('aria-pressed', 'true'); b.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>정지';
   lStep();
-};
+}
+$('lAuto').onclick = () => lStart(aRep());
+$('lCont').onclick = () => lStart(1);
+$('lWithMean').onchange = () => store.set('lwithmean', $('lWithMean').checked);
 
 /* ====================== 학습 음원 / 音源 ====================== */
 /* 로컬 음원(edge-tts 로 만든 mp3)이 있으면 그것을, 없으면 브라우저 TTS 를 쓴다. times 번 반복, gap ms 간격 */
@@ -1726,18 +1736,26 @@ const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）
 const aHas = t => !!AUDIO[aKey(t)];
 let aCur = null, aSeq = 0;
 function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
-function aPlay(text, times, gap, cb){
-  aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap;
-  const src = AUDIO[aKey(text)]; let n = 0;
+function aPlay(text, times, gap, cb, which){
+  aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
+  const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
   const done = () => { if(my === aSeq && cb) cb(); };
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
     if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, 2, after);
+    else dSpeakText(text, which, after);
   };
   step();
 }
+/* 원문을 times 번 → (뜻과 함께면) 뜻 한 번. 뜻 음원(m:)이 없으면 브라우저 TTS */
+function aPlayPair(text2, text1, times, withMean, cb){
+  aPlay(text2, times, 450, () => {
+    if(!withMean || !text1){ if(cb) cb(); return; }
+    const my = aSeq; setTimeout(() => { if(my !== aSeq) return; aPlay(text1, 1, 0, cb, 1); }, 500);
+  });
+}
+const aMean = () => !!(($('lWithMean') || {}).checked);
 const aRep = () => Number(($('dRepeat') || {}).value) || 1;
 
 /* ====================== 드릴 / 암기 ====================== */
@@ -1879,8 +1897,8 @@ function dFinish(){
 }
 $('dStart').onclick = () => dStart(false);
 $('dReveal').onclick = dReveal;
-$('dAgain').onclick = () => { if(dCur) aPlay(dCur.it[DR.L2], 1); };
-$('dLoop').onclick = () => { if(dCur) aPlay(dCur.it[DR.L2], aRep(), 450); };
+$('dAgain').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1], 1, dRevealed && $('dWithMean').checked); };
+$('dLoop').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1], aRep(), dRevealed && $('dWithMean').checked); };
 $('dRepeat').onchange = () => store.set('drepeat', $('dRepeat').value);
 let dExIdx = -1;
 function dShowEx(c, i, n){
@@ -1905,7 +1923,7 @@ $('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden
 $('dRestartMiss').onclick = () => dStart(true);
 $('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
 /* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
-function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll(); $('dAuto').setAttribute('aria-pressed', 'false'); }
+function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll(); $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
 function dAutoStep(){
   if(!dAutoOn) return;
   if(!dQueue.length){ dFinish(); return; }
@@ -1919,23 +1937,28 @@ function dAutoStep(){
   $('dGrade').hidden = true; $('dReveal').hidden = true; $('dVideo').hidden = true;
   dPaintTop();
   const wait = ms => new Promise(r => { dAutoTimer = setTimeout(r, ms); });
-  const say = (t, w) => new Promise(r => dSpeakText(t, w, r));
-  const play = (t, n) => new Promise(r => aPlay(t, n, 450, r));
+  const play = (t, n, w) => new Promise(r => aPlay(t, n, 450, r, w));
+  const withMean = $('dWithMean').checked, times = dAutoTimes;
   (async () => {
-    if(!dAutoOn) return; await play(it[DR.L2], aRep()); if(!dAutoOn) return; await wait(700);   /* 원문 N번 */
-    if(!dAutoOn) return; await say(it[DR.L1], 1); if(!dAutoOn) return; await wait(500);           /* 뜻(브라우저 음성) */
-    if(!dAutoOn) return; await play(it[DR.L2], 1); if(!dAutoOn) return; await wait(900);          /* 원문 한 번 더 */
+    if(!dAutoOn) return; await play(it[DR.L2], times, 2); if(!dAutoOn) return; await wait(withMean ? 500 : 900);   /* 원문 N번 */
+    if(withMean){ if(!dAutoOn) return; await play(it[DR.L1], 1, 1); if(!dAutoOn) return; await wait(500); }      /* 뜻(로컬 음원, 없으면 TTS) */
+    if(times > 1 && withMean){ if(!dAutoOn) return; await play(it[DR.L2], 1, 2); if(!dAutoOn) return; await wait(900); }   /* 반복일 때 원문 한 번 더 */
     if(dAutoOn) dAutoStep();
   })();
 }
-$('dAuto').onclick = () => {
+let dAutoTimes = 1;
+function dAutoStart(times){
   if(dAutoOn){ drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; return; }
+  dAutoTimes = times;
   dQueue = dBuildQueue(false); if(!dQueue.length) return;
   dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true; dAutoOn = true;
-  $('dAuto').setAttribute('aria-pressed', 'true');
+  $('dAuto').setAttribute('aria-pressed', String(times > 1)); $('dCont').setAttribute('aria-pressed', String(times === 1));
   $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
   dAutoStep();
-};
+}
+$('dAuto').onclick = () => dAutoStart(aRep());
+$('dCont').onclick = () => dAutoStart(1);
+$('dWithMean').onchange = () => store.set('dwithmean', $('dWithMean').checked);
 function dKey_(e){
   if(view !== 'study' || $('drillPane').hidden || !dActive || dAutoOn) return false;
   const k = e.key;
@@ -1947,7 +1970,7 @@ function dKey_(e){
 }
 function buildDrill(){
   dLoad();
-  $('dRate').value = store.get('drate', '1'); $('dSpeak').checked = store.get('dspeak', true); $('dRepeat').value = store.get('drepeat', '3');
+  $('dRate').value = store.get('drate', '1'); $('dSpeak').checked = store.get('dspeak', true); $('dRepeat').value = store.get('drepeat', '3'); $('dWithMean').checked = store.get('dwithmean', true); $('lWithMean').checked = store.get('lwithmean', true);
   dLoadVoices(); dStats();
 }
 
