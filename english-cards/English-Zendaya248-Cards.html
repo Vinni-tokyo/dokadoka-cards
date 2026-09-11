@@ -400,6 +400,41 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .side{padding:16px 12px 28px}.scenes button{padding:9px 10px;font-size:13px}
 }
 @media(hover:none){.keys{display:none}}
+/* ---- 드릴 ---- */
+#drillPane{display:flex;flex-direction:column;min-height:0;flex:1;overflow-y:auto;scrollbar-width:thin}
+.dsetup{display:flex;flex-direction:column;gap:13px;padding:20px 20px 18px}
+.dsetup .qrow .cap{min-width:74px}
+.dstats{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+ background:var(--surface-2);font-size:12px;color:var(--ink-2)}
+.dstats b{font-size:14px;color:var(--brand);font-weight:700;margin-right:2px}
+.dplay{padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px}
+.dtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dtop .meta b{color:var(--brand)}
+.dcard{border:1px solid var(--line);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--sh-2);padding:26px 24px 22px;
+ display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-height:250px;justify-content:center}
+.dcard .kind{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.dfront{font-size:clamp(28px,3.4vw,40px);font-weight:650;line-height:1.4;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:anywhere}
+.dfront.small{font-size:clamp(20px,2.4vw,28px);font-weight:600}
+.drd{font-size:15px;color:var(--ink-2);margin-top:-4px}
+.dback{display:flex;flex-direction:column;gap:6px;align-items:center;padding-top:12px;margin-top:6px;border-top:1px dashed var(--line);width:100%}
+.dback .m{font-size:clamp(18px,2vw,24px);font-weight:600;line-height:1.5;word-break:keep-all}
+.dback .n{font-size:12.5px;color:var(--ink-3);line-height:1.6;max-width:560px;word-break:keep-all}
+.dbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.dgrade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dgrade .btn{min-height:52px;font-size:14.5px;font-weight:600;flex-direction:column;gap:2px}
+.dgrade .btn small{font-size:10.5px;font-weight:500;opacity:.6}
+.dgrade .g1{border-color:#d9a394;color:#9a4e37;background:#fbeeea}
+.dgrade .g2{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.dgrade .g3{border-color:var(--brand-line);color:var(--brand);background:var(--brand-soft)}
+.dhint{font-size:11.5px;color:var(--ink-3);text-align:center}
+.dauto{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+.dauto input{appearance:none;width:17px;height:17px;margin:0;border:1px solid var(--line-2);border-radius:5px;background:var(--surface);position:relative;cursor:pointer}
+.dauto input:checked{background:var(--brand);border-color:var(--brand)}
+.dauto input:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.ddone{padding:34px 20px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.ddone .big{font-size:15px;color:var(--ink-3)}.ddone .big b{font-size:42px;color:var(--brand);font-weight:700;display:block;letter-spacing:-.03em}
+.dnovoice{margin:0 20px;padding:10px 14px;border-radius:var(--r-s);background:var(--accent-soft);border:1px solid var(--accent-line);color:#7a5330;font-size:12px;line-height:1.6}
+@media(max-width:700px){.dgrade{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -579,7 +614,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div id="studyView" hidden>
     <div class="study">
      <div class="subtabs">
-      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbDrill" aria-pressed="true"><span class="lbl">드릴<span class="sub" lang="en">Drill</span></span><b id="nDrill">—</b></button>
+      <button class="tab" id="sbDay" aria-pressed="false"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
       <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
       <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
       <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
@@ -587,7 +623,85 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
      </div>
 
-     <div id="dayPane">
+     <div id="drillPane">
+      <div class="dsetup" id="dsetup">
+       <div class="qrow">
+        <span class="cap">범위</span>
+        <div class="seg" id="dScope">
+         <button data-v="E" aria-pressed="true">표현</button>
+         <button data-v="V" aria-pressed="false">단어</button>
+         <button data-v="A" aria-pressed="false">전부</button>
+         <button data-v="D" aria-pressed="false">오늘 분량</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">방식</span>
+        <div class="seg" id="dMode">
+         <button data-v="fwd" aria-pressed="true">EN → 韓</button>
+         <button data-v="rev" aria-pressed="false">韓 → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listen</button>
+        </div>
+        <span class="cap" style="min-width:0;margin-left:8px">한 번에</span>
+        <div class="seg" id="dSize">
+         <button data-v="10" aria-pressed="false">10</button>
+         <button data-v="20" aria-pressed="true">20</button>
+         <button data-v="0" aria-pressed="false">전부</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">음성</span>
+        <select id="dVoice" style="max-width:260px"></select>
+        <select id="dRate"><option value="0.8">0.8×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.1">1.1×</option></select>
+        <label class="dauto" style="margin-left:6px"><input type="checkbox" id="dSpeak" checked><span>🔊 자동 읽기</span></label>
+       </div>
+       <div class="qrow">
+        <button class="btn btn-primary" id="dStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">시작<span class="sub" lang="en">Start</span></span></button>
+        <button class="btn" id="dAuto"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">자동 반복 듣기</span></button>
+       </div>
+       <p class="qhint" id="dHint"></p>
+      </div>
+      <div class="dnovoice" id="dNoVoice" hidden>이 브라우저에 영어 음성이 없습니다. Edge/Chrome 최신판을 확인하세요. 「영상」 버튼으로 원음을 들을 수 있습니다.</div>
+      <div class="dstats" id="dStats"></div>
+
+      <div class="dplay" id="dplay" hidden>
+       <div class="dtop">
+        <div class="bar" style="flex:1;margin:0"><span id="dBar" style="width:0"></span></div>
+        <span class="meta">남음 <b id="dLeft">0</b> · 다시 <b id="dRedo">0</b> · 외움 <b id="dKnown">0</b></span>
+        <button class="btn btn-sm" id="dQuit"><svg class="ic"><use href="#i-x"/></svg>그만</button>
+       </div>
+       <div class="dcard" id="dcard">
+        <div class="kind" id="dKind">—</div>
+        <div class="dfront" id="dFront" lang="en">—</div>
+        <div class="drd" id="dRd" lang="en" hidden></div>
+        <div class="dback" id="dBack" hidden>
+         <div class="m" id="dMean"></div>
+         <div class="n" id="dNote" hidden></div>
+        </div>
+       </div>
+       <div class="dbtns">
+        <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">답 보기<span class="sub" lang="en">Reveal</span></span></button>
+        <button class="btn" id="dAgain"><svg class="ic"><use href="#i-sound"/></svg>다시 듣기</button>
+        <button class="btn" id="dVideo" hidden><svg class="ic fill"><use href="#i-play"/></svg>영상</button>
+       </div>
+       <div class="dgrade" id="dGrade" hidden>
+        <button class="btn g1" id="dG1">몰라<small>1</small></button>
+        <button class="btn g2" id="dG2">애매<small>2</small></button>
+        <button class="btn g3" id="dG3">알아<small>3</small></button>
+       </div>
+       <div class="dhint">Space 답·다음 / 1 몰라 · 2 애매 · 3 알아 / R 다시 듣기</div>
+      </div>
+
+      <div class="ddone" id="ddone" hidden>
+       <div class="big"><b id="dDoneN">0</b>이번 세션 끝</div>
+       <div class="meta" id="dDoneMeta"></div>
+       <div class="dbtns">
+        <button class="btn btn-primary" id="dRestartMiss">틀린 것만 다시</button>
+        <button class="btn" id="dRestartAll">처음부터</button>
+       </div>
+      </div>
+     </div>
+
+     <div id="dayPane" hidden>
       <div class="dayctl">
        <div class="seg" id="qPace">
         <button data-v="18" aria-pressed="false">천천히</button>
@@ -1296,13 +1410,15 @@ function renderList(){
   box.appendChild(frag);
 }
 function setSub(kind){
-  const panes = {D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
-  ['dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
-  [['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+  const panes = {R:'drillPane', D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['drillPane','dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  if(kind !== 'R') drillStopAuto();
+  [['sbDrill','R'],['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
     .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
   if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
   if(kind === 'D') renderDay();
 }
+$('sbDrill').onclick = () => setSub('R');
 $('sbDay').onclick = () => setSub('D');
 $('sbGuide').onclick = () => setSub('G');
 $('sbExpr').onclick = () => setSub('E');
@@ -1559,9 +1675,200 @@ $('vidApply').onclick = () => {
 };
 $('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
 
+
+/* ====================== 드릴 / 암기 ====================== */
+/* 유튜브에 기대지 않고 단어·표현만 반복해서 외우는 화면. 음성은 브라우저 내장 TTS.
+   채점(몰라/애매/알아)에 따라 같은 세션 안에서 다시 나오고, 세션이 끝나면 간격(0·1·3·7·14일)을 두고 다시 물어본다. */
+const DR = {L2:'en', L1:'ko', V2:'en', V1:'ko'};
+const DSTORE = () => LS + '.drill';
+let dState = {};                                  /* {key: {lv, due, miss}} */
+function dLoad(){ dState = store.get(DSTORE(), {}) || {}; }
+function dSave(){ store.set(DSTORE(), dState); }
+const dKey = it => it.t + '|' + it[DR.L2];
+const DAY = 86400000, INTERVALS = [0, 1, 3, 7, 14];
+let dScope = 'E', dMode = 'fwd', dSize = 20;
+let dQueue = [], dCur = null, dRevealed = false, dKnownN = 0, dRedoN = 0, dSeen = 0, dMissed = [], dActive = false, dAutoOn = false, dAutoTimer = null;
+
+function dPool(){
+  const scope = dScope;
+  if(scope === 'D'){ const d = (typeof DAYS !== 'undefined' && DAYS[dayCur - 1]) || null; return d ? [...d.expr, ...d.word] : []; }
+  return STUDY.filter(r => scope === 'A' || r.t === scope);
+}
+function dStats(){
+  const pool = dPool(), now = Date.now();
+  let known = 0, due = 0, fresh = 0;
+  pool.forEach(it => { const st = dState[dKey(it)]; if(!st) fresh++; else if(st.lv >= 3 && st.due > now) known++; else if(st.due <= now) due++; });
+  $('dStats').innerHTML = '';
+  [['전체', pool.length], ['오늘 복습', due], ['새 항목', fresh], ['외움', known]].forEach(([k, v]) => {
+    const sp = document.createElement('span'); const b = document.createElement('b'); b.textContent = v; sp.append(b, document.createTextNode(k)); $('dStats').appendChild(sp); });
+  $('nDrill').textContent = due + fresh;
+  $('dStart').disabled = pool.length === 0;
+  $('dHint').textContent = pool.length ? '' : '항목이 없습니다';
+}
+/* --- 음성 --- */
+let dVoices = [];
+function dLoadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  dVoices = speechSynthesis.getVoices();
+  const sel = $('dVoice'); const cur = store.get('dvoice', ''); sel.innerHTML = '';
+  const mine = dVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(DR.V2));
+  mine.forEach(v => { const o = document.createElement('option'); o.value = v.name; o.textContent = v.name.replace(/^Microsoft /, '').replace(/ Online \(Natural\)/, ' (Natural)') + ' · ' + v.lang; sel.appendChild(o); });
+  /* 자연스러운 음성(Natural/Google)을 우선 */
+  const pref = mine.find(v => /Natural|Neural/i.test(v.name)) || mine.find(v => /Google/i.test(v.name)) || mine[0];
+  if(cur && mine.some(v => v.name === cur)) sel.value = cur; else if(pref) sel.value = pref.name;
+  $('dNoVoice').hidden = mine.length > 0;
+}
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = dLoadVoices; }
+$('dVoice').onchange = () => store.set('dvoice', $('dVoice').value);
+$('dRate').onchange = () => store.set('drate', $('dRate').value);
+$('dSpeak').onchange = () => store.set('dspeak', $('dSpeak').checked);
+function dSpeakText(text, which, cb){
+  if(!('speechSynthesis' in window) || !text){ if(cb) cb(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/[〜～]/g, '').replace(/[（(][^）)]*[）)]/g, '').trim());
+  const want = which === 2 ? DR.V2 : DR.V1;
+  let v = null;
+  if(which === 2){ v = dVoices.find(x => x.name === $('dVoice').value) || null; }
+  if(!v) v = dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want) && /Natural|Neural|Google/i.test(x.name)) || dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want)) || null;
+  if(v) u.voice = v;
+  u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
+  u.rate = Number($('dRate').value) || 1;
+  let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
+  u.onend = fin; u.onerror = fin;
+  speechSynthesis.speak(u);
+  setTimeout(fin, 12000);                      /* 브라우저가 onend 를 안 주는 경우의 보험 */
+}
+/* --- 세션 --- */
+function segPick(id, cb){ $(id).onclick = e => { const b = e.target.closest('button'); if(!b || b.disabled) return; pickSeg($(id)); b.setAttribute('aria-pressed','true'); cb(b.dataset.v); }; }
+segPick('dScope', v => { dScope = v; dStats(); });
+segPick('dMode', v => { dMode = v; });
+segPick('dSize', v => { dSize = Number(v); });
+function dBuildQueue(onlyMissed){
+  const now = Date.now();
+  let pool = onlyMissed ? dMissed.slice() : dPool().slice();
+  if(!onlyMissed){
+    const due = pool.filter(it => dState[dKey(it)] && dState[dKey(it)].due <= now).sort((a, b) => (dState[dKey(a)].lv - dState[dKey(b)].lv));
+    const fresh = pool.filter(it => !dState[dKey(it)]);
+    const rest = pool.filter(it => dState[dKey(it)] && dState[dKey(it)].due > now).sort((a, b) => dState[dKey(a)].due - dState[dKey(b)].due);
+    pool = [...shuffled(due), ...shuffled(fresh), ...rest];            /* 복습 기한 지난 것 → 새 것 → 아직 기한 안 된 것 */
+    if(dSize > 0) pool = pool.slice(0, dSize);
+  }
+  return pool.map(it => ({it, again: 0}));
+}
+function dStart(onlyMissed){
+  dQueue = dBuildQueue(onlyMissed);
+  if(!dQueue.length) return;
+  dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true;
+  $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
+  dNext();
+}
+function dPaintTop(){
+  const total = dQueue.length + dKnownN;
+  $('dLeft').textContent = dQueue.length; $('dRedo').textContent = dRedoN; $('dKnown').textContent = dKnownN;
+  $('dBar').style.width = (total ? dKnownN / total * 100 : 0) + '%';
+}
+function dNext(){
+  if(!dQueue.length){ dFinish(); return; }
+  dCur = dQueue.shift(); dRevealed = false; dSeen++;
+  const it = dCur.it;
+  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
+  const rd = '';
+  $('dFront').classList.toggle('small', dMode === 'rev');
+  if(dMode === 'fwd'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en'; $('dRd').textContent = rd; $('dRd').hidden = !rd; }
+  else if(dMode === 'rev'){ $('dFront').textContent = it[DR.L1]; $('dFront').removeAttribute('lang'); $('dRd').hidden = true; }
+  else { $('dFront').textContent = '🔊'; $('dFront').removeAttribute('lang'); $('dRd').hidden = true; }
+  $('dBack').hidden = true; $('dGrade').hidden = true; $('dReveal').hidden = false;
+  $('dVideo').hidden = !(it.cids && it.cids.length) || OFFLINE;
+  dPaintTop();
+  if($('dSpeak').checked && dMode !== 'rev') dSpeakText(it[DR.L2], 2);
+}
+function dReveal(){
+  if(!dCur || dRevealed) return;
+  dRevealed = true;
+  const it = dCur.it, rd = '';
+  $('dBack').hidden = false;
+  if(dMode === 'rev'){ $('dMean').textContent = it[DR.L2] + (rd ? '　' + rd : ''); $('dMean').lang = 'en'; }
+  else if(dMode === 'listen'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en'; $('dRd').textContent = rd; $('dRd').hidden = !rd; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang'); }
+  else { $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang'); }
+  $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
+  $('dGrade').hidden = false; $('dReveal').hidden = true;
+  if($('dSpeak').checked && dMode === 'rev') dSpeakText(it[DR.L2], 2);
+}
+function dGrade(g){
+  if(!dCur || !dRevealed) return;
+  const it = dCur.it, k = dKey(it), now = Date.now();
+  const st = dState[k] || {lv: 0, due: now, miss: 0};
+  if(g === 3){ st.lv = Math.min(4, st.lv + 1); st.due = now + INTERVALS[st.lv] * DAY; dKnownN++; }
+  else if(g === 2){ st.lv = Math.max(0, Math.min(st.lv, 1)); st.due = now + (st.lv ? DAY : 0); dRedoN++; dQueue.splice(Math.min(6, dQueue.length), 0, {it, again: dCur.again + 1}); }
+  else { st.lv = 0; st.due = now; st.miss = (st.miss || 0) + 1; dRedoN++; if(!dMissed.includes(it)) dMissed.push(it); dQueue.splice(Math.min(3, dQueue.length), 0, {it, again: dCur.again + 1}); }
+  dState[k] = st; dSave();
+  dNext();
+}
+function dFinish(){
+  dActive = false; drillStopAuto();
+  $('dplay').hidden = true; $('ddone').hidden = false;
+  $('dDoneN').textContent = dKnownN;
+  $('dDoneMeta').textContent = '외움 ' + dKnownN + ' · 다시 ' + dRedoN + ' · ' + dSeen;
+  $('dRestartMiss').hidden = !dMissed.length;
+  dStats(); $('dStats').hidden = false;
+}
+$('dStart').onclick = () => dStart(false);
+$('dReveal').onclick = dReveal;
+$('dAgain').onclick = () => { if(dCur) dSpeakText(dCur.it[DR.L2], 2); };
+$('dVideo').onclick = () => { if(!dCur) return; const c = cardOf((dCur.it.cids || [])[0]); if(c) playSeg(c); };
+$('dG1').onclick = () => dGrade(1); $('dG2').onclick = () => dGrade(2); $('dG3').onclick = () => dGrade(3);
+$('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; dStats(); };
+$('dRestartMiss').onclick = () => dStart(true);
+$('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
+/* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
+function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); $('dAuto').setAttribute('aria-pressed', 'false'); }
+function dAutoStep(){
+  if(!dAutoOn) return;
+  if(!dQueue.length){ dFinish(); return; }
+  dCur = dQueue.shift(); dRevealed = true; dSeen++;
+  const it = dCur.it, rd = '';
+  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + ' · ' + (dQueue.length + 1);
+  $('dFront').classList.remove('small'); $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en';
+  $('dRd').textContent = rd; $('dRd').hidden = !rd;
+  $('dBack').hidden = false; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang');
+  $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
+  $('dGrade').hidden = true; $('dReveal').hidden = true; $('dVideo').hidden = true;
+  dPaintTop();
+  const wait = ms => new Promise(r => { dAutoTimer = setTimeout(r, ms); });
+  const say = (t, w) => new Promise(r => dSpeakText(t, w, r));
+  (async () => {
+    if(!dAutoOn) return; await say(it[DR.L2], 2); if(!dAutoOn) return; await wait(700);
+    if(!dAutoOn) return; await say(it[DR.L1], 1); if(!dAutoOn) return; await wait(500);
+    if(!dAutoOn) return; await say(it[DR.L2], 2); if(!dAutoOn) return; await wait(900);
+    if(dAutoOn) dAutoStep();
+  })();
+}
+$('dAuto').onclick = () => {
+  if(dAutoOn){ drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; return; }
+  dQueue = dBuildQueue(false); if(!dQueue.length) return;
+  dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true; dAutoOn = true;
+  $('dAuto').setAttribute('aria-pressed', 'true');
+  $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
+  dAutoStep();
+};
+function dKey_(e){
+  if(view !== 'study' || $('drillPane').hidden || !dActive || dAutoOn) return false;
+  const k = e.key;
+  if(k === ' ' || k === 'Enter'){ e.preventDefault(); if(!dRevealed) dReveal(); else dGrade(3); return true; }
+  if(k === '1' || k === '2' || k === '3'){ e.preventDefault(); if(!dRevealed) dReveal(); dGrade(Number(k)); return true; }
+  if(k.toLowerCase() === 'r'){ e.preventDefault(); if(dCur) dSpeakText(dCur.it[DR.L2], 2); return true; }
+  return false;
+}
+function buildDrill(){
+  dLoad();
+  $('dRate').value = store.get('drate', '1'); $('dSpeak').checked = store.get('dspeak', true);
+  dLoadVoices(); dStats();
+}
+
 document.addEventListener('keydown', e => {
   const t = e.target;
   if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(dKey_(e)) return;
   if(e.metaKey || e.ctrlKey || e.altKey) return;
   const k = e.key.toLowerCase();
   if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
@@ -1624,7 +1931,7 @@ $('fileNotice').hidden = !OFFLINE;
 if(OFFLINE){
   $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
 }
-buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
 
 /* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
 (function(){
