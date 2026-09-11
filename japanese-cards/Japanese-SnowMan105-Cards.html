@@ -704,6 +704,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        </div>
        <div class="dbtns">
         <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">답 보기<span class="sub" lang="ja">答えを見る</span></span></button>
+        <button class="btn" id="dContIn" data-cont="이어 듣기" data-back="채점으로"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
         <button class="btn" id="dLoop"><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
         <button class="btn" id="dAgain"><svg class="ic"><use href="#i-sound"/></svg>다시 듣기</button>
         <button class="btn" id="dVideo" hidden><svg class="ic fill"><use href="#i-play"/></svg>영상</button>
@@ -1943,7 +1944,8 @@ $('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden
 $('dRestartMiss').onclick = () => dStart(true);
 $('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
 /* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
-function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll(); $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
+function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll();
+  const bi_ = $('dContIn'); if(bi_){ bi_.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + bi_.dataset.cont; bi_.setAttribute('aria-pressed', 'false'); } $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
 function dAutoStep(){
   if(!dAutoOn) return;
   if(!dQueue.length){ dFinish(); return; }
@@ -1977,6 +1979,20 @@ function dAutoStart(times){
   dAutoStep();
 }
 $('dAuto').onclick = () => dAutoStart(aRep());
+/* 채점 화면에서 「이어 듣기」: 지금 카드부터 남은 카드를 차례로 듣는다. 다시 누르면 그 카드에서 채점으로 돌아온다 */
+$('dContIn').onclick = () => {
+  const b = $('dContIn');
+  if(dAutoOn){
+    drillStopAuto();
+    if(dCur){ dQueue.unshift(dCur); dSeen--; dNext(); }         /* 듣던 카드를 다시 앞에 놓고 채점 화면으로 */
+    b.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + b.dataset.cont; b.setAttribute('aria-pressed', 'false');
+    return;
+  }
+  if(!dCur) return;
+  dAutoOn = true; dAutoTimes = 1; dQueue.unshift(dCur); dSeen--;
+  b.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>' + b.dataset.back; b.setAttribute('aria-pressed', 'true');
+  dAutoStep();
+};
 $('dCont').onclick = () => dAutoStart(1);
 $('dWithMean').onchange = () => store.set('dwithmean', $('dWithMean').checked);
 function dKey_(e){
