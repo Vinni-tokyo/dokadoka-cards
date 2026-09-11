@@ -44,6 +44,7 @@ button{cursor:pointer;border:0;background:none;padding:0}
 .btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
 .btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
 .btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+#loop[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
 
 input[type=text],input:not([type]),textarea,select{
  background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
@@ -149,7 +150,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
 /* ============ script ============ */
 .script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
-.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr);gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr) 34px;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
 .line:last-child{border-bottom:0}
 .line:hover{background:var(--surface-2)}
 .line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
@@ -159,6 +160,9 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .line .k{font-size:14.5px;line-height:1.6;font-weight:500}
 .line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
 .line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.line .lrep{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-3);display:inline-flex;align-items:center;justify-content:center;justify-self:end;flex:none}
+.line .lrep:hover{border-color:var(--line-2);color:var(--ink)}
+.line .lrep[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
 
 /* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
 .stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
@@ -342,7 +346,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
  .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
  .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
- .line{grid-template-columns:44px minmax(0,1fr)}.line .who{grid-column:2}.line>div:nth-child(3){grid-column:2}}
+ .line{grid-template-columns:44px minmax(0,1fr) 34px}.line .who{grid-column:2}.line>div:nth-child(3){grid-column:2}.line .lrep{grid-column:3;grid-row:1/3;align-self:center}}
 @media(max-width:600px){
  /* 플레이어: 카드·대본 뷰에서는 상단 고정, 학습 뷰(nosides)에서는 흐름대로 */
  .player-box{position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:6px;margin:0 -12px;padding-left:12px;padding-right:12px}
@@ -894,10 +898,20 @@ function buildScript(){
     el.querySelector('.j').textContent = v.ko;
     const go = () => { index = i; showCard(); playSeg(d); };
     el.onclick = go;
+    /* 줄별 구간 반복: 누르면 그 줄만 되풀이, 다시 누르면 해제 (file:// 에서는 반복 불가라 숨김) */
+    const rep = document.createElement('button'); rep.className = 'lrep'; rep.type = 'button'; rep.setAttribute('aria-pressed', 'false');
+    rep.title = '이 구간 반복 / この区間をリピート'; rep.innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>'; rep.hidden = OFFLINE; el.appendChild(rep);
+    rep.onclick = e => { e.stopPropagation(); index = i; showCard(); if(loopSeg && loopSeg.id === d.id) $('loop').click(); else playSeg(d, {loop:true}); };
     el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
     frag.appendChild(el);
   });
   box.appendChild(frag);
+  paintLoop();
+}
+/* 반복 중인 구간을 대본 줄 버튼과 카드 반복 버튼에 표시 */
+function paintLoop(){
+  $('script').querySelectorAll('.lrep').forEach(b => b.setAttribute('aria-pressed', String(!!loopSeg && Number(b.closest('.line').dataset.id) === loopSeg.id)));
+  $('loop').setAttribute('aria-pressed', String(!!loopSeg));
 }
 function highlight(id){
   [...$('script').children].forEach(el => {
@@ -948,6 +962,7 @@ function playSeg(d, opts){
   player.playVideo();
   stopAt = endOf(d);
   loopSeg = opts.loop ? d : null;
+  paintLoop();
   const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
   const detailKo = '(발화 ' + (d.e - d.s).toFixed(1) + '초 + 여유 ' + (stopAt - d.e).toFixed(1) + '초)';
   const detailJa = '（発話 ' + (d.e - d.s).toFixed(1) + '秒 + 余裕 ' + (stopAt - d.e).toFixed(1) + '秒）';
@@ -976,13 +991,13 @@ setInterval(() => {
 $('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
 $('loop').onclick  = () => {
   const d = deck[index]; if(!d) return;
-  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }
   else playSeg(d, {loop:true});
 };
 $('reveal').onclick = () => setReveal(true);
 $('hide').onclick   = () => setReveal(false);
-$('prev').onclick   = () => { if(index > 0){ index--; showCard(); } };
-$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); } };
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
 $('check').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
@@ -1440,7 +1455,7 @@ $('vidApply').onclick = () => {
   if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', '動画IDを読み取れません。'); return; }
   videoId = id; store.set('vid', id);
   $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
-  stopAt = null; loopSeg = null;
+  stopAt = null; loopSeg = null; paintLoop();
   if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
   $('playStatus').innerHTML = bi('영상을 교체했습니다.', '動画を差し替えました。');
 };
@@ -1455,7 +1470,7 @@ document.addEventListener('keydown', e => {
   else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
   else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
   else if(k === 'r'){ e.preventDefault(); $('optRead').checked = !$('optRead').checked; $('optRead').onchange(); }
-  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(k === 'v') playSeg(deck[index]); } }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
 });
 
