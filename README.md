@@ -25,6 +25,7 @@ dokadoka-cards/
 ├─ korean-cards/              🇰🇷 프로미스나인 예능·브이로그 2시리즈 · 383+306장 · 포트 8098 (일본어 모어 학습자용)
 ├─ vitaminme-cards/           🇰🇷 fromis_9 「Vitamin ME」 노래 가사 · 84줄(가나 읽기) · 포트 8093 (일본어 모어 학습자용)
 ├─ english-cards/             🇺🇸 73 Questions With Zendaya · 248장 · 포트 8096
+├─ reasons-cards/             🇺🇸 Matt Redman 「10,000 Reasons」 노래 가사 · 51줄(음성 인식 타이밍) · 포트 8092
 ├─ altman-cards/              🇺🇸 Sam Altman · Bloomberg TV 인터뷰(고급) · 123장 · 포트 8095
 ├─ feifei-cards/              🇺🇸 Fei-Fei Li · The Circuit 다큐 인터뷰(고급) · 250장 · 포트 8094
 └─ .venv/                     (gitignore) yt-dlp — 자막 내려받기용

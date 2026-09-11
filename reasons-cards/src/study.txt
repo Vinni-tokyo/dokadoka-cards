@@ -1,0 +1,41 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모     E = 표현·문형   V = 단어
+# --- 표현 ---------------------------------------------------
+E|Bless the Lord|주를 송축하라|bless = (하나님을) 찬양하다·(사람을) 축복하다
+E|O my soul|오 내 영혼아|시편 103편 1절. O = 부르는 감탄사
+E|worship His holy name|그분의 거룩한 이름을 경배하다|His 대문자 = 하나님을 가리킴
+E|like never before|이전에 없던 것처럼|never before = 전에 한 번도
+E|the sun comes up|해가 뜨다|come up = 떠오르다
+E|a new day dawning|새 날이 밝아 오는|dawn = 동트다 (현재분사)
+E|it's time to sing|노래할 시간이다|it's time to + 동사
+E|whatever may pass|무슨 일이 지나가든|whatever + may = 양보
+E|whatever lies before me|내 앞에 무엇이 놓여 있든|lie before = 앞에 놓이다
+E|let me be singing|내가 노래하고 있게 하소서|let me be + -ing
+E|when the evening comes|저녁이 올 때|
+E|rich in love|사랑이 풍성한|rich in + 명사
+E|slow to anger|노하기를 더디 하는|slow to + 동사원형/명사
+E|keep on singing|계속 노래하다|keep on + -ing
+E|for my heart to find|내 마음이 찾아낼|for + 목적어 + to 부정사 (의미상 주어)
+E|on that day|그날에|
+E|my strength is failing|내 힘이 쇠하고 있다|fail = 약해지다·다하다
+E|draws near|가까이 오다|draw near = 다가오다
+E|my time has come|내 때가 왔다|현재완료
+E|sing Your praise|당신을 찬양하다|praise = 찬양 (명사)
+E|Ten thousand years|만 년|
+E|and then forevermore|그리고 그 후로도 영원히|
+# --- 단어 ---------------------------------------------------
+V|Lord|주님|
+V|soul|영혼|
+V|worship|경배하다·예배|
+V|holy|거룩한|
+V|dawning|동터 오는|dawn
+V|evening|저녁|
+V|anger|노여움|
+V|great|위대한|
+V|kind|인자한·친절한|
+V|goodness|선하심|
+V|reasons|이유들|reason
+V|strength|힘|
+V|failing|쇠하는|fail
+V|unending|끝없는|un- + ending
+V|forevermore|영원토록|
+V|Jesus|예수님|
