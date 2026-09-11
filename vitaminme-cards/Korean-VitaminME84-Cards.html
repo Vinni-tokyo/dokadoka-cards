@@ -590,6 +590,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="seg" id="barLen"><button data-v="1" aria-pressed="false">1小節</button><button data-v="2" aria-pressed="true">2小節</button><button data-v="4" aria-pressed="false">4小節</button><button data-v="8" aria-pressed="false">8小節</button></div>
        <button class="btn btn-sm btn-primary" id="barLine"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">この行の小節<span class="sub" lang="ko">이 줄의 마디</span></span></button>
        <button class="btn btn-sm" id="barPrev" title="前の小節へ / 이전 마디">◀</button><button class="btn btn-sm" id="barNext" title="次の小節へ / 다음 마디">▶</button>
+       <button class="btn btn-sm" id="barLess" title="ループを1小節短く / 루프 1마디 줄이기">−1小節</button><button class="btn btn-sm" id="barMore" title="ループを1小節長く / 루프 1마디 늘이기">＋1小節</button>
        <button class="btn btn-sm" id="barStop" disabled>停止 · 정지</button>
       </div>
       <div class="bars-row">
@@ -1716,7 +1717,16 @@ function syncBarLyric(t){
 const nowBar = () => barAt != null ? barAt : barOf(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
 segWire('barLen', v => { barLen = Number(v); if(barAt != null) playBars(barAt, barLen); else paintBars(); });
 segWire('rate', v => { rate = Number(v); store.set('rate', rate); if(player && ready) player.setPlaybackRate(rate); });
-$('barLine').onclick = () => { const d = deck[index]; if(!d || BARS.length < 2) return; const i = barOf(d.s + 0.2), j = barOf(Math.max(d.s + 0.2, d.e - 0.2)); barLen = Math.max(1, j - i + 1); pickSeg2($('barLen'), String(barLen)); playBars(i, barLen); };
+/* この行の小節: 始まりは字幕開始「以前」の小節頭、終わりは字幕終了+0.25秒「以後」の小節頭。伸ばして歌う語尾や、字幕より早い歌い出しを切らない */
+$('barLine').onclick = () => {
+  const d = deck[index]; if(!d || BARS.length < 2) return;
+  const i = barOf(d.s);
+  let j = i; while(j + 1 < BARS.length && BARS[j] < d.e + 0.25) j++;
+  barLen = Math.max(1, j - i); pickSeg2($('barLen'), String(barLen)); playBars(i, barLen);
+};
+/* ループを1小節ずつ伸ばす・縮める */
+$('barMore').onclick = () => { if(barAt == null) return; barLen = Math.min(barLen + 1, BARS.length - 1 - barAt); pickSeg2($('barLen'), String(barLen)); playBars(barAt, barLen); };
+$('barLess').onclick = () => { if(barAt == null || barLen <= 1) return; barLen--; pickSeg2($('barLen'), String(barLen)); playBars(barAt, barLen); };
 $('barPrev').onclick = () => playBars(nowBar() - barLen, barLen);
 $('barNext').onclick = () => playBars(nowBar() + barLen, barLen);
 $('barStop').onclick = () => { barAt = null; if(loopSeg) $('loop').click(); paintBars(); paintBarLyrics(); };
