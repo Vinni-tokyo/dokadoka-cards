@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1d4f42"><title>도카도카 한국어 공부 · 노래로 배우기 / ドカドカ韓国語 · 歌で学ぶ</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="google" content="notranslate"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1d4f42"><title>도카도카 한국어 공부 · 노래로 배우기 / ドカドカ韓国語 · 歌で学ぶ</title>
 <style>
 /* ============ tokens ============ */
 :root{
@@ -1172,8 +1172,10 @@ $('loop').onclick  = () => {
 };
 $('reveal').onclick = () => setReveal(true);
 $('hide').onclick   = () => setReveal(false);
-$('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } } };
-$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } } };
+$('prev').onclick   = () => { if(barAt != null){ playBars(barAt - barLen, barLen); return; }   /* 小節モード: 設定した小節数だけ戻る */
+  if(index > 0){ index--; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
+$('next').onclick   = () => { if(barAt != null){ playBars(barAt + barLen, barLen); return; }   /* 小節モード: 設定した小節数だけ進む */
+  if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
 $('check').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
@@ -1652,7 +1654,9 @@ document.addEventListener('keydown', e => {
   else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
   else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
   else if(k === 'r'){ e.preventDefault(); $('optRead').checked = !$('optRead').checked; $('optRead').onchange(); }
-  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg){ if(barAt != null) $('barLine').click(); else playSeg(deck[index], {loop:true}); } else if(k === 'v') playSeg(deck[index]); } }
+  else if((k === 'v' || e.key === 'ArrowRight') && barAt != null){ e.preventDefault(); playBars(barAt + barLen, barLen); }
+  else if(e.key === 'ArrowLeft' && barAt != null){ e.preventDefault(); playBars(barAt - barLen, barLen); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
 });
 
@@ -1741,6 +1745,7 @@ function paintBars(){
   const cur = barAt != null ? '　▶ ' + (barAt + 1) + '–' + Math.min(barAt + barLen, BARS.length - 1) + '小節 (' + fmt(BARS[barAt]) + '–' + fmt(BARS[Math.min(barAt + barLen, BARS.length - 1)]) + ')' : '';
   $('barInfo').textContent = head + cur;
   $('barStop').disabled = barAt == null;
+  $('prev').title = barAt != null ? barLen + '小節戻る / ' + barLen + '마디 이전' : ''; $('next').title = barAt != null ? barLen + '小節進む / ' + barLen + '마디 다음' : '';
 }
 /* 小節ループに掛かる歌詞行を並べ、再生時刻に合わせて今の行を光らせる。カード本文もその行に追従 */
 function paintBarLyrics(){
