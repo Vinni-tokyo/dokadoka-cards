@@ -31,6 +31,9 @@ def read_cues(path):
         cues.append({'s': g[0]*3600+g[1]*60+g[2]+g[3]/1000,
                      'e': g[4]*3600+g[5]*60+g[6]+g[7]/1000,
                      't': ' '.join(L[2:]).strip()})
+    # yt-dlp の自動字幕は終了時刻が次の開始に食い込む(転がし表示)。次の開始で切りそろえる
+    for i in range(len(cues)-1):
+        if cues[i]['e'] > cues[i+1]['s']: cues[i]['e'] = cues[i+1]['s']
     return cues
 
 def read_transcript(path):
@@ -70,6 +73,36 @@ def segment_lines(cues):
         dead = (c['e'] - c['s']) - est
         pe   = max(c['e'] - (dead if dead > DEAD_MIN else 0.0), c['s'] + 0.8)
         row = {'id': i, 's': round(c['s'], 2), 'e': round(c['e'], 2), 'ko': body}
+        if row['e'] - pe > 0.05: row['pe'] = round(pe, 2)
+        out.append(row)
+    return out
+
+# 手動(公式)字幕は `>>` も間も無く 2〜3 秒ごとに続く。文末の終結語尾で切る
+_FINAL = re.compile(r'(요|다|어|아|지|네|죠|잖아|거든|습니다|세요|까|야|대|래|구나|군|게|ㅎ+|ㅋ+)[?!.…~"”’)\]]*$')
+_PUNCT = re.compile(r'[?!.…]["”’]?$|["”’]$')
+
+def segment_manual(cues, target=22, hard=48, gap=0.6):
+    """目安の長さに達し、かつ行末が終結語尾/句読点なら切る。間が空いても切る"""
+    RATE, DEAD_MIN = 4.5, 1.2
+    segs, cur = [], None
+    for i, c in enumerate(cues):
+        body = re.sub(r'\s+', ' ', TAG.sub(' ', c['t'])).strip()
+        if not body: continue
+        nxt = cues[i+1] if i+1 < len(cues) else None
+        if cur is None: cur = {'s': c['s'], 'e': c['e'], 't': body, 'last': c}
+        else: cur['t'] += ' ' + body; cur['e'] = c['e']; cur['last'] = c
+        n = len(cur['t']); tail = body.split()[-1]
+        fin = bool(_PUNCT.search(body) or _FINAL.search(tail))
+        if nxt is None or (nxt['s'] - c['e']) > gap or n >= hard or (n >= target and fin):
+            segs.append(cur); cur = None
+    if cur: segs.append(cur)
+    out = []
+    for i, g in enumerate(segs, 1):
+        last = g['last']
+        lbody = re.sub(r'\s+', '', TAG.sub('', last['t']))
+        est  = max(0.5, len(lbody)/RATE); dead = (last['e'] - last['s']) - est
+        pe   = max(last['e'] - (dead if dead > DEAD_MIN else 0.0), last['s'] + 0.4, g['s'] + 0.8)
+        row = {'id': i, 's': round(g['s'], 2), 'e': round(g['e'], 2), 'ko': g['t']}
         if row['e'] - pe > 0.05: row['pe'] = round(pe, 2)
         out.append(row)
     return out
@@ -159,8 +192,11 @@ def build_series(d):
             if sec >= at: k = key
         return k
 
-    if meta.get('source') == 'transcript':
+    src = meta.get('source')
+    if src == 'transcript':
         segs = segment_lines(read_transcript(os.path.join(d, 'transcript.txt')))
+    elif src == 'manual':
+        segs = segment_manual(read_cues(os.path.join(d, 'subtitles.srt')))
     else:
         segs = segment(read_cues(os.path.join(d, 'subtitles.srt')))
     ja    = read_pairs(os.path.join(d, 'ja.txt'))
@@ -220,26 +256,27 @@ def build_series(d):
     return {**info, 'scenes': scenes, 'data': data, 'study': study}
 
 # ---------------------------------------------------------------- 出力
-all_dirs = sorted(os.path.join(SDIR, n) for n in os.listdir(SDIR)
-                  if os.path.isdir(os.path.join(SDIR, n)))
-dirs, pending = [], []
-for d in all_dirs:
-    mp = os.path.join(d, 'meta.json')
-    src = 'subtitles.srt'
-    if os.path.exists(mp):
-        try:
-            if json.load(io.open(mp, encoding='utf-8')).get('source') == 'transcript': src = 'transcript.txt'
-        except Exception: pass
-    need = ('meta.json', src, 'ja.txt', 'study.txt')
-    miss = [f for f in need if not os.path.exists(os.path.join(d, f))]
-    (pending.append((os.path.basename(d), miss)) if miss else dirs.append(d))
-assert dirs, 'src/series/ に完成したシリーズがありません'
-print('シリーズ', len(dirs), '本' + (' (準備中 %d本)' % len(pending) if pending else ''))
-SERIES = [build_series(d) for d in dirs]
-for name, miss in pending:
-    print('  %-10s 準備中 — 足りないもの: %s' % (name, ', '.join(miss)))
+if __name__ == '__main__':
+    all_dirs = sorted(os.path.join(SDIR, n) for n in os.listdir(SDIR)
+                      if os.path.isdir(os.path.join(SDIR, n)))
+    dirs, pending = [], []
+    for d in all_dirs:
+        mp = os.path.join(d, 'meta.json')
+        src = 'subtitles.srt'
+        if os.path.exists(mp):
+            try:
+                if json.load(io.open(mp, encoding='utf-8')).get('source') == 'transcript': src = 'transcript.txt'
+            except Exception: pass
+        need = ('meta.json', src, 'ja.txt', 'study.txt')
+        miss = [f for f in need if not os.path.exists(os.path.join(d, f))]
+        (pending.append((os.path.basename(d), miss)) if miss else dirs.append(d))
+    assert dirs, 'src/series/ に完成したシリーズがありません'
+    print('シリーズ', len(dirs), '本' + (' (準備中 %d本)' % len(pending) if pending else ''))
+    SERIES = [build_series(d) for d in dirs]
+    for name, miss in pending:
+        print('  %-10s 準備中 — 足りないもの: %s' % (name, ', '.join(miss)))
 
-tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
-html = tpl.replace('/*__SERIES__*/', json.dumps(SERIES, ensure_ascii=False, separators=(',', ':')))
-io.open(OUT, 'w', encoding='utf-8').write(html)
-print('生成:', OUT, '(%.1f KB)' % (os.path.getsize(OUT)/1024))
+    tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
+    html = tpl.replace('/*__SERIES__*/', json.dumps(SERIES, ensure_ascii=False, separators=(',', ':')))
+    io.open(OUT, 'w', encoding='utf-8').write(html)
+    print('生成:', OUT, '(%.1f KB)' % (os.path.getsize(OUT)/1024))
