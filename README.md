@@ -23,6 +23,7 @@ dokadoka-cards/
 ├─ yubisaki-cards/            🇯🇵 ゆびさきと恋々 1화 · 185장 · 포트 8097
 ├─ bokuyaba-cards/            🇯🇵 僕の心のヤバイやつ 1화 · 184장 · 포트 8093 (자동자막 교정 106건·한자 풀이)
 ├─ korean-cards/              🇰🇷 프로미스나인 예능·브이로그 2시리즈 · 383+306장 · 포트 8098 (일본어 모어 학습자용)
+├─ vitaminme-cards/           🇰🇷 fromis_9 「Vitamin ME」 노래 가사 · 84줄(가나 읽기) · 포트 8093 (일본어 모어 학습자용)
 ├─ english-cards/             🇺🇸 73 Questions With Zendaya · 248장 · 포트 8096
 ├─ altman-cards/              🇺🇸 Sam Altman · Bloomberg TV 인터뷰(고급) · 123장 · 포트 8095
 ├─ feifei-cards/              🇺🇸 Fei-Fei Li · The Circuit 다큐 인터뷰(고급) · 250장 · 포트 8094
