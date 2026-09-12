@@ -1,0 +1,70 @@
+# 도카도카 영어 공부 · Why AI Is Our Ultimate Test and Greatest Invitation
+
+YouTube TED 강연 「Why AI Is Our Ultimate Test and Greatest Invitation」(Tristan Harris, TED, 2025-05-01, 15분 15초, 조회 36만)로 만든
+**영어 학습 카드 앱**(한국어 모어 학습자용). 카드 130장.
+
+«어차피 누군가는 만든다»는 불가피론을 정면으로 반박하며, 유인 구조를 바꾸면 다른 선택이 가능하다고 주장합니다. 논증을 쌓아 가는 방식이 뚜렷해 토론·에세이 영어에 좋습니다.
+
+**자막 출처와 라이선스** · 영어·한국어 자막 모두 **TED 가 공개한 공식 자막**이고, TED 강연과 자막은
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) 으로 배포됩니다.
+이 앱은 그 자막을 출처 표기와 함께 비영리 학습 목적으로 그대로 싣습니다. 한국어 뜻은 TED 한국어 자막을
+시각으로 맞춰 붙인 것이고(번역을 새로 만들지 않았습니다), 학습 표현·단어와 문법 메모만 직접 작성했습니다.
+
+---
+
+## 실행
+
+| 환경 | 방법 |
+|---|---|
+| Windows | `start.bat` **더블클릭** |
+| Linux / mac | `./start.sh` |
+
+간이 서버를 띄우고 브라우저를 엽니다(포트 8086). `file://` 로 열면 YouTube 임베드가 거부되어(Error 153)
+재생 버튼이 YouTube 새 탭을 엽니다.
+
+## 기능
+
+- **카드** — 영어 문장 + 한국어 뜻(가리기/보기), 장면별 필터, 체크 진도
+- **대본** — 130줄 목록, 줄 클릭 시 그 위치부터 재생, 줄별 구간 반복
+- **감상** — 영상을 끊김 없이 재생하며 현재 문장과 앞뒤 문장을 크게 표시
+- **학습** — 드릴(간격 반복) · 표현 20 · 단어 20 · 퀴즈 · 오늘 분량 · 학습법
+- **장면** — 도입 · AI 는 왜 다른가 · 「그냥 풀어놓자」 대 규제 · 출시 경쟁 · 불가피론의 함정 · 우리의 선택
+
+## 구성
+
+```
+harris-cards/
+├─ English-Harris130-Cards.html   앱 (단일 파일, 데이터 내장)
+├─ start.bat / start.sh
+├─ README.md
+└─ src/
+   ├─ subtitles.srt   TED 공식 영어 자막 (yt-dlp --sub-langs en)
+   ├─ ko.srt          TED 공식 한국어 자막 (yt-dlp --sub-langs ko)
+   ├─ seg.py          영어 자막 → 카드 분할 (문장 끝 기준)
+   ├─ build.py        최종 HTML 생성 (한국어 자막을 시각으로 맞춰 붙임)
+   ├─ tpl.html        화면 템플릿
+   └─ study.txt       학습 표현·단어 40건 `종류|영어|뜻|메모`
+```
+
+## 재빌드
+
+```bash
+python3 src/build.py
+```
+
+자막을 다시 받으려면:
+
+```bash
+../.venv/bin/yt-dlp --skip-download --write-subs --sub-langs en,ko \
+  --sub-format srt --convert-subs srt -o 'src/%(id)s.%(ext)s' \
+  -- https://www.youtube.com/watch?v=6kPHnl-RsVI
+# 받은 파일을 src/subtitles.srt (en), src/ko.srt (ko) 로 둔다
+```
+
+## 출처
+
+- 영상·자막: YouTube `6kPHnl-RsVI` — Why AI Is Our Ultimate Test and Greatest Invitation (Tristan Harris, TED, 2025-05-01)
+- 라이선스: TED 강연 및 자막 CC BY-NC-ND 4.0. 비영리 학습 목적으로 출처를 밝혀 사용합니다.
+- 학습 표현·단어와 문법 메모는 직접 작성한 것이라 오류가 있을 수 있습니다. 앱 안의 「편집」으로 고칠 수 있습니다.
+
+영상은 YouTube 공식 플레이어로 재생됩니다.

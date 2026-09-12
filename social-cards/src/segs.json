@@ -1,0 +1,548 @@
+[
+ {
+  "id": 1,
+  "s": 4.29,
+  "e": 12.18,
+  "en": "So a couple of years ago, a woman I know who I'll call Maya, went through a lot of big changes in a short amount of time.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 2,
+  "s": 12.22,
+  "e": 17.76,
+  "en": "She got married. She and her husband moved for his job to a new city where she didn’t know anyone.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 3,
+  "s": 17.81,
+  "e": 23.98,
+  "en": "She started a new role working from home, all while managing her dad's new diagnosis of dementia.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 4,
+  "s": 24.69,
+  "e": 30.94,
+  "en": "And to manage the stress of all this change, Maya doubled down on her physical and mental health.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 5,
+  "s": 30.99,
+  "e": 35.99,
+  "en": "She exercised almost every day, she ate healthy foods, she went to therapy once a week.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 6,
+  "s": 36.32,
+  "e": 43.54,
+  "en": "And these actions really helped. Her body got stronger. Her mind got more resilient, but only up to a point.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 7,
+  "s": 44.33,
+  "e": 51.26,
+  "en": "She was still struggling, often losing sleep in the middle of the night, feeling unfocused, unmotivated during the day.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 8,
+  "s": 51.3,
+  "e": 59.68,
+  "en": "Maya was doing everything that doctors typically tell us to do to be physically and mentally healthy, and yet something was missing.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 9,
+  "s": 61.06,
+  "e": 69.86,
+  "en": "What if I told you that what was missing for Maya is also missing for billions of people around the world, and that it might be missing for you?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 10,
+  "s": 70.86,
+  "e": 78.28,
+  "en": "What if I told you that not having it undermines our other efforts to be healthy and can even shorten your lifespan?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 11,
+  "s": 79.95,
+  "e": 87.96,
+  "en": "I’ve been studying this for over a decade, and I've discovered that the traditional way we think about health is incomplete.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 12,
+  "s": 88.46,
+  "e": 98.64,
+  "en": "By thinking of our health as primarily physical and mental, we overlook what I believe is the greatest challenge and the greatest opportunity of our time.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 13,
+  "s": 99.3,
+  "e": 100.97,
+  "en": "Social health.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 14,
+  "s": 101.68,
+  "e": 110.19,
+  "en": "While physical health is about our bodies and mental health is about our minds, social health is about our relationships.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 15,
+  "s": 110.65,
+  "e": 119.32,
+  "en": "And if you haven't heard this term before, that's because it hasn't yet made its way into mainstream vocabulary, yet it is equally important.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 16,
+  "s": 120.16,
+  "e": 123.45,
+  "en": "Maya didn't yet have a sense of community in her new home.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 17,
+  "s": 123.45,
+  "e": 132.04,
+  "en": "She wasn't seeing her family, or her friends or her coworkers in person anymore, and she often went weeks only spending quality time with her husband.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 18,
+  "s": 132.04,
+  "e": 142.31,
+  "en": "Her story shows us that we can't be fully healthy, we can’t thrive, if we take care of our bodies and our minds, but not our relationships.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 19,
+  "s": 143.72,
+  "e": 153.15,
+  "en": "Similar to Maya, hundreds of millions of people around the world go weeks at a time without talking to a single friend or family member.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 20,
+  "s": 154.28,
+  "e": 157.74,
+  "en": "Globally, one in four people feel lonely.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 21,
+  "s": 158.49,
+  "e": 164.62,
+  "en": "And 20 percent of adults worldwide don't feel like they have anyone they can reach out to for support.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 22,
+  "s": 165.25,
+  "e": 170.92,
+  "en": "Think about that. One in five people you encounter may feel like they have no one.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 23,
+  "s": 172.38,
+  "e": 180.18,
+  "en": "This is more than heartbreaking. It's also a public health crisis. Disconnection triggers stress in the body.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 24,
+  "s": 180.22,
+  "e": 182.89,
+  "en": "It weakens people's immune systems.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 25,
+  "s": 182.93,
+  "e": 191.15,
+  "en": "It puts them at a risk, greater risk, of stroke, heart disease, diabetes, dementia, depression and early death.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 26,
+  "s": 191.65,
+  "e": 194.61,
+  "en": "Social health is essential for longevity.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 27,
+  "s": 196.03,
+  "e": 201.24,
+  "en": "So you might be wondering, what does it look like to be socially healthy? What does that even mean?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 28,
+  "s": 201.53,
+  "e": 208.08,
+  "en": "Well it’s about developing close relationships with your family, your friends, your partner, yourself.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 29,
+  "s": 208.58,
+  "e": 212.92,
+  "en": "It's about having regular interaction with your coworkers, your neighbors.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 30,
+  "s": 212.92,
+  "e": 215.5,
+  "en": "It's about feeling like you belong to a community.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 31,
+  "s": 216.25,
+  "e": 222.59,
+  "en": "Being socially healthy is about having the right quantity and quality of connection for you.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 32,
+  "s": 223.84,
+  "e": 230.56,
+  "en": "And Maya's story is one example of how social health challenges come up. In my work, I hear many others.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 33,
+  "s": 230.6,
+  "e": 240.61,
+  "en": "Stories like Jay, a freshman in college who’s eager to get involved in campus yet is having a hard time fitting in with people in his dorm and often feels homesick.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 34,
+  "s": 241.15,
+  "e": 250.21,
+  "en": "Or Serena and Ali, a couple juggling the chaos of young kids with demanding jobs, they rarely have time to see friends or spend time one-on-one.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 35,
+  "s": 251.0,
+  "e": 262.01,
+  "en": "Or Henry, recently retired, who cherishes time with his spouse and yet feels untethered without his team anymore and wishes he could see his kids and grandkids more often.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 36,
+  "s": 262.47,
+  "e": 269.14,
+  "en": "These stories show that social health is relevant to each of us at every life stage.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 37,
+  "s": 269.77,
+  "e": 275.86,
+  "en": "So if you're not sure where to start, try the 5-3-1 guideline from my book. It goes like this.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 38,
+  "s": 275.9,
+  "e": 286.45,
+  "en": "Aim to interact with five different people each week, to strengthen at least three close relationships overall, and to spend one hour a day connecting.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 39,
+  "s": 286.45,
+  "e": 292.04,
+  "en": "Let's dig into these. So first, interact with five different people each week.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 40,
+  "s": 292.08,
+  "e": 301.84,
+  "en": "Just like eating a variety of vegetables and other food groups is more nutritious, research has shown that interacting with a variety of people is more rewarding.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 41,
+  "s": 301.88,
+  "e": 307.1,
+  "en": "So your five could include close loved ones, casual acquaintances, even complete strangers.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 42,
+  "s": 307.14,
+  "e": 319.31,
+  "en": "In fact, in one study that I love, people who just smiled, made eye contact and chit-chatted with a barista, felt happier and a greater sense of belonging than people who just rushed to get their coffee and go.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 43,
+  "s": 320.07,
+  "e": 323.78,
+  "en": "Next, strengthen at least three close relationships.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 44,
+  "s": 324.24,
+  "e": 330.41,
+  "en": "OK, we've all heard of a to-do list, but I would like to invite you to write a to-love list.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 45,
+  "s": 331.33,
+  "e": 335.29,
+  "en": "Who matters most to you? Who can you be yourself with?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 46,
+  "s": 335.33,
+  "e": 340.63,
+  "en": "Make sure that you invest in the names of at least three of the people that you write down.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 47,
+  "s": 340.67,
+  "e": 349.26,
+  "en": "By scheduling regular time together, by showing a genuine interest in their lives, and also by opening up about the experiences that you're going through.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 48,
+  "s": 349.64,
+  "e": 353.73,
+  "en": "And I'm often asked, does it have to be in person? Does texting count?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 49,
+  "s": 354.31,
+  "e": 358.31,
+  "en": "Studies have shown that face-to-face is ideal, so do that whenever possible.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 50,
+  "s": 358.31,
+  "e": 362.11,
+  "en": "But there are absolutely still benefits to staying connected virtually.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 51,
+  "s": 362.9,
+  "e": 367.49,
+  "en": "And last, spend one hour a day on meaningful connection.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 52,
+  "s": 367.49,
+  "e": 374.7,
+  "en": "OK, if you're an introvert, right now you're probably thinking one hour sounds like a lot. I get it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 53,
+  "s": 374.7,
+  "e": 378.0,
+  "en": "It might be surprising, but I'm actually also an introvert.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 54,
+  "s": 378.79,
+  "e": 387.3,
+  "en": "However, keep in mind that just like getting eight hours of sleep at night, the exact amount that's right for you personally might be higher or lower.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 55,
+  "s": 388.26,
+  "e": 395.31,
+  "en": "But if you are thinking that one hour a day sounds like way too much because you're just way too busy, I challenge you.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 56,
+  "s": 395.85,
+  "e": 400.9,
+  "en": "Adults in the US spend an average of 4.5 hours each day on their smartphones.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 57,
+  "s": 401.36,
+  "e": 405.4,
+  "en": "So instead of scrolling on social media, text a friend.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 58,
+  "s": 405.94,
+  "e": 409.66,
+  "en": "Instead of reading news headlines, write a thank-you card.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 59,
+  "s": 410.32,
+  "e": 413.62,
+  "en": "Instead of listening to a podcast, call a family member.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 60,
+  "s": 414.95,
+  "e": 432.05,
+  "en": "Maya put this into practice by scheduling recurring hangouts with a new local friend that she made, by attending community events and dropping cards off in her neighbors mailboxes, by planning trips to see family and inviting friends in other cities to come visit.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 61,
+  "s": 432.1,
+  "e": 441.19,
+  "en": "And bolstering her social health made more of a difference than focusing solely on her physical and mental health ever could.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 62,
+  "s": 441.65,
+  "e": 446.48,
+  "en": "And I know this because Maya is actually me.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 63,
+  "s": 448.82,
+  "e": 454.41,
+  "en": "I am so passionate about sharing tools to be socially healthy because honestly, I need them too.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 64,
+  "s": 454.7,
+  "e": 461.67,
+  "en": "And the 5-3-1 guideline is one way that we can be proactive and intentional about our relationships.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 65,
+  "s": 461.71,
+  "e": 467.17,
+  "en": "And that is really the point. Be proactive and intentional about your social health.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 66,
+  "s": 468.55,
+  "e": 477.64,
+  "en": "So zooming out beyond the steps that you and I take individually, together, we need to shape a society that thrives through social health.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 67,
+  "s": 478.1,
+  "e": 483.27,
+  "en": "Over the next decade, I envision educators championing social health in schools.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 68,
+  "s": 483.27,
+  "e": 490.53,
+  "en": "And just like kids build their physical muscles in gym class, they'll exercise their social muscles in connection class.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 69,
+  "s": 491.24,
+  "e": 497.58,
+  "en": "Over the next decade, I see our cities and neighborhoods being designed with social health in mind,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 70,
+  "s": 497.58,
+  "e": 503.71,
+  "en": "where vibrant gathering places foster unity and community builders are empowered to bring them to life.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 71,
+  "s": 504.71,
+  "e": 513.34,
+  "en": "Over the next decade, I believe that social health will become as ingrained in our collective consciousness as mental health is today.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 72,
+  "s": 513.38,
+  "e": 518.35,
+  "en": "Because not that long ago, mental health was a taboo topic shrouded in stigma.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 73,
+  "s": 518.35,
+  "e": 527.98,
+  "en": "And now public figures talk openly about it, there's an entire industry to support it, and more and more people think of going to therapy like going to the gym.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 74,
+  "s": 529.19,
+  "e": 537.49,
+  "en": "In this future, loneliness will subside, just like smoking subsided when we recognized and treated it as a public health issue.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 75,
+  "s": 538.49,
+  "e": 548.59,
+  "en": "In this future, I hope that social health will become so deeply woven into the fabric of our culture that no one needs the 5-3-1 guideline anymore.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 76,
+  "s": 549.84,
+  "e": 557.89,
+  "en": "So to get there, make relationships your priority not only for you, but also for the people you love.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 77,
+  "s": 557.93,
+  "e": 566.02,
+  "en": "Because the beauty of nurturing your own social health is that it naturally enriches the social health of everyone you connect with.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 78,
+  "s": 566.85,
+  "e": 574.95,
+  "en": "Thank you. (Applause)",
+  "spk": "Speaker"
+ }
+]

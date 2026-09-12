@@ -27,6 +27,10 @@ dokadoka-cards/
 ├─ korean-cards/              🇰🇷 프로미스나인 예능·브이로그 2시리즈 · 383+306장 · 포트 8098 (일본어 모어 학습자용)
 ├─ vitaminme-cards/           🇰🇷 fromis_9 「Vitamin ME」 노래 가사 · 84줄(가나 읽기) · 포트 8093 (일본어 모어 학습자용)
 ├─ english-cards/             🇺🇸 73 Questions With Zendaya · 248장 · 포트 8096
+├─ social-cards/              🇺🇸 TED · 사회적 건강 · 78장 · 포트 8087 (TED 공식 자막 CC)
+├─ think-cards/               🇺🇸 TED · AI 와 비판적 사고 · 127장 · 포트 8088 (TED 공식 자막 CC)
+├─ harris-cards/              🇺🇸 TED · AI 는 우리의 시험 · 130장 · 포트 8086 (TED 공식 자막 CC)
+├─ tipping-cards/             🇺🇸 TED · 기후 티핑포인트 · 157장 · 포트 8085 (TED 공식 자막 CC)
 ├─ reasons-cards/             🇺🇸 Matt Redman 「10,000 Reasons」 노래 가사 · 51줄(음성 인식 타이밍) · 포트 8092
 ├─ altman-cards/              🇺🇸 Sam Altman · Bloomberg TV 인터뷰(고급) · 123장 · 포트 8095
 ├─ feifei-cards/              🇺🇸 Fei-Fei Li · The Circuit 다큐 인터뷰(고급) · 250장 · 포트 8094

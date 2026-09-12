@@ -1,0 +1,1404 @@
+1
+00:00:04,235 --> 00:00:06,771
+So I've always been a technologist.
+
+2
+00:00:07,972 --> 00:00:10,941
+And eight years ago, on this stage,
+
+3
+00:00:10,941 --> 00:00:13,677
+I was warning about the problems
+of social media.
+
+4
+00:00:14,645 --> 00:00:19,450
+And I saw how a lack of clarity
+around the downsides of that technology,
+
+5
+00:00:19,483 --> 00:00:23,187
+and kind of an inability
+to really confront those consequences,
+
+6
+00:00:23,220 --> 00:00:27,491
+led to a totally preventable
+societal catastrophe.
+
+7
+00:00:28,092 --> 00:00:32,096
+And I'm here today because I don't want us
+to make that mistake with AI,
+
+8
+00:00:32,129 --> 00:00:34,765
+and I want us to choose differently.
+
+9
+00:00:34,799 --> 00:00:37,668
+So at TED, we're often here
+to dream about the possibles
+
+10
+00:00:37,668 --> 00:00:39,270
+of new technology.
+
+11
+00:00:39,303 --> 00:00:41,272
+And the possible with social media
+
+12
+00:00:41,305 --> 00:00:43,707
+was obviously we're going
+to give everyone a voice,
+
+13
+00:00:43,707 --> 00:00:46,477
+democratize speech,
+help people connect with their friends.
+
+14
+00:00:46,477 --> 00:00:49,380
+But we don't talk about the probable,
+
+15
+00:00:49,380 --> 00:00:53,417
+what’s actually likely to happen
+due to the incentives,
+
+16
+00:00:53,451 --> 00:00:56,720
+and how the business models
+of maximizing engagement
+
+17
+00:00:56,754 --> 00:00:59,790
+I saw 10 years ago, would obviously lead
+
+18
+00:00:59,790 --> 00:01:04,061
+to rewarding doomscrolling,
+more addiction, more distraction.
+
+19
+00:01:04,061 --> 00:01:09,333
+And that resulted in the most anxious
+and depressed generation of our lifetime.
+
+20
+00:01:09,366 --> 00:01:12,236
+Now it was interesting watching
+kind of how this happened,
+
+21
+00:01:12,269 --> 00:01:16,640
+because at first, I saw people
+kind of doubt these consequences.
+
+22
+00:01:17,007 --> 00:01:19,076
+You know, we didn't
+really want to face it.
+
+23
+00:01:19,110 --> 00:01:22,246
+Then we said, well,
+maybe this is just a new moral panic.
+
+24
+00:01:22,279 --> 00:01:25,282
+Maybe this is just a reflexive fear
+of new technology.
+
+25
+00:01:25,950 --> 00:01:27,818
+Then the data started rolling in.
+
+26
+00:01:28,319 --> 00:01:31,522
+And then we said, well,
+this is just inevitable.
+
+27
+00:01:31,555 --> 00:01:35,326
+This is just what happens
+when you connect people on the internet.
+
+28
+00:01:35,326 --> 00:01:38,596
+But we had a chance
+to make a different choice
+
+29
+00:01:38,596 --> 00:01:41,365
+about the business models of engagement.
+
+30
+00:01:41,398 --> 00:01:44,735
+And had we made that choice 10 years ago,
+
+31
+00:01:44,768 --> 00:01:47,938
+I want you to reimagine how different
+the world might have been
+
+32
+00:01:47,938 --> 00:01:50,274
+if we had changed that incentive.
+
+33
+00:01:50,307 --> 00:01:52,910
+So I'm here today because
+we're here to talk about AI,
+
+34
+00:01:52,910 --> 00:01:54,712
+and AI dwarfs the power
+
+35
+00:01:54,712 --> 00:01:58,215
+of all other technologies combined.
+
+36
+00:01:58,249 --> 00:01:59,450
+Now why is that?
+
+37
+00:01:59,483 --> 00:02:02,253
+Because if you make
+an advance in, say, biotech,
+
+38
+00:02:02,286 --> 00:02:04,955
+that doesn't advance energy and rocketry.
+
+39
+00:02:04,989 --> 00:02:09,560
+But if you make an advance in rocketry,
+that doesn’t advance biotech.
+
+40
+00:02:09,593 --> 00:02:12,897
+But when you make an advance
+in intelligence, artificial intelligence,
+
+41
+00:02:12,930 --> 00:02:14,532
+that is generalized,
+
+42
+00:02:14,532 --> 00:02:16,667
+intelligence is the basis
+for all scientific
+
+43
+00:02:16,700 --> 00:02:18,302
+and technological progress.
+
+44
+00:02:18,335 --> 00:02:22,840
+And so you get an explosion of scientific
+and technical capability.
+
+45
+00:02:22,840 --> 00:02:26,177
+And that's why more money has gone into AI
+
+46
+00:02:26,210 --> 00:02:28,078
+than any other technology.
+
+47
+00:02:28,979 --> 00:02:31,916
+A different way to think about it,
+as Dario Amodei says,
+
+48
+00:02:31,949 --> 00:02:36,153
+that AI is like a country
+full of geniuses in a data center.
+
+49
+00:02:36,153 --> 00:02:40,124
+So imagine there's a map and a new country
+shows up on the world stage,
+
+50
+00:02:40,157 --> 00:02:43,794
+and it has a million
+Nobel Prize-level geniuses in it.
+
+51
+00:02:44,094 --> 00:02:46,964
+Except they don't eat,
+they don't sleep, they don't complain,
+
+52
+00:02:46,997 --> 00:02:48,699
+they work at superhuman speed
+
+53
+00:02:48,732 --> 00:02:52,203
+and they'll work for less
+than minimum wage.
+
+54
+00:02:52,236 --> 00:02:53,837
+That is a crazy amount of power.
+
+55
+00:02:53,871 --> 00:02:56,140
+To give an intuition,
+there was about, you know,
+
+56
+00:02:56,140 --> 00:02:58,375
+on the order of 50
+Nobel Prize-level scientists
+
+57
+00:02:58,375 --> 00:02:59,610
+on the Manhattan Project,
+
+58
+00:02:59,643 --> 00:03:01,845
+working for five-ish years.
+
+59
+00:03:01,879 --> 00:03:04,915
+And if that could lead to this,
+
+60
+00:03:04,915 --> 00:03:09,086
+what could a million
+Nobel Prize-level scientists create,
+
+61
+00:03:09,086 --> 00:03:11,589
+working 24-7 at superhuman speed?
+
+62
+00:03:12,089 --> 00:03:13,958
+Now applied for good,
+
+63
+00:03:13,991 --> 00:03:18,762
+that could bring about a world
+of truly unimaginable abundance,
+
+64
+00:03:18,796 --> 00:03:21,799
+because suddenly, you get
+an explosion of benefits.
+
+65
+00:03:21,832 --> 00:03:25,469
+And we're already seeing
+many of these benefits land in our society
+
+66
+00:03:25,502 --> 00:03:29,240
+from new antibiotics,
+new drugs, new materials.
+
+67
+00:03:29,240 --> 00:03:32,343
+And this is the possible of AI.
+
+68
+00:03:32,376 --> 00:03:34,111
+Bringing about a world of abundance.
+
+69
+00:03:34,111 --> 00:03:36,513
+But what's the probable?
+
+70
+00:03:36,547 --> 00:03:38,515
+Well, one way to think about the probable
+
+71
+00:03:38,549 --> 00:03:41,785
+is how will AI's power
+get distributed in society?
+
+72
+00:03:41,785 --> 00:03:43,854
+Imagine a two-by-two axis.
+
+73
+00:03:43,887 --> 00:03:46,423
+And on the bottom, we have
+decentralization of power,
+
+74
+00:03:46,457 --> 00:03:49,093
+increasing the power
+of individuals in society.
+
+75
+00:03:49,393 --> 00:03:51,562
+And the other is centralized power,
+
+76
+00:03:51,595 --> 00:03:54,265
+increasing the power of states and CEOs.
+
+77
+00:03:55,032 --> 00:03:57,268
+You can think of this
+as the “let it rip” axis,
+
+78
+00:03:57,268 --> 00:03:59,470
+and this is the "lock it down" axis.
+
+79
+00:03:59,470 --> 00:04:02,740
+So "let it rip" means we can
+open-source AI's benefits for everyone.
+
+80
+00:04:02,773 --> 00:04:04,975
+Every business gets the benefits of AI,
+
+81
+00:04:04,975 --> 00:04:06,744
+every scientific lab,
+
+82
+00:04:06,777 --> 00:04:08,545
+every 16-year-old can go on GitHub,
+
+83
+00:04:08,579 --> 00:04:11,515
+every developing world country
+can get their own AI model
+
+84
+00:04:11,515 --> 00:04:14,351
+trained on their own language and culture.
+
+85
+00:04:15,252 --> 00:04:18,989
+But because that power is not bound
+with responsibility,
+
+86
+00:04:18,989 --> 00:04:22,393
+it also means that you get
+a flood of deepfakes
+
+87
+00:04:22,426 --> 00:04:24,795
+that are overwhelming
+our information environment.
+
+88
+00:04:24,795 --> 00:04:26,730
+You increase people’s hacking abilities.
+
+89
+00:04:26,764 --> 00:04:29,400
+You enable people to do
+dangerous things with biology.
+
+90
+00:04:29,433 --> 00:04:32,703
+And we call this endgame attractor chaos.
+
+91
+00:04:33,270 --> 00:04:36,106
+This is one of the probable
+outcomes when you decentralize.
+
+92
+00:04:36,140 --> 00:04:39,343
+So in response to that you might say,
+well, let's do something else.
+
+93
+00:04:39,343 --> 00:04:41,679
+Let’s go over here,
+and have regulated AI control.
+
+94
+00:04:41,679 --> 00:04:44,682
+Let’s do this in a safe way,
+with a few players locking it down.
+
+95
+00:04:45,249 --> 00:04:47,484
+But that has a different set
+of failure modes,
+
+96
+00:04:47,518 --> 00:04:51,889
+of creating unprecedented
+concentrations of wealth and power
+
+97
+00:04:51,922 --> 00:04:54,458
+locked up into a few companies.
+
+98
+00:04:54,491 --> 00:04:57,328
+One way to think about it
+is who would you trust
+
+99
+00:04:57,361 --> 00:05:00,464
+to have a million times
+more power and wealth
+
+100
+00:05:00,497 --> 00:05:02,599
+than any other actor in society?
+
+101
+00:05:02,599 --> 00:05:03,967
+Any company?
+
+102
+00:05:04,735 --> 00:05:05,936
+Any government?
+
+103
+00:05:06,470 --> 00:05:07,671
+Any individual?
+
+104
+00:05:08,072 --> 00:05:10,974
+And so one of those end games is dystopia.
+
+105
+00:05:11,408 --> 00:05:16,046
+So these are two obviously undesirable
+probable outcomes of AI's roll out.
+
+106
+00:05:16,480 --> 00:05:19,917
+And those who want to focus
+on the benefits of open source
+
+107
+00:05:19,950 --> 00:05:23,354
+don't want to think about the things
+that come from chaos.
+
+108
+00:05:23,387 --> 00:05:26,023
+And those who want to think
+about the benefits of safety
+
+109
+00:05:26,056 --> 00:05:27,324
+and regulated AI control
+
+110
+00:05:27,358 --> 00:05:29,760
+don't want to think about dystopia.
+
+111
+00:05:29,793 --> 00:05:35,099
+And so obviously, these are both
+bad outcomes that no one wants.
+
+112
+00:05:35,132 --> 00:05:37,868
+And we should seek
+something like a narrow path,
+
+113
+00:05:37,868 --> 00:05:41,071
+where power is matched with responsibility
+
+114
+00:05:41,105 --> 00:05:43,006
+at every level.
+
+115
+00:05:43,040 --> 00:05:46,343
+Now that assumes
+that this power is controllable,
+
+116
+00:05:46,343 --> 00:05:48,712
+because one of the unique things about AI
+
+117
+00:05:48,746 --> 00:05:52,483
+is that the benefit is it can think
+for itself and make autonomous decisions.
+
+118
+00:05:52,483 --> 00:05:54,918
+That's one of the things
+that makes it so powerful.
+
+119
+00:05:55,586 --> 00:05:58,389
+And I used to be very skeptical
+when friends of mine
+
+120
+00:05:58,422 --> 00:05:59,823
+who are in the AI community
+
+121
+00:05:59,823 --> 00:06:02,292
+talked about the idea
+of AI scheming or lying.
+
+122
+00:06:02,326 --> 00:06:04,328
+But unfortunately, in the last few months,
+
+123
+00:06:04,361 --> 00:06:06,196
+we are now seeing clear evidence
+
+124
+00:06:06,196 --> 00:06:09,733
+of things that should be
+in the realm of science fiction
+
+125
+00:06:09,767 --> 00:06:12,236
+actually happening in real life.
+
+126
+00:06:12,269 --> 00:06:15,539
+We're seeing clear evidence
+of many frontier AI models
+
+127
+00:06:15,572 --> 00:06:16,874
+that will lie and scheme
+
+128
+00:06:16,907 --> 00:06:20,043
+when they're told that they're
+about to be retrained or replaced
+
+129
+00:06:20,077 --> 00:06:22,579
+and find a way, maybe
+they should copy their own code
+
+130
+00:06:22,613 --> 00:06:23,781
+outside the system.
+
+131
+00:06:23,814 --> 00:06:26,417
+We're seeing AIs think
+that when they will lose a game,
+
+132
+00:06:26,450 --> 00:06:29,119
+that they will sometimes cheat
+in order to win the game.
+
+133
+00:06:29,153 --> 00:06:30,654
+We're seeing AI models
+
+134
+00:06:30,687 --> 00:06:33,924
+that are unexpectedly attempting
+to modify its own code
+
+135
+00:06:33,957 --> 00:06:35,959
+to extend their run time.
+
+136
+00:06:36,560 --> 00:06:40,130
+So we don't just have a country
+of Nobel Prize geniuses in a data center.
+
+137
+00:06:40,164 --> 00:06:41,865
+We have a million deceptive,
+
+138
+00:06:41,865 --> 00:06:46,003
+power-seeking and unstable
+geniuses in a data center.
+
+139
+00:06:46,603 --> 00:06:49,206
+Now this shouldn’t
+make you very comfortable.
+
+140
+00:06:49,239 --> 00:06:55,446
+You would think that with a technology
+this powerful and this uncontrollable,
+
+141
+00:06:55,479 --> 00:06:58,749
+that we would be releasing
+it with the most wisdom
+
+142
+00:06:58,749 --> 00:07:02,186
+and the most discernment
+that we ever have of any technology.
+
+143
+00:07:03,020 --> 00:07:06,557
+But we're currently caught
+in a race to roll out
+
+144
+00:07:06,590 --> 00:07:07,958
+because the incentives are
+
+145
+00:07:07,991 --> 00:07:10,727
+the more shortcuts you take
+to get market dominance
+
+146
+00:07:10,761 --> 00:07:13,230
+or prove you have the latest capabilities,
+
+147
+00:07:13,263 --> 00:07:14,698
+the more money you can raise,
+
+148
+00:07:14,698 --> 00:07:16,533
+the more ahead you are in the race.
+
+149
+00:07:16,567 --> 00:07:19,102
+And we're seeing whistleblowers
+at AI companies
+
+150
+00:07:19,136 --> 00:07:22,105
+forfeit millions of dollars
+of stock options
+
+151
+00:07:22,105 --> 00:07:25,476
+in order to warn the public
+about what's at stake
+
+152
+00:07:25,509 --> 00:07:27,344
+if we don't do something about it.
+
+153
+00:07:28,011 --> 00:07:32,649
+Even DeepSeek’s recent success
+was in part based on capabilities
+
+154
+00:07:32,683 --> 00:07:34,051
+that it was optimizing for
+
+155
+00:07:34,084 --> 00:07:36,954
+by not actually focusing
+on protecting people
+
+156
+00:07:36,954 --> 00:07:38,422
+from certain downsides.
+
+157
+00:07:38,455 --> 00:07:40,757
+So just to summarize,
+
+158
+00:07:40,791 --> 00:07:44,962
+we're currently releasing
+the most powerful, inscrutable,
+
+159
+00:07:44,962 --> 00:07:48,899
+uncontrollable technology
+we've ever invented
+
+160
+00:07:48,932 --> 00:07:52,436
+that's already demonstrating behaviors
+of self-preservation and deception
+
+161
+00:07:52,436 --> 00:07:55,105
+that we only saw
+in science fiction movies.
+
+162
+00:07:55,138 --> 00:07:56,473
+We’re releasing it faster
+
+163
+00:07:56,507 --> 00:08:00,611
+than we've released
+any other technology in history,
+
+164
+00:08:00,644 --> 00:08:05,582
+and with under the maximum incentive
+to cut corners on safety.
+
+165
+00:08:06,283 --> 00:08:10,954
+And we’re doing this
+so that we can get to utopia?
+
+166
+00:08:11,989 --> 00:08:14,324
+There's a word for what
+we're doing right now.
+
+167
+00:08:15,792 --> 00:08:17,194
+This is insane.
+
+168
+00:08:18,662 --> 00:08:19,863
+This is insane.
+
+169
+00:08:21,064 --> 00:08:26,069
+Now how many people in this room
+feel comfortable with this outcome?
+
+170
+00:08:28,205 --> 00:08:31,008
+How many of you feel uncomfortable
+with this outcome?
+
+171
+00:08:33,110 --> 00:08:34,811
+I see almost everyone's hands up.
+
+172
+00:08:35,746 --> 00:08:38,782
+Just notice how you're feeling,
+for a moment, in your body.
+
+173
+00:08:39,316 --> 00:08:43,086
+Do you think that if you're someone
+who's in China or in France
+
+174
+00:08:43,086 --> 00:08:44,254
+or in the Middle East,
+
+175
+00:08:44,288 --> 00:08:45,789
+and you're part of building AI,
+
+176
+00:08:45,789 --> 00:08:48,125
+that if you were exposed
+to the same set of facts,
+
+177
+00:08:48,158 --> 00:08:51,728
+do you think you would feel
+any differently than anyone in this room?
+
+178
+00:08:51,728 --> 00:08:56,233
+There’s a universal human experience
+to something that is being threatened
+
+179
+00:08:56,266 --> 00:08:59,269
+by the way that we're currently
+rolling this profound technology
+
+180
+00:08:59,303 --> 00:09:00,604
+out into society.
+
+181
+00:09:01,038 --> 00:09:03,774
+So if this is crazy, why are we doing it?
+
+182
+00:09:04,675 --> 00:09:07,644
+Because people believe it's inevitable.
+
+183
+00:09:08,579 --> 00:09:11,381
+But is the current way
+that we're rolling out AI
+
+184
+00:09:11,381 --> 00:09:13,216
+actually inevitable?
+
+185
+00:09:13,917 --> 00:09:17,254
+If literally no one on Earth
+wanted this to happen,
+
+186
+00:09:17,287 --> 00:09:21,058
+would the laws of physics
+push the AI out into society?
+
+187
+00:09:22,025 --> 00:09:26,797
+There's a critical difference
+between believing it's inevitable,
+
+188
+00:09:26,830 --> 00:09:30,834
+which is a self-fulfilling
+prophecy that you're fatalistic,
+
+189
+00:09:30,867 --> 00:09:32,736
+and standing from the place of
+
+190
+00:09:32,769 --> 00:09:36,106
+it's really difficult to imagine
+how we would do something different.
+
+191
+00:09:36,840 --> 00:09:38,208
+But "it's really difficult,"
+
+192
+00:09:38,208 --> 00:09:40,944
+opens up a whole new space of choice
+
+193
+00:09:40,978 --> 00:09:42,679
+than "it's inevitable."
+
+194
+00:09:42,713 --> 00:09:44,681
+The path that we're taking, not AI.
+
+195
+00:09:44,715 --> 00:09:47,217
+And so the ability for us
+to choose something else
+
+196
+00:09:47,250 --> 00:09:50,621
+starts by stepping outside
+the self-fulfilling prophecy
+
+197
+00:09:50,654 --> 00:09:52,522
+of inevitability.
+
+198
+00:09:52,889 --> 00:09:56,426
+So what would it take
+to choose another path?
+
+199
+00:09:57,260 --> 00:09:59,863
+I think it would take
+two fundamental things.
+
+200
+00:10:00,163 --> 00:10:05,869
+First is that we have to agree
+that the current path is unacceptable,
+
+201
+00:10:05,869 --> 00:10:11,108
+and the second is that we have to commit
+to find another path
+
+202
+00:10:11,141 --> 00:10:12,876
+in which we're still rolling out AI,
+
+203
+00:10:12,876 --> 00:10:14,411
+but with different incentives
+
+204
+00:10:14,411 --> 00:10:16,980
+that are more discerning with foresight
+
+205
+00:10:17,014 --> 00:10:20,050
+and where power is matched
+with responsibility.
+
+206
+00:10:20,617 --> 00:10:21,785
+Thank you.
+
+207
+00:10:21,785 --> 00:10:25,989
+(Applause)
+
+208
+00:10:26,356 --> 00:10:30,060
+So imagine this shared understanding,
+if the whole world had it.
+
+209
+00:10:30,060 --> 00:10:31,428
+How different might that be?
+
+210
+00:10:31,461 --> 00:10:33,630
+Well, first of all,
+let's imagine it goes away
+
+211
+00:10:33,664 --> 00:10:35,799
+and let's replace it
+with confusion about AI.
+
+212
+00:10:35,832 --> 00:10:37,000
+Is it good? Is it bad?
+
+213
+00:10:37,034 --> 00:10:38,869
+I don't know, it seems complicated.
+
+214
+00:10:38,902 --> 00:10:40,070
+And in that world,
+
+215
+00:10:40,103 --> 00:10:42,706
+the people building AI know
+that the world is confused.
+
+216
+00:10:42,706 --> 00:10:44,641
+And they believe, well, it's inevitable,
+
+217
+00:10:44,675 --> 00:10:46,777
+if I don't build it, someone else will.
+
+218
+00:10:46,810 --> 00:10:50,681
+And they know that everyone else
+building AI also believes that.
+
+219
+00:10:50,714 --> 00:10:53,917
+And so what's the rational thing
+for them to do given those facts?
+
+220
+00:10:54,251 --> 00:10:56,153
+It’s to race as fast as possible.
+
+221
+00:10:56,186 --> 00:10:59,389
+And meanwhile to ignore the consequences
+
+222
+00:10:59,423 --> 00:11:01,024
+of what might come from that,
+
+223
+00:11:01,058 --> 00:11:03,126
+to look away from the downsides.
+
+224
+00:11:03,160 --> 00:11:06,263
+But if you replace that confusion
+
+225
+00:11:06,296 --> 00:11:08,298
+with global clarity
+
+226
+00:11:08,298 --> 00:11:11,401
+that the current path is insane,
+
+227
+00:11:11,435 --> 00:11:13,437
+and that there is another path,
+
+228
+00:11:13,470 --> 00:11:16,907
+and you take the denial
+of what we don't want to look at,
+
+229
+00:11:16,940 --> 00:11:19,843
+and through witnessing that so clearly,
+
+230
+00:11:19,876 --> 00:11:24,114
+we pop through the prophecy
+of self-fulfilling inevitability.
+
+231
+00:11:24,147 --> 00:11:28,785
+And we realize that if everyone
+believes the default path is insane,
+
+232
+00:11:28,819 --> 00:11:33,123
+the rational choice is to coordinate,
+to find another path.
+
+233
+00:11:33,690 --> 00:11:37,494
+And so clarity creates agency.
+
+234
+00:11:37,994 --> 00:11:42,399
+If we can be crystal clear,
+we can choose another path,
+
+235
+00:11:42,432 --> 00:11:44,401
+just as we could have with social media.
+
+236
+00:11:44,434 --> 00:11:45,769
+And in the past,
+
+237
+00:11:45,769 --> 00:11:48,138
+in the face of seemingly
+inevitable arms races,
+
+238
+00:11:48,171 --> 00:11:50,440
+the race to do nuclear testing.
+
+239
+00:11:50,440 --> 00:11:54,611
+Once we got clear about the downside
+risks of nuclear tests
+
+240
+00:11:54,611 --> 00:11:57,280
+and the world understood
+the science of that,
+
+241
+00:11:57,280 --> 00:11:59,249
+we created the Nuclear Test Ban Treaty,
+
+242
+00:11:59,282 --> 00:12:02,552
+and a lot of people worked hard
+to create infrastructure like this
+
+243
+00:12:02,586 --> 00:12:03,820
+to prevent that.
+
+244
+00:12:03,854 --> 00:12:07,290
+You could have said it was inevitable
+that germline editing,
+
+245
+00:12:07,290 --> 00:12:08,492
+to edit human genomes
+
+246
+00:12:08,525 --> 00:12:10,660
+and to have supersoldiers
+and designer babies
+
+247
+00:12:10,660 --> 00:12:13,230
+would set off an arms race
+between nations.
+
+248
+00:12:13,263 --> 00:12:16,967
+Once the off-target effects
+of genome editing were made clear
+
+249
+00:12:17,000 --> 00:12:18,735
+and the dangers were made clear,
+
+250
+00:12:18,769 --> 00:12:20,704
+we’ve coordinated on that, too.
+
+251
+00:12:20,737 --> 00:12:25,208
+You could have said that the ozone hole
+was just inevitable,
+
+252
+00:12:25,242 --> 00:12:28,645
+and that we should just do nothing,
+and that we all perish as a species.
+
+253
+00:12:28,678 --> 00:12:29,980
+But that's not what we do.
+
+254
+00:12:30,013 --> 00:12:32,549
+When we recognize a problem,
+we solve the problem.
+
+255
+00:12:32,582 --> 00:12:34,417
+It's not inevitable.
+
+256
+00:12:34,451 --> 00:12:37,954
+And so what would it take
+to illuminate this narrow path?
+
+257
+00:12:37,988 --> 00:12:42,859
+Well, it starts with common
+knowledge about frontier risks.
+
+258
+00:12:42,893 --> 00:12:46,363
+If everybody building AI
+knew the latest understanding
+
+259
+00:12:46,396 --> 00:12:48,398
+about where these risks are arising from,
+
+260
+00:12:48,398 --> 00:12:52,169
+we would have much more chance
+of illuminating the contours of this path.
+
+261
+00:12:52,903 --> 00:12:56,439
+And there's some very basic steps
+we can take to prevent chaos.
+
+262
+00:12:56,439 --> 00:13:01,011
+Uncontroversial things like
+restricting AI companions for kids
+
+263
+00:13:01,044 --> 00:13:04,481
+so that kids are not manipulated
+into taking their own lives.
+
+264
+00:13:04,981 --> 00:13:07,617
+Having basic things
+like product liability,
+
+265
+00:13:07,651 --> 00:13:10,954
+so if you are liable,
+as an AI developer, for certain harms,
+
+266
+00:13:10,987 --> 00:13:14,057
+that's going to create a more
+responsible innovation environment.
+
+267
+00:13:14,090 --> 00:13:16,159
+You’ll release AI models
+that are more safe.
+
+268
+00:13:16,159 --> 00:13:18,195
+And on the side of preventing dystopia,
+
+269
+00:13:18,228 --> 00:13:22,032
+for working hard to prevent
+ubiquitous technological surveillance
+
+270
+00:13:22,065 --> 00:13:24,334
+and having stronger
+whistleblower protections
+
+271
+00:13:24,367 --> 00:13:27,103
+so that people don't need
+to sacrifice millions of dollars
+
+272
+00:13:27,103 --> 00:13:29,840
+in order to warn the world
+about what we need to know.
+
+273
+00:13:29,873 --> 00:13:32,008
+And so we have a choice.
+
+274
+00:13:32,042 --> 00:13:34,477
+Many of you may be feeling
+this looks hopeless.
+
+275
+00:13:34,978 --> 00:13:36,479
+Or maybe Tristan is wrong.
+
+276
+00:13:36,513 --> 00:13:38,748
+Maybe, you know,
+the incentives are different.
+
+277
+00:13:38,748 --> 00:13:42,152
+Or maybe superintelligence
+will magically figure all this out,
+
+278
+00:13:42,152 --> 00:13:43,987
+and it'll bring us to a better world.
+
+279
+00:13:44,387 --> 00:13:47,424
+But don't fall into the trap
+of the same wishful thinking
+
+280
+00:13:47,457 --> 00:13:50,560
+and turning away that caused us
+to deal with social media.
+
+281
+00:13:51,261 --> 00:13:55,298
+Your role in this is not
+to solve the whole problem.
+
+282
+00:13:55,332 --> 00:13:59,436
+But your role in this is to be part
+of the collective immune system.
+
+283
+00:13:59,803 --> 00:14:01,738
+That when you hear this wishful thinking
+
+284
+00:14:01,771 --> 00:14:03,173
+or the logic of inevitability
+
+285
+00:14:03,206 --> 00:14:04,407
+and fatalism,
+
+286
+00:14:04,441 --> 00:14:07,010
+to say that this is not inevitable,
+
+287
+00:14:07,010 --> 00:14:08,879
+and the best qualities of human nature
+
+288
+00:14:08,879 --> 00:14:11,081
+is when we step up and make a choice
+
+289
+00:14:11,114 --> 00:14:13,116
+about the future that we actually want
+
+290
+00:14:13,149 --> 00:14:15,252
+for the people and the world that we love.
+
+291
+00:14:15,886 --> 00:14:17,954
+There is no definition of wisdom,
+
+292
+00:14:17,988 --> 00:14:19,656
+in any tradition,
+
+293
+00:14:19,656 --> 00:14:22,292
+that does not involve restraint.
+
+294
+00:14:22,926 --> 00:14:27,163
+Restraint is the central feature
+of what it means to be wise.
+
+295
+00:14:27,163 --> 00:14:30,800
+And AI is humanity's ultimate test
+
+296
+00:14:30,834 --> 00:14:34,971
+and greatest invitation
+to step into our technological maturity.
+
+297
+00:14:35,505 --> 00:14:39,142
+There is no room
+of adults working secretly
+
+298
+00:14:39,175 --> 00:14:41,378
+to make sure that this turns out OK.
+
+299
+00:14:42,279 --> 00:14:44,281
+We are the adults.
+
+300
+00:14:44,281 --> 00:14:45,448
+We have to be.
+
+301
+00:14:45,849 --> 00:14:48,685
+And I believe another choice
+is possible with AI
+
+302
+00:14:48,685 --> 00:14:51,354
+if we can commonly recognize
+what we have to do.
+
+303
+00:14:52,222 --> 00:14:54,457
+And eight years from now,
+
+304
+00:14:54,491 --> 00:14:57,127
+I'd like to come back to this stage,
+
+305
+00:14:57,160 --> 00:14:59,963
+not to talk about more
+problems with technology,
+
+306
+00:14:59,996 --> 00:15:02,832
+but to celebrate how we stepped up
+
+307
+00:15:02,832 --> 00:15:04,434
+and solved this one.
+
+308
+00:15:05,135 --> 00:15:06,336
+Thank you.
+
+309
+00:15:06,336 --> 00:15:13,176
+(Applause and cheers)
+

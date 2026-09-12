@@ -1,0 +1,43 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모     E = 표현·문형   V = 단어
+# --- 표현 ---------------------------------------------------
+E|I've always been|저는 늘 ~였습니다|현재완료로 자기소개
+E|it was interesting|흥미로웠던 건|관찰을 꺼낼 때
+E|at first|처음에는|뒤에 대조가 온다
+E|make an advance|진전을 이루다|advance = 진전(명사)
+E|lead to|~로 이어지다|인과 연결의 기본
+E|let it rip|그냥 풀어놓다|고삐를 놓는다는 뜻의 구어
+E|one way to think about|이렇게 생각해 볼 수 있습니다|관점 제시
+E|I used to be|예전엔 ~였습니다|
+E|caught in|~에 갇힌|be caught in a race
+E|roll out|출시하다·전개하다|
+E|in the face of|~에 직면하여|
+E|fall into the trap|함정에 빠지다|
+E|someone else will|다른 누군가가 할 것이다|불가피론의 대표 문장
+E|the more|~할수록|the 비교급 ~, the 비교급 …
+E|we have to|우리는 ~해야 한다|
+E|have to be|그래야만 한다|
+E|for everyone|모두를 위해|
+E|in the past|과거에는|
+E|so that|~하도록|목적
+E|that's why|그래서 ~입니다|
+# --- 단어 ---------------------------------------------------
+V|power|힘·권력|
+V|inevitable|불가피한|강연의 핵심 반박 대상
+V|technology|기술|
+V|choice|선택|
+V|choose|선택하다|
+V|benefit|이익|
+V|society|사회|
+V|probable|일어남직한|possible 보다 가능성이 높음
+V|possible|가능한|
+V|model|모델|AI models
+V|advance|진전|
+V|imagine|상상하다|
+V|incentive|유인·동기|
+V|million|백만|
+V|genius|천재|
+V|country|나라|
+V|media|매체|social media
+V|clear|분명한|
+V|obviously|당연히|
+V|actually|사실은|

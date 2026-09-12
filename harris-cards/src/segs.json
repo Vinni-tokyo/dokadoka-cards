@@ -1,0 +1,912 @@
+[
+ {
+  "id": 1,
+  "s": 4.24,
+  "e": 6.77,
+  "en": "So I've always been a technologist.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 2,
+  "s": 7.97,
+  "e": 13.68,
+  "en": "And eight years ago, on this stage, I was warning about the problems of social media.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 3,
+  "s": 14.64,
+  "e": 27.49,
+  "en": "And I saw how a lack of clarity around the downsides of that technology, and kind of an inability to really confront those consequences, led to a totally preventable societal catastrophe.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 4,
+  "s": 28.09,
+  "e": 34.77,
+  "en": "And I'm here today because I don't want us to make that mistake with AI, and I want us to choose differently.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 5,
+  "s": 34.8,
+  "e": 39.27,
+  "en": "So at TED, we're often here to dream about the possibles of new technology.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 6,
+  "s": 39.3,
+  "e": 46.48,
+  "en": "And the possible with social media was obviously we're going to give everyone a voice, democratize speech, help people connect with their friends.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 7,
+  "s": 46.48,
+  "e": 53.42,
+  "en": "But we don't talk about the probable, what’s actually likely to happen due to the incentives,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 8,
+  "s": 53.42,
+  "e": 64.06,
+  "en": "and how the business models of maximizing engagement I saw 10 years ago, would obviously lead to rewarding doomscrolling, more addiction, more distraction.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 9,
+  "s": 64.06,
+  "e": 69.33,
+  "en": "And that resulted in the most anxious and depressed generation of our lifetime.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 10,
+  "s": 69.37,
+  "e": 76.64,
+  "en": "Now it was interesting watching kind of how this happened, because at first, I saw people kind of doubt these consequences.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 11,
+  "s": 77.01,
+  "e": 82.25,
+  "en": "You know, we didn't really want to face it. Then we said, well, maybe this is just a new moral panic.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 12,
+  "s": 82.28,
+  "e": 87.82,
+  "en": "Maybe this is just a reflexive fear of new technology. Then the data started rolling in.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 13,
+  "s": 88.32,
+  "e": 91.52,
+  "en": "And then we said, well, this is just inevitable.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 14,
+  "s": 91.56,
+  "e": 95.33,
+  "en": "This is just what happens when you connect people on the internet.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 15,
+  "s": 95.33,
+  "e": 101.36,
+  "en": "But we had a chance to make a different choice about the business models of engagement.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 16,
+  "s": 101.4,
+  "e": 110.27,
+  "en": "And had we made that choice 10 years ago, I want you to reimagine how different the world might have been if we had changed that incentive.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 17,
+  "s": 110.31,
+  "e": 118.22,
+  "en": "So I'm here today because we're here to talk about AI, and AI dwarfs the power of all other technologies combined.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 18,
+  "s": 118.25,
+  "e": 124.95,
+  "en": "Now why is that? Because if you make an advance in, say, biotech, that doesn't advance energy and rocketry.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 19,
+  "s": 124.99,
+  "e": 129.56,
+  "en": "But if you make an advance in rocketry, that doesn’t advance biotech.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 20,
+  "s": 129.59,
+  "e": 138.3,
+  "en": "But when you make an advance in intelligence, artificial intelligence, that is generalized, intelligence is the basis for all scientific and technological progress.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 21,
+  "s": 138.34,
+  "e": 142.84,
+  "en": "And so you get an explosion of scientific and technical capability.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 22,
+  "s": 142.84,
+  "e": 148.08,
+  "en": "And that's why more money has gone into AI than any other technology.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 23,
+  "s": 148.98,
+  "e": 156.15,
+  "en": "A different way to think about it, as Dario Amodei says, that AI is like a country full of geniuses in a data center.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 24,
+  "s": 156.15,
+  "e": 163.79,
+  "en": "So imagine there's a map and a new country shows up on the world stage, and it has a million Nobel Prize-level geniuses in it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 25,
+  "s": 164.09,
+  "e": 172.2,
+  "en": "Except they don't eat, they don't sleep, they don't complain, they work at superhuman speed and they'll work for less than minimum wage.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 26,
+  "s": 172.24,
+  "e": 173.84,
+  "en": "That is a crazy amount of power.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 27,
+  "s": 173.87,
+  "e": 181.84,
+  "en": "To give an intuition, there was about, you know, on the order of 50 Nobel Prize-level scientists on the Manhattan Project, working for five-ish years.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 28,
+  "s": 181.88,
+  "e": 191.59,
+  "en": "And if that could lead to this, what could a million Nobel Prize-level scientists create, working 24-7 at superhuman speed?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 29,
+  "s": 192.09,
+  "e": 201.8,
+  "en": "Now applied for good, that could bring about a world of truly unimaginable abundance, because suddenly, you get an explosion of benefits.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 30,
+  "s": 201.83,
+  "e": 209.24,
+  "en": "And we're already seeing many of these benefits land in our society from new antibiotics, new drugs, new materials.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 31,
+  "s": 209.24,
+  "e": 216.51,
+  "en": "And this is the possible of AI. Bringing about a world of abundance. But what's the probable?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 32,
+  "s": 216.55,
+  "e": 221.78,
+  "en": "Well, one way to think about the probable is how will AI's power get distributed in society?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 33,
+  "s": 221.78,
+  "e": 223.85,
+  "en": "Imagine a two-by-two axis.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 34,
+  "s": 223.89,
+  "e": 229.09,
+  "en": "And on the bottom, we have decentralization of power, increasing the power of individuals in society.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 35,
+  "s": 229.39,
+  "e": 234.26,
+  "en": "And the other is centralized power, increasing the power of states and CEOs.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 36,
+  "s": 235.03,
+  "e": 239.47,
+  "en": "You can think of this as the “let it rip” axis, and this is the \"lock it down\" axis.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 37,
+  "s": 239.47,
+  "e": 242.74,
+  "en": "So \"let it rip\" means we can open-source AI's benefits for everyone.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 38,
+  "s": 242.77,
+  "e": 254.35,
+  "en": "Every business gets the benefits of AI, every scientific lab, every 16-year-old can go on GitHub, every developing world country can get their own AI model trained on their own language and culture.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 39,
+  "s": 255.25,
+  "e": 264.8,
+  "en": "But because that power is not bound with responsibility, it also means that you get a flood of deepfakes that are overwhelming our information environment.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 40,
+  "s": 264.8,
+  "e": 269.4,
+  "en": "You increase people’s hacking abilities. You enable people to do dangerous things with biology.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 41,
+  "s": 269.43,
+  "e": 276.11,
+  "en": "And we call this endgame attractor chaos. This is one of the probable outcomes when you decentralize.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 42,
+  "s": 276.14,
+  "e": 279.34,
+  "en": "So in response to that you might say, well, let's do something else.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 43,
+  "s": 279.34,
+  "e": 281.68,
+  "en": "Let’s go over here, and have regulated AI control.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 44,
+  "s": 281.68,
+  "e": 284.68,
+  "en": "Let’s do this in a safe way, with a few players locking it down.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 45,
+  "s": 285.25,
+  "e": 294.46,
+  "en": "But that has a different set of failure modes, of creating unprecedented concentrations of wealth and power locked up into a few companies.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 46,
+  "s": 294.49,
+  "e": 302.6,
+  "en": "One way to think about it is who would you trust to have a million times more power and wealth than any other actor in society?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 47,
+  "s": 302.6,
+  "e": 310.97,
+  "en": "Any company? Any government? Any individual? And so one of those end games is dystopia.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 48,
+  "s": 311.41,
+  "e": 316.05,
+  "en": "So these are two obviously undesirable probable outcomes of AI's roll out.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 49,
+  "s": 316.48,
+  "e": 323.35,
+  "en": "And those who want to focus on the benefits of open source don't want to think about the things that come from chaos.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 50,
+  "s": 323.39,
+  "e": 329.76,
+  "en": "And those who want to think about the benefits of safety and regulated AI control don't want to think about dystopia.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 51,
+  "s": 329.79,
+  "e": 335.1,
+  "en": "And so obviously, these are both bad outcomes that no one wants.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 52,
+  "s": 335.13,
+  "e": 343.01,
+  "en": "And we should seek something like a narrow path, where power is matched with responsibility at every level.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 53,
+  "s": 343.04,
+  "e": 352.48,
+  "en": "Now that assumes that this power is controllable, because one of the unique things about AI is that the benefit is it can think for itself and make autonomous decisions.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 54,
+  "s": 352.48,
+  "e": 354.92,
+  "en": "That's one of the things that makes it so powerful.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 55,
+  "s": 355.59,
+  "e": 362.29,
+  "en": "And I used to be very skeptical when friends of mine who are in the AI community talked about the idea of AI scheming or lying.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 56,
+  "s": 362.33,
+  "e": 372.24,
+  "en": "But unfortunately, in the last few months, we are now seeing clear evidence of things that should be in the realm of science fiction actually happening in real life.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 57,
+  "s": 372.27,
+  "e": 383.78,
+  "en": "We're seeing clear evidence of many frontier AI models that will lie and scheme when they're told that they're about to be retrained or replaced and find a way, maybe they should copy their own code outside the system.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 58,
+  "s": 383.81,
+  "e": 389.12,
+  "en": "We're seeing AIs think that when they will lose a game, that they will sometimes cheat in order to win the game.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 59,
+  "s": 389.15,
+  "e": 395.96,
+  "en": "We're seeing AI models that are unexpectedly attempting to modify its own code to extend their run time.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 60,
+  "s": 396.56,
+  "e": 400.13,
+  "en": "So we don't just have a country of Nobel Prize geniuses in a data center.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 61,
+  "s": 400.16,
+  "e": 406.0,
+  "en": "We have a million deceptive, power-seeking and unstable geniuses in a data center.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 62,
+  "s": 406.6,
+  "e": 409.21,
+  "en": "Now this shouldn’t make you very comfortable.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 63,
+  "s": 409.24,
+  "e": 422.19,
+  "en": "You would think that with a technology this powerful and this uncontrollable, that we would be releasing it with the most wisdom and the most discernment that we ever have of any technology.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 64,
+  "s": 423.02,
+  "e": 436.53,
+  "en": "But we're currently caught in a race to roll out because the incentives are the more shortcuts you take to get market dominance or prove you have the latest capabilities, the more money you can raise, the more ahead you are in the race.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 65,
+  "s": 436.57,
+  "e": 447.34,
+  "en": "And we're seeing whistleblowers at AI companies forfeit millions of dollars of stock options in order to warn the public about what's at stake if we don't do something about it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 66,
+  "s": 448.01,
+  "e": 458.42,
+  "en": "Even DeepSeek’s recent success was in part based on capabilities that it was optimizing for by not actually focusing on protecting people from certain downsides.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 67,
+  "s": 458.45,
+  "e": 475.11,
+  "en": "So just to summarize, we're currently releasing the most powerful, inscrutable, uncontrollable technology we've ever invented that's already demonstrating behaviors of self-preservation and deception that we only saw in science fiction movies.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 68,
+  "s": 475.14,
+  "e": 485.58,
+  "en": "We’re releasing it faster than we've released any other technology in history, and with under the maximum incentive to cut corners on safety.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 69,
+  "s": 486.28,
+  "e": 494.32,
+  "en": "And we’re doing this so that we can get to utopia? There's a word for what we're doing right now.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 70,
+  "s": 495.79,
+  "e": 506.07,
+  "en": "This is insane. This is insane. Now how many people in this room feel comfortable with this outcome?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 71,
+  "s": 508.2,
+  "e": 514.81,
+  "en": "How many of you feel uncomfortable with this outcome? I see almost everyone's hands up.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 72,
+  "s": 515.75,
+  "e": 518.78,
+  "en": "Just notice how you're feeling, for a moment, in your body.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 73,
+  "s": 519.32,
+  "e": 524.25,
+  "en": "Do you think that if you're someone who's in China or in France or in the Middle East,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 74,
+  "s": 524.25,
+  "e": 531.73,
+  "en": "and you're part of building AI, that if you were exposed to the same set of facts, do you think you would feel any differently than anyone in this room?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 75,
+  "s": 531.73,
+  "e": 540.6,
+  "en": "There’s a universal human experience to something that is being threatened by the way that we're currently rolling this profound technology out into society.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 76,
+  "s": 541.04,
+  "e": 547.64,
+  "en": "So if this is crazy, why are we doing it? Because people believe it's inevitable.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 77,
+  "s": 548.58,
+  "e": 553.22,
+  "en": "But is the current way that we're rolling out AI actually inevitable?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 78,
+  "s": 553.92,
+  "e": 561.06,
+  "en": "If literally no one on Earth wanted this to happen, would the laws of physics push the AI out into society?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 79,
+  "s": 562.02,
+  "e": 570.83,
+  "en": "There's a critical difference between believing it's inevitable, which is a self-fulfilling prophecy that you're fatalistic,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 80,
+  "s": 570.83,
+  "e": 576.11,
+  "en": "and standing from the place of it's really difficult to imagine how we would do something different.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 81,
+  "s": 576.84,
+  "e": 584.68,
+  "en": "But \"it's really difficult,\" opens up a whole new space of choice than \"it's inevitable.\" The path that we're taking, not AI.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 82,
+  "s": 584.72,
+  "e": 592.52,
+  "en": "And so the ability for us to choose something else starts by stepping outside the self-fulfilling prophecy of inevitability.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 83,
+  "s": 592.89,
+  "e": 599.86,
+  "en": "So what would it take to choose another path? I think it would take two fundamental things.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 84,
+  "s": 600.16,
+  "e": 612.88,
+  "en": "First is that we have to agree that the current path is unacceptable, and the second is that we have to commit to find another path in which we're still rolling out AI,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 85,
+  "s": 612.88,
+  "e": 620.05,
+  "en": "but with different incentives that are more discerning with foresight and where power is matched with responsibility.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 86,
+  "s": 620.62,
+  "e": 630.06,
+  "en": "Thank you. (Applause) So imagine this shared understanding, if the whole world had it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 87,
+  "s": 630.06,
+  "e": 631.43,
+  "en": "How different might that be?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 88,
+  "s": 631.46,
+  "e": 636.42,
+  "en": "Well, first of all, let's imagine it goes away and let's replace it with confusion about AI. Is it good?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 89,
+  "s": 636.47,
+  "e": 638.87,
+  "en": "Is it bad? I don't know, it seems complicated.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 90,
+  "s": 638.9,
+  "e": 642.71,
+  "en": "And in that world, the people building AI know that the world is confused.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 91,
+  "s": 642.71,
+  "e": 646.78,
+  "en": "And they believe, well, it's inevitable, if I don't build it, someone else will.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 92,
+  "s": 646.81,
+  "e": 650.68,
+  "en": "And they know that everyone else building AI also believes that.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 93,
+  "s": 650.71,
+  "e": 656.15,
+  "en": "And so what's the rational thing for them to do given those facts? It’s to race as fast as possible.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 94,
+  "s": 656.19,
+  "e": 663.13,
+  "en": "And meanwhile to ignore the consequences of what might come from that, to look away from the downsides.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 95,
+  "s": 663.16,
+  "e": 673.44,
+  "en": "But if you replace that confusion with global clarity that the current path is insane, and that there is another path,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 96,
+  "s": 673.44,
+  "e": 684.11,
+  "en": "and you take the denial of what we don't want to look at, and through witnessing that so clearly, we pop through the prophecy of self-fulfilling inevitability.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 97,
+  "s": 684.15,
+  "e": 693.12,
+  "en": "And we realize that if everyone believes the default path is insane, the rational choice is to coordinate, to find another path.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 98,
+  "s": 693.69,
+  "e": 697.49,
+  "en": "And so clarity creates agency.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 99,
+  "s": 697.99,
+  "e": 704.4,
+  "en": "If we can be crystal clear, we can choose another path, just as we could have with social media.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 100,
+  "s": 704.43,
+  "e": 710.44,
+  "en": "And in the past, in the face of seemingly inevitable arms races, the race to do nuclear testing.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 101,
+  "s": 710.44,
+  "e": 719.25,
+  "en": "Once we got clear about the downside risks of nuclear tests and the world understood the science of that, we created the Nuclear Test Ban Treaty,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 102,
+  "s": 719.25,
+  "e": 723.82,
+  "en": "and a lot of people worked hard to create infrastructure like this to prevent that.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 103,
+  "s": 723.85,
+  "e": 733.23,
+  "en": "You could have said it was inevitable that germline editing, to edit human genomes and to have supersoldiers and designer babies would set off an arms race between nations.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 104,
+  "s": 733.26,
+  "e": 740.7,
+  "en": "Once the off-target effects of genome editing were made clear and the dangers were made clear, we’ve coordinated on that, too.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 105,
+  "s": 740.74,
+  "e": 748.64,
+  "en": "You could have said that the ozone hole was just inevitable, and that we should just do nothing, and that we all perish as a species.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 106,
+  "s": 748.68,
+  "e": 754.42,
+  "en": "But that's not what we do. When we recognize a problem, we solve the problem. It's not inevitable.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 107,
+  "s": 754.45,
+  "e": 757.95,
+  "en": "And so what would it take to illuminate this narrow path?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 108,
+  "s": 757.99,
+  "e": 762.86,
+  "en": "Well, it starts with common knowledge about frontier risks.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 109,
+  "s": 762.89,
+  "e": 772.17,
+  "en": "If everybody building AI knew the latest understanding about where these risks are arising from, we would have much more chance of illuminating the contours of this path.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 110,
+  "s": 772.9,
+  "e": 776.44,
+  "en": "And there's some very basic steps we can take to prevent chaos.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 111,
+  "s": 776.44,
+  "e": 784.48,
+  "en": "Uncontroversial things like restricting AI companions for kids so that kids are not manipulated into taking their own lives.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 112,
+  "s": 784.98,
+  "e": 794.06,
+  "en": "Having basic things like product liability, so if you are liable, as an AI developer, for certain harms, that's going to create a more responsible innovation environment.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 113,
+  "s": 794.09,
+  "e": 796.16,
+  "en": "You’ll release AI models that are more safe.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 114,
+  "s": 796.16,
+  "e": 809.84,
+  "en": "And on the side of preventing dystopia, for working hard to prevent ubiquitous technological surveillance and having stronger whistleblower protections so that people don't need to sacrifice millions of dollars in order to warn the world about what we need to know.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 115,
+  "s": 809.87,
+  "e": 816.48,
+  "en": "And so we have a choice. Many of you may be feeling this looks hopeless. Or maybe Tristan is wrong.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 116,
+  "s": 816.51,
+  "e": 818.75,
+  "en": "Maybe, you know, the incentives are different.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 117,
+  "s": 818.75,
+  "e": 823.99,
+  "en": "Or maybe superintelligence will magically figure all this out, and it'll bring us to a better world.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 118,
+  "s": 824.39,
+  "e": 830.56,
+  "en": "But don't fall into the trap of the same wishful thinking and turning away that caused us to deal with social media.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 119,
+  "s": 831.26,
+  "e": 835.3,
+  "en": "Your role in this is not to solve the whole problem.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 120,
+  "s": 835.33,
+  "e": 839.44,
+  "en": "But your role in this is to be part of the collective immune system.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 121,
+  "s": 839.8,
+  "e": 847.01,
+  "en": "That when you hear this wishful thinking or the logic of inevitability and fatalism, to say that this is not inevitable,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 122,
+  "s": 847.01,
+  "e": 855.25,
+  "en": "and the best qualities of human nature is when we step up and make a choice about the future that we actually want for the people and the world that we love.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 123,
+  "s": 855.89,
+  "e": 862.29,
+  "en": "There is no definition of wisdom, in any tradition, that does not involve restraint.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 124,
+  "s": 862.93,
+  "e": 867.16,
+  "en": "Restraint is the central feature of what it means to be wise.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 125,
+  "s": 867.16,
+  "e": 874.97,
+  "en": "And AI is humanity's ultimate test and greatest invitation to step into our technological maturity.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 126,
+  "s": 875.5,
+  "e": 884.28,
+  "en": "There is no room of adults working secretly to make sure that this turns out OK. We are the adults.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 127,
+  "s": 884.28,
+  "e": 885.45,
+  "en": "We have to be.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 128,
+  "s": 885.85,
+  "e": 891.35,
+  "en": "And I believe another choice is possible with AI if we can commonly recognize what we have to do.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 129,
+  "s": 892.22,
+  "e": 904.43,
+  "en": "And eight years from now, I'd like to come back to this stage, not to talk about more problems with technology, but to celebrate how we stepped up and solved this one.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 130,
+  "s": 905.13,
+  "e": 913.18,
+  "en": "Thank you. (Applause and cheers)",
+  "spk": "Speaker"
+ }
+]

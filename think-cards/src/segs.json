@@ -1,0 +1,891 @@
+[
+ {
+  "id": 1,
+  "s": 4.02,
+  "e": 7.3,
+  "en": "I'm here today to talk about thinking for yourself.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 2,
+  "s": 8.54,
+  "e": 15.12,
+  "en": "And I must admit, I did use AI to help me think about it. (Laughter) The irony is not lost on me.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 3,
+  "s": 15.16,
+  "e": 21.04,
+  "en": "But the way I did so is not by using AI as an assistant to help me prepare this talk faster.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 4,
+  "s": 21.58,
+  "e": 24.22,
+  "en": "Rather, I use AI as a tool for thought.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 5,
+  "s": 25.14,
+  "e": 33.04,
+  "en": "And by the end of this talk, I will have explained what I mean by that, why it's important, and given you a glimpse of how it might work.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 6,
+  "s": 33.94,
+  "e": 40.04,
+  "en": "But first I need to set the scene. Let's look at a day in the life of a 21st-century knowledge worker.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 7,
+  "s": 40.68,
+  "e": 48.86,
+  "en": "I arrive at my office and look at my inbox full of emails. Oh. Let's summarize it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 8,
+  "s": 49.22,
+  "e": 55.54,
+  "en": "OK, I'm struggling to figure out how to respond here, so let's get AI to write a response.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 9,
+  "s": 56.72,
+  "e": 61.5,
+  "en": "Next, I need to write a report. But I'm struck by the blank-page problem.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 10,
+  "s": 62.32,
+  "e": 67.12,
+  "en": "I know, I'll drop in some resources and get an AI draft. Looks good to me.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 11,
+  "s": 67.44,
+  "e": 70.64,
+  "en": "By the way, a writer's block used to be staring at a blank page.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 12,
+  "s": 71.28,
+  "e": 75.78,
+  "en": "Now it's staring at a page that AI filled out for me and wondering if I agree with it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 13,
+  "s": 75.8,
+  "e": 83.88,
+  "en": "I've become a professional validator of a robot's opinions. (Laughter) I've got some data to analyze.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 14,
+  "s": 83.9,
+  "e": 91.78,
+  "en": "Maybe AI can analyze this data for me. Probably correct. OK, I've got to make a deck as well.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 15,
+  "s": 92.16,
+  "e": 98.54,
+  "en": "You know the drill. Alright. Oh, I was supposed to prototype something as well.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 16,
+  "s": 98.56,
+  "e": 106.78,
+  "en": "OK, let me vibe code something. Alright, all this looks good, let's go. This isn't a vision of the future.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 17,
+  "s": 107.14,
+  "e": 112.54,
+  "en": "This is a completely plausible, if slightly exaggerated, picture of the world of knowledge work today.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 18,
+  "s": 114.26,
+  "e": 116.52,
+  "en": "Welcome to the age of outsourced reason.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 19,
+  "s": 117.12,
+  "e": 121.48,
+  "en": "Where the knowledge worker no longer engages with the materials of their craft.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 20,
+  "s": 121.5,
+  "e": 127.5,
+  "en": "We've become intellectual tourists. In our own work, we visit ideas. We don't inhabit them.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 21,
+  "s": 129.16,
+  "e": 137.72,
+  "en": "Our relationship to our work is entirely intermediated by AI. Some might say alienated.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 22,
+  "s": 137.76,
+  "e": 142.0,
+  "en": "We've heard that story before. What's wrong with this picture?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 23,
+  "s": 143.3,
+  "e": 148.76,
+  "en": "For one thing, it's only one step removed from this, which is important. But that's a different talk.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 24,
+  "s": 149.08,
+  "e": 157.8,
+  "en": "What I want to focus on today is that using AI in this way can have profound implications on human thought.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 25,
+  "s": 159.0,
+  "e": 160.74,
+  "en": "Consider creativity.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 26,
+  "s": 160.78,
+  "e": 166.86,
+  "en": "On an individual level, we might think that AI is a creativity boost, giving us rapid access to new ideas.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 27,
+  "s": 167.42,
+  "e": 177.82,
+  "en": "But numerous studies have shown that on a collective level, knowledge workers using AI assistants produce a smaller range of ideas than a group working manually.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 28,
+  "s": 178.74,
+  "e": 185.38,
+  "en": "We've created a hive mind. Except the hive is really boring and keeps suggesting the same five ideas.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 29,
+  "s": 186.4,
+  "e": 191.72,
+  "en": "Consider critical thinking. We surveyed knowledge workers about their use of AI.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 30,
+  "s": 192.36,
+  "e": 201.0,
+  "en": "They reported that they put less effort into critical thinking when working with AI than when working manually.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 31,
+  "s": 201.02,
+  "e": 206.68,
+  "en": "And this effect was greater when they had greater confidence in AI and less confidence in themselves.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 32,
+  "s": 207.62,
+  "e": 215.58,
+  "en": "Consider memory. When people rely on AI to write for them, they remember less of what they wrote.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 33,
+  "s": 215.6,
+  "e": 222.08,
+  "en": "And when they read AI-generated summaries, it's hardly surprising that they remember less than if they'd read the document.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 34,
+  "s": 222.6,
+  "e": 227.76,
+  "en": "And finally, consider metacognition, which is the ability to think about your own thinking process.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 35,
+  "s": 228.24,
+  "e": 239.02,
+  "en": "Working with AI requires significant metacognitive reasoning about your task goals, decomposing the task, the applicability of gen-AI, your ability to evaluate the output.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 36,
+  "s": 239.92,
+  "e": 249.48,
+  "en": "These are things which are built into the process of working directly with the material, and which become problematic when that material engagement becomes intermediated.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 37,
+  "s": 249.82,
+  "e": 257.46,
+  "en": "Basically, we've become middle managers for our own thoughts. So what's the score? We have fewer ideas.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 38,
+  "s": 257.76,
+  "e": 263.46,
+  "en": "We think about them less critically. We remember them less well, and we have a harder time doing it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 39,
+  "s": 264.58,
+  "e": 270.38,
+  "en": "Taken together, we can see that AI-assisted workflows can have profound effects on human thinking.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 40,
+  "s": 270.78,
+  "e": 274.26,
+  "en": "And this extends even to seemingly trivial mundane tasks,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 41,
+  "s": 274.26,
+  "e": 287.42,
+  "en": "because these everyday opportunities for exercising our creativity, our critical thinking and our memory are essential for protecting our cognitive musculature and allow us to rise to the occasion when an exceptionally complex task comes our way.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 42,
+  "s": 288.52,
+  "e": 294.6,
+  "en": "Studies show that when we don't use our brains, they get worse at brain things.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 43,
+  "s": 294.62,
+  "e": 301.6,
+  "en": "Nobel Prize committee, please hold your applause. Is this the cost of progress?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 44,
+  "s": 304.12,
+  "e": 306.52,
+  "en": "We've solved the problem of having to think.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 45,
+  "s": 307.3,
+  "e": 318.48,
+  "en": "Unfortunately, thinking wasn't actually a problem. (Laughter) It's like we invented a cure for exercise and then wondered why we're out of breath all the time, you know?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 46,
+  "s": 319.34,
+  "e": 329.44,
+  "en": "It doesn't have to be this way. Beyond AI as an assistant, I believe that AI should be a tool for thought.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 47,
+  "s": 329.46,
+  "e": 331.56,
+  "en": "AI should challenge, not obey.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 48,
+  "s": 332.24,
+  "e": 339.0,
+  "en": "And I believe that right at this moment, we are at a critical juncture where the world of work is poised to be transformed by generative AI,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 49,
+  "s": 339.0,
+  "e": 344.5,
+  "en": "and we must act now to shape and drive that transformation towards humanistic values.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 50,
+  "s": 344.96,
+  "e": 349.1,
+  "en": "Of these two diverging roads, we must take the one less traveled.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 51,
+  "s": 350.24,
+  "e": 355.68,
+  "en": "Beyond getting the job done, a tool for thought helps us better understand the job.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 52,
+  "s": 356.28,
+  "e": 360.12,
+  "en": "Beyond getting it done faster, it helps us get it done better.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 53,
+  "s": 361.4,
+  "e": 366.4,
+  "en": "Beyond getting us to the right answers, a tool for thought helps us ask the right questions.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 54,
+  "s": 367.4,
+  "e": 374.04,
+  "en": "Beyond automating known processes, it helps us explore the unknown. What does this look like?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 55,
+  "s": 374.52,
+  "e": 382.22,
+  "en": "What I'm about to show you is a prototype, developed by my colleagues and me at the Tools for Thought team at Microsoft Research in Cambridge.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 56,
+  "s": 382.76,
+  "e": 387.52,
+  "en": "Now, please bear in mind that this is a live research prototype. It's not a product.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 57,
+  "s": 387.92,
+  "e": 395.32,
+  "en": "And it's just one of a series of explorations that our team is conducting to study how different modes of working with AI can enhance human thought.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 58,
+  "s": 395.78,
+  "e": 405.44,
+  "en": "So let's look at a fictitious example. Clara and her colleagues run a company that sells bottled beverages.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 59,
+  "s": 406.04,
+  "e": 415.1,
+  "en": "They've just had a meeting to discuss a new industry report that seems to have some pretty important findings about consumer preferences for sustainable packaging.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 60,
+  "s": 415.66,
+  "e": 421.18,
+  "en": "Clara's colleagues have asked her to write a proposal arguing for how the company ought to respond.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 61,
+  "s": 421.52,
+  "e": 432.02,
+  "en": "So she really needs to get to grips with this proposal -- She really needs to get to grips with this report, understand its findings and its data and how it fits into her business context.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 62,
+  "s": 433.74,
+  "e": 437.02,
+  "en": "She starts by loading some documents into her workspace.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 63,
+  "s": 439.12,
+  "e": 442.52,
+  "en": "There's the meeting transcript to remind her what was discussed.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 64,
+  "s": 442.86,
+  "e": 445.66,
+  "en": "There's a recent internal report from her own business.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 65,
+  "s": 446.12,
+  "e": 449.78,
+  "en": "And of course, there’s the industry report, which she opens.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 66,
+  "s": 449.8,
+  "e": 454.16,
+  "en": "She sees an overview of the document along with section-by-section summaries.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 67,
+  "s": 454.18,
+  "e": 458.5,
+  "en": "Except these aren't really just summaries. We think of them more as lenses.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 68,
+  "s": 458.52,
+  "e": 465.3,
+  "en": "They're customizable micro representations of the text that can emphasize what is most relevant to the task at hand.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 69,
+  "s": 465.8,
+  "e": 468.86,
+  "en": "So in this case, Clara selects the consumer’s lens.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 70,
+  "s": 471.12,
+  "e": 475.02,
+  "en": "She can select a section for deeper reading, in this case the first one.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 71,
+  "s": 475.74,
+  "e": 482.72,
+  "en": "As she reads, she makes notes about her thoughts and highlights excerpts from the document.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 72,
+  "s": 485.28,
+  "e": 492.24,
+  "en": "As she reads, she also sees AI-generated commentary and critiques. We call these provocations.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 73,
+  "s": 493.54,
+  "e": 499.32,
+  "en": "Here's a provocation that raises a potential opportunity, which she highlights and annotates.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 74,
+  "s": 499.98,
+  "e": 506.6,
+  "en": "Note how this process is a hybrid of completely manual reading and completely relying on AI to read for you.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 75,
+  "s": 506.96,
+  "e": 510.64,
+  "en": "Clara still reads, but intentionally and strategically.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 76,
+  "s": 512.36,
+  "e": 518.96,
+  "en": "Now, as Clara is working, she's building up an outline of her argument manually in this pane on the right.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 77,
+  "s": 519.3,
+  "e": 530.26,
+  "en": "This outline is lightly structured and allows her to sketch out the flow of her argument at a high level, while still retaining deep connections and being grounded in the source documents.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 78,
+  "s": 530.28,
+  "e": 539.16,
+  "en": "As a result of which we can already generate a draft of the proposal, and Clara can do things here like add a heading to the outline to generate a paragraph.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 79,
+  "s": 539.18,
+  "e": 551.96,
+  "en": "But what I want to draw your attention to here is that while this text is AI-generated, Clara has a completely different relationship to this text than if she just dropped in some documents and said, write me a report.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 80,
+  "s": 551.98,
+  "e": 559.68,
+  "en": "Because this text is deeply rooted in a cognitively effortful but interactionaly effortless thought process.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 81,
+  "s": 560.54,
+  "e": 566.34,
+  "en": "It reflects Clara’s decisions, Clara’s judgments, Clara’s unique personal, professional expertise.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 82,
+  "s": 570.4,
+  "e": 573.58,
+  "en": "She sees another provocation, this time in the outline.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 83,
+  "s": 575.68,
+  "e": 581.32,
+  "en": "In this case, she decides that while the provocation is useful, she does not need to address it.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 84,
+  "s": 581.34,
+  "e": 586.18,
+  "en": "Unlike typical AI suggestions, provocations are not meant to be applicable all the time.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 85,
+  "s": 586.2,
+  "e": 589.46,
+  "en": "They're instead meant to stimulate your thinking about your work.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 86,
+  "s": 589.48,
+  "e": 600.92,
+  "en": "Because if you understand your work well enough, deeply enough to make the confident decision not to accept a piece of feedback, then the feedback process is still working as intended.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 87,
+  "s": 602.5,
+  "e": 608.42,
+  "en": "But we're not done yet. Clara has entirely new ways of interacting with this text because of generative AI.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 88,
+  "s": 609.24,
+  "e": 613.78,
+  "en": "A really simple example is that she can just resize a paragraph to change its length.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 89,
+  "s": 614.7,
+  "e": 617.72,
+  "en": "She can also rapidly test different versions of this text.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 90,
+  "s": 617.74,
+  "e": 624.78,
+  "en": "For instance, in this paragraph, she's wondering whether it would be more effective if it took a more inspirational or more practical tone.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 91,
+  "s": 624.8,
+  "e": 633.8,
+  "en": "So she selects one of these customizable dimensions. And previews a few alternatives and selects one.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 92,
+  "s": 635.18,
+  "e": 639.3,
+  "en": "And at select strategic points, indeed, she writes.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 93,
+  "s": 639.74,
+  "e": 654.78,
+  "en": "As she writes, she sees provocations that, rather than autocompleting her ideas, they raise alternatives, they identify fallacies, they offer counterarguments to help her strengthen and develop her own argument.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 94,
+  "s": 656.14,
+  "e": 661.04,
+  "en": "There's something you won't find anywhere in this interface. And that's a chat box.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 95,
+  "s": 661.34,
+  "e": 671.8,
+  "en": "Clara’s not having to chat with anything to do her work, yet she is silently and appropriately assisted by her computer as a computer and not as an ersatz human.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 96,
+  "s": 672.44,
+  "e": 680.96,
+  "en": "To put it simply, we have gone from this ... To this.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 97,
+  "s": 680.98,
+  "e": 686.6,
+  "en": "Throughout this process, Clara has been assisted and yes, probably worked faster because of AI.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 98,
+  "s": 687.96,
+  "e": 691.94,
+  "en": "But she's also maintained direct material engagement at strategic points.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 99,
+  "s": 691.98,
+  "e": 697.84,
+  "en": "She read the relevant portions of the document herself. She constructed her decisions on her argument herself.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 100,
+  "s": 697.88,
+  "e": 701.34,
+  "en": "And ultimately it can be said she has written this document herself.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 101,
+  "s": 701.8,
+  "e": 704.54,
+  "en": "Moreover, she worked better because of AI.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 102,
+  "s": 704.56,
+  "e": 713.24,
+  "en": "AI provocations at every stage of the process kept her metacognitively engaged, always looking for critiques, alternatives and lateral moves.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 103,
+  "s": 715.38,
+  "e": 720.58,
+  "en": "We have been studying the effects of tools like this. And the results are promising.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 104,
+  "s": 721.38,
+  "e": 726.18,
+  "en": "You can demonstrably reintroduce critical thinking into AI-assisted work flows.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 105,
+  "s": 726.52,
+  "e": 729.92,
+  "en": "You can reverse the loss of creativity and enhance it instead.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 106,
+  "s": 731.32,
+  "e": 740.18,
+  "en": "You can build powerful tools for memory that enable knowledge workers to read and write at speed with greater intentionality, and remember it, too.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 107,
+  "s": 740.98,
+  "e": 747.02,
+  "en": "It turns out, with the right principles of design, you can build tools that are the best of both worlds.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 108,
+  "s": 747.42,
+  "e": 753.72,
+  "en": "Applying the awesome speed and flexibility of this technology to protect and enhance human thought.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 109,
+  "s": 753.74,
+  "e": 765.3,
+  "en": "These are simple, general principles, like ensuring that the tool preserves material engagement, offers productive resistance, and scaffolds metacognition.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 110,
+  "s": 766.34,
+  "e": 777.14,
+  "en": "And while we've been primarily studying professional knowledge workers, we believe that these principles can extend to all aspects of AI use, including when we use it in our daily lives, our hobbies,",
+  "spk": "Speaker"
+ },
+ {
+  "id": 111,
+  "s": 777.14,
+  "e": 785.32,
+  "en": "and even in education. I repeat, efficiency is not the aim of Tools for Thought. Better thinking is.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 112,
+  "s": 785.88,
+  "e": 792.46,
+  "en": "But sometimes you can have both. I used to think there was no such thing as a free lunch in human thinking.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 113,
+  "s": 792.48,
+  "e": 794.82,
+  "en": "This is so much better than a free lunch.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 114,
+  "s": 794.84,
+  "e": 804.96,
+  "en": "This is a lunch that pays you to eat it. (Laughter) I want to close with some thoughts on the values that we have in developing AI software.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 115,
+  "s": 805.3,
+  "e": 810.36,
+  "en": "What if AI gets to the point where it can do a better job of thinking than humans?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 116,
+  "s": 810.38,
+  "e": 816.78,
+  "en": "Why should we care so much about protecting and augmenting human thought? There's two reasons.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 117,
+  "s": 816.8,
+  "e": 823.68,
+  "en": "First, there may always be ways of thinking that remain unique human strengths of which we may not even be aware.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 118,
+  "s": 824.16,
+  "e": 833.84,
+  "en": "Second, perhaps more importantly, we take the position that the ability to think well is essential for human agency and empowerment and flourishing.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 119,
+  "s": 834.82,
+  "e": 837.3,
+  "en": "This echoes an ancient question.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 120,
+  "s": 837.72,
+  "e": 845.18,
+  "en": "People once asked if writing, if books, if the internet can remember for us, does it matter that we cannot?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 121,
+  "s": 845.58,
+  "e": 850.08,
+  "en": "People once asked if maps can navigate for us, does it matter that we cannot?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 122,
+  "s": 850.1,
+  "e": 855.12,
+  "en": "Now we ask if machines can think for us, does it matter that we cannot?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 123,
+  "s": 856.32,
+  "e": 865.34,
+  "en": "If machines can speak for us, grieve for us, pray for us, love for us, does it matter that we cannot?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 124,
+  "s": 866.62,
+  "e": 868.58,
+  "en": "To me, the answer is pretty obvious.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 125,
+  "s": 869.48,
+  "e": 876.9,
+  "en": "When I began studying human-AI interaction 13 years ago, it was inconceivable to me that we would be asking these questions in my lifetime.",
+  "spk": "Speaker"
+ },
+ {
+  "id": 126,
+  "s": 877.3,
+  "e": 886.7,
+  "en": "But we are. And we must. I'll leave you with this thought. What would you rather have?",
+  "spk": "Speaker"
+ },
+ {
+  "id": 127,
+  "s": 887.0,
+  "e": 894.2,
+  "en": "A tool that thinks for you, or a tool that makes you think? (Applause)",
+  "spk": "Speaker"
+ }
+]

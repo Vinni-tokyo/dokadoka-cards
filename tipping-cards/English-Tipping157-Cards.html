@@ -1,0 +1,2081 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#3b4a7a"><title>도카도카 영어 공부 · Dokadoka English</title>
+<style>
+/* ============ tokens ============ */
+:root{
+ --bg:#f4f5f8; --surface:#fff; --surface-2:#f1f3f7; --surface-3:#e9ecf2;
+ --line:#e2e5ec; --line-2:#cfd4de;
+ --ink:#21242c; --ink-2:#5c6270; --ink-3:#8b919e;
+ --brand:#3b4a7a; --brand-2:#2e3b63; --brand-soft:#e9ecf5; --brand-line:#c2c9df;
+ --accent:#b0603f; --accent-soft:#fbf1ea; --accent-line:#ead0bd;
+ --r-s:8px; --r-m:12px; --r-l:16px;
+ --sh-1:0 1px 2px rgba(24,28,40,.05);
+ --sh-2:0 2px 4px rgba(24,28,40,.04),0 8px 24px rgba(24,28,40,.06);
+ font-family:"Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+ color:var(--ink); background:var(--bg); font-synthesis:none;
+ font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+[hidden]{display:none!important}
+::selection{background:var(--brand-soft)}
+[lang=en]{font-family:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Noto Sans KR",sans-serif}
+
+/* ============ primitives ============ */
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+.ic{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.fill{fill:currentColor;stroke:none}
+
+/* two-line labels: Korean primary, English secondary */
+.lbl{display:block;text-align:left;line-height:1.25}
+.sub{display:block;font-size:10.5px;font-weight:400;color:var(--ink-3);line-height:1.3;margin-top:1px;letter-spacing:0}
+.btn .sub,.tab .sub{color:inherit;opacity:.58}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:42px;padding:8px 15px;border:1px solid var(--line-2);border-radius:var(--r-s);
+ background:var(--surface);color:var(--ink);font-size:13.5px;font-weight:500;
+ box-shadow:var(--sh-1);transition:background .12s,border-color .12s,color .12s}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.btn:active:not(:disabled){transform:translateY(.5px)}
+.btn:disabled{opacity:.38;cursor:default;box-shadow:none}
+.btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--brand-2);border-color:var(--brand-2)}
+.btn-sm{min-height:34px;padding:6px 11px;font-size:12.5px;gap:6px}
+.btn[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+#loop[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+
+input[type=text],input:not([type]),textarea,select{
+ background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-s);
+ padding:8px 11px;min-height:38px;box-shadow:var(--sh-1)}
+textarea{min-height:64px;line-height:1.65;resize:vertical;width:100%}
+select{min-height:34px;padding:5px 9px;font-size:12.5px}
+
+kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--line-2);
+ border-bottom-width:2px;border-radius:5px;background:var(--surface);
+ font-size:10.5px;font-weight:600;color:var(--ink-2);text-align:center}
+
+/* ============ shell ============ */
+.wrap{max-width:1800px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 292px;min-height:100vh}
+.wrap.nosides{grid-template-columns:minmax(0,1fr)}
+.wrap.nosides>.side{display:none}
+.main{padding:30px 42px 64px;min-width:0}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+ padding:26px 14px 18px 20px;border-left:1px solid var(--line);background:var(--surface-2);overflow:hidden}
+.side .brand,.side .panel,.side .foot{flex:none}
+.scenes{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+ padding-right:6px;margin-right:-4px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.scenes::-webkit-scrollbar{width:8px}
+.scenes::-webkit-scrollbar-track{background:transparent}
+.scenes::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px;border:2px solid var(--surface-2);background-clip:padding-box}
+
+/* ============ topbar ============ */
+.topbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:0 0 5px}
+.topbar h1{font-size:21px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.25}
+.topbar h1 .inl{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:3px;letter-spacing:0}
+.scene-sel{display:none;width:100%;margin-top:10px;padding:10px 12px;font-size:14px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--ink)}
+.tabs{display:flex;gap:3px;margin-left:auto;padding:3px;background:var(--surface-3);border-radius:10px}
+.tab{display:flex;align-items:center;gap:7px;min-height:38px;padding:6px 14px;border-radius:7px;
+ font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
+.tab:hover{color:var(--ink)}
+.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+
+.notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
+ color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
+.notice code{background:#f1e2d4;border-radius:4px;padding:1px 6px;font-size:12px}
+.notice .sub{color:#8a6a4c;font-size:12.5px;margin-top:5px}
+
+/* ============ stage ============ */
+.stage{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(392px,.86fr);gap:32px;align-items:start}
+.player-box{position:sticky;top:24px}
+.ratio{position:relative;width:100%;aspect-ratio:16/9;background:#0d0f14;border-radius:var(--r-m);overflow:hidden;box-shadow:var(--sh-2)}
+.ratio #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ratio.offline{display:grid;place-items:center;background:var(--surface-2);border:1px dashed var(--line-2);box-shadow:none;text-align:center;color:var(--ink-2)}
+.ratio.offline div{display:grid;gap:6px;justify-items:center;padding:20px}
+.ratio.offline strong{font-size:15px;font-weight:650;color:var(--ink)}
+.ratio.offline span{font-size:12px;color:var(--ink-3)}
+.ratio.offline em{font-style:normal;font-size:11.5px;line-height:1.7;color:var(--ink-3);margin-top:6px}
+.vidrow{display:flex;gap:8px;align-items:center;margin-top:14px}
+.vidrow .cap{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);line-height:1.4;flex:none}
+.vidrow input{flex:1;min-width:0;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.status{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);min-height:20px;margin-top:11px;line-height:1.6}
+.status .sub{display:inline;font-size:12px;color:var(--ink-3)}
+
+/* ============ card ============ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:20px 24px 22px;box-shadow:var(--sh-2)}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);color:var(--ink-2);border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;line-height:1.3}
+.chip.spk{background:var(--brand-soft);color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand-line)}
+.chip.cap{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.chip .sub{display:inline;font-size:11px;color:inherit;opacity:.62;margin-left:2px}
+.meta{font-size:11.5px;color:var(--ink-3);font-weight:500;flex:none}
+.tag-edited{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);
+ box-shadow:inset 0 0 0 1px var(--accent-line);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600}
+
+.en{font-size:clamp(22px,2.2vw,28px);line-height:1.62;margin:20px 0 0;font-weight:600;letter-spacing:.005em;
+ overflow-wrap:anywhere;min-height:92px;display:flex;align-items:center}
+
+.playrow{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 14px}
+.playrow .btn{flex:none}
+
+/* ===== 감상 / watch-through ===== */
+.watch{background:#14171f;color:#fff;border-radius:var(--r-l);padding:20px 24px 16px;box-shadow:var(--sh-2);min-height:340px;display:flex;flex-direction:column;gap:10px}
+.watch-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:4px}
+.watch-top .btn{background:#232838;border-color:#2f364a;color:#e9ecf5}.watch-top .btn-primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.watch-top .meta{margin-left:auto;color:#8b93a8}
+.watch-opt{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c6ccdc;cursor:pointer}
+.watch-opt input{accent-color:var(--brand)}
+.watch-prev,.watch-next{font-size:clamp(14px,1.5vw,18px);line-height:1.5;color:#5e6679;min-height:1.5em;cursor:pointer;word-break:keep-all}
+.watch-now{padding:8px 0 4px;display:flex;flex-direction:column;gap:6px;min-height:130px;justify-content:center}
+.watch-who{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#ffd166;min-height:1em}
+.watch-line{font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.4;letter-spacing:-.005em;word-break:keep-all;color:#fff}
+.watch-rd{font-size:clamp(14px,1.5vw,18px);color:#ffe9a8}
+.watch-mean{font-size:clamp(14px,1.5vw,18px);color:#a6afc4;line-height:1.5}
+.watch-bar{height:4px;border-radius:4px;background:#2a3040;overflow:hidden;margin-top:auto}
+.watch-bar span{display:block;height:100%;width:0;background:var(--brand-line)}
+@media(max-width:600px){.watch{padding:14px 12px 12px;min-height:0}.watch-now{min-height:100px}}
+.reveal-btn{width:100%;min-height:74px;border:1px dashed var(--line-2);background:var(--surface-2);color:var(--brand);font-size:14px;border-radius:var(--r-m);box-shadow:none}
+.reveal-btn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.answer{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px}
+.answer-cap{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.answer-cap span{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ko{font-size:clamp(15px,1.5vw,17.5px);line-height:1.8;margin:0;word-break:keep-all}
+.note{display:flex;gap:8px;margin:13px 0 0;padding:9px 12px;border-radius:var(--r-s);background:var(--accent-soft);
+ box-shadow:inset 0 0 0 1px var(--accent-line);font-size:12px;line-height:1.65;color:#7a5330}
+
+.edit{display:grid;gap:11px;margin:16px 0 2px;padding:16px;border:1px solid var(--brand-line);border-radius:var(--r-m);background:var(--brand-soft)}
+.edit .cap{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+.edit textarea{font-size:15px;border-color:var(--brand-line)}
+.edit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.nav{display:flex;gap:8px;margin-top:16px}
+.nav .btn{flex:1}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.opts label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-size:12.5px;color:var(--ink-2);line-height:1.35}
+.opts label .inl{color:var(--ink-3);font-size:11.5px}
+.opts input[type=checkbox]{appearance:none;width:17px;height:17px;margin:0;flex:none;border:1px solid var(--line-2);
+ border-radius:5px;background:var(--surface);box-shadow:var(--sh-1);position:relative;cursor:pointer}
+.opts input[type=checkbox]:checked{background:var(--brand);border-color:var(--brand)}
+.opts input[type=checkbox]:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.opts .wide{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.keys{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-3)}
+.keys i{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+
+/* ============ script ============ */
+.script{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden auto;max-height:78vh;box-shadow:var(--sh-2)}
+.line{display:grid;grid-template-columns:44px 74px minmax(0,1fr) 34px;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);cursor:pointer;align-items:start;transition:background .1s}
+.line:last-child{border-bottom:0}
+.line:hover{background:var(--surface-2)}
+.line[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+.line .t{color:var(--ink-3);font-size:11.5px;font-weight:600;padding-top:3px}
+.line .who{font-size:11px;font-weight:600;color:var(--brand);padding-top:3px;line-height:1.35;word-break:keep-all}
+.line .who.cap{color:var(--accent)}
+.line .k{font-size:14.5px;line-height:1.6;font-weight:500}
+.line .r{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:1px}
+.line .j{font-size:12px;line-height:1.65;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+
+.line .lrep{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-3);display:inline-flex;align-items:center;justify-content:center;justify-self:end;flex:none}
+.line .lrep:hover{border-color:var(--line-2);color:var(--ink)}
+.line .lrep[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* 학습 탭에서는 화면을 넓게 쓴다. 플레이어는 좁게 접는다 */
+.stage.wide{grid-template-columns:minmax(430px,34%) minmax(0,1fr);gap:28px}
+@media(max-width:1280px){.stage.wide{grid-template-columns:minmax(0,1fr)}}
+
+/* ============ study ============ */
+/* 학습 패널은 화면 높이에 맞추고, 넘치는 곳만 안쪽에서 스크롤 */
+.study{display:flex;flex-direction:column;max-height:calc(100vh - 128px)}
+#dayPane{display:flex;flex-direction:column;min-height:0;flex:1}
+#guidePane,#listPane,#quizPane{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin}
+
+.dayctl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line)}
+.dayctl .seg button{padding:6px 11px;font-size:12px}
+.dayctl .meta{font-size:11px;color:var(--ink-3);margin-right:2px}
+.daystrip{display:flex;flex-wrap:wrap;gap:3px;margin-left:auto}
+.dbtn{position:relative;min-width:29px;padding:5px 6px;border:1px solid var(--line-2);border-radius:6px;
+ background:var(--surface);font-size:11.5px;font-weight:650;color:var(--ink-2)}
+.dbtn:hover{background:var(--brand-soft);border-color:var(--brand-line)}
+.dbtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.dbtn.done::after{content:"";position:absolute;top:-2px;right:-2px;width:7px;height:7px;border-radius:50%;
+ background:var(--brand);border:1.5px solid var(--surface)}
+.dbtn[aria-pressed=true].done::after{background:var(--accent);border-color:var(--brand)}
+
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px 11px}
+.dayttl{min-width:0}
+.dno{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--ink-3)}
+.dno b{font-size:13px;color:var(--brand)}.dno i{font-style:normal}
+.dayhead h3{margin:1px 0 0;font-size:18px;font-weight:650;letter-spacing:-.015em;line-height:1.3;word-break:keep-all}
+.daymeta{margin:3px 0 0;font-size:11.5px;color:var(--ink-3)}
+
+/* 매일 되풀이하는 순서라 큰 카드 대신 얇은 흐름 띠로 */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 18px;
+ border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.flowsteps{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fstep{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;
+ background:var(--surface);border:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.fstep b{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--brand);
+ color:#fff;font-size:9px;font-weight:700}
+.farrow{color:var(--ink-3);font-size:11px}
+.flowacts{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+
+.daycols{display:grid;grid-template-columns:1.25fr 1fr 1fr;flex:1;min-height:0}
+.daycol{display:flex;flex-direction:column;min-height:0;padding:12px 16px;border-right:1px solid var(--line)}
+.daycol:last-child{border-right:0}
+.daycol h4{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;flex:none;
+ font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.daycol h4 b{font-size:11.5px;color:var(--brand);background:var(--brand-soft);padding:1px 8px;border-radius:20px}
+.dcList{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow-y:auto;
+ overscroll-behavior:contain;scrollbar-width:thin;padding-right:4px}
+.dcRow{display:flex;align-items:baseline;gap:8px;padding:5px 7px;border-radius:6px;text-align:left;
+ width:100%;font-size:12.5px;line-height:1.5;flex:none}
+.dcRow:hover{background:var(--surface-2)}
+.dcRow .tm{flex:none;font-size:10.5px;font-weight:700;color:var(--ink-3)}
+.dcRow .kk{font-weight:600}
+.dcRow .jj{color:var(--ink-3);font-size:11px;word-break:keep-all}
+@media(max-width:1280px){.study{max-height:none}.daycols{grid-template-columns:1fr;flex:none}
+ .dcList{max-height:280px}.daystrip{margin-left:0}}
+
+/* ---- 학습법 가이드 ---- */
+.guide{padding:26px 24px 30px}
+.gintro{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.gintro h3{margin:4px 0 4px;font-size:clamp(20px,2vw,26px);font-weight:650;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.gintro>p[lang=en]{margin:0;font-size:13.5px;color:var(--ink-3)}
+.gnote{margin:16px 0 0!important;font-size:13px;line-height:1.85;color:var(--ink-2);max-width:1000px;word-break:keep-all}
+.gnote span[lang=en]{display:block;margin-top:7px;font-size:12px;color:var(--ink-3)}
+.gnote b{color:var(--brand)}
+.gsteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:24px}
+.gstep{border:1px solid var(--line);border-radius:var(--r-m);padding:17px 18px;background:var(--surface-2);position:relative}
+.gstep .no{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--brand);
+ color:#fff;font-size:12px;font-weight:700;margin-bottom:10px}
+.gstep h5{margin:0 0 2px;font-size:14.5px;font-weight:650}
+.gstep .en{font-size:11.5px;color:var(--ink-3);margin:0 0 8px;min-height:0;display:block;font-weight:400;line-height:1.4}
+.gstep p{margin:0;font-size:12px;line-height:1.75;color:var(--ink-2);word-break:keep-all}
+.gstep p span[lang=en]{display:block;margin-top:5px;color:var(--ink-3);font-size:11.5px}
+.gstep .tag{position:absolute;top:15px;right:15px;font-size:10px;font-weight:700;letter-spacing:.06em;
+ color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:5px;padding:2px 7px}
+.gtips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.gtip{border-left:3px solid var(--brand-line);padding:2px 0 2px 14px}
+.gtip h5{margin:0 0 5px;font-size:13px;font-weight:650}
+.gtip p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink-2);word-break:keep-all}
+.gtip p span[lang=en]{display:block;margin-top:4px;color:var(--ink-3)}
+.gtip b{color:var(--brand)}
+.study{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-2);overflow:hidden}
+.subtabs{display:flex;gap:3px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.subtabs .tab{gap:8px}
+.subtabs .tab b{font-size:11px;font-weight:700;color:var(--ink-3);background:var(--surface-3);padding:1px 7px;border-radius:20px}
+.subtabs .tab[aria-pressed=true] b{background:var(--brand-soft);color:var(--brand)}
+.searchrow{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.searchrow input{flex:1;min-width:0;box-shadow:none;border-color:var(--line)}
+.slist{max-height:66vh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.srow{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow:hover{background:var(--surface-2)}
+.srow .txt{flex:1;min-width:0}
+.srow .k{font-size:16px;font-weight:600;line-height:1.5}
+.srow .k small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:7px}
+.srow .j{font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .n{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:4px;word-break:keep-all}
+.ex{display:flex;gap:9px;margin-top:9px;padding:9px 12px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line)}
+.ex .body{flex:1;min-width:0}
+.ex .cap{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.ex .exk{font-size:13.5px;line-height:1.6}
+.ex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.ex .exj{font-size:11.5px;line-height:1.6;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.ex .btn{flex:none;align-self:center}
+.clips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.clip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);
+ font-size:11px;font-weight:600;line-height:1.4;box-shadow:var(--sh-1)}
+.clip:hover{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.clip .ic{width:11px;height:11px}
+.clipn{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3);align-self:center;margin-right:2px}
+.sempty{padding:34px 18px;text-align:center;color:var(--ink-3);font-size:13px}
+
+.qsetup{display:flex;flex-direction:column;gap:15px;padding:22px 20px}
+.qrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:120px}
+.seg{display:flex;gap:3px;padding:3px;background:var(--surface-3);border-radius:9px}
+.seg button{padding:7px 13px;border-radius:6px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.35;cursor:default}
+.qhint{margin:0;font-size:12px;line-height:1.7;color:var(--ink-3)}
+.qplay{padding:20px}
+.qtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.qscore{font-size:12px;color:var(--ink-3)}.qscore b{font-size:15px;color:var(--brand);font-weight:700}
+.qask{font-size:clamp(20px,2.1vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.01em;word-break:keep-all;margin-bottom:6px;min-height:74px;display:flex;align-items:center}
+.qsub{font-size:12.5px;color:var(--ink-3);margin-bottom:12px}
+.qchoices{display:grid;gap:8px}
+.qc{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:13px 15px;border:1px solid var(--line-2);border-radius:var(--r-m);background:var(--surface);
+ font-size:14.5px;line-height:1.5;box-shadow:var(--sh-1);transition:background .12s,border-color .12s;word-break:keep-all}
+.qc:hover:not(:disabled){background:var(--surface-2);border-color:#bcc3d0}
+.qc .num{flex:none;width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--surface-3);font-size:11px;font-weight:700;color:var(--ink-3)}
+.qc.ok{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.qc.ok .num{background:var(--brand);color:#fff}
+.qc.ng{background:#fbeeea;border-color:#d9a394;color:#9a4e37}
+.qc.ng .num{background:#c0705a;color:#fff}
+.qc:disabled{cursor:default}
+.qfeed{margin-top:14px;padding:12px 15px;border-radius:var(--r-m);font-size:13px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line)}
+.qfeed b{color:var(--brand)}
+.qdone{padding:34px 20px;text-align:center}
+.qbig{margin:0;font-size:15px;color:var(--ink-3)}.qbig b{font-size:46px;color:var(--brand);font-weight:700;letter-spacing:-.03em}
+.qrate{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.wrongs{margin-top:26px;text-align:left;border-top:1px solid var(--line);padding-top:18px}
+.wrongs h4{margin:0 0 10px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.wrongs .srow{border-bottom:1px solid var(--line);padding:10px 0}
+
+/* ============ sidebar ============ */
+.brand{display:flex;gap:11px;align-items:center;padding-bottom:16px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.seal{display:grid;place-items:center;background:var(--brand);color:#fff;border-radius:10px;width:40px;height:44px;font-family:serif;font-size:22px;flex:none;box-shadow:var(--sh-1)}
+.brand strong{display:block;font-size:15px;font-weight:650;letter-spacing:-.02em;line-height:1.3}
+.brand .sub{font-size:11px;margin-top:0}
+.brand small{display:block;color:var(--ink-3);font-size:10.5px;line-height:1.55;margin-top:5px}
+.grp{display:flex;align-items:center;gap:8px;margin:14px 6px 6px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);line-height:1.5}
+.grp span{letter-spacing:0;text-transform:none;font-weight:500}
+.scenes{display:block}
+.scenes button{display:flex;align-items:center;justify-content:space-between;gap:9px;width:100%;text-align:left;padding:6px 10px;border-radius:7px;font-size:12.5px;line-height:1.28;
+ color:var(--ink-2);transition:background .1s,color .1s;margin-bottom:1px}
+.scenes button:hover{background:var(--surface-3);color:var(--ink)}
+.scenes button[aria-pressed=true]{background:var(--surface);color:var(--brand);font-weight:650;box-shadow:var(--sh-1)}
+.scenes .sub{font-size:9.5px;margin-top:0}
+.scenes button[aria-pressed=true] .sub{color:var(--brand);opacity:.62}
+.badge{font-size:11px;color:var(--ink-3);font-weight:600;flex:none}
+.scenes .mem{padding-left:24px;position:relative}
+.scenes .mem::before{content:"";position:absolute;left:11px;top:calc(50% - 2.5px);width:5px;height:5px;border-radius:50%;background:var(--brand-line)}
+.scenes button[aria-pressed=true].mem::before{background:var(--brand)}
+
+.panel{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:6px;margin:0 0 9px}
+.stat strong{font-size:22px;font-weight:650;letter-spacing:-.02em}
+.stat .inl{font-size:11.5px;color:var(--ink-3)}
+.bar{height:4px;background:var(--surface-3);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar span{display:block;height:100%;background:var(--brand);border-radius:4px;transition:width .25s}
+.io{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.io .btn{flex:1;min-width:0}
+.foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink-3);font-size:10.5px;line-height:1.7}
+.foot a{color:var(--brand);text-decoration:none;border-bottom:1px solid var(--brand-line)}
+.foot a:hover{border-bottom-color:var(--brand)}
+
+@media(max-width:1280px){.stage{grid-template-columns:minmax(0,1fr)}.main{padding:26px 26px 52px}.player-box{position:static}}
+@media(max-width:1000px){.wrap{grid-template-columns:minmax(0,1fr)}.scene-sel{display:block}
+ .side{position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--line);padding:22px 18px 32px}
+ .scenes{overflow:visible;max-height:none;padding-right:0;margin-right:0}
+ .main{padding:22px 18px 36px}.opts{grid-template-columns:1fr}
+ .line{grid-template-columns:44px minmax(0,1fr) 34px}.line .who{grid-column:2}.line>div:nth-child(3){grid-column:2}.line .lrep{grid-column:3;grid-row:1/3;align-self:center}}
+/* 좁은 화면: 여백·탭·버튼을 손가락 크기에 맞춘다. 키보드 안내는 터치 기기에서 숨긴다 */
+@media(max-width:600px){
+ /* 플레이어: 카드·대본 뷰에서는 상단 고정, 학습 뷰(nosides)에서는 흐름대로 */
+ .player-box{position:sticky;top:0;z-index:5;background:var(--bg);padding-bottom:6px;margin:0 -12px;padding-left:12px;padding-right:12px}
+ .wrap.nosides .player-box{position:static;margin:0;padding:0}
+ .status{font-size:11.5px}.vidrow{margin-top:10px}
+ /* 상단·탭 */
+ .main{padding:14px 12px 28px}.topbar{gap:10px;margin-bottom:14px}.topbar h1{font-size:18px}.tabs{margin-left:0;width:100%}.tab{flex:1;justify-content:center;padding:6px 8px}
+ /* 카드 */
+ .card{padding:16px 14px 18px}.card-top{flex-wrap:wrap}.en{font-size:20px;margin-top:14px}.playrow .btn{flex:1 1 45%}.nav .btn{flex:1}
+ .answer{padding:14px 14px}.edit{padding:12px}
+ /* 대본 */
+ .script{max-height:none}.line{padding:10px 10px;gap:8px}.line .k{font-size:15px}.line .j{font-size:12.5px}
+ /* 학습: 하위 탭은 두 줄로, 페이스·Day 띠·버튼은 가로 폭 가득 */
+ .study{max-height:none;border-radius:12px}
+ .subtabs{flex-wrap:wrap;gap:4px;padding:8px}.subtabs .tab{flex:1 1 30%;justify-content:center;padding:7px 6px;gap:5px}
+ .dayctl{padding:10px 12px;gap:8px}.dayctl .seg{width:100%}.dayctl .seg button{flex:1;padding:9px 4px}
+ .dayctl .meta{width:100%;margin:0}.daystrip{margin-left:0;width:100%}.dbtn{flex:1 1 0;min-width:0;padding:8px 0}
+ .dayhead{flex-wrap:wrap;padding:12px 12px 8px;gap:10px}.dayhead h3{font-size:16px}
+ .flow{padding:8px 12px}.flowacts{margin-left:0;width:100%}.flowacts .btn{flex:1}
+ .daycol{padding:10px 12px}.dcList{max-height:none;overflow:visible}.dcRow{flex-wrap:wrap;padding:8px 6px}
+ .slist{max-height:none;overflow:visible}
+ .searchrow{padding:10px 12px}.srow{padding:12px 12px;gap:10px}.srow .k{font-size:15px}.ex{padding:8px 10px}
+ .qsetup{padding:16px 12px;gap:12px}.qrow{flex-direction:column;align-items:stretch;gap:6px}.qrow .cap{min-width:0}
+ .seg{flex-wrap:wrap}.seg button{flex:1 1 auto;padding:10px 10px}
+ .qplay,.qdone{padding:16px 12px}.qtop{gap:8px;margin-bottom:14px}.qask{font-size:19px;min-height:0;margin-bottom:12px}.qc{padding:12px 12px;font-size:14px}
+ .guide{padding:16px 12px}.gintro h3{font-size:19px}
+
+ /* 카드 뷰를 한 화면에: 영상 → 문장 → 버튼. 칩·위치 표시는 문장 아래로, 제목은 탭+선택만 */
+ .topbar{flex-direction:column;align-items:stretch;gap:8px;padding-bottom:10px;margin-bottom:10px}.topbar .eyebrow,.topbar h1{display:none}.tabs{order:-1}.scene-sel{margin-top:0}
+ .card{display:flex;flex-direction:column;padding:12px 14px 16px}.card-top{order:1;border-bottom:0;border-top:1px solid var(--line);padding:12px 0 0;margin-top:12px}
+ .opts{order:2}.keys{order:3}.en{margin-top:4px;font-size:21px;line-height:1.5}.ja{margin-top:4px}.playrow{margin:14px 0 10px}
+ .player-box{padding-bottom:4px}.mobile-foot{margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
+ /* 사이드바(맨 아래): 탭 크기 */
+ .side{padding:16px 12px 28px}.scenes button{padding:9px 10px;font-size:13px}
+}
+@media(hover:none){.keys{display:none}}
+/* ---- 드릴 ---- */
+#drillPane{display:flex;flex-direction:column;min-height:0;flex:1;overflow-y:auto;scrollbar-width:thin}
+.dsetup{display:flex;flex-direction:column;gap:13px;padding:20px 20px 18px}
+.dsetup .qrow .cap{min-width:74px}
+.dstats{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+ background:var(--surface-2);font-size:12px;color:var(--ink-2)}
+.dstats b{font-size:14px;color:var(--brand);font-weight:700;margin-right:2px}
+.dplay{padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px}
+.dtop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dtop .meta b{color:var(--brand)}
+.dcard{border:1px solid var(--line);border-radius:var(--r-l);background:var(--surface);box-shadow:var(--sh-2);padding:26px 24px 22px;
+ display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;min-height:250px;justify-content:center}
+.dcard .kind{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.dfront{font-size:clamp(28px,3.4vw,40px);font-weight:650;line-height:1.4;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:anywhere}
+.dfront.small{font-size:clamp(20px,2.4vw,28px);font-weight:600}
+.drd{font-size:15px;color:var(--ink-2);margin-top:-4px}
+.dback{display:flex;flex-direction:column;gap:6px;align-items:center;padding-top:12px;margin-top:6px;border-top:1px dashed var(--line);width:100%}
+.dback .m{font-size:clamp(18px,2vw,24px);font-weight:600;line-height:1.5;word-break:keep-all}
+.dback .n{font-size:12.5px;color:var(--ink-3);line-height:1.6;max-width:560px;word-break:keep-all}
+.dbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.dgrade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dgrade .btn{min-height:52px;font-size:14.5px;font-weight:600;flex-direction:column;gap:2px}
+.dgrade .btn small{font-size:10.5px;font-weight:500;opacity:.6}
+.dgrade .g1{border-color:#d9a394;color:#9a4e37;background:#fbeeea}
+.dgrade .g2{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.dgrade .g3{border-color:var(--brand-line);color:var(--brand);background:var(--brand-soft)}
+.dhint{font-size:11.5px;color:var(--ink-3);text-align:center}
+.dauto{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+.dauto input{appearance:none;width:17px;height:17px;margin:0;border:1px solid var(--line-2);border-radius:5px;background:var(--surface);position:relative;cursor:pointer}
+.dauto input:checked{background:var(--brand);border-color:var(--brand)}
+.dauto input:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.ddone{padding:34px 20px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.ddone .big{font-size:15px;color:var(--ink-3)}.ddone .big b{font-size:42px;color:var(--brand);font-weight:700;display:block;letter-spacing:-.03em}
+.dnovoice{margin:0 20px;padding:10px 14px;border-radius:var(--r-s);background:var(--accent-soft);border:1px solid var(--accent-line);color:#7a5330;font-size:12px;line-height:1.6}
+@media(max-width:700px){.dgrade{grid-template-columns:1fr}}
+.dex{width:100%;margin-top:10px;padding:10px 14px;border-radius:var(--r-s);background:var(--surface-2);border:1px solid var(--line);text-align:left}
+.dex .cap{display:flex;justify-content:space-between;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.dex .exk{font-size:15px;line-height:1.6}
+.dex .exk b{font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:3px;padding:0 2px}
+.dex .exj{font-size:12.5px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
+.srow .lab{display:flex;flex-direction:column;gap:4px;flex:none}
+.srow[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.2l11 6.8-11 6.8z"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 12V9a3 3 0 013-3h15M7 22l-4-4 4-4M21 12v3a3 3 0 01-3 3H3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M3 3l18 18M10.6 5.3A9.9 9.9 0 0112 5c6.5 0 10.5 7 10.5 7a18 18 0 01-3.6 4.4M6.2 7.6A18 18 0 001.5 12S5.5 19 12 19a9.7 9.7 0 003.9-.8M9.9 9.9a3 3 0 004.2 4.2"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 8v6h6M3.9 14a8.5 8.5 0 103-8.9L3 8"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+<symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="14" rx="2"/><path d="M8 3h11a2 2 0 012 2v11"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2H20v15H6.5A2.5 2.5 0 004 19.5zM4 19.5A2.5 2.5 0 016.5 17H20v5H6.5A2.5 2.5 0 014 19.5z"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
+<symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+ <main class="main">
+  <div class="topbar">
+   <div>
+    <p class="eyebrow">Scene</p>
+    <h1 id="sceneTitle">전체<span class="inl" lang="en">All</span></h1>
+    <select id="sceneSel" class="scene-sel" aria-label="장면·화자 선택 / Scene or speaker"></select>
+   </div>
+   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
+     <span class="lbl">카드<span class="sub" lang="en">Cards</span></span></button>
+    <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
+     <span class="lbl">대본<span class="sub" lang="en">Script</span></span></button>
+    <button class="tab" id="tabStudy" aria-pressed="false"><svg class="ic"><use href="#i-book"/></svg>
+     <span class="lbl">학습<span class="sub" lang="en">Study</span></span></button>
+    <button class="tab" id="tabWatch" aria-pressed="false"><svg class="ic"><use href="#i-play"/></svg>
+     <span class="lbl">감상<span class="sub" lang="en">Watch</span></span></button>
+   </div>
+  </div>
+
+  <div class="notice" id="fileNotice" hidden>
+   <svg class="ic" style="margin-top:2px"><use href="#i-info"/></svg>
+   <div><strong>로컬 파일(<code>file://</code>)로 열었습니다.</strong>
+    YouTube 가 출처 없는 페이지의 임베드 재생을 거부합니다(Error 153). 카드·대본·편집은 그대로 쓸 수 있고,
+    재생 버튼은 YouTube 를 해당 대사 위치부터 엽니다. 페이지 안에서 재생하려면 같이 둔
+    <code>start.bat</code>(Windows) 또는 <code>start.sh</code> 를 실행하세요.
+    <span class="sub" lang="en">Opened as a local file (<code>file://</code>). YouTube refuses embedded playback from a page with no origin (Error 153).
+     Cards, script and editing still work, and the play button opens YouTube at that line. To play inside the page, run the bundled
+     <code>start.bat</code>(Windows) or <code>start.sh</code> .</span></div>
+  </div>
+
+  <div class="stage">
+   <div class="player-box">
+    <div class="ratio" id="ratio"><div id="player"></div></div>
+    <div class="ratio offline" id="offlineBox" hidden>
+     <div>
+      <svg class="ic" style="width:26px;height:26px;stroke-width:1.5"><use href="#i-play"/></svg>
+      <strong>이 페이지 안에서는 재생할 수 없습니다</strong>
+      <span lang="en">Cannot play inside this page</span>
+      <em>재생 버튼이 YouTube 를 해당 위치부터 엽니다<br><span lang="en">The play button opens YouTube at that position</span></em>
+     </div>
+    </div>
+    <div class="vidrow">
+     <span class="cap">Video ID</span>
+     <input id="vid" spellcheck="false" aria-label="YouTube 영상 ID / Video ID">
+     <button class="btn btn-sm" id="vidApply"><span class="lbl">적용<span class="sub" lang="en">Apply</span></span></button>
+    </div>
+    <div class="status" id="playStatus">플레이어를 불러오는 중…<span class="sub" lang="en">Loading player…</span></div>
+   </div>
+
+   <div id="cardView">
+    <div class="card">
+     <div class="card-top">
+      <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+       <span class="chip" id="scene">—</span>
+       <span class="chip spk" id="who">—</span>
+       <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · Edited</span>
+      </span>
+      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+     </div>
+
+     <div class="en" id="en" lang="en">불러오는 중…</div>
+
+     <div class="playrow">
+      <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
+       <span class="lbl">이 장면 재생<span class="sub" lang="en">Play this line</span></span></button>
+      <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
+       <span class="lbl">구간 반복<span class="sub" lang="en">Repeat</span></span></button>
+      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
+       <span class="lbl">체크<span class="sub" lang="en">Check</span></span></button>
+      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
+       <span class="lbl">편집<span class="sub" lang="en">Edit</span></span></button>
+     </div>
+
+     <div class="edit" id="editBox" hidden>
+      <div>
+       <div class="cap">영어 대사 · English line</div>
+       <textarea id="edEn" lang="en" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">한국어 뜻 · Korean meaning</div>
+       <textarea id="edKo" spellcheck="false"></textarea>
+      </div>
+      <div>
+       <div class="cap">재생 구간 조정 · Adjust clip <span style="font-weight:400;letter-spacing:0;text-transform:none">— 이 카드만. 저장 없이 바로 적용됩니다</span></div>
+       <div class="row" style="align-items:center;gap:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">시작</span>
+        <button class="btn btn-sm" id="adjS-">−0.3</button><button class="btn btn-sm" id="adjS+">+0.3</button>
+        <button class="btn btn-sm" id="adjSNow" title="플레이어의 현재 위치를 이 카드의 시작으로 / Use current position as start">지금 위치로</button>
+        <span class="meta" id="adjSVal" style="min-width:52px">+0.0초</span>
+       </div>
+       <div class="row" style="align-items:center;gap:6px;margin-top:6px">
+        <span style="font-size:12px;color:var(--ink-2);min-width:34px">끝</span>
+        <button class="btn btn-sm" id="adjE-">−0.3</button><button class="btn btn-sm" id="adjE+">+0.3</button>
+        <button class="btn btn-sm" id="adjENow" title="플레이어의 현재 위치를 이 카드의 끝으로 / Use current position as end">지금 위치로</button>
+        <span class="meta" id="adjEVal" style="min-width:52px">+0.0초</span>
+        <button class="btn btn-sm" id="adjReset" style="margin-left:auto">조정 초기화</button>
+        <button class="btn btn-sm" id="adjPlay"><svg class="ic fill"><use href="#i-play"/></svg>들어보기</button>
+       </div>
+      </div>
+      <div class="row">
+       <button class="btn btn-primary btn-sm" id="edSave"><svg class="ic"><use href="#i-check"/></svg>저장 · Save</button>
+       <button class="btn btn-sm" id="edCancel"><svg class="ic"><use href="#i-x"/></svg>취소 · Cancel</button>
+       <button class="btn btn-sm" id="edReset"><svg class="ic"><use href="#i-undo"/></svg>되돌리기 · Reset</button>
+      </div>
+     </div>
+
+     <button class="btn reveal-btn" id="reveal"><svg class="ic"><use href="#i-eye"/></svg>
+      <span class="lbl" style="text-align:center">뜻 보기<span class="sub" lang="en">Show meaning</span></span></button>
+
+     <div class="answer" id="answer" hidden>
+      <div class="answer-cap"><span>뜻 · Meaning</span>
+       <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
+        <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · Hide</button></div>
+      <p class="ko" id="ko"></p>
+      <p class="note" id="note" hidden></p>
+     </div>
+
+     <div class="nav">
+      <button class="btn" id="prev"><svg class="ic"><use href="#i-left"/></svg>
+       <span class="lbl" style="text-align:center">이전<span class="sub" lang="en">Prev</span></span></button>
+      <button class="btn" id="next"><span class="lbl" style="text-align:center">다음<span class="sub" lang="en">Next</span></span>
+       <svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+
+     <div class="opts">
+      <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="en">Auto-play next card</span></span></label>
+      <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="en">Show meaning from the start</span></span></label>
+      <label><input type="checkbox" id="optShuffle"><span>순서 섞기<br><span class="inl" lang="en">Shuffle order</span></span></label>
+      <label><input type="checkbox" id="optGuard"><span>옆 카드 침범 금지<br><span class="inl" lang="en">Don't run into neighbouring cards</span></span></label>
+      <div class="wide" style="flex-wrap:wrap">
+       <span style="font-size:12.5px;color:var(--ink-2)">재생 여유 <span class="inl" lang="en" style="color:var(--ink-3);font-size:11.5px">Margin</span></span>
+       <select id="optTail">
+        <option value="0">0초 · 0 s</option><option value="0.3">0.3초 · 0.3 s</option><option value="0.5">0.5초 · 0.5 s</option>
+        <option value="0.8">0.8초 · 0.8 s</option><option value="1">1초 · 1 s</option>
+       </select>
+       <span style="font-size:12.5px;color:var(--ink-2);margin-left:6px">시작 보정 <span class="inl" lang="en" style="color:var(--ink-3);font-size:11.5px">Start offset</span></span>
+       <select id="optLead">
+        <option value="-0.3">−0.3초</option><option value="-0.15">−0.15초</option><option value="0">0</option>
+        <option value="0.15">+0.15초</option><option value="0.3">+0.3초</option><option value="0.5">+0.5초</option>
+       </select></div>
+     </div>
+
+     <div class="keys">
+      <i><kbd>Z</kbd> 뜻 · Meaning</i><i><kbd>X</kbd><kbd>Space</kbd> 재생 · Play</i>
+      <i><kbd>C</kbd> 반복 · Repeat</i><i><kbd>V</kbd><kbd>→</kbd> 다음 · Next</i><i><kbd>←</kbd> 이전 · Prev</i>
+     </div>
+    </div>
+   </div>
+
+   <div id="studyView" hidden>
+    <div class="study">
+     <div class="subtabs">
+      <button class="tab" id="sbDrill" aria-pressed="true"><span class="lbl">드릴<span class="sub" lang="en">Drill</span></span><b id="nDrill">—</b></button>
+      <button class="tab" id="sbDay" aria-pressed="false"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
+      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
+      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
+      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / How to study">
+       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
+     </div>
+
+     <div id="drillPane">
+      <div class="dsetup" id="dsetup">
+       <div class="qrow">
+        <span class="cap">범위</span>
+        <div class="seg" id="dScope">
+         <button data-v="E" aria-pressed="true">표현</button>
+         <button data-v="V" aria-pressed="false">단어</button>
+         <button data-v="A" aria-pressed="false">전부</button>
+         <button data-v="D" aria-pressed="false">오늘 분량</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">방식</span>
+        <div class="seg" id="dMode">
+         <button data-v="fwd" aria-pressed="true">EN → 韓</button>
+         <button data-v="rev" aria-pressed="false">韓 → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listen</button>
+        </div>
+        <span class="cap" style="min-width:0;margin-left:8px">한 번에</span>
+        <div class="seg" id="dSize">
+         <button data-v="10" aria-pressed="false">10</button>
+         <button data-v="20" aria-pressed="true">20</button>
+         <button data-v="0" aria-pressed="false">전부</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">음성</span>
+        <select id="dVoice" style="max-width:260px"></select>
+        <select id="dRate"><option value="0.8">0.8×</option><option value="0.9">0.9×</option><option value="1" selected>1.0×</option><option value="1.1">1.1×</option></select>
+        <label class="dauto" style="margin-left:6px"><input type="checkbox" id="dSpeak" checked><span>🔊 자동 읽기</span></label>
+        <span class="cap" style="min-width:0;margin-left:8px">반복</span>
+        <select id="dRepeat"><option value="1">1회</option><option value="2">2회</option><option value="3" selected>3회</option><option value="5">5회</option></select>
+        <span class="meta" id="dSrc"></span>
+        <label class="dauto" style="margin-left:6px"><input type="checkbox" id="dWithMean" checked><span>뜻과 함께</span></label>
+       </div>
+       <div class="qrow">
+        <button class="btn btn-primary" id="dStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">시작<span class="sub" lang="en">Start</span></span></button>
+        <button class="btn" id="dCont"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">듣기만 · 채점 없음<span class="sub" lang="en">Listen only</span></span></button>
+        <button class="btn" id="dAuto" hidden><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">자동 반복 듣기</span></button>
+       </div>
+       <p class="qhint" id="dHint"></p>
+      </div>
+      <div class="dnovoice" id="dNoVoice" hidden>이 브라우저에 영어 음성이 없습니다. Edge/Chrome 최신판을 확인하세요. 「영상」 버튼으로 원음을 들을 수 있습니다.</div>
+      <div class="dstats" id="dStats"></div>
+
+      <div class="dplay" id="dplay" hidden>
+       <div class="dtop">
+        <div class="bar" style="flex:1;margin:0"><span id="dBar" style="width:0"></span></div>
+        <span class="meta">남음 <b id="dLeft">0</b> · 다시 <b id="dRedo">0</b> · 외움 <b id="dKnown">0</b></span>
+        <button class="btn btn-sm" id="dQuit"><svg class="ic"><use href="#i-x"/></svg>그만</button>
+       </div>
+       <div class="dcard" id="dcard">
+        <div class="kind" id="dKind">—</div>
+        <div class="dfront" id="dFront" lang="en">—</div>
+        <div class="drd" id="dRd" lang="en" hidden></div>
+        <div class="dback" id="dBack" hidden>
+         <div class="m" id="dMean"></div>
+         <div class="n" id="dNote" hidden></div>
+        </div>
+        <div class="dex" id="dEx" hidden>
+         <div class="cap">영상 속 문장 · In the video <span class="meta" id="dExPos"></span></div>
+         <div class="exk" id="dExK" lang="en"></div>
+         <div class="exj" id="dExJ"></div>
+        </div>
+       </div>
+       <div class="dbtns">
+        <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">답 보기<span class="sub" lang="en">Reveal</span></span></button>
+        <button class="btn" id="dContIn" hidden data-cont="이어 듣기" data-back="채점으로"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
+        <button class="btn" id="dLoop" hidden><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
+        <button class="btn" id="dAgain"><svg class="ic"><use href="#i-sound"/></svg>다시 듣기</button>
+        <button class="btn" id="dVideo" hidden><svg class="ic fill"><use href="#i-play"/></svg>영상</button>
+       </div>
+       <div class="dgrade" id="dGrade" hidden>
+        <button class="btn g1" id="dG1">몰라<small>1</small></button>
+        <button class="btn g2" id="dG2">애매<small>2</small></button>
+        <button class="btn g3" id="dG3">알아<small>3</small></button>
+       </div>
+       <div class="dhint">Space 답 보기 → 다음 / 1 몰라 · 2 애매 · 3 알아 / R 다시 듣기</div>
+      </div>
+
+      <div class="ddone" id="ddone" hidden>
+       <div class="big"><b id="dDoneN">0</b>이번 세션 끝</div>
+       <div class="meta" id="dDoneMeta"></div>
+       <div class="dbtns">
+        <button class="btn btn-primary" id="dRestartMiss">틀린 것만 다시</button>
+        <button class="btn" id="dRestartAll">처음부터</button>
+       </div>
+      </div>
+     </div>
+
+     <div id="dayPane" hidden>
+      <div class="dayctl">
+       <div class="seg" id="qPace">
+        <button data-v="12" aria-pressed="false">천천히</button>
+        <button data-v="16" aria-pressed="true">보통</button>
+        <button data-v="23" aria-pressed="false">빠르게</button>
+        <button data-v="32" aria-pressed="false">집중</button>
+       </div>
+       <span class="meta" id="paceInfo">—</span>
+       <div class="daystrip" id="daystrip"></div>
+      </div>
+
+      <div class="dayhead">
+       <div class="dayttl">
+        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">7</span></i></span>
+        <h3 id="dayTitle">—</h3>
+        <p class="daymeta" id="dayMeta">—</p>
+       </div>
+       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+        <span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
+      </div>
+
+      <div class="flow">
+       <div class="flowsteps" id="steps"></div>
+       <div class="flowacts">
+        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · Study as cards</button>
+        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · Quiz on today’s set</button>
+       </div>
+      </div>
+
+      <div class="daycols">
+       <div class="daycol">
+        <h4><span>① 대사 · Lines</span><b id="dcN">0</b></h4>
+        <div class="dcList" id="dcList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>② 표현 · Expressions</span><b id="deN">0</b></h4>
+        <div class="dcList" id="deList"></div>
+       </div>
+       <div class="daycol">
+        <h4><span>③ 단어 · Words</span><b id="dvN">0</b></h4>
+        <div class="dcList" id="dvList"></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="guidePane" hidden>
+      <div class="guide">
+       <div class="gintro">
+        <p class="eyebrow">How to study</p>
+        <h3>인터뷰 한 편을 「쓸 수 있는 영어」로 바꾸는 4단계</h3>
+        <p lang="en">Four steps to turn one interview into English you can use</p>
+        <p class="gnote">이 교재는 대본이 아니라 <b>실제 인터뷰</b>입니다. 지어낸 예문에 없는 머뭇거림·줄임말·감탄사가 들어 있습니다.
+         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
+         <span lang="en">This is not a scripted textbook but a<b>real interview</b>. It is full of the hesitations, contractions and back-channels that invented examples never have.
+          That is why “understanding on paper” is not enough. <b>Learning it together with the sound</b> is the shortcut.</span></p>
+       </div>
+       <div class="gsteps" id="gsteps"></div>
+       <div class="gtips">
+        <div class="gtip"><h5>하루 20분이면 된다 · 20 minutes a day is enough</h5>
+         <p>157개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
+          <span lang="en">157 cards in one sitting will not stick. The Today tab slices them for you.<b>A little every day</b> is the only shortcut.</span></p></div>
+        <div class="gtip"><h5>뜻보다 소리 먼저 · Sound before meaning</h5>
+         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
+          <span lang="en">Play each card first <b>with the meaning hidden</b>. Opening the meaning only where you could not catch it makes it stick.</span></p></div>
+        <div class="gtip"><h5>소리 내어 따라 하기 · Say it out loud</h5>
+         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
+          <span lang="en">Use Repeat (<kbd>C</kbd>) to loop the same span and <b>speak over it</b>. Copying the intonation, not just the words, works best.</span></p></div>
+        <div class="gtip"><h5>축약과 필러에 귀 익히기 · Contractions and fillers</h5>
+         <p><b>gonna · wanna · kinda · ’cause · I dunno</b> 같은 축약과 <b>you know · I mean · like · I don’t know</b> 같은 필러는 뜻이 아니라 리듬입니다. 들릴 때마다 뜻을 찾지 말고 흘려 보내는 연습을 하세요. 이 한 편에만 you know 가 0번 나옵니다.
+          <span lang="en">Contractions like <b>gonna · wanna · kinda · ’cause · I dunno</b> and fillers like <b>you know · I mean · like · I don’t know</b> carry rhythm, not meaning. Practice letting them pass instead of looking them up; “you know” alone appears 0 times in this one video.</span></p></div>
+        <div class="gtip"><h5>틀린 것이 보물 · Mistakes are treasure</h5>
+         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
+          <span lang="en">Items you miss in the quiz become your review list.<b>First thing the next day</b>, listen to just those again.</span></p></div>
+        <div class="gtip"><h5>묻는 말투와 답하는 말투 · Asking vs. answering</h5>
+         <p>인터뷰어는 <b>What would you say is…? · How would you describe…? · What’s been…?</b> 처럼 부드럽게 돌려 묻고, 젠데이아는 <b>Yeah, for sure. · Nothing, honestly. · Probably my Converse.</b> 처럼 짧게 답합니다. 질문은 통째로 외워 두면 그대로 쓸 수 있고, 대답은 완전한 문장이 아니어도 된다는 것을 확인하세요.
+          <span lang="en">The interviewer softens questions with <b>What would you say is…? · How would you describe…? · What’s been…?</b>, while Zendaya answers briefly: <b>Yeah, for sure. · Nothing, honestly. · Probably my Converse.</b> Memorize the questions whole, and notice that answers need not be full sentences.</span></p></div>
+       </div>
+      </div>
+     </div>
+
+     <div id="listPane" hidden>
+      <div class="searchrow">
+       <svg class="ic"><use href="#i-search"/></svg>
+       <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
+       <span class="meta" id="sCount">0</span>
+       <label class="dauto"><input type="checkbox" id="lWithMean" checked><span>뜻과 함께</span></label>
+       <button class="btn btn-sm" id="lCont"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
+       <button class="btn btn-sm" id="lAuto"><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
+      </div>
+      <div class="slist" id="slist"></div>
+     </div>
+
+     <div id="quizPane" hidden>
+      <div class="qsetup" id="qsetup">
+       <div class="qrow">
+        <span class="cap">출제 범위 · Scope</span>
+        <div class="seg" id="qScope">
+         <button data-v="E" aria-pressed="true">표현 · Expressions</button>
+         <button data-v="V" aria-pressed="false">단어 · Words</button>
+         <button data-v="S" aria-pressed="false">대사 · Lines</button>
+         <button data-v="D" aria-pressed="false">오늘 분량 · Today’s set</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">출제 방식 · Mode</span>
+        <div class="seg" id="qMode">
+         <button data-v="en2ko" aria-pressed="true">EN → KO</button>
+         <button data-v="ko2en" aria-pressed="false">KO → EN</button>
+         <button data-v="listen" aria-pressed="false">듣기 · Listening</button>
+        </div>
+       </div>
+       <div class="qrow">
+        <span class="cap">문항 수 · Questions</span>
+        <div class="seg" id="qLen">
+         <button data-v="10" aria-pressed="true">10</button>
+         <button data-v="20" aria-pressed="false">20</button>
+         <button data-v="0" aria-pressed="false">전체 · All</button>
+        </div>
+       </div>
+       <button class="btn btn-primary" id="qStart" style="margin-top:4px;align-self:flex-start">
+        <svg class="ic fill"><use href="#i-play"/></svg>시작 · Start</button>
+       <p class="qhint" id="qHint"></p>
+      </div>
+
+      <div class="qplay" id="qplay" hidden>
+       <div class="qtop">
+        <div class="bar" style="flex:1;margin:0"><span id="qBar" style="width:0"></span></div>
+        <span class="meta"><span id="qPos">0</span> / <span id="qTotal">0</span></span>
+        <span class="qscore"><b id="qScore">0</b> 정답 · Correct</span>
+        <button class="btn btn-sm" id="qQuit"><svg class="ic"><use href="#i-x"/></svg>그만 · Quit</button>
+       </div>
+       <div class="qask" id="qAsk" lang="en">—</div>
+       <div class="qsub" id="qAskSub" hidden></div>
+       <button class="btn btn-sm" id="qReplay" hidden style="margin-bottom:12px">
+        <svg class="ic"><use href="#i-sound"/></svg>다시 듣기 · Play again</button>
+       <div class="qchoices" id="qChoices"></div>
+       <div class="qfeed" id="qFeed" hidden></div>
+      </div>
+
+      <div class="qdone" id="qdone" hidden>
+       <p class="qbig"><b id="rScore">0</b> / <span id="rTotal">0</span></p>
+       <p class="qrate" id="rRate">—</p>
+       <div class="qrow" style="justify-content:center;gap:8px">
+        <button class="btn btn-primary" id="rAgain"><svg class="ic"><use href="#i-refresh"/></svg>다시 · Again</button>
+        <button class="btn" id="rBack">설정으로 · Settings</button>
+       </div>
+       <div class="wrongs" id="rWrongs"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div id="watchView" hidden>
+    <div class="watch">
+     <div class="watch-top">
+      <button class="btn btn-primary btn-sm" id="wStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">처음부터<span class="sub" lang="en">From the start</span></span></button>
+      <button class="btn btn-sm" id="wHere"><span class="lbl">이 줄부터<span class="sub" lang="en">From this line</span></span></button>
+      <button class="btn btn-sm" id="wPause"><span class="lbl">일시정지 / 재생<span class="sub" lang="en">Pause / Play</span></span></button>
+      <label class="watch-opt"><input type="checkbox" id="wMeanOpt" checked> 뜻 · Meaning</label>
+      <span class="meta" id="wPos">—</span>
+     </div>
+     <div class="watch-prev" id="wPrev"></div>
+     <div class="watch-now">
+      <div class="watch-who" id="wWho"></div>
+      <div class="watch-line" id="wLine" lang="en">…</div>
+      <div class="watch-mean" id="wMean"></div>
+     </div>
+     <div class="watch-next" id="wNext"></div>
+     <div class="watch-bar"><span id="wBar"></span></div>
+    </div>
+    <div class="status">영상이 멈추지 않고 이어집니다. 지금 대사가 크게, 앞뒤 대사가 흐리게 표시되고 카드도 따라갑니다. 대사를 누르면 그 지점부터 재생.
+     <span class="sub" lang="en">The video plays straight through. The current line is shown large with the lines around it, and the card follows. Tap a line to play from there.</span></div>
+   </div>
+
+   <div id="scriptView" hidden>
+    <div class="script" id="script"></div>
+    <div class="status">줄을 클릭하면 그 대사 위치부터 재생합니다. 재생 중에는 자동으로 따라갑니다.
+     <span class="sub" lang="en">Click a line to play from there. While playing, the list follows along.</span></div>
+   </div>
+  </div>
+ </main>
+
+ <aside class="side">
+  <div class="brand"><div class="seal">E</div>
+   <div><strong>도카도카 영어 공부<span class="sub" lang="en">Dokadoka English</span></strong>
+    <small>젠데이아에게 73가지 질문 · <span class="n">—</span>문장<br><span lang="en">73 Questions With Zendaya · <span class="n">—</span> lines</span></small></div></div>
+
+  <div class="scenes" id="scenes"></div>
+
+  <div class="panel">
+   <div class="stat"><strong id="doneCount">0</strong>
+    <span class="inl">/ <span id="totalCount">0</span> 체크함 · <span lang="en">checked</span></span></div>
+   <div class="bar"><span id="doneBar" style="width:0"></span></div>
+
+   <div class="stat" style="margin-bottom:2px"><strong id="editCount">0</strong>
+    <span class="inl">장 수정함 · <span lang="en">cards edited</span></span></div>
+   <div class="io">
+    <button class="btn btn-sm" id="edExport"><svg class="ic"><use href="#i-down"/></svg>내보내기 · Export</button>
+    <button class="btn btn-sm" id="edImport"><svg class="ic"><use href="#i-up"/></svg>가져오기 · Import</button>
+    <input type="file" id="edFile" accept="application/json,.json" hidden>
+   </div>
+   <p style="margin:12px 0 0;font-size:10.5px;line-height:1.7;color:var(--ink-3)">
+    자막은 Vogue 가 영상에 붙인 공식 영어 자막(화자 표시 포함)입니다. 번역·주석은 직접 작성한 것이라 오류가 있을 수 있습니다.<br>
+    <span lang="en">Captions are Vogue’s official English captions (with speaker tags). Translations and notes are hand-written and may contain errors.</span></p>
+  </div>
+
+  <div class="foot">
+   대사·영상 출처 · <span lang="en">Source of lines and video</span>
+   <a id="srcLink" href="#" target="_blank" rel="noopener">YouTube</a><br>
+   학습용 개인 이용을 전제로 한 페이지입니다.<br>
+   <span lang="en">This page is intended for personal study use.</span>
+  </div>
+ </aside>
+</div>
+
+<script>
+'use strict';
+const DATA = [{"id":1,"s":7.85,"e":12.84,"en":"We Earth system scientists and climate scientists are getting seriously nervous.","ko":"우리 환경 및 기후 과학자들은 점점 엄청나게 우려하고 있습니다.","spk":"Rockstrom","scene":"nervous"},{"id":2,"s":12.87,"e":16.84,"en":"The planet is changing faster than we have expected.","ko":"지구는 우리 예상보다 더 빨리 변화하고 있습니다.","spk":"Rockstrom","scene":"nervous"},{"id":3,"s":16.86,"e":25.75,"en":"We are, despite years of raising the alarm, now seeing that the planet is actually in a situation where we underestimated risks.","ko":"수년 동안 경보가 울렸지만, 우리는 이제야 지구가 실제로 그동안 과소평가했던 위험에 처한 것을 깨달았습니다.","spk":"Rockstrom","scene":"nervous"},{"id":4,"s":25.77,"e":32.74,"en":"Abrupt changes are occurring in a way that is way beyond the realistic expectations in science.","ko":"급격한 변화가 일어나고 있고 과학자들이 현실적이라고 예상했던 수준을 훨씬 뛰어 넘습니다.","spk":"Rockstrom","scene":"nervous"},{"id":5,"s":32.77,"e":43.92,"en":"Fifteen years back, I introduced the planetary boundary framework, the scientific framework with the nine Earth system processes that determines the stability, the resilience and the life support on planet Earth.","ko":"15년 전, 저는 지구 위험 한계선이라는 개념을 처음으로 소개했습니다. 이는 아홉 가지 지구 시스템으로 구성된 과학적인 틀로서 지구의 안정성과 회복 가능성, 생명 양육 기능을 결정하는 것입니다.","spk":"Rockstrom","scene":"nervous"},{"id":6,"s":43.93,"e":47.54,"en":"Ten years back, the world signed the Paris Climate Agreement.","ko":"10년 전, 전 세계는 파리 기후 협약에 서명했습니다.","spk":"Rockstrom","scene":"nervous"},{"id":7,"s":47.55,"e":57.28,"en":"Almost five years back, we entered the decisive decade where our choices will determine the future for all generations on planet Earth.","ko":"약 5년 전, 우리는 결정적인 10년에 접어들었습니다. 우리의 선택이 지구상 모든 세대의 미래를 결정하는 중요한 시기이죠.","spk":"Rockstrom","scene":"nervous"},{"id":8,"s":57.66,"e":61.38,"en":"Where are we on this journey, halfway into this decade?","ko":"이 10년의 중반에 접어든 이 시점에 우리는 어디에 있을까요?","spk":"Rockstrom","scene":"nervous"},{"id":9,"s":61.4,"e":68.16,"en":"I will give you a scientific state of the planet report, the most objective assessment that science can give today.","ko":"지구 현황 보고서를 보여 드리겠습니다. 오늘날 과학이 제시할 수 있는 가장 객관적인 평가죠.","spk":"Rockstrom","scene":"nervous"},{"id":10,"s":68.19,"e":69.69,"en":"And it starts here.","ko":"보고서는 이렇게 시작합니다.","spk":"Rockstrom","scene":"nervous"},{"id":11,"s":69.73,"e":77.17,"en":"We've reached 1.2 degree Celsius of global mean surface temperature rise, the warmest temperature on Earth over the past 100,000 years.","ko":"지표면 평균 온도 상승이 섭씨 1.2도에 도달했는데, 이는 지난 10만 년 동안 가장 따뜻한 온도입니다.","spk":"Rockstrom","scene":"nervous"},{"id":12,"s":77.18,"e":83.84,"en":"We have just scratched on 1.5 degree Celsius as an annual mean in 2023.","ko":"2023년에는 연평균 상승 기온이 1.5도에 아주 근접했습니다.","spk":"Rockstrom","scene":"nervous"},{"id":13,"s":83.86,"e":97.45,"en":"But what worries us most is this: we are starting to see an acceleration of warming over the past 50 years. 0.18 degrees Celsius per decade from 1970 to 2010.","ko":"그런데 우리가 가장 우려하는 부분은 바로 이겁니다. 지난 50년 동안 온난화가 더 빨라지기 시작했다는 것입니다. 1970년부터 2010년까지는 10년마다 0.18도씩 증가했죠.","spk":"Rockstrom","scene":"nervous"},{"id":14,"s":97.47,"e":102.48,"en":"But then from 2014 onwards, it abruptly jumps up to 0.26 per decade.","ko":"하지만 2014년 이후부터는 갑자기 10년마다 0.26도까지 올라갑니다.","spk":"Rockstrom","scene":"nervous"},{"id":15,"s":102.49,"e":114.67,"en":"And if we follow this path, we will crash through two degrees Celsius within 20 years and hit three degrees Celsius by the year 2100, a disastrous outcome, caused by us humans.","ko":"이대로 계속 간다면 20년 안에 2도를 넘어서고 2100년에는 3도에 도달하고 말 것입니다. 우리 인간이 초래한 참담한 결과죠.","spk":"Rockstrom","scene":"nervous"},{"id":16,"s":115.12,"e":117.62,"en":"But it's not only carbon dioxide.","ko":"하지만 이산화 탄소만이 아닙니다.","spk":"Rockstrom","scene":"nervous"},{"id":17,"s":117.64,"e":121.9,"en":"Any parameter that matters for human well-being and our economies look the same.","ko":"인류의 안녕과 경제에 중요한 모든 변수가 마찬가지입니다.","spk":"Rockstrom","scene":"nervous"},{"id":18,"s":121.93,"e":126.65,"en":"Here you have it, linear change up until the 1950s, we go into the great acceleration.","ko":"보다시피 1950년대까지는 변화가 점진적이었는데 이제 엄청난 가속 단계에 접어 들었고","spk":"Rockstrom","scene":"limits"},{"id":19,"s":126.68,"e":141.68,"en":"And this is what we're seeing across overconsumption of fresh water, the sixth mass extinction of species, over-putrefying our freshwater systems with nitrogen and phosphorus, all of it undermining the stability of the planet.","ko":"우리가 보고 있는 것은 이런 것입니다. 담수의 과소비, 여섯 번째 대량 멸종, 질소와 인으로 인한 담수 시스템의 과부패, 이 모든 것이 지구의 안정성을 해치고 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":20,"s":142.3,"e":152.23,"en":"As if this was not enough, we are seeing that this is now causing impacts across the entire economy.","ko":"이것만으로는 충분하지 않은 것처럼 우리는 이제 이런 것들이 전체 경제에 영향을 미치는 걸 목격하고 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":21,"s":152.54,"e":168.43,"en":"We're seeing bigger and bigger invoices being sent by the Earth system onto societies across the entire world, in droughts, floods, heat waves, disease patterns, human-reinforced storms, scientifically attributed to human-caused climate change.","ko":"지구가 전 세계에 보내는 청구서가 점점 더 많아지고 있습니다. 가뭄, 홍수, 폭염, 각종 질병, 인간 때문에 더 세진 폭풍. 모두 인간이 초래한 기후 변화라고 밝혀진 것들입니다.","spk":"Rockstrom","scene":"limits"},{"id":22,"s":168.84,"e":176.13,"en":"Forty degrees Celsius of life-threatening heat across all continents, occurring in 2023.","ko":"생명을 위협하는 40도짜리 폭염이 2023년에는 전 대륙에서 발생합니다.","spk":"Rockstrom","scene":"limits"},{"id":23,"s":176.15,"e":183.77,"en":"Fifty-two degrees Celsius hitting the over 1,000 who lost their lives at the Hajj pilgrimage in June in Mecca.","ko":"52도까지 오른 날씨에 천 명 이상이 6월에 메카로 하지 순례길에 오른 후 목숨을 잃었습니다.","spk":"Rockstrom","scene":"limits"},{"id":24,"s":183.81,"e":196.69,"en":"Three times higher climate change risks now attributed to our cause of climate change. 2023, up to 12,000 deaths, 200 billion US dollars of cost, just in the US, up to 100 billion US dollars.","ko":"기후 변화 위험은 세 배나 높아졌고 이건 우리가 초래한 결과입니다. 2023년에는 사망자가 최대 만이천 명, 비용이 이천억 달러이고 미국에서만 최대 천억 달러가 지출됐습니다.","spk":"Rockstrom","scene":"limits"},{"id":25,"s":197.32,"e":202.18,"en":"This is seriously causing economic costs.","ko":"심각한 경제적 비용이 발생하고 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":26,"s":202.53,"e":211.22,"en":"We have scientifically, in the past, shown that this could cost a few percent of global GDP of the climate impacts caused by us.","ko":"과학이 밝힌 바에 의하면, 과거에는 우리가 초래한 기후 변화로 인해서 전 세계 GDP 중 몇 퍼센트만이 비용으로 투입됐습니다.","spk":"Rockstrom","scene":"limits"},{"id":27,"s":211.24,"e":215.41,"en":"I can tell you that the latest scientific assessment is what you see on the screen here.","ko":"이 화면에서 보실 수 있는 것이 최신 과학적 평가입니다.","spk":"Rockstrom","scene":"limits"},{"id":28,"s":215.42,"e":221.16,"en":"An 18-percent loss of GDP by 2050 if we now follow the current path.","ko":"이 추세대로 간다면 2050년까지 GDP가 18% 감소할 것입니다.","spk":"Rockstrom","scene":"limits"},{"id":29,"s":221.18,"e":230.15,"en":"This is equivalent to 38 trillion US dollars of loss per year in 2050. It's starting to hurt.","ko":"이는 2050년 연간 38조 달러 손실에 해당합니다. 고통스러워지기 시작했어요.","spk":"Rockstrom","scene":"limits"},{"id":30,"s":230.17,"e":233.99,"en":"Both in human social costs and an economic cost.","ko":"사회적 비용과 경제적 비용 양쪽 모두에서 말입니다.","spk":"Rockstrom","scene":"limits"},{"id":31,"s":234.02,"e":238.8,"en":"And this is happening at 1.2 degrees Celsius of global mean surface temperature rise.","ko":"지표면 평균 온도 1.2도 상승에 벌어지는 일들입니다.","spk":"Rockstrom","scene":"limits"},{"id":32,"s":238.83,"e":244.84,"en":"And we're following a pathway that takes us to 2.7 degrees Celsius in only 70 years.","ko":"이대로라면 2.7도까지 가는 데 불과 70년밖에 걸리지 않을 겁니다.","spk":"Rockstrom","scene":"limits"},{"id":33,"s":244.87,"e":257.33,"en":"And we've had a 10,000-year period where our civilizations have developed, where we've had an enormous privilege of a planet at 14 degrees Celsius, plus or minus 0.5 degrees Celsius.","ko":"만 년 동안 인류는 엄청난 특권을 누리면서 문명을 발전시켜 왔습니다. 평균 14도 ±0.5도를 유지하는 행성에서요.","spk":"Rockstrom","scene":"limits"},{"id":34,"s":257.35,"e":260.05,"en":"That's the Holocene since we left the last ice age.","ko":"우리는 마지막 빙하기가 끝난 후 홀로세에 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":35,"s":260.07,"e":265.29,"en":"And if you look three million years back, we never exceeded two degrees Celsius.","ko":"3백만 년 전으로 거슬러 올라가도, 2도 이상 높았던 적은 없었습니다.","spk":"Rockstrom","scene":"limits"},{"id":36,"s":265.31,"e":269.18,"en":"That's the warmest temperature on Earth during the entire Quaternary.","ko":"이건 제4기를 통틀어 가장 따뜻한 기온입니다.","spk":"Rockstrom","scene":"limits"},{"id":37,"s":269.21,"e":272.56,"en":"The coldest point, minus five degrees Celsius, Ice Age.","ko":"가장 추웠을 때는 빙하기로 영하 5도였습니다.","spk":"Rockstrom","scene":"limits"},{"id":38,"s":272.6,"e":282.27,"en":"I call this the “corridor of life.” Is it surprising that we scientists are getting really, really nervous?","ko":"저는 지금 이 시기를 ‘생명의 통로’라고 부릅니다. 과학자들이 굉장히 불안해 하고 있는 게 그렇게 놀라운 일인가요?","spk":"Rockstrom","scene":"limits"},{"id":39,"s":283.22,"e":290.2,"en":"But it's more. It's so much more than this. The first issue is buffering capacity.","ko":"그런데 이뿐만이 아닙니다. 이보다 훨씬 더 심각합니다. 첫 번째 문제는 완충 능력입니다.","spk":"Rockstrom","scene":"limits"},{"id":40,"s":290.23,"e":295.42,"en":"The second is the risk of crossing tipping points, and both are moving in the wrong direction.","ko":"두 번째는 임계점를 넘을 위험입니다. 둘 다 잘못된 방향으로 움직이고 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":41,"s":295.44,"e":301.09,"en":"Buffering capacity is the Earth system's ability to dampen shocks and stress.","ko":"완충 능력은 지구 시스템이 충격과 스트레스를 완화할 수 있는 능력입니다.","spk":"Rockstrom","scene":"limits"},{"id":42,"s":301.11,"e":306.36,"en":"Like, for example, soaking up greenhouse gases in intact nature on land and in the ocean.","ko":"예를 들어 자연스러운 환경 속에서 육지와 바다는 온실가스를 흡수합니다.","spk":"Rockstrom","scene":"limits"},{"id":43,"s":306.4,"e":312.79,"en":"And so far, Mother Earth has been so forgiving. Here we have the evidence.","ko":"지금까지 어머니 지구는 참으로 관대했습니다. 여기에 증거가 있습니다.","spk":"Rockstrom","scene":"limits"},{"id":44,"s":312.82,"e":317.61,"en":"What you see here is the hockey stick of fossil fuel burning in red and deforestation in yellow.","ko":"하키 채처럼 보이는 빨간색으로 타오르는 부분은 화석 연료를 의미하고 노란색은 삼림 벌채를 뜻합니다.","spk":"Rockstrom","scene":"limits"},{"id":45,"s":317.64,"e":323.88,"en":"Is it this tremendous climate forcing that has caused the 1.2-degree Celsius climate crisis so far?","ko":"이산화 탄소를 방출하는 이러한 요인들 때문에 지금까지 1.2도 상승의 기후 위기가 초래된 걸까요?","spk":"Rockstrom","scene":"limits"},{"id":46,"s":323.9,"e":325.42,"en":"The answer is no.","ko":"답은 '아니오'입니다.","spk":"Rockstrom","scene":"limits"},{"id":47,"s":325.43,"e":335.07,"en":"Fifty-three percent of the carbon dioxide from fossil fuel burning and land system change has been soaked up by intact nature on land and in the ocean.","ko":"화석 연료 연소와 삼림 전용으로 발생한 이산화 탄소의 53%가 육지와 바다에 자연스럽게 흡수되었습니다.","spk":"Rockstrom","scene":"limits"},{"id":48,"s":335.09,"e":341.98,"en":"It’s only the blue sliver you see here, which remains in the atmosphere, causing the climate crisis so far.","ko":"여기 남아 있는 파란색 부분이 흡수되지 못하고 대기 중에 남아 지금까지 기후 위기의 요인으로 작용했습니다.","spk":"Rockstrom","scene":"limits"},{"id":49,"s":342.0,"e":348.89,"en":"The problem is we have more and more scientific evidence of cracks in this system. Let's start on land.","ko":"문제는 이 시스템에 균열이 생기고 있다는 과학적 증거가 점점 더 늘고 있다는 것입니다. 육지부터 한번 살펴 봅시다.","spk":"Rockstrom","scene":"limits"},{"id":50,"s":349.71,"e":355.26,"en":"Land absorbs 31 percent of the carbon dioxide from our greenhouse gas emissions.","ko":"토양은 온실가스 배출로 인한 이산화 탄소의 31%를 흡수합니다.","spk":"Rockstrom","scene":"limits"},{"id":51,"s":355.28,"e":367.32,"en":"We have more and more scientific evidence across so much research that the boreal forest in Canada, or the temperate mixed forest in Germany and Russia are starting to lose their carbon uptake capacity.","ko":"과학적 증거가 무수히 많아지고 있습니다. 캐나다 아한대 삼림이나 독일과 러시아의 온대 혼합림이 탄소 흡수 능력을 잃기 시작했습니다.","spk":"Rockstrom","scene":"limits"},{"id":52,"s":367.36,"e":378.62,"en":"Did you know that the latest science shows that the part of the Amazon rain forest, planet Earth's richest biome on terrestrial land, has already tipped over and is no longer a carbon sink?","ko":"최신 과학 연구 결과에 따르면 지구에서 가장 풍부한 생물 군집인 아마존 열대 우림의 일부가 이미 전복되어 더 이상 탄소 흡수원이 아니라는 사실을 알고 계셨나요?","spk":"Rockstrom","scene":"limits"},{"id":53,"s":378.65,"e":383.22,"en":"It is today a carbon source. It's no longer helping us.","ko":"이곳은 현재 탄소 공급원이 되어 버렸습니다. 더 이상 우리에게 도움이 되지 않아요.","spk":"Rockstrom","scene":"limits"},{"id":54,"s":383.26,"e":388.16,"en":"But as if that was not enough, what really worries us today is the ocean.","ko":"하지만 이것보다 더 걱정스러운 것은 바로 바다입니다.","spk":"Rockstrom","scene":"heat"},{"id":55,"s":388.19,"e":394.69,"en":"The ocean absorbs 90 percent of the heat caused by human-induced climate change.","ko":"바다는 인간이 야기한 기후 변화로 인한 열의 90%를 흡수합니다.","spk":"Rockstrom","scene":"heat"},{"id":56,"s":394.7,"e":399.44,"en":"This is well understood, but what really worries us is what you see here.","ko":"이는 잘 알려진 사실이지만 여기 보시다시피 정말 걱정되는 건 이겁니다.","spk":"Rockstrom","scene":"heat"},{"id":57,"s":399.46,"e":403.61,"en":"This is the latest data on sea surface temperature across the ocean.","ko":"이것은 최신 해수면 온도 자료입니다.","spk":"Rockstrom","scene":"heat"},{"id":58,"s":403.63,"e":409.17,"en":"What you see here is from 1980 until today, how gradually the ocean surface just gets warmer and warmer.","ko":"여기서 볼 수 있는 것은 1980년부터 오늘날까지 해수면이 점점 더 따뜻해지는 과정을 보여줍니다.","spk":"Rockstrom","scene":"heat"},{"id":59,"s":409.2,"e":413.84,"en":"It's actually warming all the way down to 2,000 meters depth. This is well understood in science.","ko":"사실 수심 2,000미터까지 따뜻해지고 있습니다. 이것은 과학계에서 잘 알려져 있는 사실입니다.","spk":"Rockstrom","scene":"heat"},{"id":60,"s":413.87,"e":418.44,"en":"It's a deep concern. It's well represented in the climate models, we understand it.","ko":"모두의 큰 관심사예요. 기후 모델에 잘 나타나 있고 우리 모두 이해하고 있습니다.","spk":"Rockstrom","scene":"heat"},{"id":61,"s":418.48,"e":420.93,"en":"Then suddenly in 2023, something happens.","ko":"그러다가 2023년에 갑자기 어떤 일이 발생합니다.","spk":"Rockstrom","scene":"heat"},{"id":62,"s":420.96,"e":428.74,"en":"Temperatures just go completely off the charts. 0.4 degrees Celsius outside of the warmest temperature in previous years.","ko":"기온이 표에서 완전히 벗어나서 0.4도 상승 곡선이 나타납니다. 이전 몇 년 동안 가장 따뜻했던 기온을 넘어선 겁니다.","spk":"Rockstrom","scene":"heat"},{"id":63,"s":428.75,"e":434.34,"en":"What's happening? We admittedly must be honest here, we do not know.","ko":"무슨 일이 생긴 걸까요? 여기서 솔직하게 우리가 모른다는 걸 인정해야 합니다.","spk":"Rockstrom","scene":"heat"},{"id":64,"s":434.36,"e":443.13,"en":"El Niño is certainly partly to blame but cannot explain it all. 2024, it just continues. What is happening?","ko":"물론 일부는 엘니뇨가 원인이지만 모든 것을 설명하지는 못합니다. 2024년에도 이 추세가 계속되고 있습니다. 무슨 일이 일어나고 있는 거죠?","spk":"Rockstrom","scene":"heat"},{"id":65,"s":443.6,"e":449.81,"en":"We do not know. But the candidate number one is the energy imbalance caused by us humans.","ko":"우린 몰라요. 하지만 가장 먼저 떠오르는 것은 우리 인간이 야기한 에너지 불균형입니다.","spk":"Rockstrom","scene":"heat"},{"id":66,"s":449.84,"e":458.95,"en":"In one year alone, the heat equivalent to 300 times global electricity use is absorbed in the Earth's system.","ko":"단 1년 만에 전 세계 전기 사용량의 300배에 해당하는 열이 지구 시스템에 흡수됩니다.","spk":"Rockstrom","scene":"heat"},{"id":67,"s":459.55,"e":464.29,"en":"Is it what we see on the screen here, an ocean that is starting to lose resilience?","ko":"이 화면에서 보이는 것이 회복력을 잃기 시작한 바다일까요?","spk":"Rockstrom","scene":"heat"},{"id":68,"s":464.32,"e":470.09,"en":"An ocean that is at risk of releasing heat to the atmosphere and self-amplifying warming? We do not know.","ko":"대기에 열을 방출하고 온난화를 자체 증폭할 위험이 있는 바다일까요? 우리는 모르지만 한 가지 확실한 것은","spk":"Rockstrom","scene":"heat"},{"id":69,"s":470.11,"e":477.43,"en":"But one thing is for certain, the ocean is sounding the alarm. Reasons for concern, yes.","ko":"우리는 모르지만 한 가지 확실한 것은 바다에서 경보가 울리고 있다는 것입니다. 네, 걱정할 일입니다.","spk":"Rockstrom","scene":"heat"},{"id":70,"s":477.83,"e":489.6,"en":"We are now at a point where we are forced to ask the following question: Are we at risk of pushing the planet out of the basin of attraction, the stability of the planet,","ko":"이제 이런 질문을 던질 수밖에 없는 시점에 와 있습니다. “마지막 빙하기가 끝난 이후 유별나게 안정적이었던 홀로세 동안 우리가 살아온","spk":"Rockstrom","scene":"heat"},{"id":71,"s":489.6,"e":494.18,"en":"where we’ve been since we left the last Ice Age, the extraordinarily stable Holocene state?","ko":"이 지구의 안정적이고 매력적인 분지 밖으로 지구를 밀어내버릴 위험에 처해 있는 걸까요?","spk":"Rockstrom","scene":"heat"},{"id":72,"s":494.22,"e":503.48,"en":"And if we pushed ourselves outside, drifting away unstoppably towards a hothouse Earth where we get self-amplified warming and losing life support on Earth.","ko":"우리가 지구를 밖으로 밀어내면, 온난화가 증폭되는 온실 지구를 향해 거침없이 떠내려 가다가 결국 지구는 생명력을 잃게 되겠죠.","spk":"Rockstrom","scene":"heat"},{"id":73,"s":503.49,"e":506.95,"en":"What could take us there? Well, we know it.","ko":"무엇이 우리를 그곳으로 보낼까요? 그건 알아요.","spk":"Rockstrom","scene":"heat"},{"id":74,"s":506.98,"e":518.29,"en":"It is if we cross tipping points, big systems like the Greenland ice sheet, the overturning of heat in the North Atlantic, the coral reef systems, the Amazon rainforest are tipping element systems.","ko":"거대 시스템들이 임계점을 넘으면 그렇게 될 거예요. 예를 들어 그린란드 빙상, 북대서양 열 순환, 산호초 생태계, 아마존 열대우림은 모두 결정적 임계점에 도달한 지역이나 생태계입니다.","spk":"Rockstrom","scene":"heat"},{"id":75,"s":518.33,"e":519.4,"en":"Push them too far,","ko":"너무 멀리 밀어붙이면","spk":"Rockstrom","scene":"heat"},{"id":76,"s":519.4,"e":531.17,"en":"and they will flip over from a desired state that helps us to a state that will self-amplify in the wrong direction, going from cooling and dampening to self-amplifying and warming.","ko":"우리에게 도움이 되는 최적의 상태에서 전복되어 잘못된 방향으로 자기 증폭하게 될 겁니다. 냉각과 감쇠 대신 자기 증폭과 온난화 현상으로 뒤바뀌는 것이죠.","spk":"Rockstrom","scene":"heat"},{"id":77,"s":531.19,"e":534.11,"en":"A rainforest tips over to a Savannah state.","ko":"열대우림이 사바나 기후로 넘어가고 있습니다.","spk":"Rockstrom","scene":"heat"},{"id":78,"s":534.76,"e":542.2,"en":"Now we have now mapped the 16 tipping element systems, which are now scientifically cataloged, that regulate the climate system.","ko":"한계점에 다다른 지역이나 생태계 16개를 지도에 표시했습니다. 모두 과학적으로 분류되었으며, 기후 시스템을 조절하는 곳이죠.","spk":"Rockstrom","scene":"heat"},{"id":79,"s":542.23,"e":557.21,"en":"These 16, and you see the five in the ground zero on planet Earth, in the Arctic, are connected via cascades through the ocean, particularly via the AMOC, the Atlantic overturning of heat in the ocean, all the way down to Antarctica.","ko":"여기 보시는 것처럼, 16개 중 가장 핵심 지역 5개는 북극에 있고 해양을 통한 연쇄 반응으로 서로 연결되어 있으며 특히 대서양 자오선 역전 순환(AMOC)을 통해 남극까지 영향을 미칩니다.","spk":"Rockstrom","scene":"heat"},{"id":80,"s":557.25,"e":562.59,"en":"These are big biophysical systems that we all depend on, global commons for the stability of the planet.","ko":"이 모두는 우리가 의존하고 있는 거대한 생물 물리 시스템입니다. 지구의 안정을 위해 공유되는 시스템이죠.","spk":"Rockstrom","scene":"heat"},{"id":81,"s":562.62,"e":570.66,"en":"The question is, at what temperatures are they at risk of tipping from helping us to becoming self-amplifying foes?","ko":"문제는 지구가 어떤 온도가 되면 우리에게 도움이 되는 상태에서 스스로를 증폭하는 적으로 뒤바뀔 위험이 있느냐는 것입니다.","spk":"Rockstrom","scene":"assess"},{"id":82,"s":570.69,"e":575.26,"en":"Well, for the first time, we have an attempt to answer that question.","ko":"우리는 처음으로 그 질문에 답해 보려고 합니다.","spk":"Rockstrom","scene":"assess"},{"id":83,"s":575.8,"e":580.4,"en":"What you see here are the 16 tipping element systems on the y axis,","ko":"여기 y축에 있는 것은 임계점에 있는 16개 요소입니다.","spk":"Rockstrom","scene":"assess"},{"id":84,"s":580.4,"e":591.62,"en":"and in red you see the uncertainty range, the best estimates in science, darker the red, the higher the risk of tipping, it's the temperature levels at which they're likely to cross the threshold.","ko":"빨간색은 불확실성 범위이며 과학적으로 최선을 다한 추정치입니다. 빨간색이 진할수록 임계점에 도달할 가능성이 높으며 임계점을 넘을 가능성이 높다는 걸 뜻합니다.","spk":"Rockstrom","scene":"assess"},{"id":85,"s":591.63,"e":598.05,"en":"The average temperature at which they are likely to tip is the yellow circle lines you see here.","ko":"임계점이 될 평균 기온은 여기 보이는 노란색 선입니다.","spk":"Rockstrom","scene":"assess"},{"id":86,"s":598.4,"e":600.54,"en":"What this tells us is the following.","ko":"이를 통해 알 수 있는 것은 이런 것들입니다.","spk":"Rockstrom","scene":"assess"},{"id":87,"s":600.57,"e":607.18,"en":"Five of these 16 are likely to cross the tipping points already at 1.5 degrees Celsius.","ko":"이 16개 중 5개는 임계점을 넘을 가능성이 높아 보입니다. 이미 섭씨 1.5도에 도달했기 때문이죠.","spk":"Rockstrom","scene":"assess"},{"id":88,"s":607.2,"e":616.16,"en":"The Greenland ice sheet, the West Antarctic ice sheet, abrupt thawing of permafrost, losing all tropical coral reef systems and collapse of the Barents Sea ice.","ko":"그린란드 빙상, 남극 서부 빙상, 영구 동토층의 급격한 해빙, 모든 열대 산호초 생태계의 실종과 바렌츠 해빙의 붕괴입니다.","spk":"Rockstrom","scene":"assess"},{"id":89,"s":616.17,"e":623.3,"en":"And just the two ice sheets hold ten-meter sea level rise, which would be unstoppable on the long term.","ko":"이 두 빙상만으로도 해수면 10미터 상승을 초래할 수 있으며 이는 장기적으로 되돌릴 수 없는 상황이 될 것입니다.","spk":"Rockstrom","scene":"assess"},{"id":90,"s":624.45,"e":633.84,"en":"Now sure, there is scientific uncertainty here, as you see from these graphs, but there's one red thread in science for humanity in the scientific message.","ko":"물론 이 그래프에서 볼 수 있듯이 과학적으로 불확실한 부분도 있습니다. 하지만 과학이 인류에게 준 메시지에서 한 가지 중심적인 내용이 있습니다.","spk":"Rockstrom","scene":"assess"},{"id":91,"s":633.86,"e":640.81,"en":"And it's this: the more we understand of the Earth's system, the higher is the risk. And here is the proof.","ko":"지구의 시스템에 대해 더 많이 이해할수록 위험은 더 커집니다. 이것이 증거입니다.","spk":"Rockstrom","scene":"assess"},{"id":92,"s":640.83,"e":646.75,"en":"This is five IPCC assessments the Intergovernmental Panel on Climate Change, 30 years of scientific advancements.","ko":"이것은 다섯 가지 IPCC 평가입니다. IPCC는 기후 변화에 관한 정부간 협의체를 뜻합니다. 30년에 걸친 과학적 발전이죠.","spk":"Rockstrom","scene":"assess"},{"id":93,"s":646.77,"e":653.79,"en":"Here again you see risk assessment, darker the red, higher the likelihood of causing irreversible change in the climate system.","ko":"여기서도 위험도 평가를 볼 수 있는데 빨간색이 짙을수록 기후 시스템에 돌이킬 수 없는 변화가 일어날 가능성이 높습니다.","spk":"Rockstrom","scene":"assess"},{"id":94,"s":653.81,"e":664.3,"en":"Thirty years back, the risk was put at five degrees Celsius of tipping and coming down to current state of science, the risk is set at 1.5 to two degrees Celsius.","ko":"30년 전만 해도 위험도가 섭씨 5도로 평가되었으나 현재 최신 과학에 따르면 위험도는 섭씨 1.5도에서 2도 사이로 설정되었습니다.","spk":"Rockstrom","scene":"assess"},{"id":95,"s":664.34,"e":670.31,"en":"We are in the midst of a danger zone today. But it can be even worse than that.","ko":"오늘날 우리는 위험 지대의 한가운데에 있습니다. 하지만 그보다 더 나쁠 수도 있습니다.","spk":"Rockstrom","scene":"assess"},{"id":96,"s":670.33,"e":684.49,"en":"Let's go to the Amazon basin, again, the richest terrestrial ecosystem on land, climate science estimates the risk of the Amazon rainforest tipping over irreversibly to a savanna at three to five degrees of global mean surface temperature rise.","ko":"아마존 유역을 다시 살펴 볼까요? 육지에서 가장 풍요로운 생태계를 자랑하는 곳이죠. 과학계는 아마존 열대우림이 돌이킬 수 없이 사바나로 바뀔 위험이 있다고 추정합니다. 지구 평균 표면 온도가 3~5도 상승하는 수준에 이르면 말이죠.","spk":"Rockstrom","scene":"assess"},{"id":97,"s":684.51,"e":689.53,"en":"A really high temperature, unlikely even to be met over the next 70 years.","ko":"정말 높은 기온이에요. 앞으로 70년 동안은 그럴 것 같지 않아요.","spk":"Rockstrom","scene":"assess"},{"id":98,"s":689.56,"e":699.56,"en":"But if we lose forest cover, the risk is that the system can tip already at 1.5 to two degrees Celsius if we lose more than 20 to 25 percent of forest cover.","ko":"하지만 삼림 면적이 사라지면 산림 면적에서 20~25% 이상을 잃게 되면 지구가 1.5~2도까지 올라갈 위험이 있습니다.","spk":"Rockstrom","scene":"assess"},{"id":99,"s":699.57,"e":703.03,"en":"So that's a very dangerous combination. Where are we today?","ko":"그러니까 이건 매우 위험한 조합이죠. 오늘날 우리는 어디에 있는 걸까요?","spk":"Rockstrom","scene":"assess"},{"id":100,"s":703.06,"e":708.65,"en":"We are at 1.2 degrees Celsius of global mean surface temperature rise and 17 percent of deforestation.","ko":"지표면 평균 온도 상승은 1.2도이고 삼림 벌채 비율은 17%에 달합니다.","spk":"Rockstrom","scene":"where"},{"id":101,"s":708.68,"e":714.75,"en":"We are very close to a tipping point in the Amazon rainforest. Very close.","ko":"아마존 열대우림은 임계점에 정말 가까워졌습니다. 굉장히 가까워요.","spk":"Rockstrom","scene":"where"},{"id":102,"s":716.44,"e":725.2,"en":"What shall we do to avoid these unmanageable outcomes? Well, the IPCC is clear on the pathway.","ko":"감당할 수 없는 이런 결과를 피하려면 어떻게 해야 할까요? IPCC는 그 길을 명확하게 제시합니다.","spk":"Rockstrom","scene":"where"},{"id":103,"s":725.78,"e":738.01,"en":"To stay under 1.5 degrees Celsius, to avoid crossing tipping points, we need to operate, to navigate within the global carbon budget that gives us a chance of holding 1.5.","ko":"섭씨 1.5도 이하를 유지해서 임계점을 넘지 않으려면 전 세계 탄소 예산 범위 내에서 작전을 펼쳐 나가야 합니다. 1.5도를 유지할 수 있도록 말이죠.","spk":"Rockstrom","scene":"where"},{"id":104,"s":738.04,"e":747.07,"en":"What remains for us is only 200 billion tons of carbon dioxide that we can continue emitting to have a 50 percent chance of holding 1.5.","ko":"50% 확률로 1.5도를 유지하는 한도 내에서 우리가 계속 배출할 수 있는 이산화 탄소는 이천억 톤뿐입니다.","spk":"Rockstrom","scene":"where"},{"id":105,"s":747.1,"e":755.25,"en":"We emit today 40 billion tons of carbon dioxide per year, giving us five years at current rates of emission before we've consumed the budget.","ko":"오늘날 우리는 매년 이산화 탄소를 사백억 톤씩 배출하고 있습니다. 현재 배출 속도로라면 5년 만에 탄소 예산을 모두 사용하겠죠.","spk":"Rockstrom","scene":"where"},{"id":106,"s":755.26,"e":762.8,"en":"We are seriously running out of time. And the pathway for a safe landing is also well studied and understood.","ko":"시간이 절대적으로 부족합니다. 안전한 착륙을 위한 방법 또한 잘 연구되고 이해하고 있습니다.","spk":"Rockstrom","scene":"where"},{"id":107,"s":762.84,"e":763.99,"en":"You have it here.","ko":"여기 있습니다.","spk":"Rockstrom","scene":"where"},{"id":108,"s":764.02,"e":774.26,"en":"Bend the curve of emissions immediately and follow a path where we reduce emissions by at least seven percent per year for a safe landing and a net zero world economy by 2050.","ko":"배출량 곡선을 즉시 꺾어 버리고 세계 경제의 안전한 착륙과 탄소 순배출 제로를 위해 2050년까지 매년 최소 7%씩 배출량을 줄이는 길을 따라 갑니다.","spk":"Rockstrom","scene":"where"},{"id":109,"s":774.76,"e":776.42,"en":"But it's more than that.","ko":"그런데 그뿐이 아닙니다.","spk":"Rockstrom","scene":"where"},{"id":110,"s":776.45,"e":788.29,"en":"We also know that even if we succeed with this, we have already loaded the atmosphere with so much greenhouse gases, with so much climate forcing, that we inevitably face a period of overshoot.","ko":"알고 있다시피 이걸 성공한다 해도 이미 대기에 온실가스가 너무 많아서 기후 변화를 유발하고 있기 때문에 불가피하게 그 뒤로도 영향이 이어질 수밖에 없습니다.","spk":"Rockstrom","scene":"where"},{"id":111,"s":789.31,"e":799.12,"en":"We must now be prepared for a very likely breaching of the 1.5-degree-Celsius planetary boundary on climate somewhere between 2030 and 2035.","ko":"이제 우리는 2030년에서 2035년 사이에 지구 위험 한계선 1.5도를 돌파할 가능성이 매우 높은 상황에 대비해야 합니다.","spk":"Rockstrom","scene":"where"},{"id":112,"s":799.16,"e":800.94,"en":"In five to 10 year's time.","ko":"5년에서 10년밖에 안 남았어요.","spk":"Rockstrom","scene":"where"},{"id":113,"s":800.97,"e":808.13,"en":"And then have, at best, a 30-40 year period of overshoot before we can come back to 1.5 by the end of this century.","ko":"그리고 나서 30~40년 동안 후속 기간을 지나야 금세기 말까지 1.5도로 돌아올 수 있을 겁니다.","spk":"Rockstrom","scene":"where"},{"id":114,"s":808.16,"e":815.72,"en":"We would exceed with 0.1 to 0.3 degrees Celsius the 1.5 limit, meaning up to 1.8 degrees Celsius.","ko":"1.5도 한계를 초과하면 이후 0.1~0.3도 더 상승해 최대 1.8도까지 올라갈 가능성이 있습니다.","spk":"Rockstrom","scene":"where"},{"id":115,"s":815.75,"e":824.43,"en":"What does this tell us? Well, I can tell you there are two main messages. Message one: Buckle up.","ko":"그러면 어떻게 될까요? 제가 말씀드릴 수 있는 것은 크게 두 가지입니다. 첫 번째 메시지는 안전띠를 매세요.","spk":"Rockstrom","scene":"where"},{"id":116,"s":824.46,"e":845.87,"en":"We know for certain, 100 percent certainty, that this means more droughts, more floods, more heat waves, more human-reinforced storms, more disease during one generation's time. 2023, the warmest year on record, will be looked back upon as a mild year.","ko":"우리는 100% 확실하게 압니다. 가뭄과 홍수, 폭염이 늘고, 인간이 유발한 폭풍도 늘고, 질병도 늘어납니다. 한 세대 안에 더 늘어납니다. 기록상 가장 따뜻한 해인 2023년은 온화했던 해로 기억될 것입니다.","spk":"Rockstrom","scene":"where"},{"id":117,"s":846.99,"e":856.0,"en":"Message two. Why would the planet come back to 1.5 after overshoot? Well, the answer is very simple.","ko":"두 번째 메시지는 이겁니다. 후속 기간 이후 지구가 1.5도로 돌아오는 이유는 무엇일까요? 답은 아주 간단합니다.","spk":"Rockstrom","scene":"where"},{"id":118,"s":856.33,"e":860.22,"en":"The health of the planet must be kept intact.","ko":"지구의 건강은 온전하게 유지되어야 합니다.","spk":"Rockstrom","scene":"where"},{"id":119,"s":860.67,"e":865.91,"en":"We must continue having a planet that can absorb 50 percent of the carbon dioxide.","ko":"우리는 이산화 탄소의 50%를 흡수할 수 있는 지구를 유지해야 합니다.","spk":"Rockstrom","scene":"where"},{"id":120,"s":865.92,"e":868.46,"en":"We must have a planet that crosses no tipping points.","ko":"지구가 임계점을 넘지 않도록 해야 합니다.","spk":"Rockstrom","scene":"where"},{"id":121,"s":868.49,"e":874.08,"en":"We must have a planet that remains healthy and keeping heat intact in the ocean.","ko":"지구의 건강을 유지하고 바다의 열을 그대로 유지할 수 있도록 해야 합니다.","spk":"Rockstrom","scene":"where"},{"id":122,"s":874.11,"e":877.35,"en":"That is why we need planetary boundaries.","ko":"그래서 지구 위험 한계선이 필요한 거죠.","spk":"Rockstrom","scene":"where"},{"id":123,"s":877.37,"e":891.98,"en":"The planetary boundary framework that defines the nine Earth system processes that regulates the stability and resilience of the entire planet: climate, biodiversity, nitrogen, phosphorus, land, fresh water, air pollutants and chemicals.","ko":"지구 위험 한계선은 지구의 안정성과 회복력을 조절하여 지구 시스템을 안정적으로 유지하는 아홉 가지 주요 경계선을 의미합니다. 기후, 생물 다양성, 질소, 인, 토지, 담수, 대기 오염 물질과 화학 물질 등입니다.","spk":"Rockstrom","scene":"where"},{"id":124,"s":892.01,"e":894.57,"en":"That is the challenge.","ko":"이것이 바로 과제입니다.","spk":"Rockstrom","scene":"where"},{"id":125,"s":894.58,"e":902.33,"en":"To summarize that, there is no 1.5 degrees Celsius delivery on the Paris Agreement by only phasing out fossil fuels.","ko":"요약하자면 파리 협정에서 말하는 화석 연료를 단계적으로 폐기하는 방식으로는 1.5도를 달성할 수 없습니다.","spk":"Rockstrom","scene":"where"},{"id":126,"s":902.36,"e":911.08,"en":"We also need to come back into the safe operating space of the nature-based biodiversity, all the planetary boundaries of nature.","ko":"우리는 자연적인 생물다양성, 즉, 지구 위험 한계선을 안전하게 운영할 수 있는 범위 내로 다시 돌아와야 합니다.","spk":"Rockstrom","scene":"where"},{"id":127,"s":911.42,"e":920.04,"en":"This means that science is clear. The window is rapidly closing, but there is still some light in the window.","ko":"과학은 명확하게 제시하고 있습니다. 기회는 빠르게 사라지고 있지만 빛이 조금 남아 있습니다.","spk":"Rockstrom","scene":"where"},{"id":128,"s":920.08,"e":930.6,"en":"We actually have evidence that we've reached a pivotal point, not only in terms of risk, but also in terms of opportunity to transform the world towards a safe and just future for humanity.","ko":"우리는 실제로 중요한 시점에 도달해 있습니다. 위험성뿐만 아니라 인류를 위한 안전하고 정의로운 미래를 향해 세상을 바꿀 수 있는 기회라는 측면에서도 말이죠.","spk":"Rockstrom","scene":"where"},{"id":129,"s":930.62,"e":935.62,"en":"Linear change is no longer an option. The only option is exponential change.","ko":"이제 선형적 변화는 더 이상 선택할 수 없습니다. 남은 건 지수적 변화뿐입니다.","spk":"Rockstrom","scene":"where"},{"id":130,"s":935.64,"e":939.31,"en":"We know that the only currency that matters is speed and scale.","ko":"속도와 규모가 중요하다는 것을 우리는 알고 있습니다.","spk":"Rockstrom","scene":"where"},{"id":131,"s":939.33,"e":942.16,"en":"We also need to become stewards of the entire planet.","ko":"또한 우리는 지구 전체의 청지기가 되어야 합니다.","spk":"Rockstrom","scene":"where"},{"id":132,"s":942.2,"e":948.79,"en":"We need to now recognize, from local to global level, that we're all so intertwined that we must govern the entire planet.","ko":"우리는 이제 지역 차원에서 세계 차원에 이르기까지 우리 모두가 서로 얽혀 있기 때문에 지구 전체를 다루어야 한다는 사실을 인식해야 합니다.","spk":"Rockstrom","scene":"where"},{"id":133,"s":948.8,"e":957.53,"en":"I know, that is very daunting, but what choice do we have when on the line is the future of our children on planet Earth?","ko":"정말 벅찬 일이라는 건 알지만 지구에 사는 아이들의 미래가 위기에 처했다면 지금 우리는 어떤 선택을 해야 할까요?","spk":"Rockstrom","scene":"where"},{"id":134,"s":957.55,"e":965.71,"en":"And we have the solutions. We know that solving the planet crisis is not utopia. It's not fantasy.","ko":"우리에겐 해결책이 있습니다. 우리는 지구의 위기를 해결하는 것이 헛된 희망이 아니라는 것을 압니다. 환상이 아니에요.","spk":"Rockstrom","scene":"where"},{"id":135,"s":965.72,"e":972.88,"en":"We have the solutions for a secure, stable future for humanity. What are those transformations?","ko":"우리는 인류의 미래를 안전하고 지속 가능하게 만들 해결책이 있습니다. 이러한 변화는 무엇일까요?","spk":"Rockstrom","scene":"solve"},{"id":136,"s":972.88,"e":976.28,"en":"Well, we know them. It's a rapid transition away from fossil fuels.","ko":"우린 이미 알고 있어요. 화석 연료에서 빠르게 전환하는 것이죠.","spk":"Rockstrom","scene":"solve"},{"id":137,"s":976.3,"e":978.8,"en":"It is a transition towards circular business models.","ko":"순환형 사업 모델로 전환하는 것입니다.","spk":"Rockstrom","scene":"solve"},{"id":138,"s":978.84,"e":982.32,"en":"It is transitioning towards healthy diets from sustainable food systems.","ko":"지속 가능한 식품 체계에서 오는 건강한 식단으로 전환하는 것입니다.","spk":"Rockstrom","scene":"solve"},{"id":139,"s":982.36,"e":991.56,"en":"And it's not only halting loss of nature, it's also scaling the regeneration and restoration of marine systems, soils, forests and wetlands.","ko":"자연 파괴를 막을 뿐만 아니라 재생과 복원도 확대하는 것입니다. 해양 시스템, 토양, 숲, 습지에서요.","spk":"Rockstrom","scene":"solve"},{"id":140,"s":991.58,"e":994.27,"en":"We have solutions for all of these.","ko":"우리는 이 모든 것에 대한 해결책이 있습니다.","spk":"Rockstrom","scene":"solve"},{"id":141,"s":994.3,"e":998.86,"en":"Just take green energy, which today is cheaper than fossil fuel-based energy.","ko":"친환경 에너지를 보면 현재 화석 연료 에너지보다 저렴합니다.","spk":"Rockstrom","scene":"solve"},{"id":142,"s":998.89,"e":1003.91,"en":"It's our choice that we're facing today.","ko":"오늘 우리가 하는 선택에 달려 있습니다.","spk":"Rockstrom","scene":"solve"},{"id":143,"s":1005.38,"e":1015.64,"en":"Now I was nervous already in 2020 when we entered this decisive decade and had to cut global emissions by half by 2030.","ko":"2020년이 되었을 때 저는 정말 긴장됐습니다. 결정적인 10년에 접어든 시점이었죠. 2030년까지 전 세계 배출량을 절반으로 줄여야 했으니까요.","spk":"Rockstrom","scene":"solve"},{"id":144,"s":1015.96,"e":1022.93,"en":"Halfway into this decade, the road is steeper than ever. It's steeper than ever.","ko":"그 10년의 중반에 들어선 지금, 길은 어느 때보다 가파릅니다. 그 어느 때보다 정말 가파르다고요.","spk":"Rockstrom","scene":"solve"},{"id":145,"s":1023.73,"e":1033.09,"en":"This is what really, really concerns us. That we have a situation where we now need to move so fast.","ko":"정말 정말 우려됩니다. 우리는 지금 아주 빨리 움직여야 하는 상황입니다.","spk":"Rockstrom","scene":"solve"},{"id":146,"s":1033.12,"e":1039.19,"en":"And I've been standing on stages like this so many times, sharing the dire scientific diagnostic.","ko":"저는 이런 무대에 여러 번 서서 끔찍한 과학적 진단을 알려 왔는데요.","spk":"Rockstrom","scene":"solve"},{"id":147,"s":1039.21,"e":1045.09,"en":"But still, I just told you that I do conclude that there is still some window open.","ko":"하지만 방금 말씀드렸듯이 아직 기회는 남아 있다는 결론을 내렸습니다.","spk":"Rockstrom","scene":"solve"},{"id":148,"s":1045.1,"e":1047.29,"en":"There is a light in the tunnel.","ko":"터널에 아직 불빛이 보입니다.","spk":"Rockstrom","scene":"solve"},{"id":149,"s":1047.32,"e":1053.84,"en":"And you may ask, what is it that makes me able to continue to be a realistic optimist in this situation?","ko":"이렇게 물으실 수도 있겠죠. “이런 상황에서 계속 현실적 낙관론자로 살 수 있는 이유는 무엇인가요?”","spk":"Rockstrom","scene":"solve"},{"id":150,"s":1053.88,"e":1057.86,"en":"The most dire situation, I must admit, in my whole professional life.","ko":"제가 이 일에 종사한 이래 가장 끔찍한 상황인 것은 사실입니다.","spk":"Rockstrom","scene":"solve"},{"id":151,"s":1058.25,"e":1065.92,"en":"Well, actually, I promise this is an honest statement. there are so many positive items as well.","ko":"솔직히 말씀 드리자면 낙관적인 부분도 아주 많아요.","spk":"Rockstrom","scene":"solve"},{"id":152,"s":1065.94,"e":1074.83,"en":"The most important one in my mind is that we have ample evidence that citizens across the world, a majority of them, care about nature and climate.","ko":"제 생각에 가장 중요한 것은 전 세계 시민 대다수가 자연과 기후에 관심이 있다는 증거가 아주 많다는 것입니다.","spk":"Rockstrom","scene":"solve"},{"id":153,"s":1074.85,"e":1080.3,"en":"They trust climate science, they're concerned about climate change, and they want solutions.","ko":"시민들은 기후 과학을 신뢰하고 기후 변화를 우려하며 해결책을 원하죠.","spk":"Rockstrom","scene":"solve"},{"id":154,"s":1080.34,"e":1088.09,"en":"And the second key factor is that we have so much evidence today that the solutions are not only available,","ko":"두 번째 핵심 요소는 오늘날 우리는 많은 증거를 통해 이러한 해결책이 존재할 뿐 아니라 이를 실천으로 옮기면","spk":"Rockstrom","scene":"solve"},{"id":155,"s":1088.09,"e":1099.61,"en":"but if we implement them, we get a more healthy, stable, secure future with the jobs and the economies that can compete and provide livelihoods into the future.","ko":"더 건강하고 지속 가능하며 안전한 미래를 맞이할 수 있다는 걸 알아요. 미래에도 경쟁력을 갖추고 생계를 유지할 수 있는 일자리와 경제가 존재할 테니까요.","spk":"Rockstrom","scene":"solve"},{"id":156,"s":1100.22,"e":1111.2,"en":"This means, dear friends, that solving the planetary crisis is not only necessary, it is possible, and we all win if we succeed.","ko":"사랑하는 여러분, 이것은 지구 위기 해결이 필수적일 뿐만 아니라 가능하다는 것을 의미하며 성공한다면 우리 모두가 이길 수 있다는 뜻입니다.","spk":"Rockstrom","scene":"solve"},{"id":157,"s":1111.73,"e":1115.87,"en":"Thank you very much. (Applause)","ko":"정말 감사합니다. (박수)","spk":"Rockstrom","scene":"solve"}];
+const SCENES = [{"key": "nervous", "ko": "과학자들이 불안한 이유", "en": "Why scientists are nervous", "at": 0}, {"key": "limits", "ko": "지구 위험 한계선", "en": "Planetary boundaries", "at": 120}, {"key": "heat", "ko": "바다가 흡수한 열", "en": "The heat the ocean absorbs", "at": 380}, {"key": "assess", "ko": "티핑포인트를 재다", "en": "Assessing the tipping points", "at": 560}, {"key": "where", "ko": "지금 우리는 어디에", "en": "Where we stand now", "at": 700}, {"key": "solve", "ko": "해법 · 지금 할 일", "en": "Solutions: what to do now", "at": 960}];
+const SPEAKERS = [{"key": "Rockstrom", "en": "Johan Rockström", "ko": "요한 록스트룀", "member": true}, {"key": "", "en": "Unknown", "ko": "화자 미상", "member": false}];
+const STUDY = [{"t":"E","en":"seriously nervous","ko":"심각하게 불안한","note":"getting + 비교 = 변화 중","cids":[1],"ex":1,"hit":"seriously nervous"},{"t":"E","en":"it starts here","ko":"여기서 시작됩니다","cids":[10],"ex":10,"hit":"it starts here"},{"t":"E","en":"the answer is no","ko":"답은 아니요입니다","note":"자문자답","cids":[46],"ex":46,"hit":"The answer is no"},{"t":"E","en":"partly to blame","ko":"일부 책임이 있다","note":"be to blame = 책임이 있다","cids":[64],"ex":64,"hit":"partly to blame"},{"t":"E","en":"cannot explain","ko":"설명하지 못한다","cids":[64],"ex":64,"hit":"cannot explain"},{"t":"E","en":"for the first time","ko":"처음으로","cids":[82],"ex":82,"hit":"for the first time"},{"t":"E","en":"kept intact","ko":"온전하게 유지되다","note":"intact = 손상되지 않은","cids":[118],"ex":118,"hit":"kept intact"},{"t":"E","en":"transition away from","ko":"~에서 벗어나는 전환","cids":[136],"ex":136,"hit":"transition away from"},{"t":"E","en":"what could take us","ko":"무엇이 우리를 데려갈까","cids":[73],"ex":73,"hit":"What could take us"},{"t":"E","en":"we know it","ko":"우리는 알고 있습니다","note":"짧은 단언","cids":[73],"ex":73,"hit":"we know it"},{"t":"E","en":"more than that","ko":"그 이상입니다","cids":[109],"ex":109,"hit":"more than that"},{"t":"E","en":"by 2050","ko":"2050년까지","note":"기한 표현","cids":[28,108],"ex":28,"hit":"by 2050"},{"t":"E","en":"this means","ko":"이것이 뜻하는 바는","cids":[116,127,156],"ex":127,"hit":"This means"},{"t":"E","en":"concerns us","ko":"우리를 걱정하게 한다","note":"concern = 걱정시키다(타동사)","cids":[145],"ex":145,"hit":"concerns us"},{"t":"E","en":"there is still","ko":"그래도 아직 ~이 있다","note":"희망을 남기는 전환","cids":[127,147],"ex":127,"hit":"there is still"},{"t":"E","en":"we now need","ko":"이제 우리는 ~해야 합니다","cids":[145],"ex":145,"hit":"we now need"},{"t":"E","en":"not only","ko":"~뿐 아니라","cids":[16,128,139,154,156],"ex":16,"hit":"not only"},{"t":"E","en":"no longer","ko":"더 이상 ~ 아니다","cids":[52,53,129],"ex":53,"hit":"no longer"},{"t":"E","en":"the more","ko":"~할수록","note":"the 비교급 상관 구문","cids":[91],"ex":91,"hit":"the more"},{"t":"E","en":"even if","ko":"설령 ~라도","cids":[110],"ex":110,"hit":"even if"},{"t":"V","en":"climate","ko":"기후","cids":[1,6,21,24,26,45,48,55,60,78,92,93,96,110,111,123,152,153],"ex":1,"hit":"climate"},{"t":"V","en":"planet","ko":"행성·지구","cids":[2,3,5,7,9,19,33,52,70,79,80,117,118,119,120,121,123,131,132,133,134],"ex":2,"hit":"planet"},{"t":"V","en":"planetary","ko":"행성의","note":"planetary boundaries = 지구 위험 한계선","cids":[5,111,122,123,126,156],"ex":122,"hit":"planetary"},{"t":"V","en":"degrees","ko":"도","note":"섭씨 온도 단위","cids":[13,15,22,23,31,32,33,35,37,62,87,94,96,98,100,103,114,125],"ex":22,"hit":"degrees"},{"t":"V","en":"Celsius","ko":"섭씨","cids":[11,12,13,15,22,23,31,32,33,35,37,45,62,87,94,98,100,103,111,114,125],"ex":12,"hit":"Celsius"},{"t":"V","en":"temperature","ko":"온도","cids":[11,31,36,57,62,81,84,85,96,97,100],"ex":31,"hit":"temperature"},{"t":"V","en":"earth","ko":"지구","cids":[1,5,7,11,21,36,41,43,52,66,72,79,91,123,133],"ex":1,"hit":"Earth"},{"t":"V","en":"ocean","ko":"바다","cids":[42,47,54,55,57,58,67,68,69,79,121],"ex":42,"hit":"ocean"},{"t":"V","en":"carbon","ko":"탄소","cids":[16,47,50,51,52,53,103,104,105,119],"ex":16,"hit":"carbon"},{"t":"V","en":"dioxide","ko":"이산화물","note":"carbon dioxide = 이산화탄소","cids":[16,47,50,104,105,119],"ex":16,"hit":"dioxide"},{"t":"V","en":"warming","ko":"온난화","cids":[13,59,68,72,76],"ex":59,"hit":"warming"},{"t":"V","en":"tipping","ko":"기울어지는","note":"tipping point = 임계점","cids":[40,74,78,81,83,84,87,94,96,101,103,120],"ex":40,"hit":"tipping"},{"t":"V","en":"surface","ko":"표면","cids":[11,31,57,58,96,100],"ex":31,"hit":"surface"},{"t":"V","en":"stability","ko":"안정성","cids":[5,19,70,80,123],"ex":80,"hit":"stability"},{"t":"V","en":"evidence","ko":"증거","cids":[43,49,51,128,152,154],"ex":43,"hit":"evidence"},{"t":"V","en":"scientific","ko":"과학적인","cids":[5,9,27,49,51,90,92,146],"ex":27,"hit":"scientific"},{"t":"V","en":"science","ko":"과학","cids":[4,9,52,59,84,90,94,96,127,153],"ex":4,"hit":"science"},{"t":"V","en":"percent","ko":"퍼센트","cids":[26,28,47,50,55,98,100,104,108,116,119],"ex":28,"hit":"percent"},{"t":"V","en":"decade","ko":"10년","cids":[7,8,13,14,143,144],"ex":8,"hit":"decade"},{"t":"V","en":"nature","ko":"자연","cids":[42,47,126,139,152],"ex":42,"hit":"nature"}];   /* 표현·단어 (study.txt 유래) */
+const AUDIO = {};   /* 학습 음원: 원문(aKey) → data URI. build.py 가 src/audio 에서 심는다 */
+const DEFAULT_VID = 'Vl6VhCAeEfQ';
+const LS = 'en-zd73';
+const $ = id => document.getElementById(id);
+/* 한국어를 주, 일본어를 부로 병기한다 */
+const bi = (ko, en) => ko + ' <span class="sub" lang="en">' + en + '</span>';
+const SPK = {}; SPEAKERS.forEach(s => SPK[s.key] = s);
+const spkOf = d => SPK[d.spk] || SPK[''];
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(LS+'.'+k); return v===null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(LS+'.'+k, JSON.stringify(v)); }catch(e){} }
+};
+
+let videoId = store.get('vid', DEFAULT_VID);
+let checked = new Set(store.get('checked', []));
+let edits = store.get('edits', {});      /* {카드id: {en, ko}} 직접 고친 내용 */
+const edited = d => { const e = edits[d.id]; return e ? Object.assign({}, d, e) : d; };
+let filt = store.get('filt', 'all');     /* 'all' | 'scene:<key>' | 'spk:<label>' | 'day'(저장하지 않음) */
+let deck = [], index = 0;
+let player = null, ready = false, stopAt = null, loopSeg = null, follow = true;
+let view = 'card';
+/* file:// 에서는 YouTube 가 임베드 재생을 거부한다(Error 153). 그때는 YouTube 본체를 해당 초부터 연다 */
+const OFFLINE = location.protocol === 'file:';
+const ytAt = d => 'https://www.youtube.com/watch?v=' + videoId + '&t=' + Math.floor(headOf(d)) + 's';
+const MIN_PLAY = 1.2;                                   /* 아주 짧은 자막도 최소 이만큼은 재생(초) */
+const GUARD = 0.05;                                     /* 옆 카드와 사이에 두는 최소 간격(초) */
+const tail = () => Number($('optTail').value) || 0;     /* 발화 끝 뒤 여유(초) */
+const lead = () => Number($('optLead').value) || 0;     /* 시작 위치 보정(초). 음수=조금 앞부터 */
+const offs = d => { const e = edits[d.id] || {}; return {ds: Number(e.ds) || 0, de: Number(e.de) || 0}; };   /* 카드별 미세 조정 */
+const prevOf = d => DATA[DATA.indexOf(d) - 1];
+const nextOf = d => DATA[DATA.indexOf(d) + 1];
+/* 시작: 자막 시작 + 옵션 보정 + 카드 조정. 앞 카드가 바로 붙어 있으면 그 끝보다 앞으로는 가지 않는다 */
+function headOf(d){
+  let t = d.s + lead() + offs(d).ds;
+  const p = prevOf(d);
+  if($('optGuard').checked && p && d.s - p.e < 1.0 && p.e < d.e - 0.5) t = Math.max(t, p.e + offs(p).de + GUARD);   /* 앞 카드와 구간이 겹치면(같은 큐를 나눈 경우) 자르지 않는다 */
+  return Math.max(0, Math.min(t, d.e - 0.3));
+}
+/* 끝: 자막 끝 + 여유 + 카드 조정. 다음 카드가 바로 붙어 있으면 그 시작 전에서 멈춘다 */
+function endOf(d){
+  let t = Math.max(d.e + tail() + offs(d).de, d.s + MIN_PLAY);
+  const n = nextOf(d);
+  if($('optGuard').checked && n && n.s - d.e < 1.0 && n.s > d.s + 0.5) t = Math.min(t, Math.max(n.s + offs(n).ds - GUARD, d.s + 0.6));   /* 다음 카드가 실제로 뒤에 시작할 때만 */
+  return t;
+}
+
+function fmt(s){ const m = Math.floor(s/60), r = Math.floor(s%60); return m+':'+String(r).padStart(2,'0'); }
+function parseId(v){
+  v = (v||'').trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
+/* ---------- filters ---------- */
+/* 같은 표기의 화자(Fan/Fans)는 하나의 버튼으로 묶는다 */
+const SPK_GROUPS = [];
+SPEAKERS.forEach(s => {
+  let g = SPK_GROUPS.find(x => x.ko === s.ko);
+  if(!g){ g = {ko: s.ko, en: s.en, keys: [], member: s.member}; SPK_GROUPS.push(g); }
+  g.keys.push(s.key);
+});
+const pool = () => DATA;
+function matches(d){
+  if(filt === 'all') return true;
+  if(filt === 'day') return dayIds.includes(d.id);
+  if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
+  const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
+  return !!g && g.keys.includes(d.spk);
+}
+
+/* ---------- sidebar ---------- */
+function buildScenes(){
+  const box = $('scenes'); box.textContent = '';
+  const sel = $('sceneSel'); sel.textContent = '';
+  const head = (ko, en) => { const h = document.createElement('div'); h.className = 'grp'; h.innerHTML = ko + ' <span lang="en">' + en + '</span>'; box.appendChild(h); };
+  const mk = (key, ko, en, n, cls) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.dataset.key = key; if(cls) b.className = cls;
+    b.innerHTML = '<span>' + bi(ko, en) + '</span><span class="badge">' + n + '</span>';
+    b.onclick = () => { filt = key; store.set('filt', key); buildDeck(); };
+    box.appendChild(b);
+    sel.appendChild(new Option(ko + ' · ' + n, key));          /* 모바일용 셀렉트에도 같은 항목 */
+  };
+  const P = pool();
+  mk('all', '전체', 'All', P.length);
+  head('장면 · 타임라인', 'Scenes');
+  SCENES.forEach(s => mk('scene:' + s.key, s.ko, s.en, P.filter(d => d.scene === s.key).length));
+  head('화자', 'Speakers');
+  SPK_GROUPS.forEach(g => {
+    const n = P.filter(d => g.keys.includes(d.spk)).length;
+    if(n) mk('spk:' + g.ko, g.ko, g.en, n, g.member ? 'mem' : '');
+  });
+  $('totalCount').textContent = DATA.length;
+  document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
+}
+function paintScenes(){
+  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
+  if([...$('sceneSel').options].some(o => o.value === filt)) $('sceneSel').value = filt;
+  let ko = '전체', en = 'All';
+  if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; en = 'Day ' + dayCur + ' lines'; }
+  if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; en = s.en; } }
+  else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; en = g.en; } }
+  $('sceneTitle').innerHTML = ko + '<span class="inl" lang="en">' + en + '</span>';
+}
+function paintProgress(){
+  $('doneCount').textContent = checked.size;
+  $('doneBar').style.width = (DATA.length ? checked.size/DATA.length*100 : 0) + '%';
+}
+
+/* ---------- deck ---------- */
+function buildDeck(){
+  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked){
+    for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  }
+  index = 0;
+  paintScenes(); showCard(); buildScript();
+}
+
+/* ---------- card ---------- */
+function showCard(){
+  const d = deck[index];
+  if(!d){ $('en').textContent = '해당 대사가 없습니다 / No matching line'; return; }
+  const v = edited(d);
+  $('editedTag').hidden = !edits[d.id];
+  $('en').textContent = v.en;
+  $('ko').textContent = v.ko;
+  $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  closeEdit();
+  const s = SCENES.find(x => x.key === d.scene);
+  $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="en">' + s.en + '</span>' : '—';
+  const sp = spkOf(d);
+  $('who').className = 'chip spk';
+  $('who').innerHTML = sp.ko + '<span class="sub" lang="en">' + sp.en + '</span>';
+  $('pos').textContent = (index+1) + ' / ' + deck.length;
+  $('time').textContent = fmt(d.s);
+  $('prev').disabled = index === 0;
+  $('next').disabled = index === deck.length-1;
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  setReveal($('optShow').checked);
+  highlight(d.id);
+}
+function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
+
+/* ---------- script ---------- */
+function buildScript(){
+  const box = $('script'); box.textContent = '';
+  const frag = document.createDocumentFragment();
+  deck.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'line'; el.dataset.id = d.id; el.tabIndex = 0; el.setAttribute('role','button');
+    el.innerHTML = '<div class="t">'+fmt(d.s)+'</div><div class="who"></div><div><div class="k" lang="en"></div><div class="j"></div></div>'
+      + '<button class="lrep" type="button" aria-pressed="false" title="이 구간 반복 / Repeat this line"><svg class="ic"><use href="#i-repeat"/></svg></button>';
+    const v = edited(d), sp = spkOf(d);
+    el.querySelector('.who').textContent = sp.ko;
+    el.querySelector('.k').textContent = v.en;
+    el.querySelector('.j').textContent = v.ko;
+    const go = () => { index = i; showCard(); playSeg(d); };
+    el.onclick = go;
+    /* 줄별 구간 반복: 누르면 그 줄만 되풀이, 다시 누르면 해제 (file:// 에서는 반복이 불가하므로 숨김) */
+    const rep = el.querySelector('.lrep');
+    rep.hidden = OFFLINE;
+    rep.onclick = e => { e.stopPropagation(); index = i; showCard(); if(loopSeg && loopSeg.id === d.id) $('loop').click(); else playSeg(d, {loop:true}); };
+    el.onkeydown = e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } };
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+  paintLoop();
+}
+/* 반복 중인 구간을 대본의 줄 버튼과 카드의 반복 버튼에 표시 */
+function paintLoop(){
+  $('script').querySelectorAll('.lrep').forEach(b => b.setAttribute('aria-pressed', String(!!loopSeg && Number(b.closest('.line').dataset.id) === loopSeg.id)));
+  $('loop').setAttribute('aria-pressed', String(!!loopSeg));
+}
+function highlight(id){
+  [...$('script').children].forEach(el => {
+    const on = Number(el.dataset.id) === id;
+    el.setAttribute('aria-current', String(on));
+    if(on && view === 'script' && follow) el.scrollIntoView({block:'nearest'});
+  });
+}
+
+/* ---------- YouTube ---------- */
+function loadAPI(){
+  if(OFFLINE){
+    $('ratio').hidden = true; $('offlineBox').hidden = false;
+    $('loop').disabled = true;
+    $('playStatus').innerHTML = bi('카드와 대본은 그대로 쓸 수 있습니다.', 'Cards and script still work.');
+    return;
+  }
+  if(window.YT && window.YT.Player) return onAPI();
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => { $('playStatus').innerHTML = bi('YouTube API 를 불러오지 못했습니다.', 'Could not load the YouTube API.'); };
+  document.head.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = () => onAPI();
+function onAPI(){
+  player = new YT.Player('player', {
+    videoId: videoId,
+    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    events: {
+      onReady: () => { ready = true; $('playStatus').innerHTML = bi('준비 완료. 대사 위치부터 재생할 수 있습니다.', 'Ready. You can play from any line.'); },
+      onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', 'Cannot play the video (error '+e.data+')。'); },
+      onStateChange: e => {
+        if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', 'Playing…');
+        if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', 'Paused');
+      }
+    }
+  });
+}
+function playSeg(d, opts){
+  opts = opts || {};
+  if(OFFLINE){
+    window.open(ytAt(d), '_blank', 'noopener');
+    $('playStatus').innerHTML = bi('YouTube 를 ' + fmt(d.s) + ' 지점부터 열었습니다.', 'Opened YouTube at ' + fmt(d.s) + '.');
+    return;
+  }
+  if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'The player is not ready yet.'); return; }
+  player.seekTo(headOf(d), true);
+  player.playVideo();
+  stopAt = endOf(d);
+  loopSeg = opts.loop ? d : null;
+  paintLoop();
+  const range = fmt(headOf(d)) + ' → ' + fmt(stopAt);
+  const o = offs(d), adj = (o.ds || o.de) ? ' · 조정 ' + (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '/' + (o.de >= 0 ? '+' : '') + o.de.toFixed(1) : '';
+  const detailKo = '(' + (stopAt - headOf(d)).toFixed(1) + '초' + adj + ')';
+  const detailEn = '(' + (stopAt - headOf(d)).toFixed(1) + ' s)';
+  $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
+                                 (opts.loop ? 'Repeating ' : 'Playing ') + range + detailEn);
+}
+setInterval(() => {
+  if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
+  const t = player.getCurrentTime();
+  if(view === 'script' && follow && stopAt === null){
+    const cur = deck.find(d => t >= d.s && t < d.e);
+    if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
+  }
+  if(stopAt === null || t < stopAt) return;
+  if(loopSeg){ player.seekTo(headOf(loopSeg), true); return; }
+  stopAt = null;
+  if($('optAuto').checked && index < deck.length-1){
+    index++; showCard(); playSeg(deck[index]);
+  } else {
+    player.pauseVideo();
+    $('playStatus').innerHTML = bi('이 장면 재생이 끝났습니다.', 'Finished playing this line.');
+  }
+}, 120);
+
+/* ---------- controls ---------- */
+$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+$('loop').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'Repeat off.'); }
+  else playSeg(d, {loop:true});
+};
+$('reveal').onclick = () => setReveal(true);
+$('hide').onclick   = () => setReveal(false);
+$('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };   /* 반복 중이면 옮겨 간 구간을 반복 */
+$('next').onclick   = () => { if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
+$('check').onclick  = () => {
+  const d = deck[index]; if(!d) return;
+  if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
+  store.set('checked', [...checked]);
+  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
+  paintProgress();
+};
+/* ---------- manual edits ---------- */
+function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
+function closeEdit(){ $('editBox').hidden = true; $('edit').setAttribute('aria-pressed','false'); }
+function openEdit(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d);
+  $('edEn').value = v.en; $('edKo').value = v.ko;
+  paintAdj();
+  $('editBox').hidden = false; $('edit').setAttribute('aria-pressed','true');
+  $('edEn').focus();
+}
+$('edit').onclick = () => { if($('editBox').hidden) openEdit(); else closeEdit(); };
+/* ---------- 카드별 재생 구간 조정 / per-card clip adjustment ---------- */
+function paintAdj(){
+  const d = deck[index]; if(!d) return;
+  const o = offs(d);
+  $('adjSVal').textContent = (o.ds >= 0 ? '+' : '') + o.ds.toFixed(1) + '초';
+  $('adjEVal').textContent = (o.de >= 0 ? '+' : '') + o.de.toFixed(1) + '초';
+}
+function setAdj(key, val){
+  const d = deck[index]; if(!d) return;
+  const e = Object.assign({}, edits[d.id] || {});
+  val = Math.round(val * 10) / 10;
+  if(val) e[key] = val; else delete e[key];
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];
+  store.set('edits', edits); paintEditCount(); paintAdj();
+  $('editedTag').hidden = !edits[d.id];
+  if(stopAt !== null) stopAt = endOf(d);
+}
+const nowT = () => (!OFFLINE && ready && player && typeof player.getCurrentTime === 'function') ? player.getCurrentTime() : null;
+$('adjS-').onclick = () => setAdj('ds', offs(deck[index]).ds - 0.3);
+$('adjS+').onclick = () => setAdj('ds', offs(deck[index]).ds + 0.3);
+$('adjE-').onclick = () => setAdj('de', offs(deck[index]).de - 0.3);
+$('adjE+').onclick = () => setAdj('de', offs(deck[index]).de + 0.3);
+$('adjSNow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('ds', t - d.s - lead()); };
+$('adjENow').onclick = () => { const d = deck[index], t = nowT(); if(d && t !== null) setAdj('de', t - d.e - tail()); };
+$('adjReset').onclick = () => { const d = deck[index]; if(!d) return; setAdj('ds', 0); setAdj('de', 0); };
+$('adjPlay').onclick = () => { const d = deck[index]; if(d) playSeg(d); };
+$('edCancel').onclick = () => closeEdit();
+$('edSave').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  const en = $('edEn').value.trim(), ko = $('edKo').value.trim();
+  if(!en){ $('playStatus').innerHTML = bi('대사가 비었습니다.', 'The line is empty.'); return; }
+  const e = {};
+  if(en !== d.en) e.en = en;
+  if(ko !== d.ko) e.ko = ko;
+  const o = offs(d); if(o.ds) e.ds = o.ds; if(o.de) e.de = o.de;      /* 구간 조정은 그대로 유지 */
+  if(Object.keys(e).length) edits[d.id] = e; else delete edits[d.id];   /* 원본과 같으면 기록하지 않는다 */
+  store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('저장했습니다.', 'Saved.');
+};
+$('edReset').onclick = () => {
+  const d = deck[index]; if(!d) return;
+  delete edits[d.id]; store.set('edits', edits);
+  paintEditCount(); closeEdit(); showCard(); buildScript();
+  $('playStatus').innerHTML = bi('원래대로 되돌렸습니다.', 'Reset to original.');
+};
+
+/* 브라우저 저장은 사라질 수 있으므로 내보내기/가져오기를 둔다 */
+$('edExport').onclick = () => {
+  const blob = new Blob([JSON.stringify(edits, null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'english-zendaya73-edits.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('edImport').onclick = () => $('edFile').click();
+$('edFile').onchange = e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      const got = JSON.parse(r.result);
+      if(!got || typeof got !== 'object' || Array.isArray(got)) throw new Error('형식이 다릅니다');
+      let n = 0;
+      for(const k of Object.keys(got)){
+        const row = got[k];
+        if(row && typeof row === 'object' && (typeof row.en === 'string' || typeof row.ko === 'string' || typeof row.ds === 'number' || typeof row.de === 'number')){ edits[k] = row; n++; }
+      }
+      store.set('edits', edits);
+      paintEditCount(); showCard(); buildScript();
+      $('playStatus').innerHTML = bi(n + '건을 불러왔습니다.', n + ' items imported.');
+    }catch(err){
+      $('playStatus').innerHTML = bi('불러오지 못했습니다.', 'Could not import.');
+    }
+    $('edFile').value = '';
+  };
+  r.readAsText(f);
+};
+
+$('sceneSel').onchange = e => { filt = e.target.value; store.set('filt', filt); buildDeck(); };
+$('optShuffle').onchange = () => { store.set('shuffle', $('optShuffle').checked); buildDeck(); };
+$('optAuto').onchange = () => store.set('auto', $('optAuto').checked);
+$('optShow').onchange = () => { store.set('show', $('optShow').checked); setReveal($('optShow').checked); };
+$('optTail').onchange = () => { store.set('tail', $('optTail').value); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+$('optLead').onchange = () => store.set('lead', $('optLead').value);
+$('optGuard').onchange = () => { store.set('guard', $('optGuard').checked); const d = deck[index]; if(d && stopAt !== null) stopAt = endOf(d); };
+
+$('tabCard').onclick = () => switchView('card');
+$('tabScript').onclick = () => switchView('script');
+$('tabStudy').onclick = () => switchView('study');
+$('tabWatch').onclick = () => switchView('watch');
+function switchView(v){
+  view = v;
+  $('cardView').hidden = v !== 'card';
+  $('scriptView').hidden = v !== 'script';
+  $('studyView').hidden = v !== 'study';
+  $('watchView').hidden = v !== 'watch';
+  document.querySelector('.stage').classList.toggle('wide', v === 'study');
+  document.querySelector('.wrap').classList.toggle('nosides', v === 'study');
+  $('tabCard').setAttribute('aria-pressed', String(v === 'card'));
+  $('tabScript').setAttribute('aria-pressed', String(v === 'script'));
+  $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
+  $('tabWatch').setAttribute('aria-pressed', String(v === 'watch'));
+  if(v === 'watch'){ watchLast = -2; watchPaint(watchNowT()); }
+  if(v === 'script' && deck[index]) highlight(deck[index].id);
+}
+
+/* ====================== study tab ====================== */
+const cardOf = id => DATA.find(c => c.id === id);
+let sKind = 'E';
+
+function buildGuide(){
+  const G = [
+    ['듣기', 'Listen', '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
+     'Play with the meaning hidden. Ears first. Not getting it is normal.', '카드'],
+    ['확인', 'Check', '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
+     'Open the meaning and check. Learn expressions and words with their example line.', '표현 · 단어'],
+    ['따라 하기', 'Imitate', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
+     'Loop the same span with Repeat and speak over it. Copy the intonation.', '반복 C'],
+    ['점검', 'Test', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
+     'Quiz only today’s range. Misses become tomorrow’s review list.', '퀴즈']
+  ];
+  const box = $('gsteps'); box.textContent = '';
+  G.forEach(([ko, en, pk, pj, tag], i) => {
+    const el = document.createElement('div'); el.className = 'gstep';
+    el.innerHTML = '<span class="tag"></span><span class="no">' + (i + 1) + '</span>'
+      + '<h5></h5><div class="en" lang="en"></div><p><span class="k"></span><span lang="en"></span></p>';
+    el.querySelector('.tag').textContent = tag;
+    el.querySelector('h5').textContent = ko;
+    el.querySelector('.en').textContent = en;
+    el.querySelector('.k').textContent = pk;
+    el.querySelector('p span[lang=en]').textContent = pj;
+    box.appendChild(el);
+  });
+}
+
+function buildStudy(){
+  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
+  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  renderList();
+}
+function renderList(){
+  const q = $('sSearch').value.trim().toLowerCase();
+  const rows = STUDY.filter(r => r.t === sKind)
+    .filter(r => !q || (r.en + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
+  $('sCount').textContent = rows.length; lRows = rows; lStop();
+  const box = $('slist'); box.textContent = '';
+  if(!rows.length){
+    const e = document.createElement('div'); e.className = 'sempty';
+    e.textContent = '해당 없음 · No results'; box.appendChild(e); return;
+  }
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = r.en;
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j);
+    if(r.note){ const n = document.createElement('div'); n.className = 'n'; n.textContent = r.note; tx.appendChild(n); }
+    /* 실제로 쓰인 한 문장을 예문으로 보여준다(작문이 아니라 자막 그대로) */
+    if(r.ex != null){
+      const c = cardOf(r.ex);
+      if(c){
+        const v = edited(c);
+        const box = document.createElement('div'); box.className = 'ex';
+        const body = document.createElement('div'); body.className = 'body';
+        const cap = document.createElement('div'); cap.className = 'cap'; cap.textContent = '예문 · Example';
+        const ek = document.createElement('div'); ek.className = 'exk'; ek.lang = 'en';
+        const key = r.hit || r.en;
+        const at = v.en.indexOf(key);
+        if(at >= 0){                                   /* 그 말만 강조 */
+          ek.appendChild(document.createTextNode(v.en.slice(0, at)));
+          const b = document.createElement('b'); b.textContent = key; ek.appendChild(b);
+          ek.appendChild(document.createTextNode(v.en.slice(at + key.length)));
+        } else ek.textContent = v.en;
+        const ej = document.createElement('div'); ej.className = 'exj'; ej.textContent = v.ko;
+        body.append(cap, ek, ej);
+        const pb = document.createElement('button'); pb.className = 'btn btn-sm';
+        pb.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+        pb.title = '이 예문 재생 / Play this example';
+        pb.onclick = () => playSeg(c);
+        box.append(body, pb);
+        tx.appendChild(box);
+      }
+    }
+    const cids = r.cids || [];
+    if(cids.length){
+      const cl = document.createElement('div'); cl.className = 'clips';
+      const lab = document.createElement('span'); lab.className = 'clipn';
+      lab.textContent = cids.length + '회 · ' + cids.length + ' times';
+      cl.appendChild(lab);
+      cids.forEach(id => {
+        const c = cardOf(id); if(!c) return;
+        const b = document.createElement('button'); b.className = 'clip'; b.type = 'button';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.appendChild(document.createTextNode(fmt(c.s)));
+        b.title = c.en;
+        b.onclick = () => playSeg(c);
+        cl.appendChild(b);
+      });
+      tx.appendChild(cl);
+    }
+    el.appendChild(tx);
+    /* 로컬 음원: 한 번 / 반복(드릴의 반복 횟수) */
+    const ab = document.createElement('div'); ab.className = 'lab';
+    const b1 = document.createElement('button'); b1.className = 'btn btn-sm'; b1.title = '🔊'; b1.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+    b1.onclick = () => { lStop(); aPlayPair(r['en'], r['ko'], 1, aMean()); };
+    const b2 = document.createElement('button'); b2.className = 'btn btn-sm'; b2.title = '반복 듣기'; b2.innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>';
+    b2.onclick = () => { lStop(); aPlayPair(r['en'], r['ko'], aRep(), aMean()); };
+    ab.append(b1, b2); el.appendChild(ab); el.dataset.k = aKey(r['en']);
+    frag.appendChild(el);
+  });
+  box.appendChild(frag);
+}
+function setSub(kind){
+  const panes = {R:'drillPane', D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
+  ['drillPane','dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
+  if(kind !== 'R') drillStopAuto();
+  if(kind !== 'E' && kind !== 'V') lStop();
+  [['sbDrill','R'],['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
+    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
+  if(kind === 'D') renderDay();
+}
+$('sbDrill').onclick = () => setSub('R');
+$('sbDay').onclick = () => setSub('D');
+$('sbGuide').onclick = () => setSub('G');
+$('sbExpr').onclick = () => setSub('E');
+$('sbWord').onclick = () => setSub('V');
+$('sbQuiz').onclick = () => setSub('Q');
+
+/* ====================== daily portions ====================== */
+let dayPace = store.get('pace', 16);
+let dayCur  = store.get('dayCur', 1);
+let daysDone = new Set(store.get('daysDone', []));
+let DAYS = [], dayIds = [];
+
+/* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
+   (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+function buildDays(){
+  const chunks = [];
+  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
+  const pos = new Map(DATA.map((c, i) => [c.id, i]));
+  const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
+  const deal = kind => {
+    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
+    const out = chunks.map(() => []);
+    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
+    return out;
+  };
+  const E = deal('E'), V = deal('V');
+  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  if(dayCur > DAYS.length) dayCur = DAYS.length;
+  $('dayTot').textContent = DAYS.length;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + ' days';
+}
+function renderDay(){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  dayIds = d.cards.map(c => c.id);
+  $('dayNo').textContent = d.n;
+  $('nDay').textContent = dayCur + '/' + DAYS.length;
+  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const done = d.cards.filter(c => checked.has(c.id)).length;
+  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
+    + ' / Lines ' + d.cards.length + ' · Expressions ' + d.expr.length + ' · Words ' + d.word.length
+    + ' (체크함 ' + done + ')';
+  $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+
+  const strip = $('daystrip'); strip.textContent = '';
+  DAYS.forEach(x => {
+    const b = document.createElement('button');
+    b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
+    b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    strip.appendChild(b);
+  });
+
+  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
+  const STEPS = [['듣기','Listen'], ['표현·단어','Expressions & words'], ['퀴즈','Quiz'], ['복습','Review']];
+  const box = $('steps'); box.textContent = '';
+  STEPS.forEach(([ko, en], i) => {
+    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
+    const el = document.createElement('span'); el.className = 'fstep';
+    el.innerHTML = '<b></b><span></span>';
+    el.querySelector('b').textContent = i + 1;
+    el.querySelector('span').textContent = ko + ' · ' + en;
+    box.appendChild(el);
+  });
+
+  const list = (host, rows, render) => {
+    const el = $(host); el.textContent = '';
+    rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
+      e.textContent = '—'; el.appendChild(e); }
+  };
+  $('dcN').textContent = d.cards.length;
+  list('dcList', d.cards, (b, c) => {
+    const v = edited(c);
+    b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.tm').textContent = fmt(c.s);
+    b.querySelector('.kk').textContent = v.en.slice(0, 30);
+    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.onclick = () => playSeg(c);
+  });
+  const wordRow = (b, r) => {
+    b.innerHTML = '<span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
+    b.querySelector('.kk').textContent = r.en;
+    b.querySelector('.jj').textContent = r.ko;
+    b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
+  };
+  $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
+  $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
+}
+function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
+function startDayQuiz(){
+  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
+  syncQuizUI();
+}
+$('dayCards').onclick = () => goDayCards();
+$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayDone').onclick = () => {
+  daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
+  store.set('daysDone', [...daysDone]); renderDay();
+};
+segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
+$('sSearch').oninput = renderList;
+
+/* ---------- quiz ---------- */
+let qScope = 'E', qMode = 'en2ko', qLen = 10;
+let qSet = [], qAt = 0, qHit = 0, qWrong = [], qLocked = false;
+
+function pickSeg(g){ [...g.children].forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function pickSeg2(g, v){ pickSeg(g); const b = g.querySelector('[data-v="' + v + '"]'); if(b) b.setAttribute('aria-pressed', 'true'); }
+function segWire(id, cb){
+  $(id).onclick = e => {
+    const b = e.target.closest('button'); if(!b || b.disabled) return;
+    pickSeg($(id)); b.setAttribute('aria-pressed', 'true'); cb(b.dataset.v);
+  };
+}
+segWire('qScope', v => { qScope = v; syncQuizUI(); });
+segWire('qMode',  v => { qMode = v; syncQuizUI(); });
+segWire('qLen',   v => { qLen = Number(v); });
+
+function quizPool(){
+  if(qScope === 'S') return DATA.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
+    const d = DAYS[dayCur - 1]; if(!d) return [];
+    return [...d.expr, ...d.word].map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
+  }
+  return STUDY.filter(r => r.t === qScope).map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
+}
+function syncQuizUI(){
+  const listenBtn = $('qMode').querySelector('[data-v="listen"]');
+  listenBtn.disabled = OFFLINE;
+  if(OFFLINE && qMode === 'listen'){ qMode = 'en2ko'; pickSeg($('qMode')); $('qMode').querySelector('[data-v="en2ko"]').setAttribute('aria-pressed','true'); }
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  const msgs = [];
+  msgs.push('출제 가능 ' + pool.length + '개 · Available items ' + pool.length + '');
+  if(OFFLINE) msgs.push('듣기는 file:// 에서 쓸 수 없습니다 · Listening is unavailable on file://');
+  $('qHint').textContent = msgs.join(' / ');
+  $('qStart').disabled = pool.length < 4;
+}
+function shuffled(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+$('qStart').onclick = () => {
+  const pool = quizPool().filter(x => qMode !== 'listen' || x.cids.length);
+  if(pool.length < 4) return;
+  const n = qLen > 0 ? Math.min(qLen, pool.length) : pool.length;
+  qSet = shuffled(pool).slice(0, n).map(item => {
+    const key = qMode === 'ko2en' ? 'en' : 'ko';       /* what to pick: EN→KO and listening → Korean meaning, KO→EN → English */
+    const wrongs = shuffled(pool.filter(p => p[key] !== item[key])).slice(0, 3);
+    const cid = item.cids.length ? item.cids[Math.floor(Math.random()*item.cids.length)] : null;
+    return {item, key, cid, choices: shuffled([item, ...wrongs])};
+  });
+  qAt = 0; qHit = 0; qWrong = [];
+  $('qsetup').hidden = true; $('qdone').hidden = true; $('qplay').hidden = false;
+  $('qTotal').textContent = qSet.length;
+  askQ();
+};
+function askQ(){
+  const q = qSet[qAt]; qLocked = false;
+  $('qPos').textContent = qAt + 1;
+  $('qBar').style.width = (qAt / qSet.length * 100) + '%';
+  $('qScore').textContent = qHit;
+  $('qFeed').hidden = true;
+  $('qReplay').hidden = qMode !== 'listen';
+  if(qMode === 'listen'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = '🔊 듣고 뜻 고르기 · Listen and choose';
+    $('qAskSub').hidden = true;
+    const c = cardOf(q.cid); if(c) playSeg(c);
+  } else if(qMode === 'ko2en'){
+    $('qAsk').removeAttribute('lang');
+    $('qAsk').textContent = q.item.ko;
+    $('qAskSub').hidden = !q.item.note; $('qAskSub').textContent = q.item.note || '';
+  } else {
+    $('qAsk').lang = 'en';
+    $('qAsk').textContent = q.item.en;
+    $('qAskSub').hidden = true;
+  }
+  const box = $('qChoices'); box.textContent = '';
+  q.choices.forEach((c, i) => {
+    const b = document.createElement('button'); b.className = 'qc';
+    if(q.key === 'en') b.lang = 'en';
+    const num = document.createElement('span'); num.className = 'num'; num.textContent = i + 1;
+    const tx = document.createElement('span'); tx.textContent = c[q.key];
+    b.append(num, tx);
+    b.onclick = () => answerQ(b, c);
+    box.appendChild(b);
+  });
+}
+function answerQ(btn, choice){
+  if(qLocked) return; qLocked = true;
+  const q = qSet[qAt], ok = choice[q.key] === q.item[q.key];
+  [...$('qChoices').children].forEach(b => {
+    b.disabled = true;
+    const txt = b.lastChild.textContent;
+    if(txt === q.item[q.key]) b.classList.add('ok');
+  });
+  if(ok) qHit++; else { btn.classList.add('ng'); qWrong.push(q.item); }
+  $('qScore').textContent = qHit;
+  const f = $('qFeed'); f.hidden = false; f.textContent = '';
+  const line = document.createElement('div');
+  line.innerHTML = (ok ? '<b>정답 · Correct</b> ' : '<b>다시 · Again</b> ')
+    + '<span lang="en"></span> — <span></span>';
+  line.children[1].textContent = q.item.en; line.children[2].textContent = q.item.ko;
+  f.appendChild(line);
+  if(q.item.note){ const n = document.createElement('div');
+    n.style.cssText = 'margin-top:5px;font-size:12px;color:var(--ink-3)'; n.textContent = q.item.note; f.appendChild(n); }
+  const next = document.createElement('button');
+  next.className = 'btn btn-sm'; next.style.marginTop = '11px';
+  next.textContent = qAt + 1 < qSet.length ? '다음 · Next' : '결과 · Results';
+  next.onclick = () => { qAt++; qAt < qSet.length ? askQ() : finishQ(); };
+  f.appendChild(next); next.focus();
+}
+function finishQ(){
+  $('qplay').hidden = true; $('qdone').hidden = false;
+  $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
+  const pct = Math.round(qHit / qSet.length * 100);
+  $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · Perfect' : pct >= 80 ? '— 훌륭합니다 · Well done'
+    : pct >= 50 ? '— 조금만 더 · Almost there' : '— 복습해 봅시다 · Time to review');
+  const w = $('rWrongs'); w.textContent = '';
+  if(qWrong.length){
+    const h = document.createElement('h4'); h.textContent = '틀린 항목 · Missed items (' + qWrong.length + ')';
+    w.appendChild(h);
+    qWrong.forEach(it => {
+      const el = document.createElement('div'); el.className = 'srow';
+      const tx = document.createElement('div'); tx.className = 'txt';
+      const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = it.en;
+      const j = document.createElement('div'); j.className = 'j'; j.textContent = it.ko;
+      tx.append(k, j); el.appendChild(tx);
+      if(it.cids && it.cids.length && !OFFLINE){
+        const b = document.createElement('button'); b.className = 'btn btn-sm';
+        b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>';
+        b.onclick = () => { const c = cardOf(it.cids[0]); if(c) playSeg(c); };
+        el.appendChild(b);
+      }
+      w.appendChild(el);
+    });
+  }
+}
+$('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
+$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('rAgain').onclick = () => $('qStart').click();
+$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+
+$('vidApply').onclick = () => {
+  const id = parseId($('vid').value);
+  if(!id){ $('playStatus').innerHTML = bi('영상 ID 를 읽을 수 없습니다.', 'Cannot read the video ID.'); return; }
+  videoId = id; store.set('vid', id);
+  $('srcLink').href = 'https://www.youtube.com/watch?v=' + id;
+  stopAt = null; loopSeg = null; paintLoop();
+  if(!OFFLINE){ if(ready && player) player.loadVideoById(id); else loadAPI(); }
+  $('playStatus').innerHTML = bi('영상을 교체했습니다.', 'Video replaced.');
+};
+$('vid').onkeydown = e => { if(e.key === 'Enter') $('vidApply').click(); };
+
+
+/* ---------- 목록 전체 반복 듣기 / 一覧のくり返し ---------- */
+let lRows = [], lOn = false, lIdx = 0, lTimer = null;
+let lTimes = 1;
+function lStop(){ if(!lOn) return; lOn = false; if(lTimer){ clearTimeout(lTimer); lTimer = null; } aStopAll(); $('lCont').setAttribute('aria-pressed', 'false'); $('lCont').innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>이어 듣기'; $('lAuto').setAttribute('aria-pressed', 'false'); $('lAuto').innerHTML = '<svg class="ic"><use href="#i-repeat"/></svg>목록 전체 반복 듣기'; [...$('slist').children].forEach(x => x.removeAttribute('aria-current')); }
+function lStep(){
+  if(!lOn) return;
+  if(lIdx >= lRows.length){ lIdx = 0; }                      /* 끝나면 처음부터 다시 */
+  const r = lRows[lIdx]; if(!r){ lStop(); return; }
+  const k = aKey(r['en']);
+  [...$('slist').children].forEach(x => { const on = x.dataset.k === k; x.setAttribute('aria-current', String(on)); if(on) x.scrollIntoView({block: 'nearest'}); });
+  aPlayPair(r['en'], r['ko'], lTimes, aMean(), () => { if(!lOn) return; lTimer = setTimeout(() => { lIdx++; lStep(); }, 800); });
+}
+function lStart(times){
+  if(lOn){ lStop(); return; }
+  if(!lRows.length) return;
+  lOn = true; lIdx = 0; lTimes = times;
+  const b = times > 1 ? $('lAuto') : $('lCont');
+  b.setAttribute('aria-pressed', 'true'); b.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>정지';
+  lStep();
+}
+$('lAuto').onclick = () => lStart(aRep());
+$('lCont').onclick = () => lStart(1);
+$('lWithMean').onchange = () => store.set('lwithmean', $('lWithMean').checked);
+
+/* ====================== 학습 음원 / 音源 ====================== */
+/* 로컬 음원(edge-tts 로 만든 mp3)이 있으면 그것을, 없으면 브라우저 TTS 를 쓴다. times 번 반복, gap ms 간격 */
+const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, ' ').trim();
+const aHas = t => !!AUDIO[aKey(t)];
+let aCur = null, aSeq = 0;
+function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function aPlay(text, times, gap, cb, which){
+  aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
+  const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
+  const done = () => { if(my === aSeq && cb) cb(); };
+  const step = () => {
+    if(my !== aSeq) return;
+    const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
+    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after);
+  };
+  step();
+}
+/* 원문을 times 번 → (뜻과 함께면) 뜻 한 번. 뜻 음원(m:)이 없으면 브라우저 TTS */
+function aPlayPair(text2, text1, times, withMean, cb){
+  aPlay(text2, times, 450, () => {
+    if(!withMean || !text1){ if(cb) cb(); return; }
+    const my = aSeq; setTimeout(() => { if(my !== aSeq) return; aPlay(text1, 1, 0, cb, 1); }, 500);
+  });
+}
+const aMean = () => !!(($('lWithMean') || {}).checked);
+const aRep = () => Number(($('dRepeat') || {}).value) || 1;
+
+/* ====================== 드릴 / 암기 ====================== */
+/* 유튜브에 기대지 않고 단어·표현만 반복해서 외우는 화면. 음성은 브라우저 내장 TTS.
+   채점(몰라/애매/알아)에 따라 같은 세션 안에서 다시 나오고, 세션이 끝나면 간격(0·1·3·7·14일)을 두고 다시 물어본다. */
+const DR = {L2:'en', L1:'ko', V2:'en', V1:'ko'};
+const DSTORE = () => LS + '.drill';
+let dState = {};                                  /* {key: {lv, due, miss}} */
+function dLoad(){ dState = store.get(DSTORE(), {}) || {}; }
+function dSave(){ store.set(DSTORE(), dState); }
+const dKey = it => it.t + '|' + it[DR.L2];
+const DAY = 86400000, INTERVALS = [0, 1, 3, 7, 14];
+let dScope = 'E', dMode = 'fwd', dSize = 20;
+let dQueue = [], dCur = null, dRevealed = false, dKnownN = 0, dRedoN = 0, dSeen = 0, dMissed = [], dActive = false, dAutoOn = false, dAutoTimer = null;
+
+function dPool(){
+  const scope = dScope;
+  if(scope === 'D'){ const d = (typeof DAYS !== 'undefined' && DAYS[dayCur - 1]) || null; return d ? [...d.expr, ...d.word] : []; }
+  return STUDY.filter(r => scope === 'A' || r.t === scope);
+}
+function dStats(){
+  const pool = dPool(), now = Date.now();
+  let known = 0, due = 0, fresh = 0;
+  pool.forEach(it => { const st = dState[dKey(it)]; if(!st) fresh++; else if(st.lv >= 3 && st.due > now) known++; else if(st.due <= now) due++; });
+  $('dStats').innerHTML = '';
+  [['전체', pool.length], ['오늘 복습', due], ['새 항목', fresh], ['외움', known]].forEach(([k, v]) => {
+    const sp = document.createElement('span'); const b = document.createElement('b'); b.textContent = v; sp.append(b, document.createTextNode(k)); $('dStats').appendChild(sp); });
+  $('nDrill').textContent = due + fresh;
+  $('dStart').disabled = pool.length === 0;
+  $('dHint').textContent = pool.length ? '' : '항목이 없습니다';
+}
+/* --- 음성 --- */
+let dVoices = [];
+function dLoadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  dVoices = speechSynthesis.getVoices();
+  const sel = $('dVoice'); const cur = store.get('dvoice', ''); sel.innerHTML = '';
+  const mine = dVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(DR.V2));
+  mine.forEach(v => { const o = document.createElement('option'); o.value = v.name; o.textContent = v.name.replace(/^Microsoft /, '').replace(/ Online \(Natural\)/, ' (Natural)') + ' · ' + v.lang; sel.appendChild(o); });
+  /* 자연스러운 음성(Natural/Google)을 우선 */
+  const pref = mine.find(v => /Natural|Neural/i.test(v.name)) || mine.find(v => /Google/i.test(v.name)) || mine[0];
+  if(cur && mine.some(v => v.name === cur)) sel.value = cur; else if(pref) sel.value = pref.name;
+  $('dNoVoice').hidden = mine.length > 0 || Object.keys(AUDIO).length > 0;
+  $('dSrc').textContent = Object.keys(AUDIO).length ? '로컬 음원 ' + Object.keys(AUDIO).length : '브라우저 음성';
+}
+if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = dLoadVoices; }
+$('dVoice').onchange = () => store.set('dvoice', $('dVoice').value);
+$('dRate').onchange = () => store.set('drate', $('dRate').value);
+$('dSpeak').onchange = () => store.set('dspeak', $('dSpeak').checked);
+function dSpeakText(text, which, cb){
+  if(!('speechSynthesis' in window) || !text){ if(cb) cb(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/[〜～]/g, '').replace(/[（(][^）)]*[）)]/g, '').trim());
+  const want = which === 2 ? DR.V2 : DR.V1;
+  let v = null;
+  if(which === 2){ v = dVoices.find(x => x.name === $('dVoice').value) || null; }
+  if(!v) v = dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want) && /Natural|Neural|Google/i.test(x.name)) || dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want)) || null;
+  if(v) u.voice = v;
+  u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
+  u.rate = Number($('dRate').value) || 1;
+  let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
+  u.onend = fin; u.onerror = fin;
+  speechSynthesis.speak(u);
+  setTimeout(fin, 12000);                      /* 브라우저가 onend 를 안 주는 경우의 보험 */
+}
+/* --- 세션 --- */
+function segPick(id, cb){ $(id).onclick = e => { const b = e.target.closest('button'); if(!b || b.disabled) return; pickSeg($(id)); b.setAttribute('aria-pressed','true'); cb(b.dataset.v); }; }
+segPick('dScope', v => { dScope = v; dStats(); });
+segPick('dMode', v => { dMode = v; });
+segPick('dSize', v => { dSize = Number(v); });
+function dBuildQueue(onlyMissed){
+  const now = Date.now();
+  let pool = onlyMissed ? dMissed.slice() : dPool().slice();
+  if(!onlyMissed){
+    const due = pool.filter(it => dState[dKey(it)] && dState[dKey(it)].due <= now).sort((a, b) => (dState[dKey(a)].lv - dState[dKey(b)].lv));
+    const fresh = pool.filter(it => !dState[dKey(it)]);
+    const rest = pool.filter(it => dState[dKey(it)] && dState[dKey(it)].due > now).sort((a, b) => dState[dKey(a)].due - dState[dKey(b)].due);
+    pool = [...shuffled(due), ...shuffled(fresh), ...rest];            /* 복습 기한 지난 것 → 새 것 → 아직 기한 안 된 것 */
+    if(dSize > 0) pool = pool.slice(0, dSize);
+  }
+  return pool.map(it => ({it, again: 0}));
+}
+function dStart(onlyMissed){
+  dQueue = dBuildQueue(onlyMissed);
+  if(!dQueue.length) return;
+  dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true;
+  $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
+  dNext();
+}
+function dPaintTop(){
+  const total = dQueue.length + dKnownN;
+  $('dLeft').textContent = dQueue.length; $('dRedo').textContent = dRedoN; $('dKnown').textContent = dKnownN;
+  $('dBar').style.width = (total ? dKnownN / total * 100 : 0) + '%';
+}
+function dNext(){
+  if(!dQueue.length){ dFinish(); return; }
+  dCur = dQueue.shift(); dRevealed = false; dSeen++;
+  const it = dCur.it;
+  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
+  const rd = '';
+  $('dFront').classList.toggle('small', dMode === 'rev');
+  if(dMode === 'fwd'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en'; $('dRd').textContent = rd; $('dRd').hidden = !rd; }
+  else if(dMode === 'rev'){ $('dFront').textContent = it[DR.L1]; $('dFront').removeAttribute('lang'); $('dRd').hidden = true; }
+  else { $('dFront').textContent = '🔊'; $('dFront').removeAttribute('lang'); $('dRd').hidden = true; }
+  $('dBack').hidden = true; $('dGrade').hidden = true; $('dReveal').hidden = false; $('dEx').hidden = true; dExIdx = -1;
+  $('dVideo').hidden = !(it.cids && it.cids.length) || OFFLINE;
+  dPaintTop();
+  if($('dSpeak').checked && dMode !== 'rev') aPlay(it[DR.L2], 1);
+}
+function dReveal(){
+  if(!dCur || dRevealed) return;
+  dRevealed = true;
+  const it = dCur.it, rd = '';
+  $('dBack').hidden = false;
+  if(dMode === 'rev'){ $('dMean').textContent = it[DR.L2] + (rd ? '　' + rd : ''); $('dMean').lang = 'en'; }
+  else if(dMode === 'listen'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en'; $('dRd').textContent = rd; $('dRd').hidden = !rd; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang'); }
+  else { $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang'); }
+  $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
+  $('dGrade').hidden = false; $('dReveal').hidden = true;
+  dShowFirstEx();                                   /* 영상 속 예문을 답과 함께 */
+  if($('dSpeak').checked && dMode === 'rev') aPlay(it[DR.L2], 1);
+}
+function dGrade(g){
+  if(!dCur || !dRevealed) return;
+  const it = dCur.it, k = dKey(it), now = Date.now();
+  const st = dState[k] || {lv: 0, due: now, miss: 0};
+  if(g === 3){ st.lv = Math.min(4, st.lv + 1); st.due = now + INTERVALS[st.lv] * DAY; dKnownN++; }
+  else if(g === 2){ st.lv = Math.max(0, Math.min(st.lv, 1)); st.due = now + (st.lv ? DAY : 0); dRedoN++; dQueue.splice(Math.min(6, dQueue.length), 0, {it, again: dCur.again + 1}); }
+  else { st.lv = 0; st.due = now; st.miss = (st.miss || 0) + 1; dRedoN++; if(!dMissed.includes(it)) dMissed.push(it); dQueue.splice(Math.min(3, dQueue.length), 0, {it, again: dCur.again + 1}); }
+  dState[k] = st; dSave();
+  dNext();
+}
+function dFinish(){
+  dActive = false; drillStopAuto();
+  $('dplay').hidden = true; $('ddone').hidden = false;
+  $('dDoneN').textContent = dKnownN;
+  $('dDoneMeta').textContent = '외움 ' + dKnownN + ' · 다시 ' + dRedoN + ' · ' + dSeen;
+  $('dRestartMiss').hidden = !dMissed.length;
+  dStats(); $('dStats').hidden = false;
+}
+$('dStart').onclick = () => dStart(false);
+$('dReveal').onclick = dReveal;
+$('dAgain').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1], 1, dRevealed && $('dWithMean').checked); };
+$('dLoop').onclick = () => { if(dCur) aPlayPair(dCur.it[DR.L2], dCur.it[DR.L1], aRep(), dRevealed && $('dWithMean').checked); };
+$('dRepeat').onchange = () => store.set('drepeat', $('dRepeat').value);
+let dExIdx = -1;
+/* 첫 등장 장면을 예문으로 보여 준다(영상은 재생하지 않음). 「영상」 버튼이 다음 등장 장면으로 넘긴다 */
+function dShowFirstEx(){
+  const ids = (dCur && dCur.it.cids) || [];
+  if(!ids.length){ $('dEx').hidden = true; return; }
+  dExIdx = 0; const c = cardOf(ids[0]); if(c) dShowEx(c, 0, ids.length);
+}
+function dShowEx(c, i, n){
+  const v = (typeof edited === 'function') ? edited(c) : c;
+  const key = dCur.it.hit || aKey(dCur.it[DR.L2]);
+  const ek = $('dExK'); ek.textContent = '';
+  const txt = v[DR.L2] || '', at = key ? txt.indexOf(key) : -1;
+  if(at >= 0){ ek.appendChild(document.createTextNode(txt.slice(0, at))); const b = document.createElement('b'); b.textContent = key; ek.appendChild(b); ek.appendChild(document.createTextNode(txt.slice(at + key.length))); }
+  else ek.textContent = txt;
+  $('dExJ').textContent = v[DR.L1] || '';
+  $('dExPos').textContent = fmt(c.s) + (n > 1 ? ' · ' + (i + 1) + '/' + n : '');
+  $('dEx').hidden = false;
+}
+$('dVideo').onclick = () => {
+  if(!dCur) return; const ids = dCur.it.cids || []; if(!ids.length) return;
+  dExIdx = (dExIdx + 1) % ids.length;                       /* 누를 때마다 다음 등장 장면 */
+  const c = cardOf(ids[dExIdx]); if(!c) return;
+  aStopAll(); dShowEx(c, dExIdx, ids.length); playSeg(c);
+};
+$('dG1').onclick = () => dGrade(1); $('dG2').onclick = () => dGrade(2); $('dG3').onclick = () => dGrade(3);
+$('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; dStats(); };
+$('dRestartMiss').onclick = () => dStart(true);
+$('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
+/* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
+function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll();
+  const bi_ = $('dContIn'); if(bi_){ bi_.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + bi_.dataset.cont; bi_.setAttribute('aria-pressed', 'false'); } $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
+function dAutoStep(){
+  if(!dAutoOn) return;
+  if(!dQueue.length){ dFinish(); return; }
+  dCur = dQueue.shift(); dRevealed = true; dSeen++;
+  const it = dCur.it, rd = '';
+  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + ' · ' + (dQueue.length + 1);
+  $('dFront').classList.remove('small'); $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en';
+  $('dRd').textContent = rd; $('dRd').hidden = !rd;
+  $('dBack').hidden = false; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang');
+  $('dNote').textContent = it.note || ''; $('dNote').hidden = !it.note;
+  $('dGrade').hidden = true; $('dReveal').hidden = true; $('dVideo').hidden = true;
+  dPaintTop(); dShowFirstEx();
+  const wait = ms => new Promise(r => { dAutoTimer = setTimeout(r, ms); });
+  const play = (t, n, w) => new Promise(r => aPlay(t, n, 450, r, w));
+  const withMean = $('dWithMean').checked, times = dAutoTimes;
+  (async () => {
+    if(!dAutoOn) return; await play(it[DR.L2], times, 2); if(!dAutoOn) return; await wait(withMean ? 500 : 900);   /* 원문 N번 */
+    if(withMean){ if(!dAutoOn) return; await play(it[DR.L1], 1, 1); if(!dAutoOn) return; await wait(500); }      /* 뜻(로컬 음원, 없으면 TTS) */
+    if(times > 1 && withMean){ if(!dAutoOn) return; await play(it[DR.L2], 1, 2); if(!dAutoOn) return; await wait(900); }   /* 반복일 때 원문 한 번 더 */
+    if(dAutoOn) dAutoStep();
+  })();
+}
+let dAutoTimes = 1;
+function dAutoStart(times){
+  if(dAutoOn){ drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; return; }
+  dAutoTimes = times;
+  dQueue = dBuildQueue(false); if(!dQueue.length) return;
+  dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true; dAutoOn = true;
+  $('dAuto').setAttribute('aria-pressed', String(times > 1)); $('dCont').setAttribute('aria-pressed', String(times === 1));
+  $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
+  dAutoStep();
+}
+$('dAuto').onclick = () => dAutoStart(aRep());
+/* 채점 화면에서 「이어 듣기」: 지금 카드부터 남은 카드를 차례로 듣는다. 다시 누르면 그 카드에서 채점으로 돌아온다 */
+$('dContIn').onclick = () => {
+  const b = $('dContIn');
+  if(dAutoOn){
+    drillStopAuto();
+    if(dCur){ dQueue.unshift(dCur); dSeen--; dNext(); }         /* 듣던 카드를 다시 앞에 놓고 채점 화면으로 */
+    b.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + b.dataset.cont; b.setAttribute('aria-pressed', 'false');
+    return;
+  }
+  if(!dCur) return;
+  dAutoOn = true; dAutoTimes = 1; dQueue.unshift(dCur); dSeen--;
+  b.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>' + b.dataset.back; b.setAttribute('aria-pressed', 'true');
+  dAutoStep();
+};
+$('dCont').onclick = () => dAutoStart(aRep());   /* 듣기만: 반복 횟수 설정을 따른다 */
+$('dWithMean').onchange = () => store.set('dwithmean', $('dWithMean').checked);
+function dKey_(e){
+  if(view !== 'study' || $('drillPane').hidden || !dActive || dAutoOn) return false;
+  const k = e.key;
+  if(k === ' ' || k === 'Enter'){ e.preventDefault(); if(!dRevealed) dReveal(); else dGrade(3); return true; }
+  if(k === '1' || k === '2' || k === '3'){ e.preventDefault(); if(!dRevealed) dReveal(); dGrade(Number(k)); return true; }
+  if(k.toLowerCase() === 'r'){ e.preventDefault(); if(dCur) aPlay(dCur.it[DR.L2], 1); return true; }
+  if(k.toLowerCase() === 'l'){ e.preventDefault(); if(dCur) aPlay(dCur.it[DR.L2], aRep(), 450); return true; }
+  return false;
+}
+function buildDrill(){
+  dLoad();
+  $('dRate').value = store.get('drate', '1'); $('dSpeak').checked = store.get('dspeak', true); $('dRepeat').value = store.get('drepeat', '3'); $('dWithMean').checked = store.get('dwithmean', true); $('lWithMean').checked = store.get('lwithmean', true);
+  dLoadVoices(); dStats();
+}
+
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(dKey_(e)) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
+  else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
+  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+});
+
+
+/* ====================== 감상 / watch-through ======================
+   영상을 멈추지 않고 재생하면서 현재 시각의 대사를 크게 보여 준다(앞뒤 대사 포함). 카드도 따라간다. */
+let watchLast = -2;
+const watchNowT = () => (player && ready && typeof player.getCurrentTime === 'function') ? player.getCurrentTime() : 0;
+function watchAt(t){ let cur = -1; for(let i = 0; i < DATA.length; i++){ if(t >= DATA[i].s) cur = i; else break; } return cur; }
+function watchSet(el, d){
+  if(!d){ el.textContent = ''; el.onclick = null; return; }
+  el.textContent = edited(d).en;
+  el.onclick = () => { if(player && ready){ stopAt = null; loopSeg = null; paintLoop(); player.seekTo(d.s, true); player.playVideo(); } };
+}
+function watchPaint(t){
+  const L = DATA; if(!L.length) return;
+  const i = watchAt(t);
+  const cur = i >= 0 ? L[i] : null, nxt = L[i + 1], prv = i > 0 ? L[i - 1] : null;
+  if(i !== watchLast){
+    watchLast = i;
+    const v = cur ? edited(cur) : null;
+    watchSet($('wPrev'), prv); watchSet($('wNext'), nxt);
+    $('wLine').textContent = cur ? v.en : '…';
+    $('wWho').textContent = cur ? spkOf(cur).ko : '';
+    $('wMean').textContent = (cur && $('wMeanOpt').checked) ? v.ko : '';
+    $('wPos').textContent = cur ? (i + 1) + ' / ' + L.length + ' · ' + fmt(cur.s) : fmt(t);
+    if(cur && stopAt === null){ const k = deck.findIndex(x => x.id === cur.id); if(k >= 0 && k !== index){ index = k; showCard(); } }
+  }
+  let p = 0;
+  if(cur){ const end = Math.max(cur.e, cur.s + 0.5); p = t >= end ? 1 : Math.max(0, (t - cur.s) / (end - cur.s)); }
+  $('wBar').style.width = (L.length ? ((Math.max(i, 0) + p) / L.length * 100) : 0) + '%';
+}
+(function watchLoop(){
+  if(view === 'watch' && !OFFLINE && ready && player && typeof player.getCurrentTime === 'function') watchPaint(player.getCurrentTime());
+  requestAnimationFrame(watchLoop);
+})();
+$('wStart').onclick = () => { if(!(player && ready)) return; stopAt = null; loopSeg = null; paintLoop(); player.seekTo(0, true); player.playVideo(); };
+$('wHere').onclick  = () => { const d = deck[index]; if(!(d && player && ready)) return; stopAt = null; loopSeg = null; paintLoop(); player.seekTo(Math.max(0, d.s - 0.3), true); player.playVideo(); };
+$('wPause').onclick = () => { if(player && ready){ const st = player.getPlayerState(); if(st === 1) player.pauseVideo(); else player.playVideo(); } };
+$('wMeanOpt').onchange = () => { watchLast = -2; watchPaint(watchNowT()); };
+
+/* ---------- boot ---------- */
+$('optShuffle').checked = store.get('shuffle', false);
+$('optAuto').checked = store.get('auto', false);
+$('optShow').checked = store.get('show', false);
+pickSeg2($('qPace'), String(dayPace));
+$('optTail').value = store.get('tail', '0.3');
+$('optLead').value = store.get('lead', '0'); if(!$('optLead').value) $('optLead').value = '0';
+$('optGuard').checked = store.get('guard', true);
+if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }
+$('vid').value = videoId;
+$('srcLink').href = 'https://www.youtube.com/watch?v=' + videoId;
+$('fileNotice').hidden = !OFFLINE;
+if(OFFLINE){
+  $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
+}
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+
+/* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
+(function(){
+  const mq = window.matchMedia('(max-width:600px)');
+  const foot = document.createElement('div'); foot.className = 'mobile-foot';
+  const vidrow = document.querySelector('.vidrow'), status = $('playStatus'), box = document.querySelector('.player-box');
+  function place(){
+    if(mq.matches){ document.querySelector('.main').appendChild(foot); foot.append(status, vidrow); }
+    else { box.append(vidrow, status); foot.remove(); }
+  }
+  place(); mq.addEventListener('change', place);
+})();
+</script>
+
+</body></html>

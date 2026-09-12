@@ -1,0 +1,44 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모     E = 표현·문형   V = 단어
+# 표제어는 강연에 실제로 나온 형태로만 쓴다(빌드가 등장 카드를 찾아 예문·클립을 연결).
+# --- 표현 ---------------------------------------------------
+E|think for yourself|스스로 생각하다|강연의 주제문. for oneself = 남에게 기대지 않고
+E|by the end of this talk|이 강연이 끝날 무렵엔|발표 도입에서 청중에게 예고하는 정석 문형
+E|get to grips with|~을 제대로 파악하다|영국식. 어려운 자료를 붙들고 이해할 때
+E|turns out|알고 보니|예상과 다른 사실을 꺼낼 때
+E|some might say|누군가는 ~라고 할지도 모른다|반론을 미리 꺼내 놓는 장치
+E|rely on|~에 의존하다|
+E|rather than|~보다는·~ 대신|선택지 대조
+E|no longer|더 이상 ~ 아니다|
+E|by the end|~이 끝날 무렵|
+E|of course|물론|
+E|for instance|예를 들어|for example 보다 격식
+E|let me|제가 ~하겠습니다|발표 진행 신호
+E|suppose|~라고 해 봅시다|가정 도입
+E|consider|생각해 보다·고려하다|
+E|think about|~에 대해 생각하다|
+E|need to|~해야 한다|
+E|want to|~하고 싶다|
+E|used to|예전엔 ~였다|지금은 다르다는 뜻을 품음
+E|have to be|그래야만 한다|
+E|you know|있잖아요|구어 완충어. 뜻보다 리듬
+# --- 단어 ---------------------------------------------------
+V|thinking|사고·생각하기|critical thinking = 비판적 사고
+V|thought|생각|think 의 명사형
+V|critical|비판적인·중대한|
+V|knowledge|지식|
+V|process|과정·처리하다|
+V|human|인간의|
+V|idea|생각·아이디어|
+V|document|문서|
+V|report|보고서|
+V|outline|개요·윤곽을 잡다|
+V|argument|논거·주장|
+V|material|자료|
+V|creativity|창의성|
+V|worker|일하는 사람|
+V|tool|도구|
+V|remember|기억하다|
+V|beyond|~을 넘어서|
+V|matter|중요하다·문제|
+V|become|~이 되다|
+V|different|다른|

@@ -1,0 +1,43 @@
+# 학습 탭 데이터.  형식:  종류|영어|한국어 뜻|메모     E = 표현·문형   V = 단어
+# --- 표현 ---------------------------------------------------
+E|a couple of|몇 개의·두어 개의|a couple of years ago = 몇 해 전
+E|what if I told you|~라고 하면 어떠시겠어요|청중의 주의를 끄는 수사 의문
+E|at a time|한 번에·연달아|weeks at a time = 몇 주씩 내리
+E|around the world|전 세계에서|
+E|where to start|어디서부터 시작할지|의문사 + to 부정사
+E|goes like this|이런 식입니다|방법을 소개할 때
+E|make sure|반드시 ~하도록 하다|
+E|invest in|~에 (시간·마음을) 쏟다|돈뿐 아니라 관계에도 씀
+E|way too much|너무 과한|way = 훨씬(강조)
+E|at least|적어도|
+E|proactive|주도적인|수동적으로 기다리지 않는
+E|think about|~에 대해 생각하다|
+E|not only|~뿐 아니라|
+E|take care of|~을 돌보다|
+E|reach out|먼저 연락하다·손 내밀다|관계 유지의 핵심 동사구
+E|instead of|~ 대신에|
+E|in fact|사실은|
+E|more and more|점점 더|
+E|need to|~해야 한다|
+E|going to|~할 것이다|be going to
+# --- 단어 ---------------------------------------------------
+V|social|사회적인|social health = 사회적 건강
+V|health|건강|
+V|healthy|건강한|
+V|relationship|관계|
+V|connection|연결·유대|
+V|community|공동체|
+V|friend|친구|
+V|family|가족|
+V|mental|정신의|
+V|physical|신체의|
+V|missing|빠져 있는|
+V|decade|10년|
+V|close|가까운|
+V|spend|(시간을) 쓰다|
+V|guideline|지침|
+V|public|공공의·공개적인|
+V|socially|사회적으로|
+V|anymore|더 이상|
+V|write|쓰다|
+V|three|셋|5-3-1 지침에 나옴
