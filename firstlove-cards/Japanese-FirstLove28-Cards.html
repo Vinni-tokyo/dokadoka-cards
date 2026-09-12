@@ -1325,6 +1325,7 @@ function playSeg(d, opts){
   if(!ready || !player){ $('playStatus').innerHTML = bi('플레이어가 아직 준비되지 않았습니다.', 'プレーヤーがまだ準備できていません。'); return; }
   const exact = !!opts.exact;                          /* 마디 반복: 여유 없이 경계 딱 맞춰 */
   const from = exact ? d.s : headOf(d);
+  wrapTo = null; wrapAt = 0;                 /* 이전 되감기 가드 해제 */
   player.seekTo(from, true);
   player.playVideo();
   stopAt = exact ? d.e : endOf(d);
@@ -1343,16 +1344,46 @@ function playSeg(d, opts){
   $('playStatus').innerHTML = bi((opts.loop ? '구간 반복 중 ' : '재생 중 ') + range + detailKo,
                                  (opts.loop ? 'リピート再生中 ' : '再生中 ') + range + detailJa);
 }
-setInterval(() => {
+/* ---------- 구간 되감기 / リピートの巻き戻し ----------
+   되감기를 t >= stopAt 에서 요청하면 늦는다. 폴링 간격(120ms)에 더해 seekTo 가 실제로
+   먹히기까지의 지연이 있어 다음 구간 소리·가사가 잠깐 새어 나온다. 그래서
+    ① 지연만큼 미리 되감기를 걸고(속도에 비례),
+    ② 프레임마다 검사해 폴링 지연을 없애고,
+    ③ 되감은 직후 플레이어가 옛 시각을 보고하는 동안에는 되감은 지점으로 화면을 그린다. */
+const LOOP_LAT = 0.12;                       /* seekTo 가 실제로 먹히기까지의 지연(초) */
+let wrapAt = 0, wrapTo = null;
+const loopLead = () => Math.min(0.25, LOOP_LAT * (rate || 1));
+function dispT(t){                           /* 화면에 쓸 시각(되감기 직후 보정) */
+  if(wrapTo == null) return t;
+  if(performance.now() - wrapAt > 600 || t < wrapTo + 0.4){ wrapTo = null; return t; }
+  return wrapTo;
+}
+function maybeWrap(t){
+  if(stopAt === null || !loopSeg) return false;
+  if(t < stopAt - loopLead()) return false;
+  if(performance.now() - wrapAt < 300) return true;          /* 이미 되감는 중 */
+  const from = loopSeg.from != null ? loopSeg.from : headOf(loopSeg);
+  player.seekTo(from, true);
+  wrapAt = performance.now(); wrapTo = from;
+  karaLast = -2;                                             /* 가사 표시를 즉시 처음으로 */
+  if(view === 'kara') karaPaint(from);
+  if(loopSeg.from != null) syncBarLyric(from);
+  return true;
+}
+(function loopWatch(){                       /* 프레임마다 경계 검사(탭이 보일 때) */
+  if(!OFFLINE && ready && player && typeof player.getCurrentTime === 'function') maybeWrap(player.getCurrentTime());
+  requestAnimationFrame(loopWatch);
+})();
+setInterval(() => {                          /* 탭이 가려져 rAF 가 멈춰도 동작하는 폴백 */
   if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
   const t = player.getCurrentTime();
-  if(loopSeg && loopSeg.from != null) syncBarLyric(t);
+  if(loopSeg && loopSeg.from != null) syncBarLyric(dispT(t));
   if(view === 'script' && follow && stopAt === null){
     const cur = deck.find(d => t >= d.s && t < d.e);
     if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
   }
+  if(maybeWrap(t)) return;
   if(stopAt === null || t < stopAt) return;
-  if(loopSeg){ player.seekTo(loopSeg.from != null ? loopSeg.from : headOf(loopSeg), true); return; }
   stopAt = null;
   if($('optAuto').checked && index < deck.length-1){
     index++; showCard(); playSeg(deck[index]);
@@ -2319,7 +2350,7 @@ function karaPaint(t){
   else w.hidden = true;
 }
 (function karaLoop(){
-  if(view === 'kara' && !OFFLINE && ready && player && typeof player.getCurrentTime === 'function') karaPaint(player.getCurrentTime());
+  if(view === 'kara' && !OFFLINE && ready && player && typeof player.getCurrentTime === 'function') karaPaint(dispT(player.getCurrentTime()));
   requestAnimationFrame(karaLoop);
 })();
 $('karaStart').onclick = () => { if(!(player && ready)) return; stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); paintBarLyrics(); player.seekTo(0, true); player.playVideo(); };
