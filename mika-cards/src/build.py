@@ -1,6 +1,7 @@
 import io, json, os, re, subprocess, sys, base64
 S = os.path.dirname(os.path.abspath(__file__))
 subprocess.run([sys.executable, os.path.join(S, 'seg.py')], check=True, stdout=subprocess.DEVNULL)
+subprocess.run([sys.executable, os.path.join(S, 'align_start.py')], check=True, stdout=subprocess.DEVNULL)
 OUT = os.path.join(os.path.dirname(S), 'Japanese-Mika640-Cards.html')
 VID = 'Joa5MSfh_Ho'
 
@@ -41,6 +42,15 @@ for ln in open(os.path.join(S, 'ko.txt'), encoding='utf-8'):
                      p[3].strip() if len(p) > 3 else '', p[4].strip() if len(p) > 4 else '')
 
 segs = json.load(open(os.path.join(S, 'segs.json'), encoding='utf-8'))
+# 재생 시작점 보정(음성 인식으로 찾은 실제 발화 시작). 자막 큐가 빈틈없이 붙어 있어
+# 그대로 재생하면 앞 사람 말끝이 딸려 들어온다.
+STARTS = json.load(open(os.path.join(S, 'starts.json'), encoding='utf-8'))
+n_shift = 0
+for s in segs:
+    v = STARTS.get(str(s['id']))
+    if v is not None and v > s['s']:
+        s['s'] = v
+        n_shift += 1
 missing = [s['id'] for s in segs if s['id'] not in ko]
 assert not missing, f'번역 없음: {missing}'
 extra = sorted(set(ko) - {s['id'] for s in segs})
@@ -192,6 +202,7 @@ print('생성:', OUT)
 print('학습 음원:', len(_amap), '건')
 print('한자 풀이:', sum(len(d.get('kj', [])) for d in data), '건 / 카드', sum(1 for d in data if 'kj' in d),
       '장 · 한자어', len({w[1] for w in WORDS}), '· 한자', len(KJ))
+print('시작점 보정:', n_shift, '장')
 print('카드:', len(data), '| 대사:', sum(1 for d in data if not d.get('th')),
       '| 화면 자막:', sum(1 for d in data if d.get('th')), '| 읽기 있음:', sum(1 for d in data if d['rd']))
 print('학습:', len(STUDY), '건 (표현', sum(1 for r in STUDY if r['t'] == 'E'), '/ 단어', sum(1 for r in STUDY if r['t'] == 'V'), ')',
