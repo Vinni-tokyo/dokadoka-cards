@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, re, sys
+import json, os, re, sys
 import fugashi
 from lemma_meanings import MEANINGS
 
@@ -16,7 +16,7 @@ for ln in open('kanji.txt', encoding='utf-8'):
 
 by_lemma = {}
 lemma_order = []
-for ep in (20, 21, 22):
+for ep in sorted(int(d[2:]) for d in os.listdir('.') if d.startswith('ep') and d[2:].isdigit()):
     segs = json.load(open(f'ep{ep}/segs.json', encoding='utf-8'))
     for s in segs:
         for w in tagger(s['ja']):

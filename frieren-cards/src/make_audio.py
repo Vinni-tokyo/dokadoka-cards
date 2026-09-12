@@ -83,6 +83,6 @@ async def gen(ep, force):
 if __name__ == '__main__':
     force = '--force' in sys.argv
     args = [a for a in sys.argv[1:] if a != '--force']
-    eps = [int(a) for a in args] or [20, 21, 22]
+    eps = [int(a) for a in args] or sorted(int(d[2:]) for d in os.listdir(S) if d.startswith('ep') and d[2:].isdigit())
     for ep in eps:
         asyncio.run(gen(ep, force))
