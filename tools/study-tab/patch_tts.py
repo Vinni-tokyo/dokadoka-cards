@@ -20,13 +20,16 @@ rep('''.btn.holding{background:var(--accent);border-color:var(--accent);color:#f
 # 재생 속도를 받도록
 rep('''function aPlay(text, times, gap, cb, which){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;''',
-    '''function aPlay(text, times, gap, cb, which, rate){
+    '''/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
+const A_VOL = 0.35, A_VOL_TTS = 0.7;
+function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;''')
 rep('''    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);''')
 rep('''function dSpeakText(text, which, cb){''', '''function dSpeakText(text, which, cb, rate){''')
-rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;''')
+rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;
+  u.volume = A_VOL_TTS;''')
 rep('''$('stop').onclick = stopAll;''', '''$('stop').onclick = stopAll;
 /* 뜻 영역의 읽어주기: 카드 원문을 로컬 음원(있으면) 또는 브라우저 음성으로. 영상은 잠시 멈춘다 */
 function ttsLine(times, rate){

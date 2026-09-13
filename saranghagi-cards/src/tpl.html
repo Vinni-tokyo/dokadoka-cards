@@ -2297,6 +2297,8 @@ const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）
 const aHas = t => !!AUDIO[aKey(t)];
 let aCur = null, aSeq = 0;
 function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
+/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
+const A_VOL = 0.35, A_VOL_TTS = 0.7;
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
@@ -2304,7 +2306,7 @@ function aPlay(text, times, gap, cb, which, rate){
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);
   };
   step();
@@ -2378,6 +2380,7 @@ function dSpeakText(text, which, cb, rate){
   if(v) u.voice = v;
   u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
   u.rate = rate || Number($('dRate').value) || 1;
+  u.volume = A_VOL_TTS;
   let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
   u.onend = fin; u.onerror = fin;
   speechSynthesis.speak(u);

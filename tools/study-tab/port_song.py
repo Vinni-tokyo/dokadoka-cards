@@ -475,10 +475,12 @@ function dSpeakText(text, which, cb, rate){
   const want = which === 1 ? '%s' : '%s';
   const u = new SpeechSynthesisUtterance(aKey(text));
   const v = aVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want) && /Natural|Neural|Google/i.test(x.name)) || aVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want)) || null;
-  if(v) u.voice = v; u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US'); u.rate = rate || 1;
+  if(v) u.voice = v; u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US'); u.rate = rate || 1; u.volume = A_VOL_TTS;
   let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
   u.onend = fin; u.onerror = fin; speechSynthesis.speak(u); setTimeout(fin, 12000);
 }
+/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
+const A_VOL = 0.35, A_VOL_TTS = 0.7;
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
@@ -486,7 +488,7 @@ function aPlay(text, times, gap, cb, which, rate){
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);
   };
   step();
@@ -497,10 +499,11 @@ const aRep = () => 3;
 else:
     rep_re(r'function aPlay\(text, times, gap, cb, which\)\{', 'function aPlay(text, times, gap, cb, which, rate){')
     rep('''    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);''')
     rep('''function dSpeakText(text, which, cb){''', '''function dSpeakText(text, which, cb, rate){''')
-    rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;''')
+    rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;
+  u.volume = A_VOL_TTS;''')
 
 # 큐 버튼 · 정지 · 읽어주기
 rep('''$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };''', '''/* 디제이 큐 버튼: 탭 = 구간 처음부터, 길게 누르면 그동안만 재생하고 떼면 구간 처음으로 */
