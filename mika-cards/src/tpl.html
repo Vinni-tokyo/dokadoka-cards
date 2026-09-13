@@ -499,6 +499,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .sessfoot{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:14px}
 .sessfoot .btn{min-height:46px;justify-content:center}
 .minibar{display:none}
+.cardfoot{display:none}
 .daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
 .daystrip .dbtn{flex:none}
 @media(max-width:600px){
@@ -518,6 +519,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .dfoot .dbtns .btn{flex:1}
  .dplay{padding-bottom:150px}
  .dgrade{grid-template-columns:repeat(3,1fr)}
+ .cardfoot{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+ .cardfoot .btn{min-height:46px;justify-content:center;flex:none}
+ .card:not(.sess){padding-bottom:96px}
+ .card:not(.sess) .nav{display:none}
+ .card.sess .cardfoot{display:none}
  .card.sess .sessfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0}
  .card.sess{padding-bottom:96px}
  .card.sess .opts,.card.sess .keys{display:none}
@@ -701,6 +707,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-right"/></svg></button>
      </div>
 
+     <div class="cardfoot" id="cardfoot">
+      <button class="btn" id="cfPrev"><svg class="ic"><use href="#i-left"/></svg>이전</button>
+      <button class="btn btn-primary" id="cfPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생</button>
+      <button class="btn" id="cfNext">다음<svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
      <div class="sessfoot" id="sessfoot" hidden>
       <button class="btn" id="sessA"><svg class="ic"><use href="#i-eye"/></svg>뜻 보기</button>
       <button class="btn btn-primary" id="sessB">들었다 · 다음 ›</button>
@@ -1229,6 +1240,7 @@ function showCard(){
   $('time').textContent = fmt(d.s);
   $('prev').disabled = index === 0;
   $('next').disabled = index === deck.length-1;
+  $('cfPrev').disabled = index === 0; $('cfNext').disabled = index === deck.length-1;
   $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
   setReveal($('optShow').checked && !(sess && sess.stage === 1));
   highlight(d.id);
@@ -1386,6 +1398,9 @@ $('loop').onclick  = () => {
   if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }
   else playSeg(d, {loop:true});
 };
+$('cfPrev').onclick = () => $('prev').click();
+$('cfNext').onclick = () => $('next').click();
+$('cfPlay').onclick = () => $('play').click();
 $('reveal').onclick = () => setReveal(true);
 $('hide').onclick   = () => setReveal(false);
 $('prev').onclick   = () => { if(index > 0){ index--; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); } };
