@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google" content="notranslate">
+<meta name="referrer" content="no-referrer">   <!-- 온라인 음성(translate_tts)은 Referer 가 붙으면 404 HTML 을 돌려준다 -->
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#3b4a7a">
@@ -691,7 +692,8 @@ function startListen(){
     navigator.mediaSession.setActionHandler('play', () => lsToggle(true)); navigator.mediaSession.setActionHandler('pause', () => lsToggle(false));
     navigator.mediaSession.setActionHandler('nexttrack', lsNext); navigator.mediaSession.setActionHandler('previoustrack', lsPrev);
   }
-  keepAlive(true); dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
+  dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
+  if (LSO.engine === 'device') keepAlive(true);   // 기기 음성일 때만 저음으로 재생 상태를 만든다. 온라인은 첫 클립이 바로 그 역할
   show('vPlay'); lsLoadItem(); lsStep();
 }
 function lsLoadItem(){
