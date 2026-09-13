@@ -664,6 +664,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
       <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
       <button class="btn btn-sm" id="ttsAll" title="문장 → 표현 → 단어 순서로 전부 읽기">전부</button>
+      <button class="btn btn-sm" id="ttsVol" title="읽어주기 음량">🔉</button>
       <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
      </div>
 
@@ -1503,6 +1504,7 @@ $('ttsAll').onclick = ttsAll;
 $('ttsPlay').onclick = () => ttsLine(1, 1);
 $('ttsSlow').onclick = () => ttsLine(1, 0.75);
 $('ttsRep').onclick  = () => ttsLine(3, 1);
+$('ttsVol').onclick = aVolCycle; aVolPaint();
 $('ttsStop').onclick = () => { ttsGen++; aStopAll(); ttsMark(null); };
 $('loop').onclick  = () => {
   const d = deck[index]; if(!d) return;
@@ -2244,8 +2246,12 @@ const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）
 const aHas = t => !!AUDIO[aKey(t)];
 let aCur = null, aSeq = 0;
 function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
-/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
-const A_VOL = 0.35, A_VOL_TTS = 0.7;
+/* 읽어주기 음량: 음원은 -22 LUFS 로 정규화돼 있고, 여기에 사용자 설정(🔈 버튼, 저장)을 곱한다 */
+const A_VOLS = [0.3, 0.6, 1.0];
+function aVol(){ return Number(store.get('avol', 0.6)) || 0.6; }
+function aVolTTS(){ return Math.min(1, aVol() + 0.2); }
+function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aCur){ try{ aCur.volume = v; }catch(e){} } aVolPaint(); }
+function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(); b.textContent = v <= 0.3 ? '🔈' : v <= 0.6 ? '🔉' : '🔊'; b.title = '읽어주기 음량 ' + Math.round(v * 100) + '% (누르면 바뀜)'; }
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
@@ -2253,7 +2259,7 @@ function aPlay(text, times, gap, cb, which, rate){
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = aVol(); a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);
   };
   step();
@@ -2327,7 +2333,7 @@ function dSpeakText(text, which, cb, rate){
   if(v) u.voice = v;
   u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
   u.rate = rate || Number($('dRate').value) || 1;
-  u.volume = A_VOL_TTS;
+  u.volume = aVolTTS();
   let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
   u.onend = fin; u.onerror = fin;
   speechSynthesis.speak(u);

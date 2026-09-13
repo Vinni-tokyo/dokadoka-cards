@@ -97,6 +97,7 @@ h = h[:m.end()] + '''     <div class="ttsrow">
       <button class="btn btn-sm" id="ttsPlay" title="T"><svg class="ic"><use href="#i-sound"/></svg>%s</button>
       <button class="btn btn-sm" id="ttsSlow" title="0.75×">%s</button>
       <button class="btn btn-sm" id="ttsRep" title="×3">%s</button>
+      <button class="btn btn-sm" id="ttsVol" title="읽어주기 음량">🔉</button>
       <button class="btn btn-sm" id="ttsStop"><svg class="ic fill"><use href="#i-stop"/></svg></button>
      </div>
 ''' % (A['tts'], A['slow'], A['x3']) + h[m.end():]; N += 1
@@ -334,15 +335,19 @@ mqMobile.addEventListener('change', paintMini);
 $('mbToggle').onclick = () => { if(!(player && ready)) return; player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); };
 $('mbOpen').onclick = () => switchView('card');''')
 # 음원 엔진에 속도 인자
-rep_re(r'function aPlay\(text, times, gap, cb, which\)\{', '/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
-const A_VOL = 0.35, A_VOL_TTS = 0.7;
+rep_re(r'function aPlay\(text, times, gap, cb, which\)\{', '/* 읽어주기 음량: 음원은 -22 LUFS 로 정규화돼 있고, 여기에 사용자 설정(🔈 버튼, 저장)을 곱한다 */
+const A_VOLS = [0.3, 0.6, 1.0];
+function aVol(){ return Number(store.get('avol', 0.6)) || 0.6; }
+function aVolTTS(){ return Math.min(1, aVol() + 0.2); }
+function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aCur){ try{ aCur.volume = v; }catch(e){} } aVolPaint(); }
+function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(); b.textContent = v <= 0.3 ? '🔈' : v <= 0.6 ? '🔉' : '🔊'; b.title = '읽어주기 음량 ' + Math.round(v * 100) + '% (누르면 바뀜)'; }
 function aPlay(text, times, gap, cb, which, rate){')
 rep('''    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = aVol(); a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);''')
 rep('''function dSpeakText(text, which, cb){''', '''function dSpeakText(text, which, cb, rate){''')
 rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;
-  u.volume = A_VOL_TTS;''')
+  u.volume = aVolTTS();''')
 # 큐 버튼 · 정지 · 읽어주기
 rep('''$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };''', '''/* 디제이 큐 버튼: 탭 = 구간 처음부터, 길게 누르면 그동안만 재생하고 떼면 구간 처음으로 */
 const HOLD_MS = 350;
@@ -395,6 +400,7 @@ function ttsLine(times, rate){
 $('ttsPlay').onclick = () => ttsLine(1, 1);
 $('ttsSlow').onclick = () => ttsLine(1, 0.75);
 $('ttsRep').onclick  = () => ttsLine(3, 1);
+$('ttsVol').onclick = aVolCycle; aVolPaint();
 $('ttsStop').onclick = () => { aStopAll(); ttsMark(null); };''' % SRC)
 rep('''  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }''', '''  else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
   else if(k === 's'){ e.preventDefault(); stopAll(); }

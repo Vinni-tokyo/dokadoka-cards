@@ -10,7 +10,8 @@ rep('''      <p class="ko" id="ko"></p>''', '''      <div class="ttsrow">
        <button class="btn btn-sm" id="ttsPlay" title="원문을 읽어 줍니다 (T)"><svg class="ic"><use href="#i-sound"/></svg>읽어주기</button>
        <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
        <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
-       <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
+       <button class="btn btn-sm" id="ttsVol" title="읽어주기 음량">🔉</button>
+      <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
       </div>
       <p class="ko" id="ko"></p>''')
 rep('''.btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}''', '''.btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -20,16 +21,20 @@ rep('''.btn.holding{background:var(--accent);border-color:var(--accent);color:#f
 # 재생 속도를 받도록
 rep('''function aPlay(text, times, gap, cb, which){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;''',
-    '''/* 읽어주기 음량: 내장 음원(edge-tts)은 유튜브보다 훨씬 커서 낮춘다 */
-const A_VOL = 0.35, A_VOL_TTS = 0.7;
+    '''/* 읽어주기 음량: 음원은 -22 LUFS 로 정규화돼 있고, 여기에 사용자 설정(🔈 버튼, 저장)을 곱한다 */
+const A_VOLS = [0.3, 0.6, 1.0];
+function aVol(){ return Number(store.get('avol', 0.6)) || 0.6; }
+function aVolTTS(){ return Math.min(1, aVol() + 0.2); }
+function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aCur){ try{ aCur.volume = v; }catch(e){} } aVolPaint(); }
+function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(); b.textContent = v <= 0.3 ? '🔈' : v <= 0.6 ? '🔉' : '🔊'; b.title = '읽어주기 음량 ' + Math.round(v * 100) + '% (누르면 바뀜)'; }
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;''')
 rep('''    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = A_VOL; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after);''', '''    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = aVol(); a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);''')
 rep('''function dSpeakText(text, which, cb){''', '''function dSpeakText(text, which, cb, rate){''')
 rep('''  u.rate = Number($('dRate').value) || 1;''', '''  u.rate = rate || Number($('dRate').value) || 1;
-  u.volume = A_VOL_TTS;''')
+  u.volume = aVolTTS();''')
 rep('''$('stop').onclick = stopAll;''', '''$('stop').onclick = stopAll;
 /* 뜻 영역의 읽어주기: 카드 원문을 로컬 음원(있으면) 또는 브라우저 음성으로. 영상은 잠시 멈춘다 */
 function ttsLine(times, rate){
@@ -43,6 +48,7 @@ function ttsLine(times, rate){
 $('ttsPlay').onclick = () => ttsLine(1, 1);
 $('ttsSlow').onclick = () => ttsLine(1, 0.75);
 $('ttsRep').onclick  = () => ttsLine(3, 1);
+$('ttsVol').onclick = aVolCycle; aVolPaint();
 $('ttsStop').onclick = () => { aStopAll(); ['ttsPlay','ttsSlow','ttsRep'].forEach(id => $(id).setAttribute('aria-pressed', 'false')); };''')
 rep('''  try{ player.pauseVideo(); }catch(e){}
   $('playStatus').innerHTML = bi('정지', '停止');''', '''  try{ player.pauseVideo(); }catch(e){}

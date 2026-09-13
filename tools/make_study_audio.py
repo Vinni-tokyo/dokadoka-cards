@@ -132,6 +132,12 @@ async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=Fa
     for k in list(index):
         if k not in allkeys: index.pop(k)
     json.dump(index, open(ipath, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from normalize_audio import normalize_dir
+        print('  음량 정규화:', normalize_dir(adir), '개')
+    except Exception as e:
+        print('  음량 정규화 실패:', e)
     size = sum(os.path.getsize(os.path.join(adir, fn)) for fn in index.values() if os.path.exists(os.path.join(adir, fn)))
     print(f'  완료 {sum(1 for r in res if r)}/{len(todo)} · 보유 {len(index)} 파일 · {size/1024:.0f} KB')
 
