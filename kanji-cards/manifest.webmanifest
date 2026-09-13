@@ -1,0 +1,16 @@
+{
+  "name": "도카도카 한자 카드",
+  "short_name": "한자 카드",
+  "description": "일본어 영상 7편에서 나온 한자 963자 · 회독 · 듣기 모드",
+  "start_url": "./Kanji963-Cards.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f5f8",
+  "theme_color": "#3b4a7a",
+  "lang": "ko",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

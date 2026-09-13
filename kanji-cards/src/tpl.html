@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="google" content="notranslate">
 <meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3b4a7a">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>도카도카 한자 카드 · 漢字 __N__</title>
 <style>
 :root{--bg:#f4f5f8;--card:#fff;--line:#e2e5ec;--ink:#21242c;--mute:#6b7280;--brand:#3b4a7a;--brand2:#4a5a8d;--accent:#b0603f;--soft:#eef0f5;--know:#3b4a7a;--study:#8a94b3;--r:14px}
@@ -232,7 +235,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
   <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
   <div class="startbar" style="padding:4px 0 0"><button onclick="startListen()">▶ 듣기 시작</button></div>
-  <p class="note">소리는 온라인 음성(인터넷 필요)으로 이어서 재생합니다. 화면이 꺼져도 계속 나며, 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꾸고 화면을 켜 둡니다.</p>
+  <p class="note">소리는 온라인 음성(인터넷 필요)으로 이어서 재생합니다. 세션 동안 무음 트랙을 함께 틀어 두어 화면이 꺼져도 계속 나며(유튜브와 같은 방식), 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꾸고 화면을 켜 둡니다.<br>더 안정적으로 들으려면 크롬 메뉴 ⋮ → 「홈 화면에 추가」로 앱처럼 설치하고 거기서 여세요. 브라우저 탭보다 백그라운드 보호를 더 받습니다.</p>
  </div>
 </section>
 
@@ -632,6 +635,13 @@ function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초}
 }
 let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
 let pl = new Audio(), pl2 = new Audio(); pl.preload = pl2.preload = 'auto';   // 둘을 번갈아 써서 다음 클립을 미리 받아 둔다
+/* 유튜브처럼 화면이 꺼져도 살아 있으려면 「끊기지 않는 소리 하나」가 계속 재생 중이어야 한다.
+   짧은 클립 사이의 빈틈에서 안드로이드가 페이지를 재우므로, 세션 내내 반복되는 무음 트랙을 같이 틀어 둔다 */
+let keep = null;
+function keepAlive(on){
+  if (on) { if (!keep) { keep = new Audio(silenceURI(20)); keep.loop = true; keep.volume = 0.02; } keep.play().catch(() => {}); }
+  else if (keep) { keep.pause(); }
+}
 function silenceURI(sec){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다
   const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n);
   const w = (o, s) => { for (let i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); }; const d = new DataView(b.buffer);
@@ -651,6 +661,7 @@ function startListen(){
     navigator.mediaSession.setActionHandler('play', () => lsToggle(true)); navigator.mediaSession.setActionHandler('pause', () => lsToggle(false));
     navigator.mediaSession.setActionHandler('nexttrack', lsNext); navigator.mediaSession.setActionHandler('previoustrack', lsPrev);
   }
+  keepAlive(true);
   show('vPlay'); lsLoadItem(); lsStep();
 }
 function lsLoadItem(){
@@ -751,7 +762,8 @@ function lsToggle(force){
   if (!LP) return;
   const want = force === undefined ? !LP.playing : force;
   LP.playing = want; lsPaint(want);
-  if (!want) { pl.pause(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (!want) { pl.pause(); keepAlive(false); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  keepAlive(true);
   if (LP.stalled) { LP.stalled = false; return lsStep(); }
   if (pl._url && pl.paused && pl.currentTime > 0 && !pl.ended) pl.play().catch(() => lsStep());
   else if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume();
@@ -759,7 +771,7 @@ function lsToggle(force){
 }
 function stopListen(done){
   if (!LP) return;
-  LP.playing = false; lsInterrupt();
+  LP.playing = false; lsInterrupt(); keepAlive(false);
   if (LP.lock) { LP.lock.release().catch(() => {}); }
   if (done) { document.getElementById('pStep').textContent = '끝'; document.getElementById('pPlay').innerHTML = '<span class="ic">▶</span>다시'; document.getElementById('pBar').style.width = '100%'; }
   const wasDone = done; LP = null;
@@ -790,6 +802,7 @@ document.addEventListener('keydown', e => {
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
 
 renderHome();
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
 </html>
