@@ -19,7 +19,7 @@ rep('''.minibar{display:none}
 .cardfoot{display:none}
 .daystrip{''')
 rep(''' .card.sess .sessfoot{position:fixed;''', ''' .cardfoot{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
- .cardfoot .btn{min-height:46px;justify-content:center;flex:none}
+ .cardfoot .btn{min-height:46px;justify-content:center;flex:none;padding:8px 4px;gap:4px;font-size:12.5px;white-space:nowrap}
  .card:not(.sess){padding-bottom:96px}
  .card:not(.sess) .nav{display:none}
  .card.sess .cardfoot{display:none}
