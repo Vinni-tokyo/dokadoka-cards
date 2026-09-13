@@ -607,7 +607,7 @@ function openListen(){
   const vs = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : []; const ja = vs.filter(v => /^ja/i.test(v.lang)).length, ko = vs.filter(v => /^ko/i.test(v.lang)).length;
   document.getElementById('lsEngineNote').textContent = (LSO.engine === 'device')
     ? `기기에 설치된 음성으로 읽습니다(인터넷 불필요). 지금 기기: 일본어 ${ja}개 · 한국어 ${ko}개${ja ? '' : ' — 일본어 음성이 없어 일본어가 제대로 안 읽힙니다'}`
-    : '인터넷으로 음성을 받아 재생합니다. 화면을 끈 뒤 학습 음원이 안 나오면 「기기 음성」으로 바꿔 보세요(일본어 음성 설치 필요).';
+    : '인터넷으로 음성을 받아 재생합니다(폰은 재생만 하므로 발열·배터리 부담이 적음). 기기 음성은 폰 안에서 합성하느라 CPU 를 써서 오래 들으면 뜨거워질 수 있습니다.';
   document.getElementById('lsModeNote').textContent = LS_NOTE[LSO.mode];
   show('vListen');
 }
@@ -659,7 +659,7 @@ const POOL = new Map();   // 미리 받기 전용(브라우저 캐시 데우기)
 function poolGet(url){
   let a = POOL.get(url);
   if (!a) { a = new Audio(); a.preload = 'auto'; a.src = url; a.load(); POOL.set(url, a); }
-  while (POOL.size > 24) { const k = POOL.keys().next().value; POOL.get(k).removeAttribute('src'); POOL.delete(k); }
+  while (POOL.size > 12) { const k = POOL.keys().next().value; POOL.get(k).removeAttribute('src'); POOL.delete(k); }
   return a;
 }
 function lsPrefetchItem(idx){
@@ -753,13 +753,13 @@ function lsResume(){
   else if (ONE.paused && Date.now() - (LP.lastAt || 0) > 12000) lsStep();
 }
 document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') setTimeout(lsResume, 200); });
-setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 15000) lsResume(); }, 5000);
+setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 20000) lsResume(); }, 20000);
 function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다'); }
 function lsTTS(text, lang){
   if (!('speechSynthesis' in window)) return setTimeout(lsStep, 500);
   dlog('tts ' + lang + ' ' + text.slice(0, 10) + (document.visibilityState === 'hidden' ? ' (hidden)' : ''));
-  if (ONE.paused || ONE._url !== 'tone') keepAlive(true);   // 기기 음성 동안에도 재생 상태(미디어 세션)를 유지
-  const u = new SpeechSynthesisUtterance(text.replace(/[・･]/g, '、')); u.lang = lang === 'ja' ? 'ja-JP' : 'ko-KR'; u.rate = 0.9;
+  if (ONE.paused) keepAlive(true);   // 기기 음성 동안에도 재생 상태(미디어 세션)를 유지 (멈춰 있을 때만 다시 시작)
+  const u = new SpeechSynthesisUtterance(text.replace(/[・･]/g, '、')); u.lang = lang === 'ja' ? 'ja-JP' : 'ko-KR'; u.rate = 1;
   if (lang === 'ja' && jaVoice) u.voice = jaVoice;
   u.onend = () => { if (LP && LP.playing) lsStep(); }; u.onerror = e => { dlog('tts 오류 ' + e.error); if (LP && LP.playing) setTimeout(lsStep, 300); };
   speechSynthesis.speak(u);
