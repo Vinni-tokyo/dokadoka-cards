@@ -162,6 +162,10 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .play .ans{font-size:clamp(18px,5.5vw,24px);font-weight:600;min-height:1.4em;transition:opacity .2s}
 .play .ans small{display:block;color:var(--mute);font-weight:400;font-size:14px;margin-top:4px}
 .play .ans.hide{opacity:0}
+.play .pex{margin-top:14px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;font-size:15px;line-height:1.45;transition:opacity .2s}
+.play .pex mark{background:none;color:var(--accent);font-weight:700}
+.play .pex small{display:block;color:var(--mute);font-size:13px;margin-top:4px}
+.play .pex.hide{opacity:0}
 .play .bar{width:100%;height:4px;background:var(--line);border-radius:2px;margin-top:22px;overflow:hidden}
 .play .bar i{display:block;height:100%;background:var(--accent);width:0}
 .play .meta{font-size:12.5px;color:var(--mute);margin-top:8px}
@@ -233,6 +237,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="setup">
   <div class="grp"><h5>무엇을</h5><select id="lsDeck" onchange="lsDeckChanged()"></select><div style="height:8px"></div><select id="lsCh"></select></div>
   <div class="grp"><h5>어떻게</h5><div class="opts" id="lsMode"></div><p class="note" id="lsModeNote"></p></div>
+  <div class="grp"><h5>예문(대사)</h5><div class="opts" id="lsEx"></div><p class="note">단어 뒤에 그 단어가 나온 실제 대사를 읽어 줍니다. 화면에는 대사와 해석이 함께 뜹니다.</p></div>
   <div class="grp"><h5>떠올릴 시간(침묵)</h5><div class="opts" id="lsPause"></div></div>
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
   <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
@@ -250,6 +255,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="step" id="pStep"></div>
   <div class="word" id="pWord" lang="ja">—</div>
   <div class="ans hide" id="pAns"></div>
+  <div class="pex hide" id="pEx"></div>
   <div class="bar"><i id="pBar"></i></div>
   <div class="meta" id="pMeta"></div>
  </div>
@@ -584,7 +590,7 @@ function animateStrokes(box){
 }
 // ---------- 듣기 모드 ----------
 const LS_MODES = {word: '단어 듣기', rev: '거꾸로 듣기', kanji: '한자 듣기'};
-const LS_NOTE = {word: '일본어 읽기 → 침묵 → 한국어 뜻 → 읽기 한 번 더 → 대사 한 줄', rev: '한국어 뜻 → 침묵 → 일본어 읽기 두 번 (산출 연습, 더 어려움)', kanji: '훈음 → 음독 → 훈독 → 부수·구성을 말로 → 대표 단어 2개와 뜻'};
+const LS_NOTE = {word: '일본어 읽기 → 침묵 → 한국어 뜻 → 읽기 한 번 더 → 대사 한 줄(옵션)', rev: '한국어 뜻 → 침묵 → 일본어 읽기 두 번 (산출 연습, 더 어려움)', kanji: '훈음 → 음독 → 훈독 → 부수·구성을 말로 → 대표 단어 2개와 뜻'};
 let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30}, ST.listen || {});
 function lsDecks(){
   const out = [];
@@ -602,6 +608,7 @@ function openListen(){
   const seg = (id, opts, cur, fn) => document.getElementById(id).innerHTML = opts.map(([v, n]) => `<button aria-pressed="${v === cur}" onclick="${fn}(${JSON.stringify(v).replace(/"/g, '&quot;')})">${n}</button>`).join('');
   seg('lsMode', Object.entries(LS_MODES), LSO.mode, 'lsSetMode');
   seg('lsPause', [[2, '2초'], [3, '3초'], [5, '5초'], [0, '없음']], LSO.pause, 'lsSet.pause');
+  seg('lsEx', [[1, '읽기'], [0, '안 읽기']], LSO.ex === 0 ? 0 : 1, 'lsSet.ex');
   seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
   seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
   seg('lsEngine', [['online', '온라인 음성'], ['device', '기기 음성']], LSO.engine || 'online', 'lsSet.engine');
@@ -614,7 +621,7 @@ function openListen(){
   show('vListen');
 }
 const lsSet = {};
-for (const f of ['pause', 'loop', 'stop', 'engine', 'awake']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
+for (const f of ['pause', 'loop', 'stop', 'engine', 'awake', 'ex']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
 function lsSetMode(m){ LSO.mode = m; lsSave(); openListen(); }
 function lsSave(){ ST.listen = LSO; save(); }
 function lsDeckChanged(){
@@ -642,7 +649,7 @@ function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초}
       ...(partsSpeech(x) ? [{ko: partsSpeech(x)}] : []), ...ws.flatMap(w => [{ja: w.rd}, {ko: kstrip(w.ko)}])];
   }
   if (LSO.mode === 'rev') return [{show: 'q'}, {ko: kstrip(x.ko)}, ...P, {show: 'a'}, {ja: x.rd}, {pause: 0.6}, {ja: x.rd}];
-  return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, {pause: 0.4}, {ja: x.ex.ja}];
+  return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, ...(LSO.ex === 0 ? [] : [{pause: 0.4}, {show: 'x'}, {ja: x.ex.ja}])];
 }
 let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
 const DIAG = [];
@@ -704,6 +711,9 @@ function lsLoadItem(){
   document.getElementById('pWord').textContent = isWord(x) ? x.w : x.k;
   document.getElementById('pProg').textContent = (LP.i + 1) + '/' + LP.items.length + (LSO.loop > 1 ? ' · ' + LP.round + '바퀴' : '');
   document.getElementById('pAns').className = 'ans hide';
+  const pe = document.getElementById('pEx'); pe.className = 'pex hide';
+  if (isWord(x) && LSO.ex !== 0) { const stem = x.w.replace(/[ぁ-ん]+$/, ''); const ja = esc(x.ex.ja).replace(stem ? new RegExp(esc(stem).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) : /$^/, m => `<mark>${m}</mark>`); pe.innerHTML = `<span lang="ja">${ja}</span><small>${esc(x.ex.ko)} · ${esc(APPS[x.ex.app])}</small>`; }
+  else pe.innerHTML = '';
   document.getElementById('pBar').style.width = (LP.i / LP.items.length * 100) + '%';
   if ('mediaSession' in navigator) try { navigator.mediaSession.metadata = new MediaMetadata({title: isWord(x) ? x.w + '  ' + x.rd : x.k + '  ' + x.hun, artist: '한자 카드 · 듣기', album: document.getElementById('pTitle').firstChild.textContent}); } catch(e){}
   lsPrefetchItem(LP.i); lsPrefetchItem(LP.i + 1);
@@ -718,6 +728,7 @@ function lsStep(){
   const st = LP.steps[LP.si++]; const x = LP.items[LP.i];
   if (st.show) {
     const a = document.getElementById('pAns');
+    if (st.show === 'x') { document.getElementById('pEx').className = 'pex'; document.getElementById('pStep').textContent = '예문'; return lsStep(); }
     if (st.show === 'a') { a.innerHTML = isWord(x) ? `${esc(x.rd)}<small>${esc(x.ko)}</small>` : `${esc(x.hun)}<small>${esc((x.on || []).join('・'))} · ${esc((x.kun || []).slice(0, 3).join('・'))}</small>`; a.className = 'ans'; }
     document.getElementById('pStep').textContent = st.show === 'q' ? (LSO.mode === 'rev' ? '뜻을 듣고 일본어를 떠올리세요' : '듣고 뜻을 떠올리세요') : '정답';
     return lsStep();
