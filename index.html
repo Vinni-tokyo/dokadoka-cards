@@ -37,6 +37,13 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--ink-3);margin-t
 .thumb .dir{position:absolute;left:12px;top:12px;display:inline-flex;gap:6px;align-items:center;padding:5px 10px;border-radius:8px;
  font-size:11.5px;font-weight:700;letter-spacing:.02em;color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
 .thumb .len{position:absolute;right:12px;bottom:12px;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;background:rgba(0,0,0,.65)}
+/* 영상 없는 앱(한자 카드)의 타일: 큰 글자 + 옅은 한자 무늬 */
+.thumb.glyph{background:linear-gradient(135deg,#2f3c66 0%,#3b4a7a 55%,#5b6ca8 100%);overflow:hidden}
+.thumb.glyph .pat{position:absolute;inset:-10px;display:flex;flex-wrap:wrap;gap:6px 14px;align-content:flex-start;padding:8px 12px;font-size:22px;line-height:1.3;color:#fff;opacity:.10;font-weight:700;pointer-events:none;
+ font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",serif;transform:rotate(-8deg) scale(1.15)}
+.thumb.glyph .g{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);font-size:min(118px,34vw);line-height:1;font-weight:700;color:#fff;
+ font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",serif;text-shadow:0 6px 24px rgba(0,0,0,.35)}
+.thumb.glyph .g small{position:absolute;left:50%;transform:translateX(-50%);bottom:-22px;font-size:12px;font-weight:600;letter-spacing:.18em;color:#e6e9f5;white-space:nowrap;text-shadow:none}
 .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
 .kind{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .kind i{width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block}
@@ -84,10 +91,10 @@ const LANGS = [
 /* 앱 목록. 한 줄 = 영상 한 편. href 는 이 파일 기준 상대 경로. src 의 마지막 `·` 뒤가 길이 배지 */
 const APPS = [
  /* --- 일본어 --- */
- {vid:'', href:'kanji-cards/Kanji963-Cards.html', learn:'ja', kind:'한자 · 漢字', glyph:'漢',
-  title:'한자 카드 · 7작품에서 나온 한자 963자', src:'단어 1,433 · 한자 963 · 유튜브 없이 동작',
-  desc:'일본어 영상 7편에 나온 한자만 모아 「공부하겠음 / 알고있음」 두 버튼으로 회독하는 한자 학습툴. 예문은 실제 대사(장면 재생 링크), 한자마다 훈음·한국 한자·부수·구성·획순.',
-  cards:'963자', level:'급별 · 작품별', sub:'Unihan · KanjiVG', extra:'획순 · 복습함'},
+ {vid:'', href:'kanji-cards/Kanji963-Cards.html', learn:'ja', kind:'한자 · 漢字', glyph:'漢', glyphSub:'KANJI CARDS',
+  title:'한자 카드 · 7작품에서 나온 한자 963자', src:'단어 1,433 · 7작품 · 963자',
+  desc:'일본어 영상 7편에 나온 한자만 모아 「공부하겠음 / 알고있음」 두 버튼으로 회독하는 한자 학습툴. 예문은 실제 대사(장면 재생 링크), 한자마다 훈음·한국 한자·부수·구성·획순·소리 가족. 걸으면서 듣는 듣기 모드.',
+  cards:'963자', level:'JLPT N5~N1', sub:'듣기 모드 · 소리 가족', extra:'획순 · 복습함'},
  {vid:'B46OizvNlbU', href:'yubisaki-cards/Japanese-Yubisaki185-Cards.html', learn:'ja', kind:'애니메이션 · アニメ',
   title:'ゆびさきと恋々 제1화', src:'フル☆アニメTV (공식) · 2024-01 · 25분',
   desc:'청각장애가 있는 대학생 유키와 여행자 이츠오미의 첫 만남. 짧고 느린 일상 대화와 속마음 독백 위주라 가장 쉽습니다. 방송용 CC 자막(화자·속마음 구분) 사용.',
@@ -206,7 +213,12 @@ function cardOf(a, L){
   el.innerHTML = '<div class="thumb"><span class="dir"></span><span class="len"></span></div>'
     + '<div class="body"><span class="kind"><i></i><span></span></span><h2><span class="t"></span><span class="src"></span></h2><p></p>'
     + '<div class="meta"><span class="chip lv"></span><span class="chip sub"></span><span class="chip"></span><span class="chip"></span></div></div>';
-  el.querySelector('.thumb').style.backgroundImage = 'url(https://i.ytimg.com/vi/' + a.vid + '/hqdefault.jpg)';
+  if (a.vid) el.querySelector('.thumb').style.backgroundImage = 'url(https://i.ytimg.com/vi/' + a.vid + '/hqdefault.jpg)';
+  else if (a.glyph) {
+    const th = el.querySelector('.thumb'); th.classList.add('glyph');
+    const pat = '人 一 今 思 私 何 本 日 歌 分 時 言 魔 食 国 見 全 行 大 前 法 気 韓 当 出 感 曲 間 手 来 方 中 作 好 車 動 使 御 入 味 聞 様 違 生 知 目 最 二 回 自 仕 事 番 物 通 上 理 合 先 待 話 誰 考 会 変 両 山 田 美 後 所 持 良 雪 張 体 書 長 的 意 度 初 結 身 君 白 世 然 普 伝 金 場 子 部 同 頭 女 面 確 年 楽 付 料 覚 代 外 語 完';
+    th.insertAdjacentHTML('afterbegin', '<span class="pat" aria-hidden="true">' + pat + '</span><span class="g" lang="ja">' + a.glyph + '<small>' + (a.glyphSub || '') + '</small></span>');
+  }
   el.querySelector('.dir').textContent = L.flag + ' ' + L.name;
   el.querySelector('.len').textContent = a.src.split('·').pop().trim();
   el.querySelector('.kind span').textContent = a.kind;
