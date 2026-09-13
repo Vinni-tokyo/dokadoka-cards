@@ -631,7 +631,7 @@ function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초}
   return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, {pause: 0.4}, {ja: x.ex.ja}];
 }
 let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
-const pl = new Audio(); pl.preload = 'auto';
+let pl = new Audio(), pl2 = new Audio(); pl.preload = pl2.preload = 'auto';   // 둘을 번갈아 써서 다음 클립을 미리 받아 둔다
 function silenceURI(sec){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다
   const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n);
   const w = (o, s) => { for (let i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); }; const d = new DataView(b.buffer);
@@ -683,10 +683,41 @@ function lsStep(){
   lsPlay(ttsURL(text, lang), {text, lang});
 }
 function lsPlay(url, tts){
-  pl.onended = () => { if (LP && LP.playing) lsStep(); };
-  pl.onerror = () => { if (!LP || !LP.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
-  pl.src = url; pl.play().catch(() => { if (LP && LP.playing && tts) { lsFallback(); lsTTS(tts.text, tts.lang); } });
+  const cur = LP; cur.lastAt = Date.now(); cur.stalled = false;
+  pl.onended = pl.onerror = null;
+  if (pl2._url === url) { const t = pl; pl = pl2; pl2 = t; }        // 미리 받아 둔 것이 있으면 교대
+  else { pl.src = url; pl._url = url; }
+  pl.onended = () => { if (LP === cur && cur.playing) lsStep(); };
+  pl.onerror = () => { if (LP !== cur || !cur.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
+  const tryPlay = (n) => pl.play().catch(err => {
+    if (LP !== cur || !cur.playing) return;
+    if (n < 2) return setTimeout(() => tryPlay(n + 1), 400);
+    if (err && err.name === 'NotAllowedError') { cur.stalled = true; lsPaint(false); return toast('재생이 막혔습니다. ▶ 를 눌러 이어 들으세요'); }
+    if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else lsStep();
+  });
+  tryPlay(0);
+  lsPrefetch();
 }
+function lsPrefetch(){   // 다음 말하기 단계의 클립을 대기 요소에 미리 받아 둔다 (화면이 꺼진 뒤 네트워크 지연·차단을 피한다)
+  if (!LP) return;
+  for (let j = LP.si; j < LP.steps.length; j++) {
+    const st = LP.steps[j]; if (st.show) continue;
+    if (st.pause !== undefined) return;
+    const url = ttsURL(st.ja !== undefined ? st.ja : st.ko, st.ja !== undefined ? 'ja' : 'ko');
+    if (pl2._url !== url) { pl2.src = url; pl2._url = url; pl2.load(); }
+    return;
+  }
+}
+function lsPaint(playing){ document.getElementById('pPlay').innerHTML = playing ? '<span class="ic">⏸</span>일시정지' : '<span class="ic">▶</span>재생'; if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; }
+/* 화면이 다시 켜지거나 앱으로 돌아왔을 때, 그리고 주기적으로: 재생 중이어야 하는데 멈춰 있으면 되살린다 */
+function lsResume(){
+  if (!LP || !LP.playing) return;
+  if (LP.stalled) { LP.stalled = false; lsPaint(true); return lsStep(); }
+  if (pl.paused && !pl.ended && pl._url) pl.play().catch(() => lsStep());
+  else if (pl.paused && Date.now() - (LP.lastAt || 0) > 12000) lsStep();
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') setTimeout(lsResume, 200); });
+setInterval(() => { if (LP && LP.playing && pl.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 15000) lsResume(); }, 5000);
 function lsFallback(){
   if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다. 화면을 켜 둡니다');
   if (navigator.wakeLock) navigator.wakeLock.request('screen').then(l => { LP.lock = l; }).catch(() => {});
@@ -715,15 +746,16 @@ function lsPrev(){
 }
 function lsNext(){ if (!LP) return; lsInterrupt(); LP.playing = true; lsAdvance(); }
 function lsMarkStudy(){ if (!LP) return; const x = LP.items[LP.i]; ST.marks[idOf(x)] = 'study'; save(); toast((isWord(x) ? x.w : x.k) + ' → 복습함'); }
-function lsInterrupt(){ pl.onended = null; pl.pause(); if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+function lsInterrupt(){ pl.onended = pl.onerror = null; pl.pause(); if ('speechSynthesis' in window) speechSynthesis.cancel(); }
 function lsToggle(force){
   if (!LP) return;
   const want = force === undefined ? !LP.playing : force;
-  LP.playing = want;
-  document.getElementById('pPlay').innerHTML = want ? '<span class="ic">⏸</span>일시정지' : '<span class="ic">▶</span>재생';
-  if (!want) { pl.pause(); if ('speechSynthesis' in window) speechSynthesis.pause(); }
-  else { if (pl.src && pl.paused && pl.currentTime > 0 && !pl.ended) pl.play().catch(() => lsStep()); else if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); }
-  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = want ? 'playing' : 'paused';
+  LP.playing = want; lsPaint(want);
+  if (!want) { pl.pause(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (LP.stalled) { LP.stalled = false; return lsStep(); }
+  if (pl._url && pl.paused && pl.currentTime > 0 && !pl.ended) pl.play().catch(() => lsStep());
+  else if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume();
+  else lsStep();
 }
 function stopListen(done){
   if (!LP) return;
