@@ -12,6 +12,8 @@
   키 = 원문에서 「〜」와 괄호 주석을 뗀 문자열. 앱의 JS(aKey) 와 같은 규칙이어야 한다.
   뜻 음원도 함께 만든다(키 'm:' + 뜻). 「뜻과 함께 듣기」가 쓴다.
   edge-tts 는 온라인 서비스라 인터넷이 필요하다. 이미 있는 파일은 건너뛴다(증분).
+  <앱>/src/tts_fix.txt (`원문|읽을 문자열`, 부분 문자열 치환) 가 있으면 합성 직전에 적용한다 — 君が→きみが, 辛い→つらい 처럼
+  TTS 가 잘못 읽는 한자를 가나로 바꾼다. 키(index)는 원문 그대로. 치환이 걸린 항목은 파일이 있어도 다시 만든다.
 """
 import asyncio, glob, hashlib, json, os, re, sys
 
@@ -85,16 +87,31 @@ async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=Fa
         for m in items_of(app, mfield):
             mkeys[MEAN_PREFIX + m] = mean_text(m)
     allkeys = list(keys) + list(mkeys)
+    fixes = []
+    fxp = os.path.join(ROOT, app, 'src', 'tts_fix.txt')
+    if os.path.exists(fxp):
+        for ln in open(fxp, encoding='utf-8'):
+            ln = ln.rstrip('\n')
+            if ln.strip() and not ln.lstrip().startswith('#') and '|' in ln:
+                a, b = ln.split('|', 1); fixes.append((a.strip(), b.strip()))
+    def fixed(t):
+        for a, b in fixes: t = t.replace(a, b)
+        return t
+    fixlog = os.path.join(adir, 'tts_fix.json')
+    applied = json.load(open(fixlog, encoding='utf-8')) if os.path.exists(fixlog) else {}
     todo = []
     for k in allkeys:
         fn = index.get(k) or (hashlib.sha1(k.encode('utf-8')).hexdigest()[:16] + '.mp3')
         index[k] = fn
-        if force or not os.path.exists(os.path.join(adir, fn)): todo.append((k, fn))
+        spoken = fixed(mkeys[k] if k in mkeys else k)
+        changed = spoken != (mkeys[k] if k in mkeys else k) and applied.get(k) != spoken
+        if force or changed or not os.path.exists(os.path.join(adir, fn)): todo.append((k, fn))
     print(f'{app}: 원문 {len(keys)} · 뜻 {len(mkeys)} · 새로 만들 것 {len(todo)} · 음성 {voice} / {mvoice}')
     sem = asyncio.Semaphore(4)
     async def one(k, fn):
         async with sem:
             text, v = (mkeys[k], mvoice) if k in mkeys else (k, voice)
+            text = fixed(text)
             for attempt in range(3):
                 try:
                     await edge_tts.Communicate(text, v, rate=rate).save(os.path.join(adir, fn)); return True
@@ -105,6 +122,10 @@ async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=Fa
     # 실패한 것은 index 에서 빼서 앱이 TTS 로 폴백하게 한다
     for (k, fn), ok in zip(todo, res):
         if not ok: index.pop(k, None)
+        else:
+            sp = fixed(mkeys[k] if k in mkeys else k)
+            if sp != (mkeys[k] if k in mkeys else k): applied[k] = sp
+    if fixes: json.dump(applied, open(fixlog, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     # 더 이상 쓰이지 않는 키 정리
     for k in list(index):
         if k not in allkeys: index.pop(k)
