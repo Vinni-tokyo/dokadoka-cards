@@ -6,8 +6,9 @@
 규칙
   - 각 줄의 자막 큐 창 [cue_s-2, cue_e+2] 안에서 가사와 가장 비슷한 단어 구간을 찾아 음성 시작·끝(ws, we)을 얻는다.
   - 시작: 자막은 발성보다 조금 먼저 뜨므로 자막 시작(cue_s). 단 자막 검출이 늦게 잡힌 경우(ws < cue_s-0.8)는 음성 시작.
-  - 끝:   자막은 반주 동안 남으므로 음성 끝(we). 단 we 가 큐 밖(> cue_e+0.5)이거나 못 찾으면 자막 끝.
-  - 다음 줄 시작을 넘지 않게 자른다.
+  - 끝:   자막은 반주 동안 남으므로 음성 끝(we)+0.4초(노래는 마지막 음을 끈다). 단 we 가 큐 밖(> cue_e+0.5)이거나 못 찾으면 자막 끝.
+  - 앞 줄 끝과 다음 줄 시작이 겹치면: 다음 줄의 발성이 아직 시작 전이면 다음 줄 시작을 뒤로 미루고(자막이 먼저 뜬 것뿐),
+    이미 발성 중이면 앞 줄 끝을 자른다.
 """
 import json, re, os
 from difflib import SequenceMatcher
@@ -44,10 +45,20 @@ for r in rows:
     a, b = MAP[i]; cs, ce = cues[a]['s'], CUE_END_OVERRIDE.get(i, cues[b]['e'])
     ws, we, sim = asr_span(text, cs - 2, ce + 2)
     s = cs if (ws is None or ws >= cs - 0.8) else ws
-    e = we if (we is not None and cs < we <= ce + 0.5) else ce
-    r[1], r[2] = s, e
+    e = min(we + 0.4, ce + 0.5) if (we is not None and cs < we <= ce + 0.5) else ce
+    r[1], r[2] = s, e; r.append(ws); r.append(we); r.append(cs)
     print('%3d | %6.2f %6.2f | %6s %6s %.2f | %6.2f %6.2f%s' % (i, cs, ce, '%.2f' % ws if ws else '—', '%.2f' % we if we else '—', sim, s, e, '' if abs(s - os_) < 0.3 and abs(e - oe) < 0.3 else '  (구 %.2f–%.2f)' % (os_, oe)))
 for k in range(len(rows) - 1):
-    if rows[k][2] > rows[k+1][1] - 0.05: rows[k][2] = max(rows[k][1] + 0.6, rows[k+1][1] - 0.05)
+    a, b = rows[k], rows[k+1]
+    pws, pwe, pcs = a[4], a[5], a[6]; nws, nwe, ncs = b[4], b[5], b[6]
+    chained = nws is not None and pwe is not None and nws <= pwe + 0.05        # 음성 인식이 단어를 이어 붙인 경계(다음 줄 시작 시각은 못 믿는다)
+    if chained and ncs < pwe:                                                 # 자막이 먼저 바뀐 채 노래가 이어짐: 경계는 음성 끝
+        a[2] = pwe + 0.1
+    elif b[1] < a[2] + 0.05:
+        if chained: b[1] = max(ncs + 0.05, min(a[2] + 0.05, ncs + 0.25)); a[2] = b[1] - 0.05   # 자막이 늦게 바뀜 = 앞 줄이 끌린 것. 자막+0.25 까지만 미룬다
+        elif nws is None or nws - 0.1 > a[2]: b[1] = a[2] + 0.05               # 다음 줄 발성 전(또는 불확실): 시작을 미룬다
+        else: a[2] = max(a[1] + 0.6, min(b[1], nws) - 0.05)                  # 발성 중: 앞 줄을 자른다
+    if a[2] > b[1] - 0.05 and b[1] > a[1] + 0.6: a[2] = b[1] - 0.05
+    print('   경계 %d→%d: 끝 %.2f / 다음 시작 %.2f%s' % (a[0], b[0], a[2], b[1], ' (이어 부름)' if chained and ncs < pwe else ''))
 with open(os.path.join(S, 'subtitles.srt'), 'w', encoding='utf-8') as f:
-    for i, s, e, t in rows: f.write(f'{i}\n{ts(s)} --> {ts(e)}\n{t}\n\n')
+    for i, s, e, t, *_ in rows: f.write(f'{i}\n{ts(s)} --> {ts(e)}\n{t}\n\n')
