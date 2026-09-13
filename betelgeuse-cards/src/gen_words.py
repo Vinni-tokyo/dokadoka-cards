@@ -40,7 +40,7 @@ def headword_of(lemma):
 import jaconv
 
 
-READING_OVERRIDE = {'御前': 'おまえ', '御飯': 'ごはん', '御腹': 'おなか'}
+READING_OVERRIDE = {'御前': 'おまえ', '御飯': 'ごはん', '御腹': 'おなか', '何': 'なに'}
 
 
 def reading_of(headword):
