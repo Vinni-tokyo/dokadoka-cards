@@ -1,0 +1,20 @@
+# 학습 탭 개편 패치 (2026-09-13)
+
+`docs/UX_STUDY_FLOW_PLAN_2026-09-13.md` 의 P1·P2·P3 를 템플릿에 적용하는 스크립트.
+원본 템플릿(개편 전 mika-cards 계열 `src/tpl.html`)에 한 번만 적용한다. 각 치환은 정확히 1회 일치해야 하며 아니면 멈춘다.
+
+```bash
+python3 tools/study-tab/patch_study.py <앱>/src/tpl.html          # 토크쇼·애니 계열 (P1+P2)
+python3 tools/study-tab/patch_song.py  <노래앱>/src/tpl.html      # 노래 계열은 위를 먼저 적용한 뒤 (P3)
+cd <앱>/src && python3 build.py
+```
+
+적용 완료: mika-cards, firstlove-cards (2026-09-13). 나머지 앱은 템플릿 차이를 확인한 뒤 적용한다.
+
+바뀌는 것
+- 하위 탭 6 → 4 (오늘 · 복습 · 목록 · 학습법). 드릴·퀴즈는 단계·버튼에서 열리고 「돌아가기」로 복귀
+- 「오늘」 = 4단계 스테퍼. 진행은 localStorage `stages[day][n]={done,total}`, 4단계 완료 시 Day 자동 완료, 연속 학습일
+- 1·3단계는 카드 뷰 안의 세션(상단 진행 바 + 하단 「들었다·다음」), 노래 앱은 노래방 뷰 세션
+- 복습 탭 = SRS 기한 + 퀴즈 오답 + 체크한 대사
+- 모바일: 학습 탭에서 플레이어를 미니 바로, 드릴 채점·세션 버튼은 하단 고정
+- 노래 앱: 단락(절·후렴)=Day, 마디 반복 패널을 노래방 하단 한 줄로, 지금 줄 탭 = 그 줄의 마디 반복, 가사 가리기 3단

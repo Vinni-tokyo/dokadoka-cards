@@ -156,6 +156,33 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .kara-wait i.on{opacity:1}
 .kara-bar{height:4px;border-radius:4px;background:#2a3040;overflow:hidden;margin-top:auto}
 .kara-bar span{display:block;height:100%;width:0;background:#ffd166}
+/* 노래방 안의 마디 바 · 세션 바 (어두운 배경용) */
+.kara .kfix{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.kara .bars{margin:0;padding:8px 10px;border:1px solid #2c3150;background:#1d2138;border-radius:10px}
+.kara .bars .cap{color:#8d93b3;letter-spacing:.08em}
+.kara .bars .meta{color:#8d93b3;margin-left:auto;font-size:11px}
+.kara .bars .btn{background:#232838;border-color:#2f364a;color:#e9ecf5;min-height:30px;padding:4px 9px}
+.kara .bars .btn-primary{background:#4b5aa0;border-color:#4b5aa0;color:#fff}
+.kara .bars .btn:disabled{opacity:.35}
+.kara .seg{background:#14171f;padding:2px}
+.kara .seg button{color:#aab0c8;padding:5px 9px;font-size:12px;font-variant-numeric:tabular-nums}
+.kara .seg button[aria-pressed=true]{background:#4b5aa0;color:#fff;box-shadow:none}
+.kara .barlyrics{display:none}
+.kara .sessbar{background:#232838;border-color:#3a4260;color:#e9ecf5;margin-bottom:6px}
+.kara .sessbar .btn{background:#14171f;border-color:#2f364a;color:#e9ecf5}
+.kara .sessbar .bar{background:#14171f}.kara .sessbar .bar span{background:#ffd166}
+.kara .sessbar .meta{color:#aab0c8}
+.kara .kmask{align-self:flex-start;margin-bottom:4px}
+.kara .sessfoot{margin-top:0}
+.kara .sessfoot .btn{background:#232838;border-color:#2f364a;color:#e9ecf5}
+.kara .sessfoot .btn-primary{background:#4b5aa0;border-color:#4b5aa0;color:#fff}
+.kara-line{cursor:pointer}
+@media(max-width:600px){
+ #karaView .kfix{position:fixed;left:0;right:0;bottom:0;z-index:7;background:#14171f;border-top:1px solid #2c3150;padding:8px 10px calc(8px + env(safe-area-inset-bottom));margin:0;gap:6px}
+ #karaView .kara{padding-bottom:150px}
+ .kara .bars .meta{flex:1 1 100%;margin-left:0}
+ .kara .kmask{align-self:stretch}.kara .kmask button{flex:1;padding:6px 4px;font-size:11px}
+}
 @media(max-width:600px){.kara{padding:16px 14px 14px;min-height:0}.kara-now{min-height:120px}}
 
 /* ===== 감상 / watch-through ===== */
@@ -495,6 +522,72 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .dex .exj{font-size:12.5px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
 .srow .lab{display:flex;flex-direction:column;gap:4px;flex:none}
 .srow[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+
+/* ---- 학습 탭 개편: 4단계 스테퍼 · 복습 · 세션 · 미니 플레이어 · 하단 고정 바 ---- */
+.dayhead{align-items:center}
+.dayhead .dayttl{flex:1}
+.dayarr{padding:6px 8px;min-height:34px}
+.daybar{height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-top:9px;max-width:420px}
+.daybar i{display:block;height:100%;background:var(--brand);border-radius:3px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;padding:0 18px 10px}
+.bdg{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.bdg.ok{background:#e4f2ea;color:#2f7d5b;border-color:transparent}
+.bdg.acc{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.stages{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 18px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.stg{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left}
+.stg .no{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink-3)}
+.stg.done .no{background:#2f7d5b;border-color:#2f7d5b;color:#fff}
+.stg.now .no{background:var(--brand);border-color:var(--brand);color:#fff}
+.stg.now{border-color:var(--brand-line);box-shadow:0 0 0 3px var(--brand-soft)}
+.stg .ti{font-size:14px;font-weight:700;line-height:1.2}
+.stg .ti small{font-weight:400;font-size:11px;color:var(--ink-3);margin-left:5px}
+.stg .mt{font-size:11.5px;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.stg .pb{height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;margin-top:6px;max-width:170px}
+.stg .pb i{display:block;height:100%;background:var(--brand)}
+.stg .rt{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.stg .st{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.stg.done .st{color:#2f7d5b}
+.dbar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;background:var(--surface-2)}
+.dbar .t{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbar .t small{font-weight:400;color:var(--ink-3);margin-left:6px}
+.dfoot{display:flex;flex-direction:column;gap:10px}
+.rvhead{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.rvhead .meta{flex:1;min-width:0}
+.srow .src{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--brand);background:var(--brand-soft);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:2px}
+.sessbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:8px 10px;border:1px solid var(--brand-line);background:var(--brand-soft);border-radius:10px;font-size:12.5px;color:var(--brand)}
+.sessbar .bar{flex:1 0 70px;margin:0;background:var(--surface)}
+.sessbar .bar span{display:block;height:100%;background:var(--brand)}
+.sessbar b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sessbar .meta{white-space:nowrap}
+.sessfoot{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:14px}
+.sessfoot .btn{min-height:46px;justify-content:center}
+.minibar{display:none}
+.daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.daystrip .dbtn{flex:none}
+@media(max-width:600px){
+ body.mini .player-box .ratio{position:absolute;width:1px;height:1px;min-height:0;opacity:0;pointer-events:none;overflow:hidden;aspect-ratio:auto;box-shadow:none}
+ body.mini .minibar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 8px;margin-bottom:10px;font-size:12px;color:var(--ink-2)}
+ .minibar .t{flex:1;min-width:0;overflow:hidden;text-align:left;padding:0;border:0;background:none;color:var(--ink-2);font:inherit}
+ .minibar .t b{display:block;font-size:12.5px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .minibar .t span{display:block;font-size:10.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .minibar .pl{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;border:0;display:grid;place-items:center;flex:none;font-size:12px}
+ .subtabs .tab{flex:1 1 0;padding:7px 2px}
+ .stages{grid-template-columns:1fr;padding:10px 12px}
+ .stg{padding:10px 10px}
+ .daystrip{display:none}
+ .dayhead{flex-wrap:nowrap;align-items:center}
+ .dayhead #dayDone .lbl{display:none}
+ .dfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0;gap:8px}
+ .dfoot .dbtns .btn{flex:1}
+ .dplay{padding-bottom:150px}
+ .dgrade{grid-template-columns:repeat(3,1fr)}
+ .card.sess .sessfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0}
+ .card.sess{padding-bottom:96px}
+ .card.sess .opts,.card.sess .keys{display:none}
+ .rvhead .btn{flex:1 1 40%}
+ .searchrow{flex-wrap:wrap;gap:8px}.searchrow input{flex:1 1 100%;order:-1}.searchrow .ic{display:none}.searchrow .seg{flex:1 1 100%}.searchrow .seg button{flex:1}
+ .searchrow .btn{flex:1 1 40%}.searchrow .dauto{flex:1 1 40%}
+}
 </style>
 </head>
 <body>
@@ -556,6 +649,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
   <div class="stage">
    <div class="player-box">
+    <div class="minibar" id="minibar" hidden>
+     <button class="pl" id="mbToggle" title="재생 / 일시정지">▶</button>
+     <button class="t" id="mbOpen" title="영상 펼치기(카드 탭)"><b id="mbTitle">영상</b><span id="mbSub">탭하면 영상을 펼칩니다 · 学習中は小さく</span></button>
+     <span class="meta" id="mbTime">0:00</span>
+    </div>
     <div class="ratio" id="ratio"><div id="player"></div></div>
     <div class="ratio offline" id="offlineBox" hidden>
      <div>
@@ -575,6 +673,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
    <div id="cardView">
     <div class="card">
+     <div class="sessbar" id="sessbar" hidden>
+      <button class="btn btn-sm" id="sessQuit" title="학습 탭으로 / 学習タブへ"><svg class="ic"><use href="#i-x"/></svg></button>
+      <b id="sessName">1 듣기</b>
+      <div class="bar"><span id="sessBar" style="width:0"></span></div>
+      <span class="meta" id="sessPos">0 / 0</span>
+     </div>
      <div class="card-top">
       <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
        <span class="chip" id="scene">—</span>
@@ -593,28 +697,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <span class="lbl">이 장면 재생<span class="sub" lang="ja">この場面を再生</span></span></button>
       <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
        <span class="lbl">구간 반복<span class="sub" lang="ja">リピート</span></span></button>
+      <button class="btn" id="toKara" title="노래방 탭에서 이 줄의 마디를 반복"><svg class="ic"><use href="#i-sound"/></svg>
+       <span class="lbl">마디 반복<span class="sub" lang="ja">小節リピート</span></span></button>
       <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
        <span class="lbl">체크<span class="sub" lang="ja">チェック</span></span></button>
       <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
        <span class="lbl">편집<span class="sub" lang="ja">編集</span></span></button>
-     </div>
-
-     <div class="bars" id="barBox" hidden>
-      <div class="bars-head"><span class="cap">마디 반복 · 小節リピート</span><span class="meta" id="barInfo">—</span></div>
-      <div class="bars-row">
-       <div class="seg" id="barLen"><button data-v="1" aria-pressed="false">1마디</button><button data-v="2" aria-pressed="true">2마디</button><button data-v="4" aria-pressed="false">4마디</button><button data-v="8" aria-pressed="false">8마디</button></div>
-       <button class="btn btn-sm btn-primary" id="barLine"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">이 줄의 마디<span class="sub" lang="ja">この行の小節</span></span></button>
-       <button class="btn btn-sm" id="barPrev" title="이전 마디 / 前の小節">◀</button><button class="btn btn-sm" id="barNext" title="다음 마디 / 次の小節">▶</button>
-       <button class="btn btn-sm" id="barLess" title="루프 1마디 줄이기">−1마디</button><button class="btn btn-sm" id="barMore" title="루프 1마디 늘이기">＋1마디</button>
-       <button class="btn btn-sm" id="barStop" disabled>정지 · 停止</button>
-      </div>
-      <div class="bars-row">
-       <span class="cap">속도 · 速さ</span>
-       <div class="seg" id="rate"><button data-v="0.5">0.5×</button><button data-v="0.75">0.75×</button><button data-v="1" aria-pressed="true">1×</button></div>
-       <span class="cap" style="margin-left:6px">마디 시작 · 小節の頭</span>
-       <button class="btn btn-sm" id="barShiftM" title="마디 시작을 한 박 앞으로">−1박</button><button class="btn btn-sm" id="barShiftP" title="마디 시작을 한 박 뒤로">+1박</button>
-      </div>
-      <div class="barlyrics" id="barLyrics"></div>
      </div>
 
      <div class="edit" id="editBox" hidden>
@@ -680,6 +768,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-right"/></svg></button>
      </div>
 
+     <div class="sessfoot" id="sessfoot" hidden>
+      <button class="btn" id="sessA"><svg class="ic"><use href="#i-eye"/></svg>뜻 보기</button>
+      <button class="btn btn-primary" id="sessB">들었다 · 다음 ›</button>
+     </div>
+
      <div class="opts">
       <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="ja">次のカードを自動再生</span></span></label>
       <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="ja">意味を最初から表示</span></span></label>
@@ -710,17 +803,20 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div id="studyView" hidden>
     <div class="study">
      <div class="subtabs">
-      <button class="tab" id="sbDrill" aria-pressed="true"><span class="lbl">드릴<span class="sub" lang="ja">ドリル</span></span><b id="nDrill">—</b></button>
-      <button class="tab" id="sbDay" aria-pressed="false"><span class="lbl">오늘<span class="sub" lang="ja">今日</span></span><b id="nDay">—</b></button>
-      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="ja">表現</span></span><b id="nExpr">0</b></button>
-      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="ja">単語</span></span><b id="nWord">0</b></button>
-      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="ja">クイズ</span></span></button>
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="ja">今日</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbReview" aria-pressed="false"><span class="lbl">복습<span class="sub" lang="ja">復習</span></span><b id="nReview">0</b></button>
+      <button class="tab" id="sbList" aria-pressed="false"><span class="lbl">목록<span class="sub" lang="ja">一覧</span></span><b id="nList">0</b></button>
       <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / 学習の進め方">
        <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="ja">学習法</span></span></button>
      </div>
 
-     <div id="drillPane">
-      <div class="dsetup" id="dsetup">
+     <div id="drillPane" hidden>
+      <div class="dbar">
+       <button class="btn btn-sm" id="dBackBtn"><svg class="ic"><use href="#i-left"/></svg>돌아가기</button>
+       <span class="t" id="dTitle">드릴</span>
+       <button class="btn btn-sm" id="dSetBtn" aria-pressed="false">설정 ⚙</button>
+      </div>
+      <div class="dsetup" id="dsetup" hidden>
        <div class="qrow">
         <span class="cap">범위</span>
         <div class="seg" id="dScope">
@@ -728,6 +824,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
          <button data-v="V" aria-pressed="false">단어</button>
          <button data-v="A" aria-pressed="false">전부</button>
          <button data-v="D" aria-pressed="false">오늘 분량</button>
+         <button data-v="W" aria-pressed="false">복습</button>
         </div>
        </div>
        <div class="qrow">
@@ -784,6 +881,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
          <div class="exj" id="dExJ"></div>
         </div>
        </div>
+       <div class="dfoot">
        <div class="dbtns">
         <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">답 보기<span class="sub" lang="ja">答えを見る</span></span></button>
         <button class="btn" id="dContIn" data-cont="이어 듣기" data-back="채점으로"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
@@ -796,6 +894,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <button class="btn g2" id="dG2">애매<small>2</small></button>
         <button class="btn g3" id="dG3">알아<small>3</small></button>
        </div>
+       </div>
        <div class="dhint">Space 답·다음 / 1 몰라 · 2 애매 · 3 알아 / R 다시 듣기 · L 반복 듣기</div>
       </div>
 
@@ -805,11 +904,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="dbtns">
         <button class="btn btn-primary" id="dRestartMiss">틀린 것만 다시</button>
         <button class="btn" id="dRestartAll">처음부터</button>
+        <button class="btn" id="dDoneBack">돌아가기</button>
        </div>
       </div>
      </div>
 
-     <div id="dayPane" hidden>
+     <div id="dayPane">
       <div class="dayctl">
        <div class="seg" id="qPace">
         <button data-v="7" aria-pressed="false">천천히</button>
@@ -822,22 +922,19 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       </div>
 
       <div class="dayhead">
+       <button class="btn btn-sm dayarr" id="dayPrev" title="이전 Day"><svg class="ic"><use href="#i-left"/></svg></button>
        <div class="dayttl">
-        <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">8</span></i></span>
+        <span class="dno">PART <b id="dayNo">1</b><i>/<span id="dayTot">8</span></i></span>
         <h3 id="dayTitle">—</h3>
         <p class="daymeta" id="dayMeta">—</p>
+        <div class="daybar"><i id="dayBar" style="width:0"></i></div>
        </div>
-       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
+       <button class="btn btn-sm dayarr" id="dayNext" title="다음 Day"><svg class="ic"><use href="#i-right"/></svg></button>
+       <button class="btn btn-sm" id="dayDone" title="이 Day 를 끝낸 것으로 표시 / 手動で完了"><svg class="ic"><use href="#i-check"/></svg>
         <span class="lbl">완료<span class="sub" lang="ja">完了</span></span></button>
       </div>
-
-      <div class="flow">
-       <div class="flowsteps" id="steps"></div>
-       <div class="flowacts">
-        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · カードで学ぶ</button>
-        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · 今日の分で出題</button>
-       </div>
-      </div>
+      <div class="badges" id="dayBadges"></div>
+      <div class="stages" id="stages"></div>
 
       <div class="daycols">
        <div class="daycol">
@@ -855,37 +952,46 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       </div>
      </div>
 
+     <div id="reviewPane" hidden>
+      <div class="rvhead">
+       <span class="meta" id="rvInfo">—</span>
+       <button class="btn btn-primary btn-sm" id="rvDrill"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">복습 시작<span class="sub" lang="ja">復習を始める</span></span></button>
+       <button class="btn btn-sm" id="rvListen"><svg class="ic"><use href="#i-sound"/></svg>듣기만 · 聞くだけ</button>
+      </div>
+      <div class="slist" id="rvList"></div>
+     </div>
+
      <div id="guidePane" hidden>
       <div class="guide">
        <div class="gintro">
         <p class="eyebrow">How to study</p>
-        <h3>애니 한 편을 「쓸 수 있는 일본어」로 바꾸는 4단계</h3>
-        <p lang="ja">アニメ1話を「使える日本語」に変える4ステップ</p>
-        <p class="gnote">이 교재는 교과서가 아니라 <b>애니 1화의 대사와 속마음</b>입니다. 지어낸 예문에 없는 감탄사·줄임말·독백체가 들어 있습니다.
-         그래서 「읽어서 이해」만으로는 부족합니다. <b>소리와 함께 외우는</b> 것이 지름길입니다.
-         <span lang="ja">この教材は教科書ではなく<b>アニメ1話の台詞と心の声</b>です。作られた例文にはない感嘆詞・略し方・独白体が詰まっています。
-          だからこそ「読んで分かる」だけでは足りません。<b>音とセットで覚える</b>のが近道です。</span></p>
+        <h3>노래 한 곡을 「부를 수 있는 일본어」로 바꾸는 4단계</h3>
+        <p lang="ja">歌1曲を「歌える日本語」に変える4ステップ</p>
+        <p class="gnote">이 교재는 교과서가 아니라 <b>노래 가사</b>입니다. 멜로디에 실린 말은 문장보다 오래 남습니다.
+         그래서 「읽어서 이해」로 끝내지 말고 <b>따라 부를 수 있을 때까지</b> 가는 것이 목표입니다. 「오늘」 탭이 절·후렴 단위로 4단계를 안내합니다.
+         <span lang="ja">この教材は教科書ではなく<b>歌詞</b>です。メロディーに乗った言葉は文より長く残ります。
+          だから「読んで分かる」で終わらせず、<b>歌えるようになるまで</b>が目標です。「今日」タブが1番・サビの単位で4ステップを案内します。</span></p>
        </div>
        <div class="gsteps" id="gsteps"></div>
        <div class="gtips">
-        <div class="gtip"><h5>하루 20분이면 된다 · 1日20分でいい</h5>
-         <p>185개 카드를 한 번에 들어도 남지 않습니다. 「오늘」 탭이 분량을 잘라 줍니다. <b>매일 조금씩</b>이 유일한 지름길입니다.
-          <span lang="ja">185枚を一度に浴びても定着しません。「今日」タブが分量を切ってくれます。<b>毎日少しずつ</b>が唯一の近道です。</span></p></div>
-        <div class="gtip"><h5>뜻보다 소리 먼저 · 意味より先に音</h5>
-         <p>카드는 먼저 <b>뜻을 가린 채</b> 재생하세요. 못 알아들은 곳만 뜻을 열면 기억에 더 남습니다.
-          <span lang="ja">カードはまず<b>意味を隠したまま</b>再生を。聞き取れなかった所だけ意味を開くと、記憶に残りやすくなります。</span></p></div>
-        <div class="gtip"><h5>소리 내어 따라 하기 · 口に出す</h5>
-         <p>반복(<kbd>C</kbd>)으로 같은 구간을 되풀이하며 <b>소리 내어 겹쳐</b> 보세요. 억양째 따라 하는 것이 가장 효과적입니다.
-          <span lang="ja">リピート(<kbd>C</kbd>)で同じ区間を繰り返し、<b>声に出して重ねて</b>ください。抑揚ごと写すのが一番効きます。</span></p></div>
-        <div class="gtip"><h5>한자는 읽기부터 · 漢字は読みから</h5>
-         <p>처음엔 읽기(<kbd>R</kbd>)를 켜고 소리 내어 읽으세요. 익숙해지면 읽기를 끄고 <b>한자만 보고</b> 읽어 봅니다. 대본 탭도 같은 스위치로 바뀝니다.
-          <span lang="ja">最初は読み(<kbd>R</kbd>)を表示して音読を。慣れたら読みを消し、<b>漢字だけを見て</b>読んでみます。台本タブも同じスイッチで切り替わります。</span></p></div>
+        <div class="gtip"><h5>한 단락씩 · 1番ずつ</h5>
+         <p>한 곡을 한 번에 외우려 하지 마세요. 「오늘」 탭이 <b>절·후렴 단위</b>로 잘라 줍니다. 후렴부터 시작해도 좋습니다.
+          <span lang="ja">1曲を一度に覚えようとしないで。「今日」タブが<b>1番・サビの単位</b>に切ってくれます。サビから始めても構いません。</span></p></div>
+        <div class="gtip"><h5>마디로 쪼개기 · 小節で刻む</h5>
+         <p>노래방 탭에서 <b>지금 줄을 누르면 그 줄의 마디만 반복</b>됩니다. 2마디 → 4마디 → 8마디로 늘리고, 속도는 0.75× 에서 1× 로 올리세요.
+          <span lang="ja">カラオケタブで<b>今の行をタップするとその小節だけリピート</b>。2 → 4 → 8小節と伸ばし、速さは 0.75× から 1× へ。</span></p></div>
+        <div class="gtip"><h5>소리 내어 겹치기 · 声を重ねる</h5>
+         <p>듣기만 하면 늘지 않습니다. 반복되는 동안 <b>원곡 위에 목소리를 겹쳐</b> 부르세요. 음정보다 <b>박자와 발음</b>이 먼저입니다.
+          <span lang="ja">聞くだけでは伸びません。リピート中に<b>原曲に声を重ねて</b>歌ってください。音程より<b>リズムと発音</b>が先です。</span></p></div>
+        <div class="gtip"><h5>가사를 가리기 · 歌詞を隠す</h5>
+         <p>3단계는 <b>뜻 끄기 → 읽기 끄기 → 첫 글자만</b> 순으로 가립니다. 막히는 줄은 「한 번 더」로 되돌리고, 막힘 없이 부를 수 있으면 「불렀다」.
+          <span lang="ja">3ステップ目は<b>意味なし → 読みなし → 頭文字だけ</b>の順に隠します。詰まる行は「もう一度」、詰まらず歌えたら「歌えた」。</span></p></div>
+        <div class="gtip"><h5>표현은 노래 밖으로 · 表現は歌の外へ</h5>
+         <p>가사의 표현·단어는 드릴로 따로 외웁니다. 노래에서 익힌 말은 <b>회화에서도 그대로</b> 씁니다(〜がした · 〜ても · いつか).
+          <span lang="ja">歌詞の表現・単語はドリルで別に覚えます。歌で覚えた言葉は<b>会話でもそのまま</b>使えます。</span></p></div>
         <div class="gtip"><h5>틀린 것이 보물 · 間違いは宝</h5>
-         <p>퀴즈에서 틀린 항목이 그대로 복습 목록이 됩니다. <b>다음 날 맨 처음</b>에 그것만 다시 들으세요.
-          <span lang="ja">クイズで間違えた項目はそのまま復習リストになります。<b>翌日の最初</b>にそこだけ聞き直しましょう。</span></p></div>
-        <div class="gtip"><h5>반말과 정중어 · タメ口と敬語</h5>
-         <p>이츠오미는 <b>반말</b>(俺·じゃあな·「飲む？ 飲まない？」), 린은 손윗사람에게 <b>정중어</b>(よろしくお願いします), 유키의 속마음은 <b>독백체</b>(〜のかな·〜なんだ). 같은 장면에서 세 말투가 섞이는 순간에 주목하면 구분이 몸에 익습니다.
-          <span lang="ja">逸臣は<b>タメ口</b>(俺・じゃあな・「飲む？ 飲まない？」)、りんは年上に<b>敬語</b>(よろしくお願いします)、雪の心の声は<b>独白体</b>(〜のかな・〜なんだ)。同じ場面で三つの話し方が混ざる瞬間に注目すると、使い分けが体で分かります。</span></p></div>
+         <p>드릴에서 「몰라」로 채점한 항목과 체크한 줄은 「복습」 탭에 모입니다. <b>다음 날 맨 처음</b>에 그것만 다시 부르세요.
+          <span lang="ja">ドリルで「分からない」と採点した項目とチェックした行は「復習」タブに集まります。<b>翌日の最初</b>にそこだけ歌い直しましょう。</span></p></div>
        </div>
       </div>
      </div>
@@ -895,6 +1001,9 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-search"/></svg>
        <input id="sSearch" placeholder="일본어·읽기·한국어로 검색 / 日本語・読み・韓国語で絞り込み" aria-label="검색 / 検索">
        <span class="meta" id="sCount">0</span>
+       <div class="seg" id="lKind"><button data-v="A" aria-pressed="true">전부</button><button data-v="E" aria-pressed="false">표현</button><button data-v="V" aria-pressed="false">단어</button></div>
+       <button class="btn btn-sm btn-primary" id="lDrill"><svg class="ic fill"><use href="#i-play"/></svg>드릴</button>
+       <button class="btn btn-sm" id="lQuiz"><svg class="ic"><use href="#i-check"/></svg>퀴즈</button>
        <label class="dauto"><input type="checkbox" id="lWithMean" checked><span>뜻과 함께</span></label>
        <button class="btn btn-sm" id="lCont"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
        <button class="btn btn-sm" id="lAuto"><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
@@ -903,7 +1012,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      </div>
 
      <div id="quizPane" hidden>
-      <div class="qsetup" id="qsetup">
+      <div class="dbar">
+       <button class="btn btn-sm" id="qBackBtn"><svg class="ic"><use href="#i-left"/></svg>돌아가기</button>
+       <span class="t" id="qTitle">퀴즈</span>
+       <button class="btn btn-sm" id="qSetBtn" aria-pressed="false">설정 ⚙</button>
+      </div>
+      <div class="qsetup" id="qsetup" hidden>
        <div class="qrow">
         <span class="cap">출제 범위 · 出題範囲</span>
         <div class="seg" id="qScope">
@@ -996,6 +1110,15 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <label class="kara-opt"><input type="checkbox" id="karaJa" checked> 뜻 · 意味</label>
       <span class="meta" id="karaPos">—</span>
      </div>
+     <div class="sessbar" id="ksbar" hidden>
+      <button class="btn btn-sm" id="ksQuit" title="학습 탭으로 / 学習タブへ"><svg class="ic"><use href="#i-x"/></svg></button>
+      <b id="ksName">—</b>
+      <div class="bar"><span id="ksBar" style="width:0"></span></div>
+      <span class="meta" id="ksPos">0 / 0</span>
+     </div>
+     <div class="seg kmask" id="kmask" hidden>
+      <button data-v="1" aria-pressed="true" title="意味なし">뜻 끄기</button><button data-v="2" aria-pressed="false" title="読みなし">읽기 끄기</button><button data-v="3" aria-pressed="false" title="頭文字だけ">첫 글자만</button>
+     </div>
      <div class="kara-prev" id="karaPrev"></div>
      <div class="kara-now">
       <div class="kara-wait" id="karaWait" hidden></div>
@@ -1006,9 +1129,34 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      <div class="kara-next" id="karaNext"></div>
      <div class="kara-next2" id="karaNext2"></div>
      <div class="kara-bar"><span id="karaBar"></span></div>
+     <div class="kfix" id="kfix">
+      <div class="bars" id="barBox" hidden>
+       <div class="bars-row">
+        <span class="cap">길이</span>
+        <div class="seg" id="barLen"><button data-v="1" aria-pressed="false">1</button><button data-v="2" aria-pressed="true">2</button><button data-v="4" aria-pressed="false">4</button><button data-v="8" aria-pressed="false">8</button></div>
+        <span class="cap">속도</span>
+        <div class="seg" id="rate"><button data-v="0.5">0.5</button><button data-v="0.75">0.75</button><button data-v="1" aria-pressed="true">1×</button></div>
+        <button class="btn btn-sm" id="barPrev" title="이전 마디 / 前の小節">◀</button><button class="btn btn-sm" id="barNext" title="다음 마디 / 次の小節">▶</button>
+        <button class="btn btn-sm" id="barStop" disabled title="반복 정지 / 停止">■</button>
+        <button class="btn btn-sm" id="barFine" aria-pressed="false">미세 조정 ▾</button>
+        <span class="meta" id="barInfo">—</span>
+       </div>
+       <div class="bars-row" id="barFineRow" hidden>
+        <button class="btn btn-sm btn-primary" id="barLine"><svg class="ic"><use href="#i-repeat"/></svg><span class="lbl">이 줄의 마디<span class="sub" lang="ja">この行の小節</span></span></button>
+        <button class="btn btn-sm" id="barLess" title="루프 1마디 줄이기">−1마디</button><button class="btn btn-sm" id="barMore" title="루프 1마디 늘이기">＋1마디</button>
+        <span class="cap" style="margin-left:6px">마디 시작 · 小節の頭</span>
+        <button class="btn btn-sm" id="barShiftM" title="마디 시작을 한 박 앞으로">−1박</button><button class="btn btn-sm" id="barShiftP" title="마디 시작을 한 박 뒤로">+1박</button>
+       </div>
+       <div class="barlyrics" id="barLyrics"></div>
+      </div>
+      <div class="sessfoot" id="ksfoot" hidden>
+       <button class="btn" id="ksA">한 번 더</button>
+       <button class="btn btn-primary" id="ksB">불렀다 · 다음 ›</button>
+      </div>
+     </div>
     </div>
-    <div class="status">가사는 줄의 시작·끝 시각에 맞춰 왼쪽부터 채워집니다(줄 단위 등속). 줄을 누르면 그 줄부터 재생.
-     <span class="sub" lang="ja">歌詞は行の開始・終了時刻に合わせて左から塗られます(行ごとに等速)。行をタップするとそこから再生。</span></div>
+    <div class="status">가사는 줄의 시작·끝 시각에 맞춰 왼쪽부터 채워집니다. 앞·뒤 줄을 누르면 그 줄부터 재생, <b>지금 줄을 누르면 그 줄의 마디를 반복</b>합니다.
+     <span class="sub" lang="ja">歌詞は行の開始・終了時刻に合わせて左から塗られます。前後の行をタップするとそこから再生、<b>今の行をタップするとその小節をリピート</b>。</span></div>
    </div>
 
    <div id="scriptView" hidden>
@@ -1128,6 +1276,7 @@ const pool = () => $('optCap').checked ? DATA : DATA.filter(d => !isCap(d));
 function matches(d){
   if(filt === 'all') return true;
   if(filt === 'day') return dayIds.includes(d.id);
+  if(filt === 'sess') return !!sess && sess.ids.includes(d.id);
   if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
   const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
   return !!g && g.keys.includes(d.spk);
@@ -1159,11 +1308,12 @@ function buildScenes(){
   document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
 }
 function paintScenes(){
-  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  if(filt !== 'day' && filt !== 'sess' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
   [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
   if([...$('sceneSel').options].some(o => o.value === filt)) $('sceneSel').value = filt;
   let ko = '전체', ja = 'すべて';
   if(filt === 'day'){ ko = 'Day ' + dayCur + ' 대사'; ja = 'Day ' + dayCur + ' の台詞'; }
+  if(filt === 'sess' && sess){ ko = 'DAY ' + sess.day + ' · ' + (sess.stage === 1 ? '듣기' : '따라 하기'); ja = (sess.stage === 1 ? '聞く' : '真似る'); }
   if(filt.startsWith('scene:')){ const s = SCENES.find(x => x.key === filt.slice(6)); if(s){ ko = s.ko; ja = s.ja; } }
   else if(filt.startsWith('spk:')){ const g = SPK_GROUPS.find(x => x.ko === filt.slice(4)); if(g){ ko = g.ko; ja = g.ja; } }
   $('sceneTitle').innerHTML = ko + '<span class="inl" lang="ja">' + ja + '</span>';
@@ -1175,8 +1325,8 @@ function paintProgress(){
 
 /* ---------- 덱 / デッキ ---------- */
 function buildDeck(){
-  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
-  if($('optShuffle').checked){
+  deck = (filt === 'day' || filt === 'sess') ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked && filt !== 'sess'){
     for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
   }
   index = 0;
@@ -1207,8 +1357,9 @@ function showCard(){
   $('prev').disabled = index === 0;
   $('next').disabled = index === deck.length-1;
   $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
-  setReveal($('optShow').checked);
+  setReveal($('optShow').checked && !(sess && sess.stage === 1));
   highlight(d.id);
+  if(sess) sessPaint();
 }
 function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
 
@@ -1310,6 +1461,7 @@ function onAPI(){
       onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', '動画を再生できません (エラー '+e.data+')。'); },
       onStateChange: e => {
         if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', '再生中…');
+        $('mbToggle').textContent = e.data === YT.PlayerState.PLAYING ? '❚❚' : '▶';
         if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', '一時停止');
       }
     }
@@ -1377,6 +1529,7 @@ function maybeWrap(t){
 setInterval(() => {                          /* 탭이 가려져 rAF 가 멈춰도 동작하는 폴백 */
   if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
   const t = player.getCurrentTime();
+  if(!$('minibar').hidden){ $('mbTime').textContent = fmt(t); const d = deck[index]; $('mbTitle').textContent = (stopAt !== null && d) ? edited(d).ja : document.title.split(' — ')[0].split(' · ')[0]; }
   if(loopSeg && loopSeg.from != null) syncBarLyric(dispT(t));
   if(view === 'script' && follow && stopAt === null){
     const cur = deck.find(d => t >= d.s && t < d.e);
@@ -1411,7 +1564,7 @@ $('check').onclick  = () => {
   if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
   store.set('checked', [...checked]);
   $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
-  paintProgress();
+  paintProgress(); paintReview();
 };
 /* ---------- 직접 수정 / 手直し ---------- */
 function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
@@ -1538,22 +1691,32 @@ function switchView(v){
   if(v === 'kara'){ karaLast = -2; karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0); }
   if(v === 'watch'){ watchLast = -2; watchPaint(watchNowT()); }
   if(v === 'script' && deck[index]) highlight(deck[index].id);
+  paintMini();
 }
+const mqMobile = window.matchMedia('(max-width:600px)');
+function paintMini(){
+  const on = view === 'study' && mqMobile.matches && !OFFLINE;
+  document.body.classList.toggle('mini', on);
+  $('minibar').hidden = !on;
+}
+mqMobile.addEventListener('change', paintMini);
+$('mbToggle').onclick = () => { if(!(player && ready)) return; player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); };
+$('mbOpen').onclick = () => switchView('card');
 
 /* ====================== 학습 탭 / 学習タブ ====================== */
 const cardOf = id => DATA.find(c => c.id === id);
-let sKind = 'E';
+let sKind = 'A';
 
 function buildGuide(){
   const G = [
-    ['듣기', '聞く', '읽기와 뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
-     '読みと意味を隠して再生。まず耳だけで挑む。分からなくて当たり前。', '카드'],
-    ['확인', '確かめる', '읽기·뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
-     '読みと意味を開いて答え合わせ。表現・単語は例文とセットで覚える。', '표현 · 단어'],
-    ['따라 하기', '真似る', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
-     'リピートで同じ区間を繰り返し、声に出して重ねる。抑揚ごと写す。', '반복 C'],
-    ['점검', '試す', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
-     'クイズで今日の範囲だけ出題。間違いは翌日の復習リストになる。', '퀴즈']
+    ['들으며 읽기', '聞いて読む', '읽기·뜻을 켜고 단락을 한 번 듣는다. 어디서 숨을 쉬는지, 어느 말이 길게 늘어나는지 본다.',
+     '読みと意味を表示して1番を一度聞く。どこで息を継ぎ、どの言葉が伸びるかを見る。', '오늘 › 1'],
+    ['마디 따라 부르기', '小節で歌う', '줄마다 마디 반복을 걸고 소리 내어 겹친다. 2 → 4 → 8마디, 0.75 → 1×.',
+     '行ごとに小節リピートをかけて声を重ねる。2 → 4 → 8小節、0.75 → 1×。', '오늘 › 2'],
+    ['가사 가리고 부르기', '歌詞を隠す', '뜻 끄기 → 읽기 끄기 → 첫 글자만. 막힘 없이 부를 수 있으면 「불렀다」.',
+     '意味なし → 読みなし → 頭文字だけ。詰まらず歌えたら「歌えた」。', '오늘 › 3'],
+    ['표현 · 단어', '表現・単語', '가사에서 뽑은 표현·단어를 드릴로. 틀린 것은 복습 탭으로 간다.',
+     '歌詞から拾った表現・単語をドリルで。間違いは復習タブへ。', '오늘 › 4']
   ];
   const box = $('gsteps'); box.textContent = '';
   G.forEach(([ko, ja, pk, pj, tag], i) => {
@@ -1570,13 +1733,12 @@ function buildGuide(){
 }
 
 function buildStudy(){
-  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
-  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  $('nList').textContent = STUDY.length;
   renderList();
 }
 function renderList(){
   const q = $('sSearch').value.trim().toLowerCase();
-  const rows = STUDY.filter(r => r.t === sKind)
+  const rows = STUDY.filter(r => sKind === 'A' || r.t === sKind)
     .filter(r => !q || (r.ja + ' ' + r.rd + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
   $('sCount').textContent = rows.length; lRows = rows; lStop();
   const box = $('slist'); box.textContent = '';
@@ -1648,22 +1810,96 @@ function renderList(){
   });
   box.appendChild(frag);
 }
-function setSub(kind){
-  const panes = {R:'drillPane', D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
-  ['drillPane','dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
-  if(kind !== 'R') drillStopAuto();
-  if(kind !== 'E' && kind !== 'V') lStop();
-  [['sbDrill','R'],['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
-    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
-  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
-  if(kind === 'D') renderDay();
+/* 하위 탭 4개(오늘·복습·목록·학습법). 드릴·퀴즈 패널은 탭이 아니라 단계·버튼에서 열리고, 「돌아가기」는 연 곳으로 */
+const PANES = ['dayPane','reviewPane','listPane','guidePane','drillPane','quizPane'];
+let subCur = 'D', dFrom = 'D', qFrom = 'D', dStage = 0, qStage = 0;
+function showPane(id){
+  PANES.forEach(p => $(p).hidden = p !== id);
+  if(id !== 'drillPane') drillStopAuto();
+  if(id !== 'listPane') lStop();
+  if(id === 'dayPane') renderDay();
+  if(id === 'reviewPane') renderReview();
+  if(id === 'listPane') renderList();
 }
-$('sbDrill').onclick = () => setSub('R');
+function setSub(kind){
+  subCur = kind;
+  const map = {D:'dayPane', W:'reviewPane', L:'listPane', G:'guidePane'};
+  [['sbDay','D'],['sbReview','W'],['sbList','L'],['sbGuide','G']].forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  showPane(map[kind] || 'dayPane');
+}
 $('sbDay').onclick = () => setSub('D');
+$('sbReview').onclick = () => setSub('W');
+$('sbList').onclick = () => setSub('L');
 $('sbGuide').onclick = () => setSub('G');
-$('sbExpr').onclick = () => setSub('E');
-$('sbWord').onclick = () => setSub('V');
-$('sbQuiz').onclick = () => setSub('Q');
+segWire('lKind', v => { sKind = v; renderList(); });
+/* 드릴·퀴즈 열기(어디서 왔는지 기억) */
+function openDrill(from, scope, title, stage){
+  dFrom = from; dStage = stage || 0; dScope = scope; pickSeg2($('dScope'), scope);
+  if(stage){ dMode = 'fwd'; dSize = 0; pickSeg2($('dMode'), 'fwd'); pickSeg2($('dSize'), '0'); }
+  $('dTitle').textContent = title; $('dsetup').hidden = true; $('dSetBtn').setAttribute('aria-pressed', 'false');
+  dStats(); showPane('drillPane');
+  return dPool().length;
+}
+function openQuiz(from, scope, title, stage){
+  qFrom = from; qStage = stage || 0; qScope = scope; pickSeg2($('qScope'), scope);
+  if(stage){ qMode = 'ja2ko'; qLen = 10; pickSeg2($('qMode'), 'ja2ko'); pickSeg2($('qLen'), '10'); }
+  $('qTitle').textContent = title; $('qsetup').hidden = true; $('qSetBtn').setAttribute('aria-pressed', 'false');
+  $('qplay').hidden = true; $('qdone').hidden = true;
+  syncQuizUI(); showPane('quizPane');
+  return !$('qStart').disabled;
+}
+$('dBackBtn').onclick = () => { dActive = false; drillStopAuto(); dStage = 0; setSub(dFrom); };
+$('dSetBtn').onclick = () => { const o = $('dsetup').hidden; $('dsetup').hidden = !o; $('dSetBtn').setAttribute('aria-pressed', String(o)); if(o){ $('dStats').hidden = false; dStats(); } };
+$('qBackBtn').onclick = () => { qStage = 0; setSub(qFrom); };
+$('qSetBtn').onclick = () => { const o = $('qsetup').hidden; $('qsetup').hidden = !o; $('qSetBtn').setAttribute('aria-pressed', String(o)); };
+$('lDrill').onclick = () => { if(openDrill('L', sKind, '드릴 · ' + ({A:'표현·단어 전부', E:'표현 전부', V:'단어 전부'})[sKind])) dStart(false); };
+$('lQuiz').onclick = () => { if(openQuiz('L', sKind === 'A' ? 'E' : sKind, '퀴즈 · ' + ({A:'표현', E:'표현', V:'단어'})[sKind])) $('qStart').click(); };
+$('rvDrill').onclick = () => { if(openDrill('W', 'W', '복습 · 드릴')) dStart(false); };
+$('rvListen').onclick = () => { if(openDrill('W', 'W', '복습 · 듣기만')) dAutoStart(aRep()); };
+
+/* ====================== 복습 / 復習 ======================
+   SRS 기한이 된 항목 + 퀴즈 오답 + 체크한 대사(아직 채점 안 한 것)를 한 목록으로 */
+let wrongs = store.get('wrongs', []);
+const wrongKey = it => (it.t || 'S') + '|' + it.ja;
+function wrongAdd(it){ const k = wrongKey(it); if(!wrongs.includes(k)){ wrongs.push(k); store.set('wrongs', wrongs); } }
+function wrongDel(k){ const i = wrongs.indexOf(k); if(i >= 0){ wrongs.splice(i, 1); store.set('wrongs', wrongs); } }
+const sentItem = c => { const v = edited(c); return {t:'S', ja: v.ja, rd: v.rd || '', ko: v.ko, cids: [c.id], note: c.note || ''}; };
+function itemOfKey(k){
+  const at = k.indexOf('|'); if(at < 0) return null;
+  const t = k.slice(0, at), ja = k.slice(at + 1);
+  if(t === 'S'){ const c = DATA.find(c => edited(c).ja === ja); return c ? sentItem(c) : null; }
+  return STUDY.find(r => r.t === t && r.ja === ja) || null;
+}
+function reviewPool(){
+  const now = Date.now(), out = [], seen = new Set();
+  const push = (it, src) => { const k = dKey(it); if(seen.has(k)) return; seen.add(k); it.src = src; out.push(it); };
+  Object.entries(dState).forEach(([k, st]) => { if(st.due <= now){ const it = itemOfKey(k); if(it) push(it, 'SRS'); } });
+  wrongs.forEach(k => { const it = itemOfKey(k); if(it) push(it, '오답'); });
+  [...checked].forEach(id => { const c = cardOf(id); if(c && !dState['S|' + edited(c).ja]) push(sentItem(c), '체크'); });
+  return out;
+}
+function paintReview(){ const n = reviewPool().length; $('nReview').textContent = n; return n; }
+function renderReview(){
+  const rows = reviewPool(); paintReview();
+  const srs = rows.filter(r => r.src === 'SRS').length, wr = rows.filter(r => r.src === '오답').length, ck = rows.filter(r => r.src === '체크').length;
+  $('rvInfo').textContent = rows.length ? ('복습 대기 ' + rows.length + ' · 기한 ' + srs + ' · 오답 ' + wr + ' · 체크 ' + ck) : '오늘 복습할 것이 없습니다 · 復習はありません';
+  $('rvDrill').disabled = !rows.length; $('rvListen').disabled = !rows.length;
+  const box = $('rvList'); box.textContent = '';
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'ja'; k.textContent = r.ja;
+    const s = document.createElement('span'); s.className = 'src'; s.textContent = r.src; k.appendChild(s);
+    if(r.rd && r.rd !== r.ja){ const sm = document.createElement('small'); sm.textContent = r.rd; k.appendChild(sm); }
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j); el.appendChild(tx);
+    if(r.cids && r.cids.length && !OFFLINE){
+      const b = document.createElement('button'); b.className = 'btn btn-sm'; b.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+      b.onclick = () => { const c = cardOf(r.cids[0]); if(c) playSeg(c); }; el.appendChild(b);
+    }
+    box.appendChild(el);
+  });
+}
 
 /* ====================== 매일 분량 / 毎日の分量 ====================== */
 let dayPace = store.get('pace', 10);
@@ -1673,23 +1909,62 @@ let DAYS = [], dayIds = [];
 
 /* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
    (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+/* 노래는 날짜가 아니라 단락(절·후렴)으로 나눈다. 표현·단어는 첫 등장 줄이 속한 단락에 */
 function buildDays(){
-  const chunks = [];
-  for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
   const pos = new Map(DATA.map((c, i) => [c.id, i]));
   const firstAt = r => Math.min(...(r.cids || []).map(id => pos.has(id) ? pos.get(id) : 1e9), 1e9);
-  const deal = kind => {
-    const items = STUDY.filter(r => r.t === kind).sort((a, b) => firstAt(a) - firstAt(b));
-    const out = chunks.map(() => []);
-    items.forEach((r, i) => out[Math.floor(i * chunks.length / items.length)].push(r));
-    return out;
-  };
-  const E = deal('E'), V = deal('V');
-  DAYS = chunks.map((cards, i) => ({ n: i + 1, cards, expr: E[i], word: V[i] }));
+  DAYS = SCENES.map((s, i) => ({ n: i + 1, cards: DATA.filter(c => c.scene === s.key), expr: [], word: [], scene: s })).filter(d => d.cards.length);
+  DAYS.forEach((d, i) => d.n = i + 1);
+  ['E', 'V'].forEach(kind => STUDY.filter(r => r.t === kind).forEach(r => {
+    const at = firstAt(r), c = at < 1e9 ? DATA[at] : null;
+    const d = (c && DAYS.find(x => x.scene.key === c.scene)) || DAYS[0];
+    (kind === 'E' ? d.expr : d.word).push(r);
+  }));
   if(dayCur > DAYS.length) dayCur = DAYS.length;
   $('dayTot').textContent = DAYS.length;
   $('nDay').textContent = dayCur + '/' + DAYS.length;
-  $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + '日で完成';
+  $('qPace').hidden = true;
+  $('paceInfo').textContent = DATA.length + '줄 · ' + DAYS.length + '단락 · ' + DAYS.length + 'パート';
+}
+/* ---- 4단계: 듣기 → 확인 → 따라 하기 → 점검. 진행은 stages[day][n] = {done,total} ---- */
+let stages = store.get('stages', {});
+const stGet = (day, n) => ((stages[day] || {})[n]) || {done: 0, total: 0};
+const stDone = (day, n) => { const s = stGet(day, n); return s.total > 0 && s.done >= s.total; };
+function stSet(day, n, done, total){
+  stages[day] = stages[day] || {}; stages[day][n] = {done, total}; store.set('stages', stages); logToday();
+  if([1,2,3,4].every(k => stDone(day, k)) && !daysDone.has(day)){ daysDone.add(day); store.set('daysDone', [...daysDone]); }
+  if(!$('dayPane').hidden) renderDay();
+}
+const dayKeyOf = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+let studyDays = new Set(store.get('studyDays', []));
+function logToday(){ const k = dayKeyOf(new Date()); if(!studyDays.has(k)){ studyDays.add(k); store.set('studyDays', [...studyDays]); } }
+function streak(){
+  let n = 0; const d = new Date();
+  if(!studyDays.has(dayKeyOf(d))) d.setDate(d.getDate() - 1);
+  while(studyDays.has(dayKeyOf(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+/* 3단계 재료: 체크한 대사 + 오늘 표현의 예문 대사. 3장 미만이면 앞 대사로 채운다 */
+function stage3Ids(d){
+  const want = new Set();
+  d.cards.forEach(c => { if(checked.has(c.id)) want.add(c.id); });
+  d.expr.forEach(r => { if(r.ex != null && d.cards.some(c => c.id === r.ex)) want.add(r.ex); });
+  if(want.size < 3) d.cards.slice(0, 5).forEach(c => want.add(c.id));
+  return d.cards.filter(c => want.has(c.id)).map(c => c.id);
+}
+const STAGES = [
+  ['들으며 읽기', '聞いて読む', d => d.cards.length + '줄 · 읽기·뜻 보며 한 번', d => Math.max(1, Math.round((d.cards[d.cards.length - 1].e - d.cards[0].s) / 60 + 0.5))],
+  ['마디 따라 부르기', '小節で歌う', d => d.cards.length + '줄 · 줄마다 마디 반복 · 2 › 4 › 8마디', d => Math.max(2, d.cards.length)],
+  ['가사 가리고 부르기', '歌詞を隠す', d => d.cards.length + '줄 · 뜻 끄기 › 읽기 끄기 › 첫 글자만', d => Math.max(2, d.cards.length)],
+  ['표현 · 단어', '表現・単語', d => '표현 ' + d.expr.length + ' · 단어 ' + d.word.length + ' · 드릴', d => Math.max(1, Math.round((d.expr.length + d.word.length) * 0.7))]
+];
+function startStage(n){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  const s = stGet(d.n, n), resume = (s.total && s.done < s.total) ? s.done : 0;
+  if(n <= 3){ karaSessStart(n, d, resume); return; }
+  const cnt = openDrill('D', 'D', '4 표현 · 단어 · 表現・単語', 4);
+  if(!cnt){ stSet(d.n, 4, 1, 1); setSub('D'); return; }
+  dStart(false);
 }
 function renderDay(){
   const d = DAYS[dayCur - 1]; if(!d) return;
@@ -1699,10 +1974,18 @@ function renderDay(){
   const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
   $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
   const done = d.cards.filter(c => checked.has(c.id)).length;
-  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
-    + '　/　台詞 ' + d.cards.length + ' · 表現 ' + d.expr.length + ' · 単語 ' + d.word.length
-    + '　(체크함 ' + done + ')';
+  $('dayMeta').textContent = fmt(d.cards[0].s) + ' – ' + fmt(d.cards[d.cards.length - 1].e) + (done ? ' · 체크 ' + done : '');
   $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
+  $('dayPrev').disabled = dayCur <= 1; $('dayNext').disabled = dayCur >= DAYS.length;
+  const prog = [1,2,3,4].reduce((a, n) => { const s = stGet(d.n, n); return a + (s.total ? Math.min(1, s.done / s.total) : 0); }, 0) / 4;
+  $('dayBar').style.width = Math.round(prog * 100) + '%';
+
+  const bd = $('dayBadges'); bd.textContent = '';
+  const mkB = (txt, cls) => { const s = document.createElement('span'); s.className = 'bdg' + (cls ? ' ' + cls : ''); s.textContent = txt; bd.appendChild(s); };
+  const sk = streak(); if(sk) mkB('연속 ' + sk + '일 · ' + sk + '日連続', 'ok');
+  mkB('대사 ' + d.cards.length + ' · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length);
+  const rv = paintReview(); if(rv) mkB('복습 대기 ' + rv, 'acc');
+  if(daysDone.has(d.n)) mkB('DAY ' + d.n + ' 완료', 'ok');
 
   const strip = $('daystrip'); strip.textContent = '';
   DAYS.forEach(x => {
@@ -1712,17 +1995,28 @@ function renderDay(){
     b.title = 'Day ' + x.n;
     b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
     strip.appendChild(b);
+    if(x.n === dayCur) requestAnimationFrame(() => { try{ b.scrollIntoView({block: 'nearest', inline: 'center'}); }catch(e){} });
   });
 
-  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
-  const STEPS = [['듣기','聞く'], ['표현·단어','表現・単語'], ['퀴즈','クイズ'], ['복습','復習']];
-  const box = $('steps'); box.textContent = '';
-  STEPS.forEach(([ko, ja], i) => {
-    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
-    const el = document.createElement('span'); el.className = 'fstep';
-    el.innerHTML = '<b></b><span></span>';
-    el.querySelector('b').textContent = i + 1;
-    el.querySelector('span').textContent = ko + ' · ' + ja;
+  const box = $('stages'); box.textContent = '';
+  let nowSet = false;
+  STAGES.forEach(([ko, ja, metaF, minF], i) => {
+    const n = i + 1, s = stGet(d.n, n), isDone = stDone(d.n, n), started = s.done > 0 && !isDone;
+    const el = document.createElement('div'); el.className = 'stg' + (isDone ? ' done' : '');
+    const now = !isDone && !nowSet; if(now){ el.classList.add('now'); nowSet = true; }
+    el.innerHTML = '<span class="no"></span><span class="bd"><div class="ti"></div><div class="mt"></div></span><span class="rt"></span>';
+    el.querySelector('.no').textContent = isDone ? '✓' : n;
+    const ti = el.querySelector('.ti'); ti.textContent = ko;
+    const sm = document.createElement('small'); sm.lang = 'ja'; sm.textContent = ja; ti.appendChild(sm);
+    el.querySelector('.mt').textContent = metaF(d) + ' · 약 ' + minF(d) + '분';
+    if(started){ const pb = document.createElement('div'); pb.className = 'pb'; pb.innerHTML = '<i></i>';
+      pb.querySelector('i').style.width = Math.round(s.done / s.total * 100) + '%'; el.querySelector('.bd').appendChild(pb); }
+    const rt = el.querySelector('.rt');
+    if(isDone){ const st = document.createElement('span'); st.className = 'st'; st.textContent = '완료 ' + s.done + ' / ' + s.total; rt.appendChild(st); }
+    const b = document.createElement('button'); b.className = 'btn btn-sm' + (now ? ' btn-primary' : '');
+    b.textContent = isDone ? '다시' : started ? '이어서 ' + s.done + ' / ' + s.total : '시작';
+    b.onclick = () => startStage(n);
+    rt.appendChild(b);
     box.appendChild(el);
   });
 
@@ -1750,17 +2044,54 @@ function renderDay(){
   $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
   $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
 }
-function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
-function startDayQuiz(){
-  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
-  syncQuizUI();
-}
-$('dayCards').onclick = () => goDayCards();
-$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayPrev').onclick = () => { if(dayCur > 1){ dayCur--; store.set('dayCur', dayCur); renderDay(); } };
+$('dayNext').onclick = () => { if(dayCur < DAYS.length){ dayCur++; store.set('dayCur', dayCur); renderDay(); } };
 $('dayDone').onclick = () => {
   daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
   store.set('daysDone', [...daysDone]); renderDay();
 };
+
+/* ====================== 세션: 1 듣기 · 3 따라 하기 (카드 뷰 안에서) ====================== */
+let sess = null;                                  /* {stage, ids, i, day} */
+function sessStart(stage, ids, from){
+  if(!ids.length){ stSet(dayCur, stage, 1, 1); return; }
+  sess = {stage, ids, i: Math.min(from || 0, ids.length - 1), day: dayCur};
+  filt = 'sess'; buildDeck(); index = sess.i; showCard();
+  switchView('card'); sessPaint();
+  window.scrollTo({top: 0});
+  if(!OFFLINE && ready) sessPlay();
+}
+function sessPlay(){ const d = deck[index]; if(!d || OFFLINE) return; playSeg(d, {loop: sess.stage === 3}); }
+function sessPaint(){
+  const on = !!sess;
+  $('sessbar').hidden = !on; $('sessfoot').hidden = !on;
+  document.querySelector('.card').classList.toggle('sess', on);
+  if(!on) return;
+  const n = sess.ids.length; sess.i = index;
+  $('sessName').textContent = 'DAY ' + sess.day + ' · ' + (sess.stage === 1 ? '1 듣기 · 聞く' : '3 따라 하기 · 真似る');
+  $('sessPos').textContent = (index + 1) + ' / ' + n;
+  $('sessBar').style.width = Math.round(index / n * 100) + '%';
+  $('sessA').innerHTML = sess.stage === 1 ? '<svg class="ic"><use href="#i-eye"/></svg>뜻 보기 · 意味' : '<svg class="ic"><use href="#i-repeat"/></svg>한 번 더 · もう一度';
+  $('sessB').textContent = (sess.stage === 1 ? '들었다' : '따라 말했다') + (index < n - 1 ? ' · 다음 ›' : ' · 끝내기 ✓');
+}
+function sessNext(){
+  if(!sess) return;
+  const n = sess.ids.length;
+  stSet(sess.day, sess.stage, Math.min(n, index + 1), n);
+  if(index < n - 1){ index++; showCard(); sessPaint(); sessPlay(); }
+  else sessEnd();
+}
+function sessEnd(){
+  if(!sess) return;
+  stopAt = null; loopSeg = null; paintLoop();
+  if(player && ready && !OFFLINE){ try{ player.pauseVideo(); }catch(e){} }
+  sess = null; sessPaint();
+  filt = store.get('filt', 'all'); if(filt === 'sess' || filt === 'day') filt = 'all';
+  buildDeck(); switchView('study'); setSub('D');
+}
+$('sessQuit').onclick = () => sessEnd();
+$('sessA').onclick = () => { if(!sess) return; if(sess.stage === 1) setReveal($('answer').hidden); else sessPlay(); };
+$('sessB').onclick = () => sessNext();
 segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
 $('sSearch').oninput = renderList;
 
@@ -1781,13 +2112,13 @@ segWire('qMode',  v => { qMode = v; syncQuizUI(); });
 segWire('qLen',   v => { qLen = Number(v); });
 
 function quizPool(){
-  if(qScope === 'S') return DATA.map(c => ({ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'S') return DATA.map(c => ({t: 'S', ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]}));
   if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
     const d = DAYS[dayCur - 1]; if(!d) return [];
-    return [...d.expr, ...d.word].map(r => ({ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}))
-      .concat(d.cards.map(c => ({ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]})));
+    return [...d.expr, ...d.word].map(r => ({t: r.t, ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({t: 'S', ja: edited(c).ja, rd: edited(c).rd, ko: edited(c).ko, cids: [c.id]})));
   }
-  return STUDY.filter(r => r.t === qScope).map(r => ({ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}));
+  return STUDY.filter(r => r.t === qScope).map(r => ({t: r.t, ja: r.ja, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}));
 }
 function syncQuizUI(){
   const listenBtn = $('qMode').querySelector('[data-v="listen"]');
@@ -1876,6 +2207,8 @@ function answerQ(btn, choice){
 }
 function finishQ(){
   $('qplay').hidden = true; $('qdone').hidden = false;
+  qWrong.forEach(it => wrongAdd(it)); paintReview();
+  if(qStage){ stSet(dayCur, qStage, qSet.length, qSet.length); qStage = 0; }
   $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
   const pct = Math.round(qHit / qSet.length * 100);
   $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · 満点' : pct >= 80 ? '— 훌륭합니다 · よくできました'
@@ -1902,9 +2235,9 @@ function finishQ(){
   }
 }
 $('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
-$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('qQuit').onclick = () => { qStage = 0; setSub(qFrom); };
 $('rAgain').onclick = () => $('qStart').click();
-$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+$('rBack').onclick = () => setSub(qFrom);
 
 $('vidApply').onclick = () => {
   const id = parseId($('vid').value);
@@ -1986,6 +2319,7 @@ let dQueue = [], dCur = null, dRevealed = false, dKnownN = 0, dRedoN = 0, dSeen 
 function dPool(){
   const scope = dScope;
   if(scope === 'D'){ const d = (typeof DAYS !== 'undefined' && DAYS[dayCur - 1]) || null; return d ? [...d.expr, ...d.word] : []; }
+  if(scope === 'W') return reviewPool();
   return STUDY.filter(r => scope === 'A' || r.t === scope);
 }
 function dStats(){
@@ -1995,7 +2329,7 @@ function dStats(){
   $('dStats').innerHTML = '';
   [['전체', pool.length], ['오늘 복습', due], ['새 항목', fresh], ['외움', known]].forEach(([k, v]) => {
     const sp = document.createElement('span'); const b = document.createElement('b'); b.textContent = v; sp.append(b, document.createTextNode(k)); $('dStats').appendChild(sp); });
-  $('nDrill').textContent = due + fresh;
+  paintReview();
   $('dStart').disabled = pool.length === 0;
   $('dHint').textContent = pool.length ? '' : '항목이 없습니다';
 }
@@ -2050,10 +2384,13 @@ function dBuildQueue(onlyMissed){
   }
   return pool.map(it => ({it, again: 0}));
 }
+let dTotalN = 0, dGraded = new Set();
 function dStart(onlyMissed){
   dQueue = dBuildQueue(onlyMissed);
   if(!dQueue.length) return;
   dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true;
+  dTotalN = dQueue.length; dGraded = new Set();
+  if(dStage) stSet(dayCur, dStage, 0, dTotalN);
   $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
   dNext();
 }
@@ -2066,7 +2403,7 @@ function dNext(){
   if(!dQueue.length){ dFinish(); return; }
   dCur = dQueue.shift(); dRevealed = false; dSeen++;
   const it = dCur.it;
-  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
+  $('dKind').textContent = (it.t === 'E' ? '표현' : it.t === 'S' ? '대사' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
   const rd = it.rd && it.rd !== it.ja ? it.rd : '';
   $('dFront').classList.toggle('small', dMode === 'rev');
   if(dMode === 'fwd'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'ja'; $('dRd').textContent = rd; $('dRd').hidden = !rd; }
@@ -2097,6 +2434,9 @@ function dGrade(g){
   else if(g === 2){ st.lv = Math.max(0, Math.min(st.lv, 1)); st.due = now + (st.lv ? DAY : 0); dRedoN++; dQueue.splice(Math.min(6, dQueue.length), 0, {it, again: dCur.again + 1}); }
   else { st.lv = 0; st.due = now; st.miss = (st.miss || 0) + 1; dRedoN++; if(!dMissed.includes(it)) dMissed.push(it); dQueue.splice(Math.min(3, dQueue.length), 0, {it, again: dCur.again + 1}); }
   dState[k] = st; dSave();
+  if(g === 3) wrongDel(k);
+  dGraded.add(k); logToday();
+  if(dStage) stSet(dayCur, dStage, Math.min(dGraded.size, dTotalN), dTotalN);
   dNext();
 }
 function dFinish(){
@@ -2105,6 +2445,7 @@ function dFinish(){
   $('dDoneN').textContent = dKnownN;
   $('dDoneMeta').textContent = '외움 ' + dKnownN + ' · 다시 ' + dRedoN + ' · ' + dSeen;
   $('dRestartMiss').hidden = !dMissed.length;
+  if(dStage){ stSet(dayCur, dStage, dTotalN, dTotalN); }
   dStats(); $('dStats').hidden = false;
 }
 $('dStart').onclick = () => dStart(false);
@@ -2131,9 +2472,10 @@ $('dVideo').onclick = () => {
   aStopAll(); dShowEx(c, dExIdx, ids.length); playSeg(c);
 };
 $('dG1').onclick = () => dGrade(1); $('dG2').onclick = () => dGrade(2); $('dG3').onclick = () => dGrade(3);
-$('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; dStats(); };
+$('dQuit').onclick = () => { dActive = false; drillStopAuto(); dStage = 0; setSub(dFrom); };
 $('dRestartMiss').onclick = () => dStart(true);
-$('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
+$('dRestartAll').onclick = () => { $('ddone').hidden = true; dStart(false); };
+$('dDoneBack').onclick = () => { dStage = 0; setSub(dFrom); };
 /* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
 function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll();
   const bi_ = $('dContIn'); if(bi_){ bi_.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + bi_.dataset.cont; bi_.setAttribute('aria-pressed', 'false'); } $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
@@ -2142,7 +2484,7 @@ function dAutoStep(){
   if(!dQueue.length){ dFinish(); return; }
   dCur = dQueue.shift(); dRevealed = true; dSeen++;
   const it = dCur.it, rd = it.rd && it.rd !== it.ja ? it.rd : '';
-  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + ' · ' + (dQueue.length + 1);
+  $('dKind').textContent = (it.t === 'E' ? '표현' : it.t === 'S' ? '대사' : '단어') + ' · ' + (dQueue.length + 1);
   $('dFront').classList.remove('small'); $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'ja';
   $('dRd').textContent = rd; $('dRd').hidden = !rd;
   $('dBack').hidden = false; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang');
@@ -2161,7 +2503,7 @@ function dAutoStep(){
 }
 let dAutoTimes = 1;
 function dAutoStart(times){
-  if(dAutoOn){ drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; return; }
+  if(dAutoOn){ drillStopAuto(); dStage = 0; setSub(dFrom); return; }
   dAutoTimes = times;
   dQueue = dBuildQueue(false); if(!dQueue.length) return;
   dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true; dAutoOn = true;
@@ -2215,6 +2557,7 @@ document.addEventListener('keydown', e => {
   else if(e.key === 'ArrowLeft' && barAt != null){ e.preventDefault(); playBars(barAt - barLen, barLen); }
   else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+  else if(e.key === 'Enter' && sess && view === 'card'){ e.preventDefault(); sessNext(); }
 });
 
 
@@ -2322,21 +2665,28 @@ rebuildBars(); paintBars();
 /* ====================== 노래방 / カラオケ ====================== */
 function karaAt(t){ let cur = -1; for(let i = 0; i < DATA.length; i++){ if(t >= DATA[i].s) cur = i; else break; } return cur; }
 let karaLast = -2;
-function karaSet(el, d){
+function karaSet(el, d, mask){
   if(!d){ el.textContent = ''; el.onclick = null; return; }
-  el.textContent = edited(d).ja;
+  el.textContent = mask ? maskLine(edited(d).ja) : edited(d).ja;
   el.onclick = () => { if(player && ready){ player.seekTo(d.s, true); player.playVideo(); stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); paintBarLyrics(); } };
 }
 function karaPaint(t){
   const L = DATA; if(!L.length) return;
   const i = karaAt(t);
   const cur = i >= 0 ? L[i] : null, nxt = L[i + 1], nxt2 = L[i + 2], prv = i > 0 ? L[i - 1] : null;
+  if(ksess && ksess.stage === 1 && cur){
+    const p = ksess.ids.indexOf(cur.id);
+    if(p > ksess.i){ ksess.i = p; stSet(ksess.day, 1, p, ksess.ids.length); karaSessPaint(); }
+    const last = cardOf(ksess.ids[ksess.ids.length - 1]);
+    if(last && t > last.e + 0.3 && cur.id !== last.id){ stSet(ksess.day, 1, ksess.ids.length, ksess.ids.length); ksEnd(); return; }
+  }
+  const lv = (ksess && ksess.stage === 3) ? ksess.level : 0;
   if(i !== karaLast){
     karaLast = i;
     karaSet($('karaPrev'), prv);
-    if(cur){ const v = edited(cur); $('karaLine').textContent = v.ja; $('karaRd').textContent = $('karaRdOpt').checked && v.rd ? v.rd : ''; $('karaJaLine').textContent = $('karaJa').checked ? v.ko : ''; }
+    if(cur){ const v = edited(cur); $('karaLine').textContent = lv >= 3 ? maskLine(v.ja) : v.ja; $('karaRd').textContent = ($('karaRdOpt').checked && lv < 2 && v.rd) ? v.rd : ''; $('karaJaLine').textContent = ($('karaJa').checked && lv < 1) ? v.ko : ''; }
     else { $('karaLine').textContent = '♪'; $('karaRd').textContent = ''; $('karaJaLine').textContent = ''; }
-    karaSet($('karaNext'), nxt); karaSet($('karaNext2'), nxt2);
+    karaSet($('karaNext'), nxt, lv >= 3); karaSet($('karaNext2'), nxt2, lv >= 3);
     $('karaPos').textContent = cur ? (i + 1) + ' / ' + L.length + ' · ' + fmt(cur.s) : fmt(t);
     if(cur && stopAt === null){ const k = deck.findIndex(x => x.id === cur.id); if(k >= 0 && k !== index){ index = k; showCard(); } }
   }
@@ -2359,6 +2709,78 @@ $('karaPause').onclick = () => { if(player && ready){ const st = player.getPlaye
 $('karaJa').onchange = () => { karaLast = -2; karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0); };
 $('karaRdOpt').onchange = () => { karaLast = -2; karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0); };
 
+/* ====================== 노래방 세션: 1 들으며 읽기 · 2 마디 따라 부르기 · 3 가사 가리기 ====================== */
+let ksess = null;                                  /* {stage, day, ids, i, level} */
+function maskLine(s){
+  return s.split(/(\s+)/).map(tok => /^\s+$/.test(tok) ? tok : (tok.length <= 1 ? tok : tok[0] + '＿'.repeat(Math.min(tok.length - 1, 4)))).join('');
+}
+const karaNow = () => (player && ready && typeof player.getCurrentTime === 'function') ? player.getCurrentTime() : 0;
+function ksReset(){ barAt = null; stopAt = null; loopSeg = null; paintLoop(); paintBars(); paintBarLyrics(); }
+function ksPlayFrom(c){ if(!(player && ready) || !c) return; ksReset(); player.seekTo(Math.max(0, c.s - 0.3), true); player.playVideo(); }
+function karaSessStart(stage, d, from){
+  const ids = d.cards.map(c => c.id);
+  if(!ids.length){ stSet(d.n, stage, 1, 1); return; }
+  ksess = {stage, day: d.n, ids, i: Math.min(from || 0, ids.length - 1), level: Number(store.get('maskLv', 1)) || 1};
+  switchView('kara'); window.scrollTo({top: 0});
+  if(stage === 1){ $('karaRdOpt').checked = true; $('karaJa').checked = true; karaLast = -2; karaSessPaint(); ksPlayFrom(cardOf(ids[ksess.i])); }
+  else ksLine();
+}
+function ksLine(){
+  const c = cardOf(ksess.ids[ksess.i]); if(!c) return;
+  const k = deck.findIndex(x => x.id === c.id); if(k >= 0){ index = k; showCard(); }
+  karaLast = -2; karaSessPaint();
+  if(!(player && ready)) return;
+  if(BARS.length >= 2) $('barLine').click(); else playSeg(c, {loop: true});
+  karaPaint(c.s + 0.01);
+}
+function karaSessPaint(){
+  const on = !!ksess;
+  $('ksbar').hidden = !on; $('ksfoot').hidden = !on; $('kmask').hidden = !(on && ksess.stage === 3);
+  if(!on) return;
+  const n = ksess.ids.length, d = DAYS[ksess.day - 1];
+  const names = ['1 들으며 읽기 · 聞いて読む', '2 마디 따라 부르기 · 小節で歌う', '3 가사 가리기 · 歌詞を隠す'];
+  $('ksName').textContent = (d && d.scene ? d.scene.ko + ' · ' : '') + names[ksess.stage - 1];
+  $('ksPos').textContent = (ksess.i + 1) + ' / ' + n;
+  $('ksBar').style.width = Math.round(ksess.i / n * 100) + '%';
+  $('ksA').textContent = ksess.stage === 1 ? '이 줄부터 다시 · この行から' : '한 번 더 · もう一度';
+  $('ksB').textContent = (ksess.stage === 1 ? '읽었다' : '불렀다') + (ksess.i < n - 1 ? ' · 다음 ›' : ' · 끝내기 ✓');
+  [...$('kmask').querySelectorAll('button')].forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.v) === ksess.level)));
+}
+function ksNext(){
+  if(!ksess) return;
+  const n = ksess.ids.length;
+  stSet(ksess.day, ksess.stage, Math.min(n, ksess.i + 1), n);
+  if(ksess.i >= n - 1){ ksEnd(); return; }
+  ksess.i++;
+  if(ksess.stage === 1){
+    karaSessPaint();
+    const c = cardOf(ksess.ids[ksess.i]), t = karaNow();
+    if(c && (t < c.s - 1 || t > c.e + 1)) ksPlayFrom(c);
+  } else ksLine();
+}
+function ksEnd(){
+  if(!ksess) return;
+  ksReset(); if(player && ready){ try{ player.pauseVideo(); }catch(e){} }
+  ksess = null; karaSessPaint(); karaLast = -2;
+  switchView('study'); setSub('D');
+}
+$('ksQuit').onclick = () => ksEnd();
+$('ksA').onclick = () => { if(!ksess) return; if(ksess.stage === 1) ksPlayFrom(cardOf(ksess.ids[ksess.i])); else ksLine(); };
+$('ksB').onclick = () => ksNext();
+segWire('kmask', v => { if(!ksess) return; ksess.level = Number(v); store.set('maskLv', ksess.level); karaLast = -2; karaPaint(karaNow()); karaSessPaint(); });
+/* 노래방의 지금 줄을 누르면 그 줄의 마디 반복 */
+$('karaLine').onclick = () => { if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+$('toKara').onclick = () => { switchView('kara'); if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+$('barFine').onclick = () => { const o = $('barFineRow').hidden; $('barFineRow').hidden = !o; $('barFine').setAttribute('aria-pressed', String(o)); };
+document.addEventListener('keydown', e => {
+  const t = e.target;
+  if(t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if(view !== 'kara' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if(e.key === 'Enter' && ksess){ e.preventDefault(); ksNext(); }
+  else if(e.key === '['){ e.preventDefault(); $('barPrev').click(); }
+  else if(e.key === ']'){ e.preventDefault(); $('barNext').click(); }
+});
+
 /* ---------- 기동 / 起動 ---------- */
 $('optShuffle').checked = store.get('shuffle', false);
 $('optAuto').checked = store.get('auto', false);
@@ -2376,7 +2798,7 @@ $('fileNotice').hidden = !OFFLINE;
 if(OFFLINE){
   $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="ja">YouTube で開く</span>';
 }
-buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); setSub('D'); syncQuizUI(); paintMini(); loadAPI();
 
 /* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
 (function(){
