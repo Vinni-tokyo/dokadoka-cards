@@ -503,6 +503,9 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .minibar{display:none}
 .cardfoot{display:none}
 .btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
+.ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.ttsrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
+.ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
 .cue{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
 .daystrip .dbtn{flex:none}
 @media(max-width:600px){
@@ -696,6 +699,13 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <div class="answer-cap"><span>뜻 · 意味</span>
        <button class="btn btn-sm" id="hide" style="box-shadow:none;border-color:transparent;background:transparent;color:var(--ink-3)">
         <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · 隠す</button></div>
+      <div class="ttsrow">
+       <span class="cap">읽어주기 · 読み上げ</span>
+       <button class="btn btn-sm" id="ttsPlay" title="원문을 읽어 줍니다 (T)"><svg class="ic"><use href="#i-sound"/></svg>읽어주기</button>
+       <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
+       <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
+       <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
+      </div>
       <p class="ko" id="ko"></p>
       <p class="note" id="note" hidden></p>
       <div class="gloss" id="kanjiBox" hidden>
@@ -1414,6 +1424,7 @@ function stopAll(){
   stopAt = null; loopSeg = null; paintLoop();
   if(typeof barAt !== 'undefined' && barAt != null){ barAt = null; if(typeof paintBars === 'function'){ paintBars(); paintBarLyrics(); } }
   try{ player.pauseVideo(); }catch(e){}
+  aStopAll();
   $('playStatus').innerHTML = bi('정지', '停止');
 }
 function bindCue(btn, segFn){
@@ -1439,6 +1450,19 @@ function bindCue(btn, segFn){
 }
 bindCue($('play'), () => { const d = deck[index]; return d ? {seg: d} : null; });
 $('stop').onclick = stopAll;
+/* 뜻 영역의 읽어주기: 카드 원문을 로컬 음원(있으면) 또는 브라우저 음성으로. 영상은 잠시 멈춘다 */
+function ttsLine(times, rate){
+  const d = deck[index]; if(!d) return;
+  if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} }
+  const btn = times > 1 ? $('ttsRep') : rate < 1 ? $('ttsSlow') : $('ttsPlay');
+  ['ttsPlay','ttsSlow','ttsRep'].forEach(id => $(id).setAttribute('aria-pressed', 'false'));
+  btn.setAttribute('aria-pressed', 'true');
+  aPlay(edited(d).ja, times, 500, () => btn.setAttribute('aria-pressed', 'false'), 2, rate);
+}
+$('ttsPlay').onclick = () => ttsLine(1, 1);
+$('ttsSlow').onclick = () => ttsLine(1, 0.75);
+$('ttsRep').onclick  = () => ttsLine(3, 1);
+$('ttsStop').onclick = () => { aStopAll(); ['ttsPlay','ttsSlow','ttsRep'].forEach(id => $(id).setAttribute('aria-pressed', 'false')); };
 $('loop').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }
@@ -2178,15 +2202,15 @@ const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）
 const aHas = t => !!AUDIO[aKey(t)];
 let aCur = null, aSeq = 0;
 function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
-function aPlay(text, times, gap, cb, which){
+function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
   const done = () => { if(my === aSeq && cb) cb(); };
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after, rate);
   };
   step();
 }
@@ -2248,7 +2272,7 @@ if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = dLoadVoices; 
 $('dVoice').onchange = () => store.set('dvoice', $('dVoice').value);
 $('dRate').onchange = () => store.set('drate', $('dRate').value);
 $('dSpeak').onchange = () => store.set('dspeak', $('dSpeak').checked);
-function dSpeakText(text, which, cb){
+function dSpeakText(text, which, cb, rate){
   if(!('speechSynthesis' in window) || !text){ if(cb) cb(); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text.replace(/[〜～]/g, '').replace(/[（(][^）)]*[）)]/g, '').trim());
@@ -2258,7 +2282,7 @@ function dSpeakText(text, which, cb){
   if(!v) v = dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want) && /Natural|Neural|Google/i.test(x.name)) || dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want)) || null;
   if(v) u.voice = v;
   u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
-  u.rate = Number($('dRate').value) || 1;
+  u.rate = rate || Number($('dRate').value) || 1;
   let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
   u.onend = fin; u.onerror = fin;
   speechSynthesis.speak(u);
@@ -2457,6 +2481,7 @@ document.addEventListener('keydown', e => {
   else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
   else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
   else if(k === 's'){ e.preventDefault(); stopAll(); }
+  else if(k === 't'){ e.preventDefault(); if(!$('answer').hidden) ttsLine(1, 1); }
   else if(k === 'r'){ e.preventDefault(); $('optRead').checked = !$('optRead').checked; $('optRead').onchange(); }
   else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }

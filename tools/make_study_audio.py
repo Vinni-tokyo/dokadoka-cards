@@ -5,6 +5,7 @@
   사용법:  .venv/bin/python tools/make_study_audio.py <앱폴더> [<앱폴더> ...]     (예: yubisaki-cards)
            .venv/bin/python tools/make_study_audio.py --all
   옵션:    --voice ja-JP-KeitaNeural   --rate -10%   --force(기존 파일도 다시 생성)
+           --cards  카드 본문(DATA 의 원문 줄)도 만든다 — 노래 앱처럼 줄 수가 적을 때(28줄). 카드의 「읽어주기」가 쓴다
 
   항목은 빌드된 HTML 의 STUDY(또는 SERIES[].study) 에서 읽으므로 먼저 build.py 를 한 번 돌려 둔다.
   키 = 원문에서 「〜」와 괄호 주석을 뗀 문자열. 앱의 JS(aKey) 와 같은 규칙이어야 한다.
@@ -38,11 +39,14 @@ def mean_text(t):
     t = re.sub(r'\s*[·・/]\s*', ', ', t)
     return re.sub(r'\s+', ' ', t).strip(' ,')
 
-def items_of(app, field):
+def items_of(app, field, cards=False):
     htmls = [f for f in glob.glob(os.path.join(ROOT, app, '*.html'))]
     assert htmls, f'{app}: 빌드된 HTML 이 없다. 먼저 build.py 를 돌려라'
     h = open(htmls[0], encoding='utf-8').read()
     out = []
+    if cards:
+        m = re.search(r'const DATA = (\[.*?\]);', h, re.S)
+        if m: out += json.loads(m.group(1))
     m = re.search(r'const STUDY = (\[.*?\]);\s*(?:/\*|\n)', h, re.S)
     if m: out += json.loads(m.group(1))
     m = re.search(r'const SERIES = (\[.*?\]);\n', h, re.S)
@@ -54,12 +58,15 @@ def items_of(app, field):
         if k and k not in keys: keys.append(k)
     return keys
 
-async def gen(app, field, voice, rate, force, mfield=None, mvoice=None):
+async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=False):
     import edge_tts
     adir = os.path.join(ROOT, app, 'src', 'audio'); os.makedirs(adir, exist_ok=True)
     ipath = os.path.join(adir, 'index.json')
     index = json.load(open(ipath, encoding='utf-8')) if os.path.exists(ipath) else {}
     keys = items_of(app, field)
+    if cards:
+        for k in items_of(app, field, cards=True):
+            if k not in keys: keys.append(k)
     # 뜻 음원: 키는 'm:' + 뜻 문자열(akey), 읽는 텍스트는 mean_text()
     mkeys = {}
     if mfield:
@@ -99,11 +106,13 @@ def main():
     if '--voice' in args: i = args.index('--voice'); voice = args[i+1]; del args[i:i+2]
     if '--rate' in args: i = args.index('--rate'); rate = args[i+1]; del args[i:i+2]
     if '--force' in args: force = True; args.remove('--force')
+    cards = False
+    if '--cards' in args: cards = True; args.remove('--cards')
     apps = list(FAMILY) if '--all' in args else [a.strip('/') for a in args]
     if not apps: print(__doc__); sys.exit(1)
     for app in apps:
         field, dv, mfield, mv = FAMILY[app]
-        asyncio.run(gen(app, field, voice or dv, rate or '-10%', force, mfield, mv))
+        asyncio.run(gen(app, field, voice or dv, rate or '-10%', force, mfield, mv, cards))
 
 if __name__ == '__main__':
     main()
