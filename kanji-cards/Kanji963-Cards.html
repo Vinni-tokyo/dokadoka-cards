@@ -31,6 +31,10 @@ a{color:var(--accent)}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:12px;padding:3px;margin-bottom:12px}
 .seg button{padding:9px;border-radius:10px;font-weight:600;color:var(--mute)}
 .seg button[aria-pressed=true]{background:var(--card);color:var(--brand);box-shadow:0 1px 3px #0002}
+.chsize{display:flex;align-items:center;gap:10px;margin:-4px 2px 6px;font-size:13px;color:var(--mute)}
+.chsize div{display:flex;gap:6px}
+.chsize button{min-width:40px;height:30px;border-radius:15px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--mute)}
+.chsize button[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
 h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter-spacing:.03em}
 .deck{width:100%;text-align:left;display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:8px}
 .deck b{font-size:17px;color:var(--brand)}
@@ -131,11 +135,12 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="hd"><button aria-label="정보" onclick="openAbout()">ⓘ</button><div class="t">한자 카드<small>7작품 · 한자 963 · 한자어 1433</small></div><span></span></div>
  <div class="home">
   <div class="seg"><button id="mWord" aria-pressed="true" onclick="setMode('w')">단어 카드</button><button id="mKanji" aria-pressed="false" onclick="setMode('k')">한자 카드</button></div>
+  <div class="chsize"><span>한 장에</span><div id="chSizes"></div></div>
   <div id="homeList"></div>
   <div class="foot">
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="optAll" onchange="setOpt()"> 처음부터 읽기·뜻을 보인 채로 시작(1회독 분류용)</label>
    <div class="tools"><button onclick="exportJSON()">내보내기</button><label>가져오기<input type="file" accept=".json" onchange="importJSON(this)"></label><button onclick="resetAll()">진행 초기화</button></div>
-   <p>영상에서 이미 만난 한자만 모았습니다. 「급」은 이 사이트에서 나온 횟수(1급 = 20회 이상), 「장」은 50장 묶음, 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
+   <p>영상에서 이미 만난 한자만 모았습니다. 「급」은 이 사이트에서 나온 횟수(1급 = 20회 이상), 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
    자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
   </div>
  </div>
@@ -188,7 +193,8 @@ const WBY = {}; WORDS.forEach((w, i) => { w.i = i; WBY[w.w] = w; });
 // 단어의 급 = 가장 드문 한자의 급
 WORDS.forEach(w => { w.lv = Math.max(1, ...w.k.map(c => KBY[c] ? KBY[c].lv : 5)); });
 const LVDESC = {1:'20회 이상', 2:'8~19회', 3:'3~7회', 4:'2회', 5:'1회'};
-const CH = 50;
+const CH_SIZES = [10, 15, 20, 30, 50];
+const CH = () => ST.ch || 15;   // 한 장 크기(기본 15). 바꾸면 장 나누기가 달라지므로 진행 키에 크기를 포함한다
 
 // ---------- 저장 ----------
 let ST = load();
@@ -207,13 +213,13 @@ function deckItems(mode, kind, key){
 const idOf = x => x.w !== undefined ? 'w' + x.i : 'k' + x.k;
 const isWord = x => x.w !== undefined;
 function deckName(kind, key){ return kind === 'lv' ? key + '급' : kind === 'app' ? APPS[key] : '복습함'; }
-function pkey(mode, kind, key, ch){ return [mode, kind, key, ch].join(':'); }
+function pkey(mode, kind, key, ch){ return [mode, kind, key, CH(), ch].join(':'); }
 
 let cur = null;   // {mode, kind, key, ch, items(전체 장), queue(이번 회독), i, round, know:[], study:[], t0}
 function startDeck(kind, key, ch){
   if (kind === 'lv') key = +key;            // 버튼 onclick 은 문자열로 넘어온다
   const all = deckItems(ST.mode, kind, key);
-  const items = kind === 'rev' ? all : all.slice(ch * CH, ch * CH + CH);
+  const items = kind === 'rev' ? all : all.slice(ch * CH(), ch * CH() + CH());
   if (!items.length) return toast('카드가 없습니다');
   const pk = pkey(ST.mode, kind, key, ch);
   const p = ST.prog[pk];
@@ -305,7 +311,7 @@ function nextRound(){
 }
 function nextChapter(){
   const all = deckItems(cur.mode, cur.kind, cur.key);
-  const n = Math.ceil(all.length / CH);
+  const n = Math.ceil(all.length / CH());
   if (cur.ch + 1 >= n) { toast('마지막 장입니다'); return goHome(); }
   startDeck(cur.kind, cur.key, cur.ch + 1);
 }
@@ -322,6 +328,7 @@ function renderHome(){
   document.getElementById('mWord').setAttribute('aria-pressed', ST.mode === 'w');
   document.getElementById('mKanji').setAttribute('aria-pressed', ST.mode === 'k');
   document.getElementById('optAll').checked = !!ST.all;
+  document.getElementById('chSizes').innerHTML = CH_SIZES.map(n => `<button aria-pressed="${n === CH()}" onclick="setCh(${n})">${n}장</button>`).join('');
   const unit = ST.mode === 'w' ? '단어' : '자';
   let h = '<h4>급 · 이 사이트에서 나온 횟수</h4>';
   for (let lv = 1; lv <= 5; lv++) h += deckRow('lv', lv, `${lv}급`, LVDESC[lv], unit);
@@ -333,7 +340,7 @@ function renderHome(){
 }
 function deckRow(kind, key, name, desc, unit){
   if (kind === 'lv') key = +key;
-  const items = deckItems(ST.mode, kind, key); const n = Math.ceil(items.length / CH);
+  const items = deckItems(ST.mode, kind, key); const n = Math.ceil(items.length / CH());
   let done = 0, going = 0;
   for (let c = 0; c < n; c++) { const p = ST.prog[pkey(ST.mode, kind, key, c)]; if (p && p.done) done++; else if (p) going++; }
   const known = items.filter(x => ST.marks[idOf(x)] === 'know').length;
@@ -342,7 +349,7 @@ function deckRow(kind, key, name, desc, unit){
   if (open) {
     h += '<div class="chs">';
     for (let c = 0; c < n; c++) {
-      const p = ST.prog[pkey(ST.mode, kind, key, c)]; const size = Math.min(CH, items.length - c * CH);
+      const p = ST.prog[pkey(ST.mode, kind, key, c)]; const size = Math.min(CH(), items.length - c * CH());
       const cls = p ? (p.done ? 'done' : 'going') : '';
       const st = p ? (p.done ? `완료 · ${p.round}회독` : `${p.round}회독 ${p.i}/${p.queue.length}`) : `${size}${unit}`;
       h += `<button class="${cls}" onclick="event.stopPropagation();startDeck('${kind}','${key}',${c})"><b>${c + 1}장</b><small>${st}</small></button>`;
@@ -352,6 +359,7 @@ function deckRow(kind, key, name, desc, unit){
   return h;
 }
 function toggleDeck(kind, key){ openDeck = openDeck === kind + ':' + key ? null : kind + ':' + key; renderHome(); }
+function setCh(n){ ST.ch = n; save(); renderHome(); }
 function setMode(m){ ST.mode = m; openDeck = null; save(); renderHome(); }
 function setOpt(){ ST.all = document.getElementById('optAll').checked; save(); }
 function goHome(){ stopTimer(); if (cur && document.getElementById('vCard').classList.contains('on')) persist(); renderHome(); show('vHome'); }
