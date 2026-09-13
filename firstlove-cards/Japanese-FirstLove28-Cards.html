@@ -569,7 +569,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .sessfoot .btn{min-height:46px;justify-content:center}
 .minibar{display:none}
 .cardfoot{display:none}
-.btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
+.card-top .ctl{display:inline-flex;align-items:center;gap:6px;flex:none}
+.ibtn{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
+.ibtn .ic{width:15px;height:15px}
+.ibtn:hover{color:var(--brand);border-color:var(--brand-line)}
+.ibtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}.btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
 .ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
 .ttsrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
 .ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
@@ -596,8 +600,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .dfoot .dbtns .btn{flex:1}
  .dplay{padding-bottom:150px}
  .dgrade{grid-template-columns:repeat(3,1fr)}
- .cardfoot{display:grid;grid-template-columns:1fr 1.3fr 1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+ .cardfoot{display:grid;grid-template-columns:auto 1.3fr 1fr 1fr auto;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
  .cardfoot .btn{min-height:46px;justify-content:center;flex:none;padding:8px 4px;gap:4px;font-size:12.5px;white-space:nowrap}
+ .cardfoot .txt{display:none}.cardfoot #cfPrev,.cardfoot #cfNext{padding:8px 12px}
+ .playrow #play,.playrow #stop,.playrow #loop{display:none}.playrow{margin:12px 0 0}.playrow .btn{flex:1 1 100%}
+ .card .keys{display:none}
  .card:not(.sess){padding-bottom:96px}
  .card:not(.sess) .nav{display:none}
  .card.sess .cardfoot{display:none}
@@ -709,7 +716,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <span class="chip cap" id="thChip" hidden>속마음<span class="sub" lang="ja">心の声</span></span>
        <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · 編集済み</span>
       </span>
-      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+      <span class="ctl">
+       <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+       <button class="ibtn" id="check" aria-pressed="false" title="체크 / チェック"><svg class="ic"><use href="#i-check"/></svg></button>
+       <button class="ibtn" id="edit" title="편집 / 編集"><svg class="ic"><use href="#i-pencil"/></svg></button>
+      </span>
      </div>
 
      <div class="ja" id="ja" lang="ja">불러오는 중…</div>
@@ -724,10 +735,6 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <span class="lbl">구간 반복<span class="sub" lang="ja">リピート</span></span></button>
       <button class="btn" id="toKara" title="노래방 탭에서 이 줄의 마디를 반복"><svg class="ic"><use href="#i-sound"/></svg>
        <span class="lbl">마디 반복<span class="sub" lang="ja">小節リピート</span></span></button>
-      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
-       <span class="lbl">체크<span class="sub" lang="ja">チェック</span></span></button>
-      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
-       <span class="lbl">편집<span class="sub" lang="ja">編集</span></span></button>
      </div>
 
      <div class="edit" id="editBox" hidden>
@@ -802,10 +809,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      </div>
 
      <div class="cardfoot" id="cardfoot">
-      <button class="btn" id="cfPrev"><svg class="ic"><use href="#i-left"/></svg>이전</button>
+      <button class="btn" id="cfPrev"><svg class="ic"><use href="#i-left"/></svg><span class="txt">이전</span></button>
       <button class="btn btn-primary" id="cfPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생</button>
       <button class="btn" id="cfStop"><svg class="ic fill"><use href="#i-stop"/></svg>정지</button>
-      <button class="btn" id="cfNext">다음<svg class="ic"><use href="#i-right"/></svg></button>
+      <button class="btn" id="cfLoop" aria-pressed="false"><svg class="ic"><use href="#i-repeat"/></svg>반복</button>
+      <button class="btn" id="cfNext"><span class="txt">다음</span><svg class="ic"><use href="#i-right"/></svg></button>
      </div>
      <div class="sessfoot" id="sessfoot" hidden>
       <button class="btn" id="sessA"><svg class="ic"><use href="#i-eye"/></svg>뜻 보기</button>
@@ -1477,6 +1485,7 @@ function buildScript(){
 function paintLoop(){
   $('script').querySelectorAll('.lrep').forEach(b => b.setAttribute('aria-pressed', String(!!loopSeg && Number(b.closest('.line').dataset.id) === loopSeg.id)));
   $('loop').setAttribute('aria-pressed', String(!!loopSeg));
+  $('cfLoop').setAttribute('aria-pressed', String(!!loopSeg));
 }
 function highlight(id){
   [...$('script').children].forEach(el => {
@@ -1681,6 +1690,7 @@ $('cfPrev').onclick = () => $('prev').click();
 $('cfNext').onclick = () => $('next').click();
 bindCue($('cfPlay'), () => { const d = deck[index]; return d ? {seg: d} : null; });
 $('cfStop').onclick = stopAll;
+$('cfLoop').onclick = () => $('loop').click();
 $('reveal').onclick = () => setReveal(true);
 $('hide').onclick   = () => setReveal(false);
 $('prev').onclick   = () => { if(barAt != null){ playBars(barAt - barLen, barLen); return; }
