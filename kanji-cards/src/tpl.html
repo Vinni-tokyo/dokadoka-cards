@@ -244,7 +244,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="grp"><h5>음성 엔진</h5><div class="opts" id="lsEngine"></div><p class="note" id="lsEngineNote"></p></div>
   <div class="grp"><h5>화면 켜 두기</h5><div class="opts" id="lsAwake"></div><p class="note">브라우저는 5초보다 짧은 소리를 「효과음」으로 취급해 화면이 꺼지면 새로 시작하지 못하게 합니다. 학습 클립이 그에 해당하므로 <b>전원 버튼을 누르지 말고</b> 이 옵션으로 화면이 저절로 꺼지지 않게 두세요. 밝기를 최소로 내리면 배터리 부담이 적습니다.</p></div>
   <div class="startbar" style="padding:4px 0 0"><button onclick="startListen()">▶ 듣기 시작</button></div>
-  <p class="note">소리는 온라인 음성(인터넷 필요)을 재생 요소 하나에 「다음 곡」으로 이어 넣어 재생합니다(음악 앱과 같은 방식). 침묵 구간도 들리지 않는 저음으로 채워 재생이 끊기지 않게 하며, 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꿉니다.<br>더 안정적으로 들으려면 크롬 메뉴 ⋮ → 「홈 화면에 추가」로 앱처럼 설치하고 거기서 여세요. 브라우저 탭보다 백그라운드 보호를 더 받습니다.</p>
+  <p class="note">소리는 온라인 음성(인터넷 필요)으로 이어서 재생합니다. 잠금 화면·알림의 미디어 컨트롤과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다(이를 위해 들리지 않는 저음 트랙이 함께 재생됩니다). 화면은 「화면 켜 두기」로 유지하고 전원 버튼은 누르지 마세요. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꿉니다.<br>더 안정적으로 들으려면 크롬 메뉴 ⋮ → 「홈 화면에 추가」로 앱처럼 설치하고 거기서 여세요. 브라우저 탭보다 백그라운드 보호를 더 받습니다.</p>
  </div>
 </section>
 
@@ -656,7 +656,7 @@ const DIAG = [];
 function dlog(m){ const t = new Date(); DIAG.push(t.toTimeString().slice(0, 8) + ' ' + m); if (DIAG.length > 60) DIAG.shift(); }
 function showDiag(){
   const el = document.getElementById('sheet');
-  el.innerHTML = `<div class="grab" onclick="closeSheet()"></div><div class="bar"><button class="close" onclick="closeSheet()">닫기 ✕</button></div><b>듣기 진단</b><div class="rw" style="font-size:12.5px">visibility=${document.visibilityState} · mediaSession=${'mediaSession' in navigator} · standalone=${matchMedia('(display-mode: standalone)').matches} · engine=${LP ? LP.engine : '-'} · ONE=${ONE.paused ? 'paused' : 'playing'} ${ONE._url === 'tone' ? '(저음)' : (ONE._url || '').startsWith('blob') ? '(침묵)' : '(클립)'} · hidden시 마지막 재생=${DIAG.filter(l => l.includes('(hidden)')).slice(-1)[0] || '없음'}</div><div class="diag">${esc(DIAG.slice().reverse().join('\n')) || '(기록 없음)'}</div>`;
+  el.innerHTML = `<div class="grab" onclick="closeSheet()"></div><div class="bar"><button class="close" onclick="closeSheet()">닫기 ✕</button></div><b>듣기 진단</b><div class="rw" style="font-size:12.5px">visibility=${document.visibilityState} · mediaSession=${'mediaSession' in navigator} · standalone=${matchMedia('(display-mode: standalone)').matches} · engine=${LP ? LP.engine : '-'} · ONE=${ONE.paused ? 'paused' : 'playing'} · KEEP=${KEEP.paused ? 'paused' : 'playing'} · hidden시 마지막 재생=${DIAG.filter(l => l.includes('(hidden)')).slice(-1)[0] || '없음'}</div><div class="diag">${esc(DIAG.slice().reverse().join('\n')) || '(기록 없음)'}</div>`;
   document.getElementById('ov').classList.add('on'); history.pushState({sheet: 1}, '');
 }
 /* ---- 재생 엔진: 오디오 요소 하나(ONE)로 저음 킵얼라이브·학습 클립·침묵을 전부 재생한다 ----
@@ -676,10 +676,13 @@ function lsPrefetchItem(idx){
   const x = LP.items[((idx % LP.items.length) + LP.items.length) % LP.items.length];
   for (const st of scriptOf(x)) { if (st.ja !== undefined) poolGet(ttsURL(st.ja, 'ja')); else if (st.ko !== undefined) poolGet(ttsURL(st.ko, 'ko')); }
 }
-function keepAlive(on){   // 세션 시작(사용자 탭 안)과 재개 때: 저음 반복으로 재생 상태를 만든다. 곧 첫 클립이 이 요소의 곡으로 들어온다
-  if (!on) { ONE.onended = ONE.onerror = null; ONE.pause(); return; }
-  ONE.onended = ONE.onerror = null; ONE.loop = true; ONE.src = toneURL(20); ONE._url = 'tone';
-  ONE.play().then(() => dlog('ONE 재생 시작')).catch(e => dlog('ONE 시작 거부 ' + e.name));
+/* 미디어 컨트롤(잠금 화면·알림·이어폰 버튼)은 5초 이상 길이의 소리가 재생 중일 때 생긴다.
+   학습 클립은 1~3초라 자격이 없으므로, 세션 내내 들리지 않는 20Hz 저음(20초 반복)을 별도 요소 KEEP 으로 틀어 둔다 */
+const KEEP = new Audio(); KEEP.loop = true; KEEP.preload = 'auto';
+function keepAlive(on){
+  if (!on) { KEEP.pause(); return; }
+  if (!KEEP.src) KEEP.src = toneURL(20);
+  KEEP.play().then(() => dlog('KEEP 재생')).catch(e => dlog('KEEP 거부 ' + e.name));
 }
 function silenceURI(sec, tone){   // WAV 16bit mono 8kHz. tone=20Hz 저음 -40dBFS (귀·이어폰이 거의 재생 못 함), 아니면 완전 무음
   const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n * 2);
@@ -702,7 +705,7 @@ function startListen(){
     navigator.mediaSession.setActionHandler('nexttrack', lsNext); navigator.mediaSession.setActionHandler('previoustrack', lsPrev);
   }
   dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
-  if (LSO.engine === 'device') keepAlive(true);   // 기기 음성일 때만 저음으로 재생 상태를 만든다. 온라인은 첫 클립이 바로 그 역할
+  keepAlive(true);   // 미디어 컨트롤용 저음 트랙 (사용자 탭 안에서 시작)
   show('vPlay'); lsLoadItem(); lsStep();
   if (LSO.awake !== 0) wakeOn();
 }
@@ -778,7 +781,7 @@ function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast
 function lsTTS(text, lang){
   if (!('speechSynthesis' in window)) return setTimeout(lsStep, 500);
   dlog('tts ' + lang + ' ' + text.slice(0, 10) + (document.visibilityState === 'hidden' ? ' (hidden)' : ''));
-  if (ONE.paused) keepAlive(true);   // 기기 음성 동안에도 재생 상태(미디어 세션)를 유지 (멈춰 있을 때만 다시 시작)
+  if (KEEP.paused) keepAlive(true);
   const u = new SpeechSynthesisUtterance(text.replace(/[・･]/g, '、')); u.lang = lang === 'ja' ? 'ja-JP' : 'ko-KR'; u.rate = 1;
   if (lang === 'ja' && jaVoice) u.voice = jaVoice;
   u.onend = () => { if (LP && LP.playing) lsStep(); }; u.onerror = e => { dlog('tts 오류 ' + e.error); if (LP && LP.playing) setTimeout(lsStep, 300); };
@@ -806,16 +809,17 @@ function lsToggle(force){
   if (!LP) return;
   const want = force === undefined ? !LP.playing : force;
   LP.playing = want; lsPaint(want);
-  if (!want) { ONE.pause(); wakeOff(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (!want) { ONE.pause(); keepAlive(false); wakeOff(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
   if (LSO.awake !== 0) wakeOn();
   if (LP.stalled) { LP.stalled = false; return lsStep(); }
-  if (LP.engine === 'tts') { keepAlive(true); if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); return; }
-  if (ONE._url && ONE._url !== 'tone' && ONE.paused && ONE.currentTime > 0 && !ONE.ended) ONE.play().catch(() => lsStep());
+  keepAlive(true);
+  if (LP.engine === 'tts') { if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); return; }
+  if (ONE._url && ONE.paused && ONE.currentTime > 0 && !ONE.ended) ONE.play().catch(() => lsStep());
   else lsStep();
 }
 function stopListen(done){
   if (!LP) return;
-  LP.playing = false; lsInterrupt(); ONE.pause(); wakeOff(); dlog('세션 종료');
+  LP.playing = false; lsInterrupt(); ONE.pause(); keepAlive(false); wakeOff(); dlog('세션 종료');
   if (done) { document.getElementById('pStep').textContent = '끝'; document.getElementById('pPlay').innerHTML = '<span class="ic">▶</span>다시'; document.getElementById('pBar').style.width = '100%'; }
   const wasDone = done; LP = null;
   if (wasDone) { document.getElementById('pPlay').onclick = () => { startListen(); document.getElementById('pPlay').onclick = lsToggle; }; }
