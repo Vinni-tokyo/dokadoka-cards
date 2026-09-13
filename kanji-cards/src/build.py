@@ -103,6 +103,36 @@ for K in sorted(kanji.values(), key=lambda K: -K['n']):
     row['words'] = [w for w, _ in K['words'].most_common()]
     row['apps'] = [a for a in APPS if a in K['apps']]
     KOUT.append(row)
+# --- 5-1. 소리 가족(형성자): 같은 부품을 가진 한자들이 같은 음독을 낼 때 ---
+KB = {r['k']: r for r in KOUT}
+def walk_e(t):
+    for n in t:
+        yield n['e']
+        if 'c' in n: yield from walk_e(n['c'])
+has = collections.defaultdict(set)
+for r in KOUT:
+    for e in set(walk_e(r.get('tree', []))): has[e].add(r['k'])
+    has[r['k']].add(r['k'])                                   # 부품 자신이 사이트 한자면 가족에 넣는다 (反 ハン)
+cand = []
+for pc, ks in has.items():
+    if len(ks) < 2: continue
+    byon = collections.defaultdict(set)
+    for c in ks:
+        for on in KB[c].get('on', [])[:2]: byon[on].add(c)    # 주 음독 2개만
+    for on, ms in byon.items():
+        ratio = len(ms) / len(ks)
+        if len(ms) >= 2 and (ratio >= 0.4 or (len(ms) >= 3 and ratio >= 0.3)):
+            cand.append((pc, on, frozenset(ms), len(ks)))
+# 구성원이 같은 가족은 하나로: 부품은 더 구체적인 것(포함 한자 수가 적은 것), 음독은 모두 나열
+merged = {}
+for pc, on, ms, tot in sorted(cand, key=lambda f: f[3]):
+    m = merged.setdefault(ms, {'p': pc, 'on': [], 'ks': sorted(ms, key=lambda c: -KB[c]['n'])})
+    if on not in m['on']: m['on'].append(on)
+FAM = sorted(merged.values(), key=lambda f: (-len(f['ks']), f['p']))
+for i, f in enumerate(FAM):
+    for c in f['ks']: KB[c].setdefault('fam', []).append(i)
+FAMK = len({c for f in FAM for c in f['ks']})
+
 N, NW = len(KOUT), len(WOUT)
 tp = os.path.join(S, 'tpl.html')
 if os.path.exists(tp):
@@ -110,6 +140,7 @@ if os.path.exists(tp):
         .replace('/*__KANJI__*/', json.dumps(KOUT, ensure_ascii=False, separators=(',', ':')))
         .replace('/*__WORDS__*/', json.dumps(WOUT, ensure_ascii=False, separators=(',', ':')))
         .replace('/*__PARTS__*/', json.dumps(PARTS, ensure_ascii=False, separators=(',', ':')))
+        .replace('/*__FAM__*/', json.dumps(FAM, ensure_ascii=False, separators=(',', ':')))
         .replace('/*__APPS__*/', json.dumps(APPS, ensure_ascii=False))
         .replace('__N__', str(N)).replace('__NW__', str(NW)))
     for old in glob.glob(os.path.join(ROOT, 'Kanji*-Cards.html')): os.remove(old)
@@ -123,6 +154,7 @@ else:
 lv = collections.Counter(K['lv'] for K in KOUT)
 print('한자 %d · 한자어 %d · 작품 %d' % (N, NW, len(APPS)), '| 등급', dict(sorted(lv.items())))
 print('부수 %d · 획수 %d · 한국음 %d · 구성 %d · 획순 %d · 정자체 %d · 한국어 한자어 %d' % tuple(sum(1 for K in KOUT if f in K) for f in ('rad', 'strokes', 'ko', 'tree', 'paths', 'trad', 'hj')))
+print('소리 가족 %d · 포함 한자 %d · 3자 이상 %d' % (len(FAM), FAMK, sum(1 for f in FAM if len(f['ks']) >= 3)))
 print('훈음 불일치(미통일):', conflict or '없음')
 print('훈음의 음 ≠ 한국음:', eum_bad or '없음')
 print('한국음 없음:', ''.join(no_ko) or '없음')

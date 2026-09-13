@@ -124,6 +124,15 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .sheet li{cursor:pointer}.sheet li span{font-size:18px;font-weight:600}.sheet li small{display:block;color:var(--mute);font-size:12px}
 .sheet .back{color:var(--accent);font-weight:600;font-size:13.5px;margin-bottom:6px;display:inline-block}
 .sheet .src{margin-top:14px;font-size:11.5px;color:var(--mute)}
+.spk{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:15px;background:var(--soft);color:var(--brand);font-size:15px;vertical-align:middle;margin-left:6px;flex:none}
+.spk:active{background:var(--line)}
+.fam{margin-top:6px}
+.famrow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.famrow .pp{text-align:center;min-width:56px}.famrow .pp b{display:block;font-size:30px;color:var(--brand);line-height:1.1}.famrow .pp small{display:block;color:var(--accent);font-weight:700;font-size:13px}
+.famrow .ks{display:flex;flex-wrap:wrap;gap:6px}
+.famrow .ks button{font-size:20px;font-weight:600;background:var(--soft);border-radius:10px;padding:4px 9px}
+.famrow .ks button small{display:block;font-size:10.5px;color:var(--mute);font-weight:400;line-height:1.1}
+.famhint{font-size:12.5px;color:var(--mute);margin:4px 2px 10px;line-height:1.5}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;display:none;z-index:10}
 </style>
 </head>
@@ -139,6 +148,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div id="homeList"></div>
   <div class="foot">
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="optAll" onchange="setOpt()"> 처음부터 읽기·뜻을 보인 채로 시작(1회독 분류용)</label>
+   <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:6px"><input type="checkbox" id="optSpeak" onchange="setOpt()"> 뒷면을 열면 자동으로 읽어 주기(브라우저 일본어 음성)</label>
    <div class="tools"><button onclick="exportJSON()">내보내기</button><label>가져오기<input type="file" accept=".json" onchange="importJSON(this)"></label><button onclick="resetAll()">진행 초기화</button></div>
    <p>영상에서 이미 만난 한자만 모았습니다. 「급」은 이 사이트에서 나온 횟수(1급 = 20회 이상), 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
    자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
@@ -176,6 +186,12 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="startbar"><button onclick="startReview()">복습 시작</button></div>
 </section>
 
+<!-- 소리 가족 -->
+<section class="view" id="vFam">
+ <div class="hd"><button aria-label="홈" onclick="goHome()">≡</button><div class="t">소리 가족<small id="famSub"></small></div><button aria-label="닫기" onclick="goHome()">✕</button></div>
+ <div class="list" id="famList"></div>
+</section>
+
 <!-- 한자 상세 -->
 <div class="ov" id="ov" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
 <div class="toast" id="toast"></div>
@@ -186,6 +202,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 const KANJI = /*__KANJI__*/;
 const WORDS = /*__WORDS__*/;
 const PARTS = /*__PARTS__*/;
+const FAM   = /*__FAM__*/;      // 소리 가족 [{p:부품, on:[음독], ks:[한자]}]
 const APPS  = /*__APPS__*/;
 const LS = 'kanji-cards';
 const KBY = {}; KANJI.forEach(k => KBY[k.k] = k);
@@ -261,9 +278,9 @@ function wordFace(w){
   const ex = w.ex; const stem = w.w.replace(/[ぁ-ん]+$/, '');
   const ja = esc(ex.ja).replace(stem ? new RegExp(esc(stem).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) : /$^/, m => `<mark>${m}</mark>`);
   const link = `../${ex.app}/${ex.page}#c${ex.id}`;
-  return `<div class="rd" lang="ja">${esc(w.rd)}</div><div class="big" lang="ja">${esc(w.w)}</div><div class="ko">${esc(w.ko)}</div>
+  return `<div class="rd" lang="ja">${esc(w.rd)}<button class="spk" onclick="event.stopPropagation();speak(${JSON.stringify(w.rd)})" aria-label="읽기 듣기">🔊</button></div><div class="big" lang="ja">${esc(w.w)}</div><div class="ko">${esc(w.ko)}</div>
   <div class="kl">${w.k.map(kline).join('')}</div>
-  <div class="ex"><a href="${link}" onclick="event.stopPropagation()" title="이 대사가 나온 장면 재생">▶ 장면</a><div class="ja" lang="ja">${ja}</div><div class="k">${esc(ex.ko)} · ${esc(APPS[ex.app])}</div></div>
+  <div class="ex"><a href="${link}" onclick="event.stopPropagation()" title="이 대사가 나온 장면 재생">▶ 장면</a><button class="spk" style="float:right;margin:0" onclick="event.stopPropagation();speak(${JSON.stringify(ex.ja)})" aria-label="대사 듣기">🔊</button><div class="ja" lang="ja">${ja}</div><div class="k">${esc(ex.ko)} · ${esc(APPS[ex.app])}</div></div>
   <div class="tip">화면을 누르면 읽기·뜻이 열립니다</div>`;
 }
 function kanjiFace(k){
@@ -279,9 +296,21 @@ function kanjiFace(k){
 function yomi(k){
   const on = (k.on || []).join('・'), kun = (k.kun || []).slice(0, 4).join('・');
   if (!on && !kun) return '';
-  return `<div class="yomi" lang="ja">${on ? `<span><em>음독</em>${esc(on)}</span>` : ''}${kun ? `<span class="kun"><em>훈독</em>${esc(kun)}</span>` : ''}</div>`;
+  const say = [...(k.on || []), ...(k.kun || []).slice(0, 4)].join('、');
+  return `<div class="yomi" lang="ja">${on ? `<span><em>음독</em>${esc(on)}</span>` : ''}${kun ? `<span class="kun"><em>훈독</em>${esc(kun)}</span>` : ''}<button class="spk" onclick="event.stopPropagation();speak(${JSON.stringify(say)})" aria-label="읽기 듣기">🔊</button></div>`;
 }
-function flip(){ revealed = !revealed; document.getElementById('cBody').classList.toggle('hid', !revealed); }
+function flip(){ revealed = !revealed; document.getElementById('cBody').classList.toggle('hid', !revealed); if (revealed && ST.speak) autoSpeak(); }
+function autoSpeak(){ const x = curItem(); if (!x) return; speak(isWord(x) ? x.rd : [...(x.on || []), ...(x.kun || []).slice(0, 2)].join('、')); }
+// ---------- 듣기 (브라우저 TTS) ----------
+let jaVoice = null;
+function pickVoice(){ const vs = speechSynthesis.getVoices(); jaVoice = vs.find(v => /^ja/i.test(v.lang) && /Google|Kyoko|O-ren|Otoya|Nanami|Keita|Ayumi|Haruka|Ichiro/i.test(v.name)) || vs.find(v => /^ja/i.test(v.lang)) || null; }
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text){
+  if (!('speechSynthesis' in window)) return toast('이 브라우저는 음성을 지원하지 않습니다');
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text); u.lang = 'ja-JP'; u.rate = 0.9; if (jaVoice) u.voice = jaVoice;
+  speechSynthesis.speak(u);
+}
 function mark(how){
   const x = curItem(); const id = idOf(x);
   (how === 'know' ? cur.know : cur.study).push(id);
@@ -327,13 +356,14 @@ let openDeck = null;
 function renderHome(){
   document.getElementById('mWord').setAttribute('aria-pressed', ST.mode === 'w');
   document.getElementById('mKanji').setAttribute('aria-pressed', ST.mode === 'k');
-  document.getElementById('optAll').checked = !!ST.all;
+  document.getElementById('optAll').checked = !!ST.all; document.getElementById('optSpeak').checked = !!ST.speak;
   document.getElementById('chSizes').innerHTML = CH_SIZES.map(n => `<button aria-pressed="${n === CH()}" onclick="setCh(${n})">${n}장</button>`).join('');
   const unit = ST.mode === 'w' ? '단어' : '자';
   let h = '<h4>급 · 이 사이트에서 나온 횟수</h4>';
   for (let lv = 1; lv <= 5; lv++) h += deckRow('lv', lv, `${lv}급`, LVDESC[lv], unit);
   h += '<h4>작품</h4>';
   for (const a in APPS) h += deckRow('app', a, APPS[a], '', unit);
+  h += `<h4>소리 가족 · 같은 부품 = 같은 음</h4><button class="deck wk" onclick="openFam()"><span class="m">소리 가족 ${FAM.length}개<small>反 → 返·飯·板·版 전부 ハン. 부품으로 읽기를 추론하는 연습</small></span><span class="p"><b>${FAM.reduce((a, f) => a + f.ks.length, 0)}자</b></span></button>`;
   const rev = deckItems(ST.mode, 'rev').length;
   h += `<h4>복습</h4><button class="deck wk" onclick="openReview()"><span class="m">복습함<small>「공부하겠음」 누른 카드</small></span><span class="p"><b>${rev}${unit}</b></span></button>`;
   document.getElementById('homeList').innerHTML = h;
@@ -361,7 +391,7 @@ function deckRow(kind, key, name, desc, unit){
 function toggleDeck(kind, key){ openDeck = openDeck === kind + ':' + key ? null : kind + ':' + key; renderHome(); }
 function setCh(n){ ST.ch = n; save(); renderHome(); }
 function setMode(m){ ST.mode = m; openDeck = null; save(); renderHome(); }
-function setOpt(){ ST.all = document.getElementById('optAll').checked; save(); }
+function setOpt(){ ST.all = document.getElementById('optAll').checked; ST.speak = document.getElementById('optSpeak').checked; save(); }
 function goHome(){ stopTimer(); if (cur && document.getElementById('vCard').classList.contains('on')) persist(); renderHome(); show('vHome'); }
 function show(id){ document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === id)); window.scrollTo(0, 0); }
 
@@ -394,6 +424,7 @@ function openSheet(c, push){
    <div class="so">${strokeSVG(k)}<button aria-label="획순 재생" onclick="animateStrokes(this.parentNode)">▶</button></div></div>
   ${yomi(k).replace('class="yomi"', 'class="yomi" style="justify-content:flex-start;margin-top:10px"')}
   ${tree.length ? `<div class="rw"><em>구성</em>${chips}</div>${deeper ? `<div class="rw"><em></em>${deeper}</div>` : ''}` : '<div class="rw"><em>구성</em><span class="sub2">단일체</span></div>'}
+  ${(k.fam || []).map(i => { const f = FAM[i]; return `<div class="rw"><em>소리<br>가족</em><span class="chip rad" style="outline:none;background:var(--accent);color:#fff"><span lang="ja">${esc(f.p)}</span><small>${esc(f.on.join('・'))}</small></span><span class="sub2">${f.ks.filter(c => c !== k.k).map(c => `<span class="chip on sm" onclick="openSheet('${c}')">${c}</span>`).join('')}</span><button class="spk" onclick="speak(${JSON.stringify(f.on[0])})">🔊</button></div>`; }).join('')}
   ${k.hj ? `<div class="rw"><em>한국어</em>${k.hj.map(esc).join(' · ')}</div>` : ''}
   <div class="rw"><em>사이트</em>${k.n}회 · ${k.apps.length}작품 · ${k.lv}급 · ${k.apps.map(a => esc(APPS[a])).join(' · ')}</div>
   <ul>${ws.map(w => `<li onclick="closeSheet();jumpWord(${w.i})"><span lang="ja">${esc(w.w)}</span><small>${esc(w.rd)} · ${esc(w.ko)}</small></li>`).join('')}</ul>
@@ -409,7 +440,7 @@ function chip(n, small){
 }
 function backSheet(){ const p = sheetStack.pop(); if (p) openSheet(p, false); }
 function closeSheet(){ document.getElementById('ov').classList.remove('on'); sheetStack.length = 0; }
-function jumpWord(i){ const w = WORDS[i]; toast(w.w + ' ' + w.rd + ' · ' + w.ko); }
+function jumpWord(i){ const w = WORDS[i]; speak(w.rd); toast(w.w + ' ' + w.rd + ' · ' + w.ko); }
 function strokeSVG(k){
   if (!k.paths) return '<svg viewBox="0 0 109 109"></svg>';
   return `<svg viewBox="0 0 109 109">${k.paths.map(d => `<path d="${d}"/>`).join('')}</svg>`;
@@ -419,6 +450,12 @@ function animateStrokes(box){
   ps.forEach(p => { const L = p.getTotalLength(); p.style.transition = 'none'; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
   ps.forEach((p, i) => setTimeout(() => { p.style.transition = 'stroke-dashoffset .35s linear'; p.style.strokeDashoffset = 0; }, 80 + i * 420));
   setTimeout(() => ps.forEach(p => { p.style.transition = 'none'; p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; }), 80 + ps.length * 420 + 400);
+}
+function openFam(){
+  document.getElementById('famSub').textContent = FAM.length + '가족 · 한자 ' + FAM.reduce((a, f) => a + f.ks.length, 0) + '자';
+  document.getElementById('famList').innerHTML = '<p class="famhint">형성자는 「뜻 부품 + 소리 부품」으로 되어 있어, 소리 부품이 같으면 음독도 같은 경우가 많습니다. 부품 하나를 알면 처음 보는 한자도 읽을 수 있습니다. 한자를 누르면 상세, 🔊 는 음독 듣기.</p>' +
+    FAM.map((f, i) => `<div class="famrow"><div class="pp"><b lang="ja">${esc(f.p)}</b><small>${esc(f.on.join('・'))}</small><button class="spk" style="margin:4px 0 0" onclick="speak(${JSON.stringify(f.on[0])})">🔊</button></div><div class="ks">${f.ks.map(c => `<button lang="ja" onclick="openSheet('${c}')">${c}<small>${esc(KBY[c].hun)}</small></button>`).join('')}</div></div>`).join('');
+  show('vFam');
 }
 function openAbout(){ document.querySelector('.foot').scrollIntoView({behavior: 'smooth'}); }
 
