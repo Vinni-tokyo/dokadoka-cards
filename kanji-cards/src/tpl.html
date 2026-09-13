@@ -670,7 +670,24 @@ function pocketPaint(){
 (() => { const pk = document.getElementById('pocket'); const start = e => { e.preventDefault(); clearTimeout(pkTimer); pkTimer = setTimeout(pocketOff, 2000); }; const end = () => clearTimeout(pkTimer);
   pk.addEventListener('touchstart', start, {passive: false}); pk.addEventListener('touchend', end); pk.addEventListener('touchcancel', end);
   pk.addEventListener('mousedown', start); pk.addEventListener('mouseup', end); pk.addEventListener('contextmenu', e => e.preventDefault()); })();
-let pl = new Audio(), pl2 = new Audio(); pl.preload = pl2.preload = 'auto';   // 둘을 번갈아 써서 다음 클립을 미리 받아 둔다
+let pl = new Audio();   // 지금 재생 중인 요소
+/* 클립 풀: 현재 카드와 다음 카드의 클립을 화면이 켜져 있는 동안 전부 미리 받아 둔다.
+   화면이 꺼지면 안드로이드가 네트워크를 미뤄 새 클립을 못 받을 수 있기 때문 */
+const POOL = new Map();
+function poolGet(url){
+  let a = POOL.get(url);
+  if (!a) { a = new Audio(); a.preload = 'auto'; a.src = url; a._url = url; a.load(); POOL.set(url, a); }
+  else { POOL.delete(url); POOL.set(url, a); }          // 최근 사용 순으로
+  while (POOL.size > 24) { const k = POOL.keys().next().value; const old = POOL.get(k); if (old !== pl) { old.removeAttribute('src'); POOL.delete(k); } else break; }
+  return a;
+}
+function stepURL(st){ if (st.pause !== undefined) return silenceURI(st.pause); if (st.ja !== undefined) return ttsURL(st.ja, 'ja'); if (st.ko !== undefined) return ttsURL(st.ko, 'ko'); return null; }
+const SIL = {}; const silenceCached = sec => SIL[sec] || (SIL[sec] = silenceURI(sec));
+function lsPrefetchItem(idx){
+  if (!LP || !LP.items.length) return;
+  const x = LP.items[((idx % LP.items.length) + LP.items.length) % LP.items.length];
+  for (const st of scriptOf(x)) { if (st.show) continue; const u = st.pause !== undefined ? silenceCached(st.pause) : stepURL(st); if (u) poolGet(u); }
+}
 /* 유튜브처럼 화면이 꺼져도 살아 있으려면 「끊기지 않는 소리 하나」가 계속 재생 중이어야 한다.
    짧은 클립 사이의 빈틈에서 안드로이드가 페이지를 재우므로, 세션 내내 반복되는 무음 트랙을 같이 틀어 둔다 */
 let keep = null;
@@ -709,6 +726,7 @@ function lsLoadItem(){
   document.getElementById('pAns').className = 'ans hide';
   document.getElementById('pBar').style.width = (LP.i / LP.items.length * 100) + '%';
   if ('mediaSession' in navigator) try { navigator.mediaSession.metadata = new MediaMetadata({title: isWord(x) ? x.w + '  ' + x.rd : x.k + '  ' + x.hun, artist: '한자 카드 · 듣기', album: document.getElementById('pTitle').firstChild.textContent}); } catch(e){}
+  lsPrefetchItem(LP.i); lsPrefetchItem(LP.i + 1);
   const id = idOf(x); ST.heard = ST.heard || {}; ST.heard[id] = (ST.heard[id] || 0) + 1;
   if (ST.heardDay !== today()) { ST.heardDay = today(); ST.heardIds = []; }
   if (!ST.heardIds.includes(id)) ST.heardIds.push(id);
@@ -727,7 +745,7 @@ function lsStep(){
   }
   document.getElementById('pMeta').textContent = fmt(Math.floor((Date.now() - LP.t0) / 1000)) + (LSO.stop ? ' / ' + LSO.stop + '분' : '');
   if (LSO.stop && Date.now() - LP.t0 > LSO.stop * 60000 && LP.si <= 1) { toast('자동 종료'); return stopListen(true); }
-  if (st.pause !== undefined) return lsPlay(silenceURI(st.pause), null);
+  if (st.pause !== undefined) return lsPlay(silenceCached(st.pause), null);
   const lang = st.ja !== undefined ? 'ja' : 'ko'; const text = st.ja !== undefined ? st.ja : st.ko;
   if (LP.engine === 'tts') return lsTTS(text, lang);
   lsPlay(ttsURL(text, lang), {text, lang});
@@ -736,8 +754,8 @@ function lsPlay(url, tts){
   const cur = LP; cur.lastAt = Date.now(); cur.stalled = false;
   dlog((tts ? tts.lang + ' ' + tts.text.slice(0, 12) : '무음') + (document.visibilityState === 'hidden' ? ' (hidden)' : ''));
   pl.onended = pl.onerror = null;
-  if (pl2._url === url) { const t = pl; pl = pl2; pl2 = t; }        // 미리 받아 둔 것이 있으면 교대
-  else { pl.src = url; pl._url = url; }
+  pl = poolGet(url); cur.el = pl;
+  pl.currentTime = 0;
   pl.onended = () => { if (LP === cur && cur.playing) lsStep(); };
   pl.onerror = () => { dlog('onerror ' + (pl.error ? pl.error.code : '')); if (LP !== cur || !cur.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
   const tryPlay = (n) => pl.play().catch(err => {
@@ -748,17 +766,6 @@ function lsPlay(url, tts){
     if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else lsStep();
   });
   tryPlay(0);
-  lsPrefetch();
-}
-function lsPrefetch(){   // 다음 말하기 단계의 클립을 대기 요소에 미리 받아 둔다 (화면이 꺼진 뒤 네트워크 지연·차단을 피한다)
-  if (!LP) return;
-  for (let j = LP.si; j < LP.steps.length; j++) {
-    const st = LP.steps[j]; if (st.show) continue;
-    if (st.pause !== undefined) return;
-    const url = ttsURL(st.ja !== undefined ? st.ja : st.ko, st.ja !== undefined ? 'ja' : 'ko');
-    if (pl2._url !== url) { pl2.src = url; pl2._url = url; pl2.load(); }
-    return;
-  }
 }
 function lsPaint(playing){ document.getElementById('pPlay').innerHTML = playing ? '<span class="ic">⏸</span>일시정지' : '<span class="ic">▶</span>재생'; if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; }
 /* 화면이 다시 켜지거나 앱으로 돌아왔을 때, 그리고 주기적으로: 재생 중이어야 하는데 멈춰 있으면 되살린다 */
