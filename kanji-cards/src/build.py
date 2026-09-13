@@ -124,10 +124,23 @@ for pc, ks in has.items():
         if len(ms) >= 2 and (ratio >= 0.4 or (len(ms) >= 3 and ratio >= 0.3)):
             cand.append((pc, on, frozenset(ms), len(ks)))
 # 구성원이 같은 가족은 하나로: 부품은 더 구체적인 것(포함 한자 수가 적은 것), 음독은 모두 나열
+import unicodedata
+def base_on(on):   # 청탁음 통일: ボウ→ホウ, ガ→カ (탁점·반탁점 제거)
+    return ''.join(ch for ch in unicodedata.normalize('NFD', on) if ch not in '\u3099\u309a')
+# 1) 부품+기본음이 같으면 한 가족으로 합친다(방/보우 청탁 짝). 2) 구성원이 같은 가족은 더 구체적인 부품 하나만 남긴다
+byfam = {}
+for pc, on, ms, tot in cand:
+    f = byfam.setdefault((pc, base_on(on)), {'p': pc, 'on': [], 'ks': set(), 'tot': tot})
+    if on not in f['on']: f['on'].append(on)
+    f['ks'] |= ms
 merged = {}
-for pc, on, ms, tot in sorted(cand, key=lambda f: f[3]):
-    m = merged.setdefault(ms, {'p': pc, 'on': [], 'ks': sorted(ms, key=lambda c: -KB[c]['n'])})
-    if on not in m['on']: m['on'].append(on)
+for f in sorted(byfam.values(), key=lambda f: f['tot']):
+    key = frozenset(f['ks'])
+    if key in merged:
+        for on in f['on']:
+            if on not in merged[key]['on']: merged[key]['on'].append(on)
+        continue
+    merged[key] = {'p': f['p'], 'on': f['on'], 'ks': sorted(f['ks'], key=lambda c: -KB[c]['n'])}
 FAM = sorted(merged.values(), key=lambda f: (-len(f['ks']), f['p']))
 for i, f in enumerate(FAM):
     for c in f['ks']: KB[c].setdefault('fam', []).append(i)
