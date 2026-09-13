@@ -80,6 +80,11 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .kb .ws{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;margin-top:6px}
 .kb .ws span{font-size:15px}.kb .ws small{color:var(--mute);font-size:12px;margin-left:3px}
 .more{display:inline-block;margin-top:8px;color:var(--accent);font-weight:600;font-size:13.5px}
+.ctl{display:flex;gap:8px;padding:4px 14px 0;flex:none}
+.ctl button{flex:1;height:44px;border-radius:22px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--brand);display:flex;align-items:center;justify-content:center;gap:6px}
+.ctl button[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.ctl button:active{background:var(--soft)}
+.ctl .ic{font-size:17px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 14px calc(14px + env(safe-area-inset-bottom));flex:none}
 .btns button{height:64px;border-radius:32px;font-size:19px;font-weight:700;color:#fff;box-shadow:0 4px 0 #0002}
 .btns button:active{transform:translateY(2px);box-shadow:0 2px 0 #0002}
@@ -149,6 +154,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="foot">
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="optAll" onchange="setOpt()"> 처음부터 읽기·뜻을 보인 채로 시작(1회독 분류용)</label>
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:6px"><input type="checkbox" id="optSpeak" onchange="setOpt()"> 뒷면을 열면 자동으로 읽어 주기(브라우저 일본어 음성)</label>
+   <div class="tools" style="align-items:center"><button onclick="speak('かえす。こんにちは。')">🔊 음성 테스트</button><span id="voiceInfo" style="font-size:12px;color:var(--mute)"></span></div>
    <div class="tools"><button onclick="exportJSON()">내보내기</button><label>가져오기<input type="file" accept=".json" onchange="importJSON(this)"></label><button onclick="resetAll()">진행 초기화</button></div>
    <p>영상에서 이미 만난 한자만 모았습니다. 「급」은 이 사이트에서 나온 횟수(1급 = 20회 이상), 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
    자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
@@ -162,6 +168,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="sub"><span id="cNo">no.1</span><span>공부시간 <b id="cTime">00분00초</b></span></div>
  <div class="card">
   <div class="body hid" id="cBody" onclick="flip()"></div>
+  <div class="ctl" id="cCtl"></div>
   <div class="btns"><button class="no" onclick="mark('study')"><span>?</span>공부하겠음</button><button class="ok" onclick="mark('know')">✓ 알고있음</button></div>
  </div>
 </section>
@@ -267,6 +274,10 @@ function showCard(){
   const b = document.getElementById('cBody');
   b.innerHTML = isWord(x) ? wordFace(x) : kanjiFace(x);
   b.classList.toggle('hid', !revealed);
+  document.getElementById('cCtl').innerHTML = isWord(x)
+    ? `<button onclick="speak(${JSON.stringify(x.rd)})"><span class="ic">🔊</span>읽기</button><button onclick="speak(${JSON.stringify(x.ex.ja)})"><span class="ic">🔊</span>대사</button><button aria-pressed="${!!ST.speak}" onclick="toggleAuto(this)"><span class="ic">🔁</span>자동</button>`
+    : `<button onclick="speak(${JSON.stringify((x.on || []).join('、') || yomiSay(x))})"><span class="ic">🔊</span>음독</button><button onclick="speak(${JSON.stringify((x.kun || []).slice(0, 4).join('、') || yomiSay(x))})"><span class="ic">🔊</span>훈독</button><button aria-pressed="${!!ST.speak}" onclick="toggleAuto(this)"><span class="ic">🔁</span>자동</button>`;
+  if (revealed && ST.speak) autoSpeak();
 }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function kline(c){
@@ -278,9 +289,9 @@ function wordFace(w){
   const ex = w.ex; const stem = w.w.replace(/[ぁ-ん]+$/, '');
   const ja = esc(ex.ja).replace(stem ? new RegExp(esc(stem).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) : /$^/, m => `<mark>${m}</mark>`);
   const link = `../${ex.app}/${ex.page}#c${ex.id}`;
-  return `<div class="rd" lang="ja">${esc(w.rd)}<button class="spk" onclick="event.stopPropagation();speak(${JSON.stringify(w.rd)})" aria-label="읽기 듣기">🔊</button></div><div class="big" lang="ja">${esc(w.w)}</div><div class="ko">${esc(w.ko)}</div>
+  return `<div class="rd" lang="ja">${esc(w.rd)}</div><div class="big" lang="ja">${esc(w.w)}</div><div class="ko">${esc(w.ko)}</div>
   <div class="kl">${w.k.map(kline).join('')}</div>
-  <div class="ex"><a href="${link}" onclick="event.stopPropagation()" title="이 대사가 나온 장면 재생">▶ 장면</a><button class="spk" style="float:right;margin:0" onclick="event.stopPropagation();speak(${JSON.stringify(ex.ja)})" aria-label="대사 듣기">🔊</button><div class="ja" lang="ja">${ja}</div><div class="k">${esc(ex.ko)} · ${esc(APPS[ex.app])}</div></div>
+  <div class="ex"><a href="${link}" onclick="event.stopPropagation()" title="이 대사가 나온 장면 재생">▶ 장면</a><div class="ja" lang="ja">${ja}</div><div class="k">${esc(ex.ko)} · ${esc(APPS[ex.app])}</div></div>
   <div class="tip">화면을 누르면 읽기·뜻이 열립니다</div>`;
 }
 function kanjiFace(k){
@@ -293,23 +304,39 @@ function kanjiFace(k){
    <button class="more" onclick="event.stopPropagation();openSheet('${k.k}')">부수 · 구성 · 획순 자세히 ›</button></div>
   <div class="tip">화면을 누르면 훈음·뜻이 열립니다</div>`;
 }
-function yomi(k){
+function yomi(k, withSpk){
   const on = (k.on || []).join('・'), kun = (k.kun || []).slice(0, 4).join('・');
   if (!on && !kun) return '';
-  const say = [...(k.on || []), ...(k.kun || []).slice(0, 4)].join('、');
-  return `<div class="yomi" lang="ja">${on ? `<span><em>음독</em>${esc(on)}</span>` : ''}${kun ? `<span class="kun"><em>훈독</em>${esc(kun)}</span>` : ''}<button class="spk" onclick="event.stopPropagation();speak(${JSON.stringify(say)})" aria-label="읽기 듣기">🔊</button></div>`;
+  const say = yomiSay(k);
+  return `<div class="yomi" lang="ja">${on ? `<span><em>음독</em>${esc(on)}</span>` : ''}${kun ? `<span class="kun"><em>훈독</em>${esc(kun)}</span>` : ''}${withSpk ? `<button class="spk" onclick="event.stopPropagation();speak(${JSON.stringify(say)})" aria-label="읽기 듣기">🔊</button>` : ''}</div>`;
 }
+function yomiSay(k){ return [...(k.on || []), ...(k.kun || []).slice(0, 4)].join('、'); }
 function flip(){ revealed = !revealed; document.getElementById('cBody').classList.toggle('hid', !revealed); if (revealed && ST.speak) autoSpeak(); }
+function toggleAuto(b){ ST.speak = !ST.speak; save(); b.setAttribute('aria-pressed', ST.speak); toast(ST.speak ? '뒷면을 열면 자동으로 읽습니다' : '자동 읽기 끔'); if (ST.speak && revealed) autoSpeak(); }
 function autoSpeak(){ const x = curItem(); if (!x) return; speak(isWord(x) ? x.rd : [...(x.on || []), ...(x.kun || []).slice(0, 2)].join('、')); }
 // ---------- 듣기 (브라우저 TTS) ----------
 let jaVoice = null;
 function pickVoice(){ const vs = speechSynthesis.getVoices(); jaVoice = vs.find(v => /^ja/i.test(v.lang) && /Google|Kyoko|O-ren|Otoya|Nanami|Keita|Ayumi|Haruka|Ichiro/i.test(v.name)) || vs.find(v => /^ja/i.test(v.lang)) || null; }
-if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = () => { pickVoice(); const el = document.getElementById('voiceInfo'); if (el) el.textContent = voiceInfo(); }; }
+let speakSeq = 0;
 function speak(text){
   if (!('speechSynthesis' in window)) return toast('이 브라우저는 음성을 지원하지 않습니다');
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text); u.lang = 'ja-JP'; u.rate = 0.9; if (jaVoice) u.voice = jaVoice;
-  speechSynthesis.speak(u);
+  if (!jaVoice) pickVoice();
+  const my = ++speakSeq;
+  const go = () => {
+    if (my !== speakSeq) return;
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'ja-JP'; u.rate = 0.9; if (jaVoice) u.voice = jaVoice;
+    u.onerror = e => { if (e.error !== 'interrupted' && e.error !== 'canceled') toast('음성 오류: ' + e.error + (jaVoice ? '' : ' · 일본어 음성이 없습니다')); };
+    u.onstart = () => { if (!jaVoice && !speak._warned) { speak._warned = true; toast('기기에 일본어 음성이 없어 다른 언어 음성으로 읽습니다'); } };
+    speechSynthesis.speak(u);
+  };
+  // 안드로이드 크롬: cancel() 직후의 speak() 가 묵음이 되는 일이 있어 잠깐 뒤에 말한다
+  if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); setTimeout(go, 120); } else go();
+}
+function voiceInfo(){
+  if (!('speechSynthesis' in window)) return '이 브라우저는 음성 합성을 지원하지 않습니다.';
+  const vs = speechSynthesis.getVoices().filter(v => /^ja/i.test(v.lang));
+  return vs.length ? '일본어 음성 ' + vs.length + '개: ' + vs.map(v => v.name).join(', ') : '일본어 음성이 아직 없습니다. 안드로이드는 설정 › 일반 › 텍스트 음성 변환에서 일본어를 설치하거나 Google 음성 인식 및 합성 엔진을 선택하세요. 아이폰은 설정 › 손쉬운 사용 › 콘텐츠 말하기 › 음성 › 일본어.';
 }
 function mark(how){
   const x = curItem(); const id = idOf(x);
@@ -357,6 +384,7 @@ function renderHome(){
   document.getElementById('mWord').setAttribute('aria-pressed', ST.mode === 'w');
   document.getElementById('mKanji').setAttribute('aria-pressed', ST.mode === 'k');
   document.getElementById('optAll').checked = !!ST.all; document.getElementById('optSpeak').checked = !!ST.speak;
+  document.getElementById('voiceInfo').textContent = voiceInfo();
   document.getElementById('chSizes').innerHTML = CH_SIZES.map(n => `<button aria-pressed="${n === CH()}" onclick="setCh(${n})">${n}장</button>`).join('');
   const unit = ST.mode === 'w' ? '단어' : '자';
   let h = '<h4>급 · 이 사이트에서 나온 횟수</h4>';
@@ -422,7 +450,7 @@ function openSheet(c, push){
   el.innerHTML = `<div class="grab"></div>${sheetStack.length ? `<button class="back" onclick="backSheet()">‹ ${esc(sheetStack[sheetStack.length - 1])} 로</button>` : ''}
   <div class="top"><span class="kk" lang="ja">${k.k}</span><span class="hh"><b>${esc(k.hun)}</b><small>${ko}</small><small>${k.rad ? `부수 <i>${k.rad}</i> ${esc(k.radname || '')} · ${k.strokes}획` : ''}</small></span>
    <div class="so">${strokeSVG(k)}<button aria-label="획순 재생" onclick="animateStrokes(this.parentNode)">▶</button></div></div>
-  ${yomi(k).replace('class="yomi"', 'class="yomi" style="justify-content:flex-start;margin-top:10px"')}
+  ${yomi(k, true).replace('class="yomi"', 'class="yomi" style="justify-content:flex-start;margin-top:10px"')}
   ${tree.length ? `<div class="rw"><em>구성</em>${chips}</div>${deeper ? `<div class="rw"><em></em>${deeper}</div>` : ''}` : '<div class="rw"><em>구성</em><span class="sub2">단일체</span></div>'}
   ${(k.fam || []).map(i => { const f = FAM[i]; return `<div class="rw"><em>소리<br>가족</em><span class="chip rad" style="outline:none;background:var(--accent);color:#fff"><span lang="ja">${esc(f.p)}</span><small>${esc(f.on.join('・'))}</small></span><span class="sub2">${f.ks.filter(c => c !== k.k).map(c => `<span class="chip on sm" onclick="openSheet('${c}')">${c}</span>`).join('')}</span><button class="spk" onclick="speak(${JSON.stringify(f.on[0])})">🔊</button></div>`; }).join('')}
   ${k.hj ? `<div class="rw"><em>한국어</em>${k.hj.map(esc).join(' · ')}</div>` : ''}
