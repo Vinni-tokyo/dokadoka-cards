@@ -143,6 +143,29 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .famrow .ks button{font-size:20px;font-weight:600;background:var(--soft);border-radius:10px;padding:4px 9px}
 .famrow .ks button small{display:block;font-size:10.5px;color:var(--mute);font-weight:400;line-height:1.1}
 .famhint{font-size:12.5px;color:var(--mute);margin:4px 2px 10px;line-height:1.5}
+/* 듣기 모드 */
+.setup{padding:12px 14px 30px;overflow:auto}
+.setup .grp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.setup .grp h5{margin:0 0 8px;font-size:12.5px;color:var(--mute);font-weight:600}
+.setup .opts{display:flex;flex-wrap:wrap;gap:6px}
+.setup .opts button{border:1px solid var(--line);border-radius:16px;padding:6px 12px;font-size:13.5px;background:var(--bg);color:var(--ink)}
+.setup .opts button[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.setup select{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.setup .note{font-size:12.5px;color:var(--mute);line-height:1.5;margin:6px 2px 0}
+.play{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 18px;text-align:center;min-height:0}
+.play .step{font-size:12.5px;color:var(--mute);letter-spacing:.05em;min-height:1.2em}
+.play .word{font-size:clamp(48px,18vw,76px);font-weight:700;color:var(--brand);line-height:1.15;margin:4px 0}
+.play .ans{font-size:clamp(18px,5.5vw,24px);font-weight:600;min-height:1.4em;transition:opacity .2s}
+.play .ans small{display:block;color:var(--mute);font-weight:400;font-size:14px;margin-top:4px}
+.play .ans.hide{opacity:0}
+.play .bar{width:100%;height:4px;background:var(--line);border-radius:2px;margin-top:22px;overflow:hidden}
+.play .bar i{display:block;height:100%;background:var(--accent);width:0}
+.play .meta{font-size:12.5px;color:var(--mute);margin-top:8px}
+.pctl{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;padding:8px 14px calc(16px + env(safe-area-inset-bottom))}
+.pctl button{height:60px;border-radius:30px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.pctl button .ic{font-size:20px}
+.pctl button.main{background:var(--brand);border-color:var(--brand);color:#fff}
+.pctl button.warn{color:var(--accent)}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;display:none;z-index:10}
 </style>
 </head>
@@ -199,6 +222,38 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="startbar"><button onclick="startReview()">복습 시작</button></div>
 </section>
 
+<!-- 듣기 설정 -->
+<section class="view" id="vListen">
+ <div class="hd"><button aria-label="홈" onclick="goHome()">≡</button><div class="t">듣기 모드<small>걸으면서 귀로만</small></div><button aria-label="닫기" onclick="goHome()">✕</button></div>
+ <div class="setup">
+  <div class="grp"><h5>무엇을</h5><select id="lsDeck" onchange="lsDeckChanged()"></select><div style="height:8px"></div><select id="lsCh"></select></div>
+  <div class="grp"><h5>어떻게</h5><div class="opts" id="lsMode"></div><p class="note" id="lsModeNote"></p></div>
+  <div class="grp"><h5>떠올릴 시간(침묵)</h5><div class="opts" id="lsPause"></div></div>
+  <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
+  <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
+  <div class="startbar" style="padding:4px 0 0"><button onclick="startListen()">▶ 듣기 시작</button></div>
+  <p class="note">소리는 온라인 음성(인터넷 필요)으로 이어서 재생합니다. 화면이 꺼져도 계속 나며, 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꾸고 화면을 켜 둡니다.</p>
+ </div>
+</section>
+
+<!-- 듣기 재생 -->
+<section class="view" id="vPlay">
+ <div class="hd"><button aria-label="설정" onclick="stopListen(); show('vListen')">‹</button><div class="t" id="pTitle">—<small id="pProg"></small></div><button aria-label="닫기" onclick="stopListen(); goHome()">✕</button></div>
+ <div class="play">
+  <div class="step" id="pStep"></div>
+  <div class="word" id="pWord" lang="ja">—</div>
+  <div class="ans hide" id="pAns"></div>
+  <div class="bar"><i id="pBar"></i></div>
+  <div class="meta" id="pMeta"></div>
+ </div>
+ <div class="pctl">
+  <button onclick="lsPrev()"><span class="ic">⏮</span>이전</button>
+  <button class="main" id="pPlay" onclick="lsToggle()"><span class="ic">⏸</span>일시정지</button>
+  <button onclick="lsNext()"><span class="ic">⏭</span>다음</button>
+  <button class="warn" onclick="lsMarkStudy()"><span class="ic">?</span>모르겠다</button>
+ </div>
+</section>
+
 <!-- 소리 가족 -->
 <section class="view" id="vFam">
  <div class="hd"><button aria-label="홈" onclick="goHome()">≡</button><div class="t">소리 가족<small id="famSub"></small></div><button aria-label="닫기" onclick="goHome()">✕</button></div>
@@ -241,18 +296,19 @@ function deckItems(mode, kind, key){
   if (kind === 'lv')  return src.filter(x => x.lv === key);
   if (kind === 'app') return src.filter(x => x.apps.includes(key));
   if (kind === 'rev') return src.filter(x => ST.marks[idOf(x)] === 'study');
+  if (kind === 'today') return (ST.heardIds || []).map(id => byId[id]).filter(x => x && isWord(x) === (mode === 'w'));
   return [];
 }
 const idOf = x => x.w !== undefined ? 'w' + x.i : 'k' + x.k;
 const isWord = x => x.w !== undefined;
-function deckName(kind, key){ return kind === 'lv' ? lvName(+key) : kind === 'app' ? APPS[key] : '복습함'; }
+function deckName(kind, key){ return kind === 'lv' ? lvName(+key) : kind === 'app' ? APPS[key] : kind === 'today' ? '오늘 들은 것' : '복습함'; }
 function pkey(mode, kind, key, ch){ return [mode, kind, key, CH(), ch].join(':'); }
 
 let cur = null;   // {mode, kind, key, ch, items(전체 장), queue(이번 회독), i, round, know:[], study:[], t0}
 function startDeck(kind, key, ch){
   if (kind === 'lv') key = +key;            // 버튼 onclick 은 문자열로 넘어온다
   const all = deckItems(ST.mode, kind, key);
-  const items = kind === 'rev' ? all : all.slice(ch * CH(), ch * CH() + CH());
+  const items = (kind === 'rev' || kind === 'today') ? all : all.slice(ch * CH(), ch * CH() + CH());
   if (!items.length) return toast('카드가 없습니다');
   const pk = pkey(ST.mode, kind, key, ch);
   const p = ST.prog[pk];
@@ -415,6 +471,9 @@ function renderHome(){
   for (const lv of LEVELS) h += deckRow('lv', lv, lvName(lv), LVDESC[lv], unit);
   h += '<h4>작품</h4>';
   for (const a in APPS) h += deckRow('app', a, APPS[a], '', unit);
+  const heardToday = (ST.heardDay === today() && ST.heardIds) ? ST.heardIds.length : 0;
+  h += `<h4>듣기 · 걸으면서</h4><button class="deck wk" onclick="openListen()"><span class="m">듣기 모드<small>화면 없이 귀로만. 읽기 → 침묵(떠올리기) → 뜻. 잠금 화면·이어폰 버튼으로 조작</small></span><span class="p"><b>🎧</b></span></button>`;
+  if (heardToday) h += `<button class="deck wk" onclick="startDeck('today', undefined, 0)"><span class="m">오늘 들은 것 다시 보기<small>같은 날 두 번째 노출이 정착률을 크게 올립니다</small></span><span class="p"><b>${heardToday}장</b></span></button>`;
   h += `<h4>소리 가족 · 같은 부품 = 같은 음</h4><button class="deck wk" onclick="openFam()"><span class="m">소리 가족 ${FAM.length}개<small>反 → 返·飯·板·版 전부 ハン. 부품으로 읽기를 추론하는 연습</small></span><span class="p"><b>${new Set(FAM.flatMap(f => f.ks)).size}자</b></span></button>`;
   const rev = deckItems(ST.mode, 'rev').length;
   h += `<h4>복습</h4><button class="deck wk" onclick="openReview()"><span class="m">복습함<small>「공부하겠음」 누른 카드</small></span><span class="p"><b>${rev}${unit}</b></span></button>`;
@@ -514,6 +573,165 @@ function animateStrokes(box){
   ps.forEach(p => { const L = p.getTotalLength(); p.style.transition = 'none'; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
   ps.forEach((p, i) => setTimeout(() => { p.style.transition = 'stroke-dashoffset .35s linear'; p.style.strokeDashoffset = 0; }, 80 + i * 420));
   setTimeout(() => ps.forEach(p => { p.style.transition = 'none'; p.style.strokeDasharray = ''; p.style.strokeDashoffset = ''; }), 80 + ps.length * 420 + 400);
+}
+// ---------- 듣기 모드 ----------
+const LS_MODES = {word: '단어 듣기', rev: '거꾸로 듣기', kanji: '한자 듣기'};
+const LS_NOTE = {word: '일본어 읽기 → 침묵 → 한국어 뜻 → 읽기 한 번 더 → 대사 한 줄', rev: '한국어 뜻 → 침묵 → 일본어 읽기 두 번 (산출 연습, 더 어려움)', kanji: '훈음 → 음독 → 훈독 → 부수·구성을 말로 → 대표 단어 2개와 뜻'};
+let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30}, ST.listen || {});
+function lsDecks(){
+  const out = [];
+  for (const lv of LEVELS) out.push(['lv:' + lv, lvName(lv)]);
+  for (const a in APPS) out.push(['app:' + a, APPS[a]]);
+  out.push(['rev:', '복습함']);
+  return out;
+}
+function lsParse(){ const [kind, key] = LSO.deck.split(':'); return {kind, key: kind === 'lv' ? +key : key}; }
+function lsMode(){ return LSO.mode === 'kanji' ? 'k' : 'w'; }
+function openListen(){
+  const sel = document.getElementById('lsDeck');
+  sel.innerHTML = lsDecks().map(([v, n]) => `<option value="${v}" ${v === LSO.deck ? 'selected' : ''}>${esc(n)}</option>`).join('');
+  lsDeckChanged();
+  const seg = (id, opts, cur, fn) => document.getElementById(id).innerHTML = opts.map(([v, n]) => `<button aria-pressed="${v === cur}" onclick="${fn}(${JSON.stringify(v).replace(/"/g, '&quot;')})">${n}</button>`).join('');
+  seg('lsMode', Object.entries(LS_MODES), LSO.mode, 'lsSetMode');
+  seg('lsPause', [[2, '2초'], [3, '3초'], [5, '5초'], [0, '없음']], LSO.pause, 'lsSet.pause');
+  seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
+  seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
+  document.getElementById('lsModeNote').textContent = LS_NOTE[LSO.mode];
+  show('vListen');
+}
+const lsSet = {};
+for (const f of ['pause', 'loop', 'stop']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
+function lsSetMode(m){ LSO.mode = m; lsSave(); openListen(); }
+function lsSave(){ ST.listen = LSO; save(); }
+function lsDeckChanged(){
+  LSO.deck = document.getElementById('lsDeck').value;
+  const {kind, key} = lsParse(); const items = deckItems(lsMode(), kind, key); const n = Math.max(1, Math.ceil(items.length / CH()));
+  const ch = document.getElementById('lsCh');
+  if (kind === 'rev') { ch.innerHTML = `<option value="0">전체 ${items.length}장</option>`; ch.disabled = true; }
+  else { ch.disabled = false; ch.innerHTML = Array.from({length: n}, (_, i) => `<option value="${i}" ${i === LSO.ch ? 'selected' : ''}>${i + 1}장 (${Math.min(CH(), items.length - i * CH())}장)</option>`).join(''); }
+  ch.onchange = () => { LSO.ch = +ch.value; lsSave(); };
+  lsSave();
+}
+const kstrip = t => (t || '').replace(/[（(][^）)]*[）)]/g, '').replace(/[·/]/g, ', ').trim();
+function partsSpeech(k){   // 부수·구성을 한국어로
+  const bits = [];
+  if (k.radname) bits.push('부수는 ' + k.radname.replace(/\s/g, ' '));
+  const names = (k.tree || []).map(n => KBY[n.e] ? KBY[n.e].hun : (PARTS[n.e] || '')).filter(Boolean);
+  if (names.length >= 2) bits.push('구성은 ' + names.join('과 '));
+  return bits.join(', ');
+}
+function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초} | {show: 'q'|'a'}]
+  const P = LSO.pause ? [{pause: LSO.pause}] : [];
+  if (LSO.mode === 'kanji') {
+    const ws = x.words.slice(0, 2).map(w => WBY[w]).filter(Boolean);
+    return [{show: 'q'}, {ko: x.hun}, ...P, {show: 'a'}, ...(x.on && x.on.length ? [{ja: x.on.slice(0, 2).join('、')}] : []), ...(x.kun && x.kun.length ? [{ja: x.kun.slice(0, 2).join('、')}] : []),
+      ...(partsSpeech(x) ? [{ko: partsSpeech(x)}] : []), ...ws.flatMap(w => [{ja: w.rd}, {ko: kstrip(w.ko)}])];
+  }
+  if (LSO.mode === 'rev') return [{show: 'q'}, {ko: kstrip(x.ko)}, ...P, {show: 'a'}, {ja: x.rd}, {pause: 0.6}, {ja: x.rd}];
+  return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, {pause: 0.4}, {ja: x.ex.ja}];
+}
+let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
+const pl = new Audio(); pl.preload = 'auto';
+function silenceURI(sec){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다
+  const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); }; const d = new DataView(b.buffer);
+  w(0, 'RIFF'); d.setUint32(4, 36 + n, true); w(8, 'WAVEfmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
+  d.setUint32(24, 8000, true); d.setUint32(28, 8000, true); d.setUint16(32, 1, true); d.setUint16(34, 8, true); w(36, 'data'); d.setUint32(40, n, true); b.fill(128, 44);
+  return URL.createObjectURL(new Blob([b], {type: 'audio/wav'}));
+}
+const ttsURL = (text, lang) => 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(text.replace(/[・･]/g, '、').slice(0, 180));
+function startListen(){
+  const {kind, key} = lsParse(); const all = deckItems(lsMode(), kind, key);
+  const items = kind === 'rev' ? all : all.slice(LSO.ch * CH(), LSO.ch * CH() + CH());
+  if (!items.length) return toast('들을 카드가 없습니다');
+  stopListen();
+  LP = {items, i: 0, steps: [], si: 0, round: 1, playing: true, t0: Date.now(), engine: 'audio', kind, key};
+  document.getElementById('pTitle').firstChild.textContent = (kind === 'rev' ? '복습함' : deckName(kind, key) + ' ' + (LSO.ch + 1) + '장') + ' · ' + LS_MODES[LSO.mode];
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => lsToggle(true)); navigator.mediaSession.setActionHandler('pause', () => lsToggle(false));
+    navigator.mediaSession.setActionHandler('nexttrack', lsNext); navigator.mediaSession.setActionHandler('previoustrack', lsPrev);
+  }
+  show('vPlay'); lsLoadItem(); lsStep();
+}
+function lsLoadItem(){
+  const x = LP.items[LP.i]; LP.steps = scriptOf(x); LP.si = 0;
+  document.getElementById('pWord').textContent = isWord(x) ? x.w : x.k;
+  document.getElementById('pProg').textContent = (LP.i + 1) + '/' + LP.items.length + (LSO.loop > 1 ? ' · ' + LP.round + '바퀴' : '');
+  document.getElementById('pAns').className = 'ans hide';
+  document.getElementById('pBar').style.width = (LP.i / LP.items.length * 100) + '%';
+  if ('mediaSession' in navigator) try { navigator.mediaSession.metadata = new MediaMetadata({title: isWord(x) ? x.w + '  ' + x.rd : x.k + '  ' + x.hun, artist: '한자 카드 · 듣기', album: document.getElementById('pTitle').firstChild.textContent}); } catch(e){}
+  const id = idOf(x); ST.heard = ST.heard || {}; ST.heard[id] = (ST.heard[id] || 0) + 1;
+  if (ST.heardDay !== today()) { ST.heardDay = today(); ST.heardIds = []; }
+  if (!ST.heardIds.includes(id)) ST.heardIds.push(id);
+  save();
+}
+function lsStep(){
+  if (!LP || !LP.playing) return;
+  if (LP.si >= LP.steps.length) return lsAdvance();
+  const st = LP.steps[LP.si++]; const x = LP.items[LP.i];
+  if (st.show) {
+    const a = document.getElementById('pAns');
+    if (st.show === 'a') { a.innerHTML = isWord(x) ? `${esc(x.rd)}<small>${esc(x.ko)}</small>` : `${esc(x.hun)}<small>${esc((x.on || []).join('・'))} · ${esc((x.kun || []).slice(0, 3).join('・'))}</small>`; a.className = 'ans'; }
+    document.getElementById('pStep').textContent = st.show === 'q' ? (LSO.mode === 'rev' ? '뜻을 듣고 일본어를 떠올리세요' : '듣고 뜻을 떠올리세요') : '정답';
+    return lsStep();
+  }
+  document.getElementById('pMeta').textContent = fmt(Math.floor((Date.now() - LP.t0) / 1000)) + (LSO.stop ? ' / ' + LSO.stop + '분' : '');
+  if (LSO.stop && Date.now() - LP.t0 > LSO.stop * 60000 && LP.si <= 1) { toast('자동 종료'); return stopListen(true); }
+  if (st.pause !== undefined) return lsPlay(silenceURI(st.pause), null);
+  const lang = st.ja !== undefined ? 'ja' : 'ko'; const text = st.ja !== undefined ? st.ja : st.ko;
+  if (LP.engine === 'tts') return lsTTS(text, lang);
+  lsPlay(ttsURL(text, lang), {text, lang});
+}
+function lsPlay(url, tts){
+  pl.onended = () => { if (LP && LP.playing) lsStep(); };
+  pl.onerror = () => { if (!LP || !LP.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
+  pl.src = url; pl.play().catch(() => { if (LP && LP.playing && tts) { lsFallback(); lsTTS(tts.text, tts.lang); } });
+}
+function lsFallback(){
+  if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다. 화면을 켜 둡니다');
+  if (navigator.wakeLock) navigator.wakeLock.request('screen').then(l => { LP.lock = l; }).catch(() => {});
+}
+function lsTTS(text, lang){
+  if (!('speechSynthesis' in window)) return setTimeout(lsStep, 500);
+  const u = new SpeechSynthesisUtterance(text.replace(/[・･]/g, '、')); u.lang = lang === 'ja' ? 'ja-JP' : 'ko-KR'; u.rate = 0.9;
+  if (lang === 'ja' && jaVoice) u.voice = jaVoice;
+  u.onend = () => { if (LP && LP.playing) lsStep(); }; u.onerror = () => { if (LP && LP.playing) setTimeout(lsStep, 300); };
+  speechSynthesis.speak(u);
+}
+function lsAdvance(){
+  LP.i++;
+  if (LP.i >= LP.items.length) {
+    if (LP.round >= LSO.loop) { toast('다 들었습니다 · ' + LP.items.length + '장'); return stopListen(true); }
+    LP.round++; LP.i = 0;
+  }
+  lsLoadItem(); lsStep();
+}
+let lastPrev = 0;
+function lsPrev(){
+  if (!LP) return;
+  const now = Date.now();
+  if (now - lastPrev < 5000) { lsMarkStudy(); lastPrev = 0; } else lastPrev = now;
+  lsInterrupt(); lsLoadItem(); LP.playing = true; lsStep();
+}
+function lsNext(){ if (!LP) return; lsInterrupt(); LP.playing = true; lsAdvance(); }
+function lsMarkStudy(){ if (!LP) return; const x = LP.items[LP.i]; ST.marks[idOf(x)] = 'study'; save(); toast((isWord(x) ? x.w : x.k) + ' → 복습함'); }
+function lsInterrupt(){ pl.onended = null; pl.pause(); if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+function lsToggle(force){
+  if (!LP) return;
+  const want = force === undefined ? !LP.playing : force;
+  LP.playing = want;
+  document.getElementById('pPlay').innerHTML = want ? '<span class="ic">⏸</span>일시정지' : '<span class="ic">▶</span>재생';
+  if (!want) { pl.pause(); if ('speechSynthesis' in window) speechSynthesis.pause(); }
+  else { if (pl.src && pl.paused && pl.currentTime > 0 && !pl.ended) pl.play().catch(() => lsStep()); else if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); }
+  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = want ? 'playing' : 'paused';
+}
+function stopListen(done){
+  if (!LP) return;
+  LP.playing = false; lsInterrupt();
+  if (LP.lock) { LP.lock.release().catch(() => {}); }
+  if (done) { document.getElementById('pStep').textContent = '끝'; document.getElementById('pPlay').innerHTML = '<span class="ic">▶</span>다시'; document.getElementById('pBar').style.width = '100%'; }
+  const wasDone = done; LP = null;
+  if (wasDone) { document.getElementById('pPlay').onclick = () => { startListen(); document.getElementById('pPlay').onclick = lsToggle; }; }
 }
 function openFam(){
   document.getElementById('famSub').textContent = FAM.length + '가족 · 한자 ' + new Set(FAM.flatMap(f => f.ks)).size + '자';
