@@ -166,6 +166,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .play .pex mark{background:none;color:var(--accent);font-weight:700}
 .play .pex small{display:block;color:var(--mute);font-size:13px;margin-top:4px}
 .play .pex.hide{opacity:0}
+.play .pex.now{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
 .play .bar{width:100%;height:4px;background:var(--line);border-radius:2px;margin-top:22px;overflow:hidden}
 .play .bar i{display:block;height:100%;background:var(--accent);width:0}
 .play .meta{font-size:12.5px;color:var(--mute);margin-top:8px}
@@ -699,9 +700,9 @@ function lsLoadItem(){
   document.getElementById('pWord').textContent = isWord(x) ? x.w : x.k;
   document.getElementById('pProg').textContent = (LP.i + 1) + '/' + LP.items.length + (LSO.loop > 1 ? ' · ' + LP.round + '바퀴' : '');
   document.getElementById('pAns').className = 'ans hide';
-  const pe = document.getElementById('pEx'); pe.className = 'pex hide';
+  const pe = document.getElementById('pEx'); pe.className = 'pex';   // 카드가 뜰 때부터 예문을 보인다
   if (isWord(x) && LSO.ex !== 0) { const stem = x.w.replace(/[ぁ-ん]+$/, ''); const ja = esc(x.ex.ja).replace(stem ? new RegExp(esc(stem).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) : /$^/, m => `<mark>${m}</mark>`); pe.innerHTML = `<span lang="ja">${ja}</span><small>${esc(x.ex.ko)} · ${esc(APPS[x.ex.app])}</small>`; }
-  else pe.innerHTML = '';
+  else { pe.innerHTML = ''; pe.className = 'pex hide'; }
   document.getElementById('pBar').style.width = (LP.i / LP.items.length * 100) + '%';
   lsPrefetchItem(LP.i); lsPrefetchItem(LP.i + 1);
   const id = idOf(x); ST.heard = ST.heard || {}; ST.heard[id] = (ST.heard[id] || 0) + 1;
@@ -715,7 +716,7 @@ function lsStep(){
   const st = LP.steps[LP.si++]; const x = LP.items[LP.i];
   if (st.show) {
     const a = document.getElementById('pAns');
-    if (st.show === 'x') { document.getElementById('pEx').className = 'pex'; document.getElementById('pStep').textContent = '예문'; return lsStep(); }
+    if (st.show === 'x') { document.getElementById('pEx').classList.add('now'); document.getElementById('pStep').textContent = '예문'; return lsStep(); }
     if (st.show === 'a') { a.innerHTML = isWord(x) ? `${esc(x.rd)}<small>${esc(x.ko)}</small>` : `${esc(x.hun)}<small>${esc((x.on || []).join('・'))} · ${esc((x.kun || []).slice(0, 3).join('・'))}</small>`; a.className = 'ans'; }
     document.getElementById('pStep').textContent = st.show === 'q' ? (LSO.mode === 'rev' ? '뜻을 듣고 일본어를 떠올리세요' : '듣고 뜻을 떠올리세요') : '정답';
     return lsStep();
