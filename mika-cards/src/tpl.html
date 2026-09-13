@@ -506,6 +506,10 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
 .ttsrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
 .ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.tts-mini{display:inline-grid;place-items:center;width:24px;height:24px;padding:0;margin-left:6px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);vertical-align:middle;flex:none}
+.tts-mini .ic{width:13px;height:13px}
+.tts-mini:hover,.tts-mini[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.kjrow .w{white-space:normal}
 .cue{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
 .daystrip .dbtn{flex:none}
 @media(max-width:600px){
@@ -704,6 +708,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <button class="btn btn-sm" id="ttsPlay" title="원문을 읽어 줍니다 (T)"><svg class="ic"><use href="#i-sound"/></svg>읽어주기</button>
        <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
        <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
+       <button class="btn btn-sm" id="ttsAll" title="문장 → 표현 → 단어 순서로 전부 읽기">전부</button>
        <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
       </div>
       <p class="ko" id="ko"></p>
@@ -1273,6 +1278,7 @@ function paintGloss(d){
   (d.kj || []).forEach(([head, rd, mean, hj, chars]) => {
     const row = document.createElement('div'); row.className = 'kjrow';
     const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
+    w.appendChild(ttsBtn(head));
     const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);
     const m = document.createElement('div'); m.className = 'm';
     const h = document.createElement('span'); h.className = 'hj'; h.textContent = hj;
@@ -1293,7 +1299,7 @@ function paintGloss(d){
   STUDY.filter(r => r.t === 'E' && (r.cids || []).includes(d.id)).forEach(r => {
     const row = document.createElement('div'); row.className = 'exrow';
     const b = document.createElement('b'); b.lang = 'ja'; b.textContent = r.ja;
-    row.appendChild(b);
+    row.appendChild(b); row.appendChild(ttsBtn(r.ja));
     if(r.rd && r.rd !== r.ja){ const sm = document.createElement('small'); sm.lang = 'ja'; sm.textContent = r.rd; row.appendChild(sm); }
     row.appendChild(document.createTextNode(' — ' + r.ko));
     if(r.note){ const n = document.createElement('span'); n.className = 'n'; n.textContent = r.note; row.appendChild(n); }
@@ -1455,14 +1461,38 @@ function ttsLine(times, rate){
   const d = deck[index]; if(!d) return;
   if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} }
   const btn = times > 1 ? $('ttsRep') : rate < 1 ? $('ttsSlow') : $('ttsPlay');
-  ['ttsPlay','ttsSlow','ttsRep'].forEach(id => $(id).setAttribute('aria-pressed', 'false'));
-  btn.setAttribute('aria-pressed', 'true');
+  ttsGen++; ttsMark(btn);
   aPlay(edited(d).ja, times, 500, () => btn.setAttribute('aria-pressed', 'false'), 2, rate);
 }
+/* 단어·표현 옆의 작은 읽어주기 버튼 */
+function ttsBtn(text){
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'tts-mini'; b.title = '읽어주기 / 読み上げ';
+  b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>'; b.dataset.t = text;
+  b.onclick = e => { e.stopPropagation(); ttsGen++; ttsMark(b); ttsPause(); aPlay(text, 1, 0, () => b.setAttribute('aria-pressed', 'false'), 2, 1); };
+  return b;
+}
+function ttsPause(){ if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} } }
+function ttsMark(el){ document.querySelectorAll('.tts-mini[aria-pressed=true],.ttsrow .btn[aria-pressed=true]').forEach(x => x.setAttribute('aria-pressed', 'false')); if(el) el.setAttribute('aria-pressed', 'true'); }
+/* 전부: 문장 → 이 문장의 표현 → 한자 풀이 단어 순서로 이어 읽는다 */
+let ttsGen = 0;
+function ttsAll(){
+  const d = deck[index]; if(!d) return;
+  const v = edited(d), list = [[v.ja, $('ttsAll')]];
+  document.querySelectorAll('#explList .tts-mini').forEach(b => list.push([b.dataset.t, b]));
+  document.querySelectorAll('#kanjiList .tts-mini').forEach(b => list.push([b.dataset.t, b]));
+  ttsPause(); const my = ++ttsGen;
+  const step = i => {
+    if(my !== ttsGen || i >= list.length){ ttsMark(null); return; }
+    ttsMark(list[i][1]); if(i === 0) $('ttsAll').setAttribute('aria-pressed', 'true');
+    aPlay(list[i][0], 1, 0, () => setTimeout(() => step(i + 1), 380), 2, 1);
+  };
+  step(0);
+}
+$('ttsAll').onclick = ttsAll;
 $('ttsPlay').onclick = () => ttsLine(1, 1);
 $('ttsSlow').onclick = () => ttsLine(1, 0.75);
 $('ttsRep').onclick  = () => ttsLine(3, 1);
-$('ttsStop').onclick = () => { aStopAll(); ['ttsPlay','ttsSlow','ttsRep'].forEach(id => $(id).setAttribute('aria-pressed', 'false')); };
+$('ttsStop').onclick = () => { ttsGen++; aStopAll(); ttsMark(null); };
 $('loop').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'リピートを解除しました。'); }

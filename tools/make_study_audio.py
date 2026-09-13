@@ -5,6 +5,7 @@
   사용법:  .venv/bin/python tools/make_study_audio.py <앱폴더> [<앱폴더> ...]     (예: yubisaki-cards)
            .venv/bin/python tools/make_study_audio.py --all
   옵션:    --voice ja-JP-KeitaNeural   --rate -10%   --force(기존 파일도 다시 생성)
+           --gloss  카드의 한자 풀이 표제어(단어)도 만든다 — 뜻 영역의 단어 읽어주기가 쓴다
            --cards  카드 본문(DATA 의 원문 줄)도 만든다 — 노래 앱처럼 줄 수가 적을 때(28줄). 카드의 「읽어주기」가 쓴다
 
   항목은 빌드된 HTML 의 STUDY(또는 SERIES[].study) 에서 읽으므로 먼저 build.py 를 한 번 돌려 둔다.
@@ -39,14 +40,18 @@ def mean_text(t):
     t = re.sub(r'\s*[·・/]\s*', ', ', t)
     return re.sub(r'\s+', ' ', t).strip(' ,')
 
-def items_of(app, field, cards=False):
+def items_of(app, field, cards=False, gloss=False):
     htmls = [f for f in glob.glob(os.path.join(ROOT, app, '*.html'))]
     assert htmls, f'{app}: 빌드된 HTML 이 없다. 먼저 build.py 를 돌려라'
     h = open(htmls[0], encoding='utf-8').read()
     out = []
-    if cards:
+    if cards or gloss:
         m = re.search(r'const DATA = (\[.*?\]);', h, re.S)
-        if m: out += json.loads(m.group(1))
+        data = json.loads(m.group(1)) if m else []
+        if cards: out += data
+        if gloss:
+            for c in data:
+                for kj in c.get('kj', []): out.append({field: kj[0]})
     m = re.search(r'const STUDY = (\[.*?\]);\s*(?:/\*|\n)', h, re.S)
     if m: out += json.loads(m.group(1))
     m = re.search(r'const SERIES = (\[.*?\]);\n', h, re.S)
@@ -58,14 +63,14 @@ def items_of(app, field, cards=False):
         if k and k not in keys: keys.append(k)
     return keys
 
-async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=False):
+async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=False, gloss=False):
     import edge_tts
     adir = os.path.join(ROOT, app, 'src', 'audio'); os.makedirs(adir, exist_ok=True)
     ipath = os.path.join(adir, 'index.json')
     index = json.load(open(ipath, encoding='utf-8')) if os.path.exists(ipath) else {}
     keys = items_of(app, field)
-    if cards:
-        for k in items_of(app, field, cards=True):
+    if cards or gloss:
+        for k in items_of(app, field, cards=cards, gloss=gloss):
             if k not in keys: keys.append(k)
     # 뜻 음원: 키는 'm:' + 뜻 문자열(akey), 읽는 텍스트는 mean_text()
     mkeys = {}
@@ -106,13 +111,14 @@ def main():
     if '--voice' in args: i = args.index('--voice'); voice = args[i+1]; del args[i:i+2]
     if '--rate' in args: i = args.index('--rate'); rate = args[i+1]; del args[i:i+2]
     if '--force' in args: force = True; args.remove('--force')
-    cards = False
+    cards = gloss = False
     if '--cards' in args: cards = True; args.remove('--cards')
+    if '--gloss' in args: gloss = True; args.remove('--gloss')
     apps = list(FAMILY) if '--all' in args else [a.strip('/') for a in args]
     if not apps: print(__doc__); sys.exit(1)
     for app in apps:
         field, dv, mfield, mv = FAMILY[app]
-        asyncio.run(gen(app, field, voice or dv, rate or '-10%', force, mfield, mv, cards))
+        asyncio.run(gen(app, field, voice or dv, rate or '-10%', force, mfield, mv, cards, gloss))
 
 if __name__ == '__main__':
     main()
