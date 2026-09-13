@@ -28,6 +28,7 @@ FAMILY = {   # 앱 → (원문 필드, 원문 음성, 뜻 필드, 뜻 음성)
     'saranghagi-cards': ('ko', 'ko-KR-SunHiNeural', 'ja', 'ja-JP-NanamiNeural'),
     'vitaminme-cards':  ('ko', 'ko-KR-SunHiNeural', 'ja', 'ja-JP-NanamiNeural'),
     'reasons-cards':    ('en', 'en-US-AvaNeural',   'ko', 'ko-KR-SunHiNeural'),
+    'supersonic-cards': ('ko', 'ko-KR-SunHiNeural', 'ja', 'ja-JP-NanamiNeural'),
 }
 MEAN_PREFIX = 'm:'   # 뜻 음원의 index 키 접두어 (앱 JS 의 aPlay(..., which=1) 와 같은 규칙)
 
@@ -50,6 +51,9 @@ def items_of(app, field, cards=False, gloss=False):
     if cards or gloss:
         m = re.search(r'const DATA = (\[.*?\]);', h, re.S)
         data = json.loads(m.group(1)) if m else []
+        m2 = re.search(r'const SERIES = (\[.*?\]);\n', h, re.S)          # SERIES 앱은 data 가 시리즈 안에 있다
+        if m2:
+            for s_ in json.loads(m2.group(1)): data += s_.get('data', [])
         if cards: out += data
         if gloss:
             for c in data:
