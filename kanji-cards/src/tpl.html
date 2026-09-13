@@ -169,6 +169,14 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .pctl button .ic{font-size:20px}
 .pctl button.main{background:var(--brand);border-color:var(--brand);color:#fff}
 .pctl button.warn{color:var(--accent)}
+/* 주머니 모드: 화면을 켜 둔 채(Wake Lock) 검은 덮개로 오작동·배터리를 막는다 */
+.pocket{position:fixed;inset:0;background:#000;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;color:#5a5f6e;text-align:center;user-select:none;-webkit-user-select:none;touch-action:none}
+.pocket.on{display:flex}
+.pocket .w{font-size:20vw;font-weight:700;color:#3a3f4d;line-height:1.1}
+.pocket .r{font-size:5vw;color:#4a4f5e;margin-top:6px;min-height:1.3em}
+.pocket .h{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom));left:0;right:0;font-size:13px;color:#3a3f4d}
+.pocket .h b{color:#6a6f7e}
+.diag{font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.45;white-space:pre-wrap;color:var(--mute);max-height:50dvh;overflow:auto;background:var(--soft);border-radius:10px;padding:8px}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;display:none;z-index:10}
 </style>
 </head>
@@ -234,6 +242,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="grp"><h5>떠올릴 시간(침묵)</h5><div class="opts" id="lsPause"></div></div>
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
   <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
+  <div class="grp"><h5>주머니 모드</h5><div class="opts" id="lsPocket"></div><p class="note">켜면 화면을 끄지 않고 <b>검은 덮개</b>로 바꿔 둡니다(Wake Lock). 브라우저가 백그라운드 소리를 막는 기기에서도 확실히 이어지고, 검은 화면이라 배터리 소모가 적으며 덮개를 <b>길게 눌러야</b> 풀려 주머니 속 오작동이 없습니다.</p></div>
   <div class="startbar" style="padding:4px 0 0"><button onclick="startListen()">▶ 듣기 시작</button></div>
   <p class="note">소리는 온라인 음성(인터넷 필요)으로 이어서 재생합니다. 세션 동안 무음 트랙을 함께 틀어 두어 화면이 꺼져도 계속 나며(유튜브와 같은 방식), 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꾸고 화면을 켜 둡니다.<br>더 안정적으로 들으려면 크롬 메뉴 ⋮ → 「홈 화면에 추가」로 앱처럼 설치하고 거기서 여세요. 브라우저 탭보다 백그라운드 보호를 더 받습니다.</p>
  </div>
@@ -255,7 +264,9 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <button onclick="lsNext()"><span class="ic">⏭</span>다음</button>
   <button class="warn" onclick="lsMarkStudy()"><span class="ic">?</span>모르겠다</button>
  </div>
+ <div style="display:flex;gap:8px;padding:0 14px 14px"><button class="chip" style="flex:1;justify-content:center;height:40px" onclick="pocketOn()">🌑 주머니 모드(검은 화면)</button><button class="chip" style="height:40px" onclick="showDiag()">진단</button></div>
 </section>
+<div class="pocket" id="pocket"><div class="w" id="pkWord" lang="ja">—</div><div class="r" id="pkRd"></div><div class="h">듣기 진행 중 · <b>화면을 2초 길게 누르면</b> 덮개가 풀립니다</div></div>
 
 <!-- 소리 가족 -->
 <section class="view" id="vFam">
@@ -580,7 +591,7 @@ function animateStrokes(box){
 // ---------- 듣기 모드 ----------
 const LS_MODES = {word: '단어 듣기', rev: '거꾸로 듣기', kanji: '한자 듣기'};
 const LS_NOTE = {word: '일본어 읽기 → 침묵 → 한국어 뜻 → 읽기 한 번 더 → 대사 한 줄', rev: '한국어 뜻 → 침묵 → 일본어 읽기 두 번 (산출 연습, 더 어려움)', kanji: '훈음 → 음독 → 훈독 → 부수·구성을 말로 → 대표 단어 2개와 뜻'};
-let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30}, ST.listen || {});
+let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30, pocket: 1}, ST.listen || {});
 function lsDecks(){
   const out = [];
   for (const lv of LEVELS) out.push(['lv:' + lv, lvName(lv)]);
@@ -599,11 +610,12 @@ function openListen(){
   seg('lsPause', [[2, '2초'], [3, '3초'], [5, '5초'], [0, '없음']], LSO.pause, 'lsSet.pause');
   seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
   seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
+  seg('lsPocket', [[1, '켜기 (권장)'], [0, '끄기']], LSO.pocket ? 1 : 0, 'lsSet.pocket');
   document.getElementById('lsModeNote').textContent = LS_NOTE[LSO.mode];
   show('vListen');
 }
 const lsSet = {};
-for (const f of ['pause', 'loop', 'stop']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
+for (const f of ['pause', 'loop', 'stop', 'pocket']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
 function lsSetMode(m){ LSO.mode = m; lsSave(); openListen(); }
 function lsSave(){ ST.listen = LSO; save(); }
 function lsDeckChanged(){
@@ -634,19 +646,44 @@ function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초}
   return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, {pause: 0.4}, {ja: x.ex.ja}];
 }
 let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
+const DIAG = [];
+function dlog(m){ const t = new Date(); DIAG.push(t.toTimeString().slice(0, 8) + ' ' + m); if (DIAG.length > 60) DIAG.shift(); }
+function showDiag(){
+  const el = document.getElementById('sheet');
+  el.innerHTML = `<div class="grab" onclick="closeSheet()"></div><div class="bar"><button class="close" onclick="closeSheet()">닫기 ✕</button></div><b>듣기 진단</b><div class="rw" style="font-size:12.5px">visibility=${document.visibilityState} · wakeLock=${'wakeLock' in navigator} · mediaSession=${'mediaSession' in navigator} · standalone=${matchMedia('(display-mode: standalone)').matches} · engine=${LP ? LP.engine : '-'} · keep=${keep ? (keep.paused ? 'paused' : 'playing') : '-'}</div><div class="diag">${esc(DIAG.slice().reverse().join('\n')) || '(기록 없음)'}</div>`;
+  document.getElementById('ov').classList.add('on'); history.pushState({sheet: 1}, '');
+}
+let wakeLock = null;
+async function wakeOn(){ if (!('wakeLock' in navigator)) return dlog('wakeLock 미지원'); try { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => dlog('wakeLock 해제됨')); dlog('wakeLock 획득'); } catch (e) { dlog('wakeLock 실패 ' + e.name); } }
+function wakeOff(){ if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
+let pkTimer = null;
+function pocketOn(){
+  if (!LP) return;
+  document.getElementById('pocket').classList.add('on'); pocketPaint(); wakeOn(); dlog('주머니 모드 on');
+}
+function pocketOff(){ document.getElementById('pocket').classList.remove('on'); dlog('주머니 모드 off'); }
+function pocketPaint(){
+  if (!LP || !document.getElementById('pocket').classList.contains('on')) return;
+  const x = LP.items[LP.i]; document.getElementById('pkWord').textContent = isWord(x) ? x.w : x.k;
+  document.getElementById('pkRd').textContent = LP.answered ? (isWord(x) ? x.rd + '  ' + kstrip(x.ko) : x.hun) : '';
+}
+(() => { const pk = document.getElementById('pocket'); const start = e => { e.preventDefault(); clearTimeout(pkTimer); pkTimer = setTimeout(pocketOff, 2000); }; const end = () => clearTimeout(pkTimer);
+  pk.addEventListener('touchstart', start, {passive: false}); pk.addEventListener('touchend', end); pk.addEventListener('touchcancel', end);
+  pk.addEventListener('mousedown', start); pk.addEventListener('mouseup', end); pk.addEventListener('contextmenu', e => e.preventDefault()); })();
 let pl = new Audio(), pl2 = new Audio(); pl.preload = pl2.preload = 'auto';   // 둘을 번갈아 써서 다음 클립을 미리 받아 둔다
 /* 유튜브처럼 화면이 꺼져도 살아 있으려면 「끊기지 않는 소리 하나」가 계속 재생 중이어야 한다.
    짧은 클립 사이의 빈틈에서 안드로이드가 페이지를 재우므로, 세션 내내 반복되는 무음 트랙을 같이 틀어 둔다 */
 let keep = null;
 function keepAlive(on){
-  if (on) { if (!keep) { keep = new Audio(silenceURI(20)); keep.loop = true; keep.volume = 0.02; } keep.play().catch(() => {}); }
+  if (on) { if (!keep) { keep = new Audio(silenceURI(20, true)); keep.loop = true; keep.volume = 0.05; } keep.play().catch(e => dlog('keep 거부 ' + e.name)); }
   else if (keep) { keep.pause(); }
 }
-function silenceURI(sec){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다
+function silenceURI(sec, dither){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다. dither=1비트 잡음(킵얼라이브용)
   const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n);
   const w = (o, s) => { for (let i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); }; const d = new DataView(b.buffer);
   w(0, 'RIFF'); d.setUint32(4, 36 + n, true); w(8, 'WAVEfmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
   d.setUint32(24, 8000, true); d.setUint32(28, 8000, true); d.setUint16(32, 1, true); d.setUint16(34, 8, true); w(36, 'data'); d.setUint32(40, n, true); b.fill(128, 44);
+  if (dither) for (let i = 44; i < b.length; i += 3) b[i] = 128 + ((i * 7919) % 3) - 1;
   return URL.createObjectURL(new Blob([b], {type: 'audio/wav'}));
 }
 const ttsURL = (text, lang) => 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(text.replace(/[・･]/g, '、').slice(0, 180));
@@ -661,8 +698,9 @@ function startListen(){
     navigator.mediaSession.setActionHandler('play', () => lsToggle(true)); navigator.mediaSession.setActionHandler('pause', () => lsToggle(false));
     navigator.mediaSession.setActionHandler('nexttrack', lsNext); navigator.mediaSession.setActionHandler('previoustrack', lsPrev);
   }
-  keepAlive(true);
+  keepAlive(true); dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode);
   show('vPlay'); lsLoadItem(); lsStep();
+  if (LSO.pocket) setTimeout(pocketOn, 400);
 }
 function lsLoadItem(){
   const x = LP.items[LP.i]; LP.steps = scriptOf(x); LP.si = 0;
@@ -682,6 +720,7 @@ function lsStep(){
   const st = LP.steps[LP.si++]; const x = LP.items[LP.i];
   if (st.show) {
     const a = document.getElementById('pAns');
+    LP.answered = st.show === 'a'; pocketPaint();
     if (st.show === 'a') { a.innerHTML = isWord(x) ? `${esc(x.rd)}<small>${esc(x.ko)}</small>` : `${esc(x.hun)}<small>${esc((x.on || []).join('・'))} · ${esc((x.kun || []).slice(0, 3).join('・'))}</small>`; a.className = 'ans'; }
     document.getElementById('pStep').textContent = st.show === 'q' ? (LSO.mode === 'rev' ? '뜻을 듣고 일본어를 떠올리세요' : '듣고 뜻을 떠올리세요') : '정답';
     return lsStep();
@@ -695,12 +734,14 @@ function lsStep(){
 }
 function lsPlay(url, tts){
   const cur = LP; cur.lastAt = Date.now(); cur.stalled = false;
+  dlog((tts ? tts.lang + ' ' + tts.text.slice(0, 12) : '무음') + (document.visibilityState === 'hidden' ? ' (hidden)' : ''));
   pl.onended = pl.onerror = null;
   if (pl2._url === url) { const t = pl; pl = pl2; pl2 = t; }        // 미리 받아 둔 것이 있으면 교대
   else { pl.src = url; pl._url = url; }
   pl.onended = () => { if (LP === cur && cur.playing) lsStep(); };
-  pl.onerror = () => { if (LP !== cur || !cur.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
+  pl.onerror = () => { dlog('onerror ' + (pl.error ? pl.error.code : '')); if (LP !== cur || !cur.playing) return; if (tts) { lsFallback(); lsTTS(tts.text, tts.lang); } else setTimeout(lsStep, 300); };
   const tryPlay = (n) => pl.play().catch(err => {
+    dlog('play 거부 ' + (err && err.name) + ' #' + n);
     if (LP !== cur || !cur.playing) return;
     if (n < 2) return setTimeout(() => tryPlay(n + 1), 400);
     if (err && err.name === 'NotAllowedError') { cur.stalled = true; lsPaint(false); return toast('재생이 막혔습니다. ▶ 를 눌러 이어 들으세요'); }
@@ -727,7 +768,7 @@ function lsResume(){
   if (pl.paused && !pl.ended && pl._url) pl.play().catch(() => lsStep());
   else if (pl.paused && Date.now() - (LP.lastAt || 0) > 12000) lsStep();
 }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') setTimeout(lsResume, 200); });
+document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') { setTimeout(lsResume, 200); if (LP && document.getElementById('pocket').classList.contains('on')) wakeOn(); } });
 setInterval(() => { if (LP && LP.playing && pl.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 15000) lsResume(); }, 5000);
 function lsFallback(){
   if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다. 화면을 켜 둡니다');
@@ -771,7 +812,7 @@ function lsToggle(force){
 }
 function stopListen(done){
   if (!LP) return;
-  LP.playing = false; lsInterrupt(); keepAlive(false);
+  LP.playing = false; lsInterrupt(); keepAlive(false); wakeOff(); pocketOff(); dlog('세션 종료');
   if (LP.lock) { LP.lock.release().catch(() => {}); }
   if (done) { document.getElementById('pStep').textContent = '끝'; document.getElementById('pPlay').innerHTML = '<span class="ic">▶</span>다시'; document.getElementById('pBar').style.width = '100%'; }
   const wasDone = done; LP = null;
