@@ -237,6 +237,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
   <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
   <div class="grp"><h5>음성 엔진</h5><div class="opts" id="lsEngine"></div><p class="note" id="lsEngineNote"></p></div>
+  <div class="grp"><h5>화면 켜 두기</h5><div class="opts" id="lsAwake"></div><p class="note">브라우저는 5초보다 짧은 소리를 「효과음」으로 취급해 화면이 꺼지면 새로 시작하지 못하게 합니다. 학습 클립이 그에 해당하므로 <b>전원 버튼을 누르지 말고</b> 이 옵션으로 화면이 저절로 꺼지지 않게 두세요. 밝기를 최소로 내리면 배터리 부담이 적습니다.</p></div>
   <div class="startbar" style="padding:4px 0 0"><button onclick="startListen()">▶ 듣기 시작</button></div>
   <p class="note">소리는 온라인 음성(인터넷 필요)을 재생 요소 하나에 「다음 곡」으로 이어 넣어 재생합니다(음악 앱과 같은 방식). 침묵 구간도 들리지 않는 저음으로 채워 재생이 끊기지 않게 하며, 잠금 화면과 이어폰 버튼으로 재생·일시정지·다음·이전이 됩니다. 「이전」을 두 번 누르면 그 카드가 복습함에 들어갑니다. 온라인 음성이 막히면 기기 음성으로 바꿉니다.<br>더 안정적으로 들으려면 크롬 메뉴 ⋮ → 「홈 화면에 추가」로 앱처럼 설치하고 거기서 여세요. 브라우저 탭보다 백그라운드 보호를 더 받습니다.</p>
  </div>
@@ -604,6 +605,7 @@ function openListen(){
   seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
   seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
   seg('lsEngine', [['online', '온라인 음성'], ['device', '기기 음성']], LSO.engine || 'online', 'lsSet.engine');
+  seg('lsAwake', [[1, '켜기 (권장)'], [0, '끄기']], LSO.awake === 0 ? 0 : 1, 'lsSet.awake');
   const vs = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : []; const ja = vs.filter(v => /^ja/i.test(v.lang)).length, ko = vs.filter(v => /^ko/i.test(v.lang)).length;
   document.getElementById('lsEngineNote').textContent = (LSO.engine === 'device')
     ? `기기에 설치된 음성으로 읽습니다(인터넷 불필요). 지금 기기: 일본어 ${ja}개 · 한국어 ${ko}개${ja ? '' : ' — 일본어 음성이 없어 일본어가 제대로 안 읽힙니다'}`
@@ -612,7 +614,7 @@ function openListen(){
   show('vListen');
 }
 const lsSet = {};
-for (const f of ['pause', 'loop', 'stop', 'engine']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
+for (const f of ['pause', 'loop', 'stop', 'engine', 'awake']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
 function lsSetMode(m){ LSO.mode = m; lsSave(); openListen(); }
 function lsSave(){ ST.listen = LSO; save(); }
 function lsDeckChanged(){
@@ -695,6 +697,7 @@ function startListen(){
   dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
   if (LSO.engine === 'device') keepAlive(true);   // 기기 음성일 때만 저음으로 재생 상태를 만든다. 온라인은 첫 클립이 바로 그 역할
   show('vPlay'); lsLoadItem(); lsStep();
+  if (LSO.awake !== 0) wakeOn();
 }
 function lsLoadItem(){
   const x = LP.items[LP.i]; LP.steps = scriptOf(x); LP.si = 0;
@@ -743,16 +746,22 @@ function lsPlay(url, tts, label){
   });
   tryPlay(0);
 }
+let wakeLock = null;
+async function wakeOn(){ if (!('wakeLock' in navigator)) return dlog('wakeLock 미지원'); try { wakeLock = await navigator.wakeLock.request('screen'); dlog('화면 켜 두기 획득'); wakeLock.addEventListener('release', () => dlog('화면 켜 두기 해제됨')); } catch (e) { dlog('화면 켜 두기 실패 ' + e.name); } }
+function wakeOff(){ if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; } }
 function lsPaint(playing){ document.getElementById('pPlay').innerHTML = playing ? '<span class="ic">⏸</span>일시정지' : '<span class="ic">▶</span>재생'; if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; }
 /* 화면이 다시 켜지거나 앱으로 돌아왔을 때, 그리고 주기적으로: 재생 중이어야 하는데 멈춰 있으면 되살린다 */
 function lsResume(){
   if (!LP || !LP.playing) return;
   if (LP.stalled) { LP.stalled = false; lsPaint(true); return lsStep(); }
-  if (LP.engine === 'tts') return;
-  if (ONE.paused && !ONE.ended && ONE._url) ONE.play().catch(() => lsStep());
-  else if (ONE.paused && Date.now() - (LP.lastAt || 0) > 12000) lsStep();
+  if (LP.engine === 'tts') {   // 백그라운드에 다녀오면 speechSynthesis 가 말하는 중인 채 굳는 일이 있다 → 끊고 그 단계부터 다시
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    if (LP.si > 0) LP.si--; dlog('복귀: 기기 음성 재개'); return lsStep();
+  }
+  if (ONE.error || (ONE.paused && ONE.ended)) { dlog('복귀: 다음 단계로'); return lsStep(); }
+  if (ONE.paused && ONE._url) ONE.play().then(() => dlog('복귀: 이어 재생')).catch(() => lsStep());
 }
-document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') setTimeout(lsResume, 200); });
+document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') { setTimeout(lsResume, 200); if (LP && LSO.awake !== 0) wakeOn(); } });
 setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 20000) lsResume(); }, 20000);
 function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다'); }
 function lsTTS(text, lang){
@@ -786,7 +795,8 @@ function lsToggle(force){
   if (!LP) return;
   const want = force === undefined ? !LP.playing : force;
   LP.playing = want; lsPaint(want);
-  if (!want) { ONE.pause(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (!want) { ONE.pause(); wakeOff(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (LSO.awake !== 0) wakeOn();
   if (LP.stalled) { LP.stalled = false; return lsStep(); }
   if (LP.engine === 'tts') { keepAlive(true); if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); return; }
   if (ONE._url && ONE._url !== 'tone' && ONE.paused && ONE.currentTime > 0 && !ONE.ended) ONE.play().catch(() => lsStep());
@@ -794,7 +804,7 @@ function lsToggle(force){
 }
 function stopListen(done){
   if (!LP) return;
-  LP.playing = false; lsInterrupt(); ONE.pause(); dlog('세션 종료');
+  LP.playing = false; lsInterrupt(); ONE.pause(); wakeOff(); dlog('세션 종료');
   if (done) { document.getElementById('pStep').textContent = '끝'; document.getElementById('pPlay').innerHTML = '<span class="ic">▶</span>다시'; document.getElementById('pBar').style.width = '100%'; }
   const wasDone = done; LP = null;
   if (wasDone) { document.getElementById('pPlay').onclick = () => { startListen(); document.getElementById('pPlay').onclick = lsToggle; }; }
