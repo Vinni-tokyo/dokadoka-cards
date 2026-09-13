@@ -9,7 +9,14 @@ python3 tools/study-tab/patch_song.py  <노래앱>/src/tpl.html      # 노래 �
 cd <앱>/src && python3 build.py
 ```
 
-적용 완료: mika-cards, firstlove-cards (2026-09-13). 나머지 앱은 템플릿 차이를 확인한 뒤 적용한다.
+적용 완료: mika-cards, firstlove-cards (2026-09-13). 이 둘은 patch_*.py 를 순서대로(study → song → foot → cue → tts → tts2 → layout → tts3 → layout2 → layout3 → karafill) 적용한 것.
+
+다른 계열의 노래 템플릿(reasons·vitaminme·saranghagi)은 라벨 언어·필드명·드릴 유무가 달라 **port_song.py** 로 한 번에 옮긴다(앱별 CFG).
+```bash
+python3 tools/study-tab/port_song.py saranghagi-cards      # src/tpl.html 제자리 수정, 한 번만
+.venv/bin/python tools/make_study_audio.py saranghagi-cards --cards   # 가사 줄 음원(읽어주기)
+```
+적용 완료: reasons-cards, vitaminme-cards, saranghagi-cards (2026-09-13).
 
 바뀌는 것
 - 하위 탭 6 → 4 (오늘 · 복습 · 목록 · 학습법). 드릴·퀴즈는 단계·버튼에서 열리고 「돌아가기」로 복귀

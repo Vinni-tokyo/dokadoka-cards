@@ -133,6 +133,13 @@ N = len(data)
 OUT = os.path.join(ROOT, 'Korean-%s%d-Cards.html' % (NICK, N))
 tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
 html = tpl.replace('/*__SERIES__*/', json.dumps([series], ensure_ascii=False, separators=(',', ':')))
+_adir = os.path.join(S, 'audio'); _amap = {}
+if os.path.exists(os.path.join(_adir, 'index.json')):
+    import base64
+    for _k, _fn in json.load(io.open(os.path.join(_adir, 'index.json'), encoding='utf-8')).items():
+        _fp = os.path.join(_adir, _fn)
+        if os.path.exists(_fp): _amap[_k] = 'data:audio/mpeg;base64,' + base64.b64encode(open(_fp, 'rb').read()).decode()
+html = html.replace('/*__AUDIO__*/', json.dumps(_amap, ensure_ascii=False))
 io.open(OUT, 'w', encoding='utf-8').write(html)
 
 print('生成:', OUT, '(%.1f KB)' % (os.path.getsize(OUT)/1024))

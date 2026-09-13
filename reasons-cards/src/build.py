@@ -121,6 +121,13 @@ html = (tpl
     .replace('/*__VID__*/',      VID)
     .replace('__N__', str(N)).replace('__YK__', str(YK))
     .replace('__P1__', str(PACE[0])).replace('__P2__', str(PACE[1])).replace('__P3__', str(PACE[2])).replace('__P4__', str(PACE[3])))
+_adir = os.path.join(S, 'audio'); _amap = {}
+if os.path.exists(os.path.join(_adir, 'index.json')):
+    import base64
+    for _k, _fn in json.load(io.open(os.path.join(_adir, 'index.json'), encoding='utf-8')).items():
+        _fp = os.path.join(_adir, _fn)
+        if os.path.exists(_fp): _amap[_k] = 'data:audio/mpeg;base64,' + base64.b64encode(open(_fp, 'rb').read()).decode()
+html = html.replace('/*__AUDIO__*/', json.dumps(_amap, ensure_ascii=False))
 io.open(OUT, 'w', encoding='utf-8').write(html)
 print('생성:', OUT, '(%.1f KB)' % (os.path.getsize(OUT)/1024))
 print('카드:', N, '| 주석:', sum(1 for d in data if 'note' in d), '| 박 그리드:', ('BPM %.1f · 박 %d · 위상 %d' % (beats['bpm'], len(beats['beats']), beats['phase'])) if beats else '없음', '| 페이스:', '/'.join(map(str, PACE)))
