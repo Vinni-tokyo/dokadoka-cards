@@ -7,7 +7,6 @@ def rep(old, new):
     assert h.count(old) == 1, f'[{N}] {h.count(old)} matches: {old[:60]!r}'
     h = h.replace(old, new); N += 1
 rep('''      <p class="ko" id="ko"></p>''', '''      <div class="ttsrow">
-       <span class="cap">읽어주기 · 読み上げ</span>
        <button class="btn btn-sm" id="ttsPlay" title="원문을 읽어 줍니다 (T)"><svg class="ic"><use href="#i-sound"/></svg>읽어주기</button>
        <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
        <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
