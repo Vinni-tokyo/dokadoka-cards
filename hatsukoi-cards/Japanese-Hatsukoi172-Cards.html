@@ -1291,7 +1291,7 @@ function paintGloss(d){
   (d.kj || []).forEach(([head, rd, mean, hj, chars]) => {
     const row = document.createElement('div'); row.className = 'kjrow';
     const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
-    w.appendChild(ttsBtn(head));
+    w.appendChild(ttsBtn(rd || head));   /* 읽어주기는 훈독(사전 읽기)으로 */
     const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);
     const m = document.createElement('div'); m.className = 'm';
     const h = document.createElement('span'); h.className = 'hj'; h.textContent = hj;

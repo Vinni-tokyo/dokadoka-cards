@@ -56,9 +56,9 @@ def items_of(app, field, cards=False, gloss=False):
         if m2:
             for s_ in json.loads(m2.group(1)): data += s_.get('data', [])
         if cards: out += data
-        if gloss:
+        if gloss:                                                  # 한자 풀이 표제어는 사전 읽기(훈독 가나)로 읽는다
             for c in data:
-                for kj in c.get('kj', []): out.append({field: kj[0]})
+                for kj in c.get('kj', []): out.append({field: kj[1] or kj[0]})
     m = re.search(r'const STUDY = (\[.*?\]);\s*(?:/\*|\n)', h, re.S)
     if m: out += json.loads(m.group(1))
     m = re.search(r'const SERIES = (\[.*?\]);\n', h, re.S)

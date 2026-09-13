@@ -18,7 +18,7 @@ rep('''.ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color
 rep('''    const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
     const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);''',
     '''    const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
-    w.appendChild(ttsBtn(head));
+    w.appendChild(ttsBtn(rd || head));   /* 읽어주기는 훈독(사전 읽기)으로 */
     const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);''')
 # 표현 풀이 줄: 표현 옆에 버튼
 rep('''    const b = document.createElement('b'); b.lang = 'ja'; b.textContent = r.ja;
