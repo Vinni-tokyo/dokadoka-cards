@@ -20,6 +20,7 @@ dokadoka-cards/
 ├─ index.html                 관문 — 언어(ja/ko/en)별로 앱 카드를 나열. APPS 배열이 목록
 ├─ start.sh / start.bat       관문 실행기 (포트 8100)
 ├─ japanese-cards/            🇯🇵 Snow Man 인터뷰 · 105장 · 포트 8099 · WORKFLOW_PROMPT.md(정본 작업 지시서)
+├─ kanji-cards/               🇯🇵 한자 카드 · 일본어 7작품의 한자 963자·한자어 1,433개 · 유튜브 없음 · 포트 8084
 ├─ yubisaki-cards/            🇯🇵 ゆびさきと恋々 1화 · 185장 · 포트 8097
 ├─ bokuyaba-cards/            🇯🇵 僕の心のヤバイやつ 1화 · 184장 · 포트 8093 (자동자막 교정 106건·한자 풀이)
 ├─ firstlove-cards/           🇯🇵 宇多田ヒカル 「First Love」 노래 · 28줄 · 포트 8091 (노래방·마디 반복·음성 인식 타이밍)
