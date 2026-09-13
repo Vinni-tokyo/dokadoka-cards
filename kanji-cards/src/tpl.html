@@ -650,7 +650,7 @@ const DIAG = [];
 function dlog(m){ const t = new Date(); DIAG.push(t.toTimeString().slice(0, 8) + ' ' + m); if (DIAG.length > 60) DIAG.shift(); }
 function showDiag(){
   const el = document.getElementById('sheet');
-  el.innerHTML = `<div class="grab" onclick="closeSheet()"></div><div class="bar"><button class="close" onclick="closeSheet()">닫기 ✕</button></div><b>듣기 진단</b><div class="rw" style="font-size:12.5px">visibility=${document.visibilityState} · wakeLock=${'wakeLock' in navigator} · mediaSession=${'mediaSession' in navigator} · standalone=${matchMedia('(display-mode: standalone)').matches} · engine=${LP ? LP.engine : '-'} · keep=${keep ? (keep.paused ? 'paused' : 'playing') : '-'}</div><div class="diag">${esc(DIAG.slice().reverse().join('\n')) || '(기록 없음)'}</div>`;
+  el.innerHTML = `<div class="grab" onclick="closeSheet()"></div><div class="bar"><button class="close" onclick="closeSheet()">닫기 ✕</button></div><b>듣기 진단</b><div class="rw" style="font-size:12.5px">visibility=${document.visibilityState} · wakeLock=${'wakeLock' in navigator} · mediaSession=${'mediaSession' in navigator} · standalone=${matchMedia('(display-mode: standalone)').matches} · engine=${LP ? LP.engine : '-'} · keep=${keep ? (keep.paused ? 'paused' : 'playing') + ' vol ' + keep.volume : '-'} · hidden시 마지막 재생=${DIAG.filter(l => l.includes('(hidden)')).slice(-1)[0] || '없음'}</div><div class="diag">${esc(DIAG.slice().reverse().join('\n')) || '(기록 없음)'}</div>`;
   document.getElementById('ov').classList.add('on'); history.pushState({sheet: 1}, '');
 }
 let wakeLock = null;
@@ -692,15 +692,17 @@ function lsPrefetchItem(idx){
    짧은 클립 사이의 빈틈에서 안드로이드가 페이지를 재우므로, 세션 내내 반복되는 무음 트랙을 같이 틀어 둔다 */
 let keep = null;
 function keepAlive(on){
-  if (on) { if (!keep) { keep = new Audio(silenceURI(20, true)); keep.loop = true; keep.volume = 0.05; } keep.play().catch(e => dlog('keep 거부 ' + e.name)); }
+  if (on) { if (!keep) { keep = new Audio(silenceURI(20, true)); keep.loop = true; keep.volume = 0.6; } keep.play().then(() => dlog('keep 재생')).catch(e => dlog('keep 거부 ' + e.name)); }
   else if (keep) { keep.pause(); }
 }
-function silenceURI(sec, dither){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다. dither=1비트 잡음(킵얼라이브용)
+function silenceURI(sec, tone){   // 무음 WAV (8kHz 8bit mono). 침묵도 오디오로 재생해야 화면이 꺼져도 흐름이 멈추지 않는다. tone=20Hz 저음(킵얼라이브용)
   const n = Math.max(1, Math.round(8000 * sec)); const b = new Uint8Array(44 + n);
   const w = (o, s) => { for (let i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); }; const d = new DataView(b.buffer);
   w(0, 'RIFF'); d.setUint32(4, 36 + n, true); w(8, 'WAVEfmt '); d.setUint32(16, 16, true); d.setUint16(20, 1, true); d.setUint16(22, 1, true);
   d.setUint32(24, 8000, true); d.setUint32(28, 8000, true); d.setUint16(32, 1, true); d.setUint16(34, 8, true); w(36, 'data'); d.setUint32(40, n, true); b.fill(128, 44);
-  if (dither) for (let i = 44; i < b.length; i += 3) b[i] = 128 + ((i * 7919) % 3) - 1;
+  /* 킵얼라이브는 완전 무음이면 크롬이 「소리 없음」으로 보고 백그라운드 재생 자격(미디어 알림)을 주지 않는다.
+     귀에는 안 들리지만 음량 측정기에는 잡히는 20Hz 저음을 -30dBFS 로 넣는다 (이어폰은 20Hz 를 거의 재생하지 못한다) */
+  if (tone) for (let i = 0; i < n; i++) b[44 + i] = 128 + Math.round(4 * Math.sin(2 * Math.PI * 20 * i / 8000));
   return URL.createObjectURL(new Blob([b], {type: 'audio/wav'}));
 }
 const ttsURL = (text, lang) => 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(text.replace(/[・･]/g, '、').slice(0, 180));
