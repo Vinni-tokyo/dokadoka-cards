@@ -6,7 +6,7 @@ def rep(old, new):
     assert h.count(old) == 1, f'[{N}] {h.count(old)} matches: {old[:60]!r}'
     h = h.replace(old, new); N += 1
 rep('''\n.cardfoot{display:none}\n''', '''\n.cardfoot{display:grid;grid-template-columns:auto 1.3fr 1fr 1fr auto;gap:8px;margin-top:16px}
-.cardfoot .btn{justify-content:center;min-height:44px}
+.cardfoot .btn{justify-content:center;min-height:44px;white-space:nowrap;padding:8px 6px;gap:5px;font-size:13px}
 .card .nav{display:none}
 #play,#stop,#loop{display:none}
 .playrow{margin:0}.playrow .btn{margin-top:14px}
