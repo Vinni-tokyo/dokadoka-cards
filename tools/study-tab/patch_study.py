@@ -673,6 +673,17 @@ rep('''  else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); 
 rep('''buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();''',
     '''buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); setSub('D'); syncQuizUI(); paintMini(); loadAPI();''')
 
+# 메인(허브)으로 돌아가는 홈 버튼 — 탭 줄 맨 왼쪽
+rep('''<symbol id="i-info" viewBox="0 0 24 24">''', '''<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5L12 4l9 7.5M5.5 10v10h13V10"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24">''')
+rep('''   <div class="tabs">
+    <button class="tab" id="tabCard" aria-pressed="true">''', '''   <div class="tabs">
+    <a class="tab home" href="../" title="메인으로 · 모든 학습 콘텐츠 / メインへ" aria-label="메인으로"><svg class="ic"><use href="#i-home"/></svg></a>
+    <button class="tab" id="tabCard" aria-pressed="true">''')
+rep('''.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}''', '''.tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+.tab.home{flex:0 0 auto;padding:6px 10px;text-decoration:none;color:var(--ink-3);border-right:1px solid var(--line-2);border-radius:7px 0 0 7px;margin-right:2px}
+.tab.home:hover{color:var(--brand)}''')
+rep('''.tabs{margin-left:0;width:100%}.tab{flex:1;justify-content:center;padding:6px 8px}''', '''.tabs{margin-left:0;width:100%;gap:2px}.tab{flex:1;justify-content:center;padding:6px 4px;gap:0}.tab>.ic{display:none}.tab.home{flex:0 0 auto;padding:6px 9px}.tab.home>.ic{display:block}''')
 # 체크 토글 시 복습 수 갱신
 rep('''  $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
   paintProgress();
