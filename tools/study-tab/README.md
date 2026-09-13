@@ -25,3 +25,12 @@ python3 tools/study-tab/port_song.py saranghagi-cards      # src/tpl.html 제자
 - 복습 탭 = SRS 기한 + 퀴즈 오답 + 체크한 대사
 - 모바일: 학습 탭에서 플레이어를 미니 바로, 드릴 채점·세션 버튼은 하단 고정
 - 노래 앱: 단락(절·후렴)=Day, 마디 반복 패널을 노래방 하단 한 줄로, 지금 줄 탭 = 그 줄의 마디 반복, 가사 가리기 3단
+
+## 토크쇼·인터뷰 앱 (2026-09-13)
+
+mika 계열(bokuyaba·frieren·hatsukoi·milky·yubisaki)은 patch_*.py 체인(study → foot → cue → tts → tts2 → layout → tts3 → layout2)을 그대로 적용.
+라벨 언어·필드가 다른 계열(영어 7종 · korean-cards · japanese-cards)은 **port_talk.py** 로 한 번에 옮긴다(앱별 CFG).
+```bash
+python3 tools/study-tab/port_talk.py english-cards
+```
+적용 완료: 전체 (2026-09-13). 남은 앱: kanji-cards(구조가 다른 별도 앱, 대상 아님).

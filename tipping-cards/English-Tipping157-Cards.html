@@ -81,6 +81,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  font-size:13px;font-weight:500;color:var(--ink-2);transition:background .12s,color .12s}
 .tab:hover{color:var(--ink)}
 .tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
+.tab.home{flex:0 0 auto;padding:6px 10px;text-decoration:none;color:var(--ink-3);border-right:1px solid var(--line-2);border-radius:7px 0 0 7px;margin-right:2px}
+.tab.home:hover{color:var(--brand)}
 
 .notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
  color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
@@ -370,7 +372,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .wrap.nosides .player-box{position:static;margin:0;padding:0}
  .status{font-size:11.5px}.vidrow{margin-top:10px}
  /* 상단·탭 */
- .main{padding:14px 12px 28px}.topbar{gap:10px;margin-bottom:14px}.topbar h1{font-size:18px}.tabs{margin-left:0;width:100%}.tab{flex:1;justify-content:center;padding:6px 8px}
+ .main{padding:14px 12px 28px}.topbar{gap:10px;margin-bottom:14px}.topbar h1{font-size:18px}.tabs{margin-left:0;width:100%;gap:2px}.tab{flex:1;justify-content:center;padding:6px 4px;gap:0}.tab>.ic{display:none}.tab.home{flex:0 0 auto;padding:6px 9px}.tab.home>.ic{display:block}
  /* 카드 */
  .card{padding:16px 14px 18px}.card-top{flex-wrap:wrap}.en{font-size:20px;margin-top:14px}.playrow .btn{flex:1 1 45%}.nav .btn{flex:1}
  .answer{padding:14px 14px}.edit{padding:12px}
@@ -378,7 +380,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  .script{max-height:none}.line{padding:10px 10px;gap:8px}.line .k{font-size:15px}.line .j{font-size:12.5px}
  /* 학습: 하위 탭은 두 줄로, 페이스·Day 띠·버튼은 가로 폭 가득 */
  .study{max-height:none;border-radius:12px}
- .subtabs{flex-wrap:wrap;gap:4px;padding:8px}.subtabs .tab{flex:1 1 30%;justify-content:center;padding:7px 6px;gap:5px}
+ .subtabs{flex-wrap:wrap;gap:4px;padding:8px}.subtabs .tab{flex:1 1 0;justify-content:center;padding:7px 2px;gap:4px}
  .dayctl{padding:10px 12px;gap:8px}.dayctl .seg{width:100%}.dayctl .seg button{flex:1;padding:9px 4px}
  .dayctl .meta{width:100%;margin:0}.daystrip{margin-left:0;width:100%}.dbtn{flex:1 1 0;min-width:0;padding:8px 0}
  .dayhead{flex-wrap:wrap;padding:12px 12px 8px;gap:10px}.dayhead h3{font-size:16px}
@@ -442,6 +444,88 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .dex .exj{font-size:12.5px;line-height:1.6;color:var(--ink-2);margin-top:3px;word-break:keep-all}
 .srow .lab{display:flex;flex-direction:column;gap:4px;flex:none}
 .srow[aria-current=true]{background:var(--brand-soft);box-shadow:inset 3px 0 0 var(--brand)}
+/* ---- 학습 탭 개편 · 세션 · 조작 줄 · 읽어주기 · 미니 플레이어 (port_talk) ---- */
+.dayhead{align-items:center}
+.dayhead .dayttl{flex:1}
+.dayarr{padding:6px 8px;min-height:34px}
+.daybar{height:5px;background:var(--surface-3);border-radius:3px;overflow:hidden;margin-top:9px;max-width:420px}
+.daybar i{display:block;height:100%;background:var(--brand);border-radius:3px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;padding:0 18px 10px}
+.bdg{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.bdg.ok{background:#e4f2ea;color:#2f7d5b;border-color:transparent}
+.bdg.acc{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.stages{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 18px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface-2)}
+.stg{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left}
+.stg .no{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line-2);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--ink-3)}
+.stg.done .no{background:#2f7d5b;border-color:#2f7d5b;color:#fff}
+.stg.now .no{background:var(--brand);border-color:var(--brand);color:#fff}
+.stg.now{border-color:var(--brand-line);box-shadow:0 0 0 3px var(--brand-soft)}
+.stg .ti{font-size:14px;font-weight:700;line-height:1.2}
+.stg .ti small{font-weight:400;font-size:11px;color:var(--ink-3);margin-left:5px}
+.stg .mt{font-size:11.5px;color:var(--ink-3);margin-top:3px;word-break:keep-all}
+.stg .pb{height:4px;background:var(--surface-3);border-radius:2px;overflow:hidden;margin-top:6px;max-width:170px}
+.stg .pb i{display:block;height:100%;background:var(--brand)}
+.stg .rt{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.stg .st{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.stg.done .st{color:#2f7d5b}
+.dbar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;background:var(--surface-2)}
+.dbar .t{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dfoot{display:flex;flex-direction:column;gap:10px}
+.rvhead{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.rvhead .meta{flex:1;min-width:0}
+.srow .src{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--brand);background:var(--brand-soft);padding:1px 7px;border-radius:20px;margin-left:6px;vertical-align:2px}
+.sessbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:8px 10px;border:1px solid var(--brand-line);background:var(--brand-soft);border-radius:10px;font-size:12.5px;color:var(--brand)}
+.sessbar .bar{flex:1 0 70px;margin:0;background:var(--surface)}
+.sessbar .bar span{display:block;height:100%;background:var(--brand)}
+.sessbar b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sessbar .meta{white-space:nowrap}
+.sessfoot{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:14px}
+.sessfoot .btn{min-height:46px;justify-content:center}
+.minibar{display:none}
+.cardfoot{display:grid;grid-template-columns:auto 1.3fr 1fr 1fr auto;gap:8px;margin-top:16px}
+.cardfoot .btn{justify-content:center;min-height:44px;white-space:nowrap;padding:8px 6px;gap:5px;font-size:13px}
+.card .nav{display:none}
+#play,#loop{display:none}
+.playrow{margin:0}.playrow .btn{margin-top:14px}
+.card.sess .cardfoot{display:none}
+.btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
+.cue{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
+.ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.card-top .ctl{display:inline-flex;align-items:center;gap:6px;flex:none}
+.ibtn{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
+.ibtn .ic{width:15px;height:15px}
+.ibtn:hover{color:var(--brand);border-color:var(--brand-line)}
+.ibtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.daystrip .dbtn{flex:none}
+@media(max-width:600px){
+ body.mini .player-box .ratio{position:absolute;width:1px;height:1px;min-height:0;opacity:0;pointer-events:none;overflow:hidden;aspect-ratio:auto;box-shadow:none}
+ body.mini .player-box{position:static;padding:0;margin:0}
+ body.mini .minibar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 8px;margin-bottom:10px;font-size:12px;color:var(--ink-2)}
+ .minibar .t{flex:1;min-width:0;overflow:hidden;text-align:left;padding:0;border:0;background:none;color:var(--ink-2);font:inherit}
+ .minibar .t b{display:block;font-size:12.5px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .minibar .t span{display:block;font-size:10.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .minibar .pl{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;border:0;display:grid;place-items:center;flex:none;font-size:12px}
+ .stages{grid-template-columns:1fr;padding:10px 12px}
+ .stg{padding:10px 10px}
+ .daystrip{display:none}
+ .dayhead{flex-wrap:nowrap;align-items:center}
+ .dayhead #dayDone .lbl{display:none}
+ .dfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0;gap:8px}
+ .dfoot .dbtns .btn{flex:1}
+ .dplay{padding-bottom:150px}
+ .dgrade{grid-template-columns:repeat(3,1fr)}
+ .rvhead .btn{flex:1 1 40%}
+ .searchrow{flex-wrap:wrap;gap:8px}.searchrow input{flex:1 1 100%;order:-1}.searchrow .ic{display:none}.searchrow .seg{flex:1 1 100%}.searchrow .seg button{flex:1}
+ .searchrow .btn{flex:1 1 40%}.searchrow .dauto{flex:1 1 40%}
+ .cardfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0}
+ .cardfoot .txt{display:none}.cardfoot #cfPrev,.cardfoot #cfNext{padding:8px 12px}
+ .card{padding-bottom:96px}
+ .card.sess .sessfoot{position:fixed;left:0;right:0;bottom:0;z-index:7;background:var(--surface);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));margin:0}
+ .card.sess .opts,.card .keys{display:none}
+ .playrow .btn{flex:1 1 100%;margin-top:12px}
+}
 </style>
 </head>
 <body>
@@ -465,6 +549,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></symbol>
 <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5L6.5 9H3v6h3.5L11 19zM15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></symbol>
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5L12 4l9 7.5M5.5 10v10h13V10"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
 </defs></svg>
 
@@ -477,6 +563,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
     <select id="sceneSel" class="scene-sel" aria-label="장면·화자 선택 / Scene or speaker"></select>
    </div>
    <div class="tabs">
+    <a class="tab home" href="../" title="메인으로 · 모든 학습 콘텐츠 / メインへ / Home" aria-label="home"><svg class="ic"><use href="#i-home"/></svg></a>
     <button class="tab" id="tabCard" aria-pressed="true"><svg class="ic"><use href="#i-cards"/></svg>
      <span class="lbl">카드<span class="sub" lang="en">Cards</span></span></button>
     <button class="tab" id="tabScript" aria-pressed="false"><svg class="ic"><use href="#i-list"/></svg>
@@ -501,6 +588,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
   <div class="stage">
    <div class="player-box">
+    <div class="minibar" id="minibar" hidden>
+     <button class="pl" id="mbToggle">▶</button>
+     <button class="t" id="mbOpen"><b id="mbTitle">—</b><span id="mbSub">▶</span></button>
+     <span class="meta" id="mbTime">0:00</span>
+    </div>
     <div class="ratio" id="ratio"><div id="player"></div></div>
     <div class="ratio offline" id="offlineBox" hidden>
      <div>
@@ -520,26 +612,38 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 
    <div id="cardView">
     <div class="card">
+     <div class="sessbar" id="sessbar" hidden>
+      <button class="btn btn-sm" id="sessQuit"><svg class="ic"><use href="#i-x"/></svg></button>
+      <b id="sessName">—</b>
+      <div class="bar"><span id="sessBar" style="width:0"></span></div>
+      <span class="meta" id="sessPos">0 / 0</span>
+     </div>
      <div class="card-top">
       <span style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
        <span class="chip" id="scene">—</span>
        <span class="chip spk" id="who">—</span>
        <span class="tag-edited" id="editedTag" hidden><svg class="ic" style="width:12px;height:12px"><use href="#i-pencil"/></svg>수정함 · Edited</span>
       </span>
-      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+      <span class="ctl">
+       <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
+       <button class="ibtn" id="check" aria-pressed="false" title="체크 · checked"><svg class="ic"><use href="#i-check"/></svg></button>
+       <button class="ibtn" id="edit" title="편집 / 編集 / Edit"><svg class="ic"><use href="#i-pencil"/></svg></button>
+      </span>
      </div>
 
      <div class="en" id="en" lang="en">불러오는 중…</div>
+     <div class="ttsrow">
+      <button class="btn btn-sm" id="ttsPlay" title="T"><svg class="ic"><use href="#i-sound"/></svg>읽어주기</button>
+      <button class="btn btn-sm" id="ttsSlow" title="0.75×">천천히</button>
+      <button class="btn btn-sm" id="ttsRep" title="×3">3회</button>
+      <button class="btn btn-sm" id="ttsStop"><svg class="ic fill"><use href="#i-stop"/></svg></button>
+     </div>
 
      <div class="playrow">
       <button class="btn btn-primary" id="play"><svg class="ic fill"><use href="#i-play"/></svg>
        <span class="lbl">이 장면 재생<span class="sub" lang="en">Play this line</span></span></button>
       <button class="btn" id="loop"><svg class="ic"><use href="#i-repeat"/></svg>
        <span class="lbl">구간 반복<span class="sub" lang="en">Repeat</span></span></button>
-      <button class="btn" id="check" aria-pressed="false"><svg class="ic"><use href="#i-check"/></svg>
-       <span class="lbl">체크<span class="sub" lang="en">Check</span></span></button>
-      <button class="btn" id="edit"><svg class="ic"><use href="#i-pencil"/></svg>
-       <span class="lbl">편집<span class="sub" lang="en">Edit</span></span></button>
      </div>
 
      <div class="edit" id="editBox" hidden>
@@ -593,6 +697,18 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-right"/></svg></button>
      </div>
 
+     <div class="cardfoot" id="cardfoot">
+      <button class="btn" id="cfPrev"><svg class="ic"><use href="#i-left"/></svg><span class="txt">이전</span></button>
+      <button class="btn btn-primary" id="cfPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생</button>
+      <button class="btn" id="cfStop"><svg class="ic fill"><use href="#i-stop"/></svg>정지</button>
+      <button class="btn" id="cfLoop" aria-pressed="false"><svg class="ic"><use href="#i-repeat"/></svg>반복</button>
+      <button class="btn" id="cfNext"><span class="txt">다음</span><svg class="ic"><use href="#i-right"/></svg></button>
+     </div>
+     <div class="sessfoot" id="sessfoot" hidden>
+      <button class="btn" id="sessA"><svg class="ic"><use href="#i-eye"/></svg>뜻 보기</button>
+      <button class="btn btn-primary" id="sessB">들었다 · 다음 ›</button>
+     </div>
+
      <div class="opts">
       <label><input type="checkbox" id="optAuto"><span>다음 카드 자동 재생<br><span class="inl" lang="en">Auto-play next card</span></span></label>
       <label><input type="checkbox" id="optShow"><span>뜻 처음부터 표시<br><span class="inl" lang="en">Show meaning from the start</span></span></label>
@@ -621,17 +737,19 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div id="studyView" hidden>
     <div class="study">
      <div class="subtabs">
-      <button class="tab" id="sbDrill" aria-pressed="true"><span class="lbl">드릴<span class="sub" lang="en">Drill</span></span><b id="nDrill">—</b></button>
-      <button class="tab" id="sbDay" aria-pressed="false"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
-      <button class="tab" id="sbExpr" aria-pressed="false"><span class="lbl">표현<span class="sub" lang="en">Expressions</span></span><b id="nExpr">0</b></button>
-      <button class="tab" id="sbWord" aria-pressed="false"><span class="lbl">단어<span class="sub" lang="en">Words</span></span><b id="nWord">0</b></button>
-      <button class="tab" id="sbQuiz" aria-pressed="false"><span class="lbl">퀴즈<span class="sub" lang="en">Quiz</span></span></button>
-      <button class="tab" id="sbGuide" aria-pressed="false" title="학습 진행 방법 / How to study">
-       <svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
+      <button class="tab" id="sbDay" aria-pressed="true"><span class="lbl">오늘<span class="sub" lang="en">Today</span></span><b id="nDay">—</b></button>
+      <button class="tab" id="sbReview" aria-pressed="false"><span class="lbl">복습<span class="sub" lang="en">Review</span></span><b id="nReview">0</b></button>
+      <button class="tab" id="sbList" aria-pressed="false"><span class="lbl">목록<span class="sub" lang="en">List</span></span><b id="nList">0</b></button>
+      <button class="tab" id="sbGuide" aria-pressed="false"><svg class="ic"><use href="#i-info"/></svg><span class="lbl">학습법<span class="sub" lang="en">How to</span></span></button>
      </div>
 
-     <div id="drillPane">
-      <div class="dsetup" id="dsetup">
+     <div id="drillPane" hidden>
+      <div class="dbar">
+       <button class="btn btn-sm" id="dBackBtn"><svg class="ic"><use href="#i-left"/></svg>돌아가기</button>
+       <span class="t" id="dTitle">드릴</span>
+       <button class="btn btn-sm" id="dSetBtn" aria-pressed="false">설정 ⚙</button>
+      </div>
+      <div class="dsetup" id="dsetup" hidden>
        <div class="qrow">
         <span class="cap">범위</span>
         <div class="seg" id="dScope">
@@ -639,6 +757,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
          <button data-v="V" aria-pressed="false">단어</button>
          <button data-v="A" aria-pressed="false">전부</button>
          <button data-v="D" aria-pressed="false">오늘 분량</button>
+         <button data-v="W" aria-pressed="false">복습</button>
         </div>
        </div>
        <div class="qrow">
@@ -695,6 +814,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
          <div class="exj" id="dExJ"></div>
         </div>
        </div>
+       <div class="dfoot">
        <div class="dbtns">
         <button class="btn btn-primary" id="dReveal"><svg class="ic"><use href="#i-eye"/></svg><span class="lbl">답 보기<span class="sub" lang="en">Reveal</span></span></button>
         <button class="btn" id="dContIn" hidden data-cont="이어 듣기" data-back="채점으로"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
@@ -707,6 +827,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <button class="btn g2" id="dG2">애매<small>2</small></button>
         <button class="btn g3" id="dG3">알아<small>3</small></button>
        </div>
+       </div>
        <div class="dhint">Space 답 보기 → 다음 / 1 몰라 · 2 애매 · 3 알아 / R 다시 듣기</div>
       </div>
 
@@ -716,11 +837,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="dbtns">
         <button class="btn btn-primary" id="dRestartMiss">틀린 것만 다시</button>
         <button class="btn" id="dRestartAll">처음부터</button>
+        <button class="btn" id="dDoneBack">돌아가기</button>
        </div>
       </div>
      </div>
 
-     <div id="dayPane" hidden>
+     <div id="dayPane">
       <div class="dayctl">
        <div class="seg" id="qPace">
         <button data-v="12" aria-pressed="false">천천히</button>
@@ -733,22 +855,18 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       </div>
 
       <div class="dayhead">
+       <button class="btn btn-sm dayarr" id="dayPrev"><svg class="ic"><use href="#i-left"/></svg></button>
        <div class="dayttl">
         <span class="dno">DAY <b id="dayNo">1</b><i>/<span id="dayTot">7</span></i></span>
         <h3 id="dayTitle">—</h3>
         <p class="daymeta" id="dayMeta">—</p>
+        <div class="daybar"><i id="dayBar" style="width:0"></i></div>
        </div>
-       <button class="btn btn-sm" id="dayDone"><svg class="ic"><use href="#i-check"/></svg>
-        <span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
+       <button class="btn btn-sm dayarr" id="dayNext"><svg class="ic"><use href="#i-right"/></svg></button>
+       <button class="btn btn-sm" id="dayDone" title="완료 · Done"><svg class="ic"><use href="#i-check"/></svg><span class="lbl">완료<span class="sub" lang="en">Done</span></span></button>
       </div>
-
-      <div class="flow">
-       <div class="flowsteps" id="steps"></div>
-       <div class="flowacts">
-        <button class="btn btn-primary btn-sm" id="dayCards"><svg class="ic fill"><use href="#i-play"/></svg>카드로 · Study as cards</button>
-        <button class="btn btn-sm" id="dayQuiz"><svg class="ic"><use href="#i-check"/></svg>오늘 퀴즈 · Quiz on today’s set</button>
-       </div>
-      </div>
+      <div class="badges" id="dayBadges"></div>
+      <div class="stages" id="stages"></div>
 
       <div class="daycols">
        <div class="daycol">
@@ -764,6 +882,15 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <div class="dcList" id="dvList"></div>
        </div>
       </div>
+     </div>
+
+     <div id="reviewPane" hidden>
+      <div class="rvhead">
+       <span class="meta" id="rvInfo">—</span>
+       <button class="btn btn-primary btn-sm" id="rvDrill"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">복습 시작<span class="sub" lang="en">Start review</span></span></button>
+       <button class="btn btn-sm" id="rvListen"><svg class="ic"><use href="#i-sound"/></svg>듣기만 · Listen only</button>
+      </div>
+      <div class="slist" id="rvList"></div>
      </div>
 
      <div id="guidePane" hidden>
@@ -806,6 +933,9 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <svg class="ic"><use href="#i-search"/></svg>
        <input id="sSearch" placeholder="영어·한국어로 검색 / Search in English or Korean" aria-label="검색 / Search">
        <span class="meta" id="sCount">0</span>
+       <div class="seg" id="lKind"><button data-v="A" aria-pressed="true">전부</button><button data-v="E" aria-pressed="false">표현</button><button data-v="V" aria-pressed="false">단어</button></div>
+       <button class="btn btn-sm btn-primary" id="lDrill"><svg class="ic fill"><use href="#i-play"/></svg>드릴</button>
+       <button class="btn btn-sm" id="lQuiz"><svg class="ic"><use href="#i-check"/></svg>퀴즈</button>
        <label class="dauto"><input type="checkbox" id="lWithMean" checked><span>뜻과 함께</span></label>
        <button class="btn btn-sm" id="lCont"><svg class="ic fill"><use href="#i-play"/></svg>이어 듣기</button>
        <button class="btn btn-sm" id="lAuto"><svg class="ic"><use href="#i-repeat"/></svg>반복 듣기</button>
@@ -814,7 +944,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      </div>
 
      <div id="quizPane" hidden>
-      <div class="qsetup" id="qsetup">
+      <div class="dbar">
+       <button class="btn btn-sm" id="qBackBtn"><svg class="ic"><use href="#i-left"/></svg>돌아가기</button>
+       <span class="t" id="qTitle">퀴즈</span>
+       <button class="btn btn-sm" id="qSetBtn" aria-pressed="false">설정 ⚙</button>
+      </div>
+      <div class="qsetup" id="qsetup" hidden>
        <div class="qrow">
         <span class="cap">출제 범위 · Scope</span>
         <div class="seg" id="qScope">
@@ -1009,6 +1144,7 @@ const pool = () => DATA;
 function matches(d){
   if(filt === 'all') return true;
   if(filt === 'day') return dayIds.includes(d.id);
+  if(filt === 'sess') return !!sess && sess.ids.includes(d.id);
   if(filt.startsWith('scene:')) return d.scene === filt.slice(6);
   const g = SPK_GROUPS.find(x => x.ko === filt.slice(4));
   return !!g && g.keys.includes(d.spk);
@@ -1040,7 +1176,7 @@ function buildScenes(){
   document.querySelectorAll('.brand .n').forEach(el => el.textContent = DATA.length);
 }
 function paintScenes(){
-  if(filt !== 'day' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
+  if(filt !== 'day' && filt !== 'sess' && ![...$('scenes').children].some(b => b.dataset && b.dataset.key === filt)){ filt = 'all'; store.set('filt', 'all'); }
   [...$('scenes').children].forEach(b => { if(b.dataset && b.dataset.key) b.setAttribute('aria-pressed', String(b.dataset.key === filt)); });
   if([...$('sceneSel').options].some(o => o.value === filt)) $('sceneSel').value = filt;
   let ko = '전체', en = 'All';
@@ -1056,8 +1192,8 @@ function paintProgress(){
 
 /* ---------- deck ---------- */
 function buildDeck(){
-  deck = filt === 'day' ? DATA.filter(matches) : pool().filter(matches);
-  if($('optShuffle').checked){
+  deck = (filt === 'day' || filt === 'sess') ? DATA.filter(matches) : pool().filter(matches);
+  if($('optShuffle').checked && filt !== 'sess'){
     for(let i = deck.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
   }
   index = 0;
@@ -1083,9 +1219,11 @@ function showCard(){
   $('time').textContent = fmt(d.s);
   $('prev').disabled = index === 0;
   $('next').disabled = index === deck.length-1;
+  $('cfPrev').disabled = index === 0; $('cfNext').disabled = index === deck.length-1;
   $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
-  setReveal($('optShow').checked);
+  setReveal($('optShow').checked && !(sess && sess.stage === 1));
   highlight(d.id);
+  if(sess) sessPaint();
 }
 function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
 
@@ -1118,6 +1256,7 @@ function buildScript(){
 function paintLoop(){
   $('script').querySelectorAll('.lrep').forEach(b => b.setAttribute('aria-pressed', String(!!loopSeg && Number(b.closest('.line').dataset.id) === loopSeg.id)));
   $('loop').setAttribute('aria-pressed', String(!!loopSeg));
+  $('cfLoop').setAttribute('aria-pressed', String(!!loopSeg));
 }
 function highlight(id){
   [...$('script').children].forEach(el => {
@@ -1151,6 +1290,7 @@ function onAPI(){
       onError: e => { ready = false; $('playStatus').innerHTML = bi('영상을 재생할 수 없습니다 (오류 '+e.data+').', 'Cannot play the video (error '+e.data+')。'); },
       onStateChange: e => {
         if(e.data === YT.PlayerState.PLAYING) $('playStatus').innerHTML = bi('재생 중…', 'Playing…');
+        $('mbToggle').textContent = e.data === YT.PlayerState.PLAYING ? '❚❚' : '▶';
         if(e.data === YT.PlayerState.PAUSED && stopAt === null) $('playStatus').innerHTML = bi('일시정지', 'Paused');
       }
     }
@@ -1179,6 +1319,7 @@ function playSeg(d, opts){
 setInterval(() => {
   if(OFFLINE || !ready || !player || typeof player.getCurrentTime !== 'function') return;
   const t = player.getCurrentTime();
+  if(!$('minibar').hidden){ $('mbTime').textContent = fmt(t); const d = deck[index]; $('mbTitle').textContent = (stopAt !== null && d) ? edited(d).en : document.title.split(' — ')[0].split(' · ')[0]; }
   if(view === 'script' && follow && stopAt === null){
     const cur = deck.find(d => t >= d.s && t < d.e);
     if(cur && deck[index] && cur.id !== deck[index].id){ index = deck.indexOf(cur); showCard(); }
@@ -1195,7 +1336,58 @@ setInterval(() => {
 }, 120);
 
 /* ---------- controls ---------- */
-$('play').onclick  = () => { const d = deck[index]; if(d) playSeg(d); };
+/* 디제이 큐 버튼: 탭 = 구간 처음부터, 길게 누르면 그동안만 재생하고 떼면 구간 처음으로 */
+const HOLD_MS = 350;
+function cueStop(seg){
+  if(OFFLINE || !(player && ready)) return;
+  stopAt = null; loopSeg = null; paintLoop();
+  try{ player.pauseVideo(); player.seekTo(headOf(seg), true); }catch(e){}
+}
+function stopAll(){
+  if(OFFLINE || !(player && ready)) return;
+  stopAt = null; loopSeg = null; paintLoop();
+  try{ player.pauseVideo(); }catch(e){}
+  aStopAll();
+}
+function bindCue(btn, segFn){
+  let timer = null, held = false, cur = null;
+  btn.classList.add('cue');
+  const down = e => {
+    if(e.button != null && e.button !== 0) return;
+    const r = segFn(); if(!r) return;
+    cur = r; held = false;
+    try{ btn.setPointerCapture(e.pointerId); }catch(x){}
+    playSeg(r.seg, r.opts || {});
+    timer = setTimeout(() => { held = true; btn.classList.add('holding'); }, HOLD_MS);
+  };
+  const up = () => {
+    if(timer){ clearTimeout(timer); timer = null; }
+    if(held && cur){ btn.classList.remove('holding'); cueStop(cur.seg); }
+    held = false; cur = null;
+  };
+  btn.addEventListener('pointerdown', down);
+  btn.addEventListener('pointerup', up); btn.addEventListener('pointercancel', up);
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  btn.onclick = e => { if(e.detail === 0){ const r = segFn(); if(r) playSeg(r.seg, r.opts || {}); } };
+}
+bindCue($('play'), () => { const d = deck[index]; return d ? {seg: d} : null; });
+bindCue($('cfPlay'), () => { const d = deck[index]; return d ? {seg: d} : null; });
+$('cfStop').onclick = stopAll;
+$('cfLoop').onclick = () => $('loop').click();
+$('cfPrev').onclick = () => $('prev').click();
+$('cfNext').onclick = () => $('next').click();
+function ttsMark(el){ document.querySelectorAll('.ttsrow .btn[aria-pressed=true]').forEach(x => x.setAttribute('aria-pressed', 'false')); if(el) el.setAttribute('aria-pressed', 'true'); }
+function ttsLine(times, rate){
+  const d = deck[index]; if(!d) return;
+  if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} }
+  const btn = times > 1 ? $('ttsRep') : rate < 1 ? $('ttsSlow') : $('ttsPlay');
+  ttsMark(btn);
+  aPlay(edited(d).en, times, 500, () => btn.setAttribute('aria-pressed', 'false'), 2, rate);
+}
+$('ttsPlay').onclick = () => ttsLine(1, 1);
+$('ttsSlow').onclick = () => ttsLine(1, 0.75);
+$('ttsRep').onclick  = () => ttsLine(3, 1);
+$('ttsStop').onclick = () => { aStopAll(); ttsMark(null); };
 $('loop').onclick  = () => {
   const d = deck[index]; if(!d) return;
   if(loopSeg){ loopSeg = null; stopAt = null; player.pauseVideo(); paintLoop(); $('playStatus').innerHTML = bi('구간 반복을 해제했습니다.', 'Repeat off.'); }
@@ -1210,7 +1402,7 @@ $('check').onclick  = () => {
   if(checked.has(d.id)) checked.delete(d.id); else checked.add(d.id);
   store.set('checked', [...checked]);
   $('check').setAttribute('aria-pressed', String(checked.has(d.id)));
-  paintProgress();
+  paintProgress(); paintReview();
 };
 /* ---------- manual edits ---------- */
 function paintEditCount(){ $('editCount').textContent = Object.keys(edits).length; }
@@ -1315,6 +1507,15 @@ $('optGuard').onchange = () => { store.set('guard', $('optGuard').checked); cons
 $('tabCard').onclick = () => switchView('card');
 $('tabScript').onclick = () => switchView('script');
 $('tabStudy').onclick = () => switchView('study');
+const mqMobile = window.matchMedia('(max-width:600px)');
+function paintMini(){
+  const on = view === 'study' && mqMobile.matches && !OFFLINE;
+  document.body.classList.toggle('mini', on);
+  $('minibar').hidden = !on;
+}
+mqMobile.addEventListener('change', paintMini);
+$('mbToggle').onclick = () => { if(!(player && ready)) return; player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); };
+$('mbOpen').onclick = () => switchView('card');
 $('tabWatch').onclick = () => switchView('watch');
 function switchView(v){
   view = v;
@@ -1330,22 +1531,23 @@ function switchView(v){
   $('tabWatch').setAttribute('aria-pressed', String(v === 'watch'));
   if(v === 'watch'){ watchLast = -2; watchPaint(watchNowT()); }
   if(v === 'script' && deck[index]) highlight(deck[index].id);
+  paintMini();
 }
 
 /* ====================== study tab ====================== */
 const cardOf = id => DATA.find(c => c.id === id);
-let sKind = 'E';
+let sKind = 'A';
 
 function buildGuide(){
   const G = [
     ['듣기', 'Listen', '뜻을 가리고 재생. 먼저 귀로만 도전. 몰라도 괜찮다.',
-     'Play with the meaning hidden. Ears first. Not getting it is normal.', '카드'],
+     'Play with the meaning hidden. Ears first. Not getting it is normal.', '오늘 › 1'],
     ['확인', 'Check', '뜻을 열어 답 맞추기. 표현·단어는 예문과 함께 외운다.',
-     'Open the meaning and check. Learn expressions and words with their example line.', '표현 · 단어'],
+     'Open the meaning and check. Learn expressions and words with their example line.', '오늘 › 2'],
     ['따라 하기', 'Imitate', '반복으로 같은 구간을 되풀이하며 소리 내어 겹친다. 억양째 따라 한다.',
-     'Loop the same span with Repeat and speak over it. Copy the intonation.', '반복 C'],
+     'Loop the same span with Repeat and speak over it. Copy the intonation.', '오늘 › 3'],
     ['점검', 'Test', '퀴즈로 오늘 범위만 출제. 틀린 것은 다음 날 복습 목록이 된다.',
-     'Quiz only today’s range. Misses become tomorrow’s review list.', '퀴즈']
+     'Quiz only today’s range. Misses become tomorrow’s review list.', '오늘 › 4']
   ];
   const box = $('gsteps'); box.textContent = '';
   G.forEach(([ko, en, pk, pj, tag], i) => {
@@ -1362,13 +1564,12 @@ function buildGuide(){
 }
 
 function buildStudy(){
-  $('nExpr').textContent = STUDY.filter(r => r.t === 'E').length;
-  $('nWord').textContent = STUDY.filter(r => r.t === 'V').length;
+  $('nList').textContent = STUDY.length;
   renderList();
 }
 function renderList(){
   const q = $('sSearch').value.trim().toLowerCase();
-  const rows = STUDY.filter(r => r.t === sKind)
+  const rows = STUDY.filter(r => sKind === 'A' || r.t === sKind)
     .filter(r => !q || (r.en + ' ' + r.ko + ' ' + (r.note || '')).toLowerCase().includes(q));
   $('sCount').textContent = rows.length; lRows = rows; lStop();
   const box = $('slist'); box.textContent = '';
@@ -1439,22 +1640,94 @@ function renderList(){
   });
   box.appendChild(frag);
 }
-function setSub(kind){
-  const panes = {R:'drillPane', D:'dayPane', G:'guidePane', E:'listPane', V:'listPane', Q:'quizPane'};
-  ['drillPane','dayPane','guidePane','listPane','quizPane'].forEach(id => $(id).hidden = panes[kind] !== id);
-  if(kind !== 'R') drillStopAuto();
-  if(kind !== 'E' && kind !== 'V') lStop();
-  [['sbDrill','R'],['sbDay','D'],['sbGuide','G'],['sbExpr','E'],['sbWord','V'],['sbQuiz','Q']]
-    .forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
-  if(kind === 'E' || kind === 'V'){ sKind = kind; renderList(); }
-  if(kind === 'D') renderDay();
+/* 하위 탭 4개(오늘·복습·목록·학습법). 드릴·퀴즈 패널은 단계·버튼에서 열리고 「돌아가기」는 연 곳으로 */
+const PANES = ['dayPane','reviewPane','listPane','guidePane','drillPane','quizPane'];
+let subCur = 'D', dFrom = 'D', qFrom = 'D', dStage = 0, qStage = 0;
+const SK = k => k;
+function showPane(id){
+  PANES.forEach(p => $(p).hidden = p !== id);
+  if(id !== 'drillPane') drillStopAuto();
+  if(id !== 'listPane') lStop();
+  if(id === 'dayPane') renderDay();
+  if(id === 'reviewPane') renderReview();
+  if(id === 'listPane') renderList();
 }
-$('sbDrill').onclick = () => setSub('R');
+function setSub(kind){
+  subCur = kind;
+  const map = {D:'dayPane', W:'reviewPane', L:'listPane', G:'guidePane'};
+  [['sbDay','D'],['sbReview','W'],['sbList','L'],['sbGuide','G']].forEach(([id,k]) => $(id).setAttribute('aria-pressed', String(kind === k)));
+  showPane(map[kind] || 'dayPane');
+}
 $('sbDay').onclick = () => setSub('D');
+$('sbReview').onclick = () => setSub('W');
+$('sbList').onclick = () => setSub('L');
 $('sbGuide').onclick = () => setSub('G');
-$('sbExpr').onclick = () => setSub('E');
-$('sbWord').onclick = () => setSub('V');
-$('sbQuiz').onclick = () => setSub('Q');
+segWire('lKind', v => { sKind = v; renderList(); });
+function openDrill(from, scope, title, stage){
+  dFrom = from; dStage = stage || 0; dScope = scope; pickSeg2($('dScope'), scope);
+  if(stage){ dMode = 'fwd'; dSize = 0; pickSeg2($('dMode'), 'fwd'); pickSeg2($('dSize'), '0'); }
+  $('dTitle').textContent = title; $('dsetup').hidden = true; $('dSetBtn').setAttribute('aria-pressed', 'false');
+  dStats(); showPane('drillPane');
+  return dPool().length;
+}
+function openQuiz(from, scope, title, stage){
+  qFrom = from; qStage = stage || 0; qScope = scope; pickSeg2($('qScope'), scope);
+  if(stage){ qMode = 'en2ko'; qLen = 10; pickSeg2($('qMode'), qMode); pickSeg2($('qLen'), '10'); }
+  $('qTitle').textContent = title; $('qsetup').hidden = true; $('qSetBtn').setAttribute('aria-pressed', 'false');
+  $('qplay').hidden = true; $('qdone').hidden = true;
+  syncQuizUI(); showPane('quizPane');
+  return !$('qStart').disabled;
+}
+$('dBackBtn').onclick = () => { dActive = false; drillStopAuto(); dStage = 0; setSub(dFrom); };
+$('dSetBtn').onclick = () => { const o = $('dsetup').hidden; $('dsetup').hidden = !o; $('dSetBtn').setAttribute('aria-pressed', String(o)); if(o){ $('dStats').hidden = false; dStats(); } };
+$('qBackBtn').onclick = () => { qStage = 0; setSub(qFrom); };
+$('qSetBtn').onclick = () => { const o = $('qsetup').hidden; $('qsetup').hidden = !o; $('qSetBtn').setAttribute('aria-pressed', String(o)); };
+$('lDrill').onclick = () => { if(openDrill('L', sKind, '드릴 · ' + ({A:'표현·단어 전부', E:'표현', V:'단어'})[sKind])) dStart(false); };
+$('lQuiz').onclick = () => { if(openQuiz('L', sKind === 'A' ? 'E' : sKind, '퀴즈 · ' + ({A:'표현', E:'표현', V:'단어'})[sKind])) $('qStart').click(); };
+$('rvDrill').onclick = () => { if(openDrill('W', 'W', '복습 · 드릴')) dStart(false); };
+$('rvListen').onclick = () => { if(openDrill('W', 'W', '복습 · 듣기만')) dAutoStart(aRep()); };
+
+/* ====================== 복습: SRS 기한 + 퀴즈 오답 + 체크한 대사 ====================== */
+let wrongs = [];
+const rvKey = it => (it.t || 'S') + '|' + it.en;
+function wrongAdd(it){ const k = rvKey(it); if(!wrongs.includes(k)){ wrongs.push(k); store.set(SK('wrongs'), wrongs); } }
+function wrongDel(k){ const i = wrongs.indexOf(k); if(i >= 0){ wrongs.splice(i, 1); store.set(SK('wrongs'), wrongs); } }
+const sentItem = c => { const v = edited(c); return {t:'S', en: v.en, rd: v.rd || '', ko: v.ko, cids: [c.id], note: c.note || ''}; };
+function itemOfKey(k){
+  const at = k.indexOf('|'); if(at < 0) return null;
+  const t = k.slice(0, at), s = k.slice(at + 1);
+  if(t === 'S'){ const c = DATA.find(c => edited(c).en === s); return c ? sentItem(c) : null; }
+  return STUDY.find(r => r.t === t && r.en === s) || null;
+}
+function reviewPool(){
+  const now = Date.now(), out = [], seen = new Set();
+  const push = (it, src) => { const k = dKey(it); if(seen.has(k)) return; seen.add(k); it.src = src; out.push(it); };
+  Object.entries(dState).forEach(([k, st]) => { if(st.due <= now){ const it = itemOfKey(k); if(it) push(it, '기한'); } });
+  wrongs.forEach(k => { const it = itemOfKey(k); if(it) push(it, '오답'); });
+  [...checked].forEach(id => { const c = cardOf(id); if(c && !dState['S|' + edited(c).en]) push(sentItem(c), '체크'); });
+  return out;
+}
+function paintReview(){ const n = reviewPool().length; $('nReview').textContent = n; return n; }
+function renderReview(){
+  const rows = reviewPool(); paintReview();
+  $('rvInfo').textContent = rows.length ? ('복습 대기 ' + rows.length) : '오늘 복습할 것이 없습니다';
+  $('rvDrill').disabled = !rows.length; $('rvListen').disabled = !rows.length;
+  const box = $('rvList'); box.textContent = '';
+  rows.forEach(r => {
+    const el = document.createElement('div'); el.className = 'srow';
+    const tx = document.createElement('div'); tx.className = 'txt';
+    const k = document.createElement('div'); k.className = 'k'; k.lang = 'en'; k.textContent = r.en;
+    const s = document.createElement('span'); s.className = 'src'; s.textContent = r.src; k.appendChild(s);
+    if(r.rd && r.rd !== r.en){ const sm = document.createElement('small'); sm.textContent = r.rd; k.appendChild(sm); }
+    const j = document.createElement('div'); j.className = 'j'; j.textContent = r.ko;
+    tx.append(k, j); el.appendChild(tx);
+    if(r.cids && r.cids.length && !OFFLINE){
+      const b = document.createElement('button'); b.className = 'btn btn-sm'; b.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>';
+      b.onclick = () => { const c = cardOf(r.cids[0]); if(c) playSeg(c); }; el.appendChild(b);
+    }
+    box.appendChild(el);
+  });
+}
 
 /* ====================== daily portions ====================== */
 let dayPace = store.get('pace', 16);
@@ -1464,7 +1737,10 @@ let DAYS = [], dayIds = [];
 
 /* 대사는 시간순으로 등분. 표현·단어는 「첫 등장이 빠른 순」으로 정렬한 뒤 균등하게 나눈다
    (첫 등장 그대로 두면 자주 나오는 말이 첫날에 몰린다) */
+let stages = {}, studyDays = new Set();
+function loadProgress(){ stages = store.get(SK('stages'), {}) || {}; wrongs = store.get(SK('wrongs'), []) || []; studyDays = new Set(store.get(SK('studyDays'), []) || []); }
 function buildDays(){
+  loadProgress();
   const chunks = [];
   for(let i = 0; i < DATA.length; i += dayPace) chunks.push(DATA.slice(i, i + dayPace));
   const pos = new Map(DATA.map((c, i) => [c.id, i]));
@@ -1482,46 +1758,104 @@ function buildDays(){
   $('nDay').textContent = dayCur + '/' + DAYS.length;
   $('paceInfo').textContent = DATA.length + '장을 ' + DAYS.length + '일에 · ' + DAYS.length + ' days';
 }
+/* ---- 4단계: 듣기 → 확인 → 따라 하기 → 점검. 진행은 stages[day][n] = {done,total} ---- */
+const stGet = (day, n) => ((stages[day] || {})[n]) || {done: 0, total: 0};
+const stDone = (day, n) => { const s = stGet(day, n); return s.total > 0 && s.done >= s.total; };
+function stSet(day, n, done, total){
+  stages[day] = stages[day] || {}; stages[day][n] = {done, total}; store.set(SK('stages'), stages); logToday();
+  if([1,2,3,4].every(k => stDone(day, k)) && !daysDone.has(day)){ daysDone.add(day); store.set(SK('daysDone'), [...daysDone]); }
+  if(!$('dayPane').hidden) renderDay();
+}
+const dayKeyOf = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+function logToday(){ const k = dayKeyOf(new Date()); if(!studyDays.has(k)){ studyDays.add(k); store.set(SK('studyDays'), [...studyDays]); } }
+function streak(){
+  let n = 0; const d = new Date();
+  if(!studyDays.has(dayKeyOf(d))) d.setDate(d.getDate() - 1);
+  while(studyDays.has(dayKeyOf(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function stage3Ids(d){
+  const want = new Set();
+  d.cards.forEach(c => { if(checked.has(c.id)) want.add(c.id); });
+  d.expr.forEach(r => { if(r.ex != null && d.cards.some(c => c.id === r.ex)) want.add(r.ex); });
+  if(want.size < 3) d.cards.slice(0, 5).forEach(c => want.add(c.id));
+  return d.cards.filter(c => want.has(c.id)).map(c => c.id);
+}
+const sceneName = c => { const s = SCENES.find(x => x.key === c.scene) || {}; return s.ko || s.label || s.ko || ''; };
+const STAGES = [
+  ['듣기', 'Listen', d => d.cards.length + ' 장 · 뜻 가리고 재생', d => Math.max(2, Math.round(d.cards.length * 0.3))],
+  ['확인', 'Check', d => '표현 ' + d.expr.length + ' · 단어 ' + d.word.length + ' · 예문과 함께', d => Math.max(1, Math.round((d.expr.length + d.word.length) * 0.7))],
+  ['따라 하기', 'Imitate', d => stage3Ids(d).length + ' 장 · 구간 반복하며 소리 내기', d => Math.max(2, Math.round(stage3Ids(d).length * 1.2))],
+  ['점검', 'Test', d => '오늘 분량 퀴즈 ' + Math.min(10, d.expr.length + d.word.length + d.cards.length) + ' 문항', d => 4]
+];
+function startStage(n){
+  const d = DAYS[dayCur - 1]; if(!d) return;
+  const s = stGet(d.n, n), resume = (s.total && s.done < s.total) ? s.done : 0;
+  if(n === 1) sessStart(1, d.cards.map(c => c.id), resume);
+  else if(n === 3) sessStart(3, stage3Ids(d), resume);
+  else if(n === 2){
+    const cnt = openDrill('D', 'D', '2 확인', 2);
+    if(!cnt){ stSet(d.n, 2, 1, 1); setSub('D'); return; }
+    dStart(false);
+  } else {
+    const ok = openQuiz('D', 'D', '4 점검', 4);
+    if(!ok){ stSet(d.n, 4, 1, 1); setSub('D'); return; }
+    $('qStart').click();
+  }
+}
 function renderDay(){
   const d = DAYS[dayCur - 1]; if(!d) return;
   dayIds = d.cards.map(c => c.id);
   $('dayNo').textContent = d.n;
   $('nDay').textContent = dayCur + '/' + DAYS.length;
-  const names = [...new Set(d.cards.map(c => (SCENES.find(s => s.key === c.scene) || {}).ko).filter(Boolean))];
-  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' 외' : '');
+  const names = [...new Set(d.cards.map(sceneName).filter(Boolean))];
+  $('dayTitle').textContent = names.slice(0, 3).join(' · ') + (names.length > 3 ? ' …' : '');
   const done = d.cards.filter(c => checked.has(c.id)).length;
-  $('dayMeta').textContent = '대사 ' + d.cards.length + '장 · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length
-    + ' / Lines ' + d.cards.length + ' · Expressions ' + d.expr.length + ' · Words ' + d.word.length
-    + ' (체크함 ' + done + ')';
+  $('dayMeta').textContent = fmt(d.cards[0].s) + ' – ' + fmt(d.cards[d.cards.length - 1].e) + (done ? ' · 체크 ' + done : '');
   $('dayDone').setAttribute('aria-pressed', String(daysDone.has(d.n)));
-
+  $('dayPrev').disabled = dayCur <= 1; $('dayNext').disabled = dayCur >= DAYS.length;
+  const prog = [1,2,3,4].reduce((a, n) => { const s = stGet(d.n, n); return a + (s.total ? Math.min(1, s.done / s.total) : 0); }, 0) / 4;
+  $('dayBar').style.width = Math.round(prog * 100) + '%';
+  const bd = $('dayBadges'); bd.textContent = '';
+  const mkB = (txt, cls) => { const s = document.createElement('span'); s.className = 'bdg' + (cls ? ' ' + cls : ''); s.textContent = txt; bd.appendChild(s); };
+  const sk = streak(); if(sk) mkB('연속 {n}일'.replace('{n}', sk), 'ok');
+  mkB('대사 ' + d.cards.length + ' · 표현 ' + d.expr.length + ' · 단어 ' + d.word.length);
+  const rv = paintReview(); if(rv) mkB('복습 대기 ' + rv, 'acc');
+  if(daysDone.has(d.n)) mkB('DAY {n} 완료'.replace('{n}', d.n), 'ok');
   const strip = $('daystrip'); strip.textContent = '';
   DAYS.forEach(x => {
     const b = document.createElement('button');
     b.className = 'dbtn' + (daysDone.has(x.n) ? ' done' : '');
-    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur));
-    b.title = 'Day ' + x.n;
-    b.onclick = () => { dayCur = x.n; store.set('dayCur', dayCur); renderDay(); };
+    b.textContent = x.n; b.setAttribute('aria-pressed', String(x.n === dayCur)); b.title = 'Day ' + x.n;
+    b.onclick = () => { dayCur = x.n; store.set(SK('dayCur'), dayCur); renderDay(); };
     strip.appendChild(b);
+    if(x.n === dayCur) requestAnimationFrame(() => { try{ b.scrollIntoView({block: 'nearest', inline: 'center'}); }catch(e){} });
   });
-
-  /* 매일 같은 순서라 띠로만 보여준다. 자세한 설명은 「학습법」 탭에 */
-  const STEPS = [['듣기','Listen'], ['표현·단어','Expressions & words'], ['퀴즈','Quiz'], ['복습','Review']];
-  const box = $('steps'); box.textContent = '';
-  STEPS.forEach(([ko, en], i) => {
-    if(i){ const ar = document.createElement('span'); ar.className = 'farrow'; ar.textContent = '›'; box.appendChild(ar); }
-    const el = document.createElement('span'); el.className = 'fstep';
-    el.innerHTML = '<b></b><span></span>';
-    el.querySelector('b').textContent = i + 1;
-    el.querySelector('span').textContent = ko + ' · ' + en;
+  const box = $('stages'); box.textContent = '';
+  let nowSet = false;
+  STAGES.forEach(([ko, ja, metaF, minF], i) => {
+    const n = i + 1, s = stGet(d.n, n), isDone = stDone(d.n, n), started = s.done > 0 && !isDone;
+    const el = document.createElement('div'); el.className = 'stg' + (isDone ? ' done' : '');
+    const now = !isDone && !nowSet; if(now){ el.classList.add('now'); nowSet = true; }
+    el.innerHTML = '<span class="no"></span><span class="bd"><div class="ti"></div><div class="mt"></div></span><span class="rt"></span>';
+    el.querySelector('.no').textContent = isDone ? '✓' : n;
+    const ti = el.querySelector('.ti'); ti.textContent = ko;
+    const sm = document.createElement('small'); sm.lang = 'en'; sm.textContent = ja; ti.appendChild(sm);
+    el.querySelector('.mt').textContent = metaF(d) + ' · ' + minF(d) + ' 분';
+    if(started){ const pb = document.createElement('div'); pb.className = 'pb'; pb.innerHTML = '<i></i>';
+      pb.querySelector('i').style.width = Math.round(s.done / s.total * 100) + '%'; el.querySelector('.bd').appendChild(pb); }
+    const rt = el.querySelector('.rt');
+    if(isDone){ const st = document.createElement('span'); st.className = 'st'; st.textContent = '완료 ' + s.done + ' / ' + s.total; rt.appendChild(st); }
+    const b = document.createElement('button'); b.className = 'btn btn-sm' + (now ? ' btn-primary' : '');
+    b.textContent = isDone ? '다시' : started ? '이어서 ' + s.done + ' / ' + s.total : '시작';
+    b.onclick = () => startStage(n);
+    rt.appendChild(b);
     box.appendChild(el);
   });
-
   const list = (host, rows, render) => {
     const el = $(host); el.textContent = '';
     rows.forEach(r => { const b = document.createElement('button'); b.className = 'dcRow'; render(b, r); el.appendChild(b); });
-    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px';
-      e.textContent = '—'; el.appendChild(e); }
+    if(!rows.length){ const e = document.createElement('div'); e.className = 'sempty'; e.style.padding = '14px'; e.textContent = '—'; el.appendChild(e); }
   };
   $('dcN').textContent = d.cards.length;
   list('dcList', d.cards, (b, c) => {
@@ -1529,29 +1863,66 @@ function renderDay(){
     b.innerHTML = '<span class="tm"></span><span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
     b.querySelector('.tm').textContent = fmt(c.s);
     b.querySelector('.kk').textContent = v.en.slice(0, 30);
-    b.querySelector('.jj').textContent = v.ko.slice(0, 26);
+    b.querySelector('.jj').textContent = (v.ko || '').slice(0, 26);
     b.onclick = () => playSeg(c);
   });
   const wordRow = (b, r) => {
     b.innerHTML = '<span><span class="kk" lang="en"></span> <span class="jj"></span></span>';
     b.querySelector('.kk').textContent = r.en;
-    b.querySelector('.jj').textContent = r.ko;
+    b.querySelector('.jj').textContent = (r.rd && r.rd !== r.en ? r.rd + ' · ' : '') + r.ko;
     b.onclick = () => { const c = cardOf((r.cids || [])[0]); if(c) playSeg(c); };
   };
   $('deN').textContent = d.expr.length; list('deList', d.expr, wordRow);
   $('dvN').textContent = d.word.length; list('dvList', d.word, wordRow);
 }
-function goDayCards(){ filt = 'day'; buildDeck(); switchView('card'); }
-function startDayQuiz(){
-  setSub('Q'); qScope = 'D'; pickSeg2($('qScope'), 'D');
-  syncQuizUI();
-}
-$('dayCards').onclick = () => goDayCards();
-$('dayQuiz').onclick  = () => startDayQuiz();
+$('dayPrev').onclick = () => { if(dayCur > 1){ dayCur--; store.set(SK('dayCur'), dayCur); renderDay(); } };
+$('dayNext').onclick = () => { if(dayCur < DAYS.length){ dayCur++; store.set(SK('dayCur'), dayCur); renderDay(); } };
 $('dayDone').onclick = () => {
   daysDone.has(dayCur) ? daysDone.delete(dayCur) : daysDone.add(dayCur);
-  store.set('daysDone', [...daysDone]); renderDay();
+  store.set(SK('daysDone'), [...daysDone]); renderDay();
 };
+
+/* ====================== 세션: 1 듣기 · 3 따라 하기 (카드 뷰 안에서) ====================== */
+let sess = null;
+function sessStart(stage, ids, from){
+  if(!ids.length){ stSet(dayCur, stage, 1, 1); return; }
+  sess = {stage, ids, i: Math.min(from || 0, ids.length - 1), day: dayCur};
+  filt = 'sess'; buildDeck(); index = sess.i; showCard();
+  switchView('card'); sessPaint();
+  window.scrollTo({top: 0});
+  if(!OFFLINE && ready) sessPlay();
+}
+function sessPlay(){ const d = deck[index]; if(!d || OFFLINE) return; playSeg(d, {loop: sess.stage === 3}); }
+function sessPaint(){
+  const on = !!sess;
+  $('sessbar').hidden = !on; $('sessfoot').hidden = !on;
+  document.querySelector('.card').classList.toggle('sess', on);
+  if(!on) return;
+  const n = sess.ids.length; sess.i = index;
+  $('sessName').textContent = 'DAY ' + sess.day + ' · ' + (sess.stage === 1 ? '1 듣기' : '3 따라 하기');
+  $('sessPos').textContent = (index + 1) + ' / ' + n;
+  $('sessBar').style.width = Math.round(index / n * 100) + '%';
+  $('sessA').innerHTML = sess.stage === 1 ? '<svg class="ic"><use href="#i-eye"/></svg>뜻 보기' : '<svg class="ic"><use href="#i-repeat"/></svg>한 번 더';
+  $('sessB').textContent = (sess.stage === 1 ? '들었다' : '따라 말했다') + (index < n - 1 ? ' · 다음 ›' : ' · 끝내기 ✓');
+}
+function sessNext(){
+  if(!sess) return;
+  const n = sess.ids.length;
+  stSet(sess.day, sess.stage, Math.min(n, index + 1), n);
+  if(index < n - 1){ index++; showCard(); sessPaint(); sessPlay(); }
+  else sessEnd();
+}
+function sessEnd(){
+  if(!sess) return;
+  stopAt = null; loopSeg = null; paintLoop();
+  if(player && ready && !OFFLINE){ try{ player.pauseVideo(); }catch(e){} }
+  sess = null; sessPaint();
+  filt = store.get('filt', 'all'); if(filt === 'sess' || filt === 'day') filt = 'all';
+  buildDeck(); switchView('study'); setSub('D');
+}
+$('sessQuit').onclick = () => sessEnd();
+$('sessA').onclick = () => { if(!sess) return; if(sess.stage === 1) setReveal($('answer').hidden); else sessPlay(); };
+$('sessB').onclick = () => sessNext();
 segWire('qPace', v => { dayPace = Number(v); store.set('pace', dayPace); dayCur = 1; store.set('dayCur', 1); buildDays(); renderDay(); });
 $('sSearch').oninput = renderList;
 
@@ -1572,13 +1943,14 @@ segWire('qMode',  v => { qMode = v; syncQuizUI(); });
 segWire('qLen',   v => { qLen = Number(v); });
 
 function quizPool(){
-  if(qScope === 'S') return DATA.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
+  if(qScope === 'W') return reviewPool().map(r => ({t: r.t, en: r.en, rd: r.rd, ko: r.ko, note: r.note, cids: r.cids || []}));
+  if(qScope === 'S') return DATA.map(c => ({t: 'S', en: edited(c).en, ko: edited(c).ko, cids: [c.id]}));
   if(qScope === 'D'){                                   /* 오늘의 표현·단어·대사를 한데 */
     const d = DAYS[dayCur - 1]; if(!d) return [];
-    return [...d.expr, ...d.word].map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
-      .concat(d.cards.map(c => ({en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
+    return [...d.expr, ...d.word].map(r => ({t: r.t, en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}))
+      .concat(d.cards.map(c => ({t: 'S', en: edited(c).en, ko: edited(c).ko, cids: [c.id]})));
   }
-  return STUDY.filter(r => r.t === qScope).map(r => ({en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
+  return STUDY.filter(r => r.t === qScope).map(r => ({t: r.t, en: r.en, ko: r.ko, note: r.note, cids: r.cids || []}));
 }
 function syncQuizUI(){
   const listenBtn = $('qMode').querySelector('[data-v="listen"]');
@@ -1666,6 +2038,8 @@ function answerQ(btn, choice){
 }
 function finishQ(){
   $('qplay').hidden = true; $('qdone').hidden = false;
+  qWrong.forEach(it => wrongAdd(it)); paintReview();
+  if(qStage){ stSet(dayCur, qStage, qSet.length, qSet.length); qStage = 0; }
   $('rScore').textContent = qHit; $('rTotal').textContent = qSet.length;
   const pct = Math.round(qHit / qSet.length * 100);
   $('rRate').textContent = pct + '% ' + (pct === 100 ? '— 만점 · Perfect' : pct >= 80 ? '— 훌륭합니다 · Well done'
@@ -1691,9 +2065,9 @@ function finishQ(){
   }
 }
 $('qReplay').onclick = () => { const c = cardOf(qSet[qAt].cid); if(c) playSeg(c); };
-$('qQuit').onclick = () => { $('qplay').hidden = true; $('qsetup').hidden = false; };
+$('qQuit').onclick = () => { qStage = 0; setSub(qFrom); };
 $('rAgain').onclick = () => $('qStart').click();
-$('rBack').onclick = () => { $('qdone').hidden = true; $('qsetup').hidden = false; };
+$('rBack').onclick = () => setSub(qFrom);
 
 $('vidApply').onclick = () => {
   const id = parseId($('vid').value);
@@ -1737,15 +2111,15 @@ const aKey = t => (t || '').replace(/[〜～]/g, '').replace(/[（(][^）)]*[）
 const aHas = t => !!AUDIO[aKey(t)];
 let aCur = null, aSeq = 0;
 function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = null; } if('speechSynthesis' in window) speechSynthesis.cancel(); }
-function aPlay(text, times, gap, cb, which){
+function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
   const done = () => { if(my === aSeq && cb) cb(); };
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.onended = after; a.onerror = after; a.play().catch(after); }
-    else dSpeakText(text, which, after);
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.onended = after; a.onerror = after; a.play().catch(after); }
+    else dSpeakText(text, which, after, rate);
   };
   step();
 }
@@ -1775,6 +2149,7 @@ let dQueue = [], dCur = null, dRevealed = false, dKnownN = 0, dRedoN = 0, dSeen 
 function dPool(){
   const scope = dScope;
   if(scope === 'D'){ const d = (typeof DAYS !== 'undefined' && DAYS[dayCur - 1]) || null; return d ? [...d.expr, ...d.word] : []; }
+  if(scope === 'W') return reviewPool();
   return STUDY.filter(r => scope === 'A' || r.t === scope);
 }
 function dStats(){
@@ -1784,7 +2159,7 @@ function dStats(){
   $('dStats').innerHTML = '';
   [['전체', pool.length], ['오늘 복습', due], ['새 항목', fresh], ['외움', known]].forEach(([k, v]) => {
     const sp = document.createElement('span'); const b = document.createElement('b'); b.textContent = v; sp.append(b, document.createTextNode(k)); $('dStats').appendChild(sp); });
-  $('nDrill').textContent = due + fresh;
+  paintReview();
   $('dStart').disabled = pool.length === 0;
   $('dHint').textContent = pool.length ? '' : '항목이 없습니다';
 }
@@ -1806,7 +2181,7 @@ if('speechSynthesis' in window){ speechSynthesis.onvoiceschanged = dLoadVoices; 
 $('dVoice').onchange = () => store.set('dvoice', $('dVoice').value);
 $('dRate').onchange = () => store.set('drate', $('dRate').value);
 $('dSpeak').onchange = () => store.set('dspeak', $('dSpeak').checked);
-function dSpeakText(text, which, cb){
+function dSpeakText(text, which, cb, rate){
   if(!('speechSynthesis' in window) || !text){ if(cb) cb(); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text.replace(/[〜～]/g, '').replace(/[（(][^）)]*[）)]/g, '').trim());
@@ -1816,7 +2191,7 @@ function dSpeakText(text, which, cb){
   if(!v) v = dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want) && /Natural|Neural|Google/i.test(x.name)) || dVoices.find(x => x.lang && x.lang.toLowerCase().startsWith(want)) || null;
   if(v) u.voice = v;
   u.lang = v ? v.lang : (want === 'ja' ? 'ja-JP' : want === 'ko' ? 'ko-KR' : 'en-US');
-  u.rate = Number($('dRate').value) || 1;
+  u.rate = rate || Number($('dRate').value) || 1;
   let done = false; const fin = () => { if(!done){ done = true; if(cb) cb(); } };
   u.onend = fin; u.onerror = fin;
   speechSynthesis.speak(u);
@@ -1839,10 +2214,13 @@ function dBuildQueue(onlyMissed){
   }
   return pool.map(it => ({it, again: 0}));
 }
+let dTotalN = 0, dGraded = new Set();
 function dStart(onlyMissed){
   dQueue = dBuildQueue(onlyMissed);
   if(!dQueue.length) return;
   dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true;
+  dTotalN = dQueue.length; dGraded = new Set();
+  if(dStage) stSet(dayCur, dStage, 0, dTotalN);
   $('dsetup').hidden = true; $('ddone').hidden = true; $('dplay').hidden = false; $('dStats').hidden = true;
   dNext();
 }
@@ -1855,7 +2233,7 @@ function dNext(){
   if(!dQueue.length){ dFinish(); return; }
   dCur = dQueue.shift(); dRevealed = false; dSeen++;
   const it = dCur.it;
-  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
+  $('dKind').textContent = (it.t === 'E' ? '표현' : it.t === 'S' ? '대사' : '단어') + (dCur.again ? ' · 다시 ' + dCur.again : '');
   const rd = '';
   $('dFront').classList.toggle('small', dMode === 'rev');
   if(dMode === 'fwd'){ $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en'; $('dRd').textContent = rd; $('dRd').hidden = !rd; }
@@ -1887,6 +2265,9 @@ function dGrade(g){
   else if(g === 2){ st.lv = Math.max(0, Math.min(st.lv, 1)); st.due = now + (st.lv ? DAY : 0); dRedoN++; dQueue.splice(Math.min(6, dQueue.length), 0, {it, again: dCur.again + 1}); }
   else { st.lv = 0; st.due = now; st.miss = (st.miss || 0) + 1; dRedoN++; if(!dMissed.includes(it)) dMissed.push(it); dQueue.splice(Math.min(3, dQueue.length), 0, {it, again: dCur.again + 1}); }
   dState[k] = st; dSave();
+  if(g === 3) wrongDel(k);
+  dGraded.add(k); logToday();
+  if(dStage) stSet(dayCur, dStage, Math.min(dGraded.size, dTotalN), dTotalN);
   dNext();
 }
 function dFinish(){
@@ -1895,6 +2276,7 @@ function dFinish(){
   $('dDoneN').textContent = dKnownN;
   $('dDoneMeta').textContent = '외움 ' + dKnownN + ' · 다시 ' + dRedoN + ' · ' + dSeen;
   $('dRestartMiss').hidden = !dMissed.length;
+  if(dStage){ stSet(dayCur, dStage, dTotalN, dTotalN); }
   dStats(); $('dStats').hidden = false;
 }
 $('dStart').onclick = () => dStart(false);
@@ -1927,9 +2309,10 @@ $('dVideo').onclick = () => {
   aStopAll(); dShowEx(c, dExIdx, ids.length); playSeg(c);
 };
 $('dG1').onclick = () => dGrade(1); $('dG2').onclick = () => dGrade(2); $('dG3').onclick = () => dGrade(3);
-$('dQuit').onclick = () => { dActive = false; drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; dStats(); };
+$('dQuit').onclick = () => { dActive = false; drillStopAuto(); dStage = 0; setSub(dFrom); };
 $('dRestartMiss').onclick = () => dStart(true);
-$('dRestartAll').onclick = () => { $('ddone').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; };
+$('dRestartAll').onclick = () => { $('ddone').hidden = true; dStart(false); };
+$('dDoneBack').onclick = () => { dStage = 0; setSub(dFrom); };
 /* --- 자동 반복 듣기: 손을 놓고 듣는다. 원문 → 뜻 → 원문 순으로 읽고 다음으로 --- */
 function drillStopAuto(){ dAutoOn = false; if(dAutoTimer){ clearTimeout(dAutoTimer); dAutoTimer = null; } aStopAll();
   const bi_ = $('dContIn'); if(bi_){ bi_.innerHTML = '<svg class="ic fill"><use href="#i-play"/></svg>' + bi_.dataset.cont; bi_.setAttribute('aria-pressed', 'false'); } $('dAuto').setAttribute('aria-pressed', 'false'); $('dCont').setAttribute('aria-pressed', 'false'); }
@@ -1938,7 +2321,7 @@ function dAutoStep(){
   if(!dQueue.length){ dFinish(); return; }
   dCur = dQueue.shift(); dRevealed = true; dSeen++;
   const it = dCur.it, rd = '';
-  $('dKind').textContent = (it.t === 'E' ? '표현' : '단어') + ' · ' + (dQueue.length + 1);
+  $('dKind').textContent = (it.t === 'E' ? '표현' : it.t === 'S' ? '대사' : '단어') + ' · ' + (dQueue.length + 1);
   $('dFront').classList.remove('small'); $('dFront').textContent = it[DR.L2]; $('dFront').lang = 'en';
   $('dRd').textContent = rd; $('dRd').hidden = !rd;
   $('dBack').hidden = false; $('dMean').textContent = it[DR.L1]; $('dMean').removeAttribute('lang');
@@ -1957,7 +2340,7 @@ function dAutoStep(){
 }
 let dAutoTimes = 1;
 function dAutoStart(times){
-  if(dAutoOn){ drillStopAuto(); $('dplay').hidden = true; $('dsetup').hidden = false; $('dStats').hidden = false; return; }
+  if(dAutoOn){ drillStopAuto(); dStage = 0; setSub(dFrom); return; }
   dAutoTimes = times;
   dQueue = dBuildQueue(false); if(!dQueue.length) return;
   dKnownN = 0; dRedoN = 0; dSeen = 0; dMissed = []; dActive = true; dAutoOn = true;
@@ -2006,8 +2389,11 @@ document.addEventListener('keydown', e => {
   if(k === 'z'){ e.preventDefault(); setReveal($('answer').hidden); }
   else if(k === 'x' || e.key === ' '){ e.preventDefault(); $('play').click(); }
   else if(k === 'c'){ e.preventDefault(); $('loop').click(); }
+  else if(k === 's'){ e.preventDefault(); stopAll(); }
+  else if(k === 't'){ e.preventDefault(); ttsLine(1, 1); }
   else if(k === 'v' || e.key === 'ArrowRight'){ e.preventDefault(); if(index < deck.length-1){ index++; showCard(); if(loopSeg) playSeg(deck[index], {loop:true}); else if(k === 'v') playSeg(deck[index]); } }
   else if(e.key === 'ArrowLeft'){ e.preventDefault(); $('prev').click(); }
+  else if(e.key === 'Enter' && sess && view === 'card'){ e.preventDefault(); sessNext(); }
 });
 
 
@@ -2063,7 +2449,7 @@ $('fileNotice').hidden = !OFFLINE;
 if(OFFLINE){
   $('play').querySelector('.lbl').innerHTML = 'YouTube 에서 열기<span class="sub" lang="en">Open on YouTube</span>';
 }
-buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); renderDay(); syncQuizUI(); loadAPI();
+buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); buildDrill(); buildGuide(); buildDays(); setSub('D'); syncQuizUI(); paintMini(); loadAPI();
 
 /* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
 (function(){
