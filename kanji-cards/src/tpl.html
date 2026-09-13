@@ -25,6 +25,9 @@ a{color:var(--accent)}
 .hd .t small{display:block;font-weight:400;opacity:.85;font-size:12.5px;margin-top:2px}
 .hd button{width:44px;height:40px;font-size:22px;color:#fff;border-radius:10px}
 .hd button:active{background:#fff2}
+.hd a.main{width:44px;height:40px;border-radius:10px;color:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:18px;line-height:1}
+.hd a.main small{font-size:9.5px;opacity:.9;margin-top:1px}
+.hd a.main:active{background:#fff2}
 .sub{background:var(--brand2);color:#e8ecf7;font-size:12.5px;padding:5px 14px;display:flex;justify-content:space-between;flex:none}
 /* 홈 */
 .home{padding:12px 14px 30px;overflow:auto}
@@ -148,7 +151,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 
 <!-- 홈 -->
 <section class="view on" id="vHome">
- <div class="hd"><button aria-label="정보" onclick="openAbout()">ⓘ</button><div class="t">한자 카드<small>7작품 · 한자 __N__ · 한자어 __NW__</small></div><span></span></div>
+ <div class="hd"><button aria-label="정보" onclick="openAbout()">ⓘ</button><div class="t">한자 카드<small>7작품 · 한자 __N__ · 한자어 __NW__</small></div><a class="main" href="../index.html" title="도카도카 어학 학습 메인으로">⌂<small>메인</small></a></div>
  <div class="home">
   <div class="seg"><button id="mWord" aria-pressed="true" onclick="setMode('w')">단어 카드</button><button id="mKanji" aria-pressed="false" onclick="setMode('k')">한자 카드</button></div>
   <div class="chsize"><span>한 장에</span><div id="chSizes"></div></div>
@@ -157,6 +160,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="optAll" onchange="setOpt()"> 처음부터 읽기·뜻을 보인 채로 시작(1회독 분류용)</label>
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:6px"><input type="checkbox" id="optSpeak" onchange="setOpt()"> 뒷면을 열면 자동으로 읽어 주기(브라우저 일본어 음성)</label>
    <div class="tools" style="align-items:center"><button onclick="speak('かえす', 'w:' + WORDS[0].w)">🔊 음성 테스트</button><span id="voiceInfo" style="font-size:12px;color:var(--mute)"></span></div>
+   <p style="margin:4px 0 10px"><a href="../index.html" style="color:var(--accent);font-weight:700;text-decoration:none;font-size:14px">‹ 도카도카 어학 학습 메인으로 (일본어 · 한국어 · 영어 영상 카드)</a></p>
    <div class="tools"><button onclick="exportJSON()">내보내기</button><label>가져오기<input type="file" accept=".json" onchange="importJSON(this)"></label><button onclick="resetAll()">진행 초기화</button></div>
    <p>영상에서 이미 만난 한자만 모았습니다. 급수는 JLPT N5(쉬움)~N1, 목록 밖 한자는 「급수 외」. 각 급수 안에서는 이 사이트에 자주 나온 순서입니다. 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
    자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · JLPT 급수는 <a href="https://github.com/davidluzgouveia/kanji-data">kanji-data</a>(MIT, Jonathan Waller 목록 기반) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
