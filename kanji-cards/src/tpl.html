@@ -291,6 +291,7 @@ const PARTS = /*__PARTS__*/;
 const FAM   = /*__FAM__*/;      // 소리 가족 [{p:부품, on:[음독], ks:[한자]}]
 const APPS  = /*__APPS__*/;
 const LS = 'kanji-cards';
+const BUILD = '__BUILD__';
 const KBY = {}; KANJI.forEach(k => KBY[k.k] = k);
 const WBY = {}; WORDS.forEach((w, i) => { w.i = i; WBY[w.w] = w; });
 // 단어의 급 = 가장 어려운 한자의 급 (N5=5 … N1=1, 급수 외=0)
@@ -724,7 +725,7 @@ function lsStep(){
     document.getElementById('pStep').textContent = st.show === 'q' ? (LSO.mode === 'rev' ? '뜻을 듣고 일본어를 떠올리세요' : '듣고 뜻을 떠올리세요') : '정답';
     return lsStep();
   }
-  document.getElementById('pMeta').textContent = fmt(Math.floor((Date.now() - LP.t0) / 1000)) + (LSO.stop ? ' / ' + LSO.stop + '분' : '');
+  document.getElementById('pMeta').textContent = fmt(Math.floor((Date.now() - LP.t0) / 1000)) + (LSO.stop ? ' / ' + LSO.stop + '분' : '') + ' · 음성: ' + (LP.engine === 'tts' ? (LSO.engine === 'device' ? '기기' : '기기(온라인 실패로 대체)') : '온라인') + ' · 빌드 ' + BUILD.slice(5);
   if (LSO.stop && Date.now() - LP.t0 > LSO.stop * 60000 && LP.si <= 1) { toast('자동 종료'); return stopListen(true); }
   if (st.pause !== undefined) return lsPlay(silenceCached(st.pause), null, '침묵 ' + st.pause + '초');
   const lang = st.ja !== undefined ? 'ja' : 'ko'; const text = st.ja !== undefined ? st.ja : st.ko;
@@ -765,7 +766,7 @@ function lsResume(){
 }
 document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') { setTimeout(lsResume, 200); if (LP && LSO.awake !== 0) wakeOn(); } });
 setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 20000) lsResume(); }, 20000);
-function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성이 안 되어 기기 음성으로 바꿉니다'); }
+function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성을 열 수 없어 기기 음성으로 바꿉니다 (진단 참고)'); }
 function lsTTS(text, lang){
   if (!('speechSynthesis' in window)) return setTimeout(lsStep, 500);
   dlog('tts ' + lang + ' ' + text.slice(0, 10) + (document.visibilityState === 'hidden' ? ' (hidden)' : ''));
@@ -840,7 +841,6 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('sw.js', {updateViaCache: 'none'}).then(reg => { reg.update().catch(() => {}); }).catch(() => {});
   let reloaded = false; navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; location.reload(); } });
 }
-const BUILD = '__BUILD__';
 </script>
 </body>
 </html>
