@@ -68,6 +68,9 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .hid .rd,.hid .ko,.hid .kl,.hid .ex,.hid .kb{visibility:hidden}
 .tip{position:absolute;bottom:8px;left:0;right:0;font-size:12.5px;color:var(--mute)}
 .hid .tip{display:block}.tip{display:none}
+.yomi{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-top:8px;font-size:clamp(17px,5vw,21px);font-weight:600;color:var(--ink)}
+.yomi em{font-style:normal;font-size:12px;font-weight:600;color:#fff;background:var(--accent);border-radius:6px;padding:2px 6px;margin-right:6px;vertical-align:middle}
+.yomi .kun em{background:var(--brand)}
 .kb{margin-top:6px;font-size:14px;color:var(--mute);line-height:1.6;max-width:100%}
 .kb b{color:var(--ink)}
 .kb .ws{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;margin-top:6px}
@@ -246,7 +249,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt
 function kline(c){
   const k = KBY[c]; if (!k) return '';
   const ko = k.ko ? (k.trad ? `한국 한자 ${k.trad} ${k.ko[0]}` : `한국 한자 ${k.k} ${k.ko[0]}`) : '';
-  return `<button onclick="event.stopPropagation();openSheet('${c}')"><span class="h" lang="ja">${c}</span> <b>${esc(k.hun)}</b>${ko ? ' · ' + ko : ''}${k.rad ? ' · ' + k.rad + ' ' + k.strokes + '획' : ''}</button>`;
+  return `<button onclick="event.stopPropagation();openSheet('${c}')"><span class="h" lang="ja">${c}</span> <b>${esc(k.hun)}</b>${k.on && k.on.length ? ' · 음 <span lang="ja">' + esc(k.on.slice(0, 2).join('・')) + '</span>' : ''}${ko ? ' · ' + ko : ''}${k.rad ? ' · ' + k.rad + ' ' + k.strokes + '획' : ''}</button>`;
 }
 function wordFace(w){
   const ex = w.ex; const stem = w.w.replace(/[ぁ-ん]+$/, '');
@@ -261,10 +264,16 @@ function kanjiFace(k){
   const ws = k.words.slice(0, 4).map(w => WBY[w]).filter(Boolean);
   const ko = k.ko ? (k.trad ? `한국 한자 <b lang="ja">${k.trad}</b> ${k.ko[0]}` : `한국음 ${k.ko[0]}`) : '';
   return `<div class="rd">&nbsp;</div><div class="big k" lang="ja">${k.k}</div><div class="ko">${esc(k.hun)}</div>
-  <div class="kb">${ko}${k.rad ? ` · 부수 <b>${k.rad}</b> ${esc(k.radname || '')} · ${k.strokes}획` : ''}${k.on ? `<br>음 ${esc(k.on.join(' '))}${k.kun ? ' · 훈 ' + esc(k.kun.slice(0,3).join(' ')) : ''}` : ''}
+  ${yomi(k)}
+  <div class="kb">${ko}${k.rad ? ` · 부수 <b>${k.rad}</b> ${esc(k.radname || '')} · ${k.strokes}획` : ''}
    <div class="ws">${ws.map(w => `<span lang="ja">${esc(w.w)}<small>${esc(w.rd)} · ${esc(w.ko)}</small></span>`).join('')}</div>
    <button class="more" onclick="event.stopPropagation();openSheet('${k.k}')">부수 · 구성 · 획순 자세히 ›</button></div>
   <div class="tip">화면을 누르면 훈음·뜻이 열립니다</div>`;
+}
+function yomi(k){
+  const on = (k.on || []).join('・'), kun = (k.kun || []).slice(0, 4).join('・');
+  if (!on && !kun) return '';
+  return `<div class="yomi" lang="ja">${on ? `<span><em>음독</em>${esc(on)}</span>` : ''}${kun ? `<span class="kun"><em>훈독</em>${esc(kun)}</span>` : ''}</div>`;
 }
 function flip(){ revealed = !revealed; document.getElementById('cBody').classList.toggle('hid', !revealed); }
 function mark(how){
@@ -373,8 +382,9 @@ function openSheet(c, push){
   const deeper = tree.filter(n => n.c && n.c.length).map(n => `<span class="sub2">${esc(n.e)} = ${n.c.map(m => chip(m, true)).join('+')}</span>`).join('');
   const ws = k.words.map(w => WBY[w]).filter(Boolean);
   el.innerHTML = `<div class="grab"></div>${sheetStack.length ? `<button class="back" onclick="backSheet()">‹ ${esc(sheetStack[sheetStack.length - 1])} 로</button>` : ''}
-  <div class="top"><span class="kk" lang="ja">${k.k}</span><span class="hh"><b>${esc(k.hun)}</b><small>${ko}</small><small>${k.rad ? `부수 <i>${k.rad}</i> ${esc(k.radname || '')} · ${k.strokes}획` : ''}</small><small>${k.on ? '음 ' + esc(k.on.join(' ')) : ''}${k.kun ? ' · 훈 ' + esc(k.kun.slice(0, 4).join(' ')) : ''}</small></span>
+  <div class="top"><span class="kk" lang="ja">${k.k}</span><span class="hh"><b>${esc(k.hun)}</b><small>${ko}</small><small>${k.rad ? `부수 <i>${k.rad}</i> ${esc(k.radname || '')} · ${k.strokes}획` : ''}</small></span>
    <div class="so">${strokeSVG(k)}<button aria-label="획순 재생" onclick="animateStrokes(this.parentNode)">▶</button></div></div>
+  ${yomi(k).replace('class="yomi"', 'class="yomi" style="justify-content:flex-start;margin-top:10px"')}
   ${tree.length ? `<div class="rw"><em>구성</em>${chips}</div>${deeper ? `<div class="rw"><em></em>${deeper}</div>` : ''}` : '<div class="rw"><em>구성</em><span class="sub2">단일체</span></div>'}
   ${k.hj ? `<div class="rw"><em>한국어</em>${k.hj.map(esc).join(' · ')}</div>` : ''}
   <div class="rw"><em>사이트</em>${k.n}회 · ${k.apps.length}작품 · ${k.lv}급 · ${k.apps.map(a => esc(APPS[a])).join(' · ')}</div>
