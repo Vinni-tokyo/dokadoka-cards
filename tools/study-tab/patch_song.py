@@ -77,6 +77,11 @@ rep('''    <div class="status">가사는 줄의 시작·끝 시각에 맞춰 왼
     '''    <div class="status">가사는 줄의 시작·끝 시각에 맞춰 왼쪽부터 채워집니다. 앞·뒤 줄을 누르면 그 줄부터 재생, <b>지금 줄을 누르면 그 줄의 마디를 반복</b>합니다.
      <span class="sub" lang="ja">歌詞は行の開始・終了時刻に合わせて左から塗られます。前後の行をタップするとそこから再生、<b>今の行をタップするとその小節をリピート</b>。</span></div>''')
 
+rep('''     <div class="kara-top">
+      <button class="btn btn-primary btn-sm" id="karaStart">''', '''     <div class="kara-top">
+      <button class="btn btn-sm" id="karaBack" title="카드 탭으로 / カードへ"><svg class="ic"><use href="#i-left"/></svg><span class="lbl">카드로<span class="sub" lang="ja">カードへ</span></span></button>
+      <button class="btn btn-primary btn-sm" id="karaStart">''')
+
 # ── 3. CSS
 rep('''.kara-bar span{display:block;height:100%;width:0;background:#ffd166}''', '''.kara-bar span{display:block;height:100%;width:0;background:#ffd166}
 /* 노래방 안의 마디 바 · 세션 바 (어두운 배경용) */
@@ -283,7 +288,10 @@ $('ksB').onclick = () => ksNext();
 segWire('kmask', v => { if(!ksess) return; ksess.level = Number(v); store.set('maskLv', ksess.level); karaLast = -2; karaPaint(karaNow()); karaSessPaint(); });
 /* 노래방의 지금 줄을 누르면 그 줄의 마디 반복 */
 $('karaLine').onclick = () => { if(BARS.length >= 2 && player && ready) $('barLine').click(); };
-$('toKara').onclick = () => { switchView('kara'); if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+$('toKara').onclick = () => { switchView('kara'); window.scrollTo({top: 0}); try{ history.pushState({kara: 1}, ''); }catch(e){} if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+function karaBack(){ if(ksess) ksEnd(); else { if(barAt != null) $('barStop').click(); switchView('card'); window.scrollTo({top: 0}); } }
+$('karaBack').onclick = karaBack;
+window.addEventListener('popstate', () => { if(view === 'kara') karaBack(); });
 $('barFine').onclick = () => { const o = $('barFineRow').hidden; $('barFineRow').hidden = !o; $('barFine').setAttribute('aria-pressed', String(o)); };
 document.addEventListener('keydown', e => {
   const t = e.target;

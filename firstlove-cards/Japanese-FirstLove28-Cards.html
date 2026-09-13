@@ -174,7 +174,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .kara .sessbar .meta{color:#aab0c8}
 .kara .kmask{align-self:flex-start;margin-bottom:4px}
 .kara .sessfoot{margin-top:0}
-.kara .knav{grid-template-columns:1fr 1.3fr 1fr}
+.kara .knav{grid-template-columns:auto 1fr 1.3fr 1fr}
+.kara .knav .knback{padding:0 10px}
 .kara .knav .btn{min-height:42px;justify-content:center}
 .kara .sessfoot .btn{background:#232838;border-color:#2f364a;color:#e9ecf5}
 .kara .sessfoot .btn-primary{background:#4b5aa0;border-color:#4b5aa0;color:#fff}
@@ -1116,6 +1117,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div id="karaView" hidden>
     <div class="kara">
      <div class="kara-top">
+      <button class="btn btn-sm" id="karaBack" title="카드 탭으로 / カードへ"><svg class="ic"><use href="#i-left"/></svg><span class="lbl">카드로<span class="sub" lang="ja">カードへ</span></span></button>
       <button class="btn btn-primary btn-sm" id="karaStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">처음부터<span class="sub" lang="ja">最初から</span></span></button>
       <button class="btn btn-sm" id="karaHere"><span class="lbl">이 줄부터<span class="sub" lang="ja">この行から</span></span></button>
       <button class="btn btn-sm" id="karaPause"><span class="lbl">일시정지 / 재생<span class="sub" lang="ja">一時停止 / 再生</span></span></button>
@@ -1163,6 +1165,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <div class="barlyrics" id="barLyrics"></div>
       </div>
       <div class="sessfoot knav" id="knav">
+       <button class="btn knback" id="knBack" title="카드 탭으로"><svg class="ic"><use href="#i-left"/></svg></button>
        <button class="btn" id="knPrev"><svg class="ic"><use href="#i-left"/></svg>이전 줄</button>
        <button class="btn btn-primary" id="knPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생 · 정지</button>
        <button class="btn" id="knNext">다음 줄<svg class="ic"><use href="#i-right"/></svg></button>
@@ -2799,8 +2802,12 @@ function karaStep(dir){
 $('knPrev').onclick = () => karaStep(-1);
 $('knNext').onclick = () => karaStep(1);
 $('knPlay').onclick = () => $('karaPause').click();
+$('knBack').onclick = karaBack;
 $('karaLine').onclick = () => { if(BARS.length >= 2 && player && ready) $('barLine').click(); };
-$('toKara').onclick = () => { switchView('kara'); if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+$('toKara').onclick = () => { switchView('kara'); window.scrollTo({top: 0}); try{ history.pushState({kara: 1}, ''); }catch(e){} if(BARS.length >= 2 && player && ready) $('barLine').click(); };
+function karaBack(){ if(ksess) ksEnd(); else { if(barAt != null) $('barStop').click(); switchView('card'); window.scrollTo({top: 0}); } }
+$('karaBack').onclick = karaBack;
+window.addEventListener('popstate', () => { if(view === 'kara') karaBack(); });
 $('barFine').onclick = () => { const o = $('barFineRow').hidden; $('barFineRow').hidden = !o; $('barFine').setAttribute('aria-pressed', String(o)); };
 document.addEventListener('keydown', e => {
   const t = e.target;

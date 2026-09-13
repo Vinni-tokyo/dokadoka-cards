@@ -36,13 +36,15 @@ $('reveal').onclick = () => setReveal(true);''')
 # 노래방(노래 앱만): 세션이 아닐 때 이전 줄 · 재생/일시정지 · 다음 줄
 if 'id="kfix"' in h:
     rep('''      <div class="sessfoot" id="ksfoot" hidden>''', '''      <div class="sessfoot knav" id="knav">
+       <button class="btn knback" id="knBack" title="카드 탭으로"><svg class="ic"><use href="#i-left"/></svg></button>
        <button class="btn" id="knPrev"><svg class="ic"><use href="#i-left"/></svg>이전 줄</button>
        <button class="btn btn-primary" id="knPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생 · 정지</button>
        <button class="btn" id="knNext">다음 줄<svg class="ic"><use href="#i-right"/></svg></button>
       </div>
       <div class="sessfoot" id="ksfoot" hidden>''')
     rep('''.kara .sessfoot{margin-top:0}''', '''.kara .sessfoot{margin-top:0}
-.kara .knav{grid-template-columns:1fr 1.3fr 1fr}
+.kara .knav{grid-template-columns:auto 1fr 1.3fr 1fr}
+.kara .knav .knback{padding:0 10px}
 .kara .knav .btn{min-height:42px;justify-content:center}''')
     rep('''  $('ksbar').hidden = !on; $('ksfoot').hidden = !on; $('kmask').hidden = !(on && ksess.stage === 3);''',
         '''  $('ksbar').hidden = !on; $('ksfoot').hidden = !on; $('knav').hidden = on; $('kmask').hidden = !(on && ksess.stage === 3);''')
@@ -54,5 +56,6 @@ if 'id="kfix"' in h:
 $('knPrev').onclick = () => karaStep(-1);
 $('knNext').onclick = () => karaStep(1);
 $('knPlay').onclick = () => $('karaPause').click();
+$('knBack').onclick = karaBack;
 $('karaLine').onclick = () => {''')
 open(path, 'w', encoding='utf-8').write(h); print('foot-patched', path, N)
