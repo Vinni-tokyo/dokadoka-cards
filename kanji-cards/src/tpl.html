@@ -208,6 +208,7 @@ function pkey(mode, kind, key, ch){ return [mode, kind, key, ch].join(':'); }
 
 let cur = null;   // {mode, kind, key, ch, items(전체 장), queue(이번 회독), i, round, know:[], study:[], t0}
 function startDeck(kind, key, ch){
+  if (kind === 'lv') key = +key;            // 버튼 onclick 은 문자열로 넘어온다
   const all = deckItems(ST.mode, kind, key);
   const items = kind === 'rev' ? all : all.slice(ch * CH, ch * CH + CH);
   if (!items.length) return toast('카드가 없습니다');
@@ -322,6 +323,7 @@ function renderHome(){
   document.getElementById('homeList').innerHTML = h;
 }
 function deckRow(kind, key, name, desc, unit){
+  if (kind === 'lv') key = +key;
   const items = deckItems(ST.mode, kind, key); const n = Math.ceil(items.length / CH);
   let done = 0, going = 0;
   for (let c = 0; c < n; c++) { const p = ST.prog[pkey(ST.mode, kind, key, c)]; if (p && p.done) done++; else if (p) going++; }
