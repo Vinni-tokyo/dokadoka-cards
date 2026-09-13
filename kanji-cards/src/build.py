@@ -57,9 +57,8 @@ for k, K in kanji.items():
         K['hun'] = c.most_common(1)[0][0]
     K['eum'] = K['hun'].split()[-1] if K['hun'] else ''
 
-# --- 3. 등급(사이트 빈도) ---
-def level(n): return 1 if n >= 20 else 2 if n >= 8 else 3 if n >= 3 else 4 if n >= 2 else 5
-for K in kanji.values(): K['lv'] = level(K['n'])
+# --- 3. 등급 = JLPT (dict.json 의 jlpt: 5=N5 … 1=N1, 0=급수 외). dict 이 없으면 사이트 빈도로 임시 ---
+def level(n): return 5 if n >= 20 else 4 if n >= 8 else 3 if n >= 3 else 2 if n >= 2 else 1
 
 io.open(os.path.join(S, 'kanji_list.txt'), 'w', encoding='utf-8').write('\n'.join(kanji) + '\n')
 
@@ -76,6 +75,7 @@ for k, K in kanji.items():
     d = DICT.get(k, {})
     for f in ('rad', 'radn', 'strokes', 'trad', 'ja', 'tree', 'paths'):
         if f in d: K[f] = d[f]
+    K['lv'] = d['jlpt'] if 'jlpt' in d else level(K['n'])
     if 'ko' in d:
         K['ko'] = d['ko']
         if K['eum'] and K['eum'] not in d['ko']: eum_bad.append((k, K['hun'], d['ko']))
@@ -165,7 +165,7 @@ else:
 
 # --- 6. 보고 ---
 lv = collections.Counter(K['lv'] for K in KOUT)
-print('한자 %d · 한자어 %d · 작품 %d' % (N, NW, len(APPS)), '| 등급', dict(sorted(lv.items())))
+print('한자 %d · 한자어 %d · 작품 %d' % (N, NW, len(APPS)), '| JLPT', {('N%d' % k if k else '급수외'): v for k, v in sorted(lv.items(), reverse=True)})
 print('부수 %d · 획수 %d · 한국음 %d · 구성 %d · 획순 %d · 정자체 %d · 한국어 한자어 %d' % tuple(sum(1 for K in KOUT if f in K) for f in ('rad', 'strokes', 'ko', 'tree', 'paths', 'trad', 'hj')))
 print('소리 가족 %d · 포함 한자 %d · 3자 이상 %d' % (len(FAM), FAMK, sum(1 for f in FAM if len(f['ks']) >= 3)))
 print('훈음 불일치(미통일):', conflict or '없음')

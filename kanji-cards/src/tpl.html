@@ -158,8 +158,8 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
    <label style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:6px"><input type="checkbox" id="optSpeak" onchange="setOpt()"> 뒷면을 열면 자동으로 읽어 주기(브라우저 일본어 음성)</label>
    <div class="tools" style="align-items:center"><button onclick="speak('かえす', 'w:' + WORDS[0].w)">🔊 음성 테스트</button><span id="voiceInfo" style="font-size:12px;color:var(--mute)"></span></div>
    <div class="tools"><button onclick="exportJSON()">내보내기</button><label>가져오기<input type="file" accept=".json" onchange="importJSON(this)"></label><button onclick="resetAll()">진행 초기화</button></div>
-   <p>영상에서 이미 만난 한자만 모았습니다. 「급」은 이 사이트에서 나온 횟수(1급 = 20회 이상), 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
-   자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
+   <p>영상에서 이미 만난 한자만 모았습니다. 급수는 JLPT N5(쉬움)~N1, 목록 밖 한자는 「급수 외」. 각 급수 안에서는 이 사이트에 자주 나온 순서입니다. 「장」은 덱을 잘게 나눈 묶음(기본 15장, 위에서 바꿀 수 있음), 「회독」은 「공부하겠음」만 다시 도는 횟수입니다.<br>
+   자료: 한자·훈음·뜻은 각 영상 앱의 사전 · 부수·획수·한국음은 <a href="https://www.unicode.org/charts/unihan.html">Unihan</a>(Unicode License) · 구성·획순은 <a href="https://kanjivg.tagaini.net/">KanjiVG</a>(CC BY-SA 3.0) · JLPT 급수는 <a href="https://github.com/davidluzgouveia/kanji-data">kanji-data</a>(MIT, Jonathan Waller 목록 기반) · 정자체 대응·한국어 한자어·구성 이름은 직접 작성. 이 앱은 KanjiVG 파생물로 CC BY-SA 3.0 을 따릅니다.</p>
   </div>
  </div>
 </section>
@@ -216,9 +216,12 @@ const APPS  = /*__APPS__*/;
 const LS = 'kanji-cards';
 const KBY = {}; KANJI.forEach(k => KBY[k.k] = k);
 const WBY = {}; WORDS.forEach((w, i) => { w.i = i; WBY[w.w] = w; });
-// 단어의 급 = 가장 드문 한자의 급
-WORDS.forEach(w => { w.lv = Math.max(1, ...w.k.map(c => KBY[c] ? KBY[c].lv : 5)); });
-const LVDESC = {1:'20회 이상', 2:'8~19회', 3:'3~7회', 4:'2회', 5:'1회'};
+// 단어의 급 = 가장 어려운 한자의 급 (N5=5 … N1=1, 급수 외=0)
+WORDS.forEach(w => { w.lv = Math.min(5, ...w.k.map(c => KBY[c] ? KBY[c].lv : 0)); });
+const LEVELS = [5, 4, 3, 2, 1, 0];
+const LVNAME = {5:'N5', 4:'N4', 3:'N3', 2:'N2', 1:'N1', 0:'급수 외'};
+const LVDESC = {5:'입문 · 기초 한자', 4:'초급', 3:'중급', 2:'중상급', 1:'상급', 0:'N1 목록 밖 · 애니·노래에서 나온 한자'};
+const lvName = lv => LVNAME[lv] || ('N' + lv);
 const CH_SIZES = [10, 15, 20, 30, 50];
 const CH = () => ST.ch || 15;   // 한 장 크기(기본 15). 바꾸면 장 나누기가 달라지므로 진행 키에 크기를 포함한다
 
@@ -238,7 +241,7 @@ function deckItems(mode, kind, key){
 }
 const idOf = x => x.w !== undefined ? 'w' + x.i : 'k' + x.k;
 const isWord = x => x.w !== undefined;
-function deckName(kind, key){ return kind === 'lv' ? key + '급' : kind === 'app' ? APPS[key] : '복습함'; }
+function deckName(kind, key){ return kind === 'lv' ? lvName(+key) : kind === 'app' ? APPS[key] : '복습함'; }
 function pkey(mode, kind, key, ch){ return [mode, kind, key, CH(), ch].join(':'); }
 
 let cur = null;   // {mode, kind, key, ch, items(전체 장), queue(이번 회독), i, round, know:[], study:[], t0}
@@ -404,8 +407,8 @@ function renderHome(){
   document.getElementById('voiceInfo').textContent = voiceInfo();
   document.getElementById('chSizes').innerHTML = CH_SIZES.map(n => `<button aria-pressed="${n === CH()}" onclick="setCh(${n})">${n}장</button>`).join('');
   const unit = ST.mode === 'w' ? '단어' : '자';
-  let h = '<h4>급 · 이 사이트에서 나온 횟수</h4>';
-  for (let lv = 1; lv <= 5; lv++) h += deckRow('lv', lv, `${lv}급`, LVDESC[lv], unit);
+  let h = '<h4>JLPT 급수</h4>';
+  for (const lv of LEVELS) h += deckRow('lv', lv, lvName(lv), LVDESC[lv], unit);
   h += '<h4>작품</h4>';
   for (const a in APPS) h += deckRow('app', a, APPS[a], '', unit);
   h += `<h4>소리 가족 · 같은 부품 = 같은 음</h4><button class="deck wk" onclick="openFam()"><span class="m">소리 가족 ${FAM.length}개<small>反 → 返·飯·板·版 전부 ハン. 부품으로 읽기를 추론하는 연습</small></span><span class="p"><b>${new Set(FAM.flatMap(f => f.ks)).size}자</b></span></button>`;
@@ -420,7 +423,7 @@ function deckRow(kind, key, name, desc, unit){
   for (let c = 0; c < n; c++) { const p = ST.prog[pkey(ST.mode, kind, key, c)]; if (p && p.done) done++; else if (p) going++; }
   const known = items.filter(x => ST.marks[idOf(x)] === 'know').length;
   const open = openDeck === kind + ':' + key;
-  let h = `<button class="deck ${kind === 'app' ? 'wk' : ''} ${open ? 'open' : ''}" onclick="toggleDeck('${kind}','${key}')">${kind === 'lv' ? `<b>${name}</b>` : ''}<span class="m">${kind === 'lv' ? `${items.length}${unit} · ${n}장` : esc(name)}<small>${kind === 'lv' ? desc : items.length + unit + ' · ' + n + '장'}</small></span><span class="p">${done ? `<b>${done}/${n}장 완료</b>` : going ? `<b>${going}장 진행 중</b>` : ''}앎 ${known}/${items.length}</span></button>`;
+  let h = `<button class="deck ${kind === 'app' ? 'wk' : ''} ${open ? 'open' : ''}" onclick="toggleDeck('${kind}','${key}')">${kind === 'lv' ? `<b style="font-size:${name.length > 2 ? 13 : 17}px">${name}</b>` : ''}<span class="m">${kind === 'lv' ? `${items.length}${unit} · ${n}장` : esc(name)}<small>${kind === 'lv' ? desc : items.length + unit + ' · ' + n + '장'}</small></span><span class="p">${done ? `<b>${done}/${n}장 완료</b>` : going ? `<b>${going}장 진행 중</b>` : ''}앎 ${known}/${items.length}</span></button>`;
   if (open) {
     h += '<div class="chs">';
     for (let c = 0; c < n; c++) {
@@ -478,7 +481,7 @@ function openSheet(c, push){
   ${tree.length ? `<div class="rw"><em>구성</em>${chips}</div>${deeper ? `<div class="rw"><em></em>${deeper}</div>` : ''}` : '<div class="rw"><em>구성</em><span class="sub2">단일체</span></div>'}
   ${(k.fam || []).map(i => { const f = FAM[i]; return `<div class="rw"><em>소리<br>가족</em><span class="chip rad" style="outline:none;background:var(--accent);color:#fff"><span lang="ja">${esc(f.p)}</span><small>${esc(f.on.join('・'))}</small></span><span class="sub2">${f.ks.filter(c => c !== k.k).map(c => `<span class="chip on sm" onclick="openSheet('${c}')">${c}</span>`).join('')}</span><button class="spk" onclick="speak(${att(f.on[0])}, ${att('on:' + f.ks[0])})">🔊</button></div>`; }).join('')}
   ${k.hj ? `<div class="rw"><em>한국어</em>${k.hj.map(esc).join(' · ')}</div>` : ''}
-  <div class="rw"><em>사이트</em>${k.n}회 · ${k.apps.length}작품 · ${k.lv}급 · ${k.apps.map(a => esc(APPS[a])).join(' · ')}</div>
+  <div class="rw"><em>사이트</em>${lvName(k.lv)} · ${k.n}회 · ${k.apps.length}작품 · ${k.apps.map(a => esc(APPS[a])).join(' · ')}</div>
   <ul>${ws.map(w => `<li onclick="closeSheet();jumpWord(${w.i})"><span lang="ja">${esc(w.w)}</span><small>${esc(w.rd)} · ${esc(w.ko)}</small></li>`).join('')}</ul>
   <div class="src">부수·획수·한국음 Unihan · 구성·획순 KanjiVG (CC BY-SA 3.0)</div>`;
   const wasOpen = document.getElementById('ov').classList.contains('on');

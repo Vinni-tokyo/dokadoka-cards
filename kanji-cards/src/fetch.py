@@ -76,6 +76,18 @@ for kj in root.iter('kanji'):
     if ch in want and ch not in V:
         V[ch] = {'tree': tree(g), 'paths': [rnd(p.get('d')) for p in g.iter('path')]}
 
+# --- JLPT 급수: davidluzgouveia/kanji-data (MIT; JLPT 는 Jonathan Waller 목록, 기타는 KANJIDIC) ---
+KD_URL = 'https://raw.githubusercontent.com/davidluzgouveia/kanji-data/master/kanji.json'
+KD = json.load(io.open(get(KD_URL, 'kanji-data.json'), encoding='utf-8'))
+def jlpt_of(c):
+    d = KD.get(c) or {}
+    if d.get('jlpt_new'): return d['jlpt_new']
+    if d.get('jlpt_old'):                                                 # 구 4급 체계 → 신 체계 근사 (구 2급은 N2/N3 로 갈라졌으므로 학년으로 나눔)
+        o = d['jlpt_old']
+        if o == 2: return 3 if (d.get('grade') or 9) <= 4 else 2
+        return {4: 5, 3: 4, 1: 1}[o]
+    return 0                                                              # 급수 외 (N1 범위 밖)
+
 out = {}
 for c in K:
     u = U.get(c, {}); v = V.get(c, {})
@@ -89,6 +101,7 @@ for c in K:
         hg = U[ky[c]]['kHangul']
     if hg: row['ko'] = [x.split(':')[0] for x in hg.split()]
     if c in ky: row['trad'] = ky[c]
+    row['jlpt'] = jlpt_of(c)
     if 'kJapanese' in u: row['ja'] = u['kJapanese'].split()
     if 'kDefinition' in u: row['en'] = u['kDefinition']
     if v: row['tree'] = v['tree']; row['paths'] = v['paths']
@@ -98,3 +111,4 @@ print('dict.json:', len(out), '자 · 부수', sum(1 for r in out.values() if 'r
       '· 구성', sum(1 for r in out.values() if 'tree' in r), '· 획순', sum(1 for r in out.values() if 'paths' in r),
       '· 크기 %.0f KB' % (os.path.getsize(os.path.join(S, 'dict.json')) / 1024))
 print('한국음 없음:', ''.join(c for c, r in out.items() if 'ko' not in r) or '없음')
+import collections; print('JLPT:', dict(sorted(collections.Counter(r['jlpt'] for r in out.values()).items(), reverse=True)), '(0 = 급수 외)')

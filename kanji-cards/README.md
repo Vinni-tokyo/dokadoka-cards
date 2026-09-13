@@ -20,7 +20,7 @@
 ## 쓰는 법 (참고한 시판 한자 앱과 같은 회독 방식)
 
 1. **단어 카드 / 한자 카드** 중 하나를 고른다. 단어 카드는 `返す`, 한자 카드는 `返` 한 글자.
-2. **급**(1급 = 이 사이트에서 20회 이상 나온 한자 … 5급 = 1회) 또는 **작품**을 고르고 **장**(50장 묶음)을 연다.
+2. **JLPT 급수**(N5 → N1, 목록 밖은 「급수 외」) 또는 **작품**을 고르고 **장**(기본 15장 묶음, 홈에서 10~50 조절)을 연다. 급수 안에서는 이 사이트에 자주 나온 순서.
 3. 앞면은 한자만. **화면을 누르면** 읽기·뜻이 열린다. 처음부터 다 보이게 하려면 홈 아래의 체크박스.
 4. **공부하겠음 / 알고있음** 을 누른다(스와이프 좌/우, 키보드 ←/→ 도 됨).
 5. 장이 끝나면 결과가 뜨고, **2회독**부터는 「공부하겠음」 누른 카드만 남는다. 0장이 되면 그 장 완료.
@@ -36,6 +36,7 @@
 |---|---|---|
 | 한자어·독음·뜻·한국 한자음·훈음 | 각 영상 앱의 `src/words.txt` `src/kanji.txt` (직접 작성) | — |
 | 부수·획수·한국음·음독/훈독 | [Unihan](https://www.unicode.org/charts/unihan.html) (Unicode 17) | Unicode License |
+| JLPT 급수 | [kanji-data](https://github.com/davidluzgouveia/kanji-data) (Jonathan Waller 의 JLPT 목록 기반) | MIT |
 | 구성 요소 트리·부수 표시·획순 | [KanjiVG](https://kanjivg.tagaini.net/) r20250816 | CC BY-SA 3.0 |
 | 신자체→정자체 115자 · 한국어 한자어 예 · 구성 요소 이름 | `src/kyujitai.txt` `src/hanja_ko.txt` `src/parts.txt` (직접 작성) | — |
 
@@ -51,7 +52,7 @@ kanji-cards/
 ├─ README.md · DESIGN.md · mockup.html
 └─ src/
    ├─ build.py       ../*/Japanese-*Cards.html 의 DATA.kj 를 모아 표를 만들고 사전을 붙여 앱 생성
-   ├─ fetch.py       Unihan.zip · kanjivg.xml.gz 를 ~/.cache/dokadoka-kanji 에 받아 963자 분만 dict.json 으로 추림
+   ├─ fetch.py       Unihan.zip · kanjivg.xml.gz · kanji-data.json 을 ~/.cache/dokadoka-kanji 에 받아 963자 분만 dict.json 으로 추림
    ├─ dict.json      fetch.py 산출 (커밋함 · 원본 사전은 커밋하지 않음)
    ├─ kanji_list.txt build.py 가 쓰는 대상 한자 목록 (fetch.py 입력)
    ├─ kyujitai.txt   신자체|정자체
@@ -69,4 +70,5 @@ python3 src/fetch.py          # 한자가 늘어 dict.json 에 없는 자가 생
 ```
 
 빌드가 검사하는 것: 훈음 불일치 0 · 훈음의 음 ≠ Unihan 한국음 0 · 이름 없는 구성 요소 목록(드문 것은 글자만 표시).
+JLPT 는 2010년 이후 공식 한자표가 없어 널리 쓰이는 공개 목록을 씁니다. 신 급수가 없는 33자는 구 급수와 학년으로 근사했고, 목록 밖 41자(俺·誰·嘘 등 애니 구어체)는 「급수 외」입니다. 소리 내기는 기기 일본어 음성 → 온라인 음성 순으로 시도하며 음원 파일은 두지 않습니다.
 SnowMan(japanese-cards)은 한자 사전이 없어 아직 빠져 있습니다. 사전을 쓰면 자동 편입됩니다.
