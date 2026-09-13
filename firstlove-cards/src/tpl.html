@@ -149,8 +149,10 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .kara-prev{color:#4d5468}.kara-next2{color:#4d5468}
 .kara-now{padding:10px 0 6px;display:flex;flex-direction:column;gap:6px;min-height:150px;justify-content:center}
 .kara-line{font-size:clamp(26px,3.4vw,44px);font-weight:800;line-height:1.3;letter-spacing:-.01em;word-break:keep-all;
- color:#b8bfd2;background-image:linear-gradient(90deg,#ffd166 0,#ffd166 var(--p,0%),#b8bfd2 var(--p,0%),#b8bfd2 100%);
- -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+ color:#b8bfd2}
+.kara-line .kc{color:#b8bfd2}
+.kara-line .kc.on{color:#ffd166}
+.kara-line .kc.part{background-image:linear-gradient(90deg,#ffd166 0,#ffd166 var(--q,0%),#b8bfd2 var(--q,0%),#b8bfd2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .kara-rd{font-size:clamp(14px,1.5vw,18px);color:#ffe9a8}
 .kara-ja{font-size:clamp(14px,1.5vw,18px);color:#9aa3b8}
 .kara-wait{display:flex;gap:8px;align-items:center;font-size:13px;color:#ffd166}
@@ -2814,6 +2816,23 @@ function karaSet(el, d, mask){
   el.textContent = mask ? maskLine(edited(d).ja) : edited(d).ja;
   el.onclick = () => { if(player && ready){ player.seekTo(d.s, true); player.playVideo(); stopAt = null; loopSeg = null; barAt = null; paintLoop(); paintBars(); paintBarLyrics(); } };
 }
+/* 글자별 span 으로 채운다: 줄이 화면에서 두 줄로 꺾여도 앞 글자부터 순서대로 물든다 */
+let karaChars = [], karaFillLast = -1;
+function setKaraLine(text){
+  const el = $('karaLine'); el.textContent = ''; karaChars = []; karaFillLast = -1;
+  [...text].forEach(ch => { const s = document.createElement('span'); s.className = 'kc'; s.textContent = ch; el.appendChild(s); karaChars.push(s); });
+}
+function paintKaraFill(p){
+  const n = karaChars.length; if(!n) return;
+  const f = Math.max(0, Math.min(1, p)) * n, k = Math.floor(f), frac = f - k;
+  const key = k * 100 + Math.round(frac * 10);
+  if(key === karaFillLast) return; karaFillLast = key;
+  karaChars.forEach((s, i) => {
+    if(i < k){ s.className = 'kc on'; s.style.removeProperty('--q'); }
+    else if(i === k && frac > 0.05 && k < n){ s.className = 'kc part'; s.style.setProperty('--q', (frac * 100).toFixed(0) + '%'); }
+    else { s.className = 'kc'; s.style.removeProperty('--q'); }
+  });
+}
 function karaPaint(t){
   const L = DATA; if(!L.length) return;
   const i = karaAt(t);
@@ -2828,15 +2847,15 @@ function karaPaint(t){
   if(i !== karaLast){
     karaLast = i;
     karaSet($('karaPrev'), prv);
-    if(cur){ const v = edited(cur); $('karaLine').textContent = lv >= 3 ? maskLine(v.ja) : v.ja; $('karaRd').textContent = ($('karaRdOpt').checked && lv < 2 && v.rd) ? v.rd : ''; $('karaJaLine').textContent = ($('karaJa').checked && lv < 1) ? v.ko : ''; }
-    else { $('karaLine').textContent = '♪'; $('karaRd').textContent = ''; $('karaJaLine').textContent = ''; }
+    if(cur){ const v = edited(cur); setKaraLine(lv >= 3 ? maskLine(v.ja) : v.ja); $('karaRd').textContent = ($('karaRdOpt').checked && lv < 2 && v.rd) ? v.rd : ''; $('karaJaLine').textContent = ($('karaJa').checked && lv < 1) ? v.ko : ''; }
+    else { setKaraLine('♪'); $('karaRd').textContent = ''; $('karaJaLine').textContent = ''; }
     karaSet($('karaNext'), nxt, lv >= 3); karaSet($('karaNext2'), nxt2, lv >= 3);
     $('karaPos').textContent = cur ? (i + 1) + ' / ' + L.length + ' · ' + fmt(cur.s) : fmt(t);
     if(cur && stopAt === null){ const k = deck.findIndex(x => x.id === cur.id); if(k >= 0 && k !== index){ index = k; showCard(); } }
   }
   let p = 0;
   if(cur){ const end = Math.max(cur.e, cur.s + 0.5); p = t >= end ? 1 : Math.max(0, (t - cur.s) / (end - cur.s)); }
-  $('karaLine').style.setProperty('--p', (p * 100).toFixed(1) + '%');
+  paintKaraFill(p);
   $('karaBar').style.width = (L.length ? ((Math.max(i, 0) + p) / L.length * 100) : 0) + '%';
   const gapTo = cur && t > cur.e && nxt ? nxt.s - t : (!cur && nxt ? nxt.s - t : 0);
   const w = $('karaWait');
