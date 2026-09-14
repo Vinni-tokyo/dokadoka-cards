@@ -41,14 +41,16 @@ words = collections.OrderedDict(); kanji = collections.OrderedDict(); hun_seen =
 for app in CAND:
     for f in sorted(glob.glob(os.path.join(SITE, app, 'Japanese-*Cards.html'))):
         page = os.path.basename(f)
-        D = json.loads(re.search(r'const DATA = (\[.*?\]);\n', io.open(f, encoding='utf-8').read(), re.S).group(1))
+        _html = io.open(f, encoding='utf-8').read()
+        D = json.loads(re.search(r'const DATA = (\[.*?\]);\n', _html, re.S).group(1))
+        _vid = (re.search(r"VID = '([^']*)'", _html) or [None, ''])[1]   # 이 페이지의 영상 — 카드 안 대사 재생용
         for c in D:
             for w in c.get('kj') or []:
                 head, rd, mean, kr, parts = w[:5]
                 W = words.setdefault(head, {'w': head, 'rd': rd, 'ko': mean, 'kr': kr, 'k': [p[0] for p in parts if KANJI_RE.match(p[0])],
                                             'n': 0, 'apps': collections.Counter(), 'ex': None})
                 W['n'] += 1; W['apps'][app] += 1
-                ex = {'ja': c['ja'], 'ko': c['ko'], 'app': app, 'page': page, 'id': c['id'], 's': c['s']}
+                ex = {'ja': c['ja'], 'ko': c['ko'], 'app': app, 'page': page, 'id': c['id'], 's': c['s'], 'e': c.get('e'), 'vid': _vid}
                 if W['ex'] is None or (8 <= len(c['ja']) < len(W['ex']['ja'])) or (len(W['ex']['ja']) < 8 < len(c['ja'])): W['ex'] = ex
                 for k, h in parts:
                     if not KANJI_RE.match(k): continue           # 々 같은 부호 제외
