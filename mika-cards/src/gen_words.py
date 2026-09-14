@@ -16,6 +16,7 @@ for ln in open('kanji.txt', encoding='utf-8'):
 
 by_lemma = {}
 lemma_order = []
+in_ctx = {}          # 표제어 → {본문 표기: [(접사 여부, 읽힌 가나)]}
 for s in json.load(open('segs.json', encoding='utf-8')):
     if True:
         for w in tagger(s['ja']):
@@ -31,6 +32,10 @@ for s in json.load(open('segs.json', encoding='utf-8')):
                 lemma_order.append(lemma)
             if surf not in by_lemma[lemma]:
                 by_lemma[lemma].append(surf)
+            _kana = w.feature.kana or w.feature.pron          # 문맥에서 실제로 읽힌 소리
+            if _kana:                                          # 접사 용례는 뒤로 미룬다(世界中의 中=チュウ 따위)
+                _affix = pos1 in ('接尾辞', '接頭辞')
+                in_ctx.setdefault(lemma, {}).setdefault(surf, []).append((_affix, _kana))
 
 
 def headword_of(lemma):
@@ -40,12 +45,20 @@ def headword_of(lemma):
 import jaconv
 
 
-READING_OVERRIDE = {'御前': 'おまえ', '御飯': 'ごはん', '御腹': 'おなか'}
+READING_OVERRIDE = {'者': 'もの', '君': 'きみ', '私': 'わたし', '御前': 'おまえ', '御飯': 'ごはん', '御腹': 'おなか'}
 
 
-def reading_of(headword):
+def reading_of(headword, lemma=None):
     if headword in READING_OVERRIDE:
         return READING_OVERRIDE[headword]
+    # 본문에 사전형 그대로 나온 적이 있으면 그때 읽힌 소리를 쓴다.
+    # 낱글자를 떼어 다시 분석하면 음독이 나온다(時=じ, 的=まと 따위).
+    cand = (in_ctx.get(lemma) or {}).get(headword)
+    if cand:
+        from collections import Counter
+        free = [k for af, k in cand if not af]                  # 자립어로 쓰인 용례를 우선
+        pool = free or [k for _af, k in cand]
+        return jaconv.kata2hira(Counter(pool).most_common(1)[0][0])
     toks = list(tagger(headword))
     return ''.join(jaconv.kata2hira(t.feature.kana or t.feature.pron or t.surface) for t in toks)
 
@@ -60,7 +73,7 @@ for lemma in lemma_order:
         missing_meaning.append(lemma)
         continue
     meaning = MEANINGS[lemma]
-    reading = reading_of(headword)
+    reading = reading_of(headword, lemma)
     hanja = ''.join(KJ.get(c, '?') for c in headword if KANJI.match(c))
     stem_field = ','.join(stems)
     lines.append(f'{stem_field}|{headword}|{reading}|{meaning}|{hanja}')
