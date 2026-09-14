@@ -170,6 +170,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .setup select{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
 .setup .note{font-size:12.5px;color:var(--mute);line-height:1.5;margin:6px 2px 0}
 .play{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 18px;text-align:center;min-height:0}
+.lpwrap{position:relative;width:100%;height:2px;overflow:hidden;opacity:.02;pointer-events:none}.lpwrap iframe,.lpwrap>div{position:absolute;inset:0;width:100%;height:100%}  /* 듣기 모드 원본 대사용 숨긴 플레이어 */
 .play .step{font-size:12.5px;color:var(--mute);letter-spacing:.05em;min-height:1.2em}
 .play .word{font-size:clamp(48px,18vw,76px);font-weight:700;color:var(--brand);line-height:1.15;margin:4px 0}
 .play .ans{font-size:clamp(18px,5.5vw,24px);font-weight:600;min-height:1.4em;transition:opacity .2s}
@@ -319,7 +320,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="setup">
   <div class="grp"><h5>무엇을</h5><select id="lsDeck" onchange="lsDeckChanged()"></select><div style="height:8px"></div><select id="lsCh"></select></div>
   <div class="grp"><h5>어떻게</h5><div class="opts" id="lsMode"></div><p class="note" id="lsModeNote"></p></div>
-  <div class="grp"><h5>예문(대사)</h5><div class="opts" id="lsEx"></div><p class="note">단어 뒤에 그 단어가 나온 실제 대사를 읽어 줍니다. 화면에는 대사와 해석이 함께 뜹니다.</p></div>
+  <div class="grp"><h5>예문(대사)</h5><div class="opts" id="lsEx"></div><p class="note">단어 뒤에 그 단어가 나온 실제 대사를 들려줍니다. 「원본 대사」는 영상의 그 부분 소리를 그대로 틉니다(화면이 켜져 있어야 하고, 앱 안 재생이 막힌 영상은 음성 합성으로 대신 읽습니다). 화면에는 대사와 해석이 함께 뜹니다.</p></div>
   <div class="grp"><h5>떠올릴 시간(침묵)</h5><div class="opts" id="lsPause"></div></div>
   <div class="grp"><h5>어디까지</h5><div class="opts" id="lsAll"></div><p class="note">「전체 장」이면 고른 장부터 마지막 장까지 끊지 않고 이어서 들려줍니다. 장이 끝날 때마다 고르지 않아도 됩니다.</p></div>
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
@@ -339,6 +340,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="word" id="pWord" lang="ja">—</div>
   <div class="ans hide" id="pAns"></div>
   <div class="pex hide" id="pEx"></div>
+  <div class="lpwrap" id="lpWrap"><div id="lpFrame"></div></div>
   <div class="bar"><i id="pBar"></i></div>
   <div class="meta" id="pMeta"></div>
  </div>
@@ -506,7 +508,7 @@ function xpEnsure(vid, cb){
     if (xpP) { try { xpP.destroy(); } catch (e) {} xpP = null; document.getElementById('xpWrap').innerHTML = '<div id="xpFrame"></div>'; }
     xpVid = vid;
     xpP = new YT.Player('xpFrame', {videoId: vid, playerVars: {playsinline: 1, rel: 0, controls: 1, modestbranding: 1},
-      events: {onReady: () => cb(), onStateChange: ev => {
+      events: {onReady: () => cb(), onError: ev => { clearTimeout(xpGuard); if (ev.data === 101 || ev.data === 150) xpMsg('⛔ 이 영상은 앱 안 재생이 막혀 있습니다 · 「장면 ›」로 유튜브에서 여세요'); else xpMsg('⛔ 재생할 수 없는 영상입니다'); }, onStateChange: ev => {
         if (ev.data === 1 && xpSeg) { xpWatch(); clearTimeout(xpGuard); xpMsg('🔊 대사 재생 중' + (xpLoop ? ' · 반복' : '')); }
         if (ev.data === 2 && xpSeg && !xpEnded) xpMsg('⏸ 멈춤 · ▶ 로 다시');
       }}});
@@ -786,7 +788,7 @@ function openListen(){
   const seg = (id, opts, cur, fn) => document.getElementById(id).innerHTML = opts.map(([v, n]) => `<button aria-pressed="${v === cur}" onclick="${fn}(${JSON.stringify(v).replace(/"/g, '&quot;')})">${n}</button>`).join('');
   seg('lsMode', Object.entries(LS_MODES), LSO.mode, 'lsSetMode');
   seg('lsPause', [[2, '2초'], [3, '3초'], [5, '5초'], [0, '없음']], LSO.pause, 'lsSet.pause');
-  seg('lsEx', [[1, '읽기'], [0, '안 읽기']], LSO.ex === 0 ? 0 : 1, 'lsSet.ex');
+  seg('lsEx', [[1, '음성 합성'], [2, '원본 대사'], [3, '원본 대사 2번'], [0, '안 읽기']], LSO.ex === undefined ? 1 : LSO.ex, 'lsSet.ex');
   seg('lsAll', [[1, '전체 장'], [0, '이 장만']], LSO.all === 0 ? 0 : 1, 'lsSet.all');
   seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
   seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
@@ -828,7 +830,7 @@ function scriptOf(x){   // 한 장의 대본: [{ja|ko: 텍스트} | {pause: 초}
       ...(partsSpeech(x) ? [{ko: partsSpeech(x)}] : []), ...ws.flatMap(w => [{ja: w.rd}, {ko: kstrip(w.ko)}])];
   }
   if (LSO.mode === 'rev') return [{show: 'q'}, {ko: kstrip(x.ko)}, ...P, {show: 'a'}, {ja: x.rd}, {pause: 0.6}, {ja: x.rd}];
-  return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, ...(LSO.ex === 0 ? [] : [{pause: 0.4}, {show: 'x'}, {ja: x.ex.ja}])];
+  return [{show: 'q'}, {ja: x.rd}, ...P, {show: 'a'}, {ko: kstrip(x.ko)}, {pause: 0.5}, {ja: x.rd}, ...(LSO.ex === 0 ? [] : [{pause: 0.4}, {show: 'x'}, ...(LSO.ex === 2 ? [{clip: 1}] : LSO.ex === 3 ? [{clip: 1}, {pause: 0.5}, {clip: 1}] : [{ja: x.ex.ja}])])];
 }
 let LP = null;   // {items, i, steps, si, round, playing, t0, engine, timer}
 const DIAG = [];
@@ -873,6 +875,7 @@ function startListen(){
   document.getElementById('pTitle').firstChild.textContent = (kind === 'rev' ? '복습함' : deckName(kind, key) + ' ' + (LSO.ch + 1) + '장' + (cont ? '부터' : '')) + ' · ' + LS_MODES[LSO.mode];
   dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
   show('vPlay'); lsLoadItem(); lsStep();
+  if (LSO.mode === 'word' && LSO.ex >= 2) { const f = items.find(y => y.ex && y.ex.vid); if (f) lpEnsure(f.ex.vid, () => {}); }
   if (LSO.awake !== 0) wakeOn();
 }
 function lsLoadItem(){
@@ -892,6 +895,33 @@ function lsLoadItem(){
   if (!ST.heardIds.includes(id)) ST.heardIds.push(id);
   save();
 }
+/* ---------- 듣기 모드의 원본 대사 — 회독 카드와 별개의 숨긴 플레이어(듣기 화면 안 2px). 소리만 낸다 ----------
+   막힌 영상(임베드 차단, 오류 101/150)이나 4초 안에 시작하지 않는 재생은 즉시 실패로 돌려 음성 합성이 대신 읽는다. */
+let lpP = null, lpVid = null, lpTimer = null, lpGuard = null, lpDone = null, lpFail = null;
+function lpEnsure(vid, cb){
+  xpApi(() => {
+    if (lpP && lpVid === vid) return cb();
+    if (lpP) { try { lpP.destroy(); } catch (e) {} lpP = null; document.getElementById('lpWrap').innerHTML = '<div id="lpFrame"></div>'; }
+    lpVid = vid;
+    lpP = new YT.Player('lpFrame', {videoId: vid, playerVars: {playsinline: 1, rel: 0, controls: 0, disablekb: 1},
+      events: {onReady: () => cb(), onStateChange: ev => { if (ev.data === 1) clearTimeout(lpGuard); },
+               onError: ev => { dlog('원본 대사 오류 ' + ev.data + (ev.data === 101 || ev.data === 150 ? ' (앱 안 재생 차단)' : '')); const f = lpFail; lpStop(); if (f) f(); }}});
+  });
+}
+function lpPlay(ex, done, fail){
+  lpStop(); lpDone = done; lpFail = fail;
+  if (LP) { LP.clipSi = LP.si - 1; LP.lastAt = Date.now(); }
+  const s0 = Math.max(0, (ex.s || 0) - 0.15), e0 = Math.max(ex.e || ex.s + 3, ex.s + 0.8);
+  dlog('원본 대사 ' + ex.vid + ' ' + s0.toFixed(1) + '~' + e0.toFixed(1));
+  lpEnsure(ex.vid, () => {
+    try { lpP.seekTo(s0, true); lpP.playVideo(); } catch (e) { const f = lpFail; lpStop(); return f && f(); }
+    clearTimeout(lpGuard);
+    lpGuard = setTimeout(() => { let st = -1; try { st = lpP.getPlayerState(); } catch (e) {} if (st !== 1 && st !== 3) { dlog('원본 대사 4초 내 미시작'); const f = lpFail; lpStop(); if (f) f(); } }, 4000);
+    clearInterval(lpTimer);
+    lpTimer = setInterval(() => { let t; try { t = lpP.getCurrentTime(); } catch (e) { return; } if (t >= e0) { const d = lpDone; lpStop(); if (d) d(); } }, 150);
+  });
+}
+function lpStop(){ clearInterval(lpTimer); clearTimeout(lpGuard); lpTimer = lpGuard = null; lpDone = lpFail = null; if (lpP) { try { lpP.pauseVideo(); } catch (e) {} } }
 function lsStep(){
   if (!LP || !LP.playing) return;
   if (LP.si >= LP.steps.length) return lsAdvance();
@@ -905,6 +935,11 @@ function lsStep(){
   }
   document.getElementById('pMeta').textContent = fmt(Math.floor((Date.now() - LP.t0) / 1000)) + (LSO.stop ? ' / ' + LSO.stop + '분' : '') + ' · 음성: ' + (LP.engine === 'tts' ? (LSO.engine === 'device' ? '기기' : '기기(온라인 실패로 대체)') : '온라인') + ' · 빌드 ' + BUILD.slice(5);
   if (LSO.stop && Date.now() - LP.t0 > LSO.stop * 60000 && LP.si <= 1) { toast('자동 종료'); return stopListen(true); }
+  if (st.clip) {   // 원본 대사 — 없거나 막히면 음성 합성으로
+    const ex = x.ex; if (!ex || !ex.vid) return lsStep();
+    const viaTTS = () => { if (!LP || !LP.playing) return; dlog('원본 대사 대신 음성 합성'); if (LP.engine === 'tts') lsTTS(ex.ja, 'ja'); else lsPlay(ttsURL(ex.ja, 'ja'), {text: ex.ja, lang: 'ja'}, 'ja(대체) ' + ex.ja.slice(0, 12)); };
+    return lpPlay(ex, () => { if (LP && LP.playing) lsStep(); }, viaTTS);
+  }
   if (st.pause !== undefined) return lsPlay(silenceCached(st.pause), null, '침묵 ' + st.pause + '초');
   const lang = st.ja !== undefined ? 'ja' : 'ko'; const text = st.ja !== undefined ? st.ja : st.ko;
   if (LP.engine === 'tts') return lsTTS(text, lang);
@@ -934,6 +969,7 @@ function lsPaint(playing){ document.getElementById('pPlay').innerHTML = playing 
 /* 화면이 다시 켜지거나 앱으로 돌아왔을 때, 그리고 주기적으로: 재생 중이어야 하는데 멈춰 있으면 되살린다 */
 function lsResume(){
   if (!LP || !LP.playing) return;
+  if (lpTimer || LP.clipPaused) { LP.clipPaused = false; lpStop(); LP.si = LP.clipSi; dlog('복귀: 원본 대사 다시'); return lsStep(); }
   if (LP.stalled) { LP.stalled = false; lsPaint(true); return lsStep(); }
   if (LP.engine === 'tts') {   // 백그라운드에 다녀오면 speechSynthesis 가 말하는 중인 채 굳는 일이 있다 → 끊고 그 단계부터 다시
     if ('speechSynthesis' in window) speechSynthesis.cancel();
@@ -943,7 +979,7 @@ function lsResume(){
   if (ONE.paused && ONE._url) ONE.play().then(() => dlog('복귀: 이어 재생')).catch(() => lsStep());
 }
 document.addEventListener('visibilitychange', () => { dlog('visibility ' + document.visibilityState); if (document.visibilityState === 'visible') { setTimeout(lsResume, 200); if (LP && LSO.awake !== 0) wakeOn(); } });
-setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && Date.now() - (LP.lastAt || 0) > 20000) lsResume(); }, 20000);
+setInterval(() => { if (LP && LP.playing && LP.engine !== 'tts' && ONE.paused && !LP.stalled && !lpTimer && Date.now() - (LP.lastAt || 0) > 20000) lsResume(); }, 20000);
 function lsFallback(){ if (LP.engine === 'tts') return; LP.engine = 'tts'; toast('온라인 음성을 열 수 없어 기기 음성으로 바꿉니다 (진단 참고)'); }
 function lsTTS(text, lang){
   if (!('speechSynthesis' in window)) return setTimeout(lsStep, 500);
@@ -970,12 +1006,13 @@ function lsPrev(){
 }
 function lsNext(){ if (!LP) return; lsInterrupt(); LP.playing = true; lsAdvance(); }
 function lsMarkStudy(){ if (!LP) return; const x = LP.items[LP.i]; ST.marks[idOf(x)] = 'study'; save(); toast((isWord(x) ? x.w : x.k) + ' → 복습함'); }
-function lsInterrupt(){ ONE.onended = ONE.onerror = null; if ('speechSynthesis' in window) speechSynthesis.cancel(); }   // 요소는 멈추지 않는다(곧 다음 곡이 들어감)
+function lsInterrupt(){ lpStop(); ONE.onended = ONE.onerror = null; if ('speechSynthesis' in window) speechSynthesis.cancel(); }   // 요소는 멈추지 않는다(곧 다음 곡이 들어감)
 function lsToggle(force){
   if (!LP) return;
   const want = force === undefined ? !LP.playing : force;
   LP.playing = want; lsPaint(want);
-  if (!want) { ONE.pause(); wakeOff(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (!want) { if (lpTimer) LP.clipPaused = true; lpStop(); ONE.pause(); wakeOff(); if ('speechSynthesis' in window) speechSynthesis.pause(); return; }
+  if (LP.clipPaused) { LP.clipPaused = false; LP.si = LP.clipSi; if (LSO.awake !== 0) wakeOn(); return lsStep(); }   // 원본 대사 도중 멈췄으면 그 대사를 처음부터
   if (LSO.awake !== 0) wakeOn();
   if (LP.stalled) { LP.stalled = false; return lsStep(); }
   if (LP.engine === 'tts') { if ('speechSynthesis' in window && speechSynthesis.paused) speechSynthesis.resume(); else lsStep(); return; }
