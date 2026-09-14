@@ -84,7 +84,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .ex .xb a{float:none;margin-left:auto}
 .xp{margin:8px 14px 0;flex:none}.xpv{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000}
 .xpv iframe,.xpv>div{position:absolute;inset:0;width:100%;height:100%}
-@media (min-width:900px){.xp{max-width:560px;margin:8px auto 0}}  /* 넓은 화면에서 플레이어가 카드를 밀어내지 않게 */
+@media (min-width:900px){.xp{width:560px;max-width:100%;align-self:center;margin:8px 0 0}}  /* 넓은 화면에서 플레이어가 카드를 밀어내지 않게. 자동 여백이면 폭이 안 정해져 비율 패딩이 0 이 된다 → 폭을 명시 */
 .hid .rd,.hid .ko,.hid .kl,.hid .ex,.hid .kb{visibility:hidden}
 .tip{position:absolute;bottom:8px;left:0;right:0;font-size:12.5px;color:var(--mute)}
 .hid .tip{display:block}.tip{display:none}
