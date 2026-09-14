@@ -191,8 +191,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .kara .sessbar .meta{color:#aab0c8}
 .kara .kmask{align-self:flex-start;margin-bottom:4px}
 .kara .sessfoot{margin-top:0}
-.kara .knav{grid-template-columns:auto 1fr 1.2fr .9fr 1fr;gap:6px}
-.kara .knav .btn{font-size:12.5px;padding:8px 4px}
+.kara .knav{grid-template-columns:auto 1fr 1.15fr .85fr 1fr auto;gap:5px}
+.kara .knav .btn{font-size:12.5px;padding:8px 4px;white-space:nowrap}
+@media(max-width:430px){ /* 버튼이 여섯이라 좁은 화면에서는 글자만 남긴다 — 세로로 접히지 않게 */
+ .kara .knav .btn{font-size:12px;padding:8px 2px;gap:3px}
+ .kara .knav #knPrev>.ic,.kara .knav #knNext>.ic{display:none}}
 .kara .knav .knback{padding:0 10px}
 .kara .knav .btn{min-height:42px;justify-content:center}
 .kara .sessfoot .btn{background:#232838;border-color:#2f364a;color:#e9ecf5}
@@ -1171,10 +1174,6 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
    <div id="karaView" hidden>
     <div class="kara">
      <div class="kara-top">
-      <button class="btn btn-sm" id="karaBack" title="카드 탭으로 / カードへ"><svg class="ic"><use href="#i-left"/></svg><span class="lbl">카드로<span class="sub" lang="ja">カードへ</span></span></button>
-      <button class="btn btn-primary btn-sm" id="karaStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">처음부터<span class="sub" lang="ja">最初から</span></span></button>
-      <button class="btn btn-sm" id="karaHere"><span class="lbl">이 줄부터<span class="sub" lang="ja">この行から</span></span></button>
-      <button class="btn btn-sm" id="karaPause"><span class="lbl">일시정지 / 재생<span class="sub" lang="ja">一時停止 / 再生</span></span></button>
       <label class="kara-opt"><input type="checkbox" id="karaRdOpt" checked> 읽기 · 読み</label>
       <label class="kara-opt"><input type="checkbox" id="karaJa" checked> 뜻 · 意味</label>
       <span class="meta" id="karaPos">—</span>
@@ -1200,6 +1199,11 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      <div class="kara-bar"><span id="karaBar"></span></div>
      <div class="kfix" id="kfix">
       <div class="bars" id="barBox" hidden>
+        <div class="bars-row">
+         <button class="btn btn-primary btn-sm" id="karaStart"><svg class="ic fill"><use href="#i-play"/></svg><span class="lbl">처음부터<span class="sub" lang="ja">最初から</span></span></button>
+         <button class="btn btn-sm" id="karaHere"><span class="lbl">이 줄부터<span class="sub" lang="ja">この行から</span></span></button>
+         <button class="btn btn-sm" id="karaPause"><span class="lbl">일시정지 / 재생<span class="sub" lang="ja">一時停止 / 再生</span></span></button>
+        </div>
        <div class="bars-row">
         <span class="cap">길이</span>
         <div class="seg" id="barLen"><button data-v="1" aria-pressed="false">1</button><button data-v="2" aria-pressed="true">2</button><button data-v="4" aria-pressed="false">4</button><button data-v="8" aria-pressed="false">8</button></div>
@@ -1224,6 +1228,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        <button class="btn btn-primary" id="knPlay"><svg class="ic fill"><use href="#i-play"/></svg>재생</button>
        <button class="btn" id="knStop"><svg class="ic fill"><use href="#i-stop"/></svg>정지</button>
        <button class="btn" id="knNext">다음 줄<svg class="ic"><use href="#i-right"/></svg></button>
+       <button class="btn knback" id="knBars" aria-pressed="false" hidden title="마디 · 미세 조정 / 小節・微調整"><svg class="ic"><use href="#i-bars"/></svg></button>
       </div>
       <div class="sessfoot" id="ksfoot" hidden>
        <button class="btn" id="ksA">한 번 더</button>
@@ -2779,10 +2784,24 @@ $('wRdOpt').onchange = () => { watchLast = -2; watchPaint(watchNowT()); };
    beats.py 가 음성에서 구한 등간격 박 그리드(BEATS)를 4박씩 묶어 마디 시작점(BARS)을 만든다.
    1/2/4/8마디를 경계 딱 맞춰 되풀이하고, 마디 시작이 어긋나게 들리면 ±1박으로 보정한다(저장). */
 let BEATS = [], BPM = 0, PHASE = 0, BARS = [], barShift = 0, barLen = 2, barAt = null, rate = Number(store.get('rate', 1)) || 1;
+/* 마디·미세 조정은 서랍으로 — 기본은 닫혀 있고 아래 바의 버튼으로 연다.
+   가사 위에 있던 「카드로·처음부터·이 줄부터·일시정지」는 아래 바와 겹쳐 걷어내고,
+   뒤 셋은 이 서랍으로 옮겼다. 고정되는 것은 이동 바 한 줄뿐이다. */
+var barsOpen = false;
+function barsPaint(){
+  var can = !(BARS.length < 2 || OFFLINE), b = $('knBars');
+  if(!can) barsOpen = false;
+  if(b){ b.hidden = !can; b.setAttribute('aria-pressed', String(barsOpen)); }
+  $('barBox').hidden = !barsOpen;
+  requestAnimationFrame(() => {                    /* 서랍을 여닫으면 고정 바 높이가 바뀐다 */
+    if(typeof karaFit === 'function') karaFit();
+    if(typeof karaReveal === 'function') karaReveal();   /* 열면서 가사가 가리면 다시 올려 준다 */
+  });
+}
 function rebuildBars(){
   const ph = ((PHASE + barShift) % 4 + 4) % 4;
   BARS = BEATS.filter((_, i) => i % 4 === ph);
-  $('barBox').hidden = BARS.length < 2 || OFFLINE;
+  barsPaint();
 }
 function barOf(t){ let i = 0; while(i + 1 < BARS.length && BARS[i + 1] <= t + 0.05) i++; return i; }
 function playBars(i, n){
@@ -2996,10 +3015,10 @@ bindCue($('knPlay'), () => {
 });
 $('knStop').onclick = stopAll;
 $('knBack').onclick = karaBack;
+$('knBars').onclick = () => { barsOpen = !barsOpen; barsPaint(); };
 $('karaLine').onclick = () => { if(BARS.length >= 2 && player && ready) $('barLine').click(); };
 $('toKara').onclick = () => { switchView('kara'); window.scrollTo({top: 0}); try{ history.pushState({kara: 1}, ''); }catch(e){} if(BARS.length >= 2 && player && ready) $('barLine').click(); };
 function karaBack(){ if(ksess) ksEnd(); else { if(barAt != null) $('barStop').click(); switchView('card'); window.scrollTo({top: 0}); } }
-$('karaBack').onclick = karaBack;
 window.addEventListener('popstate', () => { if(view === 'kara') karaBack(); });
 $('barFine').onclick = () => { const o = $('barFineRow').hidden; $('barFineRow').hidden = !o; $('barFine').setAttribute('aria-pressed', String(o)); };
 document.addEventListener('keydown', e => {
