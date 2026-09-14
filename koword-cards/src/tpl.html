@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3b4a7a"><title>도카도카 한국어 단어·표현 카드</title>
+<style>
+:root{--bg:#f4f5f8;--card:#fff;--line:#e2e5ec;--ink:#21242c;--mute:#6b7280;--brand:#3b4a7a;--brand2:#4a5a8d;
+ --accent:#b0603f;--soft:#eef0f5;--know:#3b4a7a;--study:#8a94b3;--warn:#a8622f;--warnbg:#fbf2ea;--r:14px}
+@media (prefers-color-scheme:dark){:root{--bg:#171a22;--card:#20242e;--line:#333947;--ink:#e6e8ee;--mute:#9aa3b5;
+ --brand:#6d7fc2;--brand2:#39436a;--accent:#d3855f;--soft:#2a3040;--know:#4c5ea0;--study:#5a6280;--warn:#d9975f;--warnbg:#2e2820}}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;-webkit-tap-highlight-color:transparent;
+ font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR","Noto Sans JP","Malgun Gothic",sans-serif}
+[lang=ja]{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic","Meiryo","Noto Sans KR",sans-serif}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input{font:inherit;color:inherit}
+.app{max-width:520px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
+@media (min-width:600px){.app{box-shadow:0 0 0 1px var(--line)}}
+.view{display:none;flex:1;flex-direction:column;min-height:0}.view.on{display:flex}
+.hd{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;position:sticky;top:0;background:var(--bg);z-index:5}
+.hd h1{font-size:17px;font-weight:700;margin:0;letter-spacing:-.02em;flex:1;min-width:0}
+.hd .sub{font-size:11px;color:var(--mute);font-weight:400;display:block;margin-top:2px}
+.ib{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;color:var(--mute)}
+.ib:hover{background:var(--soft);color:var(--ink)}.ib svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.body{flex:1;overflow-y:auto;padding:0 16px 28px;-webkit-overflow-scrolling:touch}
+.sec{font-size:11px;font-weight:700;letter-spacing:.11em;color:var(--mute);text-transform:uppercase;margin:20px 2px 8px}
+.row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);
+ border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:7px}
+.row:hover{border-color:var(--brand);}
+.row .nm{flex:1;min-width:0;font-weight:600}
+.row .nm small{display:block;font-weight:400;font-size:11.5px;color:var(--mute);margin-top:2px}
+.row .ct{font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums;flex:none}
+.bar{height:4px;background:var(--soft);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar>i{display:block;height:100%;background:var(--know);border-radius:4px}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--soft);color:var(--mute)}
+.pill.w{background:var(--warnbg);color:var(--warn)}
+.pill.e{background:var(--brand2);color:#fff}
+/* ── 카드 ── */
+.cwrap{flex:1;display:flex;flex-direction:column;min-height:0;padding:0 16px 16px}
+.cmeta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mute);padding:4px 2px 10px}
+.cmeta .pg{margin-left:auto;font-variant-numeric:tabular-nums}
+.card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;display:flex;
+ flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px 20px;text-align:center;
+ min-height:0;overflow-y:auto;position:relative;user-select:none}
+.card .ko{font-size:clamp(28px,8vw,42px);font-weight:700;letter-spacing:-.02em;line-height:1.3;word-break:keep-all}
+.card .pr{font-size:15px;color:var(--warn);font-weight:600}
+.card .hint{position:absolute;bottom:14px;font-size:11.5px;color:var(--mute)}
+.card .ja{font-size:19px;line-height:1.6;font-weight:600}
+.card .nt{font-size:12.5px;color:var(--mute);line-height:1.65;max-width:34em}
+.card .ex{font-size:12.5px;line-height:1.6;background:var(--soft);border-radius:10px;padding:10px 12px;max-width:34em;width:100%}
+.card .ex mark{background:none;color:var(--accent);font-weight:700}
+.card .ex .j{color:var(--mute);font-size:11.5px;margin-top:3px}
+.act{display:flex;gap:10px;padding-top:12px}
+.act button{flex:1;padding:14px 8px;border-radius:12px;font-weight:700;font-size:15px;color:#fff}
+.act .s{background:var(--study)}.act .k{background:var(--know)}
+.act.one button{background:var(--brand)}
+/* ── 목록 ── */
+.srch{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);
+ border-radius:12px;padding:9px 12px;margin:2px 0 10px}
+.srch input{flex:1;border:0;background:none;outline:none;min-width:0}
+.li{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;padding:11px 4px;border-bottom:1px solid var(--line)}
+.li .k{font-weight:650;font-size:15.5px}
+.li .k .p{font-weight:400;font-size:12px;color:var(--warn);margin-left:6px}
+.li .j{font-size:12.5px;color:var(--mute);margin-top:2px;line-height:1.5}
+.li .st{flex:none;width:8px;height:8px;border-radius:50%;background:var(--line);margin-top:7px}
+.li .st.k{background:var(--know)}.li .st.s{background:var(--study)}
+/* ── 상세 ── */
+.ov{position:fixed;inset:0;background:rgba(10,12,18,.45);display:none;z-index:20;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:88dvh;overflow-y:auto;border-radius:18px 18px 0 0;padding:8px 18px 28px}
+.grab{width:38px;height:4px;background:var(--line);border-radius:4px;margin:6px auto 12px}
+.sheet h2{font-size:30px;margin:6px 0 2px;letter-spacing:-.02em;word-break:keep-all}
+.sheet .pr2{font-size:15px;color:var(--warn);font-weight:600;margin-bottom:10px}
+.sheet .ja2{font-size:17px;font-weight:600;line-height:1.6}
+.sheet .nt2{font-size:13px;color:var(--mute);line-height:1.7;margin-top:6px}
+.blk{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-top:12px}
+.blk h3{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin:0 0 8px}
+.blk a{color:var(--accent);text-decoration:none;font-weight:600;font-size:12.5px}
+.blk .exk{font-size:14.5px;line-height:1.6;word-break:keep-all}
+.blk .exk mark{background:none;color:var(--accent);font-weight:700}
+.blk .exj{font-size:12.5px;color:var(--mute);margin-top:4px;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:5px 10px;border-radius:20px;background:var(--soft);border:1px solid var(--line)}
+.foot{font-size:11px;color:var(--mute);text-align:center;padding:18px 16px 26px;line-height:1.8}
+.opt{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--mute);padding:9px 2px}
+.opt input{width:17px;height:17px;accent-color:var(--brand)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+ padding:9px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.toast.on{opacity:.94}
+.empty{text-align:center;color:var(--mute);font-size:13px;padding:40px 12px;line-height:1.8}
+</style></head><body><div class="app">
+
+<!-- ══ 홈 ══ -->
+<section class="view on" id="vHome">
+ <div class="hd"><h1>한국어 단어·표현 카드<span class="sub">영상 앱 <b id="hApps">0</b>편에서 모은 __N__개 · 표현 __NE__ · 단어 <span id="hNV">0</span></span></h1>
+  <button class="ib" id="bList" title="목록·검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg></button></div>
+ <div class="body">
+  <div class="sec">이어서</div><div id="hCont"></div>
+  <div class="sec">덱</div><div id="hDeck"></div>
+  <div class="sec">작품</div><div id="hApp"></div>
+  <div class="sec" id="hFamT">문형</div><div id="hFam"></div>
+  <div class="sec">설정</div>
+  <label class="opt"><input type="checkbox" id="oAll"> 처음부터 뜻을 보여준다</label>
+  <label class="opt"><input type="checkbox" id="oRev"> 거꾸로 (뜻 → 한국어)</label>
+  <label class="opt"><input type="checkbox" id="oPr"> 앞면에 발음도 보여준다</label>
+  <div class="opt">한 장(章)에 <b id="chN">15</b>개
+   <input type="range" id="chR" min="5" max="50" step="5" style="flex:1;accent-color:var(--brand)"></div>
+  <div class="opt" style="gap:14px"><button id="bExp" style="color:var(--brand);font-weight:600">진행 내보내기</button>
+   <button id="bImp" style="color:var(--brand);font-weight:600">가져오기</button>
+   <button id="bRst" style="color:var(--accent);font-weight:600;margin-left:auto">초기화</button>
+   <input type="file" id="fImp" accept="application/json" hidden></div>
+  <div class="foot">영상 앱과 달리 유튜브 없이 돕니다. 「▶ 장면」만 영상 앱을 엽니다.<br>
+   철자와 소리가 다른 __NP__개는 <span class="pill w">발음</span> 으로 표시했습니다(표준발음법 규칙으로 계산).<br>빌드 __BUILD__</div>
+ </div>
+</section>
+
+<!-- ══ 카드 ══ -->
+<section class="view" id="vCard">
+ <div class="hd"><button class="ib" id="cBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <h1 id="cTitle">—<span class="sub" id="cSub"></span></h1></div>
+ <div class="cwrap">
+  <div class="cmeta"><span id="cRound"></span><span class="pg" id="cPg"></span></div>
+  <div class="card" id="cCard"></div>
+  <div class="act" id="cAct"></div>
+ </div>
+</section>
+
+<!-- ══ 결과 ══ -->
+<section class="view" id="vRes">
+ <div class="hd"><button class="ib" id="rBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button><h1>장 결과</h1></div>
+ <div class="body"><div id="rBody"></div></div>
+</section>
+
+<!-- ══ 목록 ══ -->
+<section class="view" id="vList">
+ <div class="hd"><button class="ib" id="lBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <h1>목록<span class="sub" id="lSub"></span></h1></div>
+ <div class="body">
+  <div class="srch"><svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:var(--mute);stroke-width:1.9"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
+   <input id="lQ" placeholder="한국어·일본어·메모로 찾기" autocomplete="off"></div>
+  <div class="chips" id="lFil"></div>
+  <div id="lBody" style="margin-top:10px"></div>
+ </div>
+</section>
+
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+</div>
+<script>
+const ITEMS = /*__ITEMS__*/, APPS = /*__APPS__*/, FAM = /*__FAM__*/;
+const LS = 'koword-cards';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const st = { know:{}, study:{}, round:{}, seen:{}, ch:15, all:false, rev:false, pr:false };
+try{ Object.assign(st, JSON.parse(localStorage.getItem(LS)||'{}')); }catch(e){}
+const save = () => { try{ localStorage.setItem(LS, JSON.stringify(st)); }catch(e){} };
+const toast = m => { const t=$('#toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1400); };
+const view = v => { document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on', x.id===v)); window.scrollTo(0,0); };
+
+/* ── 덱 정의 ── */
+function deckItems(key){
+  const [k,v] = key.split(':');
+  if(k==='all')  return ITEMS;
+  if(k==='t')    return ITEMS.filter(x=>x.t===v);
+  if(k==='pr')   return ITEMS.filter(x=>x.pr);
+  if(k==='app')  return ITEMS.filter(x=>x.src.some(s=>s.i===+v));
+  if(k==='fam')  return (FAM[v]||[]).map(i=>ITEMS[i]);
+  if(k==='rev')  return ITEMS.filter(x=>st.study[x.i]);
+  return ITEMS;
+}
+const deckName = key => { const [k,v]=key.split(':');
+  return k==='all'?'전체':k==='t'?(v==='E'?'표현':'단어'):k==='pr'?'발음 주의':
+         k==='app'?APPS[+v].n:k==='fam'?v:'복습함'; };
+/* 한 덱의 진행률 = 알고있음 표시 비율 */
+const prog = key => { const a=deckItems(key); if(!a.length) return 0;
+  return a.filter(x=>st.know[x.i]).length / a.length; };
+
+/* ── 홈 ── */
+function home(){
+  $('#hApps').textContent = APPS.length;
+  $('#hNV').textContent = ITEMS.filter(x=>x.t==='V').length;
+  const row = (key, sub) => { const a=deckItems(key), p=prog(key), done=a.filter(x=>st.know[x.i]).length;
+    return `<button class="row" data-deck="${esc(key)}"><span class="nm">${esc(deckName(key))}
+      ${sub?`<small>${esc(sub)}</small>`:''}<span class="bar"><i style="width:${(p*100).toFixed(0)}%"></i></span></span>
+      <span class="ct">${done}/${a.length}</span></button>`; };
+  const cont = Object.keys(st.round||{}).filter(k=>deckItems(k).length);
+  $('#hCont').innerHTML = cont.length ? cont.map(k=>row(k, (st.round[k]||1)+'회독 진행 중')).join('')
+    : `<div class="empty" style="padding:14px 6px">아직 시작한 덱이 없습니다. 아래에서 하나 고르세요.</div>`;
+  const nRev = deckItems('rev').length;
+  $('#hDeck').innerHTML = row('all','자주 나온 순서') + row('t:E','실제 대사에서 쓰인 말') + row('t:V','뜻을 아는 낱말부터')
+    + row('pr','철자와 소리가 다른 말') + (nRev?row('rev','공부하겠음 표시한 것'):'');
+  $('#hApp').innerHTML = APPS.map((a,i)=>row('app:'+i, a.a.replace('-cards',''))).join('');
+  const fk = Object.keys(FAM);
+  $('#hFamT').style.display = fk.length?'':'none';
+  $('#hFam').innerHTML = fk.map(k=>row('fam:'+k, FAM[k].length+'개')).join('');
+  $('#oAll').checked=st.all; $('#oRev').checked=st.rev; $('#oPr').checked=st.pr;
+  $('#chR').value=st.ch; $('#chN').textContent=st.ch;
+}
+
+/* ── 드릴 ── */
+let D = null;   // {key, pool, idx, open, ch}
+function start(key, chIdx){
+  const all = deckItems(key);
+  if(!all.length) return toast('이 덱에는 항목이 없습니다');
+  const round = st.round[key] || 1;
+  // 2회독부터는 「공부하겠음」 표시한 것만
+  let pool = round===1 ? all : all.filter(x=>st.study[x.i]);
+  if(!pool.length){ st.round[key]=1; save(); pool=all; toast('남은 카드가 없어 1회독으로 돌아갑니다'); }
+  const chs=[]; for(let i=0;i<pool.length;i+=st.ch) chs.push(pool.slice(i,i+st.ch));
+  D={key, chs, ch: chIdx==null?0:chIdx, idx:0, open:false, round};
+  if(D.ch>=chs.length) D.ch=0;
+  view('vCard'); drawCard();
+}
+function cur(){ return D.chs[D.ch][D.idx]; }
+function drawCard(){
+  const x=cur(), front = st.rev ? `<div class="ja" lang="ja" style="font-size:24px">${esc(x.ja)}</div>`
+    : `<div class="ko">${esc(x.ko)}</div>` + (st.pr&&x.pr?`<div class="pr">[${esc(x.pr)}]</div>`:'');
+  const back = st.rev ? `<div class="ko" style="font-size:32px">${esc(x.ko)}</div>`
+      + (x.pr?`<div class="pr">[${esc(x.pr)}]</div>`:'')
+    : `<div class="ja" lang="ja">${esc(x.ja)}</div>` + (x.pr&&!st.pr?`<div class="pr">[${esc(x.pr)}]</div>`:'');
+  const extra = (x.note?`<div class="nt">${esc(x.note)}</div>`:'') + exBlock(x);
+  $('#cTitle').textContent = deckName(D.key);
+  $('#cSub').textContent = `${D.round}회독 · ${D.ch+1}/${D.chs.length}장`;
+  $('#cRound').innerHTML = `<span class="pill ${x.t==='E'?'e':''}">${x.t==='E'?'표현':'단어'}</span>`
+    + (x.pr?' <span class="pill w">발음</span>':'') + ` <span style="color:var(--mute)">${x.n}회 등장</span>`;
+  $('#cPg').textContent = `${D.idx+1} / ${D.chs[D.ch].length}`;
+  const open = D.open || st.all;
+  $('#cCard').innerHTML = front + (open ? back+extra : `<div class="hint">눌러서 뜻 보기</div>`);
+  $('#cAct').className = 'act' + (open?'':' one');
+  $('#cAct').innerHTML = open
+    ? `<button class="s" data-a="s">공부하겠음</button><button class="k" data-a="k">알고있음</button>`
+    : `<button data-a="o">뜻 보기</button>`;
+}
+function exBlock(x){
+  if(!x.ex) return '';
+  const a=APPS[x.ex.i], link=`../${a.a}/${a.p}#${encodeURIComponent(a.s)}/c${x.ex.id}`;
+  return `<div class="ex"><a href="${link}" style="color:var(--accent);font-weight:700;text-decoration:none"
+     onclick="event.stopPropagation()">▶ 장면</a> ${mark(x.ex.ko,x.ko)}
+     <div class="j" lang="ja">${esc(x.ex.ja)}</div></div>`;
+}
+function mark(sent, term){
+  const i = sent.indexOf(term);
+  if(i<0) return esc(sent);
+  return esc(sent.slice(0,i))+'<mark>'+esc(term)+'</mark>'+esc(sent.slice(i+term.length));
+}
+function answer(k){
+  const x=cur();
+  if(k==='k'){ st.know[x.i]=1; delete st.study[x.i]; } else { st.study[x.i]=1; delete st.know[x.i]; }
+  st.seen[x.i]=(st.seen[x.i]||0)+1; save();
+  if(D.idx+1 < D.chs[D.ch].length){ D.idx++; D.open=false; drawCard(); } else result();
+}
+function result(){
+  const ch=D.chs[D.ch], s=ch.filter(x=>st.study[x.i]).length, k=ch.length-s;
+  const last = D.ch+1>=D.chs.length;
+  $('#rBody').innerHTML = `<div style="text-align:center;padding:26px 0 8px">
+    <div style="font-size:40px;font-weight:800;letter-spacing:-.03em">${k} <span style="font-size:20px;color:var(--mute)">/ ${ch.length}</span></div>
+    <div style="color:var(--mute);font-size:13px;margin-top:6px">알고있음 ${k} · 공부하겠음 ${s}</div></div>
+    ${s===0?`<div class="blk" style="text-align:center">이 장은 끝났습니다 🎉</div>`:''}
+    <button class="row" id="rAgain"><span class="nm">이 장 다시</span></button>
+    ${last?`<button class="row" id="rRound"><span class="nm">${D.round+1}회독 시작<small>공부하겠음 표시한 것만 남습니다</small></span></button>`
+          :`<button class="row" id="rNext"><span class="nm">다음 장<small>${D.ch+2} / ${D.chs.length}</small></span></button>`}
+    <button class="row" id="rHome"><span class="nm">덱 목록으로</span></button>`;
+  view('vRes');
+  $('#rAgain').onclick=()=>{ D.idx=0; D.open=false; view('vCard'); drawCard(); };
+  const n=$('#rNext'); if(n) n.onclick=()=>{ D.ch++; D.idx=0; D.open=false; view('vCard'); drawCard(); };
+  const r=$('#rRound'); if(r) r.onclick=()=>{ st.round[D.key]=(st.round[D.key]||1)+1; save(); start(D.key,0); };
+  $('#rHome').onclick=()=>{ home(); view('vHome'); };
+}
+
+/* ── 목록·검색 ── */
+let lf='all';
+function list(){
+  const q=$('#lQ').value.trim().toLowerCase();
+  let a = lf==='all'?ITEMS : lf==='E'||lf==='V'?ITEMS.filter(x=>x.t===lf)
+        : lf==='pr'?ITEMS.filter(x=>x.pr) : lf==='s'?ITEMS.filter(x=>st.study[x.i])
+        : lf==='k'?ITEMS.filter(x=>st.know[x.i]) : ITEMS;
+  if(q) a=a.filter(x=>(x.ko+' '+x.ja+' '+(x.note||'')+' '+(x.pr||'')).toLowerCase().includes(q));
+  $('#lSub').textContent = a.length+'개';
+  $('#lBody').innerHTML = a.length ? a.slice(0,400).map(x=>`<button class="li" data-i="${x.i}">
+     <span class="st ${st.know[x.i]?'k':st.study[x.i]?'s':''}"></span>
+     <span style="flex:1;min-width:0"><span class="k">${esc(x.ko)}${x.pr?`<span class="p">[${esc(x.pr)}]</span>`:''}</span>
+     <span class="j" lang="ja">${esc(x.ja)}</span></span>
+     <span class="ct" style="font-size:11px;color:var(--mute)">${x.n}</span></button>`).join('')
+    : `<div class="empty">찾는 말이 없습니다.</div>`;
+  $('#lFil').innerHTML = [['all','전체'],['E','표현'],['V','단어'],['pr','발음'],['s','공부하겠음'],['k','알고있음']]
+    .map(([k,n])=>`<button class="chip" data-f="${k}" style="${lf===k?'background:var(--brand);color:#fff;border-color:var(--brand)':''}">${n}</button>`).join('');
+}
+
+/* ── 상세 시트 ── */
+function sheet(i){
+  const x=ITEMS[i], a=x.ex?APPS[x.ex.i]:null;
+  const fams=Object.keys(FAM).filter(k=>FAM[k].includes(i));
+  $('#sheet').innerHTML = `<div class="grab"></div>
+   <div style="display:flex;align-items:center;gap:7px;margin-bottom:2px">
+     <span class="pill ${x.t==='E'?'e':''}">${x.t==='E'?'표현':'단어'}</span>
+     ${x.pr?'<span class="pill w">발음 주의</span>':''}
+     <span style="font-size:12px;color:var(--mute);margin-left:auto">${x.n}회 등장</span></div>
+   <h2>${esc(x.ko)}</h2>${x.pr?`<div class="pr2">[${esc(x.pr)}]</div>`:''}
+   <div class="ja2" lang="ja">${esc(x.ja)}</div>
+   ${x.note?`<div class="nt2">${esc(x.note)}</div>`:''}
+   ${x.ex?`<div class="blk"><h3>실제 대사</h3><div class="exk">${mark(x.ex.ko,x.ko)}</div>
+     <div class="exj" lang="ja">${esc(x.ex.ja)}</div>
+     <div style="margin-top:8px"><a href="../${a.a}/${a.p}#${encodeURIComponent(a.s)}/c${x.ex.id}">▶ 장면 (${fmt(x.ex.s)})</a>
+     <span style="font-size:11.5px;color:var(--mute);margin-left:8px">${esc(a.n)}</span></div></div>`:''}
+   <div class="blk"><h3>나온 곳</h3><div class="chips">
+     ${x.src.map(s=>`<span class="chip">${esc(APPS[s.i].n)} <b style="color:var(--brand)">${s.n}</b></span>`).join('')}
+   </div></div>
+   ${fams.length?`<div class="blk"><h3>같은 문형</h3><div class="chips">
+     ${fams.map(f=>`<button class="chip" data-fam="${esc(f)}">${esc(f)} · ${FAM[f].length}개</button>`).join('')}</div></div>`:''}
+   <div class="blk"><h3>내 표시</h3><div class="chips">
+     <button class="chip" data-mk="k" style="${st.know[i]?'background:var(--know);color:#fff':''}">알고있음</button>
+     <button class="chip" data-mk="s" style="${st.study[i]?'background:var(--study);color:#fff':''}">공부하겠음</button>
+     <button class="chip" data-mk="0">표시 지우기</button></div></div>`;
+  $('#ov').classList.add('on');
+  $('#sheet').onclick = e => {
+    const mk=e.target.closest('[data-mk]'), fm=e.target.closest('[data-fam]');
+    if(mk){ const v=mk.dataset.mk;
+      if(v==='k'){ st.know[i]=1; delete st.study[i]; } else if(v==='s'){ st.study[i]=1; delete st.know[i]; }
+      else { delete st.know[i]; delete st.study[i]; }
+      save(); sheet(i); list(); }
+    if(fm){ $('#ov').classList.remove('on'); start('fam:'+fm.dataset.fam); }
+  };
+}
+const fmt = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+
+/* ── 이벤트 ── */
+document.body.addEventListener('click', e => {
+  const d=e.target.closest('[data-deck]'); if(d){ start(d.dataset.deck); return; }
+  const li=e.target.closest('[data-i]');   if(li){ sheet(+li.dataset.i); return; }
+  const f=e.target.closest('[data-f]');    if(f){ lf=f.dataset.f; list(); return; }
+  const a=e.target.closest('[data-a]');    if(a){ const v=a.dataset.a;
+    if(v==='o'){ D.open=true; drawCard(); } else answer(v); return; }
+});
+$('#cCard').onclick = () => { if(!D.open && !st.all){ D.open=true; drawCard(); } };
+$('#ov').onclick = e => { if(e.target.id==='ov') $('#ov').classList.remove('on'); };
+$('#bList').onclick = ()=>{ list(); view('vList'); };
+$('#lBack').onclick = $('#cBack').onclick = $('#rBack').onclick = ()=>{ home(); view('vHome'); };
+$('#lQ').oninput = list;
+$('#oAll').onchange = e=>{ st.all=e.target.checked; save(); };
+$('#oRev').onchange = e=>{ st.rev=e.target.checked; save(); };
+$('#oPr').onchange  = e=>{ st.pr =e.target.checked; save(); };
+$('#chR').oninput = e=>{ st.ch=+e.target.value; $('#chN').textContent=st.ch; save(); home(); };
+$('#bExp').onclick = ()=>{ const b=new Blob([JSON.stringify(st)],{type:'application/json'});
+  const u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download='koword-progress.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),800); };
+$('#bImp').onclick = ()=>$('#fImp').click();
+$('#fImp').onchange = e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ Object.assign(st, JSON.parse(r.result)); save(); home(); toast('가져왔습니다'); }
+                 catch(x){ toast('읽지 못했습니다'); } e.target.value=''; }; r.readAsText(f); };
+$('#bRst').onclick = ()=>{ if(!confirm('진행 기록을 모두 지웁니다.')) return;
+  st.know={}; st.study={}; st.round={}; st.seen={}; save(); home(); toast('초기화했습니다'); };
+document.addEventListener('keydown', e=>{
+  if($('#ov').classList.contains('on')){ if(e.key==='Escape') $('#ov').classList.remove('on'); return; }
+  if(!$('#vCard').classList.contains('on')) return;
+  if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(!D.open&&!st.all){D.open=true;drawCard();} }
+  else if(e.key==='ArrowLeft'){ if(D.open||st.all) answer('s'); }
+  else if(e.key==='ArrowRight'){ if(D.open||st.all) answer('k'); }
+});
+let tx=0;
+$('#cCard').addEventListener('touchstart', e=>tx=e.touches[0].clientX, {passive:true});
+$('#cCard').addEventListener('touchend', e=>{ const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)<60 || (!D.open && !st.all)) return;
+  answer(dx>0?'k':'s'); }, {passive:true});
+home();
+</script></body></html>

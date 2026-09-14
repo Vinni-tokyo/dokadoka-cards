@@ -2931,8 +2931,19 @@ renderHome();
   place(); mq.addEventListener('change', place);
 })();
 /* 関門ページ(../index.html)から #<シリーズid> 付きで開かれたら、そのシリーズを直接開く */
-const wantSeries = decodeURIComponent(location.hash.slice(1));
-if(wantSeries && SERIES.some(x => x.id === wantSeries)) openSeries(wantSeries);
+const want = decodeURIComponent(location.hash.slice(1));
+if(want){
+  const slash = want.lastIndexOf('/');
+  const cm = slash >= 0 ? /^c(\d+)$/.exec(want.slice(slash + 1)) : null;
+  const ws = cm ? want.slice(0, slash) : want;
+  if(SERIES.some(x => x.id === ws)){
+    openSeries(ws);
+    if(cm){                       /* 単語アプリの「▶ 場面」から、その台詞へ直接跳ぶ */
+      const at = deck.findIndex(d => d.id === +cm[1]);
+      if(at >= 0){ index = at; showCard(); switchView('card'); }
+    }
+  }
+}
 </script>
 
 </body></html>
