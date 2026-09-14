@@ -17,7 +17,8 @@ input{font:inherit;color:inherit}
 @media (min-width:600px){.app{box-shadow:0 0 0 1px var(--line)}}
 .view{display:none;flex:1;flex-direction:column;min-height:0}.view.on{display:flex}
 .hd{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;position:sticky;top:0;background:var(--bg);z-index:5}
-.hd h1{font-size:17px;font-weight:700;margin:0;letter-spacing:-.02em;flex:1;min-width:0}
+.hd h1{font-size:17px;font-weight:700;margin:0;letter-spacing:-.02em}
+.hd>div{flex:1;min-width:0}
 .hd .sub{font-size:11px;color:var(--mute);font-weight:400;display:block;margin-top:2px}
 .ib{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;color:var(--mute)}
 .ib:hover{background:var(--soft);color:var(--ink)}.ib svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -91,7 +92,7 @@ input{font:inherit;color:inherit}
 
 <!-- ══ 홈 ══ -->
 <section class="view on" id="vHome">
- <div class="hd"><h1>한국어 단어·표현 카드<span class="sub">영상 앱 <b id="hApps">0</b>편에서 모은 455개 · 표현 198 · 단어 <span id="hNV">0</span></span></h1>
+ <div class="hd"><div style="flex:1;min-width:0"><h1>한국어 단어·표현 카드</h1><span class="sub">영상 앱 <b id="hApps">0</b>편에서 모은 455개 · 표현 198 · 단어 <span id="hNV">0</span></span></div>
   <button class="ib" id="bList" title="목록·검색"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg></button></div>
  <div class="body">
   <div class="sec">이어서</div><div id="hCont"></div>
@@ -109,14 +110,14 @@ input{font:inherit;color:inherit}
    <button id="bRst" style="color:var(--accent);font-weight:600;margin-left:auto">초기화</button>
    <input type="file" id="fImp" accept="application/json" hidden></div>
   <div class="foot">영상 앱과 달리 유튜브 없이 돕니다. 「▶ 장면」만 영상 앱을 엽니다.<br>
-   철자와 소리가 다른 81개는 <span class="pill w">발음</span> 으로 표시했습니다(표준발음법 규칙으로 계산).<br>빌드 2026-09-14 11:02</div>
+   철자와 소리가 다른 81개는 <span class="pill w">발음</span> 으로 표시했습니다(표준발음법 규칙으로 계산).<br>빌드 2026-09-14 11:12</div>
  </div>
 </section>
 
 <!-- ══ 카드 ══ -->
 <section class="view" id="vCard">
  <div class="hd"><button class="ib" id="cBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-  <h1 id="cTitle">—<span class="sub" id="cSub"></span></h1></div>
+  <div style="flex:1;min-width:0"><h1 id="cTitle">—</h1><span class="sub" id="cSub"></span></div></div>
  <div class="cwrap">
   <div class="cmeta"><span id="cRound"></span><span class="pg" id="cPg"></span></div>
   <div class="card" id="cCard"></div>
@@ -133,7 +134,7 @@ input{font:inherit;color:inherit}
 <!-- ══ 목록 ══ -->
 <section class="view" id="vList">
  <div class="hd"><button class="ib" id="lBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-  <h1>목록<span class="sub" id="lSub"></span></h1></div>
+  <div style="flex:1;min-width:0"><h1>목록</h1><span class="sub" id="lSub"></span></div></div>
  <div class="body">
   <div class="srch"><svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:var(--mute);stroke-width:1.9"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.8-3.8"/></svg>
    <input id="lQ" placeholder="한국어·일본어·메모로 찾기" autocomplete="off"></div>
