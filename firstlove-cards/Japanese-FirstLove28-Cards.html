@@ -83,6 +83,19 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .tab[aria-pressed="true"]{background:var(--surface);color:var(--brand);font-weight:600;box-shadow:var(--sh-1)}
 .tab.home{flex:0 0 auto;padding:6px 10px;text-decoration:none;color:var(--ink-3);border-right:1px solid var(--line-2);border-radius:7px 0 0 7px;margin-right:2px}
 .tab.home:hover{color:var(--brand)}
+.tab.lock{flex:0 0 auto;padding:6px 10px;border-left:1px solid var(--line-2);border-radius:0 7px 7px 0;margin-left:2px;color:var(--ink-3)}
+.tab.lock:hover{color:var(--brand)}
+.tab.lock>.ic{display:block}
+.lockveil{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+ background:rgba(9,11,17,.985);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:#fff;touch-action:none;-webkit-user-select:none;user-select:none;cursor:pointer}
+.lockveil .lk-ic{width:44px;height:44px;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.92}
+.lockveil .lk-t{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.lockveil .lk-s{font-size:13px;line-height:1.75;color:#9aa3b8;text-align:center}
+.lockveil .lk-s .sub{display:block;font-size:12px;color:#6f778c}
+.lockveil .lk-bar{width:212px;height:6px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden}
+.lockveil .lk-bar span{display:block;height:100%;width:0;border-radius:99px;background:#fff}
+.lockveil.holding .lk-bar span{width:100%;transition:width 2s linear}
+@media(prefers-reduced-motion:reduce){.lockveil.holding .lk-bar span{transition:none;width:100%}}
 
 .notice{display:flex;gap:11px;border:1px solid var(--accent-line);background:var(--accent-soft);
  color:#6f4a2b;border-radius:var(--r-m);padding:13px 16px;font-size:13px;line-height:1.65;margin-bottom:20px}
@@ -646,6 +659,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 4v6h-6M3 20v-6h6M20 10a8 8 0 00-14.3-3.3L3 10M4 14a8 8 0 0014.3 3.3L21 14"/></symbol>
 <symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 5v14M10 5v14M16 5v14M22 5v14M4 12h18"/></symbol>
 <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5L12 4l9 7.5M5.5 10v10h13V10"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M12 16v-4.5M12 8h.01"/></symbol>
 </defs></svg>
@@ -670,6 +684,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      <span class="lbl">감상<span class="sub" lang="ja">鑑賞</span></span></button>
     <button class="tab" id="tabKara" aria-pressed="false"><svg class="ic"><use href="#i-sound"/></svg>
      <span class="lbl">노래방<span class="sub" lang="ja">カラオケ</span></span></button>
+       <button class="tab lock" id="tabLock" title="화면 잠금 · 2초 길게 눌러 해제 / 画面ロック" aria-label="화면 잠금"><svg class="ic"><use href="#i-lock"/></svg></button>
    </div>
   </div>
 
@@ -1261,6 +1276,12 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
  </aside>
 </div>
 
+<div class="lockveil" id="lockVeil" hidden>
+ <svg class="lk-ic"><use href="#i-lock"/></svg>
+ <div class="lk-t">화면이 잠겼습니다</div>
+ <div class="lk-s">2초간 꾹 누르면 풀립니다<span class="sub" lang="ja">2秒長押しで解除</span></div>
+ <div class="lk-bar"><span></span></div>
+</div>
 <script>
 'use strict';
 const DATA = [{"id":1,"s":22.3,"e":32.2,"ja":"最後のキスは タバコの flavor がした","rd":"さいごの キスは タバコの フレーバーが した","ko":"마지막 키스는 담배 향(flavor)이 났어","spk":"Singer","scene":"v1","note":"〜がした=(맛·냄새가) 났다, flavor=풍미·향","kj":[["最後","さいご","마지막","최후",[["最","가장 최"],["後","뒤 후"]]]]},{"id":2,"s":32.25,"e":38.94,"ja":"苦くて切ない香り","rd":"にがくて せつない かおり","ko":"쓰고 애달픈 향기","spk":"Singer","scene":"v1","note":"苦い=쓰다, 切ない=애달프다·가슴 아프다","kj":[["苦い","にがい","쓰다","고",[["苦","쓸 고"]]],["切ない","せつない","애달프다·가슴 아프다","절",[["切","끊을 절"]]],["香り","かおり","향기","향",[["香","향기 향"]]]]},{"id":3,"s":43.0,"e":53.65,"ja":"明日の今頃には あなたはどこにいるんだろう","rd":"あしたの いまごろには あなたは どこに いるん だろう","ko":"내일 이맘때엔 당신은 어디에 있을까","spk":"Singer","scene":"v1","note":"今頃=이맘때, 〜んだろう=〜인 걸까(혼잣말)","kj":[["明日","あした","내일","명일",[["明","밝을 명"],["日","날 일"]]],["今頃","いまごろ","이맘때","금경",[["今","이제 금"],["頃","무렵 경"]]]]},{"id":4,"s":53.7,"e":62.44,"ja":"誰を想ってるんだろう","rd":"だれを おもってるん だろう","ko":"누구를 생각하고 있을까","spk":"Singer","scene":"v1","note":"想う=마음에 두고 그리워하다(思う보다 정감 있음)","kj":[["誰","だれ","누구","수",[["誰","누구 수"]]],["想う","おもう","마음에 두고 그리다","상",[["想","생각 상"]]]]},{"id":5,"s":65.0,"e":68.65,"ja":"You are always gonna be my love","rd":"","ko":"넌 언제나 나의 사랑일 거야","spk":"Singer","scene":"cho1","note":"gonna=going to 의 구어형"},{"id":6,"s":68.7,"e":75.7,"ja":"いつか誰かとまた恋に落ちても","rd":"いつか だれかと また こいに おちても","ko":"언젠가 누군가와 다시 사랑에 빠져도","spk":"Singer","scene":"cho1","note":"恋に落ちる=사랑에 빠지다, 〜ても=〜해도","kj":[["誰","だれ","누구","수",[["誰","누구 수"]]],["恋","こい","사랑·연애","연",[["恋","그리워할 련"]]],["落ちる","おちる","떨어지다·(사랑에) 빠지다","락",[["落","떨어질 락"]]]]},{"id":7,"s":75.75,"e":78.6,"ja":"I'll remember to love","rd":"","ko":"사랑하는 걸 잊지 않을게","spk":"Singer","scene":"cho1","note":"remember to 〜=잊지 않고 〜하다"},{"id":8,"s":78.65,"e":81.12,"ja":"You taught me how","rd":"","ko":"네가 (사랑하는) 방법을 가르쳐 줬으니까","spk":"Singer","scene":"cho1","note":"taught=teach 의 과거형"},{"id":9,"s":81.17,"e":85.0,"ja":"You are always gonna be the one","rd":"","ko":"넌 언제나 단 한 사람일 거야","spk":"Singer","scene":"cho1","note":"the one=(운명의) 바로 그 사람"},{"id":10,"s":85.05,"e":91.58,"ja":"今はまだ悲しい love song","rd":"いまは まだ かなしい ラブソング","ko":"지금은 아직 슬픈 love song","spk":"Singer","scene":"cho1","note":"まだ=아직","kj":[["今","いま","지금","금",[["今","이제 금"]]],["悲しい","かなしい","슬프다","비",[["悲","슬플 비"]]]]},{"id":11,"s":91.7,"e":98.36,"ja":"新しい歌 うたえるまで","rd":"あたらしい うた うたえる まで","ko":"새 노래를 부를 수 있을 때까지","spk":"Singer","scene":"cho1","note":"うたえる=歌う 의 가능형(부를 수 있다), 〜まで=〜까지","kj":[["新しい","あたらしい","새롭다","신",[["新","새 신"]]],["歌","うた","노래","가",[["歌","노래 가"]]]]},{"id":12,"s":112.08,"e":123.12,"ja":"立ち止まる時間が 動き出そうとしてる","rd":"たちどまる じかんが うごきだそうと してる","ko":"멈춰 선 시간이 움직이기 시작하려 해","spk":"Singer","scene":"v2","note":"〜(よ)うとしている=〜하려 하고 있다, 動き出す=움직이기 시작하다","kj":[["立ち止まる","たちどまる","멈춰 서다","립지",[["立","설 립"],["止","그칠 지"]]],["時間","じかん","시간","시간",[["時","때 시"],["間","사이 간"]]],["動き出す","うごきだす","움직이기 시작하다","동출",[["動","움직일 동"],["出","날 출"]]]]},{"id":13,"s":123.4,"e":130.56,"ja":"忘れたくないことばかり","rd":"わすれたくない こと ばかり","ko":"잊고 싶지 않은 것들뿐","spk":"Singer","scene":"v2","note":"〜たくない=〜하고 싶지 않다, 〜ばかり=〜뿐","kj":[["忘れる","わすれる","잊다","망",[["忘","잊을 망"]]]]},{"id":14,"s":131.72,"e":143.95,"ja":"明日の今頃には 私はきっと泣いてる","rd":"あしたの いまごろには わたしは きっと ないてる","ko":"내일 이맘때엔 나는 분명 울고 있겠지","spk":"Singer","scene":"v2","note":"きっと=분명, 泣いてる=泣いている","kj":[["明日","あした","내일","명일",[["明","밝을 명"],["日","날 일"]]],["今頃","いまごろ","이맘때","금경",[["今","이제 금"],["頃","무렵 경"]]],["私","わたし","나","사",[["私","사사 사"]]],["泣く","なく","울다","읍",[["泣","울 읍"]]]]},{"id":15,"s":144.0,"e":150.04,"ja":"あなたを想ってるんだろう","rd":"あなたを おもってるん だろう","ko":"당신을 생각하고 있겠지","spk":"Singer","scene":"v2","kj":[["想う","おもう","마음에 두고 그리다","상",[["想","생각 상"]]]]},{"id":16,"s":155.7,"e":159.4,"ja":"You will always be inside my heart","rd":"","ko":"넌 언제나 내 마음속에 있을 거야","spk":"Singer","scene":"cho2","note":"inside my heart=내 마음속에"},{"id":17,"s":159.5,"e":166.46,"ja":"いつもあなただけの場所があるから","rd":"いつも あなた だけの ばしょが あるから","ko":"언제나 당신만의 자리가 있으니까","spk":"Singer","scene":"cho2","note":"〜だけの=〜만의, 〜から=〜니까","kj":[["場所","ばしょ","장소·자리","장소",[["場","마당 장"],["所","바 소"]]]]},{"id":18,"s":166.51,"e":171.35,"ja":"I hope that I have a place in your heart too","rd":"","ko":"네 마음속에도 내 자리가 있길 바라","spk":"Singer","scene":"cho2","note":"I hope that 〜=〜하길 바라"},{"id":19,"s":171.4,"e":175.6,"ja":"Now and forever you are still the one","rd":"","ko":"지금도 영원히, 넌 여전히 그 사람","spk":"Singer","scene":"cho2","note":"still=여전히"},{"id":20,"s":175.65,"e":182.04,"ja":"今はまだ悲しい love song","rd":"いまは まだ かなしい ラブソング","ko":"지금은 아직 슬픈 love song","spk":"Singer","scene":"cho2","kj":[["今","いま","지금","금",[["今","이제 금"]]],["悲しい","かなしい","슬프다","비",[["悲","슬플 비"]]]]},{"id":21,"s":182.3,"e":189.3,"ja":"新しい歌 うたえるまで","rd":"あたらしい うた うたえる まで","ko":"새 노래를 부를 수 있을 때까지","spk":"Singer","scene":"cho2","kj":[["新しい","あたらしい","새롭다","신",[["新","새 신"]]],["歌","うた","노래","가",[["歌","노래 가"]]]]},{"id":22,"s":193.0,"e":196.75,"ja":"You are always gonna be my love","rd":"","ko":"넌 언제나 나의 사랑일 거야","spk":"Singer","scene":"cho3"},{"id":23,"s":196.8,"e":205.0,"ja":"いつか誰かとまた恋に落ちても","rd":"いつか だれかと また こいに おちても","ko":"언젠가 누군가와 다시 사랑에 빠져도","spk":"Singer","scene":"cho3","kj":[["誰","だれ","누구","수",[["誰","누구 수"]]],["恋","こい","사랑·연애","연",[["恋","그리워할 련"]]],["落ちる","おちる","떨어지다·(사랑에) 빠지다","락",[["落","떨어질 락"]]]]},{"id":24,"s":205.05,"e":206.64,"ja":"I'll remember to love","rd":"","ko":"사랑하는 걸 잊지 않을게","spk":"Singer","scene":"cho3"},{"id":25,"s":206.69,"e":208.95,"ja":"You taught me how","rd":"","ko":"네가 (사랑하는) 방법을 가르쳐 줬으니까","spk":"Singer","scene":"cho3"},{"id":26,"s":209.0,"e":214.46,"ja":"You are always gonna be the one","rd":"","ko":"넌 언제나 단 한 사람일 거야","spk":"Singer","scene":"cho3"},{"id":27,"s":214.51,"e":217.7,"ja":"まだ悲しい love song","rd":"まだ かなしい ラブソング","ko":"아직 슬픈 love song","spk":"Singer","scene":"cho3","kj":[["悲しい","かなしい","슬프다","비",[["悲","슬플 비"]]]]},{"id":28,"s":221.7,"e":225.1,"ja":"Now and forever","rd":"","ko":"지금도, 그리고 영원히","spk":"Singer","scene":"cho3"}];
@@ -3007,6 +3028,26 @@ buildScenes(); paintProgress(); paintEditCount(); buildDeck(); buildStudy(); bui
     else { box.append(vidrow, status); foot.remove(); }
   }
   place(); mq.addEventListener('change', place);
+})();
+
+/* 화면 잠금 — 공부 중 오터치 방지. 막을 2초간 꾹 누르면 풀린다(떼면 처음부터). */
+const LOCK_MS = 2000;
+let locked = false, lkTimer = null;
+function lkCancel(){ if(lkTimer){ clearTimeout(lkTimer); lkTimer = null; } const v = $('lockVeil'); if(v) v.classList.remove('holding'); }
+function lockOn(){ if(locked) return; locked = true; lkCancel(); $('lockVeil').hidden = false; document.body.style.overflow = 'hidden'; }
+function lockOff(){ if(!locked) return; locked = false; lkCancel(); $('lockVeil').hidden = true; document.body.style.overflow = ''; }
+(() => {
+  const v = $('lockVeil'); if(!v) return;
+  v.addEventListener('pointerdown', e => { if(!locked) return; e.preventDefault(); lkCancel(); v.classList.add('holding'); lkTimer = setTimeout(lockOff, LOCK_MS); });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => v.addEventListener(t, () => { if(locked) lkCancel(); }));
+  v.addEventListener('contextmenu', e => e.preventDefault());
+  $('tabLock').onclick = lockOn;
+  /* 잠긴 동안에는 단축키를 먹지 않는다. Esc 는 PC 용 비상구. */
+  document.addEventListener('keydown', e => {
+    if(!locked) return;
+    if(e.key === 'Escape'){ lockOff(); return; }
+    e.preventDefault(); e.stopPropagation();
+  }, true);
 })();
 </script>
 
