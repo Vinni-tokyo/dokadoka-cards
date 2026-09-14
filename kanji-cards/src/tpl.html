@@ -179,6 +179,69 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .pctl button.warn{color:var(--accent)}
 .diag{font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.45;white-space:pre-wrap;color:var(--mute);max-height:50dvh;overflow:auto;background:var(--soft);border-radius:10px;padding:8px}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#000c;color:#fff;padding:8px 14px;border-radius:20px;font-size:13px;display:none;z-index:10}
+.main{display:flex;flex-direction:column;flex:1;min-height:0}
+/* 레일 — 넓은 화면에서만 나온다 */
+#rail{display:none;flex-direction:column;background:var(--card);border-right:1px solid var(--line);overflow:auto;padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
+.rh{font-size:11.5px;color:var(--mute);font-weight:700;letter-spacing:.04em;margin:13px 2px 7px}
+.rh:first-child{margin-top:0}
+.rc{display:flex;flex-wrap:wrap;gap:5px;max-height:112px;overflow:auto}   /* 35장짜리 덱이 있다. 세 줄로 묶고 넘치면 레일 안에서 굴린다 */
+.rc button{min-width:40px;padding:5px 9px;border:1px solid var(--line);border-radius:15px;font-size:12.5px;background:var(--bg);color:var(--mute)}
+.rc button.done{border-color:var(--know);color:var(--know);font-weight:600}
+.rc button[aria-current=true]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.rl{width:100%;display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;text-align:left;font-size:15px}
+.rl:hover{background:var(--soft)}
+.rl[aria-current=true]{background:var(--brand);color:#fff;font-weight:600}
+.rl .no{flex:none;width:24px;font-size:11px;color:var(--mute);text-align:right}
+.rl[aria-current=true] .no{color:#ffffffb0}
+.rl .w{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rl .d{flex:none;width:7px;height:7px;border-radius:50%;background:var(--line)}
+.rl .d.k{background:var(--know)}.rl .d.s{background:var(--study)}
+.rl[aria-current=true] .d{box-shadow:0 0 0 1.5px #fff}
+.keys{margin-top:auto;padding-top:16px;font-size:11.5px;color:var(--mute);line-height:2.1}
+.keys b{display:inline-block;min-width:20px;text-align:center;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;font-size:11px;font-weight:600;background:var(--bg);margin-right:7px}
+
+/* ── 넓은 화면 (PC) ── */
+@media (min-width:900px){
+ body{font-size:15.5px}
+ /* 높이를 확정해야 레일·본문이 각자 안에서 스크롤한다. min-height 만 두면 내용이 창을 밀어낸다 */
+ .app{max-width:1180px;height:100dvh;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+ .hd{padding:13px 18px 11px;grid-template-columns:64px minmax(0,1fr) 64px}
+ .hd .t{font-size:19px}.hd .t small{font-size:12.5px}
+ .hd button,.hd a.main{width:64px}
+ .sub{padding:6px 20px;font-size:13px}
+ /* 홈 — 왼쪽 설정·도구·출처, 오른쪽 덱 */
+ .home{display:grid;grid-template-columns:304px minmax(0,1fr);grid-template-rows:auto auto 1fr;gap:0 28px;align-items:start;padding:18px 20px 32px}
+ .home>.seg{grid-area:1/1}.home>.chsize{grid-area:2/1}
+ .home>.foot{grid-area:3/1;align-self:start;margin-top:16px}
+ .home>#homeList{grid-area:1/2/4/3;max-width:660px}
+ .home>#homeList h4:first-child{margin-top:0}
+ .chs{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+ /* 카드 — 레일이 늘 붙어 있다 */
+ #vCard.on{display:grid;grid-template-columns:292px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #vCard .hd{grid-column:1/-1}
+ #rail{display:flex}
+ .body{padding:10px 30px}
+ .ctl,.btns{max-width:640px;margin:0 auto;width:100%}
+ .ctl{padding:4px 30px 0}
+ .btns{padding:12px 30px calc(16px + env(safe-area-inset-bottom))}
+ /* 결과 */
+ .res{max-width:460px;margin:0 auto}
+ /* 목록(복습함·소리 가족) — 두 줄로 */
+ .list{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;align-content:start;padding:12px 20px 24px}
+ .list>p{grid-column:1/-1}
+ /* 듣기 설정 — 두 줄로 */
+ .setup{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;align-content:start;padding:16px 20px 28px}
+ .setup>.note,.setup>.startbar{grid-column:1/-1}
+ /* 듣기 재생 */
+ .play .word{font-size:clamp(64px,7vw,104px)}
+ .play .pex{max-width:46em}
+ .pctl{max-width:720px;margin:0 auto;width:100%;padding-left:20px;padding-right:20px}
+ /* 상세 — 가운데 모달 */
+ .ov{align-items:center}
+ .sheet{max-width:620px;border-radius:22px;max-height:84dvh}
+ .sheet .grab{display:none}
+ .startbar{max-width:420px;margin:0 auto;width:100%}
+}
 </style>
 </head>
 <body>
@@ -207,11 +270,14 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 <!-- 카드 -->
 <section class="view" id="vCard">
  <div class="hd"><button aria-label="홈" onclick="goHome()">≡</button><div class="t" id="cTitle">—<small id="cProg">0/0</small></div><button aria-label="닫기" onclick="goHome()">✕</button></div>
- <div class="sub"><span id="cNo">no.1</span><span>공부시간 <b id="cTime">00분00초</b></span></div>
- <div class="card">
-  <div class="body hid" id="cBody" onclick="flip()"></div>
-  <div class="ctl" id="cCtl"></div>
-  <div class="btns"><button class="no" onclick="mark('study')"><span>?</span>공부하겠음</button><button class="ok" onclick="mark('know')">✓ 알고있음</button></div>
+ <aside id="rail"></aside>
+ <div class="main">
+  <div class="sub"><span id="cNo">no.1</span><span>공부시간 <b id="cTime">00분00초</b></span></div>
+  <div class="card">
+   <div class="body hid" id="cBody" onclick="flip()"></div>
+   <div class="ctl" id="cCtl"></div>
+   <div class="btns"><button class="no" onclick="mark('study')"><span>?</span>공부하겠음</button><button class="ok" onclick="mark('know')">✓ 알고있음</button></div>
+  </div>
  </div>
 </section>
 
@@ -337,8 +403,8 @@ function startDeck(kind, key, ch){
   } else if (p && p.done && p.lastStudy && p.lastStudy.length && kind !== 'rev') {
     // 완료된 장을 다시 열면 1회독부터
   }
-  showCard();
-  show('vCard'); startTimer();
+  show('vCard');          // 먼저 띄워야 레일의 scrollIntoView 가 먹는다
+  showCard(); startTimer();
 }
 function persist(){
   if (!cur) return;
@@ -362,8 +428,40 @@ function showCard(){
     ? `<button onclick="speak(${att(x.rd)}, ${att('w:' + x.w)})"><span class="ic">🔊</span>읽기</button><button onclick="speak(${att(x.ex.ja)}, ${att('x:' + x.w)})"><span class="ic">🔊</span>대사</button><button aria-pressed="${!!ST.speak}" onclick="toggleAuto(this)"><span class="ic">🔁</span>자동</button>`
     : `<button onclick="speak(${att((x.on || []).join('、') || yomiSay(x))}, ${att('on:' + x.k)})"><span class="ic">🔊</span>음독</button><button onclick="speak(${att((x.kun || []).slice(0, 4).join('、') || yomiSay(x))}, ${att('kun:' + x.k)})"><span class="ic">🔊</span>훈독</button><button aria-pressed="${!!ST.speak}" onclick="toggleAuto(this)"><span class="ic">🔁</span>자동</button>`;
   if (revealed && ST.speak) autoSpeak();
+  rail();
 }
 const att = v => esc(JSON.stringify(v));   // onclick 속성 안에 넣을 JS 문자열 (따옴표를 &quot; 로)
+// ---------- 레일(넓은 화면) — 이 장 어디쯤인지 늘 보인다 ----------
+function rail(){
+  const r = document.getElementById('rail');
+  if (!r || !cur) return;
+  const single = cur.kind === 'rev' || cur.kind === 'today';
+  const n = single ? 1 : Math.ceil(deckItems(ST.mode, cur.kind, cur.key).length / CH());
+  let h = `<div class="rh">${esc(deckName(cur.kind, cur.key))} · ${cur.round}회독</div>`;
+  if (n > 1) {
+    h += '<div class="rc">';
+    for (let c = 0; c < n; c++) {
+      const p = ST.prog[pkey(ST.mode, cur.kind, cur.key, c)];
+      h += `<button class="${p && p.done ? 'done' : ''}" aria-current="${c === cur.ch}" onclick="startDeck('${cur.kind}','${cur.key}',${c})">${c + 1}장</button>`;
+    }
+    h += '</div>';
+  }
+  const known = cur.queue.filter(id => ST.marks[id] === 'know').length;
+  h += `<div class="rh">이 회독 ${known}/${cur.queue.length}</div>`;
+  h += cur.queue.map((id, i) => {
+    const x = byId[id]; if (!x) return '';
+    const m = ST.marks[id];
+    return `<button class="rl" aria-current="${i === cur.i}" onclick="railJump(${i})"><span class="no">${i + 1}</span><span class="w" lang="ja">${esc(isWord(x) ? x.w : x.k)}</span><span class="d ${m === 'know' ? 'k' : m === 'study' ? 's' : ''}"></span></button>`;
+  }).join('');
+  h += '<div class="keys"><b>Space</b>뒷면 보기<br><b>←</b>공부하겠음<br><b>→</b>알고있음<br><b>Esc</b>홈으로</div>';
+  r.innerHTML = h;
+  // 다시 그릴 때마다 맨 위로 가므로 지금 카드를 시야 안으로 끌어온다 (50장 묶음에서 필요)
+  const at = r.querySelector('.rl[aria-current=true]');
+  if (at) at.scrollIntoView({block: 'nearest'});
+  const ac = r.querySelector('.rc button[aria-current=true]');
+  if(ac) ac.scrollIntoView({block:'nearest'});
+}
+function railJump(i){ if (!cur || i === cur.i) return; cur.i = i; persist(); showCard(); }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function kline(c){
   const k = KBY[c]; if (!k) return '';

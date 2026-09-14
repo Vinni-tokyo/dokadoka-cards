@@ -143,7 +143,7 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  overflow:auto;padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
 .rh{font-size:11.5px;color:var(--mute);font-weight:700;letter-spacing:.04em;margin:13px 2px 7px}
 .rh:first-child{margin-top:0}
-.rc{display:flex;flex-wrap:wrap;gap:5px}
+.rc{display:flex;flex-wrap:wrap;gap:5px;max-height:112px;overflow:auto}   /* 35장짜리 덱이 있다. 세 줄로 묶고 넘치면 레일 안에서 굴린다 */
 .rc button{min-width:40px;padding:5px 9px;border:1px solid var(--line);border-radius:15px;
  font-size:12.5px;background:var(--bg);color:var(--mute)}
 .rc button.done{border-color:var(--know);color:var(--know);font-weight:600}
@@ -419,6 +419,8 @@ function rail(){
   // 다시 그릴 때마다 맨 위로 가므로 지금 카드를 시야 안으로 끌어온다 (50장 묶음에서 필요)
   const at = $('#rail').querySelector('.rl[aria-current=true]');
   if(at) at.scrollIntoView({block:'nearest'});
+  const ac = $('#rail').querySelector('.rc button[aria-current=true]');
+  if(ac) ac.scrollIntoView({block:'nearest'});
 }
 function mark(sent, term){
   const i = sent.indexOf(term);
