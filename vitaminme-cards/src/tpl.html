@@ -1544,7 +1544,7 @@ function switchView(v){
   $('tabStudy').setAttribute('aria-pressed', String(v === 'study'));
   $('tabKara').setAttribute('aria-pressed', String(v === 'kara'));
   if(v === 'script' && deck[index]) highlight(deck[index].id);
-  if(v === 'kara') karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
+  if(v === 'kara'){ requestAnimationFrame(karaFit); } if(v === 'kara') karaPaint(player && ready && typeof player.getCurrentTime === 'function' ? player.getCurrentTime() : 0);
   paintMini();
 }
 $('tabKara').onclick = () => switchView('kara');
@@ -2258,6 +2258,26 @@ function paintKaraFill(p){
     else { s.className = 'kc'; s.style.removeProperty('--q'); }
   });
 }
+
+/* 노래방: 아래 고정 조작부가 현재 가사 줄을 덮지 않게 한다.
+   비워 둘 높이를 150px 로 못박았더니 실제 조작부(180~193px)보다 작았고,
+   화면이 짧으면 가사 줄이 그 뒤로 들어갔다. 실측해서 맞추고, 줄이 바뀌면 보이게 굴린다. */
+function karaFixEl(){ const k = document.querySelector('#karaView .kfix'); return (k && getComputedStyle(k).position === 'fixed') ? k : null; }
+function karaFit(){
+  const p = document.querySelector('#karaView .kara'); if(!p) return;
+  const k = karaFixEl();
+  p.style.paddingBottom = k ? (Math.ceil(k.getBoundingClientRect().height) + 16) + 'px' : '';
+}
+function karaReveal(){
+  const k = karaFixEl(), n = document.querySelector('#karaView .kara-now');
+  if(!k || !n || view !== 'kara') return;
+  const lid = k.getBoundingClientRect().top, r = n.getBoundingClientRect(), gap = 12;
+  const soft = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  if(r.bottom > lid - gap) window.scrollBy({ top: r.bottom - (lid - gap), behavior: soft });
+  else if(r.top < 8) window.scrollBy({ top: r.top - 8, behavior: soft });
+}
+addEventListener('resize', karaFit);
+addEventListener('orientationchange', () => setTimeout(karaFit, 250));
 function karaPaint(t){
   const L = karaLines(); if(!L.length) return;
   const i = karaAt(t);
@@ -2282,6 +2302,7 @@ function karaPaint(t){
     $('karaPos').textContent = cur ? (i + 1) + ' / ' + L.length + ' · ' + fmt(cur.s) : fmt(t);
     /* カード側も今の行に合わせる(ループ中は除く) */
     if(cur && stopAt === null){ const k = deck.findIndex(x => x.id === cur.id); if(k >= 0 && k !== index){ index = k; showCard(); } }
+    requestAnimationFrame(karaReveal);
   }
   let p = 0;
   if(cur){
