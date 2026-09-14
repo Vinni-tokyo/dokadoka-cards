@@ -137,6 +137,64 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
  padding:9px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
 .toast.on{opacity:.94}
+.main{display:flex;flex-direction:column;flex:1;min-height:0}
+/* 레일 — 넓은 화면에서만 나온다 */
+#rail{display:none;flex-direction:column;background:var(--card);border-right:1px solid var(--line);
+ overflow:auto;padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
+.rh{font-size:11.5px;color:var(--mute);font-weight:700;letter-spacing:.04em;margin:13px 2px 7px}
+.rh:first-child{margin-top:0}
+.rc{display:flex;flex-wrap:wrap;gap:5px}
+.rc button{min-width:40px;padding:5px 9px;border:1px solid var(--line);border-radius:15px;
+ font-size:12.5px;background:var(--bg);color:var(--mute)}
+.rc button.done{border-color:var(--know);color:var(--know);font-weight:600}
+.rc button[aria-current=true]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.rl{width:100%;display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;text-align:left;font-size:13.5px}
+.rl:hover{background:var(--soft)}
+.rl[aria-current=true]{background:var(--brand);color:#fff;font-weight:600}
+.rl .no{flex:none;width:24px;font-size:11px;color:var(--mute);text-align:right}
+.rl[aria-current=true] .no{color:#ffffffb0}
+.rl .w{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rl .d{flex:none;width:7px;height:7px;border-radius:50%;background:var(--line)}
+.rl .d.k{background:var(--know)}.rl .d.s{background:var(--study)}
+.rl[aria-current=true] .d{box-shadow:0 0 0 1.5px #fff}
+.keys{margin-top:auto;padding-top:16px;font-size:11.5px;color:var(--mute);line-height:2.1}
+.keys b{display:inline-block;min-width:20px;text-align:center;border:1px solid var(--line);border-bottom-width:2px;
+ border-radius:5px;padding:1px 6px;font-size:11px;font-weight:600;background:var(--bg);margin-right:7px}
+
+/* ── 넓은 화면 (PC) ── */
+@media (min-width:900px){
+ body{font-size:15.5px}
+ /* 높이를 확정해야 레일·본문이 각자 안에서 스크롤한다. min-height 만 두면 내용이 창을 밀어낸다 */
+ .app{max-width:1180px;height:100dvh;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+ .hd{padding:13px 18px 11px;grid-template-columns:64px minmax(0,1fr) 64px}
+ .hd .t{font-size:19px}.hd .t small{font-size:12.5px}
+ .sub{padding:6px 20px;font-size:13px}
+ /* 홈 — 왼쪽에 설정·도구·출처, 오른쪽에 덱 */
+ .home{display:grid;grid-template-columns:304px minmax(0,1fr);gap:0 28px;align-items:start;padding:18px 20px 32px}
+ .home>.seg{grid-area:1/1}.home>.chsize{grid-area:2/1}.home>.foot{grid-area:3/1;margin-top:16px}
+ .home>#homeList{grid-area:1/2/4/3;max-width:640px}
+ .home>#homeList h4:first-child{margin-top:0}
+ .chs{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
+ /* 카드 — 레일이 늘 붙어 있다 */
+ #vCard.on{display:grid;grid-template-columns:292px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+ #vCard .hd{grid-column:1/-1}
+ #rail{display:flex}
+ .big{font-size:clamp(58px,7vw,96px)}
+ .ko{font-size:26px}.nt{font-size:14px}
+ .body{padding:10px 30px}
+ .ex{max-width:46em;font-size:15px}
+ .ctl{padding:4px 30px 0;max-width:none}
+ .btns{padding:12px 30px calc(16px + env(safe-area-inset-bottom));max-width:620px;margin:0 auto;width:100%}
+ /* 결과 */
+ .res{max-width:440px;margin:0 auto}
+ /* 목록 — 두 줄로 */
+ .srch,.chips{padding-left:20px;padding-right:20px}.srch{margin-left:20px;margin-right:20px}
+ .list{display:grid;grid-template-columns:1fr 1fr;gap:0 28px;align-content:start;padding:0 20px 20px}
+ /* 상세 — 가운데 모달 */
+ .ov{align-items:center}
+ .sheet{max-width:580px;border-radius:18px;max-height:84dvh}
+ .grab{display:none}
+}
 </style></head><body><div class="app">
 
 <!-- 홈 -->
@@ -170,11 +228,14 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  <div class="hd"><button aria-label="홈" id="cHome">≡</button>
   <div class="t"><span id="cTitle">—</span><small id="cProg"></small></div>
   <button aria-label="닫기" id="cClose">✕</button></div>
- <div class="sub"><span id="cNo">no.1</span><span>공부시간 <b id="cTime">00:00</b></span></div>
- <div class="card">
-  <div class="body hid" id="cBody"></div>
-  <div class="ctl" id="cCtl"></div>
-  <div class="btns"><button class="no" id="bStudy"><i>?</i>공부하겠음</button><button class="ok" id="bKnow">✓ 알고있음</button></div>
+ <aside id="rail"></aside>
+ <div class="main">
+  <div class="sub"><span id="cNo">no.1</span><span>공부시간 <b id="cTime">00:00</b></span></div>
+  <div class="card">
+   <div class="body hid" id="cBody"></div>
+   <div class="ctl" id="cCtl"></div>
+   <div class="btns"><button class="no" id="bStudy"><i>?</i>공부하겠음</button><button class="ok" id="bKnow">✓ 알고있음</button></div>
+  </div>
  </div>
 </section>
 
@@ -337,6 +398,25 @@ function draw(){
   $('#cTime').textContent = fmtT(D.sec);
   $('#cCtl').innerHTML = `<button data-c="prev" ${D.i?'':'disabled style="opacity:.4"'}>‹ 이전</button>
     <button data-c="sheet">⤢ 상세</button><button data-c="flip">${open?'뜻 가리기':'뜻 보기'}</button>`;
+  rail();
+}
+/* 레일 — 넓은 화면에서 이 장 어디쯤인지 늘 보인다 */
+function rail(){
+  const ch = D.chs[D.ci], done = ch.filter(x=>st.know[x.i]).length;
+  $('#rail').innerHTML =
+    `<div class="rh">${esc(deckName(D.key))} · ${D.round}회독</div>
+     <div class="rc">` + D.chs.map((c,i)=>{
+        const k = c.filter(x=>st.know[x.i]).length;
+        return `<button data-rc="${i}" aria-current="${i===D.ci}" class="${k===c.length?'done':''}">${i+1}장</button>`;
+     }).join('') + `</div>
+     <div class="rh">이 장 ${done}/${ch.length}</div>` +
+    ch.map((x,i)=>`<button class="rl" data-rj="${i}" aria-current="${i===D.i}">
+      <span class="no">${D.ci*st.ch+i+1}</span><span class="w">${esc(x.ko)}</span>
+      <span class="d ${st.know[x.i]?'k':st.study[x.i]?'s':''}"></span></button>`).join('') +
+    `<div class="keys"><b>Space</b>뜻 보기<br><b>←</b>공부하겠음<br><b>→</b>알고있음<br><b>Esc</b>홈으로</div>`;
+  // 다시 그릴 때마다 맨 위로 가므로 지금 카드를 시야 안으로 끌어온다 (50장 묶음에서 필요)
+  const at = $('#rail').querySelector('.rl[aria-current=true]');
+  if(at) at.scrollIntoView({block:'nearest'});
 }
 function mark(sent, term){
   const i = sent.indexOf(term);
@@ -432,6 +512,10 @@ document.body.addEventListener('click', e => {
   if(d){ const k=d.dataset.deck; openDeck = (openDeck===k?null:k); home(); return; }
   const c=e.target.closest('[data-ch]');
   if(c){ const [k,i]=c.dataset.ch.split('|'); start(k, +i); return; }
+  const rc=e.target.closest('[data-rc]');
+  if(rc){ D.ci=+rc.dataset.rc; D.i=0; D.open=false; draw(); return; }
+  const rj=e.target.closest('[data-rj]');
+  if(rj){ D.i=+rj.dataset.rj; D.open=false; draw(); return; }
   const s=e.target.closest('[data-chs]');
   if(s){ st.ch=+s.dataset.chs; save(); home(); return; }
   const li=e.target.closest('[data-i]'); if(li){ sheet(+li.dataset.i); return; }
@@ -472,7 +556,8 @@ $('#bRst').onclick = ()=>{ if(!confirm('진행 기록을 모두 지웁니다.'))
 document.addEventListener('keydown', e=>{
   if($('#ov').classList.contains('on')){ if(e.key==='Escape') $('#ov').classList.remove('on'); return; }
   if(!$('#vCard').classList.contains('on')) return;
-  if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(!st.all){ D.open=!D.open; draw(); } }
+  if(e.key==='Escape'){ clearInterval(tick); home(); show('vHome'); }
+  else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(!st.all){ D.open=!D.open; draw(); } }
   else if(e.key==='ArrowLeft')  answer('study');
   else if(e.key==='ArrowRight') answer('know');
 });
