@@ -11,10 +11,10 @@ if 'id="toKara"' in h:
 ''', '')
     rep('''       <button class="ibtn" id="edit" title="편집 / 編集"><svg class="ic"><use href="#i-pencil"/></svg></button>''',
         '''       <button class="ibtn" id="edit" title="편집 / 編集"><svg class="ic"><use href="#i-pencil"/></svg></button>
-       <button class="ibtn kara" id="toKara" title="마디 반복 · 노래방에서 이 줄의 마디를 되풀이 / 小節リピート"><svg class="ic"><use href="#i-bars"/></svg></button>''')
+       <button class="ibtn ibtn-kara" id="toKara" title="마디 반복 · 노래방에서 이 줄의 마디를 되풀이 / 小節リピート"><svg class="ic"><use href="#i-bars"/></svg></button>''')
     rep('''<symbol id="i-stop" viewBox="0 0 24 24">''', '''<symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 5v14M10 5v14M16 5v14M22 5v14M4 12h18"/></symbol>
 <symbol id="i-stop" viewBox="0 0 24 24">''')
     rep('''.ibtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}''',
         '''.ibtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
-.ibtn.kara{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}''')
+.ibtn-kara{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}''')
 open(path, 'w', encoding='utf-8').write(h); print('layout3-patched', path, N)

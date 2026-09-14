@@ -128,7 +128,7 @@ rep('''      <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0
        <span class="meta"><span id="pos">0 / 0</span> · <span id="time">0:00</span></span>
        <button class="ibtn" id="check" aria-pressed="false" title="%s"><svg class="ic"><use href="#i-check"/></svg></button>
        <button class="ibtn" id="edit" title="%s"><svg class="ic"><use href="#i-pencil"/></svg></button>
-       <button class="ibtn kara" id="toKara" title="%s"><svg class="ic"><use href="#i-bars"/></svg></button>
+       <button class="ibtn ibtn-kara" id="toKara" title="%s"><svg class="ic"><use href="#i-bars"/></svg></button>
       </span>
      </div>''' % (bl('checkTag'), '편집 / 編集 / Edit', bl('thisLineBars')))
 rep_re(r'      <button class="btn" id="check" aria-pressed="false">.*?</button>\n      <button class="btn" id="edit">.*?</button>\n', '', flags=re.S)
@@ -404,7 +404,7 @@ CSS = '''
 .ibtn .ic{width:15px;height:15px}
 .ibtn:hover{color:var(--brand);border-color:var(--brand-line)}
 .ibtn[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
-.ibtn.kara{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+.ibtn-kara{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
 .daystrip{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
 .daystrip .dbtn{flex:none}
 @media(max-width:600px){
