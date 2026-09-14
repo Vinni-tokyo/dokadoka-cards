@@ -25,68 +25,112 @@ def load(path):
     ttl = (re.search(r'<title>([^<]*)</title>', h) or [None, sid])[1]
     return [(sid, ttl, json.loads(D.group(1)), json.loads(T.group(1)))]
 
-APPS, ITEMS, seen = [], [], {}
-for path in sorted(glob.glob(os.path.join(SITE, '*-cards', 'Korean-*.html'))):
-    app  = os.path.basename(os.path.dirname(path))
-    page = os.path.basename(path)
-    if app == os.path.basename(ROOT): continue
-    for sid, title, data, study in load(path):
-        ai = len(APPS); APPS.append({'a': app, 'p': page, 's': sid, 'n': title})
-        by = {c['id']: c for c in data}
-        for r in study:
-            if not r.get('ko') or not r.get('ja'): continue
-            # 같은 말이 표현(E)과 단어(V) 양쪽에 등록된 경우가 있다(진짜·약간·이제·되게).
-            # 학습자에게는 같은 카드이므로 한 장으로 합치고, 뜻은 더 자세한 쪽을 남긴다.
-            key = r['ko']
-            cids = r.get('cids') or []
-            if key in seen:
-                it = seen[key]
-                it['src'].append({'i': ai, 'n': len(cids)})
-                if r.get('note') and not it.get('note'): it['note'] = r['note']
-                if len(r['ja']) > len(it['ja']): it['ja'] = r['ja']
-                if r['t'] == 'E': it['t'] = 'E'          # 표현 쪽 설명이 더 쓸모 있다
-                continue
-            it = {'t': r['t'], 'ko': r['ko'], 'ja': r['ja'], 'src': [{'i': ai, 'n': len(cids)}]}
-            if r.get('note'): it['note'] = r['note']
-            p = pron(r['ko'])
-            if p != r['ko']: it['pr'] = p          # 철자와 소리가 다를 때만
-            c = by.get(r.get('ex'))
-            if c: it['ex'] = {'ko': c['ko'], 'ja': c['ja'], 's': c['s'], 'id': c['id'], 'i': ai}
-            seen[key] = it; ITEMS.append(it)
+def collect():
+    """한국어 영상 앱들에서 학습 항목을 모아 (항목, 앱) 을 돌려준다. fetch.py 도 이걸 쓴다"""
+    APPS, ITEMS, seen = [], [], {}
+    for path in sorted(glob.glob(os.path.join(SITE, '*-cards', 'Korean-*.html'))):
+        app  = os.path.basename(os.path.dirname(path))
+        page = os.path.basename(path)
+        if app == os.path.basename(ROOT): continue
+        for sid, title, data, study in load(path):
+            ai = len(APPS); APPS.append({'a': app, 'p': page, 's': sid, 'n': title})
+            by = {c['id']: c for c in data}
+            for r in study:
+                if not r.get('ko') or not r.get('ja'): continue
+                # 같은 말이 표현(E)과 단어(V) 양쪽에 등록된 경우가 있다(진짜·약간·이제·되게).
+                # 학습자에게는 같은 카드이므로 한 장으로 합치고, 뜻은 더 자세한 쪽을 남긴다.
+                key = r['ko']
+                cids = r.get('cids') or []
+                if key in seen:
+                    it = seen[key]
+                    # 같은 앱에서 E·V 양쪽에 있으면 카드가 겹친다. 합집합으로 세야 두 배가 안 된다
+                    same = next((x for x in it['src'] if x['i'] == ai), None)
+                    if same: same['c'] |= set(cids)
+                    else:     it['src'].append({'i': ai, 'c': set(cids)})
+                    if r.get('note') and not it.get('note'): it['note'] = r['note']
+                    if len(r['ja']) > len(it['ja']): it['ja'] = r['ja']
+                    if r['t'] == 'E': it['t'] = 'E'          # 표현 쪽 설명이 더 쓸모 있다
+                    continue
+                it = {'t': r['t'], 'ko': r['ko'], 'ja': r['ja'], 'src': [{'i': ai, 'c': set(cids)}]}
+                if r.get('note'): it['note'] = r['note']
+                p = pron(r['ko'])
+                if p != r['ko']: it['pr'] = p          # 철자와 소리가 다를 때만
+                c = by.get(r.get('ex'))
+                if c: it['ex'] = {'ko': c['ko'], 'ja': c['ja'], 's': c['s'], 'id': c['id'], 'i': ai}
+                seen[key] = it; ITEMS.append(it)
 
-# 등장 횟수(빈도) 순으로 정렬 — 자주 나온 것부터 외우게
-for it in ITEMS: it['n'] = sum(s['n'] for s in it['src'])
-ITEMS.sort(key=lambda x: (-x['n'], -len(x['src']), x['ko']))
-for i, it in enumerate(ITEMS): it['i'] = i
+    # 등장 횟수(빈도) 순으로 정렬 — 자주 나온 것부터 외우게
+    for it in ITEMS:
+        for sr in it['src']: sr['n'] = len(sr.pop('c'))
+        it['n'] = sum(sr['n'] for sr in it['src'])
+    ITEMS.sort(key=lambda x: (-x['n'], -len(x['src']), x['ko']))
+    for i, it in enumerate(ITEMS): it['i'] = i
+    return ITEMS, APPS
+
+if __name__ != '__main__':
+    ITEMS = APPS = None      # import 만 하면 빌드하지 않는다
+else:
+    ITEMS, APPS = collect()
+
+    # 국립국어원 급수(1~6)를 붙인다. levels.json 은 fetch.py 가 이 앱에 쓰는 분량만 추린 것
+    LV = {}
+    lp = os.path.join(S, 'levels.json')
+    if os.path.exists(lp):
+        LV = json.load(io.open(lp, encoding='utf-8'))
+        W, G = LV.get('words', {}), LV.get('gram', {})
+        def variants(k):
+            yield k
+            if k.endswith('하다'): yield k[:-2]
+            for s in ('요','아요','어요','었어','았어','어','아','다','한','은','는','이','가','을','를','도','만'):
+                if k.endswith(s) and len(k) > len(s) + 1: yield k[:-len(s)]
+            yield k + '하다'
+        for it in ITEMS:
+            for v in variants(it['ko']):
+                if v in W:
+                    g, pos, _guide = W[v]
+                    it['lv'] = g
+                    if pos: it['pos'] = pos
+                    break
+            else:
+                best = None
+                for form, (g, kind, _mean) in G.items():
+                    if len(form) >= 2 and form in it['ko'] and (best is None or len(form) > len(best[0])):
+                        best = (form, g, kind)
+                if best:
+                    it['lv'], it['gf'], it['gk'] = best[1], best[0], best[2]
 
 # 표현을 어미·문형으로 묶는다 (한자 앱의 「소리 가족」에 대응)
-PAT = [('-거든(요)','거든'),('-잖아(요)','잖아'),('-더라(고)','더라'),('-네(요)','네'),('-ㄹ게(요)','ㄹ게'),
-       ('-ㄹ까(요)','ㄹ까'),('-아/어야 되다','야 되'),('-아/어 보다',' 보'),('-아/어 주다',' 주'),
-       ('-고 싶다','고 싶'),('-ㄹ 수 있다','ㄹ 수 있'),('-지 마','지 마'),('-아/어도 되다','도 되'),
-       ('-는데(요)','는데'),('-니까','니까'),('-려고','려고'),('-면서','면서'),('-군(요)','구나')]
-FAM = collections.defaultdict(list)
-for it in ITEMS:
-    if it['t'] != 'E': continue
-    for name, needle in PAT:
-        if needle in it['ko']: FAM[name].append(it['i'])
-FAM = {k: v for k, v in sorted(FAM.items(), key=lambda kv: -len(kv[1])) if len(v) >= 2}
+    PAT = [('-거든(요)','거든'),('-잖아(요)','잖아'),('-더라(고)','더라'),('-네(요)','네'),('-ㄹ게(요)','ㄹ게'),
+           ('-ㄹ까(요)','ㄹ까'),('-아/어야 되다','야 되'),('-아/어 보다',' 보'),('-아/어 주다',' 주'),
+           ('-고 싶다','고 싶'),('-ㄹ 수 있다','ㄹ 수 있'),('-지 마','지 마'),('-아/어도 되다','도 되'),
+           ('-는데(요)','는데'),('-니까','니까'),('-려고','려고'),('-면서','면서'),('-군(요)','구나')]
+    FAM = collections.defaultdict(list)
+    for it in ITEMS:
+        if it['t'] != 'E': continue
+        for name, needle in PAT:
+            if needle in it['ko']: FAM[name].append(it['i'])
+    FAM = {k: v for k, v in sorted(FAM.items(), key=lambda kv: -len(kv[1])) if len(v) >= 2}
 
-N  = len(ITEMS)
-NE = sum(1 for x in ITEMS if x['t'] == 'E')
-NP = sum(1 for x in ITEMS if 'pr' in x)
-print(f'앱 {len(APPS)}편 · 항목 {N}개 (표현 {NE} · 단어 {N-NE}) · 발음 주의 {NP} · 문형 {len(FAM)}묶음')
-for a in APPS: print(f"  {a['a']:<18} {a['s']:<12} {sum(1 for x in ITEMS for s in x['src'] if s['i']==APPS.index(a)):>4}개")
+    N  = len(ITEMS)
+    NE = sum(1 for x in ITEMS if x['t'] == 'E')
+    NP = sum(1 for x in ITEMS if 'pr' in x)
+    NL = sum(1 for x in ITEMS if 'lv' in x)
+    dist = collections.Counter(x['lv'] for x in ITEMS if 'lv' in x)
+    print(f'앱 {len(APPS)}편 · 항목 {N}개 (표현 {NE} · 단어 {N-NE}) · 발음 주의 {NP} · 문형 {len(FAM)}묶음')
+    print('급수 %d개: %s · 급수 외 %d개' % (NL, ' · '.join(f'{g}급 {n}' for g, n in sorted(dist.items())), N - NL))
+    for a in APPS: print(f"  {a['a']:<18} {a['s']:<12} {sum(1 for x in ITEMS for s in x['src'] if s['i']==APPS.index(a)):>4}개")
 
-tpl = os.path.join(S, 'tpl.html')
-if not os.path.exists(tpl):
-    print('tpl.html 없음 → 데이터 검사만'); sys.exit(0)
-out = os.path.join(ROOT, f'Korean-Words{N}-Cards.html')
-html = (io.open(tpl, encoding='utf-8').read()
-        .replace('/*__ITEMS__*/', json.dumps(ITEMS, ensure_ascii=False, separators=(',', ':')))
-        .replace('/*__APPS__*/',  json.dumps(APPS,  ensure_ascii=False, separators=(',', ':')))
-        .replace('/*__FAM__*/',   json.dumps(FAM,   ensure_ascii=False, separators=(',', ':')))
-        .replace('__N__', str(N)).replace('__NE__', str(NE)).replace('__NP__', str(NP))
-        .replace('__BUILD__', datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
-for old in glob.glob(os.path.join(ROOT, 'Korean-Words*-Cards.html')): os.remove(old)
-io.open(out, 'w', encoding='utf-8').write(html)
-print('생성:', out, '(%.0f KB)' % (os.path.getsize(out)/1024))
+    tpl = os.path.join(S, 'tpl.html')
+    if not os.path.exists(tpl):
+        print('tpl.html 없음 → 데이터 검사만'); sys.exit(0)
+    out = os.path.join(ROOT, f'Korean-Words{N}-Cards.html')
+    html = (io.open(tpl, encoding='utf-8').read()
+            .replace('/*__ITEMS__*/', json.dumps(ITEMS, ensure_ascii=False, separators=(',', ':')))
+            .replace('/*__APPS__*/',  json.dumps(APPS,  ensure_ascii=False, separators=(',', ':')))
+            .replace('/*__FAM__*/',   json.dumps(FAM,   ensure_ascii=False, separators=(',', ':')))
+            .replace('/*__LVSRC__*/', json.dumps(LV.get('src',''), ensure_ascii=False))
+            .replace('__N__', str(N)).replace('__NE__', str(NE)).replace('__NP__', str(NP)).replace('__NL__', str(NL))
+            .replace('__BUILD__', datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
+    for old in glob.glob(os.path.join(ROOT, 'Korean-Words*-Cards.html')): os.remove(old)
+    io.open(out, 'w', encoding='utf-8').write(html)
+    print('생성:', out, '(%.0f KB)' % (os.path.getsize(out)/1024))
