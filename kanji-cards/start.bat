@@ -4,9 +4,9 @@ rem YouTube 는 file:// 재생을 거부하므로(Error 153) 간이 서버를 �
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
 if /i "%CD:~0,2%"=="\\" goto :unc
-if not exist "%~dp0Kanji963-Cards.html" goto :nofile
+if not exist "%~dp0Kanji1021-Cards.html" goto :nofile
 set PORT=8084
-set PAGE=Kanji963-Cards.html
+set PAGE=Kanji1021-Cards.html
 
 where py >nul 2>nul && (set PY=py) || (set PY=python)
 %PY% --version >nul 2>nul || goto :nopython
@@ -48,7 +48,7 @@ pause
 exit /b 1
 
 :nofile
-echo [!] Kanji963-Cards.html 을 찾을 수 없습니다.
+echo [!] Kanji1021-Cards.html 을 찾을 수 없습니다.
 echo     start.bat 과 같은 폴더에 두세요.
 pause
 exit /b 1

@@ -1,7 +1,8 @@
 # 도카도카 한자 카드 · 漢字カード
 
-이 사이트의 일본어 영상 앱 7편(ゆびさきと恋々 · 僕やば · 프리렌 · 밀키☆서브웨이 · First Love 메이킹 · First Love · 나카시마 미카)에
-나온 **한자 963자 · 한자어 1,433개**만 모아 따로 외우는 한자 학습툴입니다. 영상 앱과 달리 유튜브 없이 돌아가고,
+이 사이트의 일본어 앱 12편(ゆびさきと恋々 · 僕やば · 프리렌 · 밀키☆서브웨이 · First Love 메이킹 · First Love · 나카시마 미카 ·
+Snow Man · ベテルギウス · 打上花火 · 雪の華 · ドライフラワー)에
+나온 **한자 1,021자 · 한자어 1,587개**만 모아 따로 외우는 한자 학습툴입니다. 영상 앱과 달리 유튜브 없이 돌아가고,
 모든 카드가 **내가 본 대사**로 되돌아갑니다(예문 = 실제 대사, 「▶ 장면」으로 그 장면 재생).
 
 설계 문서: [DESIGN.md](DESIGN.md) · 화면 시안: [mockup.html](mockup.html)
@@ -15,7 +16,22 @@
 | Windows | `start.bat` **더블클릭** |
 | Linux / mac | `./start.sh` |
 
-포트 8084. 이 앱은 유튜브를 쓰지 않으므로 `Kanji963-Cards.html` 을 그냥 열어도 됩니다. 「▶ 장면」 링크만 영상 앱을 여니 그때 인터넷이 필요합니다.
+포트 8084. 이 앱은 유튜브를 쓰지 않으므로 `Kanji1021-Cards.html` 을 그냥 열어도 됩니다. 「▶ 장면」 링크만 영상 앱을 여니 그때 인터넷이 필요합니다.
+
+## 재료는 자동으로 따라온다
+
+재료 목록을 손으로 적지 않습니다. `src/build.py` 가 사이트의 모든 `*-cards` 폴더에서
+**한자 풀이(`DATA[].kj`)가 들어 있는 일본어 앱 산출물을 전부 찾아** 씁니다.
+새 콘텐츠를 만들고 이 빌드를 한 번 돌리면 그대로 들어옵니다.
+
+- 표시 이름만 `src/build.py` 의 `NAMES` 에 한 줄 더하면 됩니다. 빠뜨리면 빌드가 알려 줍니다.
+- 한자 풀이가 없는 앱은 건너뛰고, 어느 앱을 건너뛰었는지 함께 알려 줍니다.
+- 글자 수가 파일 이름에 들어가므로 재료가 늘면 이름이 바뀝니다.
+  빌드가 관문 `index.html` · `README.md` · `start.sh` · `start.bat` 의 링크도 함께 고칩니다.
+
+```bash
+python3 kanji-cards/src/build.py      # 일본어 앱을 다시 빌드한 뒤 이것만 돌리면 된다
+```
 
 ## 쓰는 법 (참고한 시판 한자 앱과 같은 회독 방식)
 
@@ -45,19 +61,19 @@
 | 구성 요소 트리·부수 표시·획순 | [KanjiVG](https://kanjivg.tagaini.net/) r20250816 | CC BY-SA 3.0 |
 | 신자체→정자체 115자 · 한국어 한자어 예 · 구성 요소 이름 | `src/kyujitai.txt` `src/hanja_ko.txt` `src/parts.txt` (직접 작성) | — |
 
-KanjiVG 파생물이므로 이 앱(`Kanji963-Cards.html`)은 **CC BY-SA 3.0** 을 따릅니다.
+KanjiVG 파생물이므로 이 앱(`Kanji1021-Cards.html`)은 **CC BY-SA 3.0** 을 따릅니다.
 한국음이 없는 한자는 込·働·丼 일본 국자 3자뿐입니다(훈음의 음을 그대로 씀).
 
 ## 구성
 
 ```
 kanji-cards/
-├─ Kanji963-Cards.html   앱 (단일 파일 1.4MB, 획순 path 포함)
+├─ Kanji1021-Cards.html   앱 (단일 파일 1.4MB, 획순 path 포함)
 ├─ start.bat / start.sh
 ├─ README.md · DESIGN.md · mockup.html
 └─ src/
    ├─ build.py       ../*/Japanese-*Cards.html 의 DATA.kj 를 모아 표를 만들고 사전을 붙여 앱 생성
-   ├─ fetch.py       Unihan.zip · kanjivg.xml.gz · kanji-data.json 을 ~/.cache/dokadoka-kanji 에 받아 963자 분만 dict.json 으로 추림
+   ├─ fetch.py       Unihan.zip · kanjivg.xml.gz · kanji-data.json 을 ~/.cache/dokadoka-kanji 에 받아 앱에 나온 글자 분만 dict.json 으로 추림
    ├─ dict.json      fetch.py 산출 (커밋함 · 원본 사전은 커밋하지 않음)
    ├─ kanji_list.txt build.py 가 쓰는 대상 한자 목록 (fetch.py 입력)
    ├─ kyujitai.txt   신자체|정자체

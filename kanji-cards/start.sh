@@ -4,7 +4,7 @@
 set -u
 cd "$(dirname "$0")"
 PORT="${PORT:-8084}"
-PAGE="Kanji963-Cards.html"
+PAGE="Kanji1021-Cards.html"
 command -v python3 >/dev/null || { echo "[!] python3 가 필요합니다."; exit 1; }
 
 # 그 포트가 "이 폴더"를 서빙하는지 응답으로 확인한다.

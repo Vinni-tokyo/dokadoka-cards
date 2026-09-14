@@ -7,10 +7,18 @@
 import io, json, os, re, glob, collections
 
 S = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(S); SITE = os.path.dirname(ROOT)
-APPS = collections.OrderedDict([   # 폴더 → (표시 이름, 정렬)  ※ SnowMan(japanese-cards)은 kj 가 없어 제외
+NAMES = collections.OrderedDict([   # 폴더 → 표시 이름. 여기 적힌 차례가 앱에 보이는 차례다.
     ('yubisaki-cards', 'ゆびさきと恋々'), ('bokuyaba-cards', '僕やば'), ('frieren-cards', '프리렌'),
-    ('milky-cards', '밀키☆서브웨이'), ('hatsukoi-cards', 'First Love 메이킹'), ('firstlove-cards', 'First Love'), ('mika-cards', '나카시마 미카'),
+    ('milky-cards', '밀키☆서브웨이'), ('hatsukoi-cards', 'First Love 메이킹'), ('firstlove-cards', 'First Love'),
+    ('mika-cards', '나카시마 미카'), ('japanese-cards', 'Snow Man'),
+    ('betelgeuse-cards', 'ベテルギウス'), ('hanabi-cards', '打上花火'),
+    ('yukinohana-cards', '雪の華'), ('driedflower-cards', 'ドライフラワー'),
 ])
+# 재료 목록은 손으로 적지 않는다 — 한자 풀이(kj)가 든 일본어 앱을 전부 찾아 쓴다.
+# 새 콘텐츠를 만들고 이 빌드를 돌리면 그대로 따라온다(이름이 없으면 빌드가 알려 준다).
+CAND = [os.path.basename(d) for d in sorted(glob.glob(os.path.join(SITE, '*-cards')))
+        if os.path.basename(d) != os.path.basename(ROOT)
+        and glob.glob(os.path.join(d, 'Japanese-*Cards.html'))]
 KANJI_RE = re.compile(r'[一-鿿]')
 
 def table(fn, n=2):
@@ -30,7 +38,7 @@ HANJA = {k: [x for x in v if x and '없음' not in x] for k, v in table('hanja_k
 
 # --- 1. 앱 산출물에서 모으기 ---
 words = collections.OrderedDict(); kanji = collections.OrderedDict(); hun_seen = collections.defaultdict(collections.Counter)
-for app in APPS:
+for app in CAND:
     for f in sorted(glob.glob(os.path.join(SITE, app, 'Japanese-*Cards.html'))):
         page = os.path.basename(f)
         D = json.loads(re.search(r'const DATA = (\[.*?\]);\n', io.open(f, encoding='utf-8').read(), re.S).group(1))
@@ -46,6 +54,18 @@ for app in APPS:
                     if not KANJI_RE.match(k): continue           # 々 같은 부호 제외
                     K = kanji.setdefault(k, {'k': k, 'n': 0, 'words': collections.Counter(), 'apps': collections.Counter()})
                     K['n'] += 1; K['words'][head] += 1; K['apps'][app] += 1; hun_seen[k][h] += 1
+
+# 실제로 한자 풀이를 내놓은 앱만 남긴다. 차례는 NAMES 를 따르고, 이름표에 없는 새 앱은 뒤에 붙인다.
+_seen = set()
+for _W in words.values(): _seen |= set(_W['apps'])
+_order = [a for a in NAMES if a in _seen] + sorted(a for a in _seen if a not in NAMES)
+APPS = collections.OrderedDict((a, NAMES.get(a, a[:-6] if a.endswith('-cards') else a)) for a in _order)
+_unnamed = [a for a in _order if a not in NAMES]
+if _unnamed:
+    print('※ 표시 이름이 없는 새 앱:', ', '.join(_unnamed), '— src/build.py 의 NAMES 에 한 줄 더하세요')
+_skipped = [a for a in CAND if a not in _seen]
+if _skipped:
+    print('※ 한자 풀이(kj)가 없어 건너뛴 앱:', ', '.join(_skipped))
 
 # --- 2. 훈음 통일 ---
 conflict = []
@@ -157,10 +177,21 @@ if os.path.exists(tp):
         .replace('/*__APPS__*/', json.dumps(APPS, ensure_ascii=False))
         .replace('__N__', str(N)).replace('__NW__', str(NW))
         .replace('__BUILD__', __import__('datetime').datetime.now().strftime('%Y-%m-%d %H:%M')))
+    _prev = [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, 'Kanji*-Cards.html'))]
     for old in glob.glob(os.path.join(ROOT, 'Kanji*-Cards.html')): os.remove(old)
     OUT = os.path.join(ROOT, 'Kanji%d-Cards.html' % N)
     io.open(OUT, 'w', encoding='utf-8').write(html)
     print('생성:', OUT, '(%.0f KB)' % (os.path.getsize(OUT) / 1024))
+    # 파일 이름에 글자 수가 들어가므로 재료가 늘면 이름이 바뀐다. 가리키는 곳도 같이 고친다.
+    _new = os.path.basename(OUT)
+    for _stale in sorted(set(_prev) - {_new}):
+        for _ref in ('../index.html', 'README.md', 'start.sh', 'start.bat'):
+            _rp = os.path.join(ROOT, _ref)
+            if not os.path.exists(_rp): continue
+            _t = io.open(_rp, encoding='utf-8').read()
+            if _stale in _t:
+                io.open(_rp, 'w', encoding='utf-8').write(_t.replace(_stale, _new))
+                print('  링크 갱신:', os.path.normpath(os.path.join('kanji-cards', _ref)), _stale, '→', _new)
 else:
     print('tpl.html 없음 → 데이터 검사만')
 
