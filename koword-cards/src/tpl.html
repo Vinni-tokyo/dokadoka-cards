@@ -170,8 +170,10 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  .hd .t{font-size:19px}.hd .t small{font-size:12.5px}
  .sub{padding:6px 20px;font-size:13px}
  /* 홈 — 왼쪽에 설정·도구·출처, 오른쪽에 덱 */
- .home{display:grid;grid-template-columns:304px minmax(0,1fr);gap:0 28px;align-items:start;padding:18px 20px 32px}
- .home>.seg{grid-area:1/1}.home>.chsize{grid-area:2/1}.home>.foot{grid-area:3/1;margin-top:16px}
+ .home{display:grid;grid-template-columns:304px minmax(0,1fr);grid-template-rows:auto auto 1fr;
+   gap:0 28px;align-items:start;padding:18px 20px 32px}
+ .home>.seg{grid-area:1/1}.home>.chsize{grid-area:2/1}
+ .home>.foot{grid-area:3/1;align-self:start;margin-top:16px}
  .home>#homeList{grid-area:1/2/4/3;max-width:640px}
  .home>#homeList h4:first-child{margin-top:0}
  .chs{grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
@@ -183,7 +185,7 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
  .ko{font-size:26px}.nt{font-size:14px}
  .body{padding:10px 30px}
  .ex{max-width:46em;font-size:15px}
- .ctl{padding:4px 30px 0;max-width:none}
+ .ctl{padding:4px 30px 0;max-width:620px;margin:0 auto;width:100%}
  .btns{padding:12px 30px calc(16px + env(safe-area-inset-bottom));max-width:620px;margin:0 auto;width:100%}
  /* 결과 */
  .res{max-width:440px;margin:0 auto}
