@@ -311,6 +311,7 @@ h4{margin:14px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
   <div class="grp"><h5>어떻게</h5><div class="opts" id="lsMode"></div><p class="note" id="lsModeNote"></p></div>
   <div class="grp"><h5>예문(대사)</h5><div class="opts" id="lsEx"></div><p class="note">단어 뒤에 그 단어가 나온 실제 대사를 읽어 줍니다. 화면에는 대사와 해석이 함께 뜹니다.</p></div>
   <div class="grp"><h5>떠올릴 시간(침묵)</h5><div class="opts" id="lsPause"></div></div>
+  <div class="grp"><h5>어디까지</h5><div class="opts" id="lsAll"></div><p class="note">「전체 장」이면 고른 장부터 마지막 장까지 끊지 않고 이어서 들려줍니다. 장이 끝날 때마다 고르지 않아도 됩니다.</p></div>
   <div class="grp"><h5>다 돌면</h5><div class="opts" id="lsLoop"></div></div>
   <div class="grp"><h5>자동 종료</h5><div class="opts" id="lsStop"></div></div>
   <div class="grp"><h5>음성 엔진</h5><div class="opts" id="lsEngine"></div><p class="note" id="lsEngineNote"></p></div>
@@ -696,7 +697,7 @@ function animateStrokes(box){
 // ---------- 듣기 모드 ----------
 const LS_MODES = {word: '단어 듣기', rev: '거꾸로 듣기', kanji: '한자 듣기'};
 const LS_NOTE = {word: '일본어 읽기 → 침묵 → 한국어 뜻 → 읽기 한 번 더 → 대사 한 줄(옵션)', rev: '한국어 뜻 → 침묵 → 일본어 읽기 두 번 (산출 연습, 더 어려움)', kanji: '훈음 → 음독 → 훈독 → 부수·구성을 말로 → 대표 단어 2개와 뜻'};
-let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30}, ST.listen || {});
+let LSO = Object.assign({deck: 'lv:5', ch: 0, mode: 'word', pause: 3, loop: 1, stop: 30, all: 1}, ST.listen || {});
 function lsDecks(){
   const out = [];
   for (const lv of LEVELS) out.push(['lv:' + lv, lvName(lv)]);
@@ -714,6 +715,7 @@ function openListen(){
   seg('lsMode', Object.entries(LS_MODES), LSO.mode, 'lsSetMode');
   seg('lsPause', [[2, '2초'], [3, '3초'], [5, '5초'], [0, '없음']], LSO.pause, 'lsSet.pause');
   seg('lsEx', [[1, '읽기'], [0, '안 읽기']], LSO.ex === 0 ? 0 : 1, 'lsSet.ex');
+  seg('lsAll', [[1, '전체 장'], [0, '이 장만']], LSO.all === 0 ? 0 : 1, 'lsSet.all');
   seg('lsLoop', [[1, '한 바퀴'], [2, '두 바퀴'], [99, '계속']], LSO.loop, 'lsSet.loop');
   seg('lsStop', [[15, '15분'], [30, '30분'], [60, '60분'], [0, '없음']], LSO.stop, 'lsSet.stop');
   seg('lsEngine', [['online', '온라인 음성'], ['device', '기기 음성']], LSO.engine || 'online', 'lsSet.engine');
@@ -726,7 +728,7 @@ function openListen(){
   show('vListen');
 }
 const lsSet = {};
-for (const f of ['pause', 'loop', 'stop', 'engine', 'awake', 'ex']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
+for (const f of ['pause', 'loop', 'stop', 'engine', 'awake', 'ex', 'all']) lsSet[f] = v => { LSO[f] = v; lsSave(); openListen(); };
 function lsSetMode(m){ LSO.mode = m; lsSave(); openListen(); }
 function lsSave(){ ST.listen = LSO; save(); }
 function lsDeckChanged(){
@@ -790,11 +792,13 @@ function silenceURI(sec, tone){   // WAV 16bit mono 8kHz 무음 (tone 은 사용
 const ttsURL = (text, lang) => 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang + '&q=' + encodeURIComponent(text.replace(/[・･]/g, '、').slice(0, 180));
 function startListen(){
   const {kind, key} = lsParse(); const all = deckItems(lsMode(), kind, key);
-  const items = kind === 'rev' ? all : all.slice(LSO.ch * CH(), LSO.ch * CH() + CH());
+  const cont = kind !== 'rev' && LSO.all !== 0;          // 연속 재생: 고른 장부터 마지막 장까지
+  const from = kind === 'rev' ? 0 : LSO.ch * CH();
+  const items = kind === 'rev' ? all : (cont ? all.slice(from) : all.slice(from, from + CH()));
   if (!items.length) return toast('들을 카드가 없습니다');
   stopListen();
-  LP = {items, i: 0, steps: [], si: 0, round: 1, playing: true, t0: Date.now(), engine: LSO.engine === 'device' ? 'tts' : 'audio', kind, key};
-  document.getElementById('pTitle').firstChild.textContent = (kind === 'rev' ? '복습함' : deckName(kind, key) + ' ' + (LSO.ch + 1) + '장') + ' · ' + LS_MODES[LSO.mode];
+  LP = {items, i: 0, steps: [], si: 0, round: 1, playing: true, t0: Date.now(), engine: LSO.engine === 'device' ? 'tts' : 'audio', kind, key, from, cont};
+  document.getElementById('pTitle').firstChild.textContent = (kind === 'rev' ? '복습함' : deckName(kind, key) + ' ' + (LSO.ch + 1) + '장' + (cont ? '부터' : '')) + ' · ' + LS_MODES[LSO.mode];
   dlog('세션 시작 ' + items.length + '장 · ' + LSO.mode + ' · ' + (LSO.engine || 'online'));
   show('vPlay'); lsLoadItem(); lsStep();
   if (LSO.awake !== 0) wakeOn();
@@ -802,7 +806,9 @@ function startListen(){
 function lsLoadItem(){
   const x = LP.items[LP.i]; LP.steps = scriptOf(x); LP.si = 0;
   document.getElementById('pWord').textContent = isWord(x) ? x.w : x.k;
-  document.getElementById('pProg').textContent = (LP.i + 1) + '/' + LP.items.length + (LSO.loop > 1 ? ' · ' + LP.round + '바퀴' : '');
+  document.getElementById('pProg').textContent = (LP.i + 1) + '/' + LP.items.length
+    + (LP.cont ? ' · ' + (Math.floor(((LP.from || 0) + LP.i) / CH()) + 1) + '장' : '')
+    + (LSO.loop > 1 ? ' · ' + LP.round + '바퀴' : '');
   document.getElementById('pAns').className = 'ans hide';
   const pe = document.getElementById('pEx'); pe.className = 'pex';   // 카드가 뜰 때부터 예문을 보인다
   if (isWord(x) && LSO.ex !== 0) { const stem = x.w.replace(/[ぁ-ん]+$/, ''); const ja = esc(x.ex.ja).replace(stem ? new RegExp(esc(stem).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) : /$^/, m => `<mark>${m}</mark>`); pe.innerHTML = `<span lang="ja">${ja}</span><small>${esc(x.ex.ko)} · ${esc(APPS[x.ex.app])}</small>`; }
