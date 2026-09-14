@@ -20,6 +20,12 @@ CAND = [os.path.basename(d) for d in sorted(glob.glob(os.path.join(SITE, '*-card
         if os.path.basename(d) != os.path.basename(ROOT)
         and glob.glob(os.path.join(d, 'Japanese-*Cards.html'))]
 KANJI_RE = re.compile(r'[一-鿿]')
+# 저작권자가 앱 안 재생(임베드)을 막은 작품 — 대사를 들을 수 없다.
+# 예문이 여기서 뽑혔고 다른 작품에 「길이도 좋은」 대체가 있으면 그쪽을 쓴다(아래 exok).
+# 무조건 바꾸지는 않는다: 이 작품 대사가 짧고 단정해 글로는 더 나은 경우가 많아,
+# 대체가 8~24자일 때만 바꾼다(재 보니 70개 중 46개가 해당).
+BLOCKED = {'milky-cards'}
+EX_MIN, EX_MAX = 8, 24
 
 def table(fn, n=2):
     out = {}
@@ -48,10 +54,13 @@ for app in CAND:
             for w in c.get('kj') or []:
                 head, rd, mean, kr, parts = w[:5]
                 W = words.setdefault(head, {'w': head, 'rd': rd, 'ko': mean, 'kr': kr, 'k': [p[0] for p in parts if KANJI_RE.match(p[0])],
-                                            'n': 0, 'apps': collections.Counter(), 'ex': None})
+                                            'n': 0, 'apps': collections.Counter(), 'ex': None, 'exok': None})
                 W['n'] += 1; W['apps'][app] += 1
                 ex = {'ja': c['ja'], 'ko': c['ko'], 'app': app, 'page': page, 'id': c['id'], 's': c['s'], 'e': c.get('e'), 'vid': _vid}
                 if W['ex'] is None or (8 <= len(c['ja']) < len(W['ex']['ja'])) or (len(W['ex']['ja']) < 8 < len(c['ja'])): W['ex'] = ex
+                if app not in BLOCKED and EX_MIN <= len(c['ja']) <= EX_MAX:      # 들을 수 있고 길이도 좋은 후보
+                    _b, _hit = W['exok'], head in c['ja']                        # 표제어가 실제로 든 것 > 짧은 것
+                    if _b is None or (_hit, -len(c['ja'])) > (head in _b['ja'], -len(_b['ja'])): W['exok'] = ex
                 for k, h in parts:
                     if not KANJI_RE.match(k): continue           # 々 같은 부호 제외
                     K = kanji.setdefault(k, {'k': k, 'n': 0, 'words': collections.Counter(), 'apps': collections.Counter()})
@@ -116,8 +125,11 @@ for K in kanji.values():
         K['rad'] = KX(K['rad']); K['radname'] = RADNAME.get(K['rad'], K.get('radname', ''))
 
 # --- 5. 출력 데이터 ---
+def _ex(W):                                   # 재생이 막힌 작품에서 뽑혔고 쓸 만한 대체가 있으면 바꾼다
+    return W['exok'] if (W['ex'] and W['ex']['app'] in BLOCKED and W['exok']) else W['ex']
+_swapped = sum(1 for W in words.values() if _ex(W) is not W['ex'])
 WOUT = [{'w': W['w'], 'rd': W['rd'], 'ko': W['ko'], 'kr': W['kr'], 'k': W['k'], 'n': W['n'],
-         'apps': [a for a in APPS if a in W['apps']], 'ex': W['ex']} for W in sorted(words.values(), key=lambda W: -W['n'])]
+         'apps': [a for a in APPS if a in W['apps']], 'ex': _ex(W)} for W in sorted(words.values(), key=lambda W: -W['n'])]
 KOUT = []
 for K in sorted(kanji.values(), key=lambda K: -K['n']):
     row = {f: K[f] for f in ('k', 'hun', 'n', 'lv', 'rad', 'radname', 'strokes', 'ko', 'trad', 'tree', 'paths', 'hj') if f in K}
@@ -199,6 +211,7 @@ else:
 
 # --- 6. 보고 ---
 lv = collections.Counter(K['lv'] for K in KOUT)
+print('예문: 재생 막힌 작품 출처 %d건 · 그중 %d건을 들을 수 있는 대사로 교체' % (sum(1 for r in WOUT if r['ex'] and r['ex']['app'] in BLOCKED) + _swapped, _swapped))
 print('한자 %d · 한자어 %d · 작품 %d' % (N, NW, len(APPS)), '| JLPT', {('N%d' % k if k else '급수외'): v for k, v in sorted(lv.items(), reverse=True)})
 print('부수 %d · 획수 %d · 한국음 %d · 구성 %d · 획순 %d · 정자체 %d · 한국어 한자어 %d' % tuple(sum(1 for K in KOUT if f in K) for f in ('rad', 'strokes', 'ko', 'tree', 'paths', 'trad', 'hj')))
 print('소리 가족 %d · 포함 한자 %d · 3자 이상 %d' % (len(FAM), FAMK, sum(1 for f in FAM if len(f['ks']) >= 3)))
