@@ -35,12 +35,16 @@ for path in sorted(glob.glob(os.path.join(SITE, '*-cards', 'Korean-*.html'))):
         by = {c['id']: c for c in data}
         for r in study:
             if not r.get('ko') or not r.get('ja'): continue
-            key = (r['t'], r['ko'])
+            # 같은 말이 표현(E)과 단어(V) 양쪽에 등록된 경우가 있다(진짜·약간·이제·되게).
+            # 학습자에게는 같은 카드이므로 한 장으로 합치고, 뜻은 더 자세한 쪽을 남긴다.
+            key = r['ko']
             cids = r.get('cids') or []
             if key in seen:
                 it = seen[key]
                 it['src'].append({'i': ai, 'n': len(cids)})
                 if r.get('note') and not it.get('note'): it['note'] = r['note']
+                if len(r['ja']) > len(it['ja']): it['ja'] = r['ja']
+                if r['t'] == 'E': it['t'] = 'E'          # 표현 쪽 설명이 더 쓸모 있다
                 continue
             it = {'t': r['t'], 'ko': r['ko'], 'ja': r['ja'], 'src': [{'i': ai, 'n': len(cids)}]}
             if r.get('note'): it['note'] = r['note']
