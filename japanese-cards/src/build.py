@@ -55,13 +55,49 @@ def scene_of(start_sec):
         if start_sec >= at: key = k
     return key
 
-data = []
+# --- 한자 풀이 사전 (yubisaki-cards 와 같은 규칙) ---------------------------------
+KJ = {}
+for _ln in io.open(os.path.join(S, 'kanji.txt'), encoding='utf-8'):
+    _ln = _ln.strip()
+    if not _ln or _ln.startswith('#'): continue
+    _ch, _hun = _ln.split('|', 1); KJ[_ch.strip()] = _hun.strip()
+WORDS = []
+for _ln in io.open(os.path.join(S, 'words.txt'), encoding='utf-8'):
+    _ln = _ln.rstrip('\n')
+    if not _ln.strip() or _ln.lstrip().startswith('#'): continue
+    _p = [x.strip() for x in _ln.split('|')]
+    assert len(_p) == 5, _ln
+    for _stem in _p[0].split(','): WORDS.append((_stem.strip(), _p[1], _p[2], _p[3], _p[4]))
+WORDS.sort(key=lambda w: -len(w[0]))
+STEM_RE = re.compile('|'.join(re.escape(w[0]) for w in WORDS)) if WORDS else None
+BY_STEM = {w[0]: w for w in WORDS}
+KANJI_RE = re.compile(r'[一-鿿々]')
+def kanji_notes(text):
+    out, seen, covered = [], set(), set()
+    if STEM_RE:
+        for m in STEM_RE.finditer(text):
+            stem, head, rd, mean, hj = BY_STEM[m.group()]
+            covered.update(range(m.start(), m.end()))
+            if head in seen: continue
+            seen.add(head); out.append([head, rd, mean, hj, [[c, KJ[c]] for c in head if KANJI_RE.match(c)]])
+    left = [text[i] for i in range(len(text)) if KANJI_RE.match(text[i]) and i not in covered]
+    return out, left
+
+
+data, uncovered = [], []
 for s in segs:
     k, rd, note = ko[s['id']]
     row = {'id': s['id'], 's': s['s'], 'e': s['e'], 'ja': s['ja'], 'rd': rd, 'ko': k,
            'spk': s['spk'], 'scene': scene_of(s['s'])}
     if note: row['note'] = note
+    _kj, _left = kanji_notes(s['ja'])
+    if _kj: row['kj'] = _kj
+    if _left: uncovered.append((s['id'], ''.join(_left)))
     data.append(row)
+
+assert not uncovered, f'사전에 없는 한자: {uncovered}'
+_missing_kj = sorted({c for w in WORDS for c in w[1] if KANJI_RE.match(c) and c not in KJ})
+assert not _missing_kj, f'kanji.txt 에 없는 한자: {_missing_kj}'
 
 # --- 학습 탭: 표현·단어가 나오는 카드를 찾는다 ---------------------------------
 KANJI = re.compile(r'^[\u4e00-\u9fff]$')
@@ -128,6 +164,7 @@ print('학습 음원:', len(_amap), '건 심음')
 open(OUT, 'w', encoding='utf-8').write(html)
 
 print('생성:', OUT)
+print('한자 풀이:', sum(len(d.get('kj', [])) for d in data), '건')
 print('카드:', len(data), '| 대사:', sum(1 for d in data if d['spk'] != 'Cap'), '| 화면 자막:', sum(1 for d in data if d['spk'] == 'Cap'),
       '| 주석 있음:', sum(1 for d in data if 'note' in d), '| 읽기 있음:', sum(1 for d in data if d['rd']))
 print('학습:', len(STUDY), '건 (표현', sum(1 for r in STUDY if r['t']=='E'), '/ 단어', sum(1 for r in STUDY if r['t']=='V'), ')',

@@ -490,6 +490,24 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .card.sess .cardfoot{display:none}
 .btn.holding{background:var(--accent);border-color:var(--accent);color:#fff}
 .cue{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.gloss{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.gloss .cap{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+.gloss .cap .sub{display:inline;font-size:10px;letter-spacing:0;text-transform:none;font-weight:500;margin:0}
+.kjrow{display:grid;grid-template-columns:minmax(96px,auto) minmax(0,1fr);gap:4px 12px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;line-height:1.55;align-items:baseline}
+.kjrow:last-child{border-bottom:0}
+.kjrow .w{font-size:15px;font-weight:650;white-space:nowrap}
+.kjrow .w small{display:block;font-size:11px;font-weight:400;color:var(--ink-3);white-space:normal}
+.kjrow .m{min-width:0;word-break:keep-all}
+.kjrow .hj{display:inline-block;margin-right:6px;padding:0 6px;border-radius:5px;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:11.5px}
+.kjrow .ch{display:block;margin-top:2px;font-size:11.5px;color:var(--ink-3)}
+.exrow{padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;line-height:1.6;word-break:keep-all}
+.exrow:last-child{border-bottom:0}
+.exrow b{font-weight:650;color:var(--brand)}
+.exrow small{color:var(--ink-3);font-size:11px;margin-left:5px}
+.exrow .n{display:block;color:var(--ink-3);font-size:11.5px;margin-top:1px}
+.tts-mini{display:inline-grid;place-items:center;width:24px;height:24px;padding:0;margin-left:6px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);vertical-align:middle;flex:none}
+.tts-mini .ic{width:13px;height:13px}
+.tts-mini:hover,.tts-mini[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
 .ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
 .ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
 .card-top .ctl{display:inline-flex;align-items:center;gap:6px;flex:none}
@@ -694,6 +712,14 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
         <svg class="ic"><use href="#i-eye-off"/></svg>숨기기 · 隠す</button></div>
       <p class="ko" id="ko"></p>
       <p class="note" id="note" hidden></p>
+      <div class="gloss" id="kanjiBox" hidden>
+       <div class="cap">한자 풀이 <span class="sub" lang="ja">漢字の読みと意味</span> <span class="sub">· 일본어 독음 · 한국 한자음 · 뜻 · 훈음</span></div>
+       <div id="kanjiList"></div>
+      </div>
+      <div class="gloss" id="explBox" hidden>
+       <div class="cap">표현 풀이 <span class="sub" lang="ja">表現の解説</span></div>
+       <div id="explList"></div>
+      </div>
      </div>
 
      <div class="nav">
@@ -1223,6 +1249,7 @@ function showCard(){
   $('rdText').textContent = ' ' + (v.rd || '');
   $('ko').textContent = v.ko;
   $('note').hidden = !d.note; $('note').textContent = d.note || '';
+  paintGloss(d);
   closeEdit();
   const s = SCENES.find(x => x.key === d.scene);
   $('scene').innerHTML = s ? s.ko + '<span class="sub" lang="ja">' + s.ja + '</span>' : '—';
@@ -1238,6 +1265,49 @@ function showCard(){
   setReveal($('optShow').checked && !(sess && sess.stage === 1));
   highlight(d.id);
   if(sess) sessPaint();
+}
+
+/* 한자 풀이(빌드가 사전으로 만든 d.kj) + 표현 풀이(이 카드에 나오는 학습 표현) */
+function ttsPause(){ if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} } }
+function ttsBtn(text){
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'tts-mini'; b.title = '읽어주기 / 読み上げ';
+  b.innerHTML = '<svg class="ic"><use href="#i-sound"/></svg>'; b.dataset.t = text;
+  b.onclick = e => { e.stopPropagation(); ttsMark(b); ttsPause(); aPlay(text, 1, 0, () => b.setAttribute('aria-pressed', 'false'), 2, 1); };
+  return b;
+}
+function paintGloss(d){
+  const kb = $('kanjiList'); kb.textContent = '';
+  (d.kj || []).forEach(([head, rd, mean, hj, chars]) => {
+    const row = document.createElement('div'); row.className = 'kjrow';
+    const w = document.createElement('div'); w.className = 'w'; w.lang = 'ja'; w.textContent = head;
+    w.appendChild(ttsBtn(rd || head));   /* 읽어주기는 훈독(사전 읽기)으로 */
+    const r = document.createElement('small'); r.textContent = rd; w.appendChild(r);
+    const m = document.createElement('div'); m.className = 'm';
+    const h = document.createElement('span'); h.className = 'hj'; h.textContent = hj;
+    m.append(h, document.createTextNode(mean));
+    if(chars && chars.length){
+      const c = document.createElement('span'); c.className = 'ch';
+      chars.forEach(([ch, hun], i) => {
+        if(i) c.appendChild(document.createTextNode(' · '));
+        const b = document.createElement('b'); b.lang = 'ja'; b.textContent = ch;
+        c.append(b, document.createTextNode(' ' + hun));
+      });
+      m.appendChild(c);
+    }
+    row.append(w, m); kb.appendChild(row);
+  });
+  $('kanjiBox').hidden = !kb.childElementCount;
+  const eb = $('explList'); eb.textContent = '';
+  STUDY.filter(r => r.t === 'E' && (r.cids || []).includes(d.id)).forEach(r => {
+    const row = document.createElement('div'); row.className = 'exrow';
+    const b = document.createElement('b'); b.lang = 'ja'; b.textContent = r.ja;
+    row.append(b, ttsBtn(r.rd || r.ja));
+    if(r.rd){ const s = document.createElement('small'); s.lang = 'ja'; s.textContent = r.rd; row.appendChild(s); }
+    row.appendChild(document.createTextNode(' ' + r.ko));
+    if(r.note){ const n = document.createElement('span'); n.className = 'n'; n.textContent = r.note; row.appendChild(n); }
+    eb.appendChild(row);
+  });
+  $('explBox').hidden = !eb.childElementCount;
 }
 function setReveal(on){ $('answer').hidden = !on; $('reveal').hidden = on; }
 
@@ -1391,7 +1461,7 @@ $('cfStop').onclick = stopAll;
 $('cfLoop').onclick = () => $('loop').click();
 $('cfPrev').onclick = () => $('prev').click();
 $('cfNext').onclick = () => $('next').click();
-function ttsMark(el){ document.querySelectorAll('.ttsrow .btn[aria-pressed=true]').forEach(x => x.setAttribute('aria-pressed', 'false')); if(el) el.setAttribute('aria-pressed', 'true'); }
+function ttsMark(el){ document.querySelectorAll('.tts-mini[aria-pressed=true],.ttsrow .btn[aria-pressed=true]').forEach(x => x.setAttribute('aria-pressed', 'false')); if(el) el.setAttribute('aria-pressed', 'true'); }
 function ttsLine(times, rate){
   const d = deck[index]; if(!d) return;
   if(!OFFLINE && player && ready){ try{ if(player.getPlayerState() === 1) player.pauseVideo(); }catch(e){} }
