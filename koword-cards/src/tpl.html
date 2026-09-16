@@ -2,6 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#3b4a7a"><meta name="google" content="notranslate">
+<meta name="referrer" content="no-referrer">   <!-- 온라인 음성(translate_tts)은 Referer 가 붙으면 404 HTML 을 돌려준다 -->
 <title>도카도카 한국어 단어·표현 카드</title>
 <style>
 :root{--bg:#f4f5f8;--card:#fff;--line:#e2e5ec;--ink:#21242c;--mute:#6b7280;--brand:#3b4a7a;--brand2:#4a5a8d;
@@ -80,8 +81,9 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .tip{position:absolute;bottom:6px;left:0;right:0;font-size:12.5px;color:var(--mute);display:none}
 .hid .tip{display:block}
 .ctl{display:flex;gap:8px;padding:4px 14px 0;flex:none}
-.ctl button{flex:1;height:42px;border-radius:21px;background:var(--card);border:1px solid var(--line);
- font-size:13.5px;font-weight:600;color:var(--brand);display:flex;align-items:center;justify-content:center;gap:5px}
+.ctl button{flex:1;min-width:0;height:42px;border-radius:21px;background:var(--card);border:1px solid var(--line);
+ font-size:13px;font-weight:600;color:var(--brand);display:flex;align-items:center;justify-content:center;gap:4px;
+ white-space:nowrap;padding:0 4px}
 .ctl button:active{background:var(--soft)}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 14px calc(14px + env(safe-area-inset-bottom));flex:none}
 .btns button{height:64px;border-radius:32px;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 0 #0002;
@@ -137,6 +139,13 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
  padding:9px 16px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
 .toast.on{opacity:.94}
+/* 소리 듣기 */
+.spk{display:inline-flex;align-items:center;justify-content:center;gap:5px;height:34px;padding:0 14px;border-radius:17px;
+ background:var(--soft);color:var(--brand);font-size:13.5px;font-weight:600;flex:none;border:1px solid transparent}
+.spk:active{background:var(--line)}
+.spk.on{background:var(--brand);color:#fff}
+.spk.mini{height:28px;width:28px;padding:0;border-radius:14px;font-size:14px}
+.ex .spk.mini{float:right;margin-left:6px}
 .main{display:flex;flex-direction:column;flex:1;min-height:0}
 /* 레일 — 넓은 화면에서만 나온다 */
 #rail{display:none;flex-direction:column;background:var(--card);border-right:1px solid var(--line);
@@ -212,6 +221,9 @@ h4{margin:15px 2px 8px;font-size:12.5px;color:var(--mute);font-weight:600;letter
    <label class="opt"><input type="checkbox" id="optAll"> 처음부터 뜻을 보인 채로 시작(1회독 분류용)</label>
    <label class="opt"><input type="checkbox" id="optRev"> 거꾸로 — 일본어 뜻을 앞면에</label>
    <label class="opt"><input type="checkbox" id="optPr"> 앞면에도 발음 보이기</label>
+   <label class="opt"><input type="checkbox" id="optSay"> 뜻을 열면 자동으로 읽어 주기</label>
+   <div class="tools" style="align-items:center"><button id="bTest">🔊 음성 테스트</button>
+    <span id="voiceInfo" style="font-size:12px;color:var(--mute);line-height:1.5"></span></div>
    <p style="margin:12px 0 8px"><a href="../index.html" style="color:var(--accent);font-weight:700;text-decoration:none;font-size:14px">‹ 도카도카 어학 학습 메인으로</a></p>
    <div class="tools"><button id="bList">🔍 목록·검색</button><button id="bExp">내보내기</button>
     <label>가져오기<input type="file" id="fImp" accept="application/json"></label><button id="bRst">진행 초기화</button></div>
@@ -274,7 +286,7 @@ const LS = 'koword-cards', BUILD = '__BUILD__';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtT = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-const st = { know:{}, study:{}, round:{}, pos:{}, time:{}, ch:15, all:false, rev:false, pr:false, mode:'lv' };
+const st = { know:{}, study:{}, round:{}, pos:{}, time:{}, ch:15, all:false, rev:false, pr:false, say:false, mode:'lv' };
 try{ Object.assign(st, JSON.parse(localStorage.getItem(LS)||'{}')); }catch(e){}
 const save = () => { try{ localStorage.setItem(LS, JSON.stringify(st)); }catch(e){} };
 const toast = m => { const t=$('#toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1400); };
@@ -351,6 +363,7 @@ function home(){
   Object.keys(FAM).forEach(f=>{ h += deckRow('fam:'+f, FAM[f].length, null, '같은 문형'); });
   $('#homeList').innerHTML = h;
   $('#optAll').checked=st.all; $('#optRev').checked=st.rev; $('#optPr').checked=st.pr;
+  $('#optSay').checked=!!st.say; $('#voiceInfo').textContent=voiceInfo();
 }
 
 /* ── 드릴 ── */
@@ -371,8 +384,11 @@ function startClock(){
     const d=new Date().toISOString().slice(0,10); st.time[d]=(st.time[d]||0)+1; }, 1000);
 }
 const cur = () => D.chs[D.ci][D.i];
+let wasOpen = false, wasCard = -1;
 function draw(){
   const x = cur(), open = D.open || st.all;
+  const wasOpenPrev = wasOpen && wasCard === x.i;   // 같은 카드에서 이미 열려 있었나
+  wasOpen = open; wasCard = x.i;
   const a = x.ex ? APPS[x.ex.i] : null;
   const link = a ? `../${a.a}/${a.p}#${encodeURIComponent(a.s)}/c${x.ex.id}` : null;
   const head = st.rev ? esc(x.ja) : esc(x.ko);
@@ -390,18 +406,65 @@ function draw(){
      <div class="ko"${st.rev?'':' lang="ja"'}>${meaning}</div>
      <div class="nt">${x.note?esc(x.note):'&nbsp;'}</div>
      <div class="tags">${tags}</div>
-     ${x.ex?`<div class="ex"><a href="${link}" id="exLink">▶ 장면</a>${mark(x.ex.ko,x.ko)}
+     ${x.ex?`<div class="ex"><a href="${link}" id="exLink">▶ 장면</a><button class="spk mini" data-say="${esc(x.ex.ko)}" title="대사 듣기">🔊</button>${mark(x.ex.ko,x.ko)}
        <div class="j" lang="ja">${esc(x.ex.ja)}</div></div>`:''}
      <div class="tip">눌러서 뜻 보기</div>`;
   if(x.pr && st.pr && !open) $('#cBody').querySelector('.pr').style.visibility='visible';
+  if(open && st.say && !wasOpenPrev) say(st.rev ? x.ko : x.ko);   // 뜻을 연 그 순간에만 읽는다
   $('#cTitle').textContent = deckName(D.key) + ' · ' + (D.ci+1) + '장';
   $('#cProg').textContent = `${D.round}회독 · ${D.i+1}/${D.chs[D.ci].length}`;
   $('#cNo').textContent = 'no.' + (D.ci*st.ch + D.i + 1);
   $('#cTime').textContent = fmtT(D.sec);
   $('#cCtl').innerHTML = `<button data-c="prev" ${D.i?'':'disabled style="opacity:.4"'}>‹ 이전</button>
+    <button data-say="${esc(x.ko)}">🔊 듣기</button>
     <button data-c="sheet">⤢ 상세</button><button data-c="flip">${open?'뜻 가리기':'뜻 보기'}</button>`;
   rail();
 }
+/* ── 소리 ── 1) 기기에 한국어 음성이 있으면 브라우저 TTS 2) 없으면 온라인 음성(인터넷 필요) 3) 서로 폴백 */
+let koVoice = null;
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  koVoice = vs.find(v => /^ko/i.test(v.lang) && /Google|Yuna|Nari|Heami|Sun-Hi|InJoon/i.test(v.name))
+         || vs.find(v => /^ko/i.test(v.lang)) || null;
+}
+if('speechSynthesis' in window){ pickVoice();
+  speechSynthesis.onvoiceschanged = () => { pickVoice(); const e=$('#voiceInfo'); if(e) e.textContent=voiceInfo(); }; }
+let sayN = 0, player = null;
+function say(text){
+  if(!text) return;
+  const my = ++sayN;
+  if(player){ player.pause(); player = null; }
+  if('speechSynthesis' in window && (speechSynthesis.speaking || speechSynthesis.pending)) speechSynthesis.cancel();
+  if(!koVoice) pickVoice();
+  if(koVoice) ttsSay(text, my, () => netSay(text, my));
+  else netSay(text, my, () => ttsSay(text, my, () => toast('소리를 낼 수 없습니다. 인터넷 연결이나 기기의 한국어 음성을 확인하세요')));
+}
+function ttsSay(text, my, onFail){
+  if(!('speechSynthesis' in window)) return onFail && onFail();
+  setTimeout(() => {           // 안드로이드 크롬: cancel 직후 speak 가 묵음이 되는 것을 피한다
+    if(my !== sayN) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR'; u.rate = 0.92; if(koVoice) u.voice = koVoice;
+    let started = false;
+    u.onstart = () => { started = true; };
+    u.onerror = e => { if(e.error !== 'interrupted' && e.error !== 'canceled' && onFail) onFail(); };
+    speechSynthesis.speak(u);
+    setTimeout(() => { if(!started && my === sayN && !speechSynthesis.speaking && onFail) onFail(); }, 1500);  // 조용히 실패하는 엔진 대비
+  }, 60);
+}
+function netSay(text, my, onFail){
+  const a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ko&q='
+    + encodeURIComponent(text.slice(0, 180)));
+  player = a;
+  a.onerror = () => { if(my === sayN && onFail) onFail(); };
+  a.play().catch(() => { if(my === sayN && onFail) onFail(); });
+}
+function voiceInfo(){
+  const vs = ('speechSynthesis' in window) ? speechSynthesis.getVoices().filter(v => /^ko/i.test(v.lang)) : [];
+  return vs.length ? '기기 한국어 음성: ' + vs.map(v => v.name).join(', ')
+    : '기기에 한국어 음성이 없어 온라인 음성(인터넷 필요)으로 읽습니다. 오프라인에서도 들으려면 안드로이드: 설정 › 일반 › 텍스트 음성 변환 › Google 엔진에서 한국어 설치.';
+}
+
 /* 레일 — 넓은 화면에서 이 장 어디쯤인지 늘 보인다 */
 function rail(){
   const ch = D.chs[D.ci], done = ch.filter(x=>st.know[x.i]).length;
@@ -415,7 +478,7 @@ function rail(){
     ch.map((x,i)=>`<button class="rl" data-rj="${i}" aria-current="${i===D.i}">
       <span class="no">${D.ci*st.ch+i+1}</span><span class="w">${esc(x.ko)}</span>
       <span class="d ${st.know[x.i]?'k':st.study[x.i]?'s':''}"></span></button>`).join('') +
-    `<div class="keys"><b>Space</b>뜻 보기<br><b>←</b>공부하겠음<br><b>→</b>알고있음<br><b>Esc</b>홈으로</div>`;
+    `<div class="keys"><b>Space</b>뜻 보기<br><b>S</b>소리 듣기<br><b>←</b>공부하겠음<br><b>→</b>알고있음<br><b>Esc</b>홈으로</div>`;
   // 다시 그릴 때마다 맨 위로 가므로 지금 카드를 시야 안으로 끌어온다 (50장 묶음에서 필요)
   const at = $('#rail').querySelector('.rl[aria-current=true]');
   if(at) at.scrollIntoView({block:'nearest'});
@@ -483,11 +546,11 @@ function sheet(i){
      ${x.pos?`<span class="tag">${esc(x.pos)}</span>`:''}${x.gk?`<span class="tag">${esc(x.gk)}</span>`:''}
      <span class="tag">${x.t==='E'?'표현':'단어'}</span>
      ${x.pr?`<span class="tag w">발음</span>`:''}<span class="tag">${x.n}회 등장</span></div>
-   <h2>${esc(x.ko)}</h2>${x.pr?`<div class="pr2">[${esc(x.pr)}]</div>`:''}
+   <h2>${esc(x.ko)} <button class="spk" data-say="${esc(x.ko)}">🔊 듣기</button></h2>${x.pr?`<div class="pr2">[${esc(x.pr)}]</div>`:''}
    <div class="ja2" lang="ja">${esc(x.ja)}</div>
    ${x.note?`<div class="nt2">${esc(x.note)}</div>`:''}
    ${x.gf?`<div class="blk"><h3>문법</h3><b>${esc(x.gf)}</b> · ${esc(x.gk||'')} · ${x.lv}급</div>`:''}
-   ${x.ex?`<div class="blk"><h3>실제 대사</h3><div class="exk">${mark(x.ex.ko,x.ko)}</div>
+   ${x.ex?`<div class="blk"><h3>실제 대사 <button class="spk mini" data-say="${esc(x.ex.ko)}">🔊</button></h3><div class="exk">${mark(x.ex.ko,x.ko)}</div>
      <div class="exj" lang="ja">${esc(x.ex.ja)}</div>
      <div style="margin-top:8px"><a href="../${a.a}/${a.p}#${encodeURIComponent(a.s)}/c${x.ex.id}">▶ 장면 (${fmtT(x.ex.s)})</a>
      <span style="font-size:11.5px;color:var(--mute);margin-left:8px">${esc(a.n)}</span></div></div>`:''}
@@ -501,6 +564,7 @@ function sheet(i){
      <button class="chip" data-mk="0">지우기</button></div></div>`;
   $('#ov').classList.add('on');
   $('#sheet').onclick = e => {
+    if(e.target.closest('[data-say]')) return;
     const mk=e.target.closest('[data-mk]'), fm=e.target.closest('[data-fam]');
     if(mk){ const v=mk.dataset.mk;
       if(v==='k'){ st.know[i]=1; delete st.study[i]; } else if(v==='s'){ st.study[i]=1; delete st.know[i]; }
@@ -512,6 +576,8 @@ function sheet(i){
 
 /* ── 조작 ── */
 document.body.addEventListener('click', e => {
+  const sp=e.target.closest('[data-say]');
+  if(sp){ e.stopPropagation(); say(sp.dataset.say); return; }
   const d=e.target.closest('[data-deck]');
   if(d){ const k=d.dataset.deck; openDeck = (openDeck===k?null:k); home(); return; }
   const c=e.target.closest('[data-ch]');
@@ -531,7 +597,7 @@ document.body.addEventListener('click', e => {
     else if(v==='sheet'){ sheet(cur().i); }
     return; }
 });
-$('#cBody').onclick = e => { if(e.target.closest('#exLink')) return; if(!st.all){ D.open=!D.open; draw(); } };
+$('#cBody').onclick = e => { if(e.target.closest('#exLink')||e.target.closest('[data-say]')) return; if(!st.all){ D.open=!D.open; draw(); } };
 $('#bStudy').onclick = ()=>answer('study');
 $('#bKnow').onclick  = ()=>answer('know');
 $('#ov').onclick = e => { if(e.target.id==='ov') $('#ov').classList.remove('on'); };
@@ -549,6 +615,8 @@ $('#mApp').onclick = ()=>{ st.mode='app'; openDeck=null; save(); home(); };
 $('#optAll').onchange = e=>{ st.all=e.target.checked; save(); if(D) draw(); };
 $('#optRev').onchange = e=>{ st.rev=e.target.checked; save(); if(D) draw(); };
 $('#optPr').onchange  = e=>{ st.pr =e.target.checked; save(); if(D) draw(); };
+$('#optSay').onchange = e=>{ st.say=e.target.checked; save(); };
+$('#bTest').onclick   = ()=>say('안녕하세요. 잘 들리나요?');
 $('#bExp').onclick = ()=>{ const b=new Blob([JSON.stringify(st)],{type:'application/json'});
   const u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download='koword-progress.json'; a.click();
   setTimeout(()=>URL.revokeObjectURL(u),800); };
@@ -561,6 +629,7 @@ document.addEventListener('keydown', e=>{
   if($('#ov').classList.contains('on')){ if(e.key==='Escape') $('#ov').classList.remove('on'); return; }
   if(!$('#vCard').classList.contains('on')) return;
   if(e.key==='Escape'){ clearInterval(tick); home(); show('vHome'); }
+  else if(e.key==='s'||e.key==='S'){ say(cur().ko); }
   else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); if(!st.all){ D.open=!D.open; draw(); } }
   else if(e.key==='ArrowLeft')  answer('study');
   else if(e.key==='ArrowRight') answer('know');
