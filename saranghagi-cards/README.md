@@ -29,7 +29,7 @@ YouTube 영상 「[fl▶ylist] ‘유재하 - 사랑하기 때문에’ cover by
 
 ```
 saranghagi-cards/
-├─ Korean-Saranghagi33-Cards.html   앱 (단일 파일, 데이터·음원 내장)
+├─ Korean-Saranghagi32-Cards.html   앱 (단일 파일, 데이터·음원 내장)
 ├─ start.bat / start.sh             실행기
 ├─ README.md
 └─ src/
