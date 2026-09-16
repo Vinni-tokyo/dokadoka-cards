@@ -2646,11 +2646,6 @@ function renderHome(){
     card.onclick = () => openSeries(s.id);
     g.appendChild(card);
   });
-  const soon = document.createElement('div'); soon.className = 'hsoon';
-  soon.innerHTML = '<b>次のシリーズは準備中</b><span lang="ko">다음 시리즈는 준비 중</span>' +
-    '<span style="font-size:11px">別の動画の字幕を src/series/ に足すと、ここに並びます<br>' +
-    '<span lang="ko">다른 영상 자막을 src/series/ 에 넣으면 여기에 나타납니다</span></span>';
-  g.appendChild(soon);
 }
 function openSeries(id){
   const s = SERIES.find(x => x.id === id); if(!s) return;
@@ -2979,6 +2974,8 @@ if(OFFLINE){
   $('play').querySelector('.lbl').innerHTML = 'YouTube で開く<span class="sub" lang="ko">YouTube에서 열기</span>';
 }
 renderHome();
+/* 시리즈가 하나뿐인 앱은 고를 것이 없다. 관문이 메인이므로 곧장 본문으로 연다(헤더 ⌂ 로 관문에 돌아간다) */
+if(SERIES.length === 1 && !location.hash) openSeries(SERIES[0].id);
 
 /* 좁은 화면에서는 영상 ID 입력줄과 상태줄을 페이지 맨 아래로 내려 영상과 문장이 붙어 보이게 한다 */
 (function(){

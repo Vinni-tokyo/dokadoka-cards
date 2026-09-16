@@ -2522,11 +2522,6 @@ function renderHome(){
     card.onclick = () => openSeries(s.id);
     g.appendChild(card);
   });
-  const soon = document.createElement('div'); soon.className = 'hsoon';
-  soon.innerHTML = '<b>次のシリーズは準備中</b><span lang="ko">다음 시리즈는 준비 중</span>' +
-    '<span style="font-size:11px">別の動画の字幕を src/series/ に足すと、ここに並びます<br>' +
-    '<span lang="ko">다른 영상 자막을 src/series/ 에 넣으면 여기에 나타납니다</span></span>';
-  g.appendChild(soon);
 }
 function openSeries(id){
   const s = SERIES.find(x => x.id === id); if(!s) return;
