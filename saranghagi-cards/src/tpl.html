@@ -886,7 +886,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
        </select>
        <span style="font-size:12.5px;color:var(--ink-2);margin-left:6px">開始位置 <span class="inl" lang="ko" style="color:var(--ink-3);font-size:11.5px">시작 보정</span></span>
        <select id="optLead">
-        <option value="-0.3">−0.3秒</option><option value="-0.15">−0.15秒</option><option value="0">0</option>
+        <option value="-0.6">−0.6秒</option><option value="-0.45">−0.45秒</option><option value="-0.3">−0.3秒</option><option value="-0.15">−0.15秒</option><option value="0">0</option>
         <option value="0.15">+0.15秒</option><option value="0.3">+0.3秒</option><option value="0.5">+0.5秒</option>
        </select></div>
      </div>
@@ -2971,7 +2971,7 @@ $('optShow').checked = store.get('show', false);
 $('optRaw').checked = store.get('raw', false);
 $('optTail').value = store.get('tail', '0.5');
 if(!$('optTail').value){ $('optTail').value = '0.5'; store.set('tail', '0.5'); }  /* 一覧にない保存値を捨てる */
-$('optLead').value = store.get('lead', '0'); if(!$('optLead').value) $('optLead').value = '0';
+$('optLead').value = store.get('lead', '-0.3'); if(!$('optLead').value) $('optLead').value = '-0.3';
 $('optGuard').checked = store.get('guard', true);
 pickSeg2($('qPace'), String(dayPace));
 $('fileNotice').hidden = !OFFLINE;
