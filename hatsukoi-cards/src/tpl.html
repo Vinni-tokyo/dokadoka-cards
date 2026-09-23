@@ -2259,8 +2259,32 @@ function aStopAll(){ aSeq++; if(aCur){ try{ aCur.pause(); }catch(e){} aCur = nul
 const A_VOLS = [0.3, 0.6, 1.0];
 function aVol(){ return Number(store.get('avol', 0.6)) || 0.6; }
 function aVolTTS(){ return Math.min(1, aVol() + 0.2); }
-function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aCur){ try{ aCur.volume = v; }catch(e){} } aVolPaint(); }
+function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aGain){ try{ aGain.gain.value = v; }catch(e){} }   /* 이득 노드를 거치는 경우 */ if(aCur){ try{ aCur.volume = aGain ? 1 : v; }catch(e){} } aVolPaint(); }
 function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(), pct = Math.round(v * 100); b.dataset.lv = v <= 0.3 ? '1' : v <= 0.6 ? '2' : '3';   /* 음파 가닥 수로 보여 준다 */ b.title = '읽어주기 음량 ' + pct + '% (누르면 바뀜)'; b.setAttribute('aria-label', '읽어주기 음량 ' + pct + '%'); }
+/* 아이폰은 오디오의 volume 을 무시한다(하드웨어 버튼으로만 바뀐다).
+   그래서 Web Audio 의 이득 노드를 거쳐 크기를 바꾼다. 연결이 안 되면 그냥 튼다 — 무음보다 낫다. */
+let aCtx = null, aGain = null;
+function aCtxGet(){
+  if(aCtx) return aCtx;
+  const C = window.AudioContext || window.webkitAudioContext;
+  if(!C) return null;
+  try{ aCtx = new C(); }catch(e){ aCtx = null; }
+  return aCtx;
+}
+function aCtxWake(){ const c = aCtxGet(); if(c && c.state === 'suspended') c.resume().catch(() => {}); }
+addEventListener('pointerdown', aCtxWake, { passive: true });
+addEventListener('keydown', aCtxWake);
+function aWire(el){
+  const c = aCtxGet();
+  if(!c) return false;
+  if(c.state === 'suspended') c.resume().catch(() => {});
+  if(c.state !== 'running') return false;      /* 아직 안 깨어났으면 건드리지 않는다 */
+  try{
+    const s = c.createMediaElementSource(el), g = c.createGain();
+    g.gain.value = aVol(); s.connect(g); g.connect(c.destination); aGain = g;
+    return true;
+  }catch(e){ return false; }
+}
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
@@ -2268,7 +2292,7 @@ function aPlay(text, times, gap, cb, which, rate){
   const step = () => {
     if(my !== aSeq) return;
     const after = () => { n++; if(my !== aSeq) return; if(n < times) setTimeout(step, gap); else done(); };
-    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = aVol(); a.onended = after; a.onerror = after; a.play().catch(after); }
+    if(src){ const a = new Audio(src); aCur = a; a.playbackRate = rate || 1; a.volume = aWire(a) ? 1 : aVol();   /* 이득 노드를 타면 크기는 거기서 준다 */ a.onended = after; a.onerror = after; a.play().catch(after); }
     else dSpeakText(text, which, after, rate);
   };
   step();
