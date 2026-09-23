@@ -514,6 +514,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
 .ttsrow .cap{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:2px}
 .ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+#ttsVol .w1,#ttsVol .w2{transition:opacity .15s}
+#ttsVol[data-lv="1"] .w1,#ttsVol[data-lv="1"] .w2,#ttsVol[data-lv="2"] .w2{opacity:.16}   /* 음량 3단계: 음파 0가닥 · 1가닥 · 2가닥 */
 @media(max-width:430px){.ttsrow{gap:5px}.ttsrow .btn{padding-left:8px;padding-right:8px}}   /* 여섯 버튼이 한 줄에 들어가게 — 정지가 혼자 다음 줄로 떨어지던 것을 막는다 */
 @media(max-width:340px){.ttsrow #ttsPlay>.ic{display:none}.ttsrow .btn{padding-left:6px;padding-right:6px}}   /* 320px 짜리 옛 폰에서는 아이콘까지 뺀다 */
 .tts-mini{display:inline-grid;place-items:center;width:24px;height:24px;padding:0;margin-left:6px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);vertical-align:middle;flex:none}
@@ -666,7 +668,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
       <button class="btn btn-sm" id="ttsSlow" title="0.75배 속도">천천히</button>
       <button class="btn btn-sm" id="ttsRep" title="3번 반복">3회</button>
       <button class="btn btn-sm" id="ttsAll" title="문장 → 표현 → 단어 순서로 전부 읽기">전부</button>
-      <button class="btn btn-sm" id="ttsVol" title="읽어주기 음량">🔉</button>
+      <button class="btn btn-sm" id="ttsVol" data-lv="2" title="읽어주기 음량"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5L6.5 9H3v6h3.5L11 19z"/><path class="w1" d="M14.8 9.6a4 4 0 010 4.8"/><path class="w2" d="M17.8 6.8a8 8 0 010 10.4"/></svg></button>
       <button class="btn btn-sm" id="ttsStop" title="읽기 멈춤"><svg class="ic fill"><use href="#i-stop"/></svg></button>
      </div>
 
@@ -2253,7 +2255,7 @@ const A_VOLS = [0.3, 0.6, 1.0];
 function aVol(){ return Number(store.get('avol', 0.6)) || 0.6; }
 function aVolTTS(){ return Math.min(1, aVol() + 0.2); }
 function aVolCycle(){ const v = A_VOLS[(A_VOLS.indexOf(aVol()) + 1) % A_VOLS.length]; store.set('avol', v); if(aCur){ try{ aCur.volume = v; }catch(e){} } aVolPaint(); }
-function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(); b.textContent = v <= 0.3 ? '🔈' : v <= 0.6 ? '🔉' : '🔊'; b.title = '읽어주기 음량 ' + Math.round(v * 100) + '% (누르면 바뀜)'; }
+function aVolPaint(){ const b = document.getElementById('ttsVol'); if(!b) return; const v = aVol(), pct = Math.round(v * 100); b.dataset.lv = v <= 0.3 ? '1' : v <= 0.6 ? '2' : '3';   /* 음파 가닥 수로 보여 준다 */ b.title = '읽어주기 음량 ' + pct + '% (누르면 바뀜)'; b.setAttribute('aria-label', '읽어주기 음량 ' + pct + '%'); }
 function aPlay(text, times, gap, cb, which, rate){
   aStopAll(); const my = aSeq; times = Math.max(1, times || 1); gap = gap == null ? 350 : gap; which = which || 2;
   const src = AUDIO[(which === 1 ? 'm:' : '') + aKey(text)]; let n = 0;
