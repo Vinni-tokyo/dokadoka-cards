@@ -136,6 +136,13 @@ async def gen(app, field, voice, rate, force, mfield=None, mvoice=None, cards=Fa
     for k in list(index):
         if k not in allkeys: index.pop(k)
     json.dump(index, open(ipath, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    # 다시 만든 파일은 이름이 그대로라 정규화 표시가 남아 있다 — 지워야 다시 고른다.
+    # (tts_fix 로 고쳐 만든 파일이 정규화를 건너뛰어 혼자 크게 나던 것을 막는다)
+    mark = os.path.join(adir, 'norm.json')
+    if os.path.exists(mark):
+        made = {fn for (k, fn), ok in zip(todo, res) if ok}
+        keep = [f for f in json.load(open(mark, encoding='utf-8')) if f not in made]
+        json.dump(keep, open(mark, 'w', encoding='utf-8'))
     try:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         from normalize_audio import normalize_dir
