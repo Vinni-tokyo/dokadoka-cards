@@ -130,6 +130,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .watch-opt{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#c6ccdc;cursor:pointer}
 .watch-opt input{accent-color:var(--brand)}
 .watch-prev,.watch-next{font-size:clamp(14px,1.5vw,18px);line-height:1.5;color:#5e6679;min-height:1.5em;cursor:pointer;word-break:keep-all}
+.kara-line,.kara-prev,.kara-next,.kara-next2,.kara-rd,.kara-ja,.watch-line,.watch-prev,.watch-next{overflow-wrap:anywhere}
+.kara-line:lang(ja),.watch-line:lang(ja){word-break:normal}   /* 일본어는 띄어쓰기가 없어 keep-all 이면 줄을 못 바꾼다 */
 .watch-now{padding:8px 0 4px;display:flex;flex-direction:column;gap:6px;min-height:130px;justify-content:center}
 .watch-who{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#ffd166;min-height:1em}
 .watch-line{font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.4;letter-spacing:-.005em;word-break:keep-all;color:#fff}

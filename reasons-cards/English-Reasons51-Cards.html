@@ -162,6 +162,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .kara-line .kc{color:#b8bfd2}
 .kara-line .kc.on{color:#ffd166}
 .kara-line .kc.part{background-image:linear-gradient(90deg,#ffd166 0,#ffd166 var(--q,0%),#b8bfd2 var(--q,0%),#b8bfd2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.kara-line,.kara-prev,.kara-next,.kara-next2,.kara-rd,.kara-ja,.watch-line,.watch-prev,.watch-next{overflow-wrap:anywhere}
+.kara-line:lang(ja),.watch-line:lang(ja){word-break:normal}   /* 일본어는 띄어쓰기가 없어 keep-all 이면 줄을 못 바꾼다 */
 .kara-ja{font-size:clamp(14px,1.5vw,18px);color:#9aa3b8}
 .kara-wait{display:flex;gap:8px;align-items:center;font-size:13px;color:#ffd166}
 .kara-wait i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ffd166;opacity:.25}
