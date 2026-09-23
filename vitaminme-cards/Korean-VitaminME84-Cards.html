@@ -587,6 +587,8 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
 .cue{touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .ttsrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
 .ttsrow .btn[aria-pressed=true]{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand)}
+@media(max-width:430px){.ttsrow{gap:5px}.ttsrow .btn{padding-left:8px;padding-right:8px}}   /* 여섯 버튼이 한 줄에 들어가게 — 정지가 혼자 다음 줄로 떨어지던 것을 막는다 */
+@media(max-width:340px){.ttsrow #ttsPlay>.ic{display:none}.ttsrow .btn{padding-left:6px;padding-right:6px}}   /* 320px 짜리 옛 폰에서는 아이콘까지 뺀다 */
 .card-top .ctl{display:inline-flex;align-items:center;gap:6px;flex:none}
 .ibtn{display:inline-grid;place-items:center;width:30px;height:30px;padding:0;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
 .ibtn .ic{width:15px;height:15px}
@@ -742,7 +744,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 5px;border:1px solid var(--l
      <p class="rd" id="rd" hidden><b>読み</b><span id="rdText"></span></p>
      <p class="raw" id="raw" hidden></p>
      <div class="ttsrow">
-      <button class="btn btn-sm" id="ttsPlay" title="T"><svg class="ic"><use href="#i-sound"/></svg>読み上げ</button>
+      <button class="btn btn-sm" id="ttsPlay" title="T"><svg class="ic"><use href="#i-sound"/></svg>読み</button>
       <button class="btn btn-sm" id="ttsSlow" title="0.75×">ゆっくり</button>
       <button class="btn btn-sm" id="ttsRep" title="×3">3回</button>
       <button class="btn btn-sm" id="ttsVol" title="읽어주기 음량">🔉</button>
