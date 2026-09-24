@@ -44,6 +44,11 @@ FAMILY = {   # 앱 → (원문 필드, 원문 음성, 뜻 필드, 뜻 음성)
     'mujoken-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
     'subarashii-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
     'eien-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
+    'utsuwa-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
+    'saviour-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
+    'livinghope-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
+    'nippon-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
+    'hanamo-cards': ('ja', 'ja-JP-NanamiNeural', 'ko', 'ko-KR-SunHiNeural'),
 }
 MEAN_PREFIX = 'm:'   # 뜻 음원의 index 키 접두어 (앱 JS 의 aPlay(..., which=1) 와 같은 규칙)
 
