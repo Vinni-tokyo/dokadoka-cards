@@ -78,8 +78,16 @@ def rows_from(ja, ko):
     rows = []
     for g in groups:
         cues = g['cues']
-        if len(cues) == 1 and len(cues[0]['t']) > 1:   # 한 큐에 여러 줄: 글자 수 비율로 나눈다
-            c = cues[0]; tot = sum(len(x) for x in c['t']) or 1; t = c['s']
+        if len(cues) == 1 and len(cues[0]['t']) > 1:   # 한 큐에 여러 줄
+            c = cues[0]
+            # 그 시간에 겹치는 한국어 큐가 줄 수만큼 있으면 그 시각·뜻을 줄마다 그대로 쓴다
+            # (ひまわりの約束: 일본어 29큐 안에 36줄, 한국어는 36큐 — mahou 도 같은 꼴이었다)
+            inside = [k for k in ko if overlap(c, k) > 0]
+            if len(inside) == len(c['t']):
+                for x, k in zip(c['t'], inside):
+                    rows.append({'ja': x, 'ko': ' '.join(k['t']), 's': k['s'], 'e': k['e']})
+                continue
+            tot = sum(len(x) for x in c['t']) or 1; t = c['s']   # 아니면 글자 수 비율로 나눈다
             kt = ' '.join(ko[g['k']]['t']) if g['k'] is not None else ''
             for j, x in enumerate(c['t']):
                 d = (c['e'] - c['s']) * len(x) / tot
