@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""간이 코드 악보(chords.html)를 만든다 — 가사 위에 코드, 카포 2 C 폼 / 원래 키 D 전환, 운지 그림.
+"""노래 앱의 간이 코드 악보(<앱>/chords.html)를 만든다 — 가사 위에 코드, 카포 폼 / 원래 키 전환, 운지 그림.
 
-재료: chords.json(tools/chord_simple.py 의 자동 채보) · subtitles.srt(줄 시각) · lyrics.txt · build.py 의 SECTIONS.
+재료: <앱>/src/chords.json(tools/chord_simple.py) · subtitles.srt(줄 시각) · lyrics.txt · build.py 의 SECTIONS.
 코드는 줄 안에서 「그 코드가 시작한 시각」의 비율 자리에 얹는다(글자 단위 박자 정보가 없어 대략이다).
+카포: C → G → D → A → E 폼 순으로, 카포 5프렛 이내에서 먼저 되는 폼을 고른다(개방현 코드로 치게).
 
-사용: python3 make_chords.py   → ../chords.html
+사용: python3 tools/make_chord_sheet.py <앱폴더> --title 曲名 --artist 歌手 [--sub 한국어 제목] [--lang ja|ko|en]
 """
 import html
 import io
@@ -12,19 +13,27 @@ import json
 import os
 import re
 
-S = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(os.path.dirname(S), 'chords.html')
+import argparse
+import urllib.parse
 
-TITLE_JA, ARTIST_JA, TITLE_KO = '歌うたいのバラッド', '斉藤和義', '노래하는 이의 발라드'
-KEY, CAPO, BPM = 'D', 2, 76
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+S = OUT = None
 
 NOTES = 'C C# D D# E F F# G G# A A# B'.split()
 SHOW = {'A#': 'B♭', 'G#': 'A♭', 'D#': 'E♭', 'C#': 'C#', 'F#': 'F#'}
 
-# 운지(6번 줄 → 1번 줄). 간단하게: F 는 작은 F.
-FING = {'C': 'x32010', 'D': 'xx0232', 'Dm': 'xx0231', 'E': '022100', 'Em': '022000', 'F': 'xx3211',
-        'Fm': '133111', 'G': '320003', 'A': 'x02220', 'Am': 'x02210', 'B♭': 'x13331', 'A♭': '466544',
-        'B': 'x24442', 'Bm': 'x24432', 'F#': '244322', 'F#m': '244222', 'Gm': '355333', 'E♭': 'x68886'}
+# 운지(6번 줄 → 1번 줄). 간단하게: F 는 작은 F. 장·단 3화음 24개.
+FING = {'C': 'x32010', 'C#': 'x46664', 'D': 'xx0232', 'E♭': 'x68886', 'E': '022100', 'F': 'xx3211',
+        'F#': '244322', 'G': '320003', 'A♭': '466544', 'A': 'x02220', 'B♭': 'x13331', 'B': 'x24442',
+        'Cm': 'x35543', 'C#m': 'x46654', 'Dm': 'xx0231', 'E♭m': 'x68876', 'Em': '022000', 'Fm': '133111',
+        'F#m': '244222', 'Gm': '355333', 'A♭m': '466444', 'Am': 'x02210', 'B♭m': 'x13321', 'Bm': 'x24432'}
+
+
+def pick_capo(home):
+    for form in ('C', 'G', 'D', 'A', 'E'):
+        capo = (home - NOTES.index(form)) % 12
+        if capo <= 5: return capo, form
+    return 0, NOTES[home]
 
 
 def name(label, shift):
@@ -36,7 +45,8 @@ def name(label, shift):
 
 def srt():
     out = []
-    for b in io.open(os.path.join(S, 'subtitles.srt'), encoding='utf-8').read().strip().split('\n\n'):
+    f0 = next(f for f in ('subtitles.srt', 'subtitles.ko.srt') if os.path.exists(os.path.join(S, f)))
+    for b in io.open(os.path.join(S, f0), encoding='utf-8').read().strip().split('\n\n'):
         L = b.split('\n')
         m = re.findall(r'(\d+):(\d+):(\d+),(\d+)', L[1])
         f = lambda g: int(g[0]) * 3600 + int(g[1]) * 60 + int(g[2]) + int(g[3]) / 1000
@@ -46,8 +56,14 @@ def srt():
 
 def sections():
     s = io.open(os.path.join(S, 'build.py'), encoding='utf-8').read()
-    body = re.search(r"SECTIONS = \[\n(.*?)\n\]", s, re.S).group(1)
-    names = [re.findall(r"'([^']*)'", ln)[1] for ln in body.split('\n') if ln.strip()]
+    m = re.search(r"SECTIONS = \[\n(.*?)\n\]", s, re.S)
+    if not m or not os.path.exists(os.path.join(S, 'lyrics.txt')): return {}     # 구간 정보가 없는 앱
+    names = []
+    for ln in m.group(1).split('\n'):
+        f = re.findall(r"'([^']*)'", ln)
+        if len(f) < 2: continue
+        ko = [x for x in f[1:] if re.search('[가-힣]', x)]                  # 한국어 표기가 있으면 그쪽
+        names.append(ko[0] if ko else f[1])
     blocks = [b for b in re.split(r'\n\s*\n', io.open(os.path.join(S, 'lyrics.txt'), encoding='utf-8').read().strip()) if b.strip()]
     starts, n = [], 0
     for b in blocks:
@@ -106,8 +122,20 @@ def diagram(nm):
 
 
 def main():
-    seq = json.load(io.open(os.path.join(S, 'chords.json'), encoding='utf-8'))
+    global S, OUT
+    ap = argparse.ArgumentParser()
+    ap.add_argument('app'); ap.add_argument('--title', required=True); ap.add_argument('--artist', required=True)
+    ap.add_argument('--sub', default=''); ap.add_argument('--lang', default='ja')
+    a_ = ap.parse_args()
+    S = os.path.join(ROOT, a_.app.strip('/'), 'src'); OUT = os.path.join(ROOT, a_.app.strip('/'), 'chords.html')
+    data = json.load(io.open(os.path.join(S, 'chords.json'), encoding='utf-8'))
+    seq = data['chords']; KEY = data['key']; BPM = data['bpm']
+    CAPO, FORM = pick_capo(data['home'])
+    fit = data.get('fit', 1.0)
+    WARN = (f' <b>이 곡은 조 판별 확신이 낮습니다(일치도 {fit:.2f}).</b> 전자음·효과음이 많아 코드가 크게 틀렸을 수 있습니다.'
+            if fit < 0.7 else '')
     L = srt(); sec = sections()
+    LANG = a_.lang
     rows = []                                   # ('sec', 이름) | ('bars', [코드]) | ('line', [(글자,코드)])
     prev_end = 0.0
     for i, (a, b, t) in enumerate(L):
@@ -141,16 +169,20 @@ def main():
             for c, n in val:
                 if n: out.append(f'<span class="w">{chord_span(n)}{html.escape(c)}</span>')
                 else: out.append(html.escape(c))
-            body.append(f'<p class="ly" lang="ja">{"".join(out)}</p>')
+            body.append(f'<p class="ly" lang="{LANG}">{"".join(out)}</p>')
 
     diags_c = ''.join(f'<figure>{diagram(name(n, CAPO))}<figcaption>{html.escape(name(n, CAPO))}</figcaption></figure>' for n in used)
     diags_o = ''.join(f'<figure>{diagram(name(n, 0))}<figcaption>{html.escape(name(n, 0))}</figcaption></figure>' for n in used)
 
-    page = TEMPLATE.format(title=f'{TITLE_JA} 간이 코드', title_ja=TITLE_JA, artist=ARTIST_JA, title_ko=TITLE_KO,
-                           key=KEY, capo=CAPO, bpm=BPM, ckey=name(KEY, CAPO), body='\n'.join(body),
-                           diags_c=diags_c, diags_o=diags_o)
+    keyname = name(KEY.rstrip('m'), 0) + ('m' if KEY.endswith('m') else '')
+    capo_lbl = f'카포 {CAPO} · {FORM} 폼' if CAPO else f'{FORM} 폼 (카포 없음)'
+    page = TEMPLATE.format(title=f'{a_.title} 간이 코드', title_ja=html.escape(a_.title), artist=html.escape(a_.artist),
+                           title_ko=html.escape(a_.sub or a_.title), key=keyname, capo_lbl=capo_lbl, bpm=BPM,
+                           warn=WARN, lang=a_.lang, body='\n'.join(body), diags_c=diags_c, diags_o=diags_o)
+    json.dump({'key': keyname, 'capo': CAPO, 'form': FORM, 'bpm': BPM},
+              io.open(os.path.join(S, 'chords_meta.json'), 'w', encoding='utf-8'), ensure_ascii=False)
     io.open(OUT, 'w', encoding='utf-8').write(page)
-    print(f'생성: {OUT} · 줄 {len(L)} · 코드 종류 {len(used)} ({", ".join(name(n, CAPO) for n in used)})')
+    print(f'{a_.app}: 조 {keyname} · {capo_lbl} · {BPM} BPM · 줄 {len(L)} · 코드 {len(used)}종 ({", ".join(name(n, CAPO) for n in used)})')
 
 
 TEMPLATE = '''<!doctype html>
@@ -193,23 +225,23 @@ footer a{{color:var(--brand)}}
 </style></head>
 <body><div class="wrap">
 <header>
- <h1 lang="ja">{title_ja}<small>{artist}</small></h1>
+ <h1 lang="{lang}">{title_ja}<small>{artist}</small></h1>
  <p class="meta">{title_ko} · 간이 코드 악보 · ♩≒{bpm}</p>
 </header>
 <div class="bar">
  <div class="seg" role="group" aria-label="코드 표기">
-  <button type="button" id="bC" aria-pressed="true">카포 {capo} · {ckey} 폼</button>
+  <button type="button" id="bC" aria-pressed="true">{capo_lbl}</button>
   <button type="button" id="bO" aria-pressed="false">원래 키 {key}</button>
  </div>
 </div>
 <p class="note">음원에서 반주만 떼어 내 직접 딴 <b>간이 코드</b>입니다. 원곡의 경과 코드(dim·m7-5 등)는 빼고 기본 코드로 줄였고,
-코드를 얹은 글자 자리는 대략입니다. 원곡과 다를 수 있으니 정확한 악보는 앱의 「🎸 기타 코드」 링크를 보세요.</p>
+코드를 얹은 글자 자리는 대략입니다. 원곡과 다를 수 있습니다. 원곡의 조는 {key} 입니다.{warn}</p>
 <div class="diags c">{diags_c}</div>
 <div class="diags o">{diags_o}</div>
 <main class="sheet">
 {body}
 </main>
-<footer>가사: 斉藤和義 공식 채널 설명란 · 코드: 도카도카가 음원 분석(tools/chord_simple.py)으로 직접 채보 · 학습용 개인 이용</footer>
+<footer>가사: 앱과 같은 출처(앱 폴더 README) · 코드: 도카도카가 음원 분석(tools/chord_simple.py)으로 직접 채보 · 학습용 개인 이용</footer>
 </div>
 <script>
 (function(){{
