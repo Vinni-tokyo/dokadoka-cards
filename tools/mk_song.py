@@ -100,6 +100,12 @@ def rows_from(ja, ko):
     return rows, f'ko {len(ko)}큐 · 합친 줄 {merged}'
 
 
+def strip_chords(t):
+    """복사해 온 템플릿에 다른 곡의 「🎸 기타 코드」 메뉴가 들어 있으면 뺀다(곡마다 patch_chords_menu 로 새로 넣는다)."""
+    t = re.sub(r'    <details class="chords">.*?</details>\n', '', t, flags=re.S)
+    return re.sub(r'\.chords\{.*?(?=\.scene-sel\{)', '', t, flags=re.S)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('app'); ap.add_argument('vid'); ap.add_argument('port', type=int); ap.add_argument('outname')
@@ -143,6 +149,7 @@ def main():
         x = re.sub(r'PORT:-\d+', f'PORT:-{a.port}', x); x = re.sub(r'set PORT=\d+', f'set PORT={a.port}', x)
         io.open(q, 'w', encoding='utf-8').write(x.replace(base_html, a.outname))
     tp = os.path.join(src, 'tpl.html'); t = io.open(tp, encoding='utf-8').read()
+    t = strip_chords(t)
     t = re.sub(r'<title>도카도카 일본어 공부 · [^<]*</title>',
                f'<title>도카도카 일본어 공부 · {a.title_ja} · {a.artist_ja}</title>', t, count=1)
     t = re.sub(r'<small>[^<]*<span class="n">—</span>줄<br><span lang="ja">[^<]*<span class="n">—</span>行</span></small>',
