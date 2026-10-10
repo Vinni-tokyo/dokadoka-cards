@@ -67,6 +67,9 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .bctl button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 12px;font-weight:700;font-size:14.5px}
 .bctl .play{background:var(--brand);color:#fff;border-color:transparent}
 @media (prefers-color-scheme:dark){.bctl .play{background:#4d5fa3}}
+.bopt{display:flex;justify-content:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.bopt label{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--surface);cursor:pointer}
+.bopt input{width:16px;height:16px;accent-color:var(--brand)}
 .blist{display:flex;flex-direction:column;gap:8px;padding:10px 0 30px}
 .bw{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;scroll-margin:140px}
 .bw.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
@@ -159,6 +162,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
    <button type="button" class="play" id="bPlay">▶ 전부 듣기</button>
    <button type="button" id="bGame">게임으로 ›</button>
   </div>
+  <div class="bopt"><label><input type="checkbox" id="bMean" checked> 🇰🇷 뜻도 듣기</label></div>
  </div>
  <div class="blist" id="bList"></div>
 </section>
@@ -464,18 +468,36 @@ function toggleKnown(w, d, btn){
   const on = r.lv > 0; btn.setAttribute('aria-pressed', on); btn.textContent = on ? '✓ 익힘' : '✓ 알아요';
   d.classList.toggle('known', on); save();
 }
-function bSay(w, done){
+// 파일 하나를 재생하고 끝나면 done. 파일이 없거나 실패하면 브라우저 음성으로(lang)
+function bPlayFile(file, text, lang, done){
   bAudio.onended = bAudio.onerror = null;
-  if(w.a){ bAudio.src = 'audio/' + w.a; bAudio.onended = () => done && done(); bAudio.onerror = () => { tts(w); done && setTimeout(done, 900); };
-           bAudio.play().catch(() => { tts(w); done && setTimeout(done, 900); }); }
-  else { tts(w); done && setTimeout(done, 900); }
+  const fallback = () => { speakText(text, lang, done); };
+  if(file){ bAudio.src = 'audio/' + file; bAudio.onended = () => done && done(); bAudio.onerror = fallback; bAudio.play().catch(fallback); }
+  else fallback();
 }
+function speakText(text, lang, done){
+  if(!('speechSynthesis' in window)){ done && setTimeout(done, 600); return; }
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = .95;
+  u.onend = () => done && done(); speechSynthesis.speak(u);
+}
+const meanSay = m => m.replace(/[（(][^）)]*[）)]/g, '').replace(/[~〜～]/g, '').replace(/\s*[·・/]\s*/g, ', ');
+function bSay(w, done){ bPlayFile(w.a, w.r, 'ja-JP', done); }
+let bWithMean = true;
+try{ bWithMean = localStorage.getItem('wordtap.mean') !== '0'; }catch(_){}
+$('bMean').checked = bWithMean;
+$('bMean').onchange = e => { bWithMean = e.target.checked; try{ localStorage.setItem('wordtap.mean', bWithMean ? '1' : '0'); }catch(_){} };
 function bStop(){ clearTimeout(bTimer); bIdx = -1; try{ bAudio.pause(); }catch(_){} document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on')); $('bPlay').textContent = '▶ 전부 듣기'; }
 function bStep(i){
   if(!BOOK || i >= BOOK.ids.length){ bStop(); return; }
   bIdx = i; document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on'));
   const d = $('bw' + i); d.classList.add('on'); d.scrollIntoView({block: 'center', behavior: 'smooth'});
-  bSay(WORDS[BOOK.ids[i]], () => { if(bIdx === i) bTimer = setTimeout(() => bStep(i + 1), 900); });
+  const w = WORDS[BOOK.ids[i]];
+  const after = () => { if(bIdx === i) bTimer = setTimeout(() => bStep(i + 1), 900); };
+  bSay(w, () => {                                          // 일본어 → (잠깐) → 한국어 뜻 → 다음
+    if(bIdx !== i) return;
+    if(!bWithMean){ after(); return; }
+    bTimer = setTimeout(() => { if(bIdx === i) bPlayFile(w.ma, meanSay(w.m), 'ko-KR', after); }, 450);
+  });
 }
 $('bPlay').onclick = () => { if(bIdx >= 0){ bStop(); return; } ac(); $('bPlay').textContent = '■ 멈춤'; bStep(0); };
 $('bBack').onclick = () => { bStop(); $('browse').hidden = true; $('home').hidden = false; paintHome(); };

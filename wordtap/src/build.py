@@ -25,6 +25,15 @@ APP = os.path.dirname(S)
 ROOT = os.path.dirname(APP)
 ADIR = os.path.join(APP, 'audio')
 VOICE, RATE = 'ja-JP-NanamiNeural', '-10%'
+MVOICE, MRATE = 'ko-KR-SunHiNeural', '-5%'       # 뜻(한국어) — 단어장 「전부 듣기」에서 단어 뒤에 읽는다
+
+
+def mean_text(t):
+    """뜻을 읽기 좋게: '·' '/' 로 나열된 뜻은 쉼표로, 괄호 주석과 〜 는 뗀다"""
+    t = re.sub(r'[（(][^）)]*[）)]', '', t or '')
+    t = re.sub(r'[~〜～]', '', t)
+    t = re.sub(r'\s*[·・/]\s*', ', ', t)
+    return re.sub(r'\s+', ' ', t).strip(' ,')
 BAD_MEANING = re.compile(r'불명|^\s*$|\?')
 
 
@@ -122,6 +131,7 @@ def collect():
     for i, w in enumerate(ws):
         w['id'] = i; w['n'] = len(w['apps']); del w['apps']
         w['a'] = hashlib.sha1(('r:' + w['r']).encode('utf-8')).hexdigest()[:14] + '.mp3'
+        w['ma'] = 'm' + hashlib.sha1(('m:' + mean_text(w['m'])).encode('utf-8')).hexdigest()[:13] + '.mp3'
     # 스테이지 = 곡(앱) 하나. 관문 페이지의 차례대로, 노래 → 찬양 → 애니·영상 으로 묶는다
     byhead = {w['w']: w['id'] for w in ws}
     order = re.findall(r"href:'([a-z0-9-]+)/[^']*', learn:'ja', kind:'([^']*)'", HUB)
@@ -141,19 +151,24 @@ def collect():
 async def make_audio(ws):
     import edge_tts
     os.makedirs(ADIR, exist_ok=True)
-    todo = [w for w in ws if not os.path.exists(os.path.join(ADIR, w['a']))]
-    print(f'음원 새로 만들 것 {len(todo)} / {len(ws)}')
+    jobs = {}                                    # 파일 → (읽을 말, 목소리, 속도) — 같은 읽기·같은 뜻은 한 파일
+    for w in ws:
+        jobs.setdefault(w['a'], (w['r'], VOICE, RATE))
+        jobs.setdefault(w['ma'], (mean_text(w['m']), MVOICE, MRATE))
+    todo = [(fn, j) for fn, j in jobs.items() if not os.path.exists(os.path.join(ADIR, fn))]
+    print(f'음원 새로 만들 것 {len(todo)} / {len(jobs)} (단어 읽기 + 뜻)')
     sem = asyncio.Semaphore(6)
 
-    async def one(w):
+    async def one(fn, j):
+        text, voice, rate = j
         async with sem:
             for k in range(3):
                 try:
-                    await edge_tts.Communicate(w['r'], VOICE, rate=RATE).save(os.path.join(ADIR, w['a'])); return True
+                    await edge_tts.Communicate(text, voice, rate=rate).save(os.path.join(ADIR, fn)); return True
                 except Exception:
                     await asyncio.sleep(1.5 * (k + 1))
-            print('  실패:', w['w']); return False
-    res = await asyncio.gather(*[one(w) for w in todo])
+            print('  실패:', text); return False
+    res = await asyncio.gather(*[one(fn, j) for fn, j in todo])
     sys.path.insert(0, os.path.join(ROOT, 'tools'))
     from normalize_audio import normalize_dir
     print('음량 정규화:', normalize_dir(ADIR), '개 · 실패', res.count(False))
@@ -165,7 +180,8 @@ def main():
         asyncio.run(make_audio(ws))
     for w in ws:
         if not os.path.exists(os.path.join(ADIR, w['a'])): w['a'] = ''
-    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ex', 'k', 'x') if k != 'x' or w['x']} for w in ws]
+        if not os.path.exists(os.path.join(ADIR, w['ma'])): w['ma'] = ''
+    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ma', 'ex', 'k', 'x') if k != 'x' or w['x']} for w in ws]
     tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__WORDS__*/[]', json.dumps(data, ensure_ascii=False, separators=(',', ':')))
     html = html.replace('/*__STAGES__*/[]', json.dumps(stages, ensure_ascii=False, separators=(',', ':')))
