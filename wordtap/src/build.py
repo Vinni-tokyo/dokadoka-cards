@@ -83,8 +83,12 @@ def kanji_hun():
     return out
 
 
+VIDS = {}
+
+
 def collect():
     words = collections.OrderedDict()            # 표제 → 단어
+    stage_heads = collections.OrderedDict()      # 앱 → 그 앱 단어(가사에 나온 차례)
     for f in sorted(glob.glob(os.path.join(ROOT, '*-cards', 'src', 'words.txt'))):
         app = f.split(os.sep)[-3]
         src = os.path.dirname(f)
@@ -92,7 +96,7 @@ def collect():
         if os.path.exists(os.path.join(src, 'subtitles.srt')):
             b = io.open(os.path.join(src, 'build.py'), encoding='utf-8').read()
             m = re.search(r"VID\s*=\s*'([^']+)'", b)
-            if m: vid, lines = m.group(1), srt(os.path.join(src, 'subtitles.srt'))
+            if m: vid, lines = m.group(1), srt(os.path.join(src, 'subtitles.srt')); VIDS[app] = vid
         song = title_of(app) if vid else ''
         for ln in io.open(f, encoding='utf-8'):
             if ln.startswith('#') or '|' not in ln: continue
@@ -100,12 +104,15 @@ def collect():
             if len(p) < 4: continue
             stems, head, rd, mean = p[0].split(','), p[1], p[2], p[3]
             if BAD_MEANING.search(mean) or not rd or not re.search(r'[ぁ-ゖ]', rd): continue
-            w = words.setdefault(head, {'w': head, 'r': rd, 'm': mean, 'apps': [], 'ex': None})
+            w = words.setdefault(head, {'w': head, 'r': rd, 'm': mean, 'apps': [], 'ex': None, 'xs': {}})
+            sh = stage_heads.setdefault(app, [])
+            if head not in sh: sh.append(head)
             if app not in w['apps']: w['apps'].append(app)
-            if w['ex'] is None and lines:
+            if lines and app not in w['xs']:            # 곡마다 그 단어가 나온 첫 줄(스테이지에선 그 곡의 줄을 쓴다)
                 for s, e, t in lines:
                     if any(st and found(st, t) for st in stems):
-                        w['ex'] = {'t': t, 'v': vid, 's': s, 'e': e, 'song': song}
+                        w['xs'][app] = [t, s, e]
+                        if w['ex'] is None: w['ex'] = {'t': t, 'v': vid, 's': s, 'e': e, 'song': song}
                         break
     # 뜻이 똑같은 단어끼리는 보기가 헷갈리지 않게 그대로 둔다(보기 고를 때 같은 뜻은 뺀다)
     hun = kanji_hun()
@@ -115,7 +122,20 @@ def collect():
     for i, w in enumerate(ws):
         w['id'] = i; w['n'] = len(w['apps']); del w['apps']
         w['a'] = hashlib.sha1(('r:' + w['r']).encode('utf-8')).hexdigest()[:14] + '.mp3'
-    return ws
+    # 스테이지 = 곡(앱) 하나. 관문 페이지의 차례대로, 노래 → 찬양 → 애니·영상 으로 묶는다
+    byhead = {w['w']: w['id'] for w in ws}
+    order = re.findall(r"href:'([a-z0-9-]+)/[^']*', learn:'ja', kind:'([^']*)'", HUB)
+    group = lambda k: '노래' if k.startswith('노래') else '찬양' if k.startswith('찬양') else '애니·영상'
+    stages = []
+    for g in ('노래', '찬양', '애니·영상'):
+        for app, kind in order:
+            if group(kind) == g and app in stage_heads:
+                stages.append({'k': app, 't': title_of(app), 'g': g, 'v': VIDS.get(app, ''),
+                               'ids': [byhead[h] for h in stage_heads[app] if h in byhead]})
+    si = {st['k']: i for i, st in enumerate(stages)}
+    for w in ws:                                 # x: {스테이지 번호: [줄, 시작, 끝]}
+        w['x'] = {si[a]: v for a, v in w.pop('xs').items() if a in si}
+    return ws, stages
 
 
 async def make_audio(ws):
@@ -140,17 +160,19 @@ async def make_audio(ws):
 
 
 def main():
-    ws = collect()
+    ws, stages = collect()
     if '--no-audio' not in sys.argv:
         asyncio.run(make_audio(ws))
     for w in ws:
         if not os.path.exists(os.path.join(ADIR, w['a'])): w['a'] = ''
-    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ex', 'k')} for w in ws]
+    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ex', 'k', 'x') if k != 'x' or w['x']} for w in ws]
     tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__WORDS__*/[]', json.dumps(data, ensure_ascii=False, separators=(',', ':')))
+    html = html.replace('/*__STAGES__*/[]', json.dumps(stages, ensure_ascii=False, separators=(',', ':')))
     io.open(os.path.join(APP, 'index.html'), 'w', encoding='utf-8').write(html)
     ex = sum(1 for w in ws if w['ex'])
-    print(f'한자 훈음 {sum(len(w["k"]) for w in ws)}칸 · 단어 {len(ws)} · 여러 곡(3+) {sum(1 for w in ws if w["n"] >= 3)} · 원곡 예문 {ex} · '
+    print(f'스테이지 {len(stages)}(' + ' · '.join(f"{g} {sum(1 for x in stages if x['g'] == g)}" for g in ('노래', '찬양', '애니·영상')) + ') · '
+          f'한자 훈음 {sum(len(w["k"]) for w in ws)}칸 · 단어 {len(ws)} · 여러 곡(3+) {sum(1 for w in ws if w["n"] >= 3)} · 원곡 예문 {ex} · '
           f'음원 {sum(1 for w in ws if w["a"])} · index.html {os.path.getsize(os.path.join(APP, "index.html")) / 1024:.0f} KB')
 
 
