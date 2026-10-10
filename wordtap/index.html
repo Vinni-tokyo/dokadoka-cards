@@ -55,6 +55,32 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .sbar{margin-top:-4px}
 .clearmsg{font-size:22px;font-weight:800;color:var(--fire)}
 
+.srow{display:grid;grid-template-columns:1fr 56px;gap:6px}
+.srow .stg{min-width:0}
+.book{border:1px solid var(--line);background:var(--surface);border-radius:14px;font-size:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.book small{font-size:10.5px;color:var(--ink-3);font-weight:700}
+
+/* 단어장 */
+.bhead{position:sticky;top:0;z-index:2;background:var(--bg);padding:6px 0 10px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+.bhead .t{font-weight:800;font-size:16px;text-align:center}
+.bctl{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px}
+.bctl button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 12px;font-weight:700;font-size:14.5px}
+.bctl .play{background:var(--brand);color:#fff;border-color:transparent}
+@media (prefers-color-scheme:dark){.bctl .play{background:#4d5fa3}}
+.blist{display:flex;flex-direction:column;gap:8px;padding:10px 0 30px}
+.bw{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;scroll-margin:140px}
+.bw.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.bw .w{font-size:24px;font-weight:700;line-height:1.2}
+.bw .w small{font-size:14px;font-weight:400;color:var(--ink-3);margin-left:8px}
+.bw .m{grid-column:1/-1;font-size:15.5px;font-weight:600}
+.bw .kj{grid-column:1/-1;justify-content:flex-start;min-height:0}
+.bw .kj span{font-size:12.5px;padding:3px 9px}.bw .kj b{font-size:16px}
+.bw .x{grid-column:1/-1;font-size:13px;color:var(--ink-3);line-height:1.55}
+.bw .btns{display:flex;gap:6px;align-items:flex-start}
+.bw .btns button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:700;white-space:nowrap}
+.bw .know[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.bw.known .w,.bw.known .m{opacity:.55}
+
 /* 게임 화면 */
 .top{display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
 .timer{flex:1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
@@ -122,6 +148,19 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
  <button class="go" id="go" type="button">▶ 시작</button>
  <button class="mix" id="mix" type="button">🔀 전체 곡에서 섞기 · 자주 나온 단어부터</button>
  <div id="stageList"></div>
+</section>
+
+<!-- 단어장 -->
+<section id="browse" hidden>
+ <div class="bhead">
+  <div class="t" id="bTitle" lang="ja"></div>
+  <div class="bctl">
+   <button type="button" id="bBack">‹ 목록</button>
+   <button type="button" class="play" id="bPlay">▶ 전부 듣기</button>
+   <button type="button" id="bGame">게임으로 ›</button>
+  </div>
+ </div>
+ <div class="blist" id="bList"></div>
 </section>
 
 <!-- 게임 -->
@@ -207,13 +246,17 @@ function paintHome(){
     const wrap = document.createElement('div'); wrap.className = 'stages'; box.appendChild(wrap);
     for(const s of list){
       const k = stageLearned(s), tot = s.ids.length;
+      const row = document.createElement('div'); row.className = 'srow';
       const b = document.createElement('button'); b.type = 'button';
       b.className = 'stg' + (s.k === ST.last ? ' last' : '') + (k >= tot ? ' clear' : '');
       b.innerHTML = `<span class="t" lang="ja"></span><span class="st">${starsHtml(k, tot)}</span>
         <span class="bar"><i style="width:${(k / tot * 100).toFixed(1)}%"></i></span><span class="c">익힘 ${k} / ${tot}</span>`;
       b.querySelector('.t').textContent = s.t;
       b.onclick = () => start(s.k);
-      wrap.appendChild(b);
+      const bk = document.createElement('button'); bk.type = 'button'; bk.className = 'book';
+      bk.innerHTML = '📖<small>단어장</small>'; bk.setAttribute('aria-label', s.t + ' 단어장');
+      bk.onclick = () => openBook(s.k);
+      row.append(b, bk); wrap.appendChild(row);
     }
   }
 }
@@ -384,6 +427,60 @@ function finish(){
   $('eBarLbl').innerHTML = `<span style="color:var(--fire);letter-spacing:2px">${starsHtml(k, tot)}</span> ${k} / ${tot}`;
   $('eClear').hidden = !(STAGE && !clearedBefore && k >= tot);
 }
+/* ---------- 단어장: 곡의 단어를 차례대로 훑어보기 ---------- */
+let BOOK = null, bTimer = null, bIdx = -1;
+const bAudio = new Audio();                                // 하나를 돌려 써야 폰에서 이어 재생이 막히지 않는다
+function exFor(w, st){
+  const si = STAGES.indexOf(st), sx = si >= 0 && w.x && w.x[si];
+  return sx ? sx[0] : (w.ex ? w.ex.t : '');
+}
+function openBook(k){
+  BOOK = stageOf(k); ST.last = k; save();
+  $('home').hidden = true; $('browse').hidden = false; window.scrollTo(0, 0);
+  $('bTitle').textContent = BOOK.t;
+  const list = $('bList'); list.innerHTML = '';
+  BOOK.ids.forEach((id, i) => {
+    const w = WORDS[id], r = ST.w[id], known = !!(r && r.lv > 0);
+    const d = document.createElement('div'); d.className = 'bw' + (known ? ' known' : ''); d.id = 'bw' + i;
+    d.innerHTML = `<div class="w" lang="ja"></div><div class="btns"><button type="button" class="spk1">🔊</button>
+      <button type="button" class="know" aria-pressed="${known}">${known ? '✓ 익힘' : '✓ 알아요'}</button></div>
+      <div class="m"></div><div class="kj"></div><div class="x" lang="ja"></div>`;
+    d.querySelector('.w').innerHTML = `${w.w}<small>${w.r}</small>`;
+    d.querySelector('.m').textContent = w.m;
+    d.querySelector('.kj').innerHTML = (w.k || []).map(([c, h]) => `<span><b lang="ja">${c}</b>${h}</span>`).join('');
+    const x = exFor(w, BOOK); d.querySelector('.x').textContent = x ? '♪ ' + x : '';
+    d.querySelector('.spk1').onclick = () => { bStop(); bSay(w); };
+    d.querySelector('.know').onclick = e => toggleKnown(w, d, e.currentTarget);
+    list.appendChild(d);
+  });
+}
+function toggleKnown(w, d, btn){
+  const r = rec(w.id);
+  if(r.lv > 0){ r.lv = 0; r.s = 0; r.due = 0; }            // 되돌리기
+  else {                                                    // 알아요 → 익힘, 내일 한 번 확인
+    r.lv = 1; r.s = 0; r.due = Date.now() + DAY;
+    ST.day[today()] = (ST.day[today()] || 0) + 1;
+  }
+  const on = r.lv > 0; btn.setAttribute('aria-pressed', on); btn.textContent = on ? '✓ 익힘' : '✓ 알아요';
+  d.classList.toggle('known', on); save();
+}
+function bSay(w, done){
+  bAudio.onended = bAudio.onerror = null;
+  if(w.a){ bAudio.src = 'audio/' + w.a; bAudio.onended = () => done && done(); bAudio.onerror = () => { tts(w); done && setTimeout(done, 900); };
+           bAudio.play().catch(() => { tts(w); done && setTimeout(done, 900); }); }
+  else { tts(w); done && setTimeout(done, 900); }
+}
+function bStop(){ clearTimeout(bTimer); bIdx = -1; try{ bAudio.pause(); }catch(_){} document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on')); $('bPlay').textContent = '▶ 전부 듣기'; }
+function bStep(i){
+  if(!BOOK || i >= BOOK.ids.length){ bStop(); return; }
+  bIdx = i; document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on'));
+  const d = $('bw' + i); d.classList.add('on'); d.scrollIntoView({block: 'center', behavior: 'smooth'});
+  bSay(WORDS[BOOK.ids[i]], () => { if(bIdx === i) bTimer = setTimeout(() => bStep(i + 1), 900); });
+}
+$('bPlay').onclick = () => { if(bIdx >= 0){ bStop(); return; } ac(); $('bPlay').textContent = '■ 멈춤'; bStep(0); };
+$('bBack').onclick = () => { bStop(); $('browse').hidden = true; $('home').hidden = false; paintHome(); };
+$('bGame').onclick = () => { bStop(); $('browse').hidden = true; start(BOOK.k); };
+
 $('go').onclick = () => start(stageOf(ST.last) ? ST.last : '');
 $('mix').onclick = () => start('');
 $('again').onclick = () => start(STAGE ? STAGE.k : '');
