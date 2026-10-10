@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
+<title>듣고 탭 · 일본어 단어</title>
+<style>
+:root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
+ --ok:#1f9d55;--ok-soft:#e3f6ea;--no:#d64545;--no-soft:#fbe7e7;--fire:#e8590c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--ok:#4cc782;--ok-soft:#173326;--no:#ff7b7b;--no-soft:#3a1e22;--fire:#ff9b5e}}
+:root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--ok:#4cc782;--ok-soft:#173326;--no:#ff7b7b;--no-soft:#3a1e22;--fire:#ff9b5e}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP","Noto Sans KR",sans-serif;
+ display:flex;justify-content:center}
+.app{width:100%;max-width:480px;min-height:100%;display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+
+/* 시작 화면 */
+.home{flex:1;display:flex;flex-direction:column;justify-content:center;gap:22px;text-align:center}
+.home h1{margin:0;font-size:30px;letter-spacing:-.02em}
+.home h1 small{display:block;font-size:14px;font-weight:500;color:var(--ink-3);margin-top:6px;letter-spacing:0}
+.how{margin:0 auto;max-width:330px;color:var(--ink-2);font-size:14.5px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 6px}
+.stat b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ink-3)}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .4s}
+.barlbl{font-size:12px;color:var(--ink-3);margin-top:6px}
+.go{border:0;border-radius:18px;background:var(--brand);color:#fff;font-size:22px;font-weight:800;padding:20px;box-shadow:0 8px 24px #3b4a7a40}
+:root[data-theme="dark"] .go,.go{color:#fff}
+@media (prefers-color-scheme:dark){.go{background:#4d5fa3}}
+
+/* 게임 화면 */
+.top{display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.timer{flex:1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.timer i{display:block;height:100%;background:var(--brand);width:100%;transition:width .25s linear}
+.timer.low i{background:var(--no)}
+.combo{min-width:84px;text-align:right;font-weight:800;color:var(--fire);font-size:17px}
+.combo.pop{animation:pop .25s}
+@keyframes pop{50%{transform:scale(1.25)}}
+.score{min-width:56px;text-align:right;font-weight:700;color:var(--ink-2)}
+.card{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 0;position:relative}
+.word{font-size:clamp(40px,13vw,64px);font-weight:700;line-height:1.15;text-align:center;overflow-wrap:anywhere}
+.reading{font-size:17px;color:var(--ink-3);min-height:1.4em}
+.stars{font-size:18px;letter-spacing:4px;color:var(--fire)}
+.stars .off{color:var(--line)}
+.spk{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 16px;font-size:15px;color:var(--ink-2)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ch{min-height:76px;border:2px solid var(--line);background:var(--surface);border-radius:16px;font-size:16.5px;font-weight:600;padding:10px 8px;line-height:1.35;word-break:keep-all;overflow-wrap:anywhere;transition:transform .08s}
+.ch:active{transform:scale(.97)}
+.ch.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.ch.no{border-color:var(--no);background:var(--no-soft);color:var(--no)}
+.ch:disabled{cursor:default}
+.flash{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-weight:800;font-size:15px;padding:4px 12px;border-radius:99px;opacity:0;transition:opacity .15s}
+.flash.ok{background:var(--ok-soft);color:var(--ok);opacity:1}
+
+/* 틀렸을 때 */
+.miss{background:var(--surface);border:2px solid var(--no);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.miss .ans{font-size:18px;font-weight:800}
+.miss .ans span{color:var(--no)}
+.miss .ex{font-size:15px;line-height:1.6;color:var(--ink-2)}
+.miss .ex mark{background:none;color:var(--ink);font-weight:800;text-decoration:underline 2px var(--fire)}
+.miss .src{font-size:12px;color:var(--ink-3)}
+.row{display:flex;gap:8px}
+.row button{flex:1;border-radius:12px;padding:12px;font-weight:700;font-size:15px;border:1px solid var(--line);background:var(--surface)}
+.row .next{background:var(--brand);color:#fff;border-color:transparent}
+@media (prefers-color-scheme:dark){.row .next{background:#4d5fa3}}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
+.yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+
+/* 끝 화면 */
+.end{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;text-align:center}
+.big{font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.big small{display:block;font-size:14px;font-weight:500;color:var(--ink-3);margin-top:8px}
+.gain{font-size:18px;font-weight:700;color:var(--ok)}
+.gain.zero{color:var(--ink-3);font-weight:500;font-size:15px}
+.ghost{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;font-weight:600;color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body><div class="app">
+
+<!-- 시작 -->
+<section class="home" id="home">
+ <div><a class="back" href="../">‹ 도카도카 어학 학습</a></div>
+ <h1>듣고 탭<small>노래·영상에서 만난 일본어 단어</small></h1>
+ <p class="how">소리를 듣고, 뜻을 탭하세요.<br>한 판 <b>1분</b>. 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
+ <div class="stats">
+  <div class="stat"><b id="sToday">0</b><span>오늘 익힘</span></div>
+  <div class="stat"><b id="sDue">0</b><span>복습할 단어</span></div>
+  <div class="stat"><b id="sBest">0</b><span>최고 콤보</span></div>
+ </div>
+ <div><div class="bar"><i id="sBar"></i></div><div class="barlbl" id="sBarLbl"></div></div>
+ <button class="go" id="go" type="button">▶ 시작</button>
+</section>
+
+<!-- 게임 -->
+<section id="play" hidden style="flex:1;display:flex;flex-direction:column;gap:14px">
+ <div class="top">
+  <div class="timer" id="timer"><i></i></div>
+  <div class="combo" id="combo"></div>
+  <div class="score" id="score">0</div>
+ </div>
+ <div class="card">
+  <div class="flash" id="flash">정답!</div>
+  <div class="stars" id="stars"></div>
+  <div class="word" id="word" lang="ja"></div>
+  <div class="reading" id="reading" lang="ja"></div>
+  <button class="spk" id="spk" type="button">🔊 다시 듣기</button>
+ </div>
+ <div class="choices" id="choices"></div>
+ <div class="miss" id="miss" hidden>
+  <div class="ans">정답 <span id="mAns"></span></div>
+  <div class="ex" id="mEx" lang="ja"></div>
+  <div class="src" id="mSrc"></div>
+  <div class="yt" id="ytBox" hidden><div id="yt"></div></div>
+  <div class="row">
+   <button type="button" id="mSong">🎵 노래·영상에서 듣기</button>
+   <button type="button" class="next" id="mNext">계속 ›</button>
+  </div>
+ </div>
+</section>
+
+<!-- 끝 -->
+<section class="end" id="end" hidden>
+ <div class="big" id="eScore">0<small>점</small></div>
+ <div class="gain" id="eGain"></div>
+ <div class="stats">
+  <div class="stat"><b id="eRight">0</b><span>맞힘</span></div>
+  <div class="stat"><b id="eCombo">0</b><span>최고 콤보</span></div>
+  <div class="stat"><b id="eTotal">0</b><span>누적 익힘</span></div>
+ </div>
+ <button class="go" id="again" type="button">한 판 더</button>
+ <button class="ghost" id="toHome" type="button">처음으로</button>
+</section>
+
+</div>
+<script>
+const WORDS = /*__WORDS__*/[];
+const ROUND = 60, NEED = 3, GAPS = [1, 3, 7, 21];          // 초 · 연달아 맞힐 횟수 · 익힘 뒤 다시 볼 날
+const DAY = 864e5, $ = id => document.getElementById(id);
+
+/* ---------- 저장 (폰 안에만) ---------- */
+const KEY = 'wordtap.v1';
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(_){ return {}; } }
+let ST = load(); ST.w = ST.w || {}; ST.best = ST.best || 0; ST.day = ST.day || {};
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(_){} }
+const today = () => new Date().toLocaleDateString('sv');
+const rec = id => (ST.w[id] = ST.w[id] || {s: 0, lv: 0, due: 0, seen: 0});
+const learned = () => Object.values(ST.w).filter(r => r.lv > 0).length;
+const dueCount = () => Object.values(ST.w).filter(r => r.lv > 0 && r.due <= Date.now()).length;
+
+function paintHome(){
+  $('sToday').textContent = ST.day[today()] || 0;
+  $('sDue').textContent = dueCount();
+  $('sBest').textContent = ST.best;
+  const n = learned(); $('sBar').style.width = (n / WORDS.length * 100).toFixed(1) + '%';
+  $('sBarLbl').textContent = `익힌 단어 ${n} / ${WORDS.length}`;
+}
+
+/* ---------- 문제 고르기 ---------- */
+// 복습할 때가 된 단어 → 익히는 중인 단어 → 새 단어(여러 곡에 나온 것부터) 순으로 섞는다
+function buildQueue(){
+  const now = Date.now(), due = [], doing = [], fresh = [];
+  for(const w of WORDS){
+    const r = ST.w[w.id];
+    if(!r) fresh.push(w);
+    else if(r.lv > 0 && r.due <= now) due.push(w);
+    else if(r.lv === 0) doing.push(w);
+  }
+  due.sort((a, b) => ST.w[a.id].due - ST.w[b.id].due);
+  const q = [...due.slice(0, 12), ...doing.slice(0, 10)];
+  const nNew = Math.max(4, 16 - q.length);
+  q.push(...fresh.slice(0, nNew));
+  for(let i = q.length - 1; i > 0; i--){ const j = Math.random() * (i + 1) | 0; [q[i], q[j]] = [q[j], q[i]]; }
+  return q;
+}
+function pick(w){
+  const seen = new Set([w.m]), out = [w.m];
+  const pool = WORDS.filter(x => Math.abs(x.id - w.id) < 400);  // 비슷한 빈도의 단어에서
+  while(out.length < 4){
+    const x = (Math.random() < .8 ? pool : WORDS)[Math.random() * (Math.random() < .8 ? pool.length : WORDS.length) | 0];
+    if(x && !seen.has(x.m)){ seen.add(x.m); out.push(x.m); }
+  }
+  for(let i = 3; i > 0; i--){ const j = Math.random() * (i + 1) | 0; [out[i], out[j]] = [out[j], out[i]]; }
+  return out;
+}
+
+/* ---------- 소리 ---------- */
+let AC = null, cur = null;
+function ac(){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if(AC.state === 'suspended') AC.resume(); }catch(_){} return AC; }
+function beep(ok){
+  const c = ac(); if(!c) return;
+  const o = c.createOscillator(), g = c.createGain(); o.connect(g); g.connect(c.destination);
+  o.type = ok ? 'triangle' : 'square'; const t = c.currentTime;
+  if(ok){ o.frequency.setValueAtTime(880, t); o.frequency.setValueAtTime(1320, t + .07); }
+  else o.frequency.setValueAtTime(180, t);
+  g.gain.setValueAtTime(ok ? .18 : .09, t); g.gain.exponentialRampToValueAtTime(.001, t + (ok ? .22 : .3));
+  o.start(t); o.stop(t + .32);
+}
+function say(w){
+  try{ if(cur){ cur.pause(); } }catch(_){}
+  if(w.a){ cur = new Audio('audio/' + w.a); cur.play().catch(() => tts(w)); }
+  else tts(w);
+}
+function tts(w){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(w.r); u.lang = 'ja-JP'; u.rate = .9; speechSynthesis.speak(u);
+}
+
+/* ---------- 원곡 소절 ---------- */
+let YT_READY = null, player = null, stopT = null;
+function ytApi(){
+  if(YT_READY) return YT_READY;
+  YT_READY = new Promise(res => { window.onYouTubeIframeAPIReady = res;
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); });
+  return YT_READY;
+}
+async function playSong(ex){
+  $('ytBox').hidden = false;
+  await ytApi();
+  const go = () => { player.loadVideoById({videoId: ex.v, startSeconds: Math.max(0, ex.s - .3), endSeconds: ex.e + .4}); };
+  if(player) go();
+  else player = new YT.Player('yt', {playerVars: {playsinline: 1, controls: 0, rel: 0, modestbranding: 1}, events: {onReady: go}});
+}
+function stopSong(){ try{ if(player) player.stopVideo(); }catch(_){} $('ytBox').hidden = true; }
+
+/* ---------- 한 판 ---------- */
+let Q, w, left, tick, score, combo, best, right, gainedNow, paused;
+function start(){
+  ac();
+  Q = buildQueue(); score = 0; combo = 0; best = 0; right = 0; gainedNow = 0; left = ROUND; paused = false;
+  $('home').hidden = true; $('end').hidden = true; $('play').hidden = false;
+  $('score').textContent = 0; $('combo').textContent = '';
+  clearInterval(tick); tick = setInterval(() => { if(paused) return; left -= .25; paintTimer(); if(left <= 0) finish(); }, 250);
+  paintTimer(); next();
+}
+function paintTimer(){ $('timer').firstElementChild.style.width = Math.max(0, left / ROUND * 100) + '%'; $('timer').classList.toggle('low', left <= 10); }
+function next(){
+  if(!Q.length) Q = buildQueue();
+  w = Q.shift(); const r = rec(w.id);
+  $('word').textContent = w.w;
+  $('reading').textContent = w.r;
+  $('stars').innerHTML = [0, 1, 2].map(i => i < r.s ? '★' : '<span class="off">★</span>').join('');
+  $('miss').hidden = true; $('choices').hidden = false;
+  const box = $('choices'); box.innerHTML = '';
+  for(const m of pick(w)){
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'ch'; b.textContent = m;
+    b.onclick = () => answer(b, m === w.m); box.appendChild(b);
+  }
+  say(w);
+}
+function answer(btn, ok){
+  const r = rec(w.id); r.seen++;
+  document.querySelectorAll('.ch').forEach(b => { b.disabled = true; if(b.textContent === w.m) b.classList.add('ok'); });
+  if(ok){
+    beep(true); right++; combo++; best = Math.max(best, combo);
+    score += 10 * (1 + Math.floor(combo / 5));
+    r.s++;
+    if(r.s >= NEED){                                       // 익힘 → 며칠 뒤 다시
+      if(r.lv === 0){ gainedNow++; ST.day[today()] = (ST.day[today()] || 0) + 1; }
+      r.lv = Math.min(r.lv + 1, GAPS.length); r.s = 0; r.due = Date.now() + GAPS[r.lv - 1] * DAY;
+    } else Q.splice(Math.min(Q.length, 3 + (Math.random() * 3 | 0)), 0, w);   // 몇 문제 뒤 다시
+    $('score').textContent = score;
+    const c = $('combo'); c.textContent = combo >= 2 ? `🔥 ${combo}` : ''; c.classList.remove('pop'); void c.offsetWidth; if(combo >= 2) c.classList.add('pop');
+    $('flash').className = 'flash ok'; setTimeout(() => $('flash').className = 'flash', 350);
+    save(); setTimeout(next, 380);
+  } else {
+    beep(false); try{ navigator.vibrate && navigator.vibrate(120); }catch(_){}
+    btn.classList.add('no'); combo = 0; $('combo').textContent = '';
+    r.s = 0; if(r.lv > 0){ r.lv--; r.due = 0; }
+    Q.splice(Math.min(Q.length, 2), 0, w);                 // 곧 다시
+    save(); showMiss();
+  }
+}
+function showMiss(){
+  paused = true;
+  setTimeout(() => {
+    $('choices').hidden = true; $('miss').hidden = false;
+    $('mAns').textContent = w.m;
+    const ex = w.ex;
+    if(ex){
+      const esc = s => s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
+      let t = esc(ex.t); const stem = [w.w, w.w.replace(/[ぁ-ゖ]+$/, '')].find(s => s && ex.t.includes(s));
+      if(stem) t = t.replace(esc(stem), '<mark>' + esc(stem) + '</mark>');
+      $('mEx').innerHTML = t; $('mSrc').textContent = '♪ ' + ex.song; $('mSong').hidden = false;
+    } else { $('mEx').textContent = ''; $('mSrc').textContent = ''; $('mSong').hidden = true; }
+    say(w);
+  }, 650);
+}
+$('mSong').onclick = () => w.ex && playSong(w.ex);
+$('mNext').onclick = () => { stopSong(); paused = false; next(); };
+$('spk').onclick = () => say(w);
+function finish(){
+  clearInterval(tick); stopSong();
+  if(best > ST.best) ST.best = best; save();
+  $('play').hidden = true; $('end').hidden = false;
+  $('eScore').innerHTML = score + '<small>점</small>';
+  const g = $('eGain'); g.className = 'gain' + (gainedNow ? '' : ' zero');
+  g.textContent = gainedNow ? `새로 익힌 단어 +${gainedNow}` : '세 번 연달아 맞히면 「익힘」이 됩니다';
+  $('eRight').textContent = right; $('eCombo').textContent = best; $('eTotal').textContent = learned();
+}
+$('go').onclick = start; $('again').onclick = start;
+$('toHome').onclick = () => { $('end').hidden = true; $('home').hidden = false; paintHome(); };
+paintHome();
+</script>
+</body></html>
