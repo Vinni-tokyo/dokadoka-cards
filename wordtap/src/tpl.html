@@ -126,6 +126,36 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
 .yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
 
+/* 목숨 · 문제 시간 · 손맛 */
+.lives{font-size:18px;letter-spacing:2px;min-width:64px}
+.lives .off{filter:grayscale(1);opacity:.25}
+.qbar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:-6px}
+.qbar i{display:block;height:100%;width:100%;background:var(--ok);transition:width .1s linear}
+.qbar.mid i{background:var(--fire)}.qbar.low i{background:var(--no)}
+.float{position:absolute;left:76%;top:16%;transform:translateX(-50%);font-size:30px;font-weight:900;color:var(--ok);pointer-events:none;opacity:0}
+.float.fly{animation:up .7s ease-out}
+@keyframes up{0%{opacity:1;transform:translate(-50%,0) scale(1.15)}100%{opacity:0;transform:translate(-50%,-60px) scale(1)}}
+.flash.no{background:var(--no-soft);color:var(--no);opacity:1}
+.card.shake{animation:shake .35s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.record{font-size:15px;font-weight:800;color:var(--fire)}
+.record.plain{color:var(--ink-3);font-weight:600}
+.mlist{text-align:left;display:flex;flex-direction:column;gap:6px}
+.mlist h3{margin:4px 2px;font-size:13px;color:var(--ink-3)}
+.mi{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.mi b{font-size:18px}.mi small{color:var(--ink-3);margin-left:6px}
+.mi .mm{grid-column:1/-1;font-size:13.5px;color:var(--ink-2)}
+.mi button{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px 9px;font-size:13px}
+
+/* 단어장 옵션 · 잠금 */
+.bopt{flex-wrap:wrap}
+.bopt button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+.veil{position:fixed;inset:0;z-index:50;background:#0b0e15ee;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;user-select:none;-webkit-user-select:none;touch-action:none}
+.veil b{font-size:44px}.veil p{margin:0;font-size:15px;opacity:.85}
+.veil .hold{width:200px;height:8px;border-radius:99px;background:#ffffff30;overflow:hidden}
+.veil .hold i{display:block;height:100%;width:0;background:#fff}
+.veil .now{font-size:30px;font-weight:700;min-height:1.3em}
+
 /* 끝 화면 */
 .end{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;text-align:center}
 .big{font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
@@ -141,7 +171,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 <section class="home" id="home">
  <div><a class="back" href="../">‹ 도카도카 어학 학습</a></div>
  <h1>듣고 탭<small>노래·영상에서 만난 일본어 단어</small></h1>
- <p class="how">소리를 듣고, 뜻을 탭하세요.<br>탭하면 한자의 <b>뜻과 음</b>이 보입니다.<br>한 판 <b>1분</b>. 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
+ <p class="how">소리를 듣고, 뜻을 탭하세요.<br>탭하면 한자의 <b>뜻과 음</b>이 보입니다.<br>목숨 <b>❤️ 3개</b>, 문제마다 <b>5초</b>. 빨리 맞힐수록 점수가 커요.<br> 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
  <div class="stats">
   <div class="stat"><b id="sToday">0</b><span>오늘 익힘</span></div>
   <div class="stat"><b id="sDue">0</b><span>복습할 단어</span></div>
@@ -162,7 +192,14 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
    <button type="button" class="play" id="bPlay">▶ 전부 듣기</button>
    <button type="button" id="bGame">게임으로 ›</button>
   </div>
-  <div class="bopt"><label><input type="checkbox" id="bMean" checked> 🇰🇷 뜻도 듣기</label></div>
+  <div class="bopt">
+   <button type="button" id="oRep">🔁 1번씩</button>
+   <label><input type="checkbox" id="bMean" checked> 🇰🇷 뜻</label>
+   <label><input type="checkbox" id="oShadow"> 🗣 따라하기</label>
+   <label><input type="checkbox" id="oTodo"> 🙈 못 익힌 것만</label>
+   <label><input type="checkbox" id="oLoop"> ♾ 계속</label>
+   <button type="button" id="bLock">🔒 잠금</button>
+  </div>
  </div>
  <div class="blist" id="bList"></div>
 </section>
@@ -171,12 +208,15 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 <section id="play" hidden style="flex:1;display:flex;flex-direction:column;gap:14px">
  <div class="stgname" id="pStage" lang="ja"></div>
  <div class="top">
-  <div class="timer" id="timer"><i></i></div>
+  <div class="lives" id="lives"></div>
+  <div style="flex:1"></div>
   <div class="combo" id="combo"></div>
   <div class="score" id="score">0</div>
  </div>
- <div class="card">
+ <div class="qbar" id="qbar"><i></i></div>
+ <div class="card" id="card">
   <div class="flash" id="flash">정답!</div>
+  <div class="float" id="float"></div>
   <div class="stars" id="stars"></div>
   <div class="word" id="word" lang="ja"></div>
   <div class="reading" id="reading" lang="ja"></div>
@@ -184,16 +224,6 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
   <button class="spk" id="spk" type="button">🔊 다시 듣기</button>
  </div>
  <div class="choices" id="choices"></div>
- <div class="miss" id="miss" hidden>
-  <div class="ans">정답 <span id="mAns"></span></div>
-  <div class="ex" id="mEx" lang="ja"></div>
-  <div class="src" id="mSrc"></div>
-  <div class="yt" id="ytBox" hidden><div id="yt"></div></div>
-  <div class="row">
-   <button type="button" id="mSong">🎵 노래·영상에서 듣기</button>
-   <button type="button" class="next" id="mNext">계속 ›</button>
-  </div>
- </div>
 </section>
 
 <!-- 끝 -->
@@ -201,6 +231,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
  <div class="clearmsg" id="eClear" hidden>🎉 스테이지 클리어!</div>
  <div class="stgname" id="eStage" lang="ja"></div>
  <div class="big" id="eScore">0<small>점</small></div>
+ <div class="record" id="eRecord"></div>
  <div class="gain" id="eGain"></div>
  <div class="stats">
   <div class="stat"><b id="eRight">0</b><span>맞힘</span></div>
@@ -210,13 +241,23 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
  <div class="sbar"><div class="bar"><i id="eBar"></i></div><div class="barlbl" id="eBarLbl"></div></div>
  <button class="go" id="again" type="button">한 판 더</button>
  <button class="ghost" id="toHome" type="button">스테이지 고르기</button>
+ <div class="mlist" id="eMiss"></div>
+ <div class="yt" id="ytBox" hidden><div id="yt"></div></div>
 </section>
+
+<!-- 화면 잠금 -->
+<div class="veil" id="veil" hidden>
+ <div class="now" id="vNow" lang="ja"></div>
+ <b>🔒</b>
+ <p>2초 동안 꾹 눌러 풀기</p>
+ <div class="hold"><i id="vHold"></i></div>
+</div>
 
 </div>
 <script>
 const WORDS = /*__WORDS__*/[];
 const STAGES = /*__STAGES__*/[];                          // 곡 하나 = 스테이지 하나 {k, t, g, ids}
-const ROUND = 60, NEED = 3, GAPS = [1, 3, 7, 21];          // 초 · 연달아 맞힐 횟수 · 익힘 뒤 다시 볼 날
+const NEED = 3, GAPS = [1, 3, 7, 21];                      // 연달아 맞힐 횟수 · 익힘 뒤 다시 볼 날
 const DAY = 864e5, $ = id => document.getElementById(id);
 
 /* ---------- 저장 (폰 안에만) ---------- */
@@ -338,89 +379,105 @@ async function playSong(ex){
 }
 function stopSong(){ try{ if(player) player.stopVideo(); }catch(_){} $('ytBox').hidden = true; }
 
-/* ---------- 한 판 ---------- */
-let Q, w, left, tick, score, combo, best, right, gainedNow, paused, clearedBefore;
+/* ---------- 한 판: 목숨 3 · 문제마다 5초 ---------- */
+const LIVES = 3, QT = 5;
+let Q, w, qLeft, tick, score, combo, best, right, gainedNow, paused, clearedBefore, lives, missed, busy;
+function paintLives(){ $('lives').innerHTML = [0, 1, 2].map(i => i < lives ? '❤️' : '<span class="off">❤️</span>').join(''); }
+function paintQ(){
+  const f = Math.max(0, qLeft / QT), q = $('qbar');
+  q.firstElementChild.style.width = (f * 100) + '%';
+  q.classList.toggle('mid', f <= .6 && f > .3); q.classList.toggle('low', f <= .3);
+}
 function start(k){
   ac();
   STAGE = k ? stageOf(k) : null; ST.last = k || ''; save();
   clearedBefore = STAGE ? stageLearned(STAGE) >= STAGE.ids.length : false;
   $('pStage').textContent = STAGE ? STAGE.t : '전체 곡에서 섞기';
-  Q = buildQueue(); score = 0; combo = 0; best = 0; right = 0; gainedNow = 0; left = ROUND; paused = false;
-  $('home').hidden = true; $('end').hidden = true; $('play').hidden = false;
-  $('score').textContent = 0; $('combo').textContent = '';
-  clearInterval(tick); tick = setInterval(() => { if(paused) return; left -= .25; paintTimer(); if(left <= 0) finish(); }, 250);
-  paintTimer(); next();
+  Q = buildQueue(); score = 0; combo = 0; best = 0; right = 0; gainedNow = 0; lives = LIVES; missed = []; paused = true; busy = false;
+  $('home').hidden = true; $('end').hidden = true; $('browse').hidden = true; $('play').hidden = false;
+  $('score').textContent = 0; $('combo').textContent = ''; paintLives();
+  clearInterval(tick); tick = setInterval(() => {
+    if(paused || busy) return;
+    qLeft -= .1; paintQ();
+    if(qLeft <= 0) answer(null, false);                   // 시간 다 됨 = 틀림
+  }, 100);
+  next();
 }
-function paintTimer(){ $('timer').firstElementChild.style.width = Math.max(0, left / ROUND * 100) + '%'; $('timer').classList.toggle('low', left <= 10); }
 function next(){
   if(!Q.length) Q = buildQueue();
-  paused = false;
   w = Q.shift(); const r = rec(w.id);
   $('word').textContent = w.w;
   $('reading').textContent = w.r;
   $('stars').innerHTML = [0, 1, 2].map(i => i < r.s ? '★' : '<span class="off">★</span>').join('');
-  $('miss').hidden = true; $('choices').hidden = false;
   const kj = $('kj'); kj.className = 'kj wait';
   kj.innerHTML = (w.k || []).map(([c, h]) => `<span><b lang="ja">${c}</b>${h}</span>`).join('');
+  $('flash').className = 'flash';
   const box = $('choices'); box.innerHTML = '';
   for(const m of pick(w)){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'ch'; b.textContent = m;
     b.onclick = () => answer(b, m === w.m); box.appendChild(b);
   }
+  qLeft = QT; paintQ(); busy = false; paused = false;
   say(w);
 }
+function tone(freq, type, len, vol){
+  const c = ac(); if(!c) return;
+  const o = c.createOscillator(), g = c.createGain(); o.connect(g); g.connect(c.destination);
+  o.type = type; const t0 = c.currentTime; o.frequency.setValueAtTime(freq, t0);
+  g.gain.setValueAtTime(vol, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + len); o.start(t0); o.stop(t0 + len + .02);
+}
+function okSound(){                                       // 콤보마다 한 음씩 올라간다
+  const step = Math.min(combo - 1, 12), f = 660 * Math.pow(2, step / 12);
+  tone(f, 'triangle', .14, .18); setTimeout(() => tone(f * 1.5, 'triangle', .16, .14), 70);
+}
 function answer(btn, ok){
+  if(busy) return; busy = true;
   const r = rec(w.id); r.seen++;
   document.querySelectorAll('.ch').forEach(b => { b.disabled = true; if(b.textContent === w.m) b.classList.add('ok'); });
-  $('kj').className = 'kj';                                // 탭한 뒤에 한자 훈음을 보여 준다
+  $('kj').className = 'kj';                                // 탭한 뒤에 한자 훈음
   if(ok){
-    beep(true); right++; combo++; best = Math.max(best, combo);
-    score += 10 * (1 + Math.floor(combo / 5));
+    right++; combo++; best = Math.max(best, combo); okSound();
+    const bonus = Math.round(Math.max(0, qLeft) * 4);       // 빨리 맞힐수록 +최대 20
+    const pts = (10 + bonus) * (1 + Math.floor(combo / 5));
+    score += pts; $('score').textContent = score;
+    const fl = $('float'); fl.textContent = '+' + pts; fl.classList.remove('fly'); void fl.offsetWidth; fl.classList.add('fly');
     r.s++;
-    if(r.s >= NEED){                                       // 익힘 → 며칠 뒤 다시
+    if(r.s >= NEED){
       if(r.lv === 0){ gainedNow++; ST.day[today()] = (ST.day[today()] || 0) + 1; }
       r.lv = Math.min(r.lv + 1, GAPS.length); r.s = 0; r.due = Date.now() + GAPS[r.lv - 1] * DAY;
-    } else Q.splice(Math.min(Q.length, 3 + (Math.random() * 3 | 0)), 0, w);   // 몇 문제 뒤 다시
-    $('score').textContent = score;
+    } else Q.splice(Math.min(Q.length, 3 + (Math.random() * 3 | 0)), 0, w);
     const c = $('combo'); c.textContent = combo >= 2 ? `🔥 ${combo}` : ''; c.classList.remove('pop'); void c.offsetWidth; if(combo >= 2) c.classList.add('pop');
-    $('flash').className = 'flash ok'; setTimeout(() => $('flash').className = 'flash', 350);
-    paused = true;                                         // 훈음을 보는 동안은 시계를 멈춘다
-    save(); setTimeout(next, (w.k && w.k.length) ? 1000 : 380);   // 한자가 있으면 훈음을 볼 시간
+    $('flash').textContent = combo >= 5 ? `🔥 ${combo}콤보!` : '정답!'; $('flash').className = 'flash ok';
+    save(); setTimeout(next, (w.k && w.k.length) ? 750 : 450);
   } else {
-    beep(false); try{ navigator.vibrate && navigator.vibrate(120); }catch(_){}
-    btn.classList.add('no'); combo = 0; $('combo').textContent = '';
+    tone(180, 'square', .28, .09); try{ navigator.vibrate && navigator.vibrate(150); }catch(_){}
+    if(btn) btn.classList.add('no');
+    combo = 0; $('combo').textContent = ''; lives--; paintLives();
+    const cd = $('card'); cd.classList.remove('shake'); void cd.offsetWidth; cd.classList.add('shake');
+    $('flash').textContent = (btn ? '' : '⏰ 시간 끝 · ') + '정답 ' + w.m; $('flash').className = 'flash no';
     r.s = 0; if(r.lv > 0){ r.lv--; r.due = 0; }
-    Q.splice(Math.min(Q.length, 2), 0, w);                 // 곧 다시
-    save(); showMiss();
+    if(!missed.includes(w)) missed.push(w);
+    Q.splice(Math.min(Q.length, 2), 0, w);
+    save(); setTimeout(() => lives <= 0 ? finish() : next(), 1300);   // 1초 남짓 보여 주고 자동으로
   }
 }
-function showMiss(){
-  paused = true;
-  setTimeout(() => {
-    $('choices').hidden = true; $('miss').hidden = false;
-    $('mAns').textContent = w.m;
-    // 스테이지에서 하면 그 곡에 나온 줄, 아니면 처음 찾은 줄
-    const si = STAGE ? STAGES.indexOf(STAGE) : -1, sx = si >= 0 && w.x && w.x[si];
-    const ex = sx ? {t: sx[0], s: sx[1], e: sx[2], v: STAGE.v, song: STAGE.t} : w.ex;
-    curEx = ex;
-    if(ex){
-      const esc = s => s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
-      let t = esc(ex.t); const stem = [w.w, w.w.replace(/[ぁ-ゖ]+$/, '')].find(s => s && ex.t.includes(s));
-      if(stem) t = t.replace(esc(stem), '<mark>' + esc(stem) + '</mark>');
-      $('mEx').innerHTML = t; $('mSrc').textContent = '♪ ' + ex.song; $('mSong').hidden = false;
-    } else { $('mEx').textContent = ''; $('mSrc').textContent = ''; $('mSong').hidden = true; }
-    say(w);
-  }, 650);
-}
-let curEx = null;
-$('mSong').onclick = () => curEx && playSong(curEx);
-$('mNext').onclick = () => { stopSong(); paused = false; next(); };
 $('spk').onclick = () => say(w);
+function exOf(w){
+  const si = STAGE ? STAGES.indexOf(STAGE) : -1, sx = si >= 0 && w.x && w.x[si];
+  return sx ? {t: sx[0], s: sx[1], e: sx[2], v: STAGE.v, song: STAGE.t} : w.ex;
+}
 function finish(){
-  clearInterval(tick); stopSong();
-  if(best > ST.best) ST.best = best; save();
-  $('play').hidden = true; $('end').hidden = false;
+  clearInterval(tick); paused = true; stopSong();
+  if(best > ST.best) ST.best = best;
+  ST.bs = ST.bs || {}; const key = STAGE ? STAGE.k : '*', prev = ST.bs[key] || 0;
+  if(score > prev) ST.bs[key] = score;
+  save();
+  $('play').hidden = true; $('end').hidden = false; window.scrollTo(0, 0);
   $('eScore').innerHTML = score + '<small>점</small>';
+  const rc = $('eRecord');
+  if(score > prev && prev > 0){ rc.className = 'record'; rc.textContent = `🏆 신기록! (전 ${prev}점)`; }
+  else if(score > prev){ rc.className = 'record'; rc.textContent = '🏆 첫 기록!'; }
+  else { rc.className = 'record plain'; rc.textContent = `최고 기록 ${prev}점`; }
   const g = $('eGain'); g.className = 'gain' + (gainedNow ? '' : ' zero');
   g.textContent = gainedNow ? `새로 익힌 단어 +${gainedNow}` : '세 번 연달아 맞히면 「익힘」이 됩니다';
   $('eRight').textContent = right; $('eCombo').textContent = best;
@@ -430,9 +487,22 @@ function finish(){
   $('eBar').style.width = (k / tot * 100).toFixed(1) + '%';
   $('eBarLbl').innerHTML = `<span style="color:var(--fire);letter-spacing:2px">${starsHtml(k, tot)}</span> ${k} / ${tot}`;
   $('eClear').hidden = !(STAGE && !clearedBefore && k >= tot);
+  // 틀린 단어 다시 보기 — 소리 · 노래·영상의 그 줄
+  const ml = $('eMiss'); ml.innerHTML = missed.length ? '<h3>틀린 단어 다시 보기</h3>' : '';
+  for(const x of missed){
+    const d = document.createElement('div'); d.className = 'mi';
+    d.innerHTML = `<div lang="ja"><b></b><small></small></div><button type="button">🔊</button><button type="button">🎵</button><div class="mm"></div>`;
+    d.querySelector('b').textContent = x.w; d.querySelector('small').textContent = x.r;
+    d.querySelector('.mm').textContent = x.m + ((x.k || []).length ? ' · ' + x.k.map(([c, h]) => c + ' ' + h).join(' · ') : '');
+    const [bs, bm] = d.querySelectorAll('button'); const ex = exOf(x);
+    bs.onclick = () => say(x);
+    if(ex){ bm.title = ex.t; bm.onclick = () => playSong(ex); } else bm.remove();
+    ml.appendChild(d);
+  }
 }
-/* ---------- 단어장: 곡의 단어를 차례대로 훑어보기 ---------- */
-let BOOK = null, bTimer = null, bIdx = -1;
+
+/* ---------- 단어장: 곡의 단어를 차례대로 훑어보기 · 듣기 ---------- */
+let BOOK = null, bTimer = null, bPos = -1, SEQ = [];
 const bAudio = new Audio();                                // 하나를 돌려 써야 폰에서 이어 재생이 막히지 않는다
 function exFor(w, st){
   const si = STAGES.indexOf(st), sx = si >= 0 && w.x && w.x[si];
@@ -460,15 +530,11 @@ function openBook(k){
 }
 function toggleKnown(w, d, btn){
   const r = rec(w.id);
-  if(r.lv > 0){ r.lv = 0; r.s = 0; r.due = 0; }            // 되돌리기
-  else {                                                    // 알아요 → 익힘, 내일 한 번 확인
-    r.lv = 1; r.s = 0; r.due = Date.now() + DAY;
-    ST.day[today()] = (ST.day[today()] || 0) + 1;
-  }
+  if(r.lv > 0){ r.lv = 0; r.s = 0; r.due = 0; }
+  else { r.lv = 1; r.s = 0; r.due = Date.now() + DAY; ST.day[today()] = (ST.day[today()] || 0) + 1; }
   const on = r.lv > 0; btn.setAttribute('aria-pressed', on); btn.textContent = on ? '✓ 익힘' : '✓ 알아요';
   d.classList.toggle('known', on); save();
 }
-// 파일 하나를 재생하고 끝나면 done. 파일이 없거나 실패하면 브라우저 음성으로(lang)
 function bPlayFile(file, text, lang, done){
   bAudio.onended = bAudio.onerror = null;
   const fallback = () => { speakText(text, lang, done); };
@@ -482,31 +548,84 @@ function speakText(text, lang, done){
 }
 const meanSay = m => m.replace(/[（(][^）)]*[）)]/g, '').replace(/[~〜～]/g, '').replace(/\s*[·・/]\s*/g, ', ');
 function bSay(w, done){ bPlayFile(w.a, w.r, 'ja-JP', done); }
-let bWithMean = true;
-try{ bWithMean = localStorage.getItem('wordtap.mean') !== '0'; }catch(_){}
-$('bMean').checked = bWithMean;
-$('bMean').onchange = e => { bWithMean = e.target.checked; try{ localStorage.setItem('wordtap.mean', bWithMean ? '1' : '0'); }catch(_){} };
-function bStop(){ clearTimeout(bTimer); bIdx = -1; try{ bAudio.pause(); }catch(_){} document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on')); $('bPlay').textContent = '▶ 전부 듣기'; }
-function bStep(i){
-  if(!BOOK || i >= BOOK.ids.length){ bStop(); return; }
-  bIdx = i; document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on'));
+
+// 듣기 설정 — 기억한다
+let OPT = {rep: 1, mean: true, shadow: false, todo: false, loop: false};
+try{ Object.assign(OPT, JSON.parse(localStorage.getItem('wordtap.opt')) || {}); }catch(_){}
+try{ if(localStorage.getItem('wordtap.mean') === '0') OPT.mean = false; }catch(_){}
+function saveOpt(){ try{ localStorage.setItem('wordtap.opt', JSON.stringify(OPT)); }catch(_){} }
+function paintOpt(){
+  $('oRep').textContent = `🔁 ${OPT.rep}번씩`;
+  $('bMean').checked = OPT.mean; $('oShadow').checked = OPT.shadow; $('oTodo').checked = OPT.todo; $('oLoop').checked = OPT.loop;
+}
+$('oRep').onclick = () => { OPT.rep = OPT.rep % 3 + 1; saveOpt(); paintOpt(); };
+for(const [id, k] of [['bMean', 'mean'], ['oShadow', 'shadow'], ['oTodo', 'todo'], ['oLoop', 'loop']])
+  $(id).onchange = e => { OPT[k] = e.target.checked; saveOpt(); };
+paintOpt();
+
+// 화면이 꺼지지 않게(지원하는 브라우저에서) — 화면이 꺼지면 브라우저가 소리를 멈춘다
+let wake = null;
+async function wakeOn(){ try{ if('wakeLock' in navigator && !wake) wake = await navigator.wakeLock.request('screen'); }catch(_){} }
+function wakeOff(){ try{ wake && wake.release(); }catch(_){} wake = null; }
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && bPos >= 0) wakeOn(); });
+
+function bStop(){
+  clearTimeout(bTimer); bPos = -1; try{ bAudio.pause(); }catch(_){} try{ speechSynthesis.cancel(); }catch(_){}
+  document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on')); $('bPlay').textContent = '▶ 전부 듣기'; wakeOff();
+}
+function buildSeq(){
+  return BOOK.ids.map((id, i) => i).filter(i => !OPT.todo || !(ST.w[BOOK.ids[i]] && ST.w[BOOK.ids[i]].lv > 0));
+}
+function bStep(pos){
+  if(!BOOK) return;
+  if(pos >= SEQ.length){
+    if(OPT.loop){ SEQ = buildSeq(); if(SEQ.length) return bStep(0); }
+    bStop(); return;
+  }
+  bPos = pos; const i = SEQ[pos], my = pos;
+  document.querySelectorAll('.bw.on').forEach(e => e.classList.remove('on'));
   const d = $('bw' + i); d.classList.add('on'); d.scrollIntoView({block: 'center', behavior: 'smooth'});
   const w = WORDS[BOOK.ids[i]];
-  const after = () => { if(bIdx === i) bTimer = setTimeout(() => bStep(i + 1), 900); };
-  bSay(w, () => {                                          // 일본어 → (잠깐) → 한국어 뜻 → 다음
-    if(bIdx !== i) return;
-    if(!bWithMean){ after(); return; }
-    bTimer = setTimeout(() => { if(bIdx === i) bPlayFile(w.ma, meanSay(w.m), 'ko-KR', after); }, 450);
-  });
+  $('vNow').textContent = w.w;
+  const alive = () => bPos === my;
+  const nextWord = () => { if(alive()) bTimer = setTimeout(() => bStep(pos + 1), 900); };
+  const mean = () => { if(!alive()) return; if(!OPT.mean) return nextWord();
+    bTimer = setTimeout(() => { if(alive()) bPlayFile(w.ma, meanSay(w.m), 'ko-KR', nextWord); }, 450); };
+  let n = 0;
+  const once = () => {                                     // 일본어를 rep 번, 따라하기면 그 길이만큼 쉰다
+    if(!alive()) return;
+    bSay(w, () => {
+      if(!alive()) return; n++;
+      const dur = isFinite(bAudio.duration) ? bAudio.duration * 1000 : 900;
+      const gap = OPT.shadow ? Math.max(1300, dur * 1.4 + 300) : 450;
+      bTimer = setTimeout(n < OPT.rep ? once : mean, n < OPT.rep ? gap : (OPT.shadow ? gap : 0));
+    });
+  };
+  once();
 }
-$('bPlay').onclick = () => { if(bIdx >= 0){ bStop(); return; } ac(); $('bPlay').textContent = '■ 멈춤'; bStep(0); };
+$('bPlay').onclick = () => {
+  if(bPos >= 0){ bStop(); return; }
+  ac(); SEQ = buildSeq();
+  if(!SEQ.length){ $('bPlay').textContent = '▶ 다 익혔어요'; setTimeout(() => $('bPlay').textContent = '▶ 전부 듣기', 1400); return; }
+  $('bPlay').textContent = '■ 멈춤'; wakeOn(); bStep(0);
+};
 $('bBack').onclick = () => { bStop(); $('browse').hidden = true; $('home').hidden = false; paintHome(); };
 $('bGame').onclick = () => { bStop(); $('browse').hidden = true; start(BOOK.k); };
+
+// 화면 잠금 — 듣는 동안 주머니 속 터치를 막는다. 2초 꾹 눌러 풀기(PC 는 Esc)
+let holdT = null, holdS = 0, holdRaf = null;
+$('bLock').onclick = () => { $('veil').hidden = false; wakeOn(); };
+function unlock(){ $('veil').hidden = true; $('vHold').style.width = 0; if(bPos < 0) wakeOff(); }
+function holdTick(){ const f = Math.min(1, (performance.now() - holdS) / 2000); $('vHold').style.width = (f * 100) + '%'; if(f < 1) holdRaf = requestAnimationFrame(holdTick); }
+$('veil').addEventListener('pointerdown', e => { e.preventDefault(); holdS = performance.now(); holdTick(); holdT = setTimeout(unlock, 2000); });
+for(const ev of ['pointerup', 'pointerleave', 'pointercancel'])
+  $('veil').addEventListener(ev, () => { clearTimeout(holdT); cancelAnimationFrame(holdRaf); $('vHold').style.width = 0; });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('veil').hidden) unlock(); });
 
 $('go').onclick = () => start(stageOf(ST.last) ? ST.last : '');
 $('mix').onclick = () => start('');
 $('again').onclick = () => start(STAGE ? STAGE.k : '');
-$('toHome').onclick = () => { $('end').hidden = true; $('home').hidden = false; paintHome(); };
+$('toHome').onclick = () => { stopSong(); $('end').hidden = true; $('home').hidden = false; paintHome(); };
 paintHome();
 </script>
 </body></html>
