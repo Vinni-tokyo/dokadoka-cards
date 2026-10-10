@@ -46,6 +46,10 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .card{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 0;position:relative}
 .word{font-size:clamp(40px,13vw,64px);font-weight:700;line-height:1.15;text-align:center;overflow-wrap:anywhere}
 .reading{font-size:17px;color:var(--ink-3);min-height:1.4em}
+.kj{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;min-height:34px}
+.kj span{display:inline-flex;align-items:baseline;gap:6px;padding:5px 11px;border-radius:99px;background:var(--brand-soft);color:var(--ink-2);font-size:14px}
+.kj b{font-size:19px;color:var(--ink)}
+.kj.wait{visibility:hidden}
 .stars{font-size:18px;letter-spacing:4px;color:var(--fire)}
 .stars .off{color:var(--line)}
 .spk{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 16px;font-size:15px;color:var(--ink-2)}
@@ -87,7 +91,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 <section class="home" id="home">
  <div><a class="back" href="../">‹ 도카도카 어학 학습</a></div>
  <h1>듣고 탭<small>노래·영상에서 만난 일본어 단어</small></h1>
- <p class="how">소리를 듣고, 뜻을 탭하세요.<br>한 판 <b>1분</b>. 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
+ <p class="how">소리를 듣고, 뜻을 탭하세요.<br>탭하면 한자의 <b>뜻과 음</b>이 보입니다.<br>한 판 <b>1분</b>. 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
  <div class="stats">
   <div class="stat"><b id="sToday">0</b><span>오늘 익힘</span></div>
   <div class="stat"><b id="sDue">0</b><span>복습할 단어</span></div>
@@ -109,6 +113,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
   <div class="stars" id="stars"></div>
   <div class="word" id="word" lang="ja"></div>
   <div class="reading" id="reading" lang="ja"></div>
+  <div class="kj wait" id="kj"></div>
   <button class="spk" id="spk" type="button">🔊 다시 듣기</button>
  </div>
  <div class="choices" id="choices"></div>
@@ -241,11 +246,14 @@ function start(){
 function paintTimer(){ $('timer').firstElementChild.style.width = Math.max(0, left / ROUND * 100) + '%'; $('timer').classList.toggle('low', left <= 10); }
 function next(){
   if(!Q.length) Q = buildQueue();
+  paused = false;
   w = Q.shift(); const r = rec(w.id);
   $('word').textContent = w.w;
   $('reading').textContent = w.r;
   $('stars').innerHTML = [0, 1, 2].map(i => i < r.s ? '★' : '<span class="off">★</span>').join('');
   $('miss').hidden = true; $('choices').hidden = false;
+  const kj = $('kj'); kj.className = 'kj wait';
+  kj.innerHTML = (w.k || []).map(([c, h]) => `<span><b lang="ja">${c}</b>${h}</span>`).join('');
   const box = $('choices'); box.innerHTML = '';
   for(const m of pick(w)){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'ch'; b.textContent = m;
@@ -256,6 +264,7 @@ function next(){
 function answer(btn, ok){
   const r = rec(w.id); r.seen++;
   document.querySelectorAll('.ch').forEach(b => { b.disabled = true; if(b.textContent === w.m) b.classList.add('ok'); });
+  $('kj').className = 'kj';                                // 탭한 뒤에 한자 훈음을 보여 준다
   if(ok){
     beep(true); right++; combo++; best = Math.max(best, combo);
     score += 10 * (1 + Math.floor(combo / 5));
@@ -267,7 +276,8 @@ function answer(btn, ok){
     $('score').textContent = score;
     const c = $('combo'); c.textContent = combo >= 2 ? `🔥 ${combo}` : ''; c.classList.remove('pop'); void c.offsetWidth; if(combo >= 2) c.classList.add('pop');
     $('flash').className = 'flash ok'; setTimeout(() => $('flash').className = 'flash', 350);
-    save(); setTimeout(next, 380);
+    paused = true;                                         // 훈음을 보는 동안은 시계를 멈춘다
+    save(); setTimeout(next, (w.k && w.k.length) ? 1000 : 380);   // 한자가 있으면 훈음을 볼 시간
   } else {
     beep(false); try{ navigator.vibrate && navigator.vibrate(120); }catch(_){}
     btn.classList.add('no'); combo = 0; $('combo').textContent = '';

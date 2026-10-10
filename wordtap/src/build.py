@@ -65,6 +65,24 @@ def found(stem, text):
     return False
 
 
+def kanji_hun():
+    """한자 → 훈음. 앱들의 kanji.txt 중 가장 많이 쓴 것, kanji-cards/src/hun.txt(표준 훈음 교정)가 있으면 그쪽."""
+    cnt = collections.defaultdict(collections.Counter)
+    for p in glob.glob(os.path.join(ROOT, '*-cards', 'src', 'kanji.txt')):
+        for ln in io.open(p, encoding='utf-8'):
+            ln = ln.strip()
+            if ln and not ln.startswith('#') and '|' in ln:
+                c, h = ln.split('|', 1); cnt[c.strip()][h.strip()] += 1
+    out = {c: v.most_common(1)[0][0] for c, v in cnt.items()}
+    fix = os.path.join(ROOT, 'kanji-cards', 'src', 'hun.txt')
+    if os.path.exists(fix):
+        for ln in io.open(fix, encoding='utf-8'):
+            ln = ln.strip()
+            if ln and not ln.startswith('#') and '|' in ln:
+                c, h = ln.split('|', 1); out[c.strip()] = h.strip()
+    return out
+
+
 def collect():
     words = collections.OrderedDict()            # 표제 → 단어
     for f in sorted(glob.glob(os.path.join(ROOT, '*-cards', 'src', 'words.txt'))):
@@ -90,6 +108,9 @@ def collect():
                         w['ex'] = {'t': t, 'v': vid, 's': s, 'e': e, 'song': song}
                         break
     # 뜻이 똑같은 단어끼리는 보기가 헷갈리지 않게 그대로 둔다(보기 고를 때 같은 뜻은 뺀다)
+    hun = kanji_hun()
+    for w in words.values():                     # 한자마다 훈음 — 탭한 뒤에 보여 준다(먼저 보이면 답이 샌다)
+        w['k'] = [[c, hun[c]] for c in w['w'] if KAN.match(c) and c in hun and c != '々']
     ws = sorted(words.values(), key=lambda w: (-len(w['apps']), w['ex'] is None))
     for i, w in enumerate(ws):
         w['id'] = i; w['n'] = len(w['apps']); del w['apps']
@@ -124,12 +145,12 @@ def main():
         asyncio.run(make_audio(ws))
     for w in ws:
         if not os.path.exists(os.path.join(ADIR, w['a'])): w['a'] = ''
-    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ex')} for w in ws]
+    data = [{k: w[k] for k in ('id', 'w', 'r', 'm', 'n', 'a', 'ex', 'k')} for w in ws]
     tpl = io.open(os.path.join(S, 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__WORDS__*/[]', json.dumps(data, ensure_ascii=False, separators=(',', ':')))
     io.open(os.path.join(APP, 'index.html'), 'w', encoding='utf-8').write(html)
     ex = sum(1 for w in ws if w['ex'])
-    print(f'단어 {len(ws)} · 여러 곡(3+) {sum(1 for w in ws if w["n"] >= 3)} · 원곡 예문 {ex} · '
+    print(f'한자 훈음 {sum(len(w["k"]) for w in ws)}칸 · 단어 {len(ws)} · 여러 곡(3+) {sum(1 for w in ws if w["n"] >= 3)} · 원곡 예문 {ex} · '
           f'음원 {sum(1 for w in ws if w["a"])} · index.html {os.path.getsize(os.path.join(APP, "index.html")) / 1024:.0f} KB')
 
 
