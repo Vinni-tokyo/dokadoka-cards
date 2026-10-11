@@ -154,6 +154,9 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
 .yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
 .ex>.yt,.mi>.yt{grid-column:1/-1;margin-top:6px}
+.ytc{grid-column:1/-1;display:flex;gap:8px;justify-content:center}
+.ytc button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 16px;font-size:14px;font-weight:700;color:var(--ink-2)}
+.ytc button[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
 
 /* 목숨 · 문제 시간 · 손맛 */
 .lives{font-size:18px;letter-spacing:2px;min-width:64px}
@@ -405,24 +408,41 @@ function ytApi(){
   return YT_READY;
 }
 // 🎵 를 누른 그 칸(예문·틀린 단어) 안에 영상을 펼쳐 그 줄만 재생한다. 한 번에 하나, 다시 누르면 닫힌다.
+// 아래 ↺ 다시 · 🔁 반복(기억함). 줄 끝은 재생 위치를 지켜보다 멈추거나 처음으로 돌린다.
 // 폰은 YouTube 가 자동 재생을 막아 영상의 ▶ 를 한 번 눌러야 한다(PC 는 바로 재생).
-let songHost = null, songBtn = null;
+let songHost = null, songBtn = null, songWatch = null, VLOOP = false;
+try{ VLOOP = localStorage.getItem('wordtap.vloop') === '1'; }catch(_){}
 async function playSong(ex, host, btn){
   if(songHost === host){ stopSong(); return; }
   stopSong();
-  const box = document.createElement('div'); box.className = 'yt'; const el = document.createElement('div'); box.appendChild(el); host.appendChild(box);
+  const s = Math.max(0, ex.s - .3), e = ex.e + .4;
+  const box = document.createElement('div'); box.className = 'yt'; const el = document.createElement('div'); box.appendChild(el);
+  const ctl = document.createElement('div'); ctl.className = 'ytc';
+  ctl.innerHTML = `<button type="button">↺ 다시</button><button type="button" aria-pressed="${VLOOP}">🔁 반복</button>`;
+  const [bAgain, bLoop] = ctl.querySelectorAll('button');
+  const again = () => { if(!player || !player.seekTo) return; player.seekTo(s, true); player.playVideo(); };
+  bAgain.onclick = again;
+  bLoop.onclick = () => { VLOOP = !VLOOP; bLoop.setAttribute('aria-pressed', VLOOP); try{ localStorage.setItem('wordtap.vloop', VLOOP ? '1' : '0'); }catch(_){} };
+  host.append(box, ctl);
   songHost = host; songBtn = btn; btn.textContent = '■'; btn.setAttribute('aria-pressed', 'true');
-  box.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+  ctl.scrollIntoView({block: 'nearest', behavior: 'smooth'});
   await ytApi();
   if(songHost !== host) return;                            // 기다리는 사이 닫혔다
-  const s = Math.max(0, ex.s - .3), e = ex.e + .4;
   player = new YT.Player(el, {videoId: ex.v,
-    playerVars: {playsinline: 1, rel: 0, modestbranding: 1, autoplay: 1, start: Math.floor(s), end: Math.ceil(e)},
-    events: {onReady: ev => { try{ ev.target.loadVideoById({videoId: ex.v, startSeconds: s, endSeconds: e}); }catch(_){} }}});
+    playerVars: {playsinline: 1, rel: 0, modestbranding: 1, autoplay: 1, start: Math.floor(s)},
+    events: {onReady: ev => { try{ ev.target.loadVideoById({videoId: ex.v, startSeconds: s}); }catch(_){} }}});
+  songWatch = setInterval(() => {                          // 줄 끝: 반복이면 처음으로, 아니면 멈춤
+    try{
+      if(!player || !player.getCurrentTime || player.getPlayerState() !== 1) return;
+      const now = player.getCurrentTime();
+      if(now >= e || now < s - 1.5){ if(VLOOP) player.seekTo(s, true); else { player.pauseVideo(); player.seekTo(s, true); } }
+    }catch(_){}
+  }, 150);
 }
 function stopSong(){
+  clearInterval(songWatch); songWatch = null;
   try{ if(player) player.destroy(); }catch(_){} player = null;
-  if(songHost){ const b = songHost.querySelector('.yt'); if(b) b.remove(); }
+  if(songHost) songHost.querySelectorAll('.yt,.ytc').forEach(x => x.remove());
   if(songBtn){ songBtn.textContent = '🎵'; songBtn.setAttribute('aria-pressed', 'false'); }
   songHost = songBtn = null;
 }
