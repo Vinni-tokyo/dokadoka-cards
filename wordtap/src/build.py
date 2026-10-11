@@ -49,6 +49,27 @@ def srt(p):
     return out
 
 
+def app_lines(src):
+    """앱의 줄들 — (시작, 끝, 일본어, 한국어 뜻, 읽기). 번역·읽기는 ko.txt(줄 번호|뜻|읽기).
+    애니·영상은 segs.json 에 줄마다 시각이 있고, 노래는 자막 큐와 ko.txt 가 한 줄씩 맞는다."""
+    ko = {}
+    if os.path.exists(os.path.join(src, 'ko.txt')):
+        for ln in io.open(os.path.join(src, 'ko.txt'), encoding='utf-8'):
+            p = ln.rstrip('\n').split('|')
+            if ln.lstrip().startswith('#') or len(p) < 2 or not p[0].strip().isdigit(): continue
+            ko[int(p[0])] = (p[1].strip(), p[2].strip() if len(p) > 2 else '')
+    segs = json.load(io.open(os.path.join(src, 'segs.json'), encoding='utf-8')) if os.path.exists(os.path.join(src, 'segs.json')) else []
+    st = srt(os.path.join(src, 'subtitles.srt')) if os.path.exists(os.path.join(src, 'subtitles.srt')) else []
+    if segs and all('s' in x for x in segs):
+        return [(x['s'], x['e'], x['ja'], *ko.get(x['id'], ('', ''))) for x in segs]
+    ids = sorted(ko)
+    if st and len(st) == len(ids):
+        return [(s, e, tx, *ko[i]) for (s, e, tx), i in zip(st, ids)]
+    norm = lambda x: re.sub(r'\s+', '', x)
+    byt = {norm(x['ja']): ko.get(x['id'], ('', '')) for x in segs}
+    return [(s, e, tx, *byt.get(norm(tx), ('', ''))) for s, e, tx in st]
+
+
 HUB = io.open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
 
 
@@ -93,6 +114,7 @@ def kanji_hun():
 
 
 VIDS = {}
+LINES = {}                                       # 앱 → app_lines()
 
 
 def collect():
@@ -105,7 +127,7 @@ def collect():
         if os.path.exists(os.path.join(src, 'subtitles.srt')):
             b = io.open(os.path.join(src, 'build.py'), encoding='utf-8').read()
             m = re.search(r"VID\s*=\s*'([^']+)'", b)
-            if m: vid, lines = m.group(1), srt(os.path.join(src, 'subtitles.srt')); VIDS[app] = vid
+            if m: vid, lines = m.group(1), app_lines(src); VIDS[app] = vid; LINES[app] = lines
         song = title_of(app) if vid else ''
         for ln in io.open(f, encoding='utf-8'):
             if ln.startswith('#') or '|' not in ln: continue
@@ -118,10 +140,11 @@ def collect():
             if head not in sh: sh.append(head)
             if app not in w['apps']: w['apps'].append(app)
             if lines and app not in w['xs']:            # 곡마다 그 단어가 나온 첫 줄(스테이지에선 그 곡의 줄을 쓴다)
-                for s, e, t in lines:
+                for li, (s, e, t, k, r) in enumerate(lines):
                     if any(st and found(st, t) for st in stems):
-                        w['xs'][app] = [t, s, e]
-                        if w['ex'] is None: w['ex'] = {'t': t, 'v': vid, 's': s, 'e': e, 'song': song}
+                        w['xs'][app] = li                 # 줄 번호 — 줄 자체는 스테이지의 L 에 한 번만 싣는다
+                        if w['ex'] is None: w['ex'] = (app, li)
+                        break
                         break
     # 뜻이 똑같은 단어끼리는 보기가 헷갈리지 않게 그대로 둔다(보기 고를 때 같은 뜻은 뺀다)
     hun = kanji_hun()
@@ -143,8 +166,19 @@ def collect():
                 stages.append({'k': app, 't': title_of(app), 'g': g, 'v': VIDS.get(app, ''),
                                'ids': [byhead[h] for h in stage_heads[app] if h in byhead]})
     si = {st['k']: i for i, st in enumerate(stages)}
-    for w in ws:                                 # x: {스테이지 번호: [줄, 시작, 끝]}
-        w['x'] = {si[a]: v for a, v in w.pop('xs').items() if a in si}
+    # 스테이지마다 단어가 쓰는 줄만 L = [[시작, 끝, 줄, 한국어 뜻, 읽기], ...] 로 싣는다
+    used = collections.defaultdict(set)
+    for w in ws:
+        for a, li in w['xs'].items(): used[a].add(li)
+    remap = {}
+    for st in stages:
+        idx = sorted(used[st['k']]); remap[st['k']] = {li: n for n, li in enumerate(idx)}
+        st['L'] = [list(LINES[st['k']][li]) for li in idx]
+    for w in ws:                                 # x: {스테이지 번호: L 의 번호} · ex: [스테이지 번호, L 의 번호]
+        w['x'] = {si[a]: remap[a][li] for a, li in w.pop('xs').items() if a in si}
+        if w['ex']:
+            a, li = w['ex']
+            w['ex'] = [si[a], remap[a][li]] if a in si else None
     return ws, stages
 
 
