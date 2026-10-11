@@ -151,10 +151,9 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .row button{flex:1;border-radius:12px;padding:12px;font-weight:700;font-size:15px;border:1px solid var(--line);background:var(--surface)}
 .row .next{background:var(--brand);color:#fff;border-color:transparent}
 @media (prefers-color-scheme:dark){.row .next{background:#4d5fa3}}
-.ytdock{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:min(240px,62vw);z-index:40;box-shadow:0 8px 24px #0005;border-radius:12px;background:#000}
-.ytdock button{position:absolute;top:-12px;right:-8px;z-index:2;width:28px;height:28px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);font-size:14px}
 .yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000}
 .yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+.ex>.yt,.mi>.yt{grid-column:1/-1;margin-top:6px}
 
 /* 목숨 · 문제 시간 · 손맛 */
 .lives{font-size:18px;letter-spacing:2px;min-width:64px}
@@ -278,9 +277,6 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
  <button class="ghost" id="toHome" type="button">스테이지 고르기</button>
  <div class="mlist" id="eMiss"></div>
 </section>
-
-<!-- 원곡 소절 — 끝 화면·단어장 어디서나 아래에 떠서 나온다 -->
-<div class="ytdock" id="ytBox" hidden><button type="button" id="ytX" aria-label="닫기">✕</button><div class="yt"><div id="yt"></div></div></div>
 
 <!-- 화면 잠금 -->
 <div class="veil" id="veil" hidden>
@@ -408,15 +404,28 @@ function ytApi(){
     const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); });
   return YT_READY;
 }
-async function playSong(ex){
-  $('ytBox').hidden = false;
+// 🎵 를 누른 그 칸(예문·틀린 단어) 안에 영상을 펼쳐 그 줄만 재생한다. 한 번에 하나, 다시 누르면 닫힌다.
+// 폰은 YouTube 가 자동 재생을 막아 영상의 ▶ 를 한 번 눌러야 한다(PC 는 바로 재생).
+let songHost = null, songBtn = null;
+async function playSong(ex, host, btn){
+  if(songHost === host){ stopSong(); return; }
+  stopSong();
+  const box = document.createElement('div'); box.className = 'yt'; const el = document.createElement('div'); box.appendChild(el); host.appendChild(box);
+  songHost = host; songBtn = btn; btn.textContent = '■'; btn.setAttribute('aria-pressed', 'true');
+  box.scrollIntoView({block: 'nearest', behavior: 'smooth'});
   await ytApi();
-  const go = () => { player.loadVideoById({videoId: ex.v, startSeconds: Math.max(0, ex.s - .3), endSeconds: ex.e + .4}); };
-  if(player) go();
-  else player = new YT.Player('yt', {playerVars: {playsinline: 1, controls: 0, rel: 0, modestbranding: 1}, events: {onReady: go}});
+  if(songHost !== host) return;                            // 기다리는 사이 닫혔다
+  const s = Math.max(0, ex.s - .3), e = ex.e + .4;
+  player = new YT.Player(el, {videoId: ex.v,
+    playerVars: {playsinline: 1, rel: 0, modestbranding: 1, autoplay: 1, start: Math.floor(s), end: Math.ceil(e)},
+    events: {onReady: ev => { try{ ev.target.loadVideoById({videoId: ex.v, startSeconds: s, endSeconds: e}); }catch(_){} }}});
 }
-function stopSong(){ try{ if(player) player.stopVideo(); }catch(_){} $('ytBox').hidden = true; }
-$('ytX').onclick = stopSong;
+function stopSong(){
+  try{ if(player) player.destroy(); }catch(_){} player = null;
+  if(songHost){ const b = songHost.querySelector('.yt'); if(b) b.remove(); }
+  if(songBtn){ songBtn.textContent = '🎵'; songBtn.setAttribute('aria-pressed', 'false'); }
+  songHost = songBtn = null;
+}
 
 /* ---------- 한 판: 목숨 3 · 문제마다 5초 ---------- */
 const LIVES = 3, QT = 5;
@@ -546,7 +555,7 @@ function finish(){
     d.querySelector('.mm').textContent = x.m + ((x.k || []).length ? ' · ' + x.k.map(([c, h]) => c + ' ' + h).join(' · ') : '');
     const [bs, bm] = d.querySelectorAll('button'); const ex = exOf(x, STAGE);
     bs.onclick = () => say(x);
-    if(ex){ bm.title = ex.t; bm.onclick = () => playSong(ex); } else bm.remove();
+    if(ex){ bm.title = ex.t; bm.onclick = () => playSong(ex, d, bm); } else bm.remove();
     ml.appendChild(d);
   }
 }
@@ -601,7 +610,7 @@ function openBook(k){
       else d.querySelector('.er').textContent = ex.rd;
       d.querySelector('.ek').textContent = ex.ko;
       d.querySelector('.src').textContent = ex.song === BOOK.t ? '' : '♪ ' + ex.song;
-      d.querySelector('.song').onclick = () => { bStop(); playSong(ex); };
+      const sb = d.querySelector('.song'); sb.onclick = () => { bStop(); playSong(ex, d.querySelector('.ex'), sb); };
     }
     const fold = d.querySelector('.fold'), toggle = () => { const o = d.classList.toggle('open'); fold.setAttribute('aria-expanded', o); };
     fold.onclick = toggle; d.querySelector('.w').onclick = toggle; d.querySelector('.r').onclick = toggle;
@@ -707,10 +716,10 @@ $('bPlay').onclick = () => {
   if(bPos >= 0){ bStop(); return; }
   ac(); SEQ = buildSeq();
   if(!SEQ.length){ $('bPlay').textContent = OPT.only === 'bm' ? '🔖 표시한 단어가 없어요' : '▶ 다 익혔어요'; setTimeout(() => $('bPlay').textContent = '▶ 전부 듣기', 1400); return; }
-  $('bPlay').textContent = '■ 멈춤'; wakeOn(); bStep(0);
+  stopSong(); $('bPlay').textContent = '■ 멈춤'; wakeOn(); bStep(0);
 };
-$('bBack').onclick = () => { bStop(); $('browse').hidden = true; $('home').hidden = false; paintHome(); };
-$('bGame').onclick = () => { bStop(); $('browse').hidden = true; start(BOOK.k); };
+$('bBack').onclick = () => { bStop(); stopSong(); $('browse').hidden = true; $('home').hidden = false; paintHome(); };
+$('bGame').onclick = () => { bStop(); stopSong(); $('browse').hidden = true; start(BOOK.k); };
 
 // 화면 잠금 — 듣는 동안 주머니 속 터치를 막는다. 2초 꾹 눌러 풀기(PC 는 Esc)
 let holdT = null, holdS = 0, holdRaf = null;
