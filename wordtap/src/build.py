@@ -20,6 +20,8 @@ import os
 import re
 import sys
 
+import furigana
+
 S = os.path.dirname(os.path.abspath(__file__))
 APP = os.path.dirname(S)
 ROOT = os.path.dirname(APP)
@@ -166,7 +168,7 @@ def collect():
                 stages.append({'k': app, 't': title_of(app), 'g': g, 'v': VIDS.get(app, ''),
                                'ids': [byhead[h] for h in stage_heads[app] if h in byhead]})
     si = {st['k']: i for i, st in enumerate(stages)}
-    # 스테이지마다 단어가 쓰는 줄만 L = [[시작, 끝, 줄, 한국어 뜻, 읽기], ...] 로 싣는다
+    # 스테이지마다 단어가 쓰는 줄만 L = [[시작, 끝, 줄, 한국어 뜻, 읽기(, 후리가나)], ...] 로 싣는다
     used = collections.defaultdict(set)
     for w in ws:
         for a, li in w['xs'].items(): used[a].add(li)
@@ -174,6 +176,9 @@ def collect():
     for st in stages:
         idx = sorted(used[st['k']]); remap[st['k']] = {li: n for n, li in enumerate(idx)}
         st['L'] = [list(LINES[st['k']][li]) for li in idx]
+        for L in st['L']:                        # 6번째 칸: 한자 위 읽기 「{君|きみ}が…」 (못 맞추면 없음)
+            rb = furigana.encode(L[2], L[4])
+            if rb: L.append(rb)
     for w in ws:                                 # x: {스테이지 번호: L 의 번호} · ex: [스테이지 번호, L 의 번호]
         w['x'] = {si[a]: remap[a][li] for a, li in w.pop('xs').items() if a in si}
         if w['ex']:

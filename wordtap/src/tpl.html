@@ -95,7 +95,8 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .bw .kj{justify-content:center;min-height:0}
 .bw .kj span{font-size:12.5px;padding:3px 9px}.bw .kj b{font-size:16px}
 .bw .ex{width:100%;display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:center;text-align:left;background:var(--surface);border-radius:12px;padding:10px 8px 10px 12px}
-.bw .ex .ej{font-size:16px;line-height:1.5}
+.bw .ex .ej{font-size:16px;line-height:2.05}
+.bw .ex rt{font-size:10.5px;font-weight:400;color:var(--ink-3)}
 .bw .ex .ej mark{background:none;color:inherit;font-weight:800;text-decoration:underline 2px var(--fire);text-underline-offset:3px}
 .bw .ex .er{font-size:12px;color:var(--ink-3);line-height:1.5}
 .bw .ex .ek{font-size:14px;font-weight:600;color:var(--ink-2);line-height:1.5}
@@ -118,6 +119,11 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 .card{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 0;position:relative}
 .word{font-size:clamp(40px,13vw,64px);font-weight:700;line-height:1.15;text-align:center;overflow-wrap:anywhere}
 .reading{font-size:17px;color:var(--ink-3);min-height:1.4em}
+/* ★ 가 늘면 글자가 하나씩 사라진다: ★1 읽기 숨김 → ★2 소리만 */
+.card.hideR .reading,.card.ear .reading{visibility:hidden}
+.card.ear .word{color:transparent;position:relative}
+.card.ear .word::after{content:"👂";color:var(--ink);position:absolute;inset:0;display:grid;place-items:center;font-size:.9em}
+.lvl{font-size:12.5px;font-weight:700;color:var(--brand);min-height:1.2em}
 .kj{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;min-height:34px}
 .kj span{display:inline-flex;align-items:baseline;gap:6px;padding:5px 11px;border-radius:99px;background:var(--brand-soft);color:var(--ink-2);font-size:14px}
 .kj b{font-size:19px;color:var(--ink)}
@@ -195,7 +201,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
 <section class="home" id="home">
  <div><a class="back" href="../">‹ 도카도카 어학 학습</a></div>
  <h1>듣고 탭<small>노래·영상에서 만난 일본어 단어</small></h1>
- <p class="how">소리를 듣고, 뜻을 탭하세요.<br>탭하면 한자의 <b>뜻과 음</b>이 보입니다.<br>목숨 <b>❤️ 3개</b>, 문제마다 <b>5초</b>. 빨리 맞힐수록 점수가 커요.<br> 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>틀린 단어는 곧 다시 나옵니다.</p>
+ <p class="how">소리를 듣고, 뜻을 탭하세요.<br>탭하면 한자의 <b>뜻과 음</b>이 보입니다.<br>목숨 <b>❤️ 3개</b>, 문제마다 <b>5초</b>. 빨리 맞힐수록 점수가 커요.<br> 같은 단어를 <b>세 번 연달아</b> 맞히면 익힘.<br>★ 하나면 <b>읽기가 숨고</b>, ★ 둘이면 <b>소리만</b> 나와요.<br>틀린 단어는 곧 다시 나옵니다.</p>
  <div class="stats">
   <div class="stat"><b id="sToday">0</b><span>오늘 익힘</span></div>
   <div class="stat"><b id="sDue">0</b><span>복습할 단어</span></div>
@@ -246,6 +252,7 @@ a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
   <div class="flash" id="flash">정답!</div>
   <div class="float" id="float"></div>
   <div class="stars" id="stars"></div>
+  <div class="lvl" id="lvl"></div>
   <div class="word" id="word" lang="ja"></div>
   <div class="reading" id="reading" lang="ja"></div>
   <div class="kj wait" id="kj"></div>
@@ -413,10 +420,10 @@ $('ytX').onclick = stopSong;
 
 /* ---------- 한 판: 목숨 3 · 문제마다 5초 ---------- */
 const LIVES = 3, QT = 5;
-let Q, w, qLeft, tick, score, combo, best, right, gainedNow, paused, clearedBefore, lives, missed, busy;
+let Q, w, qLeft, qMax = QT, tick, score, combo, best, right, gainedNow, paused, clearedBefore, lives, missed, busy;
 function paintLives(){ $('lives').innerHTML = [0, 1, 2].map(i => i < lives ? '❤️' : '<span class="off">❤️</span>').join(''); }
 function paintQ(){
-  const f = Math.max(0, qLeft / QT), q = $('qbar');
+  const f = Math.max(0, qLeft / qMax), q = $('qbar');
   q.firstElementChild.style.width = (f * 100) + '%';
   q.classList.toggle('mid', f <= .6 && f > .3); q.classList.toggle('low', f <= .3);
 }
@@ -449,7 +456,12 @@ function next(){
     const b = document.createElement('button'); b.type = 'button'; b.className = 'ch'; b.textContent = m;
     b.onclick = () => answer(b, m === w.m); box.appendChild(b);
   }
-  qLeft = QT; paintQ(); busy = false; paused = false;
+  // ★0 단어·읽기 → ★1 읽기 숨김 → ★2 소리만(글자도 숨김, 1.5초 더 준다). 답하면 다 보인다
+  const step = Math.min(r.s, 2);
+  $('card').classList.toggle('hideR', step === 1); $('card').classList.toggle('ear', step === 2);
+  $('lvl').textContent = ['', '읽기 없이', '👂 소리만 듣고'][step];
+  qMax = QT + (step === 2 ? 1.5 : 0);
+  qLeft = qMax; paintQ(); busy = false; paused = false;
   say(w);
 }
 function tone(freq, type, len, vol){
@@ -467,9 +479,10 @@ function answer(btn, ok){
   const r = rec(w.id); r.seen++;
   document.querySelectorAll('.ch').forEach(b => { b.disabled = true; if(b.textContent === w.m) b.classList.add('ok'); });
   $('kj').className = 'kj';                                // 탭한 뒤에 한자 훈음
+  $('card').classList.remove('hideR', 'ear'); $('lvl').textContent = '';
   if(ok){
     right++; combo++; best = Math.max(best, combo); okSound();
-    const bonus = Math.round(Math.max(0, qLeft) * 4);       // 빨리 맞힐수록 +최대 20
+    const bonus = Math.round(Math.min(QT, Math.max(0, qLeft)) * 4);   // 빨리 맞힐수록 +최대 20
     const pts = (10 + bonus) * (1 + Math.floor(combo / 5));
     score += pts; $('score').textContent = score;
     const fl = $('float'); fl.textContent = '+' + pts; fl.classList.remove('fly'); void fl.offsetWidth; fl.classList.add('fly');
@@ -496,7 +509,7 @@ function answer(btn, ok){
 $('spk').onclick = () => say(w);
 function lineAt(si, n){                                  // 스테이지 si 의 n 번째 줄
   const st = STAGES[si], L = st.L[n];
-  return {s: L[0], e: L[1], t: L[2], ko: L[3], rd: L[4], v: st.v, song: st.t};   // L = [시작, 끝, 줄, 한국어 뜻, 읽기]
+  return {s: L[0], e: L[1], t: L[2], ko: L[3], rd: L[4], rb: L[5] || '', v: st.v, song: st.t};   // L = [시작, 끝, 줄, 한국어 뜻, 읽기]
 }
 function exOf(w, st){                                     // 그 곡의 줄, 없으면 단어가 처음 나온 곡의 줄
   const si = st ? STAGES.indexOf(st) : -1;
@@ -544,6 +557,24 @@ const bAudio = new Audio();                                // 하나를 돌려 �
 const esc = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 const BM_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>';
 const FOLD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+// 예문: 한자 위 읽기(「{君|きみ}が…」) + 그 단어에 밑줄
+function exHtml(ex, word){
+  const at = ex.t.indexOf(word), end = at + word.length, parts = [];
+  if(ex.rb){ const re = /\{([^|}]+)\|([^}]+)\}|([^{]+)/g; let m; while((m = re.exec(ex.rb))) parts.push(m[3] != null ? [m[3], ''] : [m[1], m[2]]); }
+  else parts.push([ex.t, '']);
+  let pos = 0, h = '';
+  for(const [b, r] of parts){
+    const s0 = pos, s1 = pos + b.length; pos = s1;
+    if(r){
+      const x = `<ruby>${esc(b)}<rt>${esc(r)}</rt></ruby>`;
+      h += at >= 0 && s0 < end && s1 > at ? `<mark>${x}</mark>` : x;
+    } else {
+      const a = Math.max(s0, at), z = Math.min(s1, end);
+      h += at < 0 || a >= z ? esc(b) : esc(b.slice(0, a - s0)) + '<mark>' + esc(b.slice(a - s0, z - s0)) + '</mark>' + esc(b.slice(z - s0));
+    }
+  }
+  return h;
+}
 function openBook(k){
   BOOK = stageOf(k); ST.last = k; save();
   $('home').hidden = true; $('browse').hidden = false; window.scrollTo(0, 0);
@@ -565,10 +596,9 @@ function openBook(k){
     d.querySelector('.m').textContent = w.m;
     d.querySelector('.kj').innerHTML = (w.k || []).map(([c, h]) => `<span><b lang="ja">${c}</b>${h}</span>`).join('');
     if(ex){
-      const at = ex.t.indexOf(w.w);                         // 예문 속 그 단어에 밑줄
-      d.querySelector('.ej').innerHTML = at < 0 ? esc(ex.t)
-        : esc(ex.t.slice(0, at)) + '<mark>' + esc(w.w) + '</mark>' + esc(ex.t.slice(at + w.w.length));
-      d.querySelector('.er').textContent = ex.rd;
+      d.querySelector('.ej').innerHTML = exHtml(ex, w.w);
+      if(ex.rb) d.querySelector('.er').remove();             // 한자 위에 읽기가 있으면 아래 줄은 뺀다
+      else d.querySelector('.er').textContent = ex.rd;
       d.querySelector('.ek').textContent = ex.ko;
       d.querySelector('.src').textContent = ex.song === BOOK.t ? '' : '♪ ' + ex.song;
       d.querySelector('.song').onclick = () => { bStop(); playSong(ex); };
