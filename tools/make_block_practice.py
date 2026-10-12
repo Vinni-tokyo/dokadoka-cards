@@ -25,6 +25,48 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
 from make_chord_sheet import NOTES, diagram, name, pick_capo   # noqa: E402
 
+def srt_cues(path):
+    out = []
+    for b in io.open(path, encoding='utf-8').read().strip().split('\n\n'):
+        L = b.split('\n')
+        m = re.findall(r'(\d+):(\d+):(\d+),(\d+)', L[1]) if len(L) > 2 else []
+        if len(m) < 2: continue
+        f = lambda g: int(g[0]) * 3600 + int(g[1]) * 60 + int(g[2]) + int(g[3]) / 1000
+        out.append((round(f(m[0]), 2), round(f(m[1]), 2), ' '.join(L[2:]).strip()))
+    return out
+
+
+def app_lines(S):
+    """노래 앱에 이미 있는 가사 줄(subtitles.srt)·뜻·읽기(ko.txt)·단어(words.txt) → 막대에 보일 줄 목록.
+    가사를 새로 만들지 않는다 — 앱 본문이 쓰는 데이터를 그대로 가져온다. 없거나 줄 수가 안 맞으면 [] (막대에 가사 없음)."""
+    sp, kp = os.path.join(S, 'subtitles.srt'), os.path.join(S, 'ko.txt')
+    if not (os.path.exists(sp) and os.path.exists(kp)): return []
+    cues = srt_cues(sp)
+    ko = {}
+    for ln in io.open(kp, encoding='utf-8'):
+        q = ln.rstrip('\n').split('|')
+        if ln.startswith('#') or len(q) < 3 or not q[0].strip().isdigit(): continue
+        ko[int(q[0])] = (q[1].strip(), q[2].strip())
+    if len(ko) != len(cues): return []
+    words = []
+    wp = os.path.join(S, 'words.txt')
+    if os.path.exists(wp):
+        for ln in io.open(wp, encoding='utf-8'):
+            q = [x.strip() for x in ln.rstrip('\n').split('|')]
+            if ln.startswith('#') or len(q) < 4: continue
+            words.append((q[0].split(','), q[1], q[2], q[3]))
+    out = []
+    for i, (s, e, ja) in enumerate(cues, 1):
+        hits = []
+        for stems, head, rd, mean in words:
+            at = min((ja.find(x) for x in stems if x and x in ja), default=-1)
+            if at >= 0 and head not in [h[1] for h in hits]: hits.append((at, head, rd, mean))
+        hits.sort()
+        k, r = ko.get(i, ('', ''))
+        out.append([s, e, ja, k, r, [[h, rd, mean] for _, h, rd, mean in hits[:6]]])
+    return out
+
+
 SHARP_HOMES = {'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#'}       # 이 조들은 G#m·D#m 처럼 샵 이름 그대로 쓴다
 
 
@@ -93,13 +135,15 @@ def build(app, title, artist, src, back, out):
     DATA = {'vid': vid, 'title': title, 'artist': artist, 'key': real.get(d['key'], d['key']) if d['key'] in real else (d['key'] if sharp else name(d['key'], 0)),
             'mode': d['mode'], 'bpm': d['bpm'], 'fit': d['fit'], 'capo': capo, 'form': form, 'rows': rows,
             'real': real, 'shape': shape, 'order': used, 'diag': diag, 'store': app + '.blocks',
-            'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src}
+            'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
+            'lines': app_lines(S)}
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__DATA__*/{}', json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))) \
               .replace('/*__TITLE__*/', f'{title} 블록 연습')
     io.open(os.path.join(ROOT, app, out), 'w', encoding='utf-8').write(html)
     print(f'{app}/{out}: 조 {DATA["key"]} · {d["bpm"]} BPM · {how} · 블록 {len(bars)} · 줄 {len(rows)} · '
-          f'카포 {capo} {form} 모양 · ' + ' '.join(f'{real[c]}→{shape[c]}' for c in used))
+          f'카포 {capo} {form} 모양 · 가사 줄 {len(DATA["lines"])}(단어 {sum(len(x[5]) for x in DATA["lines"])}) · '
+          + ' '.join(f'{real[c]}→{shape[c]}' for c in used))
     return DATA
 
 
