@@ -111,6 +111,9 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .busk .bf .prog i{display:block;height:100%;width:0;background:#ff9b5e}
 .busk .paused{font-size:13px;color:#ff9b5e}
 .busk .bh .snd{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:40px;padding:0 12px;font-size:15px;font-weight:700}
+.busk .bh2{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.busk .bh2 button,.busk .bh2 span{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:38px;padding:0 12px;font-size:14px;font-weight:700;display:inline-flex;align-items:center}
+.busk .bh2 span{border:0;padding:0 2px;color:#ff9b5e;font-variant-numeric:tabular-nums}
 .busk .bh .snd[aria-pressed="true"]{border-color:#ff9b5e;color:#ff9b5e}
 /* 버스킹 중 영상: 플레이어를 옮기지 않고(옮기면 다시 불러온다) 오른쪽 아래 작은 창으로 띄운다 — 소리가 나오고, 폰에서 첫 ▶ 를 누를 수 있게 */
 body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));width:min(220px,36vw);z-index:60;box-shadow:0 6px 20px #000a;border:1px solid #333a48}
@@ -138,6 +141,11 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" data-v="0.75" aria-pressed="false">0.75×</button>
    <button type="button" data-v="0.5" aria-pressed="false">0.5×</button>
   </div>
+  <div class="seg lead" role="group" aria-label="키 올리기·내리기">
+   <button type="button" id="keyM" aria-label="반음 내리기">−</button>
+   <span id="keyV"></span>
+   <button type="button" id="keyP" aria-label="반음 올리기">+</button>
+  </div>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -156,6 +164,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
  <div class="bh"><span>🎤 버스킹</span><b id="bkTitle"></b><span id="bkCapo"></span><span class="paused" id="bkPaused"></span>
   <button type="button" class="snd" id="bkMute" aria-pressed="false" aria-label="소리 끄기">🔊 소리</button>
   <button type="button" class="x" id="buskClose" aria-label="버스킹 모드 닫기">✕</button></div>
+ <div class="bh2"><button type="button" id="bkMode"></button><button type="button" id="bkKeyM" aria-label="반음 내리기">키 −</button><span id="bkKeyV"></span><button type="button" id="bkKeyP" aria-label="반음 올리기">키 +</button></div>
  <div class="stage" id="bkStage" title="누르면 재생 / 멈춤">
   <div class="lbl" id="bkLbl"></div>
   <div class="cur ln" id="bkCur" lang="ja"></div>
@@ -195,17 +204,57 @@ try{ MODE = localStorage.getItem(KEY + '.mode') || 'shape'; }catch(_){}
 if(D.back){ $('back').href = D.back[0]; $('back').textContent = '‹ ' + D.back[1]; }
 $('note2').textContent = D.note || ''; $('src').textContent = D.src || '';
 $('title').textContent = D.title; $('by').textContent = D.artist;
-$('meta').innerHTML = [`${D.key} ${D.mode === 'major' ? '장조' : '단조'}`, `${D.bpm} BPM`, (D.capo ? `카포 ${D.capo} · ${D.form} 모양` : '카포 없음'), `${D.rows.reduce((n, r) => n + r.length, 0)}블록`].map(x => `<span>${x}</span>`).join('');
 $('fit').textContent = D.fit;
-const nm = c => (MODE === 'shape' ? D.shape : D.real)[c];
+// 🎚 키 올리기·내리기(반음, −6~+6). 코드·카포·운지가 함께 바뀐다. 영상(원곡)의 음높이는 그대로다.
+const SH = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const FLATK = {'C#': 'D♭', 'D#': 'E♭', 'G#': 'A♭', 'A#': 'B♭'};       // 플랫 계열 키의 표기
+const SHOWN = {'D#': 'E♭', 'G#': 'A♭', 'A#': 'B♭'};                   // 카포 모양(개방 코드) 표기 — 악보 도구와 같다
+function parseC(c){ const m = c.match(/^([A-G])([#♭b]?)(.*)$/); let i = SH.indexOf(m[1]); if(m[2] === '#') i++; else if(m[2]) i--; return [(i + 12) % 12, m[3]]; }
+let SHIFT = 0; try{ SHIFT = parseInt(localStorage.getItem(KEY + '.shift')) || 0; }catch(_){}
+const K0 = parseC(D.key)[0];
+function keyInfo(){
+  const k = ((K0 + SHIFT) % 12 + 12) % 12, flat = [5, 10, 3, 8, 1].includes(k);      // F B♭ E♭ A♭ D♭ 는 ♭ 표기
+  let capo = 0, form = SH[k];
+  for(const f of ['C', 'G', 'D', 'A', 'E']){ const c = (k - SH.indexOf(f) + 12) % 12; if(c <= 5){ capo = c; form = f; break; } }
+  return {k, flat, capo, form, name: flat && FLATK[SH[k]] ? FLATK[SH[k]] : SH[k]};
+}
+let KI = keyInfo();
+const realOf = c => { const [i, q] = parseC(D.real[c]), s = SH[((i + SHIFT) % 12 + 12) % 12]; return (KI.flat && FLATK[s] ? FLATK[s] : s) + q; };
+const shapeOf = c => { const [i, q] = parseC(D.real[c]), s = SH[((i + SHIFT - KI.capo) % 12 + 24) % 12]; return (SHOWN[s] || s) + q; };
+const nm = c => MODE === 'shape' ? shapeOf(c) : realOf(c);
+const FALIAS = {'D♭': 'C#', 'G♭': 'F#', 'A#': 'B♭', 'D#': 'E♭', 'G#': 'A♭'};
+function diagram(n){                                       // tools/make_chord_sheet.py 의 diagram() 과 같은 그림
+  const m = n.match(/^([A-G][#♭]?)(.*)$/), f = D.fing[(FALIAS[m[1]] || m[1]) + m[2]]; if(!f) return '';
+  const fr = [...f].map(c => c === 'x' ? null : +c), used = fr.filter(x => x), base = !used.length || Math.max(...used) <= 4 ? 1 : Math.min(...used);
+  const W = 70, H = 84, x0 = 12, y0 = 18, dx = 9.2, dy = 12;
+  let g = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${n} 운지"><title>${n}</title><line x1="${x0}" y1="${y0}" x2="${x0 + 5 * dx}" y2="${y0}" class="nut" stroke-width="${base === 1 ? 3 : 1}"/>`;
+  for(let i = 0; i < 6; i++) g += `<line x1="${x0 + i * dx}" y1="${y0}" x2="${x0 + i * dx}" y2="${y0 + 5 * dy}" class="ln"/>`;
+  for(let j = 0; j < 6; j++) g += `<line x1="${x0}" y1="${y0 + j * dy}" x2="${x0 + 5 * dx}" y2="${y0 + j * dy}" class="ln"/>`;
+  if(base > 1) g += `<text x="${x0 + 5 * dx + 4}" y="${y0 + dy * .75}" class="fr">${base}</text>`;
+  fr.forEach((v, i) => { const x = x0 + i * dx;
+    g += v === null ? `<text x="${x}" y="${y0 - 5}" class="mk">×</text>` : v === 0 ? `<circle cx="${x}" cy="${y0 - 8}" r="2.6" class="open"/>`
+      : `<circle cx="${x}" cy="${y0 + (v - base + .5) * dy}" r="3.6" class="dot"/>`; });
+  return g + '</svg>';
+}
+const keyLabel = () => `${KI.name}${SHIFT ? ` (${SHIFT > 0 ? '+' : ''}${SHIFT})` : ' 원곡'}`;
+function paintMeta(){
+  $('meta').innerHTML = [`${KI.name} ${D.mode === 'major' ? '장조' : '단조'}${SHIFT ? ` · 원곡 ${D.key}` : ''}`, `${D.bpm} BPM`,
+    (KI.capo ? `카포 ${KI.capo} · ${KI.form} 모양` : '카포 없음'), `${D.rows.reduce((n, r) => n + r.length, 0)}블록`].map(x => `<span>${x}</span>`).join('');
+  $('keyV').textContent = `🎚 키 ${keyLabel()}`;
+}
+function setShift(n){
+  SHIFT = Math.max(-6, Math.min(6, n)); try{ localStorage.setItem(KEY + '.shift', SHIFT); }catch(_){}
+  KI = keyInfo(); paint(); paintMeta(); bkKey = ''; if(typeof paintBuskHead === 'function') paintBuskHead();
+}
 
 function paint(){
   document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === MODE));
   $('capoNote').textContent = MODE === 'shape'
-    ? (D.capo ? `카포를 ${D.capo}프렛에 끼우고 아래 모양으로 잡으면 원래 소리(${D.key})가 납니다. 바레 코드 없이 칠 수 있습니다.`
-              : `카포 없이 아래 모양 그대로 원래 소리(${D.key})입니다.`)
-    : `원래 코드(카포 없이). ${D.key} 조라 바레 코드가 많습니다 — 「카포 모양」을 권합니다.`;
-  $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + D.real[c] : ''}</small>${D.diag[nm(c)] || ''}</div>`).join('');
+    ? (KI.capo ? `카포를 ${KI.capo}프렛에 끼우고 아래 모양으로 잡으면 ${KI.name} 소리가 납니다. 바레 코드 없이 칠 수 있습니다.`
+               : `카포 없이 아래 모양 그대로 ${KI.name} 소리입니다.`)
+    : `원래 코드(카포 없이) · ${KI.name} 조.`;
+  if(SHIFT) $('capoNote').textContent += ` 키를 ${SHIFT > 0 ? '올려' : '내려'} 원곡(${D.key})과 다릅니다 — 영상 소리와는 맞지 않으니 🔇 로 두고 직접 연주하세요.`;
+  $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + realOf(c) : ''}</small>${diagram(nm(c))}</div>`).join('');
   // 기본 진행 = 가장 많이 나오는 4마디 줄
   const cnt = {}; D.rows.forEach(r => { const k = r.map(b => b[2].join(' ')).join(' | '); cnt[k] = (cnt[k] || 0) + 1; });
   const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
@@ -347,7 +396,7 @@ function paintBusk(t){
 }
 async function openBusk(){
   BUSK = true; bkKey = ''; bkHint = false; $('busk').hidden = false; document.body.classList.add('busking');
-  $('bkTitle').textContent = D.title; $('bkCapo').textContent = D.capo && MODE === 'shape' ? `· 카포 ${D.capo}` : '';
+  $('bkTitle').textContent = D.title; paintBuskHead();
   try{ await document.documentElement.requestFullscreen?.(); }catch(_){}   // 페이지 전체를 — 영상 창도 같이 보이게
   paintMute(); if(!playing()) tryPlay();
   try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){}
@@ -377,6 +426,14 @@ document.addEventListener('keydown', e => {                // 키보드 ← → 
   if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); bkNav(1); }
   else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); bkNav(-1); }
 });
+function paintBuskHead(){
+  $('bkCapo').textContent = KI.capo && MODE === 'shape' ? `· 카포 ${KI.capo}` : '';
+  $('bkMode').textContent = MODE === 'shape' ? '카포 모양 ▸ 원래 코드' : '원래 코드 ▸ 카포 모양';
+  $('bkKeyV').textContent = keyLabel();
+}
+$('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
+$('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
+$('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => { if(playing()) player.pauseVideo(); else tryPlay(); };   // 화면을 누르면 재생 / 멈춤
 $('bkMute').onclick = () => { try{ if(player.isMuted()) player.unMute(); else player.mute(); }catch(_){} setTimeout(paintMute, 150); };
@@ -425,7 +482,7 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
     document.querySelectorAll('.dg.on').forEach(x => { if(x.dataset.c !== c) x.classList.remove('on'); });
     const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on'); } } }, 50);   // 0.05초마다
 
-paint();
+paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
   player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
 };

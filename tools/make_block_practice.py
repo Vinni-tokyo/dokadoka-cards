@@ -23,7 +23,7 @@ import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
-from make_chord_sheet import NOTES, diagram, name, pick_capo   # noqa: E402
+from make_chord_sheet import FING, NOTES, name, pick_capo   # noqa: E402
 
 def srt_cues(path):
     out = []
@@ -129,12 +129,10 @@ def build(app, title, artist, src, back, out):
     sharp = NOTES[home] in SHARP_HOMES
     real = {c: (c if sharp else name(c, 0)) for c in used}
     shape = {c: name(c, capo) for c in used}
-    diag = {real[c]: diagram(name(c, 0)) for c in used}
-    diag.update({shape[c]: diagram(shape[c]) for c in used})
 
     DATA = {'vid': vid, 'title': title, 'artist': artist, 'key': real.get(d['key'], d['key']) if d['key'] in real else (d['key'] if sharp else name(d['key'], 0)),
             'mode': d['mode'], 'bpm': d['bpm'], 'fit': d['fit'], 'capo': capo, 'form': form, 'rows': rows,
-            'real': real, 'shape': shape, 'order': used, 'diag': diag, 'store': app + '.blocks',
+            'real': real, 'order': used, 'fing': FING,   # 운지 그림·키 이동은 화면(tpl)이 한다 'store': app + '.blocks',
             'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
             'lines': app_lines(S)}
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'tpl.html'), encoding='utf-8').read()

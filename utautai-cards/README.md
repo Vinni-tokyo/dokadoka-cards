@@ -85,3 +85,6 @@ cd src && ../../.venv/bin/python gen_words.py > words.txt && python3 build.py
 ```bash
 .venv/bin/python tools/make_block_practice.py utautai-cards --title "歌うたいのバラッド" --artist "…" --src "…"
 ```
+
+🎚 키 올리기·내리기(반음 −6~+6): 코드·카포 위치(C→G→D→A→E 모양, 5프렛 이내)·운지 그림이 함께 바뀐다. 영상 음높이는 그대로라 키를 바꾸면 🔇 로 두고 직접 연주한다. 버스킹 화면에도 키·카포/원래 코드 전환이 있다.
+코드 출처: 원곡에서 목소리를 뗀 반주(demucs)를 tools/chord_simple.py 로 자동 채보한 간이 코드(경과 코드는 빠짐).
