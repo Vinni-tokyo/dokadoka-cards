@@ -146,6 +146,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <span id="keyV"></span>
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
+  <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -212,15 +213,29 @@ const SHOWN = {'D#': 'E♭', 'G#': 'A♭', 'A#': 'B♭'};                   // �
 function parseC(c){ const m = c.match(/^([A-G])([#♭b]?)(.*)$/); let i = SH.indexOf(m[1]); if(m[2] === '#') i++; else if(m[2]) i--; return [(i + 12) % 12, m[3]]; }
 let SHIFT = 0; try{ SHIFT = parseInt(localStorage.getItem(KEY + '.shift')) || 0; }catch(_){}
 const K0 = parseC(D.key)[0];
+// 카포: 기본은 「고정」 — 키를 바꿔도 카포는 원곡 자리 그대로, 코드가 바뀐다(올릴 때 손 모양이 그대로라 「안 바뀐다」던 것).
+//       「자동」 — 키마다 개방 코드로 칠 수 있는 카포를 다시 고른다(손 모양 유지, 카포만 이동).
+let CAPO_AUTO = false; try{ CAPO_AUTO = localStorage.getItem(KEY + '.capoAuto') === '1'; }catch(_){}
+function autoCapo(k){
+  for(const f of ['C', 'G', 'D', 'A', 'E']){ const c = (k - SH.indexOf(f) + 12) % 12; if(c <= 5) return [c, f]; }
+  return [0, SH[k]];
+}
 function keyInfo(){
   const k = ((K0 + SHIFT) % 12 + 12) % 12, flat = [5, 10, 3, 8, 1].includes(k);      // F B♭ E♭ A♭ D♭ 는 ♭ 표기
-  let capo = 0, form = SH[k];
-  for(const f of ['C', 'G', 'D', 'A', 'E']){ const c = (k - SH.indexOf(f) + 12) % 12; if(c <= 5){ capo = c; form = f; break; } }
-  return {k, flat, capo, form, name: flat && FLATK[SH[k]] ? FLATK[SH[k]] : SH[k]};
+  const [capo0] = autoCapo(K0), [ac, af] = autoCapo(k);
+  const capo = CAPO_AUTO ? ac : capo0, fi = ((k - capo) % 12 + 12) % 12, fs = SH[fi];
+  return {k, flat, capo, form: [5, 10, 3, 8, 1].includes(fi) ? (FLATK[fs] || fs) : fs, auto: [ac, af], name: flat && FLATK[SH[k]] ? FLATK[SH[k]] : SH[k]};
 }
 let KI = keyInfo();
-const realOf = c => { const [i, q] = parseC(D.real[c]), s = SH[((i + SHIFT) % 12 + 12) % 12]; return (KI.flat && FLATK[s] ? FLATK[s] : s) + q; };
-const shapeOf = c => { const [i, q] = parseC(D.real[c]), s = SH[((i + SHIFT - KI.capo) % 12 + 24) % 12]; return (SHOWN[s] || s) + q; };
+// 샵·플랫 표기는 「그 코드를 잡는 키」에 맞춘다: G D A E B F# 키 → 샵, F B♭ E♭ A♭ D♭ 키 → 플랫, C 키 → B♭·E♭·A♭
+function spell(i, q, keyIdx){
+  const s = SH[(i % 12 + 12) % 12], kk = (keyIdx % 12 + 12) % 12;
+  if([7, 2, 9, 4, 11, 6].includes(kk)) return s + q;
+  if([5, 10, 3, 8, 1].includes(kk)) return (FLATK[s] || s) + q;
+  return (SHOWN[s] || s) + q;
+}
+const realOf = c => { const [i, q] = parseC(D.real[c]); return spell(i + SHIFT, q, KI.k); };
+const shapeOf = c => { const [i, q] = parseC(D.real[c]); return spell(i + SHIFT - KI.capo, q, KI.k - KI.capo); };
 const nm = c => MODE === 'shape' ? shapeOf(c) : realOf(c);
 const FALIAS = {'D♭': 'C#', 'G♭': 'F#', 'A#': 'B♭', 'D#': 'E♭', 'G#': 'A♭'};
 function diagram(n){                                       // tools/make_chord_sheet.py 의 diagram() 과 같은 그림
@@ -254,6 +269,11 @@ function paint(){
                : `카포 없이 아래 모양 그대로 ${KI.name} 소리입니다.`)
     : `원래 코드(카포 없이) · ${KI.name} 조.`;
   if(SHIFT) $('capoNote').textContent += ` 키를 ${SHIFT > 0 ? '올려' : '내려'} 원곡(${D.key})과 다릅니다 — 영상 소리와는 맞지 않으니 🔇 로 두고 직접 연주하세요.`;
+  if(MODE === 'shape' && !CAPO_AUTO && KI.auto[0] !== KI.capo)
+    $('capoNote').textContent += ` 카포를 ${KI.auto[0] ? KI.auto[0] + '프렛' : '빼'}${KI.auto[0] ? '으로 옮기면' : '면'} ${KI.auto[1]} 모양으로 더 쉽게 칠 수 있어요(「카포 자동」).`;
+  $('capoAuto').textContent = CAPO_AUTO ? '🔄 카포 자동' : '🔒 카포 고정';
+  $('capoAuto').setAttribute('aria-pressed', CAPO_AUTO);
+  $('capoAuto').title = CAPO_AUTO ? '키마다 카포를 옮겨 손 모양을 유지합니다' : '카포는 원곡 자리 그대로, 코드가 바뀝니다';
   $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + realOf(c) : ''}</small>${diagram(nm(c))}</div>`).join('');
   // 기본 진행 = 가장 많이 나오는 4마디 줄
   const cnt = {}; D.rows.forEach(r => { const k = r.map(b => b[2].join(' ')).join(' | '); cnt[k] = (cnt[k] || 0) + 1; });
@@ -438,6 +458,7 @@ function paintBuskHead(){
 }
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
+$('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
