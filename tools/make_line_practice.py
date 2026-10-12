@@ -13,6 +13,8 @@
 사용: python3 tools/make_line_practice.py <앱폴더> --title 제목 --src "출처 문구" [--back 앱.html]
 """
 import argparse
+import asyncio
+import hashlib
 import glob
 import io
 import json
@@ -32,7 +34,55 @@ def rows_of(path, n):
     return out
 
 
-def build(app, title, src, back):
+KO_VOICE, KO_RATE = 'ko-KR-SunHiNeural', '-5%'
+
+
+def ko_text(t):
+    """뜻을 읽기 좋게: 괄호 주석·〜 를 뗀다"""
+    t = re.sub(r'[（(][^）)]*[）)]', '', t or ''); t = re.sub(r'[~〜～]', '', t)
+    return re.sub(r'\s+', ' ', t).strip()
+
+
+def ko_audio(app, lines):
+    """🇰🇷 뜻 듣기용 음원: 대사마다 한국어 뜻을 edge-tts 로 → <앱>/lines_ko/<해시>.mp3 (있으면 건너뜀)"""
+    import edge_tts, sys
+    d = os.path.join(ROOT, app, 'lines_ko'); os.makedirs(d, exist_ok=True)
+    jobs = {}
+    for ln in lines:
+        k = ko_text(ln[3])
+        if not k: ln.append(''); continue
+        fn = hashlib.sha1(('ko:' + k).encode('utf-8')).hexdigest()[:14] + '.mp3'
+        ln.append(fn); jobs.setdefault(fn, k)
+    todo = [(fn, k) for fn, k in jobs.items() if not os.path.exists(os.path.join(d, fn))]
+    async def run():
+        sem = asyncio.Semaphore(6)
+        async def one(fn, k):
+            async with sem:
+                fp = os.path.join(d, fn)
+                for n in range(3):
+                    try:
+                        await edge_tts.Communicate(k, KO_VOICE, rate=KO_RATE).save(fp)
+                        if os.path.getsize(fp) > 0: return
+                    except Exception: await asyncio.sleep(1.5 * (n + 1))
+                if os.path.exists(fp) and os.path.getsize(fp) == 0: os.remove(fp)   # 실패하면 빈 파일을 남기지 않는다
+        await asyncio.gather(*[one(fn, k) for fn, k in todo])
+    if todo:
+        try: asyncio.run(run())
+        except Exception as e: print('  뜻 음원 생성 실패(내장 음성으로 읽는다):', str(e)[:80])
+        sys.path.insert(0, os.path.join(ROOT, 'tools'))
+        from normalize_audio import normalize_dir
+        normalize_dir(d)
+    keep = set(jobs)
+    for f in os.listdir(d):                              # 대사가 바뀌어 안 쓰는 파일은 지운다
+        if f.endswith('.mp3') and f not in keep: os.remove(os.path.join(d, f))
+    for ln in lines:                                     # 없거나 빈 파일이면 화면이 브라우저 내장 음성으로 읽는다
+        fp = os.path.join(d, ln[8]) if ln[8] else ''
+        if ln[8] and (not os.path.exists(fp) or os.path.getsize(fp) == 0): ln[8] = ''
+    if not os.listdir(d): os.rmdir(d)
+    return sum(1 for fn in jobs if os.path.exists(os.path.join(d, fn)))
+
+
+def build(app, title, src, back, audio=True):
     S = os.path.join(ROOT, app, 'src')
     segs = json.load(io.open(os.path.join(S, 'segs.json'), encoding='utf-8'))
     ko = {int(q[0]): q for q in rows_of(os.path.join(S, 'ko.txt'), 3) if q[0].isdigit()}
@@ -58,6 +108,7 @@ def build(app, title, src, back):
                       [sh['t'], sh['x']] if sh else None])
     for a, b in zip(lines, lines[1:]):                  # 자막이 겹치면 다음 대사 시작에서 자른다(블록이 겹치지 않게)
         if a[1] > b[0]: a[1] = b[0]
+    new = ko_audio(app, lines) if audio else [ln.append('') for ln in lines] and 0   # [8] = 한국어 뜻 음원 파일
     DATA = {'vid': vid, 'title': title, 'src': src, 'store': app + '.lines',
             'back': [back, '앱으로'] if back else None, 'lines': lines, 'spk': spk_order}
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'lines.html'), encoding='utf-8').read()
@@ -66,14 +117,14 @@ def build(app, title, src, back):
     io.open(os.path.join(ROOT, app, 'blocks.html'), 'w', encoding='utf-8').write(html)
     print(f'{app}/blocks.html: 대사 {len(lines)} · 묶음 {(len(lines) + 3) // 4} · 화자 {len(spk_order)} · '
           f'교정문 {sum(1 for x in segs if x["id"] in fixes)} · 단어 칩 {sum(len(l[6]) for l in lines)} · '
-          f'뒤에서 쌓기 대사 {sum(1 for l in lines if l[7])}')
+          f'뒤에서 쌓기 대사 {sum(1 for l in lines if l[7])} · 뜻 음원 파일 {sum(1 for l in lines if l[8])}/{len(lines)}(없는 대사는 내장 음성)')
 
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('app'); ap.add_argument('--title', required=True); ap.add_argument('--src', required=True)
-    ap.add_argument('--back', default='')
+    ap.add_argument('--back', default=''); ap.add_argument('--no-audio', action='store_true')
     a = ap.parse_args()
     app = a.app.strip('/')
     back = a.back or next((os.path.basename(p) for p in glob.glob(os.path.join(ROOT, app, '*-Cards.html'))), '')
-    build(app, a.title, a.src, back)
+    build(app, a.title, a.src, back, audio=not a.no_audio)

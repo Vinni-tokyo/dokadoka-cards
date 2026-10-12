@@ -104,3 +104,9 @@ python3 tools/make_line_practice.py bokuyaba-cards --title "…" --src "…"
 .venv/bin/yt-dlp -f bestaudio -x --audio-format wav --postprocessor-args "-ac 1 -ar 16000" -o "audio.%(ext)s" -- "<VID>"   # 리포에 넣지 않음
 .venv/bin/python tools/shadow_chunks.py bokuyaba-cards audio.wav && python3 tools/make_line_practice.py bokuyaba-cards --title "…" --src "…"
 ```
+
+### 🇰🇷 뜻 듣기
+
+켜면 일본어 대사(영상 원음)가 끝날 때마다 멈추고 한국어 뜻을 읽은 뒤 이어 간다(🔁 이 줄이면 일본어 → 한국어 → 다시, 🗣 따라 말하기와 함께면 뜻 뒤에 쉼,
+🪜 쌓기는 전체 3회 뒤 한 번). 음원은 `lines_ko/` 의 edge-tts 파일이 있으면 그것, 없으면 브라우저 내장 한국어 음성.
+2026-10-13 현재 edge-tts 가 403(Microsoft 쪽 거부)이라 파일 없이 내장 음성으로 읽는다 — 풀리면 `make_line_practice.py` 를 다시 돌리면 파일이 생긴다.
