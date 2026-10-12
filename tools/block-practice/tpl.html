@@ -2,7 +2,7 @@
 <html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
-<title>Courage Within 기타</title>
+<title>/*__TITLE__*/</title>
 <style>
 :root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
  --hot:#e8590c;--hot-soft:#fdeee4;--b:#7a4a9b;--b-soft:#f2eaf8}
@@ -15,6 +15,8 @@ body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+/* 기능 이름 */
+.eb{margin:0;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--hot)}
 h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .by{color:var(--ink-3);font-size:14px}
 .meta{display:flex;flex-wrap:wrap;gap:6px}
@@ -74,8 +76,8 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style></head><body>
 <div class="app">
- <a class="back" href="../index.html">‹ 도카도카 관문으로</a>
- <div><h1 id="title"></h1><div class="by" id="by"></div></div>
+ <a class="back" id="back" href="../index.html">‹ 도카도카 관문으로</a>
+ <div><p class="eb">🧱 블록 연습 · Block Practice</p><h1 id="title"></h1><div class="by" id="by"></div></div>
  <div class="meta" id="meta"></div>
  <div class="yt"><div id="yt"></div></div>
  <div class="ctl">
@@ -94,8 +96,8 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
  <div class="prog" id="prog"></div>
  <div class="rows" id="rows"></div>
  <p class="foot">줄을 누르면 그 줄부터 재생합니다. <b>재생 중인 칸을 한 번 더 누르면 멈추고</b>, 다시 누르면 이어집니다(아래 ⏯ 도 같음). 오른쪽 🔁 은 그 줄(4마디)만, 아래 막대의 <b>🔁 이 칸</b>은 지금 재생 중인 칸(1마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
-  코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). 줄 왼쪽 A·B 는 코드로 가른 구분이고(B = D#m·C#m 이 나오는 줄), 곡의 실제 절 구분과 다를 수 있습니다.<br>
-  가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공). 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+  코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). <span id="note2"></span><br>
+  <span id="src"></span> 학습용 개인 이용을 전제로 한 페이지입니다.</p>
 </div>
 <div class="dock" role="region" aria-label="재생">
  <div class="in">
@@ -110,9 +112,12 @@ const D = /*__DATA__*/{};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
-try{ MODE = localStorage.getItem('courage.mode') || 'shape'; }catch(_){}
+const KEY = D.store || 'blocks';
+try{ MODE = localStorage.getItem(KEY + '.mode') || 'shape'; }catch(_){}
+if(D.back){ $('back').href = D.back[0]; $('back').textContent = '‹ ' + D.back[1]; }
+$('note2').textContent = D.note || ''; $('src').textContent = D.src || '';
 $('title').textContent = D.title; $('by').textContent = D.artist;
-$('meta').innerHTML = [`${D.key} ${D.mode === 'major' ? '장조' : '단조'}`, `${D.bpm} BPM`, `카포 ${D.capo} · ${D.form} 모양`, `${D.rows.length * 4}마디`].map(x => `<span>${x}</span>`).join('');
+$('meta').innerHTML = [`${D.key} ${D.mode === 'major' ? '장조' : '단조'}`, `${D.bpm} BPM`, `카포 ${D.capo} · ${D.form} 모양`, `${D.rows.reduce((n, r) => n + r.length, 0)}블록`].map(x => `<span>${x}</span>`).join('');
 $('fit').textContent = D.fit;
 const nm = c => (MODE === 'shape' ? D.shape : D.real)[c];
 
@@ -129,8 +134,8 @@ function paint(){
   $('prog').innerHTML = `가장 많이 나오는 줄(${top[1]}번): ` + seq.map(c => `<b>${nm(c)}</b>`).join(' → ');
   const box = $('rows'); box.innerHTML = '';
   D.rows.forEach((r, i) => {
-    const row = document.createElement('div'); row.className = 'row ' + D.labels[i] + (LOOP === i ? ' looping' : ''); row.id = 'r' + i;
-    row.innerHTML = `<button type="button" class="tm" aria-label="${fmt(r[0][0])}부터 재생"><i>${D.labels[i]}</i>${fmt(r[0][0])}</button>` +
+    const row = document.createElement('div'); row.className = 'row ' + ((D.labels || [])[i] || '') + (LOOP === i ? ' looping' : ''); row.id = 'r' + i;
+    row.innerHTML = `<button type="button" class="tm" aria-label="${fmt(r[0][0])}부터 재생">${D.labels && D.labels[i] ? `<i>${D.labels[i]}</i>` : ''}${fmt(r[0][0])}</button>` +
       r.map((b, j) => `<div class="bar" id="b${i}_${j}">${b[2].map(c => `<span>${nm(c)}</span>`).join('')}</div>`).join('') +
       '<div class="bar" style="visibility:hidden"></div>'.repeat(4 - r.length) +
       `<button type="button" class="lp" aria-pressed="${LOOP === i}" aria-label="이 줄 반복">🔁</button>`;
@@ -146,7 +151,7 @@ function paint(){
   if(LB >= 0) $(`b${flat[LB][2]}_${flat[LB][3]}`).classList.add('lp1');   // 다시 그려도 칸 반복 표시 유지
   cur = -1;
 }
-document.querySelectorAll('#mode button').forEach(b => b.onclick = () => { MODE = b.dataset.v; try{ localStorage.setItem('courage.mode', MODE); }catch(_){} paint(); });
+document.querySelectorAll('#mode button').forEach(b => b.onclick = () => { MODE = b.dataset.v; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); });
 document.querySelectorAll('#speed button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', x === b));
   try{ player && player.setPlaybackRate(Number(b.dataset.v)); }catch(_){}

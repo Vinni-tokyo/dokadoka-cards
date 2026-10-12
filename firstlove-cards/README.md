@@ -98,3 +98,13 @@ python3 src/build.py
 - 번역·읽기·주석·학습 항목은 직접 작성한 것이라 오류가 있을 수 있습니다.
 
 학습용 개인 이용을 전제로 한 페이지입니다. 영상은 YouTube 공식 플레이어로 재생됩니다.
+
+## 🧱 블록 연습 (`blocks.html`)
+
+「🎸 기타 코드」 메뉴 맨 위. 곡을 마디(블록) 단위 코드 격자로 보여 주고, 영상에 맞춰 지금 블록이 켜진다.
+블록을 눌러 듣기·다시 눌러 멈추기, 아래 막대의 「🔁 이 칸」(블록 하나 반복)·줄 🔁(4블록 반복), 0.75×·0.5×, 카포 모양/원래 코드 운지.
+가사는 싣지 않는다(가사는 앱 본문에 있다). 재료는 `src/chords.json` · `src/beats.json`.
+
+```bash
+.venv/bin/python tools/make_block_practice.py firstlove-cards --title "First Love" --artist "…" --src "…"
+```

@@ -30,8 +30,10 @@ YouTube 「Courage Within」(Lofi Brew 로파이 브루, mixtape.so 제공, 2026
 ## 재빌드
 
 ```bash
-cd src && python3 build.py      # chords.json + tpl.html → ../index.html  (numpy 필요 — 리포 .venv)
+python3 courage-guitar/src/build.py      # 공용 도구 tools/make_block_practice.py 를 부른다(numpy 필요 — 리포 .venv)
 ```
+
+화면은 다른 곡과 같은 공용 「🧱 블록 연습」 템플릿(`tools/block-practice/tpl.html`)이다.
 
 ## 출처
 
