@@ -395,10 +395,10 @@ function paintBusk(t){
   $('bkNext').innerHTML = nxt[0]; $('bkNext').classList.toggle('inst', nxt[1]);
 }
 async function openBusk(){
-  BUSK = true; bkKey = ''; bkHint = false; $('busk').hidden = false; document.body.classList.add('busking');
+  BUSK = true; bkKey = ''; bkHint = false; bkPos = null; $('busk').hidden = false; document.body.classList.add('busking');
   $('bkTitle').textContent = D.title; paintBuskHead();
   try{ await document.documentElement.requestFullscreen?.(); }catch(_){}   // 페이지 전체를 — 영상 창도 같이 보이게
-  paintMute(); if(!playing()) tryPlay();
+  paintMute();                                            // 열어도 재생하지 않는다 — 화면을 눌러야 재생(사용자 지시)
   try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){}
   let t = 0; try{ t = player.getCurrentTime(); }catch(_){} paintBusk(t);
 }
@@ -409,15 +409,20 @@ function closeBusk(){
 }
 // ◀ 이전 · 다음 ▶ : 줄 시작으로 영상을 옮긴다(그다음은 영상을 따라 자동). 가사가 없으면 4블록 줄 단위.
 function navStarts(){ return LINES.length ? LINES.map(l => l[0]) : D.rows.map(r => r[0][0]); }
+// 멈춘 동안의 넘기기: 한 번도 재생하지 않은 YouTube 는 멈춘 채 위치 옮기기를 제대로 받지 않는다(두 번째부터 무시·재생 때 처음으로).
+// 그래서 멈춰 있으면 버스킹 화면의 줄 위치(bkPos)만 옮기고, 화면을 눌러 재생할 때 그 위치로 옮겨 재생한다.
+let bkPos = null;
 function bkNav(dir){
-  let t = 0; try{ t = player.getCurrentTime(); }catch(_){ return; }
+  let t = 0; try{ t = playing() || bkPos === null ? player.getCurrentTime() : bkPos; }catch(_){ return; }
   const st = navStarts(), tv = t + LEAD;
   let k = -1; st.forEach((s, i) => { if(s <= tv) k = i; });          // 지금(또는 막 지난) 줄
   let to;
   if(dir > 0) to = st[k + 1];
   else to = k >= 0 && tv - st[k] > 1.5 ? st[k] : st[Math.max(0, k - 1)];
   if(to == null) return;
-  bkKey = ''; seek(to);
+  bkKey = '';
+  if(playing()) seek(to);                                   // 재생 중이면 영상을 옮겨 이어서
+  else { bkPos = to; paintBusk(to - LEAD + .01); }          // 멈춰 있으면 화면만 — 재생은 화면을 눌러야
 }
 $('bkPrev').onclick = e => { e.stopPropagation(); bkNav(-1); };
 $('bkNextB').onclick = e => { e.stopPropagation(); bkNav(1); };
@@ -435,7 +440,11 @@ $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ l
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
-$('bkStage').onclick = () => { if(playing()) player.pauseVideo(); else tryPlay(); };   // 화면을 누르면 재생 / 멈춤
+$('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
+  if(playing()){ player.pauseVideo(); return; }
+  if(bkPos !== null){ try{ player.seekTo(Math.max(0, bkPos + .02), true); }catch(_){} bkPos = null; }
+  tryPlay();
+};
 $('bkMute').onclick = () => { try{ if(player.isMuted()) player.unMute(); else player.mute(); }catch(_){} setTimeout(paintMute, 150); };
 document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && BUSK) closeBusk(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && BUSK) closeBusk(); });
@@ -451,7 +460,7 @@ function tick(){
     if(t >= e - .05 || t < s - 1) { player.seekTo(s, true); return; }
   }
   const tv = t + LEAD;                                     // 강조·막대는 앞당긴 시각으로
-  paintLine(tv); paintBusk(t);
+  paintLine(tv); if(!(BUSK && bkPos !== null && !playing())) paintBusk(t);   // 멈춘 채 넘긴 줄은 그대로 둔다
   const k = flat.findIndex(b => b[0] <= tv && tv < b[1]);
   // 막대: 지금 코드 · 시각 · 다음 코드
   let dur = 0; try{ dur = player.getDuration(); }catch(_){}
