@@ -90,7 +90,7 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
  <div class="diags" id="diags"></div>
  <div class="prog" id="prog"></div>
  <div class="rows" id="rows"></div>
- <p class="foot">줄을 누르면 그 줄부터 재생합니다. 오른쪽 🔁 은 그 줄(4마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
+ <p class="foot">줄을 누르면 그 줄부터 재생합니다. <b>재생 중인 칸을 한 번 더 누르면 멈추고</b>, 다시 누르면 이어집니다(아래 ⏯ 도 같음). 오른쪽 🔁 은 그 줄(4마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
   코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). 줄 왼쪽 A·B 는 코드로 가른 구분이고(B = D#m·C#m 이 나오는 줄), 곡의 실제 절 구분과 다를 수 있습니다.<br>
   가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공). 학습용 개인 이용을 전제로 한 페이지입니다.</p>
 </div>
@@ -131,7 +131,11 @@ function paint(){
       '<div class="bar" style="visibility:hidden"></div>'.repeat(4 - r.length) +
       `<button type="button" class="lp" aria-pressed="${LOOP === i}" aria-label="이 줄 반복">🔁</button>`;
     row.querySelector('.tm').onclick = () => seek(r[0][0]);
-    row.querySelectorAll('.bar[id]').forEach((el, j) => el.onclick = () => seek(r[j][0]));
+    // 재생 중인 블록을 다시 누르면 멈춤 · 멈춘 블록을 누르면 그 자리부터 이어서 · 다른 블록은 그 마디부터
+    row.querySelectorAll('.bar[id]').forEach((el, j) => el.onclick = () => {
+      if(el.classList.contains('now') && player && player.pauseVideo){ if(playing()) player.pauseVideo(); else player.playVideo(); }
+      else seek(r[j][0]);
+    });
     row.querySelector('.lp').onclick = () => { LOOP = LOOP === i ? -1 : i; paint(); if(LOOP === i) seek(r[0][0]); };
     box.appendChild(row);
   });
