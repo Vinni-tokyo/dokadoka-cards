@@ -109,15 +109,21 @@ def build(app, title, src, back, audio=True):
     for a, b in zip(lines, lines[1:]):                  # 자막이 겹치면 다음 대사 시작에서 자른다(블록이 겹치지 않게)
         if a[1] > b[0]: a[1] = b[0]
     new = ko_audio(app, lines) if audio else [ln.append('') for ln in lines] and 0   # [8] = 한국어 뜻 음원 파일
+    for ln in lines: ln.append('')                      # [9] = 시간 블록 종류('' = 대사)
+    # 🎵 오프닝·엔딩 · 📺 자막 없는 마지막 구간: 글자 없는 시간 블록(tools/time_blocks.py — 시각만, 가사·대사 글자는 없다)
+    tbp = os.path.join(S, 'time_blocks.json')
+    tb = json.load(io.open(tbp, encoding='utf-8')) if os.path.exists(tbp) else []
+    for b in tb: lines.append([b['s'], b['e'], '', '', '', '', [], None, '', b['kind']])
+    lines.sort(key=lambda l: l[0])
     DATA = {'vid': vid, 'title': title, 'src': src, 'store': app + '.lines',
             'back': [back, '앱으로'] if back else None, 'lines': lines, 'spk': spk_order}
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'lines.html'), encoding='utf-8').read()
     html = tpl.replace('/*__DATA__*/{}', json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))) \
               .replace('/*__TITLE__*/', f'{title} 대사 블록 연습')
     io.open(os.path.join(ROOT, app, 'blocks.html'), 'w', encoding='utf-8').write(html)
-    print(f'{app}/blocks.html: 대사 {len(lines)} · 묶음 {(len(lines) + 3) // 4} · 화자 {len(spk_order)} · '
+    print(f'{app}/blocks.html: 대사 {len(lines) - len(tb)} · 화자 {len(spk_order)} · '
           f'교정문 {sum(1 for x in segs if x["id"] in fixes)} · 단어 칩 {sum(len(l[6]) for l in lines)} · '
-          f'뒤에서 쌓기 대사 {sum(1 for l in lines if l[7])} · 뜻 음원 파일 {sum(1 for l in lines if l[8])}/{len(lines)}(없는 대사는 내장 음성)')
+          f'시간 블록 {len(tb)} · 뒤에서 쌓기 대사 {sum(1 for l in lines if l[7])} · 뜻 음원 파일 {sum(1 for l in lines if l[8])}/{len(lines)}(없는 대사는 내장 음성)')
 
 
 if __name__ == '__main__':

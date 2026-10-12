@@ -127,3 +127,14 @@ python3 tools/make_line_practice.py yubisaki-cards --title "…" --src "…"
 🪜 쌓기는 재생 중에 켜도 바로 지금 대사(대사 사이면 다음 대사)의 끝 덩어리부터 시작하고, 쌓다가 끄면 그 자리부터 일반 재생.
 
 아래 막대 둘째 줄에 듣기 모드 칩(🗣 따라 말하기 · 🪜 쌓기 · 🇰🇷 뜻 · ⏭ 대사만) — 위쪽 버튼과 같이 움직인다.
+
+### 🎵 오프닝 · 🎵 엔딩 · 📺 마지막 구간 (글자 없는 시간 블록)
+
+노래(♪ 자막 36줄)와 자막이 끝난 뒤(23:39~25:38)의 말소리 구간을 **시각만** 블록으로 둔다 — 오프닝 17 · 엔딩 19 · 마지막 구간 23.
+가사·대사 글자는 싣지 않는다(가사는 작사가의 저작물, 마지막 구간은 영상에 자막이 없다). 글자는 영상 플레이어의 자막(CC) 버튼으로 본다.
+블록을 눌러 그 구간 듣기 · 🔁 반복 · 속도 · 🗣 따라 하기는 대사와 같다. ⏭ 대사만을 켜면 건너뛴다.
+시각은 `tools/time_blocks.py`(♪ 큐의 시작·끝, 자막 뒤는 Silero VAD 말 구간) → `src/time_blocks.json`.
+
+```bash
+.venv/bin/python tools/time_blocks.py yubisaki-cards audio.wav && python3 tools/make_line_practice.py yubisaki-cards --title "…" --src "…"
+```
