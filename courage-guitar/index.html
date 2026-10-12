@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
+<title>Courage Within 기타</title>
+<style>
+:root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
+ --hot:#e8590c;--hot-soft:#fdeee4;--b:#7a4a9b;--b-soft:#f2eaf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}}
+:root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;padding:max(14px,env(safe-area-inset-top)) 16px 40px;display:flex;flex-direction:column;gap:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
+.by{color:var(--ink-3);font-size:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#11141b}}
+.tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.note{font-size:13px;color:var(--ink-3);line-height:1.55;margin:0}
+.diags{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.dg{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px 4px;text-align:center}
+.dg b{display:block;font-size:17px}
+.dg small{display:block;font-size:11px;color:var(--ink-3);min-height:1.2em}
+.dg.on{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot-soft)}
+.dg svg{width:70px;height:84px}
+.dg .ln{stroke:var(--ink-3);stroke-width:1}.dg .nut{stroke:var(--ink)}
+.dg .dot{fill:var(--ink)}.dg .open{fill:none;stroke:var(--ink);stroke-width:1.2}
+.dg .mk,.dg .fr{font-size:9px;fill:var(--ink-2);text-anchor:middle}.dg .fr{text-anchor:start}
+.prog{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--ink-2)}
+.prog b{font-size:16px;color:var(--ink)}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:48px repeat(4,1fr) 40px;gap:4px;align-items:stretch}
+.row .tm{border:0;background:none;padding:0;font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px}
+.row .tm i{font-style:normal;font-weight:800;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--brand-soft);color:var(--brand)}
+.row.B .tm i{background:var(--b-soft);color:var(--b)}
+.bar{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:10px 4px;display:flex;justify-content:space-around;align-items:center;gap:2px;font-weight:800;font-size:16px;min-height:46px}
+.bar span{min-width:0}
+.bar.now{border-color:var(--hot);background:var(--hot-soft)}
+.bar .h{color:var(--hot)}
+.row .lp{border:1px solid var(--line);background:var(--surface);border-radius:9px;font-size:15px;padding:0}
+.row .lp[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot)}
+.row.looping .bar{border-style:dashed}
+.foot{font-size:12px;color:var(--ink-3);line-height:1.6}
+@media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<div class="app">
+ <a class="back" href="../index.html">‹ 도카도카 관문으로</a>
+ <div><h1 id="title"></h1><div class="by" id="by"></div></div>
+ <div class="meta" id="meta"></div>
+ <div class="yt"><div id="yt"></div></div>
+ <div class="ctl">
+  <div class="seg" id="mode" role="group" aria-label="코드 표기">
+   <button type="button" data-v="shape" aria-pressed="true">카포 모양</button>
+   <button type="button" data-v="real" aria-pressed="false">원래 코드</button>
+  </div>
+  <div class="seg" id="speed" role="group" aria-label="재생 속도">
+   <button type="button" data-v="1" aria-pressed="true">1×</button>
+   <button type="button" data-v="0.75" aria-pressed="false">0.75×</button>
+   <button type="button" data-v="0.5" aria-pressed="false">0.5×</button>
+  </div>
+ </div>
+ <p class="note" id="capoNote"></p>
+ <div class="diags" id="diags"></div>
+ <div class="prog" id="prog"></div>
+ <div class="rows" id="rows"></div>
+ <p class="foot">줄을 누르면 그 줄부터 재생합니다. 오른쪽 🔁 은 그 줄(4마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
+  코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). 줄 왼쪽 A·B 는 코드로 가른 구분이고(B = D#m·C#m 이 나오는 줄), 곡의 실제 절 구분과 다를 수 있습니다.<br>
+  가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공). 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+</div>
+<script>
+const D = {"vid":"9cbcKa3gE9Y","title":"Courage Within","artist":"Lofi Brew (로파이 브루)","key":"B","mode":"major","bpm":68,"fit":0.884,"capo":4,"form":"G","half":1.7645,"rows":[[[0.0,3.93,["B","F#"]],[3.93,7.46,["G#m","B"]],[7.46,10.99,["B","F#"]],[10.99,14.52,["B"]]],[[14.52,18.05,["B","F#"]],[18.05,21.57,["G#m","B"]],[21.57,25.1,["B","F#"]],[25.1,28.63,["E","B"]]],[[28.63,32.16,["B","F#"]],[32.16,35.69,["G#m","B"]],[35.69,39.22,["B","F#"]],[39.22,42.75,["E"]]],[[42.75,46.28,["B","F#"]],[46.28,49.81,["G#m","B"]],[49.81,53.33,["B","F#"]],[53.33,56.86,["E"]]],[[56.86,60.39,["B","F#"]],[60.39,63.92,["G#m","B"]],[63.92,67.45,["B","F#"]],[67.45,70.98,["E"]]],[[70.98,74.51,["F#"]],[74.51,78.04,["B","F#"]],[78.04,81.57,["G#m","E"]],[81.57,85.1,["B","F#"]]],[[85.1,88.62,["E"]],[88.62,92.15,["G#m","F#"]],[92.15,95.68,["E","D#m"]],[95.68,99.21,["C#m"]]],[[99.21,102.74,["F#"]],[102.74,106.27,["B","F#"]],[106.27,109.8,["G#m","E"]],[109.8,113.33,["B","F#"]]],[[113.33,116.86,["E"]],[116.86,120.39,["B","F#"]],[120.39,123.91,["G#m","E"]],[123.91,127.44,["B","F#"]]],[[127.44,130.97,["E"]],[130.97,134.5,["G#m","F#"]],[134.5,138.03,["E","D#m"]],[138.03,141.56,["C#m"]]],[[141.56,145.09,["B"]],[145.09,148.62,["B","F#"]],[148.62,152.15,["G#m","E"]],[152.15,155.68,["B","F#"]]],[[155.68,159.2,["E"]],[159.2,162.73,["B","F#"]],[162.73,166.26,["G#m","E"]],[166.26,169.79,["C#m"]]],[[169.79,173.32,["F#"]],[173.32,176.85,["B","F#"]],[176.85,180.38,["G#m","E"]],[180.38,183.91,["B","F#"]]],[[183.91,187.44,["E"]],[187.44,190.97,["G#m","F#"]],[190.97,194.49,["E","D#m"]],[194.49,198.02,["C#m"]]],[[198.02,201.55,["F#"]],[201.55,205.08,["B","F#"]],[205.08,208.61,["G#m","E"]],[208.61,212.14,["B"]]],[[212.14,215.67,["B"]],[215.67,219.2,["B"]],[219.2,222.73,["B"]],[222.73,226.26,["B"]]]],"labels":["A","A","A","A","A","A","B","A","A","B","A","B","A","B","A","A"],"real":{"B":"B","F#":"F#","G#m":"G#m","E":"E","D#m":"D#m","C#m":"C#m"},"shape":{"B":"G","F#":"D","G#m":"Em","E":"C","D#m":"Bm","C#m":"Am"},"order":["B","F#","G#m","E","D#m","C#m"],"diag":{"B":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"B 운지\"><title>B</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/></svg>","F#":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"F# 운지\"><title>F#</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><circle cx=\"12.0\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"21.2\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/></svg>","G#m":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"A♭m 운지\"><title>A♭m</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"1\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"62.0\" y=\"27.0\" class=\"fr\">4</text><circle cx=\"12.0\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"21.2\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/></svg>","E":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"E 운지\"><title>E</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><circle cx=\"12.0\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"21.2\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"58.0\" cy=\"10\" r=\"2.6\" class=\"open\"/></svg>","D#m":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"E♭m 운지\"><title>E♭m</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"1\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"62.0\" y=\"27.0\" class=\"fr\">6</text><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/></svg>","C#m":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"C#m 운지\"><title>C#m</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"1\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"62.0\" y=\"27.0\" class=\"fr\">4</text><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/></svg>","G":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"G 운지\"><title>G</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><circle cx=\"12.0\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"21.2\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"39.599999999999994\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"48.8\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"58.0\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/></svg>","D":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"D 운지\"><title>D</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><text x=\"21.2\" y=\"13\" class=\"mk\">×</text><circle cx=\"30.4\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"39.599999999999994\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/></svg>","Em":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"Em 운지\"><title>Em</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><circle cx=\"12.0\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"21.2\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"48.8\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"58.0\" cy=\"10\" r=\"2.6\" class=\"open\"/></svg>","C":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"C 운지\"><title>C</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"48.8\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"10\" r=\"2.6\" class=\"open\"/></svg>","Bm":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"Bm 운지\"><title>Bm</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"30.4\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"60.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"48.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/></svg>","Am":"<svg viewBox=\"0 0 70 84\" role=\"img\" aria-label=\"Am 운지\"><title>Am</title><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"nut\" stroke-width=\"3\"/><line x1=\"12.0\" y1=\"18\" x2=\"12.0\" y2=\"78\" class=\"ln\"/><line x1=\"21.2\" y1=\"18\" x2=\"21.2\" y2=\"78\" class=\"ln\"/><line x1=\"30.4\" y1=\"18\" x2=\"30.4\" y2=\"78\" class=\"ln\"/><line x1=\"39.599999999999994\" y1=\"18\" x2=\"39.599999999999994\" y2=\"78\" class=\"ln\"/><line x1=\"48.8\" y1=\"18\" x2=\"48.8\" y2=\"78\" class=\"ln\"/><line x1=\"58.0\" y1=\"18\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><line x1=\"12\" y1=\"18\" x2=\"58.0\" y2=\"18\" class=\"ln\"/><line x1=\"12\" y1=\"30\" x2=\"58.0\" y2=\"30\" class=\"ln\"/><line x1=\"12\" y1=\"42\" x2=\"58.0\" y2=\"42\" class=\"ln\"/><line x1=\"12\" y1=\"54\" x2=\"58.0\" y2=\"54\" class=\"ln\"/><line x1=\"12\" y1=\"66\" x2=\"58.0\" y2=\"66\" class=\"ln\"/><line x1=\"12\" y1=\"78\" x2=\"58.0\" y2=\"78\" class=\"ln\"/><text x=\"12.0\" y=\"13\" class=\"mk\">×</text><circle cx=\"21.2\" cy=\"10\" r=\"2.6\" class=\"open\"/><circle cx=\"30.4\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"39.599999999999994\" cy=\"36.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"48.8\" cy=\"24.0\" r=\"3.6\" class=\"dot\"/><circle cx=\"58.0\" cy=\"10\" r=\"2.6\" class=\"open\"/></svg>"}};
+const $ = id => document.getElementById(id);
+const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+let MODE = 'shape', LOOP = -1, player = null, cur = -1;
+try{ MODE = localStorage.getItem('courage.mode') || 'shape'; }catch(_){}
+$('title').textContent = D.title; $('by').textContent = D.artist;
+$('meta').innerHTML = [`${D.key} ${D.mode === 'major' ? '장조' : '단조'}`, `${D.bpm} BPM`, `카포 ${D.capo} · ${D.form} 모양`, `${D.rows.length * 4}마디`].map(x => `<span>${x}</span>`).join('');
+$('fit').textContent = D.fit;
+const nm = c => (MODE === 'shape' ? D.shape : D.real)[c];
+
+function paint(){
+  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === MODE));
+  $('capoNote').textContent = MODE === 'shape'
+    ? `카포를 ${D.capo}프렛에 끼우고 아래 모양으로 잡으면 원래 소리(${D.key})가 납니다. 바레 코드 없이 칠 수 있습니다.`
+    : `원래 코드(카포 없이). ${D.key} 조라 바레 코드가 많습니다 — 「카포 모양」을 권합니다.`;
+  $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + D.real[c] : ''}</small>${D.diag[nm(c)] || ''}</div>`).join('');
+  // 기본 진행 = 가장 많이 나오는 4마디 줄
+  const cnt = {}; D.rows.forEach(r => { const k = r.map(b => b[2].join(' ')).join(' | '); cnt[k] = (cnt[k] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  const seq = []; top[0].split(/ \| | /).forEach(c => { if(seq[seq.length - 1] !== c) seq.push(c); });
+  $('prog').innerHTML = `가장 많이 나오는 줄(${top[1]}번): ` + seq.map(c => `<b>${nm(c)}</b>`).join(' → ');
+  const box = $('rows'); box.innerHTML = '';
+  D.rows.forEach((r, i) => {
+    const row = document.createElement('div'); row.className = 'row ' + D.labels[i] + (LOOP === i ? ' looping' : ''); row.id = 'r' + i;
+    row.innerHTML = `<button type="button" class="tm" aria-label="${fmt(r[0][0])}부터 재생"><i>${D.labels[i]}</i>${fmt(r[0][0])}</button>` +
+      r.map((b, j) => `<div class="bar" id="b${i}_${j}">${b[2].map(c => `<span>${nm(c)}</span>`).join('')}</div>`).join('') +
+      '<div class="bar" style="visibility:hidden"></div>'.repeat(4 - r.length) +
+      `<button type="button" class="lp" aria-pressed="${LOOP === i}" aria-label="이 줄 반복">🔁</button>`;
+    row.querySelector('.tm').onclick = () => seek(r[0][0]);
+    row.querySelectorAll('.bar[id]').forEach((el, j) => el.onclick = () => seek(r[j][0]));
+    row.querySelector('.lp').onclick = () => { LOOP = LOOP === i ? -1 : i; paint(); if(LOOP === i) seek(r[0][0]); };
+    box.appendChild(row);
+  });
+  cur = -1;
+}
+document.querySelectorAll('#mode button').forEach(b => b.onclick = () => { MODE = b.dataset.v; try{ localStorage.setItem('courage.mode', MODE); }catch(_){} paint(); });
+document.querySelectorAll('#speed button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  try{ player && player.setPlaybackRate(Number(b.dataset.v)); }catch(_){}
+});
+function seek(t){ if(!player || !player.seekTo) return; player.seekTo(Math.max(0, t - .05), true); player.playVideo(); }
+
+// 재생 위치 → 지금 마디 강조 · 줄 반복
+const flat = []; D.rows.forEach((r, i) => r.forEach((b, j) => flat.push([b[0], b[1], i, j, b[2]])));
+function tick(){
+  if(!player || !player.getCurrentTime) return;
+  let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
+  if(LOOP >= 0){
+    const r = D.rows[LOOP], s = r[0][0], e = r[r.length - 1][1];
+    if(t >= e - .05 || t < s - 1) { player.seekTo(s, true); return; }
+  }
+  const k = flat.findIndex(b => b[0] <= t && t < b[1]);
+  if(k === cur) return;
+  document.querySelectorAll('.bar.now').forEach(x => x.classList.remove('now'));
+  document.querySelectorAll('.dg.on').forEach(x => x.classList.remove('on'));
+  cur = k; if(k < 0) return;
+  const [s, e, i, j, cs] = flat[k], el = $(`b${i}_${j}`);
+  el.classList.add('now');
+  // 지금 울리는 코드(반 마디)에 맞춰 운지 그림도 표시
+  const c = cs.length > 1 && t >= s + (e - s) / 2 ? cs[1] : cs[0];
+  const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on');
+  const rect = el.getBoundingClientRect();
+  if(rect.top < 80 || rect.bottom > innerHeight - 20) el.scrollIntoView({block: 'center', behavior: 'smooth'});
+}
+setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마디가 바뀌면 운지 갱신 */
+  const [s, e, , , cs] = flat[cur]; if(cs.length > 1){ let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
+    const c = t >= s + (e - s) / 2 ? cs[1] : cs[0];
+    document.querySelectorAll('.dg.on').forEach(x => { if(x.dataset.c !== c) x.classList.remove('on'); });
+    const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on'); } } }, 120);
+
+paint();
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}});
+};
+const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+</script>
+</body></html>

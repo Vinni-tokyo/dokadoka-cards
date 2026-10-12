@@ -1,0 +1,38 @@
+# Lofi Brew 「Courage Within」 — 기타 연습 페이지
+
+YouTube 「Courage Within」(Lofi Brew 로파이 브루, mixtape.so 제공, 2026-01-13, 3분 45초)의 **기타 코드 연습 페이지**.
+코드만 싣고 **가사는 싣지 않습니다**(정식 발매곡이라 가사 저작권이 작사가 쪽에 있다).
+
+## 기능
+
+- 영상(앱 안 재생)에 맞춰 **지금 마디가 켜지고**, 지금 울리는 코드의 운지 그림이 강조된다.
+- 줄(4마디)을 누르면 그 줄부터 재생, 오른쪽 🔁 는 **그 줄만 반복**.
+- 속도 **1× · 0.75× · 0.5×** (YouTube 재생 속도).
+- **카포 모양 / 원래 코드** 전환(기억함). 기본은 카포 4 · G 모양 — 바레 코드 없이 친다.
+
+| 원래 코드 | B | F# | G#m | E | D#m | C#m |
+|---|---|---|---|---|---|---|
+| 카포 4 모양 | G | D | Em | C | Bm | Am |
+
+## 코드를 딴 방법
+
+1. `yt-dlp -x --audio-format wav` 로 음원을 받고 `demucs --two-stems vocals` 로 목소리를 뗀 반주(no_vocals)를 만든다(음원은 리포에 넣지 않는다).
+2. `tools/chord_simple.py no_vocals.wav src/chords.json` — 조 B장조(일치도 0.884) · 68 BPM · 코드 구간 93.
+3. `src/build.py` — 코드 경계에 가장 잘 맞는 반 마디(2박) 격자를 재서(1.7645초, 시작 0.4초, 평균 오차 0.023칸)
+   반 마디마다 가운데 시각의 코드를 쓴다. 4박 = 1마디, 4마디 = 1줄 → 64마디 · 16줄.
+4. 카포·운지 그림은 `tools/make_chord_sheet.py` 와 같은 규칙·데이터를 가져다 쓴다.
+
+자동 채보라 틀린 칸이 있을 수 있습니다. 줄 왼쪽 **A·B 는 코드로 가른 구분**(B = D#m·C#m 이 나오는 줄)이고, 곡의 실제 절 구분과 다를 수 있습니다.
+
+## 재빌드
+
+```bash
+cd src && python3 build.py      # chords.json + tpl.html → ../index.html  (numpy 필요 — 리포 .venv)
+```
+
+## 출처
+
+- 영상 · 음원: YouTube Lofi Brew 「Courage Within」 (9cbcKa3gE9Y) — ℗ Lofi Brew, under license to mixtape.so
+- 코드: 반주 소리에서 자동 채보(학습용)
+
+학습용 개인 이용을 전제로 한 페이지입니다.

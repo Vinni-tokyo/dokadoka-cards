@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
+<title>Courage Within 기타</title>
+<style>
+:root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
+ --hot:#e8590c;--hot-soft:#fdeee4;--b:#7a4a9b;--b-soft:#f2eaf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}}
+:root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;padding:max(14px,env(safe-area-inset-top)) 16px 40px;display:flex;flex-direction:column;gap:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
+.by{color:var(--ink-3);font-size:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#11141b}}
+.tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.note{font-size:13px;color:var(--ink-3);line-height:1.55;margin:0}
+.diags{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.dg{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px 4px;text-align:center}
+.dg b{display:block;font-size:17px}
+.dg small{display:block;font-size:11px;color:var(--ink-3);min-height:1.2em}
+.dg.on{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot-soft)}
+.dg svg{width:70px;height:84px}
+.dg .ln{stroke:var(--ink-3);stroke-width:1}.dg .nut{stroke:var(--ink)}
+.dg .dot{fill:var(--ink)}.dg .open{fill:none;stroke:var(--ink);stroke-width:1.2}
+.dg .mk,.dg .fr{font-size:9px;fill:var(--ink-2);text-anchor:middle}.dg .fr{text-anchor:start}
+.prog{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--ink-2)}
+.prog b{font-size:16px;color:var(--ink)}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:48px repeat(4,1fr) 40px;gap:4px;align-items:stretch}
+.row .tm{border:0;background:none;padding:0;font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px}
+.row .tm i{font-style:normal;font-weight:800;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--brand-soft);color:var(--brand)}
+.row.B .tm i{background:var(--b-soft);color:var(--b)}
+.bar{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:10px 4px;display:flex;justify-content:space-around;align-items:center;gap:2px;font-weight:800;font-size:16px;min-height:46px}
+.bar span{min-width:0}
+.bar.now{border-color:var(--hot);background:var(--hot-soft)}
+.bar .h{color:var(--hot)}
+.row .lp{border:1px solid var(--line);background:var(--surface);border-radius:9px;font-size:15px;padding:0}
+.row .lp[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot)}
+.row.looping .bar{border-style:dashed}
+.foot{font-size:12px;color:var(--ink-3);line-height:1.6}
+@media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<div class="app">
+ <a class="back" href="../index.html">‹ 도카도카 관문으로</a>
+ <div><h1 id="title"></h1><div class="by" id="by"></div></div>
+ <div class="meta" id="meta"></div>
+ <div class="yt"><div id="yt"></div></div>
+ <div class="ctl">
+  <div class="seg" id="mode" role="group" aria-label="코드 표기">
+   <button type="button" data-v="shape" aria-pressed="true">카포 모양</button>
+   <button type="button" data-v="real" aria-pressed="false">원래 코드</button>
+  </div>
+  <div class="seg" id="speed" role="group" aria-label="재생 속도">
+   <button type="button" data-v="1" aria-pressed="true">1×</button>
+   <button type="button" data-v="0.75" aria-pressed="false">0.75×</button>
+   <button type="button" data-v="0.5" aria-pressed="false">0.5×</button>
+  </div>
+ </div>
+ <p class="note" id="capoNote"></p>
+ <div class="diags" id="diags"></div>
+ <div class="prog" id="prog"></div>
+ <div class="rows" id="rows"></div>
+ <p class="foot">줄을 누르면 그 줄부터 재생합니다. 오른쪽 🔁 은 그 줄(4마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
+  코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). 줄 왼쪽 A·B 는 코드로 가른 구분이고(B = D#m·C#m 이 나오는 줄), 곡의 실제 절 구분과 다를 수 있습니다.<br>
+  가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공). 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+</div>
+<script>
+const D = /*__DATA__*/{};
+const $ = id => document.getElementById(id);
+const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+let MODE = 'shape', LOOP = -1, player = null, cur = -1;
+try{ MODE = localStorage.getItem('courage.mode') || 'shape'; }catch(_){}
+$('title').textContent = D.title; $('by').textContent = D.artist;
+$('meta').innerHTML = [`${D.key} ${D.mode === 'major' ? '장조' : '단조'}`, `${D.bpm} BPM`, `카포 ${D.capo} · ${D.form} 모양`, `${D.rows.length * 4}마디`].map(x => `<span>${x}</span>`).join('');
+$('fit').textContent = D.fit;
+const nm = c => (MODE === 'shape' ? D.shape : D.real)[c];
+
+function paint(){
+  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === MODE));
+  $('capoNote').textContent = MODE === 'shape'
+    ? `카포를 ${D.capo}프렛에 끼우고 아래 모양으로 잡으면 원래 소리(${D.key})가 납니다. 바레 코드 없이 칠 수 있습니다.`
+    : `원래 코드(카포 없이). ${D.key} 조라 바레 코드가 많습니다 — 「카포 모양」을 권합니다.`;
+  $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + D.real[c] : ''}</small>${D.diag[nm(c)] || ''}</div>`).join('');
+  // 기본 진행 = 가장 많이 나오는 4마디 줄
+  const cnt = {}; D.rows.forEach(r => { const k = r.map(b => b[2].join(' ')).join(' | '); cnt[k] = (cnt[k] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  const seq = []; top[0].split(/ \| | /).forEach(c => { if(seq[seq.length - 1] !== c) seq.push(c); });
+  $('prog').innerHTML = `가장 많이 나오는 줄(${top[1]}번): ` + seq.map(c => `<b>${nm(c)}</b>`).join(' → ');
+  const box = $('rows'); box.innerHTML = '';
+  D.rows.forEach((r, i) => {
+    const row = document.createElement('div'); row.className = 'row ' + D.labels[i] + (LOOP === i ? ' looping' : ''); row.id = 'r' + i;
+    row.innerHTML = `<button type="button" class="tm" aria-label="${fmt(r[0][0])}부터 재생"><i>${D.labels[i]}</i>${fmt(r[0][0])}</button>` +
+      r.map((b, j) => `<div class="bar" id="b${i}_${j}">${b[2].map(c => `<span>${nm(c)}</span>`).join('')}</div>`).join('') +
+      '<div class="bar" style="visibility:hidden"></div>'.repeat(4 - r.length) +
+      `<button type="button" class="lp" aria-pressed="${LOOP === i}" aria-label="이 줄 반복">🔁</button>`;
+    row.querySelector('.tm').onclick = () => seek(r[0][0]);
+    row.querySelectorAll('.bar[id]').forEach((el, j) => el.onclick = () => seek(r[j][0]));
+    row.querySelector('.lp').onclick = () => { LOOP = LOOP === i ? -1 : i; paint(); if(LOOP === i) seek(r[0][0]); };
+    box.appendChild(row);
+  });
+  cur = -1;
+}
+document.querySelectorAll('#mode button').forEach(b => b.onclick = () => { MODE = b.dataset.v; try{ localStorage.setItem('courage.mode', MODE); }catch(_){} paint(); });
+document.querySelectorAll('#speed button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  try{ player && player.setPlaybackRate(Number(b.dataset.v)); }catch(_){}
+});
+function seek(t){ if(!player || !player.seekTo) return; player.seekTo(Math.max(0, t - .05), true); player.playVideo(); }
+
+// 재생 위치 → 지금 마디 강조 · 줄 반복
+const flat = []; D.rows.forEach((r, i) => r.forEach((b, j) => flat.push([b[0], b[1], i, j, b[2]])));
+function tick(){
+  if(!player || !player.getCurrentTime) return;
+  let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
+  if(LOOP >= 0){
+    const r = D.rows[LOOP], s = r[0][0], e = r[r.length - 1][1];
+    if(t >= e - .05 || t < s - 1) { player.seekTo(s, true); return; }
+  }
+  const k = flat.findIndex(b => b[0] <= t && t < b[1]);
+  if(k === cur) return;
+  document.querySelectorAll('.bar.now').forEach(x => x.classList.remove('now'));
+  document.querySelectorAll('.dg.on').forEach(x => x.classList.remove('on'));
+  cur = k; if(k < 0) return;
+  const [s, e, i, j, cs] = flat[k], el = $(`b${i}_${j}`);
+  el.classList.add('now');
+  // 지금 울리는 코드(반 마디)에 맞춰 운지 그림도 표시
+  const c = cs.length > 1 && t >= s + (e - s) / 2 ? cs[1] : cs[0];
+  const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on');
+  const rect = el.getBoundingClientRect();
+  if(rect.top < 80 || rect.bottom > innerHeight - 20) el.scrollIntoView({block: 'center', behavior: 'smooth'});
+}
+setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마디가 바뀌면 운지 갱신 */
+  const [s, e, , , cs] = flat[cur]; if(cs.length > 1){ let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
+    const c = t >= s + (e - s) / 2 ? cs[1] : cs[0];
+    document.querySelectorAll('.dg.on').forEach(x => { if(x.dataset.c !== c) x.classList.remove('on'); });
+    const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on'); } } }, 120);
+
+paint();
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}});
+};
+const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+</script>
+</body></html>
