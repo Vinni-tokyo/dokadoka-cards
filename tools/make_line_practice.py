@@ -38,6 +38,8 @@ def build(app, title, src, back):
     ko = {int(q[0]): q for q in rows_of(os.path.join(S, 'ko.txt'), 3) if q[0].isdigit()}
     fixes = {int(q[0]): q[1] for q in rows_of(os.path.join(S, 'fixes.txt'), 2) if q[0].isdigit()}
     words = [(q[0].split(','), q[1], q[2], q[3]) for q in rows_of(os.path.join(S, 'words.txt'), 4)]
+    shp = os.path.join(S, 'shadow.json')                # 🪜 뒤에서부터 쌓기용 덩어리 시각(tools/shadow_chunks.py)
+    shadow = json.load(io.open(shp, encoding='utf-8')) if os.path.exists(shp) else {}
     vid = re.search(r"VID\s*=\s*'([^']+)'", io.open(os.path.join(S, 'build.py'), encoding='utf-8').read()).group(1)
     lines, spk_order = [], []
     for x in sorted(segs, key=lambda x: x['s']):
@@ -51,7 +53,9 @@ def build(app, title, src, back):
             at = min((ja.find(s) for s in stems if s and s in ja), default=-1)
             if at >= 0 and head not in [h[1] for h in hits]: hits.append((at, head, rd, mean))
         hits.sort()
-        lines.append([round(x['s'], 2), round(x['e'], 2), ja, q[1], q[2], spk, [[h, r, m] for _, h, r, m in hits[:6]]])
+        sh = shadow.get(str(i))
+        lines.append([round(x['s'], 2), round(x['e'], 2), ja, q[1], q[2], spk, [[h, r, m] for _, h, r, m in hits[:6]],
+                      [sh['t'], sh['x']] if sh else None])
     for a, b in zip(lines, lines[1:]):                  # 자막이 겹치면 다음 대사 시작에서 자른다(블록이 겹치지 않게)
         if a[1] > b[0]: a[1] = b[0]
     DATA = {'vid': vid, 'title': title, 'src': src, 'store': app + '.lines',
@@ -61,7 +65,8 @@ def build(app, title, src, back):
               .replace('/*__TITLE__*/', f'{title} 대사 블록 연습')
     io.open(os.path.join(ROOT, app, 'blocks.html'), 'w', encoding='utf-8').write(html)
     print(f'{app}/blocks.html: 대사 {len(lines)} · 묶음 {(len(lines) + 3) // 4} · 화자 {len(spk_order)} · '
-          f'교정문 {sum(1 for x in segs if x["id"] in fixes)} · 단어 칩 {sum(len(l[6]) for l in lines)}')
+          f'교정문 {sum(1 for x in segs if x["id"] in fixes)} · 단어 칩 {sum(len(l[6]) for l in lines)} · '
+          f'뒤에서 쌓기 대사 {sum(1 for l in lines if l[7])}')
 
 
 if __name__ == '__main__':
