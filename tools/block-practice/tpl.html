@@ -103,13 +103,20 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .busk .nxt .c::before{color:#b0764f}
 .busk .lbl{font-size:13px;color:#7d8496;letter-spacing:.04em}
 .busk .bf{display:flex;align-items:center;gap:12px;font-size:14px;color:#9aa1b2;font-variant-numeric:tabular-nums}
-.busk .bf .prog{flex:1;height:4px;border-radius:99px;background:#262c38;overflow:hidden}
+.busk .bf .nav{flex:none;border:1px solid #333a48;background:#161a23;color:#f2f3f7;border-radius:12px;height:48px;padding:0 16px;font-size:16px;font-weight:800}
+.busk .bf .nav:active{background:#262c38}
+.busk .bf .mid{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.busk .bf .row2{display:flex;justify-content:space-between;gap:8px}
+.busk .bf .prog{height:4px;border-radius:99px;background:#262c38;overflow:hidden}
 .busk .bf .prog i{display:block;height:100%;width:0;background:#ff9b5e}
 .busk .paused{font-size:13px;color:#ff9b5e}
 .busk .bh .snd{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:40px;padding:0 12px;font-size:15px;font-weight:700}
 .busk .bh .snd[aria-pressed="true"]{border-color:#ff9b5e;color:#ff9b5e}
 /* 버스킹 중 영상: 플레이어를 옮기지 않고(옮기면 다시 불러온다) 오른쪽 아래 작은 창으로 띄운다 — 소리가 나오고, 폰에서 첫 ▶ 를 누를 수 있게 */
-body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(46px + env(safe-area-inset-bottom));width:min(220px,36vw);z-index:60;box-shadow:0 6px 20px #000a;border:1px solid #333a48}
+body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));width:min(220px,36vw);z-index:60;box-shadow:0 6px 20px #000a;border:1px solid #333a48}
+/* 가로(폰을 눕힘): 영상 창을 오른쪽 위로 올리고, 가사·코드는 그 왼쪽까지만 — 겹치지 않게 */
+@media (orientation:landscape) and (max-height:500px){body.busking .yt{width:min(170px,22vw);bottom:auto;top:calc(60px + env(safe-area-inset-top))}
+ .busk .stage{padding-right:calc(min(170px,22vw) + 14px)}}
 @media (orientation:landscape) and (max-height:500px){.busk .cur{font-size:clamp(26px,5.4vw,60px);line-height:2}.busk .nxt{font-size:clamp(16px,3vw,30px)}.busk .stage{gap:1.5vh}}
 @media (max-width:420px){.dock .in{gap:8px}.pp{width:48px;height:48px}.dock .now b{font-size:22px}.lb{padding:8px 9px;font-size:13px}.lb.sp{min-width:50px}.dock .nx b{font-size:15px}}
 @media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
@@ -154,7 +161,11 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   <div class="cur ln" id="bkCur" lang="ja"></div>
   <div class="nxt ln" id="bkNext" lang="ja"></div>
  </div>
- <div class="bf"><span id="bkT">0:00</span><div class="prog"><i id="bkProg"></i></div><span id="bkLine"></span></div>
+ <div class="bf">
+  <button type="button" class="nav" id="bkPrev" aria-label="이전 줄">◀ 이전</button>
+  <div class="mid"><div class="prog"><i id="bkProg"></i></div><div class="row2"><span id="bkT">0:00</span><span id="bkLine"></span></div></div>
+  <button type="button" class="nav" id="bkNextB" aria-label="다음 줄">다음 ▶</button>
+ </div>
 </div>
 <div class="dock" role="region" aria-label="재생">
  <div class="lyr" id="lyr" hidden>
@@ -347,6 +358,25 @@ function closeBusk(){
   try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(_){}
   try{ wakeB && wakeB.release(); }catch(_){} wakeB = null;
 }
+// ◀ 이전 · 다음 ▶ : 줄 시작으로 영상을 옮긴다(그다음은 영상을 따라 자동). 가사가 없으면 4블록 줄 단위.
+function navStarts(){ return LINES.length ? LINES.map(l => l[0]) : D.rows.map(r => r[0][0]); }
+function bkNav(dir){
+  let t = 0; try{ t = player.getCurrentTime(); }catch(_){ return; }
+  const st = navStarts(), tv = t + LEAD;
+  let k = -1; st.forEach((s, i) => { if(s <= tv) k = i; });          // 지금(또는 막 지난) 줄
+  let to;
+  if(dir > 0) to = st[k + 1];
+  else to = k >= 0 && tv - st[k] > 1.5 ? st[k] : st[Math.max(0, k - 1)];
+  if(to == null) return;
+  bkKey = ''; seek(to);
+}
+$('bkPrev').onclick = e => { e.stopPropagation(); bkNav(-1); };
+$('bkNextB').onclick = e => { e.stopPropagation(); bkNav(1); };
+document.addEventListener('keydown', e => {                // 키보드 ← → · 블루투스 페달(PageUp/PageDown)
+  if(!BUSK) return;
+  if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); bkNav(1); }
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); bkNav(-1); }
+});
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => { if(playing()) player.pauseVideo(); else tryPlay(); };   // 화면을 누르면 재생 / 멈춤
 $('bkMute').onclick = () => { try{ if(player.isMuted()) player.unMute(); else player.mute(); }catch(_){} setTimeout(paintMute, 150); };
