@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8">
+<html lang="ko" translate="no" class="notranslate"><head><meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
 <title>/*__TITLE__*/</title>
@@ -10,6 +11,9 @@
 :root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
+/* Chrome 「탭하여 검색·번역」 막기: 누르는 영역은 글자 선택이 안 되게(블록·막대·버스킹) */
+.ln,.bar,.dock,.busk,.gh,.row .tm{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP","Noto Sans KR",sans-serif;display:flex;justify-content:center}
 .app{width:100%;max-width:820px;padding:max(14px,env(safe-area-inset-top)) 16px calc(220px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
@@ -141,6 +145,7 @@ function render(){
     const gb = grp.querySelector('.gb');
     for(let i = g * 4; i < Math.min(L.length, g * 4 + 4); i++){
       const el = document.createElement('div'); el.className = 'ln' + (LB === i ? ' lp1' : ''); el.id = 'L' + i;
+      el.setAttribute('role', 'button'); el.tabIndex = 0;   // 버튼으로 알려야 Chrome 이 탭에 검색·번역을 띄우지 않는다
       el.style.setProperty('--c', colorOf(L[i][5]));
       el.innerHTML = `<span class="who" lang="ja"></span><span class="tx" lang="ja"></span>`;
       el.querySelector('.who').textContent = L[i][5] || ' ';
@@ -150,6 +155,7 @@ function render(){
         if(LB >= 0) setLB(i);
         if(BB && player && player.seekTo) bbStart(i); else seek(L[i][0]);
       };
+      el.onkeydown = ev => { if(ev.key === 'Enter'){ ev.preventDefault(); el.click(); } };
       gb.appendChild(el);
     }
     grp.querySelector('.lp').onclick = () => { LOOP = LOOP === g ? -1 : g; LB = -1; render(); paintLB(); if(LOOP === g) seek(L[g * 4][0]); };
