@@ -35,8 +35,12 @@ def line_kana(ja):
 
 def check(app):
     src = os.path.join(ROOT, app, 'src')
-    lines = [x for x in io.open(os.path.join(src, 'lyrics.txt'), encoding='utf-8').read().split('\n')
-             if x.strip() and not x.startswith('#')]
+    if os.path.exists(os.path.join(src, 'lyrics.txt')):
+        lines = [x for x in io.open(os.path.join(src, 'lyrics.txt'), encoding='utf-8').read().split('\n')
+                 if x.strip() and not x.startswith('#')]
+    else:                                   # 노래가 아닌 앱: 카드 원문(segs.json, id 차례)
+        import json
+        lines = [s['ja'] for s in sorted(json.load(io.open(os.path.join(src, 'segs.json'), encoding='utf-8')), key=lambda s: s['id'])]
     mine = {}
     for ln in io.open(os.path.join(src, 'ko.txt'), encoding='utf-8'):
         ln = ln.strip()

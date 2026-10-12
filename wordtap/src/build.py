@@ -126,7 +126,8 @@ def collect():
         app = f.split(os.sep)[-3]
         src = os.path.dirname(f)
         lines, vid = [], ''
-        if os.path.exists(os.path.join(src, 'subtitles.srt')):
+        # 자막 파일, 또는 자막이 없어 음성 인식으로 만든 원문(lines.txt → segs.json, 줄마다 시각) — haenali
+        if os.path.exists(os.path.join(src, 'subtitles.srt')) or os.path.exists(os.path.join(src, 'lines.txt')):
             b = io.open(os.path.join(src, 'build.py'), encoding='utf-8').read()
             m = re.search(r"VID\s*=\s*'([^']+)'", b)
             if m: vid, lines = m.group(1), app_lines(src); VIDS[app] = vid; LINES[app] = lines
