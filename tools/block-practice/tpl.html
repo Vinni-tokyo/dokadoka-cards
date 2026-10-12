@@ -106,6 +106,10 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .busk .bf .prog{flex:1;height:4px;border-radius:99px;background:#262c38;overflow:hidden}
 .busk .bf .prog i{display:block;height:100%;width:0;background:#ff9b5e}
 .busk .paused{font-size:13px;color:#ff9b5e}
+.busk .bh .snd{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:40px;padding:0 12px;font-size:15px;font-weight:700}
+.busk .bh .snd[aria-pressed="true"]{border-color:#ff9b5e;color:#ff9b5e}
+/* 버스킹 중 영상: 플레이어를 옮기지 않고(옮기면 다시 불러온다) 오른쪽 아래 작은 창으로 띄운다 — 소리가 나오고, 폰에서 첫 ▶ 를 누를 수 있게 */
+body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(46px + env(safe-area-inset-bottom));width:min(220px,36vw);z-index:60;box-shadow:0 6px 20px #000a;border:1px solid #333a48}
 @media (orientation:landscape) and (max-height:500px){.busk .cur{font-size:clamp(26px,5.4vw,60px);line-height:2}.busk .nxt{font-size:clamp(16px,3vw,30px)}.busk .stage{gap:1.5vh}}
 @media (max-width:420px){.dock .in{gap:8px}.pp{width:48px;height:48px}.dock .now b{font-size:22px}.lb{padding:8px 9px;font-size:13px}.lb.sp{min-width:50px}.dock .nx b{font-size:15px}}
 @media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
@@ -143,6 +147,7 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 </div>
 <div class="busk" id="busk" hidden role="dialog" aria-label="버스킹 모드">
  <div class="bh"><span>🎤 버스킹</span><b id="bkTitle"></b><span id="bkCapo"></span><span class="paused" id="bkPaused"></span>
+  <button type="button" class="snd" id="bkMute" aria-pressed="false" aria-label="소리 끄기">🔊 소리</button>
   <button type="button" class="x" id="buskClose" aria-label="버스킹 모드 닫기">✕</button></div>
  <div class="stage" id="bkStage" title="누르면 재생 / 멈춤">
   <div class="lbl" id="bkLbl"></div>
@@ -227,7 +232,7 @@ $('spd').onclick = () => setSpeed(SPD === 1 ? .75 : SPD === .75 ? .5 : 1);
 // ⏯ 재생 / 일시정지 — 막대 버튼 · 스페이스 키
 const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
 function playing(){ try{ return player && player.getPlayerState() === 1; }catch(_){ return false; } }
-function paintPP(){ const on = playing(); $('ppIcon').innerHTML = on ? PAUSE : PLAY; $('pp').setAttribute('aria-label', on ? '일시정지' : '재생'); }
+function paintPP(){ const on = playing(); if(on) bkHint = false; $('ppIcon').innerHTML = on ? PAUSE : PLAY; $('pp').setAttribute('aria-label', on ? '일시정지' : '재생'); }
 $('pp').onclick = () => { if(!player || !player.playVideo) return; if(playing()) player.pauseVideo(); else player.playVideo(); };
 document.addEventListener('keydown', e => {
   if(e.code !== 'Space' || /INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) return;
@@ -263,7 +268,14 @@ function paintLine(tv){
   $('lyWs').querySelectorAll('span').forEach((el, i) => { el.querySelector('b').textContent = ws[i][0]; el.querySelector('i').textContent = ws[i][1]; el.append(ws[i][2]); });
 }
 // ---------- 🎤 버스킹 모드: 지금 줄(가사 위 코드) 크게 + 다음 줄, 원곡 영상에 맞춰 넘어간다 ----------
-let BUSK = false, bkKey = '', wakeB = null;
+let BUSK = false, bkKey = '', wakeB = null, bkHint = false;
+// 🔊 / 🔇 — 소리만 끈다(영상은 계속 흘러 가사·코드가 넘어간다)
+function paintMute(){ let m = false; try{ m = player.isMuted(); }catch(_){}
+  $('bkMute').textContent = m ? '🔇 무음' : '🔊 소리'; $('bkMute').setAttribute('aria-pressed', m); $('bkMute').setAttribute('aria-label', m ? '소리 켜기' : '소리 끄기'); }
+function tryPlay(){                                        // 폰은 영상을 한 번 직접 눌러야 재생이 시작된다 → 안 되면 안내
+  try{ player.playVideo(); }catch(_){}
+  setTimeout(() => { bkHint = !playing(); }, 900);
+}
 const escH = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 function chordsIn(s, e){                                   // 시각 s~e 사이에 울리는 코드와 바뀌는 시각
   const out = [];
@@ -294,7 +306,7 @@ function paintBusk(t){
   let dur = 0; try{ dur = player.getDuration(); }catch(_){}
   $('bkT').textContent = `${fmt(t)} / ${fmt(dur || 0)}`;
   $('bkProg').style.width = dur ? (t / dur * 100).toFixed(1) + '%' : 0;
-  $('bkPaused').textContent = playing() ? '' : '⏸ 멈춤 — 화면을 누르면 재생';
+  $('bkPaused').textContent = playing() ? '' : bkHint ? '▶ 작은 영상의 ▶ 를 한 번 눌러 주세요' : '⏸ 멈춤 — 화면을 누르면 재생';
   let key, cur, nxt, lbl = '', line = '';
   if(LINES.length){
     const k = LINES.findIndex(l => l[0] <= tv && tv < l[1]);
@@ -323,19 +335,21 @@ function paintBusk(t){
   $('bkNext').innerHTML = nxt[0]; $('bkNext').classList.toggle('inst', nxt[1]);
 }
 async function openBusk(){
-  BUSK = true; bkKey = ''; $('busk').hidden = false;
+  BUSK = true; bkKey = ''; bkHint = false; $('busk').hidden = false; document.body.classList.add('busking');
   $('bkTitle').textContent = D.title; $('bkCapo').textContent = D.capo && MODE === 'shape' ? `· 카포 ${D.capo}` : '';
-  try{ await $('busk').requestFullscreen?.(); }catch(_){}
+  try{ await document.documentElement.requestFullscreen?.(); }catch(_){}   // 페이지 전체를 — 영상 창도 같이 보이게
+  paintMute(); if(!playing()) tryPlay();
   try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){}
   let t = 0; try{ t = player.getCurrentTime(); }catch(_){} paintBusk(t);
 }
 function closeBusk(){
-  BUSK = false; $('busk').hidden = true;
+  BUSK = false; $('busk').hidden = true; document.body.classList.remove('busking');
   try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(_){}
   try{ wakeB && wakeB.release(); }catch(_){} wakeB = null;
 }
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
-$('bkStage').onclick = () => $('pp').click();             // 화면을 누르면 재생 / 멈춤
+$('bkStage').onclick = () => { if(playing()) player.pauseVideo(); else tryPlay(); };   // 화면을 누르면 재생 / 멈춤
+$('bkMute').onclick = () => { try{ if(player.isMuted()) player.unMute(); else player.mute(); }catch(_){} setTimeout(paintMute, 150); };
 document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && BUSK) closeBusk(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape' && BUSK) closeBusk(); });
 document.addEventListener('visibilitychange', async () => { if(BUSK && document.visibilityState === 'visible'){ try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){} } });
