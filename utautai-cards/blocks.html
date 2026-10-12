@@ -12,6 +12,7 @@
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;display:flex;justify-content:center}
 .app{width:100%;max-width:760px;padding:max(14px,env(safe-area-inset-top)) 16px 40px;display:flex;flex-direction:column;gap:14px}
+[hidden]{display:none!important}   /* display 를 준 요소(가사 영역·버스킹 화면)도 hidden 이면 숨긴다 */
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
@@ -86,6 +87,26 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .dock .nx{margin-left:auto;text-align:right;font-size:12.5px;color:var(--ink-3)}
 .dock .nx b{display:block;font-size:17px;color:var(--ink-2)}
 .dock .now small,.dock .nx{white-space:nowrap}
+/* 🎤 버스킹 모드 — 보면대에 올려 두고 1m 밖에서 읽는 전체화면 */
+.buskbtn{align-self:flex-start;border:0;border-radius:99px;padding:10px 18px;font-size:15px;font-weight:800;background:var(--hot);color:#fff}
+.busk{position:fixed;inset:0;z-index:50;background:#0b0d12;color:#f2f3f7;display:flex;flex-direction:column;
+ padding:max(12px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))}
+.busk .bh{display:flex;align-items:center;gap:10px;font-size:14px;color:#9aa1b2}
+.busk .bh b{color:#f2f3f7;font-size:15px}
+.busk .bh .x{margin-left:auto;border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;width:44px;height:40px;font-size:18px}
+.busk .stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:3vh;min-height:0;cursor:pointer}
+.busk .cur{font-size:clamp(28px,7.2vw,72px);font-weight:800;line-height:2.15;word-break:keep-all;overflow-wrap:anywhere}
+.busk .cur.inst,.busk .nxt.inst{line-height:1.3}
+.busk .ln .c{position:relative;display:inline-block}
+.busk .ln .c::before{content:attr(data-c);position:absolute;left:0;bottom:78%;font-size:.62em;font-weight:800;color:#ff9b5e;white-space:nowrap;line-height:1}
+.busk .nxt{font-size:clamp(17px,3.9vw,38px);font-weight:700;line-height:2.1;color:#7d8496;border-top:1px solid #262c38;padding-top:1.2vh}
+.busk .nxt .c::before{color:#b0764f}
+.busk .lbl{font-size:13px;color:#7d8496;letter-spacing:.04em}
+.busk .bf{display:flex;align-items:center;gap:12px;font-size:14px;color:#9aa1b2;font-variant-numeric:tabular-nums}
+.busk .bf .prog{flex:1;height:4px;border-radius:99px;background:#262c38;overflow:hidden}
+.busk .bf .prog i{display:block;height:100%;width:0;background:#ff9b5e}
+.busk .paused{font-size:13px;color:#ff9b5e}
+@media (orientation:landscape) and (max-height:500px){.busk .cur{font-size:clamp(26px,5.4vw,60px);line-height:2}.busk .nxt{font-size:clamp(16px,3vw,30px)}.busk .stage{gap:1.5vh}}
 @media (max-width:420px){.dock .in{gap:8px}.pp{width:48px;height:48px}.dock .now b{font-size:22px}.lb{padding:8px 9px;font-size:13px}.lb.sp{min-width:50px}.dock .nx b{font-size:15px}}
 @media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
@@ -94,6 +115,7 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
  <a class="back" id="back" href="../index.html">‹ 도카도카 관문으로</a>
  <div><p class="eb">🧱 블록 연습 · Block Practice</p><h1 id="title"></h1><div class="by" id="by"></div></div>
  <div class="meta" id="meta"></div>
+ <button type="button" class="buskbtn" id="buskOpen">🎤 버스킹 모드</button>
  <div class="yt"><div id="yt"></div></div>
  <div class="ctl">
   <div class="seg" id="mode" role="group" aria-label="코드 표기">
@@ -118,6 +140,16 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
  <p class="foot">줄을 누르면 그 줄부터 재생합니다. <b>재생 중인 칸을 한 번 더 누르면 멈추고</b>, 다시 누르면 이어집니다(아래 ⏯ 도 같음). 오른쪽 🔁 은 그 줄(4마디)만, 아래 막대의 <b>🔁 이 칸</b>은 지금 재생 중인 칸(1마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
   코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). <span id="note2"></span><br>
   <span id="src"></span> 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+</div>
+<div class="busk" id="busk" hidden role="dialog" aria-label="버스킹 모드">
+ <div class="bh"><span>🎤 버스킹</span><b id="bkTitle"></b><span id="bkCapo"></span><span class="paused" id="bkPaused"></span>
+  <button type="button" class="x" id="buskClose" aria-label="버스킹 모드 닫기">✕</button></div>
+ <div class="stage" id="bkStage" title="누르면 재생 / 멈춤">
+  <div class="lbl" id="bkLbl"></div>
+  <div class="cur ln" id="bkCur" lang="ja"></div>
+  <div class="nxt ln" id="bkNext" lang="ja"></div>
+ </div>
+ <div class="bf"><span id="bkT">0:00</span><div class="prog"><i id="bkProg"></i></div><span id="bkLine"></span></div>
 </div>
 <div class="dock" role="region" aria-label="재생">
  <div class="lyr" id="lyr" hidden>
@@ -230,6 +262,83 @@ function paintLine(tv){
   $('lyWs').innerHTML = ws.map(([h, r, m]) => `<span><b lang="ja"></b><i lang="ja"></i></span>`).join('');
   $('lyWs').querySelectorAll('span').forEach((el, i) => { el.querySelector('b').textContent = ws[i][0]; el.querySelector('i').textContent = ws[i][1]; el.append(ws[i][2]); });
 }
+// ---------- 🎤 버스킹 모드: 지금 줄(가사 위 코드) 크게 + 다음 줄, 원곡 영상에 맞춰 넘어간다 ----------
+let BUSK = false, bkKey = '', wakeB = null;
+const escH = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+function chordsIn(s, e){                                   // 시각 s~e 사이에 울리는 코드와 바뀌는 시각
+  const out = [];
+  for(const [bs, be, , , cs] of flat){
+    const pts = cs.length > 1 ? [[bs, cs[0]], [(bs + be) / 2, cs[1]]] : [[bs, cs[0]]];
+    for(const [t0, c] of pts){
+      const t1 = pts[pts.indexOf(pts.find(p => p[0] === t0)) + 1]?.[0] ?? be;
+      if(t1 > s + .25 && t0 < e - .3 && (!out.length || out[out.length - 1][1] !== c)) out.push([Math.max(t0, s), c]);
+    }
+  }
+  return out;
+}
+function lineHtml(ja, s, e){                               // 가사 글자 위에 코드: 바뀌는 시각의 비율 자리
+  const chars = [...ja], idx = chars.map((c, i) => i).filter(i => !/[\s　「」…？?!！、。]/.test(chars[i]));
+  const marks = {};
+  for(const [t0, c] of chordsIn(s, e)){
+    let k = idx[Math.min(idx.length - 1, Math.max(0, Math.round((t0 - s) / (e - s) * idx.length)))] ?? 0;
+    const prev = Math.max(-9, ...Object.keys(marks).map(Number).filter(j => j <= k));
+    if(k - prev < 2) k = prev + 2;                        // 코드 이름이 겹치지 않게 두 글자 띄운다
+    if(k < chars.length) marks[k] = nm(c);
+  }
+  return chars.map((ch, i) => marks[i] ? `<span class="c" data-c="${escH(marks[i])}">${escH(ch)}</span>` : escH(ch)).join('');
+}
+function rowHtml(r){ return r.map(b => b[2].map(nm).join(' ')).join('  |  '); }
+function paintBusk(t){
+  if(!BUSK) return;
+  const tv = t + LEAD;
+  let dur = 0; try{ dur = player.getDuration(); }catch(_){}
+  $('bkT').textContent = `${fmt(t)} / ${fmt(dur || 0)}`;
+  $('bkProg').style.width = dur ? (t / dur * 100).toFixed(1) + '%' : 0;
+  $('bkPaused').textContent = playing() ? '' : '⏸ 멈춤 — 화면을 누르면 재생';
+  let key, cur, nxt, lbl = '', line = '';
+  if(LINES.length){
+    const k = LINES.findIndex(l => l[0] <= tv && tv < l[1]);
+    if(k >= 0){
+      const L = LINES[k], N = LINES[k + 1];
+      key = 'L' + k + MODE; line = `${k + 1} / ${LINES.length}`;
+      cur = [lineHtml(L[2], L[0], L[1]), false];
+      nxt = N ? [lineHtml(N[2], N[0], N[1]), false] : ['', false];
+    } else {                                               // 가사 없는 구간: 간주 코드를 크게, 다음 줄 미리
+      const n = LINES.findIndex(l => l[0] > tv), bk = flat.findIndex(b => b[0] <= tv && tv < b[1]);
+      const row = bk >= 0 ? D.rows[flat[bk][2]] : null;
+      key = 'I' + n + (row ? flat[bk][2] : '') + MODE; lbl = n === 0 ? '전주' : n < 0 ? '후주' : '간주';
+      line = n >= 0 ? `다음 ${n + 1} / ${LINES.length}` : '';
+      cur = [row ? escH(rowHtml(row)) : '', true];
+      nxt = n >= 0 ? [lineHtml(LINES[n][2], LINES[n][0], LINES[n][1]), false] : ['', false];
+    }
+  } else {                                                 // 가사 없는 곡: 지금 줄(4블록) + 다음 줄 코드
+    const bk = flat.findIndex(b => b[0] <= tv && tv < b[1]), ri = bk >= 0 ? flat[bk][2] : 0;
+    key = 'R' + ri + MODE; line = `${ri + 1} / ${D.rows.length}`;
+    cur = [escH(rowHtml(D.rows[ri])), true]; nxt = [D.rows[ri + 1] ? escH(rowHtml(D.rows[ri + 1])) : '', true];
+  }
+  $('bkLine').textContent = line;
+  if(key === bkKey) return; bkKey = key;
+  $('bkLbl').textContent = lbl;
+  $('bkCur').innerHTML = cur[0]; $('bkCur').classList.toggle('inst', cur[1]);
+  $('bkNext').innerHTML = nxt[0]; $('bkNext').classList.toggle('inst', nxt[1]);
+}
+async function openBusk(){
+  BUSK = true; bkKey = ''; $('busk').hidden = false;
+  $('bkTitle').textContent = D.title; $('bkCapo').textContent = D.capo && MODE === 'shape' ? `· 카포 ${D.capo}` : '';
+  try{ await $('busk').requestFullscreen?.(); }catch(_){}
+  try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){}
+  let t = 0; try{ t = player.getCurrentTime(); }catch(_){} paintBusk(t);
+}
+function closeBusk(){
+  BUSK = false; $('busk').hidden = true;
+  try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(_){}
+  try{ wakeB && wakeB.release(); }catch(_){} wakeB = null;
+}
+$('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
+$('bkStage').onclick = () => $('pp').click();             // 화면을 누르면 재생 / 멈춤
+document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && BUSK) closeBusk(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && BUSK) closeBusk(); });
+document.addEventListener('visibilitychange', async () => { if(BUSK && document.visibilityState === 'visible'){ try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){} } });
 function tick(){
   if(!player || !player.getCurrentTime) return;
   let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
@@ -241,7 +350,7 @@ function tick(){
     if(t >= e - .05 || t < s - 1) { player.seekTo(s, true); return; }
   }
   const tv = t + LEAD;                                     // 강조·막대는 앞당긴 시각으로
-  paintLine(tv);
+  paintLine(tv); paintBusk(t);
   const k = flat.findIndex(b => b[0] <= tv && tv < b[1]);
   // 막대: 지금 코드 · 시각 · 다음 코드
   let dur = 0; try{ dur = player.getDuration(); }catch(_){}
