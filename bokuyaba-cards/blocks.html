@@ -16,7 +16,7 @@
 
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP","Noto Sans KR",sans-serif;display:flex;justify-content:center}
-.app{width:100%;max-width:820px;padding:max(14px,env(safe-area-inset-top)) 16px calc(220px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.app{width:100%;max-width:820px;padding:max(14px,env(safe-area-inset-top)) 16px calc(260px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
@@ -75,7 +75,13 @@ h1{margin:2px 0 0;font-size:22px;line-height:1.25;text-wrap:balance}
 .lb{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 10px;font-size:13.5px;font-weight:800;color:var(--ink-2);white-space:nowrap}
 .lb[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
 .lyr .ja .dim{opacity:.3}.lyr .ja .on{color:var(--hot)}
+/* 아래 막대의 듣기 모드 칩 — 이름을 붙여 한 줄로(폰에서 넘치면 옆으로 밀기) */
+.mods{width:100%;max-width:820px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.mods::-webkit-scrollbar{display:none}
+.md{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 11px;font-size:12.5px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.md[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
 .shw{font-size:12.5px;font-weight:800;color:var(--hot);min-height:0}
+@media (max-width:420px){.md{padding:6px 8px;font-size:12px}.mods{gap:5px}}
 @media (max-width:420px){.dock .in{gap:6px}.pp{width:46px;height:46px}.lb{padding:7px 8px;font-size:12.5px}}
 </style></head><body>
 <div class="app">
@@ -112,13 +118,16 @@ h1{margin:2px 0 0;font-size:22px;line-height:1.25;text-wrap:balance}
   <div class="ws" id="lyWs"></div>
   <div class="shw" id="shw"></div>
  </div>
+ <div class="mods" role="group" aria-label="듣기 모드">
+  <button type="button" class="md" id="sh" aria-pressed="false">🗣 따라 말하기</button>
+  <button type="button" class="md" id="bb" aria-pressed="false">🪜 쌓기</button>
+  <button type="button" class="md" id="km" aria-pressed="false">🇰🇷 뜻</button>
+  <button type="button" class="md" id="sk" aria-pressed="false">⏭ 대사만</button>
+ </div>
  <div class="in">
   <button type="button" class="pp" id="pp" aria-label="재생"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M8 5v14l11-7z"/></svg></button>
   <div class="now"><b id="nowSpk">—</b><small id="nowT">0:00 / 0:00</small></div>
   <button type="button" class="lb" id="lb" aria-pressed="false" aria-label="지금 대사 반복">🔁 이 줄</button>
-  <button type="button" class="lb" id="sh" aria-pressed="false" aria-label="따라 말하기">🗣</button>
-  <button type="button" class="lb" id="bb" aria-pressed="false" aria-label="뒤에서부터 쌓기">🪜</button>
-  <button type="button" class="lb" id="km" aria-pressed="false" aria-label="한국어 뜻 듣기">🇰🇷</button>
   <button type="button" class="lb" id="spd" aria-label="재생 속도 바꾸기">1×</button>
  </div>
 </div>
@@ -253,7 +262,7 @@ function afterLine(k, resume){
 let SKIP = false; try{ SKIP = localStorage.getItem(KEY + '.skip') === '1'; }catch(_){}
 const SKIP_MIN = .3;
 function nextStart(t){ const n = L.find(l => l[0] > t + .01); return n ? n[0] : null; }
-function paintSK(){ $('skTop').setAttribute('aria-pressed', SKIP); }
+function paintSK(){ $('skTop').setAttribute('aria-pressed', SKIP); $('sk').setAttribute('aria-pressed', SKIP); }
 let BB = false, bb = null;
 const BB_REP = 3, BB_GAP = 400;                          // 덩어리마다 3번, 사이는 짧게(사용자 지시: 길게 쉬지 않는다)
 try{ BB = localStorage.getItem(KEY + '.bb') === '1'; }catch(_){}
@@ -292,7 +301,7 @@ function toggleShadow(){ SHADOW = !SHADOW; try{ localStorage.setItem(KEY + '.sha
 $('sh').onclick = toggleShadow; $('shTop').onclick = toggleShadow; paintShadow();
 $('bb').onclick = toggleBB; $('bbTop').onclick = toggleBB; paintBB();
 $('km').onclick = toggleKM; $('kmTop').onclick = toggleKM; paintKM();
-$('skTop').onclick = () => { SKIP = !SKIP; try{ localStorage.setItem(KEY + '.skip', SKIP ? '1' : '0'); }catch(_){} paintSK(); }; paintSK();
+$('sk').onclick = $('skTop').onclick = () => { SKIP = !SKIP; try{ localStorage.setItem(KEY + '.skip', SKIP ? '1' : '0'); }catch(_){} paintSK(); }; paintSK();
 function shadowWait(k, resume){
   const ms = Math.max(1200, (L[k][1] - L[k][0]) * 1000 / SPD + 600);
   waitEnd = performance.now() + ms;
