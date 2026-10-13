@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="ko" translate="no" class="notranslate"><head><meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
+<title>4.5Music 「永遠の御名」 블록 연습</title>
+<style>
+:root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
+ --hot:#e8590c;--hot-soft:#fdeee4;--b:#7a4a9b;--b-soft:#f2eaf8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}}
+:root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518;--b:#c9a3e6;--b-soft:#2c2338}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;padding:max(14px,env(safe-area-inset-top)) 16px 40px;display:flex;flex-direction:column;gap:14px}
+[hidden]{display:none!important}
+/* Chrome 「탭하여 검색·번역」 막기: 누르는 영역은 글자 선택이 안 되게(블록·막대·버스킹) */
+.ln,.bar,.dock,.busk,.gh,.row .tm{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+   /* display 를 준 요소(가사 영역·버스킹 화면)도 hidden 이면 숨긴다 */
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+/* 기능 이름 */
+.eb{margin:0;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--hot)}
+h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
+.by{color:var(--ink-3);font-size:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#11141b}}
+.seg.lead{align-items:center}.seg.lead span{font-size:13px;font-weight:700;color:var(--ink-2);padding:0 4px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.note{font-size:13px;color:var(--ink-3);line-height:1.55;margin:0}
+.diags{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.dg{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px 4px;text-align:center}
+.dg b{display:block;font-size:17px}
+.dg small{display:block;font-size:11px;color:var(--ink-3);min-height:1.2em}
+.dg.on{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot-soft)}
+.dg svg{width:70px;height:84px}
+.dg .ln{stroke:var(--ink-3);stroke-width:1}.dg .nut{stroke:var(--ink)}
+.dg .dot{fill:var(--ink)}.dg .open{fill:none;stroke:var(--ink);stroke-width:1.2}
+.dg .mk,.dg .fr{font-size:9px;fill:var(--ink-2);text-anchor:middle}.dg .fr{text-anchor:start}
+.prog{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--ink-2)}
+.prog b{font-size:16px;color:var(--ink)}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:48px repeat(4,1fr) 40px;gap:4px;align-items:stretch}
+.row .tm{border:0;background:none;padding:0;font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px}
+.row .tm i{font-style:normal;font-weight:800;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--brand-soft);color:var(--brand)}
+.row.B .tm i{background:var(--b-soft);color:var(--b)}
+.bar{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:10px 4px;display:flex;justify-content:space-around;align-items:center;gap:2px;font-weight:800;font-size:16px;min-height:46px}
+.bar span{min-width:0}
+.bar.now{border-color:var(--hot);background:var(--hot-soft)}
+.bar .h{color:var(--hot)}
+.row .lp{border:1px solid var(--line);background:var(--surface);border-radius:9px;font-size:15px;padding:0}
+.row .lp[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot)}
+.row.looping .bar{border-style:dashed}
+.foot{font-size:12px;color:var(--ink-3);line-height:1.6}
+/* 화면 아래 재생 막대 — 아래로 내려가 코드를 볼 때도 멈추고 이어 듣는다 */
+.app{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.app.haslyr{padding-bottom:calc(210px + env(safe-area-inset-bottom))}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:var(--surface);border-top:1px solid var(--line);
+ box-shadow:0 -6px 18px #0000001a;padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.dock{flex-direction:column;align-items:center;gap:8px}
+.dock .in{width:100%;max-width:760px;display:flex;align-items:center;gap:12px}
+/* 지금 블록에서 불리는 가사 줄(노래 앱의 데이터) */
+.lyr{width:100%;max-width:760px;display:flex;flex-direction:column;gap:5px}
+.lyr .ja{font-size:17px;font-weight:700;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
+.lyr .ja.wait{opacity:.45}
+.lyr .ko{font-size:13px;color:var(--ink-2);line-height:1.45}
+.lyr .ws{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
+.lyr .ws::-webkit-scrollbar{display:none}
+.lyr .ws span{flex:none;font-size:12.5px;padding:3px 9px;border-radius:99px;background:var(--brand-soft);color:var(--ink-2);white-space:nowrap}
+.lyr .ws b{color:var(--ink);margin-right:4px}.lyr .ws i{font-style:normal;color:var(--ink-3);margin-right:4px}
+.pp{flex:none;width:56px;height:56px;border-radius:50%;border:0;background:var(--brand);color:#fff;display:grid;place-items:center}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pp{color:#11141b}}
+:root[data-theme="dark"] .pp{color:#11141b}
+.pp svg{width:24px;height:24px;fill:currentColor}
+.dock .now{display:flex;flex-direction:column;min-width:0}
+.dock .now b{font-size:26px;line-height:1.1;color:var(--hot);font-variant-numeric:tabular-nums}
+.dock .now small{font-size:12.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.lb{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 12px;font-size:14px;font-weight:800;color:var(--ink-2)}
+.lb.sp{min-width:58px;font-variant-numeric:tabular-nums}
+.lb[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.bar.lp1{outline:2.5px solid var(--hot);outline-offset:2px}
+.dock .nx{margin-left:auto;text-align:right;font-size:12.5px;color:var(--ink-3)}
+.dock .nx b{display:block;font-size:17px;color:var(--ink-2)}
+.dock .now small,.dock .nx{white-space:nowrap}
+/* 🎤 버스킹 모드 — 보면대에 올려 두고 1m 밖에서 읽는 전체화면 */
+.buskbtn{align-self:flex-start;border:0;border-radius:99px;padding:10px 18px;font-size:15px;font-weight:800;background:var(--hot);color:#fff}
+.busk{position:fixed;inset:0;z-index:50;background:#0b0d12;color:#f2f3f7;display:flex;flex-direction:column;
+ padding:max(12px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left))}
+.busk .bh{display:flex;align-items:center;gap:10px;font-size:14px;color:#9aa1b2}
+.busk .bh b{color:#f2f3f7;font-size:15px}
+.busk .bh .x{margin-left:auto;border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;width:44px;height:40px;font-size:18px}
+.busk .stage{flex:1;display:flex;flex-direction:column;justify-content:center;gap:3vh;min-height:0;cursor:pointer}
+.busk .cur{font-size:clamp(28px,7.2vw,72px);font-weight:800;line-height:2.15;word-break:keep-all;overflow-wrap:anywhere}
+.busk .cur.inst,.busk .nxt.inst{line-height:1.3}
+.busk .ln .c{position:relative;display:inline-block}
+.busk .ln .c::before{content:attr(data-c);position:absolute;left:0;bottom:78%;font-size:.62em;font-weight:800;color:#ff9b5e;white-space:nowrap;line-height:1}
+.busk .nxt{font-size:clamp(17px,3.9vw,38px);font-weight:700;line-height:2.1;color:#7d8496;border-top:1px solid #262c38;padding-top:1.2vh}
+.busk .nxt .c::before{color:#b0764f}
+.busk .lbl{font-size:13px;color:#7d8496;letter-spacing:.04em}
+.busk .bf{display:flex;align-items:center;gap:12px;font-size:14px;color:#9aa1b2;font-variant-numeric:tabular-nums}
+.busk .bf .nav{flex:none;border:1px solid #333a48;background:#161a23;color:#f2f3f7;border-radius:12px;height:48px;padding:0 16px;font-size:16px;font-weight:800}
+.busk .bf .nav:active{background:#262c38}
+.busk .bf .mid{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.busk .bf .row2{display:flex;justify-content:space-between;gap:8px}
+.busk .bf .prog{height:4px;border-radius:99px;background:#262c38;overflow:hidden}
+.busk .bf .prog i{display:block;height:100%;width:0;background:#ff9b5e}
+.busk .paused{font-size:13px;color:#ff9b5e}
+.busk .bh .snd{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:40px;padding:0 12px;font-size:15px;font-weight:700}
+.busk .bh2{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.busk .bh2 button,.busk .bh2 span{border:1px solid #333a48;background:none;color:#f2f3f7;border-radius:10px;height:38px;padding:0 12px;font-size:14px;font-weight:700;display:inline-flex;align-items:center}
+.busk .bh2 span{border:0;padding:0 2px;color:#ff9b5e;font-variant-numeric:tabular-nums}
+.busk .bh .snd[aria-pressed="true"]{border-color:#ff9b5e;color:#ff9b5e}
+/* 버스킹 중 영상: 플레이어를 옮기지 않고(옮기면 다시 불러온다) 오른쪽 아래 작은 창으로 띄운다 — 소리가 나오고, 폰에서 첫 ▶ 를 누를 수 있게 */
+body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));width:min(220px,36vw);z-index:60;box-shadow:0 6px 20px #000a;border:1px solid #333a48}
+/* 가로(폰을 눕힘): 영상 창을 오른쪽 위로 올리고, 가사·코드는 그 왼쪽까지만 — 겹치지 않게 */
+@media (orientation:landscape) and (max-height:500px){body.busking .yt{width:min(170px,22vw);bottom:auto;top:calc(60px + env(safe-area-inset-top))}
+ .busk .stage{padding-right:calc(min(170px,22vw) + 14px)}}
+@media (orientation:landscape) and (max-height:500px){.busk .cur{font-size:clamp(26px,5.4vw,60px);line-height:2}.busk .nxt{font-size:clamp(16px,3vw,30px)}.busk .stage{gap:1.5vh}}
+@media (max-width:420px){.dock .in{gap:8px}.pp{width:48px;height:48px}.dock .now b{font-size:22px}.lb{padding:8px 9px;font-size:13px}.lb.sp{min-width:50px}.dock .nx b{font-size:15px}}
+@media (max-width:420px){.bar{font-size:14px;padding:9px 2px}.row{grid-template-columns:40px repeat(4,1fr) 34px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<div class="app">
+ <a class="back" id="back" href="../index.html">‹ 도카도카 관문으로</a>
+ <div><p class="eb">🧱 블록 연습 · Block Practice</p><h1 id="title"></h1><div class="by" id="by"></div></div>
+ <div class="meta" id="meta"></div>
+ <button type="button" class="buskbtn" id="buskOpen">🎤 버스킹 모드</button>
+ <div class="yt"><div id="yt"></div></div>
+ <div class="ctl">
+  <div class="seg" id="mode" role="group" aria-label="코드 표기">
+   <button type="button" data-v="shape" aria-pressed="true">카포 모양</button>
+   <button type="button" data-v="real" aria-pressed="false">원래 코드</button>
+  </div>
+  <div class="seg" id="speed" role="group" aria-label="재생 속도">
+   <button type="button" data-v="1" aria-pressed="true">1×</button>
+   <button type="button" data-v="0.75" aria-pressed="false">0.75×</button>
+   <button type="button" data-v="0.5" aria-pressed="false">0.5×</button>
+  </div>
+  <div class="seg lead" role="group" aria-label="키 올리기·내리기">
+   <button type="button" id="keyM" aria-label="반음 내리기">−</button>
+   <span id="keyV"></span>
+   <button type="button" id="keyP" aria-label="반음 올리기">+</button>
+  </div>
+  <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
+   <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
+   <span id="leadV"></span>
+   <button type="button" id="leadP" aria-label="더 앞당기기">+</button>
+  </div>
+ </div>
+ <p class="note" id="capoNote"></p>
+ <div class="diags" id="diags"></div>
+ <div class="prog" id="prog"></div>
+ <div class="rows" id="rows"></div>
+ <p class="foot">줄을 누르면 그 줄부터 재생합니다. <b>재생 중인 칸을 한 번 더 누르면 멈추고</b>, 다시 누르면 이어집니다(아래 ⏯ 도 같음). 오른쪽 🔁 은 그 줄(4마디)만, 아래 막대의 <b>🔁 이 칸</b>은 지금 재생 중인 칸(1마디)만 되풀이합니다. 한 칸 = 1마디(4박), 칸 안에 코드가 둘이면 2박씩.<br>
+  코드는 반주 소리에서 자동으로 딴 간이 코드입니다(조 판정 일치도 <span id="fit"></span>). <span id="note2"></span><br>
+  <span id="src"></span> 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+</div>
+<div class="busk" id="busk" hidden role="dialog" aria-label="버스킹 모드">
+ <div class="bh"><span>🎤 버스킹</span><b id="bkTitle"></b><span id="bkCapo"></span><span class="paused" id="bkPaused"></span>
+  <button type="button" class="snd" id="bkMute" aria-pressed="false" aria-label="소리 끄기">🔊 소리</button>
+  <button type="button" class="x" id="buskClose" aria-label="버스킹 모드 닫기">✕</button></div>
+ <div class="bh2"><button type="button" id="bkMode"></button><button type="button" id="bkKeyM" aria-label="반음 내리기">키 −</button><span id="bkKeyV"></span><button type="button" id="bkKeyP" aria-label="반음 올리기">키 +</button></div>
+ <div class="stage" id="bkStage" title="누르면 재생 / 멈춤" role="button" tabindex="0">
+  <div class="lbl" id="bkLbl"></div>
+  <div class="cur ln" id="bkCur" lang="ja"></div>
+  <div class="nxt ln" id="bkNext" lang="ja"></div>
+ </div>
+ <div class="bf">
+  <button type="button" class="nav" id="bkPrev" aria-label="이전 줄">◀ 이전</button>
+  <div class="mid"><div class="prog"><i id="bkProg"></i></div><div class="row2"><span id="bkT">0:00</span><span id="bkLine"></span></div></div>
+  <button type="button" class="nav" id="bkNextB" aria-label="다음 줄">다음 ▶</button>
+ </div>
+</div>
+<div class="dock" role="region" aria-label="재생">
+ <div class="lyr" id="lyr" hidden>
+  <div class="ja" id="lyJa" lang="ja"></div>
+  <div class="ko" id="lyKo"></div>
+  <div class="ws" id="lyWs"></div>
+ </div>
+ <div class="in">
+  <button type="button" class="pp" id="pp" aria-label="재생"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M8 5v14l11-7z"/></svg></button>
+  <div class="now"><b id="nowC">—</b><small id="nowT">0:00 / 0:00</small></div>
+  <button type="button" class="lb" id="lb" aria-pressed="false" aria-label="지금 칸 반복">🔁 이 칸</button>
+  <button type="button" class="lb sp" id="spd" aria-label="재생 속도 바꾸기">1×</button>
+  <div class="nx">다음<b id="nextC">—</b></div>
+ </div>
+</div>
+<script>
+const D = {"vid":"hYYA6JAJiCo","title":"4.5Music 「永遠の御名」","artist":"","key":"G","mode":"major","bpm":86,"fit":0.722,"capo":0,"form":"G","rows":[[[0.0,2.2,["C"]],[2.2,4.29,["D"]],[4.29,6.38,["G"]],[6.38,8.48,["G"]]],[[8.48,10.57,["G"]],[10.57,12.66,["Em","C"]],[12.66,14.76,["G"]],[14.76,16.85,["D","Em"]]],[[16.85,18.94,["C"]],[18.94,21.04,["G"]],[21.04,23.13,["G"]],[23.13,25.22,["G"]]],[[25.22,27.32,["G","Em"]],[27.32,29.41,["Em","D"]],[29.41,31.5,["D","C"]],[31.5,33.6,["C","G"]]],[[33.6,35.69,["G"]],[35.69,37.78,["D"]],[37.78,39.88,["D"]],[39.88,41.97,["D","C"]]],[[41.97,44.06,["C"]],[44.06,46.15,["Em"]],[46.15,48.25,["C"]],[48.25,50.34,["C","G"]]],[[50.34,52.43,["G"]],[52.43,54.53,["D"]],[54.53,56.62,["C"]],[56.62,58.71,["C","Em"]]],[[58.71,60.81,["Em","G"]],[60.81,62.9,["G"]],[62.9,64.99,["D"]],[64.99,67.09,["D","C"]]],[[67.09,69.18,["D"]],[69.18,71.27,["Em"]],[71.27,73.36,["Em","D"]],[73.36,75.46,["D"]]],[[75.46,77.55,["G"]],[77.55,79.64,["G","D"]],[79.64,81.74,["D","Bm"]],[81.74,83.83,["Bm","C"]]],[[83.83,85.92,["D","Em"]],[85.92,88.02,["Em"]],[88.02,90.11,["G","D"]],[90.11,92.2,["D","Em"]]],[[92.2,94.3,["Em","G"]],[94.3,96.39,["G"]],[96.39,98.48,["G"]],[98.48,100.58,["G","D"]]],[[100.58,102.67,["D","Em"]],[102.67,104.76,["Em","D"]],[104.76,106.86,["C"]],[106.86,108.95,["C","G"]]],[[108.95,111.04,["G"]],[111.04,113.13,["Am"]],[113.13,115.23,["Em"]],[115.23,117.32,["D","C"]]],[[117.32,119.41,["C"]],[119.41,121.51,["Em"]],[121.51,123.6,["C"]],[123.6,125.69,["C","G"]]],[[125.69,127.79,["G"]],[127.79,129.88,["D"]],[129.88,131.97,["C"]],[131.97,134.06,["Em"]]],[[134.06,136.16,["Em"]],[136.16,138.25,["Em"]],[138.25,140.34,["Em","D"]],[140.34,142.44,["D"]]],[[142.44,144.53,["D"]],[144.53,146.62,["D"]],[146.62,148.72,["D"]],[148.72,150.81,["D"]]],[[150.81,152.9,["D"]],[152.9,155.0,["D","G"]],[155.0,157.09,["C","D"]],[157.09,159.18,["D","Em"]]],[[159.18,161.28,["Em","C"]],[161.28,163.37,["C","D"]],[163.37,165.46,["G"]],[165.46,167.56,["G"]]],[[167.56,169.65,["G"]],[169.65,171.74,["G"]],[171.74,173.83,["D"]],[173.83,175.93,["D","Em"]]],[[175.93,178.02,["Em","C"]],[178.02,180.11,["C","G"]],[180.11,182.21,["G"]],[182.21,184.3,["G","D"]]],[[184.3,186.39,["D","Em"]],[186.39,188.49,["Em"]],[188.49,190.58,["C"]],[190.58,192.67,["C","Bm"]]],[[192.67,194.76,["Bm"]],[194.76,196.86,["D"]],[196.86,198.95,["Em"]],[198.95,201.04,["Em","C"]]],[[201.04,203.14,["C"]],[203.14,205.23,["Bm"]],[205.23,207.32,["D"]],[207.32,209.42,["D","Em"]]],[[209.42,211.51,["Em"]],[211.51,213.6,["C","Bm"]],[213.6,215.7,["D"]],[215.7,217.79,["Em","C"]]],[[217.79,219.88,["Bm"]],[219.88,221.98,["D","Em"]],[221.98,224.07,["C","Bm"]],[224.07,226.16,["Bm","D"]]],[[226.16,228.25,["Em","C"]],[228.25,230.35,["C","Bm"]],[230.35,232.44,["D"]],[232.44,234.53,["D"]]],[[234.53,236.63,["D","Bm"]],[236.63,238.72,["Bm","Em"]],[238.72,240.81,["Em"]],[240.81,242.91,["Em"]]],[[242.91,245.0,["Em","C"]],[245.0,247.09,["C","D"]],[247.09,249.19,["D","Em"]],[249.19,251.28,["Em","C"]]],[[251.28,253.37,["D","G"]],[253.37,255.47,["G"]],[255.47,257.56,["C"]],[257.56,259.65,["C"]]],[[259.65,261.75,["C"]],[261.75,263.84,["C","D"]],[263.84,265.93,["D","G"]],[265.93,268.02,["G"]]],[[268.02,270.12,["D"]],[270.12,272.21,["Em"]],[272.21,274.3,["Em"]],[274.3,276.4,["Em"]]],[[276.4,278.49,["C"]],[278.49,280.58,["G","D"]],[280.58,282.68,["Em"]],[282.68,284.77,["C","G"]]],[[284.77,286.86,["G"]],[286.86,288.95,["G"]],[288.95,291.05,["G"]],[291.05,293.14,["G"]]],[[293.14,295.24,["G"]],[295.24,297.33,["G"]],[297.33,299.42,["G"]],[299.42,301.51,["G"]]],[[301.51,302.02,["G"]]]],"real":{"C":"C","D":"D","G":"G","Em":"Em","Bm":"Bm","Am":"Am"},"order":["C","D","G","Em","Bm","Am"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Eien52-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(115 BPM)).","src":"가사는 노래 앱 본문에 있습니다. 영상·음원: YouTube (hYYA6JAJiCo).","lines":[]};
+const $ = id => document.getElementById(id);
+const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
+const KEY = D.store || 'blocks';
+// ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
+// 다음 코드를 먼저 봐야 손을 옮길 수 있어서(First Love 「조금씩 늦다」). 반복 구간은 실제 시각 그대로 쓴다.
+let LEAD = 0.2;
+try{ const v = parseFloat(localStorage.getItem('blocks.lead')); if(!isNaN(v)) LEAD = v; }catch(_){}
+try{ MODE = localStorage.getItem(KEY + '.mode') || 'shape'; }catch(_){}
+if(D.back){ $('back').href = D.back[0]; $('back').textContent = '‹ ' + D.back[1]; }
+$('note2').textContent = D.note || ''; $('src').textContent = D.src || '';
+$('title').textContent = D.title; $('by').textContent = D.artist;
+$('fit').textContent = D.fit;
+// 🎚 키 올리기·내리기(반음, −6~+6). 코드·카포·운지가 함께 바뀐다. 영상(원곡)의 음높이는 그대로다.
+const SH = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const FLATK = {'C#': 'D♭', 'D#': 'E♭', 'G#': 'A♭', 'A#': 'B♭'};       // 플랫 계열 키의 표기
+const SHOWN = {'D#': 'E♭', 'G#': 'A♭', 'A#': 'B♭'};                   // 카포 모양(개방 코드) 표기 — 악보 도구와 같다
+function parseC(c){ const m = c.match(/^([A-G])([#♭b]?)(.*)$/); let i = SH.indexOf(m[1]); if(m[2] === '#') i++; else if(m[2]) i--; return [(i + 12) % 12, m[3]]; }
+let SHIFT = 0; try{ SHIFT = parseInt(localStorage.getItem(KEY + '.shift')) || 0; }catch(_){}
+const K0 = parseC(D.key)[0];
+// 카포: 기본은 「고정」 — 키를 바꿔도 카포는 원곡 자리 그대로, 코드가 바뀐다(올릴 때 손 모양이 그대로라 「안 바뀐다」던 것).
+//       「자동」 — 키마다 개방 코드로 칠 수 있는 카포를 다시 고른다(손 모양 유지, 카포만 이동).
+let CAPO_AUTO = false; try{ CAPO_AUTO = localStorage.getItem(KEY + '.capoAuto') === '1'; }catch(_){}
+function autoCapo(k){
+  for(const f of ['C', 'G', 'D', 'A', 'E']){ const c = (k - SH.indexOf(f) + 12) % 12; if(c <= 5) return [c, f]; }
+  return [0, SH[k]];
+}
+function keyInfo(){
+  const k = ((K0 + SHIFT) % 12 + 12) % 12, flat = [5, 10, 3, 8, 1].includes(k);      // F B♭ E♭ A♭ D♭ 는 ♭ 표기
+  const [capo0] = autoCapo(K0), [ac, af] = autoCapo(k);
+  const capo = CAPO_AUTO ? ac : capo0, fi = ((k - capo) % 12 + 12) % 12, fs = SH[fi];
+  return {k, flat, capo, form: [5, 10, 3, 8, 1].includes(fi) ? (FLATK[fs] || fs) : fs, auto: [ac, af], name: flat && FLATK[SH[k]] ? FLATK[SH[k]] : SH[k]};
+}
+let KI = keyInfo();
+// 샵·플랫 표기는 「그 코드를 잡는 키」에 맞춘다: G D A E B F# 키 → 샵, F B♭ E♭ A♭ D♭ 키 → 플랫, C 키 → B♭·E♭·A♭
+function spell(i, q, keyIdx){
+  const s = SH[(i % 12 + 12) % 12], kk = (keyIdx % 12 + 12) % 12;
+  if([7, 2, 9, 4, 11, 6].includes(kk)) return s + q;
+  if([5, 10, 3, 8, 1].includes(kk)) return (FLATK[s] || s) + q;
+  return (SHOWN[s] || s) + q;
+}
+const realOf = c => { const [i, q] = parseC(D.real[c]); return spell(i + SHIFT, q, KI.k); };
+const shapeOf = c => { const [i, q] = parseC(D.real[c]); return spell(i + SHIFT - KI.capo, q, KI.k - KI.capo); };
+const nm = c => MODE === 'shape' ? shapeOf(c) : realOf(c);
+const FALIAS = {'D♭': 'C#', 'G♭': 'F#', 'A#': 'B♭', 'D#': 'E♭', 'G#': 'A♭'};
+function diagram(n){                                       // tools/make_chord_sheet.py 의 diagram() 과 같은 그림
+  const m = n.match(/^([A-G][#♭]?)(.*)$/), f = D.fing[(FALIAS[m[1]] || m[1]) + m[2]]; if(!f) return '';
+  const fr = [...f].map(c => c === 'x' ? null : +c), used = fr.filter(x => x), base = !used.length || Math.max(...used) <= 4 ? 1 : Math.min(...used);
+  const W = 70, H = 84, x0 = 12, y0 = 18, dx = 9.2, dy = 12;
+  let g = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${n} 운지"><title>${n}</title><line x1="${x0}" y1="${y0}" x2="${x0 + 5 * dx}" y2="${y0}" class="nut" stroke-width="${base === 1 ? 3 : 1}"/>`;
+  for(let i = 0; i < 6; i++) g += `<line x1="${x0 + i * dx}" y1="${y0}" x2="${x0 + i * dx}" y2="${y0 + 5 * dy}" class="ln"/>`;
+  for(let j = 0; j < 6; j++) g += `<line x1="${x0}" y1="${y0 + j * dy}" x2="${x0 + 5 * dx}" y2="${y0 + j * dy}" class="ln"/>`;
+  if(base > 1) g += `<text x="${x0 + 5 * dx + 4}" y="${y0 + dy * .75}" class="fr">${base}</text>`;
+  fr.forEach((v, i) => { const x = x0 + i * dx;
+    g += v === null ? `<text x="${x}" y="${y0 - 5}" class="mk">×</text>` : v === 0 ? `<circle cx="${x}" cy="${y0 - 8}" r="2.6" class="open"/>`
+      : `<circle cx="${x}" cy="${y0 + (v - base + .5) * dy}" r="3.6" class="dot"/>`; });
+  return g + '</svg>';
+}
+const keyLabel = () => `${KI.name}${SHIFT ? ` (${SHIFT > 0 ? '+' : ''}${SHIFT})` : ' 원곡'}`;
+function paintMeta(){
+  $('meta').innerHTML = [`${KI.name} ${D.mode === 'major' ? '장조' : '단조'}${SHIFT ? ` · 원곡 ${D.key}` : ''}`, `${D.bpm} BPM`,
+    (KI.capo ? `카포 ${KI.capo} · ${KI.form} 모양` : '카포 없음'), `${D.rows.reduce((n, r) => n + r.length, 0)}블록`].map(x => `<span>${x}</span>`).join('');
+  $('keyV').textContent = `🎚 키 ${keyLabel()}`;
+}
+function setShift(n){
+  SHIFT = Math.max(-6, Math.min(6, n)); try{ localStorage.setItem(KEY + '.shift', SHIFT); }catch(_){}
+  KI = keyInfo(); paint(); paintMeta(); bkKey = ''; if(typeof paintBuskHead === 'function') paintBuskHead();
+}
+
+function paint(){
+  document.querySelectorAll('#mode button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === MODE));
+  $('capoNote').textContent = MODE === 'shape'
+    ? (KI.capo ? `카포를 ${KI.capo}프렛에 끼우고 아래 모양으로 잡으면 ${KI.name} 소리가 납니다. 바레 코드 없이 칠 수 있습니다.`
+               : `카포 없이 아래 모양 그대로 ${KI.name} 소리입니다.`)
+    : `원래 코드(카포 없이) · ${KI.name} 조.`;
+  if(SHIFT) $('capoNote').textContent += ` 키를 ${SHIFT > 0 ? '올려' : '내려'} 원곡(${D.key})과 다릅니다 — 영상 소리와는 맞지 않으니 🔇 로 두고 직접 연주하세요.`;
+  if(MODE === 'shape' && !CAPO_AUTO && KI.auto[0] !== KI.capo)
+    $('capoNote').textContent += ` 카포를 ${KI.auto[0] ? KI.auto[0] + '프렛' : '빼'}${KI.auto[0] ? '으로 옮기면' : '면'} ${KI.auto[1]} 모양으로 더 쉽게 칠 수 있어요(「카포 자동」).`;
+  $('capoAuto').textContent = CAPO_AUTO ? '🔄 카포 자동' : '🔒 카포 고정';
+  $('capoAuto').setAttribute('aria-pressed', CAPO_AUTO);
+  $('capoAuto').title = CAPO_AUTO ? '키마다 카포를 옮겨 손 모양을 유지합니다' : '카포는 원곡 자리 그대로, 코드가 바뀝니다';
+  $('diags').innerHTML = D.order.map(c => `<div class="dg" data-c="${c}"><b>${nm(c)}</b><small>${MODE === 'shape' ? '소리 ' + realOf(c) : ''}</small>${diagram(nm(c))}</div>`).join('');
+  // 기본 진행 = 가장 많이 나오는 4마디 줄
+  const cnt = {}; D.rows.forEach(r => { const k = r.map(b => b[2].join(' ')).join(' | '); cnt[k] = (cnt[k] || 0) + 1; });
+  const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+  const seq = []; top[0].split(/ \| | /).forEach(c => { if(seq[seq.length - 1] !== c) seq.push(c); });
+  $('prog').innerHTML = `가장 많이 나오는 줄(${top[1]}번): ` + seq.map(c => `<b>${nm(c)}</b>`).join(' → ');
+  const box = $('rows'); box.innerHTML = '';
+  D.rows.forEach((r, i) => {
+    const row = document.createElement('div'); row.className = 'row ' + ((D.labels || [])[i] || '') + (LOOP === i ? ' looping' : ''); row.id = 'r' + i;
+    row.innerHTML = `<button type="button" class="tm" aria-label="${fmt(r[0][0])}부터 재생">${D.labels && D.labels[i] ? `<i>${D.labels[i]}</i>` : ''}${fmt(r[0][0])}</button>` +
+      r.map((b, j) => `<div class="bar" id="b${i}_${j}" role="button" tabindex="0">${b[2].map(c => `<span>${nm(c)}</span>`).join('')}</div>`).join('') +
+      '<div class="bar" style="visibility:hidden"></div>'.repeat(4 - r.length) +
+      `<button type="button" class="lp" aria-pressed="${LOOP === i}" aria-label="이 줄 반복">🔁</button>`;
+    row.querySelector('.tm').onclick = () => seek(r[0][0]);
+    // 재생 중인 블록을 다시 누르면 멈춤 · 멈춘 블록을 누르면 그 자리부터 이어서 · 다른 블록은 그 마디부터
+    row.querySelectorAll('.bar[id]').forEach((el, j) => el.onclick = () => {
+      if(el.classList.contains('now') && player && player.pauseVideo){ if(playing()) player.pauseVideo(); else player.playVideo(); }
+      else { if(LB >= 0) setLB(flat.findIndex(b => b[2] === i && b[3] === j)); seek(r[j][0]); }
+    });
+    row.querySelector('.lp').onclick = () => { LOOP = LOOP === i ? -1 : i; setLB(-1); paint(); if(LOOP === i) seek(r[0][0]); };
+    box.appendChild(row);
+  });
+  if(LB >= 0) $(`b${flat[LB][2]}_${flat[LB][3]}`).classList.add('lp1');   // 다시 그려도 칸 반복 표시 유지
+  cur = -1;
+}
+document.querySelectorAll('#mode button').forEach(b => b.onclick = () => { MODE = b.dataset.v; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); });
+// 속도: 위 버튼 줄과 아래 막대의 버튼(누를 때마다 1× → 0.75× → 0.5×)이 같이 움직인다
+let SPD = 1;
+function setSpeed(v){
+  SPD = v; document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', Number(x.dataset.v) === v));
+  $('spd').textContent = v + '×'; $('spd').setAttribute('aria-pressed', v !== 1);
+  try{ player && player.setPlaybackRate(v); }catch(_){}
+}
+document.querySelectorAll('#speed button').forEach(b => b.onclick = () => setSpeed(Number(b.dataset.v)));
+$('spd').onclick = () => setSpeed(SPD === 1 ? .75 : SPD === .75 ? .5 : 1);
+// ⏯ 재생 / 일시정지 — 막대 버튼 · 스페이스 키
+const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+function playing(){ try{ return player && player.getPlayerState() === 1; }catch(_){ return false; } }
+function paintPP(){ const on = playing(); if(on) bkHint = false; $('ppIcon').innerHTML = on ? PAUSE : PLAY; $('pp').setAttribute('aria-label', on ? '일시정지' : '재생'); }
+$('pp').onclick = () => { if(!player || !player.playVideo) return; if(playing()) player.pauseVideo(); else player.playVideo(); };
+document.addEventListener('keydown', e => {
+  if(e.code !== 'Space' || /INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) return;
+  e.preventDefault(); $('pp').click();
+});
+// 🔁 이 칸 — 지금 재생 중인 마디 하나만 되풀이(다시 누르면 끔)
+function setLB(k){
+  LB = k; document.querySelectorAll('.bar.lp1').forEach(x => x.classList.remove('lp1'));
+  if(k >= 0){ $(`b${flat[k][2]}_${flat[k][3]}`).classList.add('lp1'); if(LOOP >= 0){ LOOP = -1; paint(); setLB(k); return; } }
+  $('lb').setAttribute('aria-pressed', k >= 0);
+}
+$('lb').onclick = () => { if(LB >= 0) setLB(-1); else if(cur >= 0) setLB(cur); else if(flat.length) { setLB(0); seek(flat[0][0]); } };
+function seek(t){ if(!player || !player.seekTo) return; player.seekTo(Math.max(0, t + .02), true); player.playVideo(); }
+
+// 재생 위치 → 지금 마디 강조 · 줄 반복
+const flat = []; D.rows.forEach((r, i) => r.forEach((b, j) => flat.push([b[0], b[1], i, j, b[2]])));
+function paintLead(){ $('leadV').textContent = `⏱ ${LEAD.toFixed(1)}초 앞`; }
+function setLead(v){ LEAD = Math.round(Math.min(.8, Math.max(0, v)) * 10) / 10; try{ localStorage.setItem('blocks.lead', LEAD); }catch(_){} paintLead(); cur = -2; }
+$('leadM').onclick = () => setLead(LEAD - .1); $('leadP').onclick = () => setLead(LEAD + .1); paintLead();
+// 가사 줄: 지금 시각의 줄, 줄 사이(간주)에는 다음 줄을 흐리게 미리 보여 준다
+const LINES = D.lines || [];
+if(LINES.length){ $('lyr').hidden = false; document.querySelector('.app').classList.add('haslyr'); }
+let curL = -2;
+function paintLine(tv){
+  if(!LINES.length) return;
+  let k = LINES.findIndex(l => l[0] <= tv && tv < l[1]), wait = false;
+  if(k < 0){ k = LINES.findIndex(l => l[0] > tv); wait = true; if(k < 0){ k = LINES.length - 1; wait = false; } }
+  const key = k * 2 + (wait ? 1 : 0); if(key === curL) return; curL = key;
+  const [, , ja, ko, rd, ws] = LINES[k];
+  $('lyJa').textContent = ja; $('lyJa').classList.toggle('wait', wait);
+  $('lyKo').textContent = ko;
+  $('lyWs').innerHTML = ws.map(([h, r, m]) => `<span><b lang="ja"></b><i lang="ja"></i></span>`).join('');
+  $('lyWs').querySelectorAll('span').forEach((el, i) => { el.querySelector('b').textContent = ws[i][0]; el.querySelector('i').textContent = ws[i][1]; el.append(ws[i][2]); });
+}
+// ---------- 🎤 버스킹 모드: 지금 줄(가사 위 코드) 크게 + 다음 줄, 원곡 영상에 맞춰 넘어간다 ----------
+let BUSK = false, bkKey = '', wakeB = null, bkHint = false;
+// 🔊 / 🔇 — 소리만 끈다(영상은 계속 흘러 가사·코드가 넘어간다)
+function paintMute(){ let m = false; try{ m = player.isMuted(); }catch(_){}
+  $('bkMute').textContent = m ? '🔇 무음' : '🔊 소리'; $('bkMute').setAttribute('aria-pressed', m); $('bkMute').setAttribute('aria-label', m ? '소리 켜기' : '소리 끄기'); }
+function tryPlay(){                                        // 폰은 영상을 한 번 직접 눌러야 재생이 시작된다 → 안 되면 안내
+  try{ player.playVideo(); }catch(_){}
+  setTimeout(() => { bkHint = !playing(); }, 900);
+}
+const escH = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+function chordsIn(s, e){                                   // 시각 s~e 사이에 울리는 코드와 바뀌는 시각
+  const out = [];
+  for(const [bs, be, , , cs] of flat){
+    const pts = cs.length > 1 ? [[bs, cs[0]], [(bs + be) / 2, cs[1]]] : [[bs, cs[0]]];
+    for(const [t0, c] of pts){
+      const t1 = pts[pts.indexOf(pts.find(p => p[0] === t0)) + 1]?.[0] ?? be;
+      if(t1 > s + .25 && t0 < e - .3 && (!out.length || out[out.length - 1][1] !== c)) out.push([Math.max(t0, s), c]);
+    }
+  }
+  return out;
+}
+function lineHtml(ja, s, e){                               // 가사 글자 위에 코드: 바뀌는 시각의 비율 자리
+  const chars = [...ja], idx = chars.map((c, i) => i).filter(i => !/[\s　「」…？?!！、。]/.test(chars[i]));
+  const marks = {};
+  for(const [t0, c] of chordsIn(s, e)){
+    let k = idx[Math.min(idx.length - 1, Math.max(0, Math.round((t0 - s) / (e - s) * idx.length)))] ?? 0;
+    const prev = Math.max(-9, ...Object.keys(marks).map(Number).filter(j => j <= k));
+    if(k - prev < 2) k = prev + 2;                        // 코드 이름이 겹치지 않게 두 글자 띄운다
+    if(k < chars.length) marks[k] = nm(c);
+  }
+  return chars.map((ch, i) => marks[i] ? `<span class="c" data-c="${escH(marks[i])}">${escH(ch)}</span>` : escH(ch)).join('');
+}
+function rowHtml(r){ return r.map(b => b[2].map(nm).join(' ')).join('  |  '); }
+function paintBusk(t){
+  if(!BUSK) return;
+  const tv = t + LEAD;
+  let dur = 0; try{ dur = player.getDuration(); }catch(_){}
+  $('bkT').textContent = `${fmt(t)} / ${fmt(dur || 0)}`;
+  $('bkProg').style.width = dur ? (t / dur * 100).toFixed(1) + '%' : 0;
+  $('bkPaused').textContent = playing() ? '' : bkHint ? '▶ 작은 영상의 ▶ 를 한 번 눌러 주세요' : '⏸ 멈춤 — 화면을 누르면 재생';
+  let key, cur, nxt, lbl = '', line = '';
+  if(LINES.length){
+    const k = LINES.findIndex(l => l[0] <= tv && tv < l[1]);
+    if(k >= 0){
+      const L = LINES[k], N = LINES[k + 1];
+      key = 'L' + k + MODE; line = `${k + 1} / ${LINES.length}`;
+      cur = [lineHtml(L[2], L[0], L[1]), false];
+      nxt = N ? [lineHtml(N[2], N[0], N[1]), false] : ['', false];
+    } else {                                               // 가사 없는 구간: 간주 코드를 크게, 다음 줄 미리
+      const n = LINES.findIndex(l => l[0] > tv), bk = flat.findIndex(b => b[0] <= tv && tv < b[1]);
+      const row = bk >= 0 ? D.rows[flat[bk][2]] : null;
+      key = 'I' + n + (row ? flat[bk][2] : '') + MODE; lbl = n === 0 ? '전주' : n < 0 ? '후주' : '간주';
+      line = n >= 0 ? `다음 ${n + 1} / ${LINES.length}` : '';
+      cur = [row ? escH(rowHtml(row)) : '', true];
+      nxt = n >= 0 ? [lineHtml(LINES[n][2], LINES[n][0], LINES[n][1]), false] : ['', false];
+    }
+  } else {                                                 // 가사 없는 곡: 지금 줄(4블록) + 다음 줄 코드
+    const bk = flat.findIndex(b => b[0] <= tv && tv < b[1]), ri = bk >= 0 ? flat[bk][2] : 0;
+    key = 'R' + ri + MODE; line = `${ri + 1} / ${D.rows.length}`;
+    cur = [escH(rowHtml(D.rows[ri])), true]; nxt = [D.rows[ri + 1] ? escH(rowHtml(D.rows[ri + 1])) : '', true];
+  }
+  $('bkLine').textContent = line;
+  if(key === bkKey) return; bkKey = key;
+  $('bkLbl').textContent = lbl;
+  $('bkCur').innerHTML = cur[0]; $('bkCur').classList.toggle('inst', cur[1]);
+  $('bkNext').innerHTML = nxt[0]; $('bkNext').classList.toggle('inst', nxt[1]);
+}
+async function openBusk(){
+  BUSK = true; bkKey = ''; bkHint = false; bkPos = null; $('busk').hidden = false; document.body.classList.add('busking');
+  $('bkTitle').textContent = D.title; paintBuskHead();
+  try{ await document.documentElement.requestFullscreen?.(); }catch(_){}   // 페이지 전체를 — 영상 창도 같이 보이게
+  paintMute();                                            // 열어도 재생하지 않는다 — 화면을 눌러야 재생(사용자 지시)
+  try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){}
+  let t = 0; try{ t = player.getCurrentTime(); }catch(_){} paintBusk(t);
+}
+function closeBusk(){
+  BUSK = false; $('busk').hidden = true; document.body.classList.remove('busking');
+  try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(_){}
+  try{ wakeB && wakeB.release(); }catch(_){} wakeB = null;
+}
+// ◀ 이전 · 다음 ▶ : 줄 시작으로 영상을 옮긴다(그다음은 영상을 따라 자동). 가사가 없으면 4블록 줄 단위.
+function navStarts(){ return LINES.length ? LINES.map(l => l[0]) : D.rows.map(r => r[0][0]); }
+// 멈춘 동안의 넘기기: 한 번도 재생하지 않은 YouTube 는 멈춘 채 위치 옮기기를 제대로 받지 않는다(두 번째부터 무시·재생 때 처음으로).
+// 그래서 멈춰 있으면 버스킹 화면의 줄 위치(bkPos)만 옮기고, 화면을 눌러 재생할 때 그 위치로 옮겨 재생한다.
+let bkPos = null;
+function bkNav(dir){
+  let t = 0; try{ t = playing() || bkPos === null ? player.getCurrentTime() : bkPos; }catch(_){ return; }
+  const st = navStarts(), tv = t + LEAD;
+  let k = -1; st.forEach((s, i) => { if(s <= tv) k = i; });          // 지금(또는 막 지난) 줄
+  let to;
+  if(dir > 0) to = st[k + 1];
+  else to = k >= 0 && tv - st[k] > 1.5 ? st[k] : st[Math.max(0, k - 1)];
+  if(to == null) return;
+  bkKey = '';
+  if(playing()) seek(to);                                   // 재생 중이면 영상을 옮겨 이어서
+  else { bkPos = to; paintBusk(to - LEAD + .01); }          // 멈춰 있으면 화면만 — 재생은 화면을 눌러야
+}
+$('bkPrev').onclick = e => { e.stopPropagation(); bkNav(-1); };
+$('bkNextB').onclick = e => { e.stopPropagation(); bkNav(1); };
+document.addEventListener('keydown', e => {                // 키보드 ← → · 블루투스 페달(PageUp/PageDown)
+  if(!BUSK) return;
+  if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); bkNav(1); }
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); bkNav(-1); }
+});
+function paintBuskHead(){
+  $('bkCapo').textContent = KI.capo && MODE === 'shape' ? `· 카포 ${KI.capo}` : '';
+  $('bkMode').textContent = MODE === 'shape' ? '카포 모양 ▸ 원래 코드' : '원래 코드 ▸ 카포 모양';
+  $('bkKeyV').textContent = keyLabel();
+}
+$('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
+$('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
+$('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
+$('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
+$('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
+  if(playing()){ player.pauseVideo(); return; }
+  if(bkPos !== null){ try{ player.seekTo(Math.max(0, bkPos + .02), true); }catch(_){} bkPos = null; }
+  tryPlay();
+};
+$('bkMute').onclick = () => { try{ if(player.isMuted()) player.unMute(); else player.mute(); }catch(_){} setTimeout(paintMute, 150); };
+document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && BUSK) closeBusk(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && BUSK) closeBusk(); });
+document.addEventListener('visibilitychange', async () => { if(BUSK && document.visibilityState === 'visible'){ try{ wakeB = await navigator.wakeLock?.request('screen'); }catch(_){} } });
+function tick(){
+  if(!player || !player.getCurrentTime) return;
+  let t; try{ t = player.getCurrentTime(); }catch(_){ return; }
+  if(LB >= 0){
+    const [s, e] = flat[LB];
+    if(t >= e - .04 || t < s - 1) { player.seekTo(s, true); return; }
+  } else if(LOOP >= 0){
+    const r = D.rows[LOOP], s = r[0][0], e = r[r.length - 1][1];
+    if(t >= e - .05 || t < s - 1) { player.seekTo(s, true); return; }
+  }
+  const tv = t + LEAD;                                     // 강조·막대는 앞당긴 시각으로
+  paintLine(tv); if(!(BUSK && bkPos !== null && !playing())) paintBusk(t);   // 멈춘 채 넘긴 줄은 그대로 둔다
+  const k = flat.findIndex(b => b[0] <= tv && tv < b[1]);
+  // 막대: 지금 코드 · 시각 · 다음 코드
+  let dur = 0; try{ dur = player.getDuration(); }catch(_){}
+  $('nowT').textContent = `${fmt(t)} / ${fmt(dur || 0)}`;
+  if(k >= 0){
+    const [s, e, , , cs] = flat[k], second = cs.length > 1 && tv >= s + (e - s) / 2;
+    $('nowC').textContent = nm(second ? cs[1] : cs[0]);
+    const nxt = second || cs.length < 2 ? (flat[k + 1] ? flat[k + 1][4][0] : null) : cs[1];
+    $('nextC').textContent = nxt ? nm(nxt) : '—';
+  }
+  if(k === cur) return;
+  document.querySelectorAll('.bar.now').forEach(x => x.classList.remove('now'));
+  document.querySelectorAll('.dg.on').forEach(x => x.classList.remove('on'));
+  cur = k; if(k < 0) return;
+  const [s, e, i, j, cs] = flat[k], el = $(`b${i}_${j}`);
+  el.classList.add('now');
+  // 지금 울리는 코드(반 마디)에 맞춰 운지 그림도 표시
+  const c = cs.length > 1 && tv >= s + (e - s) / 2 ? cs[1] : cs[0];
+  const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on');
+  // 자동 스크롤: 아래 막대(가사가 들어가면 두꺼워진다)에 가리지 않는 영역에서, 지금 줄 아래로 다음 줄이 보이게
+  const rect = el.getBoundingClientRect(), view = innerHeight - document.querySelector('.dock').offsetHeight;
+  if(rect.top < 60 || rect.bottom + rect.height * 1.3 > view)
+    scrollBy({top: rect.top - view * .3, behavior: 'smooth'});
+}
+setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마디가 바뀌면 운지 갱신 */
+  const [s, e, , , cs] = flat[cur]; if(cs.length > 1){ let t; try{ t = player.getCurrentTime() + LEAD; }catch(_){ return; }
+    const c = t >= s + (e - s) / 2 ? cs[1] : cs[0];
+    document.querySelectorAll('.dg.on').forEach(x => { if(x.dataset.c !== c) x.classList.remove('on'); });
+    const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on'); } } }, 50);   // 0.05초마다
+
+paint(); paintMeta();
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+};
+const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+</script>
+</body></html>
