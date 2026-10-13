@@ -134,7 +134,8 @@ def build(app, title, artist, src, back, out, lyrics=True):
             'mode': d['mode'], 'bpm': d['bpm'], 'fit': d['fit'], 'capo': capo, 'form': form, 'rows': rows,
             'real': real, 'order': used, 'fing': FING,   # 운지 그림·키 이동은 화면(tpl)이 한다 'store': app + '.blocks',
             'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
-            'lines': app_lines(S) if lyrics else []}         # --no-lyrics: 가사는 노래 앱 본문에만 두고 여기엔 코드만
+            'lines': app_lines(S) if lyrics else [],         # --no-lyrics: 가사는 노래 앱 본문에만 둔다
+            'linesFrom': back if (not lyrics and back) else ''}   # 그때는 화면이 열릴 때 노래 앱 파일(같은 폴더)의 줄 데이터를 읽어 보여 준다
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__DATA__*/{}', json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))) \
               .replace('/*__TITLE__*/', f'{title} 블록 연습')

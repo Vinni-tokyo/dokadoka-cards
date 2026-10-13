@@ -756,5 +756,8 @@ $('mix').onclick = () => start('');
 $('again').onclick = () => start(STAGE ? STAGE.k : '');
 $('toHome').onclick = () => { stopSong(); $('end').hidden = true; $('home').hidden = false; paintHome(); };
 paintHome();
+// 다른 앱에서 「🎮 단어 게임」으로 오면(#s=<앱 폴더>) 그 곡의 단어장을 바로 연다 — 단어장의 「복습 ›」이 그 곡 게임
+function fromHash(){ const m = location.hash.match(/^#s=([\w-]+)/); if(m && stageOf(m[1])) openBook(m[1]); }
+fromHash(); addEventListener('hashchange', fromHash);
 </script>
 </body></html>
