@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"R7wI90H6Wuc","title":"川崎鷹也 「魔法の絨毯」","artist":"","key":"A♭","mode":"major","bpm":74,"fit":0.839,"capo":1,"form":"G","rows":[[[0.0,1.94,["C#"]],[1.94,5.27,["C#"]],[5.27,8.6,["C#","G#"]],[8.6,11.93,["G#","D#"]]],[[11.93,15.26,["D#","Fm"]],[15.26,18.59,["Fm"]],[18.59,21.93,["Fm","D#"]],[21.93,25.26,["D#"]]],[[25.26,28.59,["D#"]],[28.59,31.92,["D#"]],[31.92,35.25,["D#","C#"]],[35.25,38.58,["D#","G#"]]],[[38.58,41.91,["G#","Fm"]],[41.91,45.25,["D#"]],[45.25,48.58,["Fm","A#m"]],[48.58,51.91,["D#","C#"]]],[[51.91,55.24,["C#","Cm"]],[55.24,58.57,["A#m"]],[58.57,61.91,["D#"]],[61.91,65.24,["C#","G#"]]],[[65.24,68.57,["D#","Fm"]],[68.57,71.9,["C#"]],[71.9,75.23,["D#","Fm"]],[75.23,78.56,["C#"]]],[[78.56,81.89,["D#","E"]],[81.89,85.23,["Fm"]],[85.23,88.56,["Fm"]],[88.56,91.89,["D#"]]],[[91.89,95.22,["C#","D#"]],[95.22,98.55,["Fm","D#"]],[98.55,101.88,["C#","D#"]],[101.88,105.22,["G#"]]],[[105.22,108.55,["G#","D#"]],[108.55,111.88,["D#","Fm"]],[111.88,115.21,["A#m","D#"]],[115.21,118.54,["C#","Cm"]]],[[118.54,121.87,["Fm","A#m"]],[121.87,125.2,["A#m","D#"]],[125.2,128.54,["D#","C#"]],[128.54,131.87,["D#","Fm"]]],[[131.87,135.2,["D#","C#"]],[135.2,138.53,["D#","G#"]],[138.53,141.86,["G#","C#"]],[141.86,145.19,["D#"]]],[[145.19,148.53,["Fm","A#m"]],[148.53,151.86,["D#","C#"]],[151.86,155.19,["D#","Fm"]],[155.19,158.52,["D#","C#"]]],[[158.52,161.85,["D#","G#"]],[161.85,165.18,["G#"]],[165.18,168.52,["D#"]],[168.52,171.85,["Fm","A#m"]]],[[171.85,175.18,["D#","C#"]],[175.18,178.51,["C#","Cm"]],[178.51,181.84,["A#m"]],[181.84,185.17,["D#"]]],[[185.17,188.5,["D#"]],[188.5,191.84,["G#"]],[191.84,195.17,["G#"]],[195.17,198.5,["G#"]]],[[198.5,199.06,["G#"]]]],"real":{"C#":"C#","G#":"A♭","D#":"E♭","Fm":"Fm","A#m":"B♭m","Cm":"Cm","E":"E"},"order":["C#","G#","D#","Fm","A#m","Cm","E"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Mahou30-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(144 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (R7wI90H6Wuc).","lines":[],"linesFrom":"Japanese-Mahou30-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

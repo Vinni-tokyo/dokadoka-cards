@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"L-rIa60Ildg","title":"GROWING UP 「その日全世界が」","artist":"","key":"A","mode":"major","bpm":68,"fit":0.866,"capo":2,"form":"G","rows":[[[0.0,4.53,["D"]],[4.53,8.08,["D"]],[8.08,11.62,["D","E"]],[11.62,15.17,["A"]]],[[15.17,18.72,["A","E"]],[18.72,22.26,["E","C#m"]],[22.26,25.81,["C#m","D"]],[25.81,29.35,["A","G"]]],[[29.35,32.9,["E"]],[32.9,36.45,["E","C#m"]],[36.45,39.99,["C#m","D"]],[39.99,43.54,["C#m"]]],[[43.54,47.08,["D","E"]],[47.08,50.63,["A","E"]],[50.63,54.17,["C#m"]],[54.17,57.72,["D","C#m"]]],[[57.72,61.26,["G","E"]],[61.26,64.81,["E"]],[64.81,68.36,["C#m"]],[68.36,71.9,["D","A"]]],[[71.9,75.45,["D"]],[75.45,78.99,["E","A"]],[78.99,82.54,["C#m"]],[82.54,86.08,["C#m","D"]]],[[86.08,89.63,["C#m","Bm"]],[89.63,93.17,["E","A"]],[93.17,96.72,["E","F#m"]],[96.72,100.27,["F#m","C#m"]]],[[100.27,103.81,["D","C#m"]],[103.81,107.36,["Bm","E"]],[107.36,110.9,["A"]],[110.9,114.45,["A"]]],[[114.45,118.0,["A","C#m"]],[118.0,121.54,["F#m","C#m"]],[121.54,125.09,["D","C#m"]],[125.09,128.63,["G","E"]]],[[128.63,132.18,["A","E"]],[132.18,135.72,["F#m","C#m"]],[135.72,139.27,["D","C#m"]],[139.27,142.81,["G","E"]]],[[142.81,146.36,["A","E"]],[146.36,149.91,["F#m","C#m"]],[149.91,153.45,["D","C#m"]],[153.45,157.0,["G","E"]]],[[157.0,160.54,["A"]],[160.54,164.09,["E","C#m"]],[164.09,167.63,["C#m","D"]],[167.63,171.18,["C#m","E"]]],[[171.18,174.72,["A","E"]],[174.72,178.27,["F#m","C#m"]],[178.27,181.82,["C#m","D"]],[181.82,185.36,["C#m","E"]]],[[185.36,188.91,["E","A"]],[188.91,192.45,["E","C#m"]],[192.45,196.0,["C#m","D"]],[196.0,199.54,["Bm"]]],[[199.54,203.09,["A"]],[203.09,206.64,["A","E"]],[206.64,210.18,["E"]],[210.18,213.73,["D","C#m"]]],[[213.73,217.27,["Bm","E"]],[217.27,220.82,["A"]],[220.82,224.36,["F#m","C#m"]],[224.36,227.91,["D","C#m"]]],[[227.91,231.46,["Bm","E"]],[231.46,235.0,["A"]],[235.0,238.55,["E"]],[238.55,242.09,["A"]]],[[242.09,245.64,["E"]],[245.64,249.18,["A"]],[249.18,252.73,["E"]],[252.73,256.27,["A"]]],[[256.27,259.82,["Bm"]],[259.82,263.37,["E"]],[263.37,266.91,["E","A"]],[266.91,270.46,["A","F#m"]]],[[270.46,274.0,["C#m","D"]],[274.0,277.55,["C#m","Bm"]],[277.55,281.09,["E","A"]],[281.09,284.64,["E","F#m"]]],[[284.64,288.19,["E","D"]],[288.19,291.73,["C#m","Bm"]],[291.73,295.28,["E","A"]],[295.28,298.82,["A","E"]]],[[298.82,302.37,["E","F#m"]],[302.37,305.91,["E","D"]],[305.91,309.46,["C#m","Bm"]],[309.46,313.0,["E","A"]]],[[313.0,316.55,["C#m"]],[316.55,320.1,["D","C#m"]],[320.1,323.64,["Bm"]],[323.64,327.19,["A"]]],[[327.19,330.73,["Bm","E"]],[330.73,334.28,["E","F#m"]],[334.28,337.82,["Bm"]],[337.82,341.37,["A","Bm"]]],[[341.37,344.92,["Bm","A"]],[344.92,348.46,["A","F#m"]],[348.46,352.01,["Bm","E"]],[352.01,355.55,["E","A"]]],[[355.55,359.1,["A"]],[359.1,362.64,["A"]],[362.64,366.19,["A"]],[366.19,369.74,["A"]]],[[369.74,373.28,["A"]],[373.28,376.83,["A"]],[376.83,380.37,["A"]],[380.37,383.92,["A"]]],[[383.92,387.46,["A"]],[387.46,388.45,["A"]]]],"real":{"D":"D","E":"E","A":"A","C#m":"C#m","G":"G","Bm":"Bm","F#m":"F#m"},"order":["D","E","A","C#m","G","Bm","F#m"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-SonoHi41-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(135 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (L-rIa60Ildg).","lines":[],"linesFrom":"Japanese-SonoHi41-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

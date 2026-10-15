@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"cbqvxDTLMps","title":"優里 「ベテルギウス」","artist":"","key":"F","mode":"major","bpm":89,"fit":0.882,"capo":5,"form":"C","rows":[[[0.0,2.31,["A#"]],[2.31,4.31,["A#"]],[4.31,6.31,["A#"]],[6.31,8.32,["A#"]]],[[8.32,10.32,["A#"]],[10.32,12.32,["A#"]],[12.32,14.33,["A#"]],[14.33,16.33,["A#"]]],[[16.33,18.34,["A#"]],[18.34,20.34,["A#"]],[20.34,22.34,["A#"]],[22.34,24.35,["A#"]]],[[24.35,26.35,["A#"]],[26.35,28.36,["A#"]],[28.36,30.36,["A#"]],[30.36,32.36,["A#"]]],[[32.36,34.37,["C"]],[34.37,36.37,["C"]],[36.37,38.38,["C"]],[38.38,40.38,["C"]]],[[40.38,42.38,["C"]],[42.38,44.39,["C"]],[44.39,46.39,["C"]],[46.39,48.4,["C"]]],[[48.4,50.4,["C"]],[50.4,52.4,["C"]],[52.4,54.41,["C"]],[54.41,56.41,["C"]]],[[56.41,58.41,["Am","A#"]],[58.41,60.42,["A#","C"]],[60.42,62.42,["Dm"]],[62.42,64.43,["Dm","A#"]]],[[64.43,66.43,["C","Dm"]],[66.43,68.43,["Dm","Am"]],[68.43,70.44,["A#","C"]],[70.44,72.44,["C","Dm"]]],[[72.44,74.45,["Am"]],[74.45,76.45,["A#","C"]],[76.45,78.45,["C","F"]],[78.45,80.46,["F"]]],[[80.46,82.46,["F"]],[82.46,84.47,["F"]],[84.47,86.47,["F"]],[86.47,88.47,["F"]]],[[88.47,90.48,["F"]],[90.48,92.48,["F"]],[92.48,94.48,["F"]],[94.48,96.49,["F","C"]]],[[96.49,98.49,["C"]],[98.49,100.5,["C","A#"]],[100.5,102.5,["Am"]],[102.5,104.5,["C"]]],[[104.5,106.51,["A#"]],[106.51,108.51,["A"]],[108.51,110.52,["Dm"]],[110.52,112.52,["A#","A"]]],[[112.52,114.52,["A"]],[114.52,116.53,["Dm","D#"]],[116.53,118.53,["D#"]],[118.53,120.53,["C"]]],[[120.53,122.54,["A#"]],[122.54,124.54,["Am","C"]],[124.54,126.55,["C"]],[126.55,128.55,["A#","Am"]]],[[128.55,130.56,["Am","Dm"]],[130.56,132.56,["Dm","A#"]],[132.56,134.56,["A"]],[134.56,136.57,["A","Dm"]]],[[136.57,138.57,["D#"]],[138.57,140.57,["D#","C"]],[140.57,142.58,["C"]],[142.58,144.58,["A#"]]],[[144.58,146.59,["F"]],[146.59,148.59,["F"]],[148.59,150.59,["F"]],[150.59,152.6,["F"]]],[[152.6,154.6,["F"]],[154.6,156.6,["F"]],[156.6,158.61,["A#","C"]],[158.61,160.61,["C","Dm"]]],[[160.61,162.62,["Am","A#"]],[162.62,164.62,["A#","C"]],[164.62,166.62,["C","A#"]],[166.62,168.63,["A#"]]],[[168.63,170.63,["C"]],[170.63,172.64,["A#"]],[172.64,174.64,["C","A"]],[174.64,176.64,["A","A#"]]],[[176.64,178.65,["A#","C"]],[178.65,180.65,["C","Dm"]],[180.65,182.66,["Dm","A#"]],[182.66,184.66,["A#"]]],[[184.66,186.66,["C"]],[186.66,188.67,["C","A#"]],[188.67,190.67,["Am","C"]],[190.67,192.68,["C"]]],[[192.68,194.68,["A#","A"]],[194.68,196.68,["A"]],[196.68,198.69,["Dm","A#"]],[198.69,200.69,["A#","A"]]],[[200.69,202.69,["A","Dm"]],[202.69,204.7,["Dm","D#"]],[204.7,206.7,["D#","C"]],[206.7,208.71,["C"]]],[[208.71,210.71,["C"]],[210.71,212.71,["C","F"]],[212.71,214.72,["F","A#"]],[214.72,216.72,["A#","C"]]],[[216.72,218.73,["C","Dm"]],[218.73,220.73,["Dm","A#"]],[220.73,222.73,["C","A"]],[222.73,224.74,["A","D#"]]],[[224.74,226.74,["D#"]],[226.74,228.75,["D#","C"]],[228.75,230.75,["C","Dm"]],[230.75,232.75,["Dm","F"]]],[[232.75,234.76,["C"]],[234.76,236.76,["C"]],[236.76,238.76,["C","A"]],[238.76,240.77,["A#"]]],[[240.77,242.77,["A#","C"]],[242.77,244.78,["C","C#"]],[244.78,246.78,["Dm","A#"]],[246.78,248.78,["A#"]]],[[248.78,250.79,["C"]],[250.79,252.79,["C","A#"]],[252.79,254.8,["Am","C"]],[254.8,256.8,["C","Dm"]]],[[256.8,258.8,["A#"]],[258.8,260.81,["A#"]],[260.81,262.81,["A#"]],[262.81,264.81,["A#","A"]]],[[264.81,266.82,["A","Dm"]],[266.82,268.82,["Dm","D#"]],[268.82,270.83,["D#","C"]],[270.83,272.83,["C"]]],[[272.83,274.83,["C"]],[274.83,276.84,["C"]],[276.84,278.84,["C"]],[278.84,280.85,["C"]]],[[280.85,282.85,["C"]],[282.85,284.85,["C"]],[284.85,286.86,["C"]],[286.86,288.86,["C"]]],[[288.86,290.87,["C"]],[290.87,291.39,["C"]]]],"real":{"A#":"B♭","C":"C","Am":"Am","Dm":"Dm","F":"F","A":"A","D#":"E♭","C#":"C#"},"order":["A#","C","Am","Dm","F","A","D#","C#"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Betelgeuse52-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(120 BPM)).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (cbqvxDTLMps).","lines":[],"linesFrom":"Japanese-Betelgeuse52-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

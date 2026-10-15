@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"rKsQ-3N-Bks","title":"秦基博 「ひまわりの約束」","artist":"","key":"B♭","mode":"major","bpm":78,"fit":0.86,"capo":3,"form":"G","rows":[[[0.0,2.91,["F"]],[2.91,5.94,["F"]],[5.94,8.96,["F"]],[8.96,11.99,["F"]]],[[11.99,15.01,["A#","F"]],[15.01,18.04,["F","D#"]],[18.04,21.06,["D#","A#"]],[21.06,24.09,["A#"]]],[[24.09,27.11,["A#","Dm"]],[27.11,30.14,["Dm","D#"]],[30.14,33.16,["F"]],[33.16,36.19,["F"]]],[[36.19,39.21,["A#","Dm"]],[39.21,42.24,["Dm"]],[42.24,45.27,["F"]],[45.27,48.29,["A#"]]],[[48.29,51.31,["D#"]],[51.31,54.34,["Dm","Gm"]],[54.34,57.37,["C"]],[57.37,60.39,["F"]]],[[60.39,63.41,["F","A#"]],[63.41,66.44,["D#","F"]],[66.44,69.47,["F","Gm"]],[69.47,72.49,["Gm","F"]]],[[72.49,75.52,["A#","D#"]],[75.52,78.54,["D#","F"]],[78.54,81.57,["F","Gm"]],[81.57,84.59,["F"]]],[[84.59,87.62,["F","A#"]],[87.62,90.64,["D#","F"]],[90.64,93.67,["F","Gm"]],[93.67,96.69,["Gm","F"]]],[[96.69,99.72,["A#"]],[99.72,102.74,["D","Gm"]],[102.74,105.77,["D#"]],[105.77,108.79,["D#"]]],[[108.79,111.82,["F"]],[111.82,114.84,["F","D#"]],[114.84,117.87,["Gm","Dm"]],[117.87,120.89,["D#"]]],[[120.89,123.92,["D#","A#"]],[123.92,126.94,["F","A#"]],[126.94,129.97,["Gm","Dm"]],[129.97,132.99,["Dm","D#"]]],[[132.99,136.02,["F"]],[136.02,139.04,["F","A#"]],[139.04,142.07,["A#","Dm"]],[142.07,145.09,["Dm","D#"]]],[[145.09,148.12,["F","A#"]],[148.12,151.14,["D#"]],[151.14,154.17,["D#","Dm"]],[154.17,157.19,["Gm","C"]]],[[157.19,160.22,["C","F"]],[160.22,163.24,["F","A#"]],[163.24,166.27,["A#","D#"]],[166.27,169.29,["F","F#"]]],[[169.29,172.32,["Gm"]],[172.32,175.34,["F","A#"]],[175.34,178.37,["D#","F"]],[178.37,181.4,["F"]]],[[181.4,184.42,["Gm","F"]],[184.42,187.44,["F"]],[187.44,190.47,["A#","D#"]],[190.47,193.5,["F"]]],[[193.5,196.52,["Gm"]],[196.52,199.54,["F","A#"]],[199.54,202.57,["A#"]],[202.57,205.59,["A#"]]],[[205.59,208.62,["D#"]],[208.62,211.65,["D#","F"]],[211.65,214.67,["Gm"]],[214.67,217.7,["F"]]],[[217.7,220.72,["D#"]],[220.72,223.75,["A#"]],[223.75,226.77,["Gm"]],[226.77,229.8,["Dm"]]],[[229.8,232.82,["D#"]],[232.82,235.85,["F"]],[235.85,238.87,["F"]],[238.87,241.9,["A#","D#"]]],[[241.9,244.92,["F","F#"]],[244.92,247.95,["Gm"]],[247.95,250.97,["F","A#"]],[250.97,254.0,["D#"]]],[[254.0,257.02,["F"]],[257.02,260.05,["Gm","F"]],[260.05,263.07,["F"]],[263.07,266.1,["A#","D#"]]],[[266.1,269.12,["F","F#"]],[269.12,272.15,["Gm"]],[272.15,275.17,["F","A#"]],[275.17,278.2,["A#","D"]]],[[278.2,281.22,["Gm","D#"]],[281.22,284.25,["D#"]],[284.25,287.27,["D#","F"]],[287.27,290.3,["F"]]],[[290.3,293.32,["F"]],[293.32,296.35,["D#","A#"]],[296.35,299.37,["Dm"]],[299.37,302.4,["D#"]]],[[302.4,305.42,["D#"]],[305.42,308.45,["D#"]],[308.45,311.47,["D#"]],[311.47,314.5,["D#"]]],[[314.5,316.86,["D#"]]]],"real":{"F":"F","A#":"B♭","D#":"E♭","Dm":"Dm","Gm":"Gm","C":"C","D":"D","F#":"F#"},"order":["F","A#","D#","Dm","Gm","C","D","F#"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Himawari36-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(159 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (rKsQ-3N-Bks).","lines":[],"linesFrom":"Japanese-Himawari36-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

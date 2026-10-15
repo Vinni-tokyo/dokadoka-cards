@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"WFenF4Tm_rs","title":"斎藤友良 「ニッポン」","artist":"","key":"B","mode":"major","bpm":70,"fit":0.914,"capo":4,"form":"G","rows":[[[0.0,4.02,["B"]],[4.02,7.4,["D#m"]],[7.4,10.78,["G#m"]],[10.78,14.15,["B"]]],[[14.15,17.53,["E"]],[17.53,20.9,["E","D#m"]],[20.9,24.28,["C#m"]],[24.28,27.65,["C#m"]]],[[27.65,31.03,["F#"]],[31.03,34.4,["F#","B"]],[34.4,37.78,["F#","G#m"]],[37.78,41.16,["D#m","E"]]],[[41.16,44.53,["D#m","C#m"]],[44.53,47.91,["F#","B"]],[47.91,51.28,["F#","G#m"]],[51.28,54.66,["D#m","E"]]],[[54.66,58.03,["F#","B"]],[58.03,61.41,["B"]],[61.41,64.78,["F#","G#m"]],[64.78,68.16,["D#m","E"]]],[[68.16,71.54,["D#m","C#m"]],[71.54,74.91,["B"]],[74.91,78.29,["F#","G#m"]],[78.29,81.66,["D#m","E"]]],[[81.66,85.04,["F#","B"]],[85.04,88.41,["B"]],[88.41,91.79,["F#","D#m"]],[91.79,95.17,["G#m","E"]]],[[95.17,98.54,["F#","D#m"]],[98.54,101.92,["G#m","E"]],[101.92,105.29,["F#","D#m"]],[105.29,108.67,["G#m","E"]]],[[108.67,112.04,["F#","E"]],[112.04,115.42,["F#","D#m"]],[115.42,118.79,["G#m","E"]],[118.79,122.17,["F#","D#m"]]],[[122.17,125.55,["G#m","E"]],[125.55,128.92,["F#"]],[128.92,132.3,["D#m","G#m"]],[132.3,135.67,["B"]]],[[135.67,139.05,["B"]],[139.05,142.42,["B"]],[142.42,145.8,["B","F#"]],[145.8,149.17,["G#m","E"]]],[[149.17,152.55,["E","D#m"]],[152.55,155.93,["C#m","F#"]],[155.93,159.3,["B","F#"]],[159.3,162.68,["G#m","D#m"]]],[[162.68,166.05,["E","F#"]],[166.05,169.43,["B"]],[169.43,172.8,["B","F#"]],[172.8,176.18,["G#m","D#m"]]],[[176.18,179.56,["E","D#m"]],[179.56,182.93,["E","F#"]],[182.93,186.31,["B","F#"]],[186.31,189.68,["G#m","D#m"]]],[[189.68,193.06,["E","F#"]],[193.06,196.43,["B"]],[196.43,199.81,["E","F#"]],[199.81,203.18,["D#m","G#m"]]],[[203.18,206.56,["E","F#"]],[206.56,209.94,["D#m","G#m"]],[209.94,213.31,["E","F#"]],[213.31,216.69,["D#m","G#m"]]],[[216.69,220.06,["E","F#"]],[220.06,223.44,["B"]],[223.44,226.81,["E","F#"]],[226.81,230.19,["D#m","G#m"]]],[[230.19,233.56,["E","F#"]],[233.56,236.94,["D#m","G#m"]],[236.94,240.32,["E"]],[240.32,243.69,["F#","D#m"]]],[[243.69,247.07,["G#m","E"]],[247.07,250.44,["F#","B"]],[250.44,253.82,["B","E"]],[253.82,257.19,["F#","D#m"]]],[[257.19,260.57,["G#m","E"]],[260.57,263.94,["F#","D#m"]],[263.94,267.32,["E"]],[267.32,270.7,["F#","D#m"]]],[[270.7,274.07,["G#m","E"]],[274.07,277.45,["F#","B"]],[277.45,280.82,["G#m","E"]],[280.82,284.2,["F#","G#m"]]],[[284.2,287.57,["G#m","E"]],[287.57,290.95,["F#","B"]],[290.95,294.32,["B","F#"]],[294.32,297.7,["F#","B"]]],[[297.7,301.08,["B"]],[301.08,304.45,["B"]],[304.45,307.83,["G#m","C#"]],[307.83,311.2,["C#"]]],[[311.2,314.58,["F#","B"]],[314.58,317.95,["D#m","E"]],[317.95,321.33,["E","F#"]],[321.33,324.71,["B","D#m"]]],[[324.71,328.08,["E","B"]],[328.08,331.46,["B"]],[331.46,334.83,["B"]],[334.83,338.21,["B"]]],[[338.21,338.85,["B"]]]],"real":{"B":"B","D#m":"D#m","G#m":"G#m","E":"E","C#m":"C#m","F#":"F#","C#":"C#"},"order":["B","D#m","G#m","E","C#m","F#","C#"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Nippon34-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(142 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (WFenF4Tm_rs).","lines":[],"linesFrom":"Japanese-Nippon34-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

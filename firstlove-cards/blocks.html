@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"lLz9_XdyJGo","title":"First Love","artist":"宇多田ヒカル","key":"G","mode":"major","bpm":89,"fit":0.813,"capo":0,"form":"G","rows":[[[0.0,3.21,["G"]],[3.21,5.88,["D"]],[5.88,8.55,["D"]],[8.55,11.21,["D"]]],[[11.21,13.88,["C"]],[13.88,16.55,["C","G"]],[16.55,19.21,["G"]],[19.21,21.88,["G"]]],[[21.88,24.55,["G"]],[24.55,27.21,["D"]],[27.21,29.88,["Em"]],[29.88,32.55,["D"]]],[[32.55,35.22,["C"]],[35.22,37.88,["C","G"]],[37.88,40.55,["G"]],[40.55,43.22,["G"]]],[[43.22,45.88,["Em"]],[45.88,48.55,["D"]],[48.55,51.22,["C"]],[51.22,53.88,["D"]]],[[53.88,56.55,["Em"]],[56.55,59.22,["Bm"]],[59.22,61.88,["C"]],[61.88,64.55,["C","G"]]],[[64.55,67.22,["G"]],[67.22,69.88,["D"]],[69.88,72.55,["Em"]],[72.55,75.22,["D"]]],[[75.22,77.88,["C"]],[77.88,80.55,["D"]],[80.55,83.22,["G"]],[83.22,85.89,["D"]]],[[85.89,88.55,["Em"]],[88.55,91.22,["D"]],[91.22,93.89,["C"]],[93.89,96.55,["D"]]],[[96.55,99.22,["G"]],[99.22,101.89,["G"]],[101.89,104.55,["G","D"]],[104.55,107.22,["D","C"]]],[[107.22,109.89,["Am"]],[109.89,112.55,["G"]],[112.55,115.22,["G"]],[115.22,117.89,["D"]]],[[117.89,120.55,["Em"]],[120.55,123.22,["Bm","C"]],[123.22,125.89,["C"]],[125.89,128.56,["D"]]],[[128.56,131.22,["G"]],[131.22,133.89,["G"]],[133.89,136.56,["Em"]],[136.56,139.22,["D"]]],[[139.22,141.89,["C"]],[141.89,144.56,["D"]],[144.56,147.22,["Em"]],[147.22,149.89,["Bm"]]],[[149.89,152.56,["C"]],[152.56,155.22,["C"]],[155.22,157.89,["G"]],[157.89,160.56,["D"]]],[[160.56,163.22,["Em"]],[163.22,165.89,["D"]],[165.89,168.56,["C"]],[168.56,171.22,["D"]]],[[171.22,173.89,["G"]],[173.89,176.56,["D"]],[176.56,179.22,["Em"]],[179.22,181.89,["D"]]],[[181.89,184.56,["C"]],[184.56,187.22,["D"]],[187.22,189.89,["C"]],[189.89,192.56,["D","D#"]]],[[192.56,195.23,["E"]],[195.23,197.89,["G"]],[197.89,200.56,["F"]],[200.56,203.23,["D#"]]],[[203.23,205.89,["A"]],[205.89,208.56,["D#"]],[208.56,211.23,["E"]],[211.23,213.89,["G"]]],[[213.89,216.56,["F"]],[216.56,219.23,["D#"]],[219.23,221.89,["A"]],[221.89,224.56,["D#"]]],[[224.56,227.23,["E"]],[227.23,229.9,["E"]],[229.9,232.56,["D#"]],[232.56,235.23,["D#"]]],[[235.23,237.9,["D#"]],[237.9,240.56,["D#"]],[240.56,243.23,["F"]],[243.23,245.9,["F"]]],[[245.9,248.56,["F"]],[248.56,251.23,["F"]],[251.23,253.9,["F"]],[253.9,256.56,["F"]]],[[256.56,258.09,["F"]]]],"real":{"G":"G","D":"D","C":"C","Em":"Em","Bm":"Bm","Am":"Am","D#":"D#","E":"E","F":"F","A":"A"},"order":["G","D","C","Em","Bm","Am","D#","E","F","A"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-FirstLove28-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(90 BPM)).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (lLz9_XdyJGo).","lines":[],"linesFrom":"Japanese-FirstLove28-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

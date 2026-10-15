@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"WM9Yek6yqc0","title":"JPCC Worship 「主の器」","artist":"","key":"C","mode":"major","bpm":70,"fit":0.768,"capo":0,"form":"C","rows":[[[0.0,4.74,["F"]],[4.74,8.03,["Em"]],[8.03,11.33,["F"]],[11.33,14.62,["Em","C"]]],[[14.62,17.91,["F"]],[17.91,21.2,["Em"]],[21.2,24.5,["F"]],[24.5,27.79,["C"]]],[[27.79,31.08,["F"]],[31.08,34.37,["Em"]],[34.37,37.66,["Em","F"]],[37.66,40.96,["F","C"]]],[[40.96,44.25,["C","F"]],[44.25,47.54,["F","Em"]],[47.54,50.84,["Em","F"]],[50.84,54.13,["F"]]],[[54.13,57.42,["F"]],[57.42,60.71,["F","Em"]],[60.71,64.0,["Em","F"]],[64.0,67.3,["F","C"]]],[[67.3,70.59,["C","F"]],[70.59,73.88,["F","Em"]],[73.88,77.17,["Em"]],[77.17,80.47,["Dm"]]],[[80.47,83.76,["G"]],[83.76,87.05,["C"]],[87.05,90.34,["G"]],[90.34,93.64,["Am"]]],[[93.64,96.93,["F"]],[96.93,100.22,["Dm"]],[100.22,103.51,["Em"]],[103.51,106.81,["F"]]],[[106.81,110.1,["G"]],[110.1,113.39,["C"]],[113.39,116.68,["G"]],[116.68,119.97,["Am"]]],[[119.97,123.27,["Am","F"]],[123.27,126.56,["F","Dm"]],[126.56,129.85,["Dm","Em"]],[129.85,133.15,["Em","F"]]],[[133.15,136.44,["G","F"]],[136.44,139.73,["F","Em"]],[139.73,143.02,["Em","F"]],[143.02,146.31,["F","C"]]],[[146.31,149.61,["C","F"]],[149.61,152.9,["F","Em"]],[152.9,156.19,["Em","F"]],[156.19,159.48,["F"]]],[[159.48,162.78,["C"]],[162.78,166.07,["F"]],[166.07,169.36,["Em"]],[169.36,172.65,["Dm"]]],[[172.65,175.95,["G"]],[175.95,179.24,["C"]],[179.24,182.53,["G"]],[182.53,185.82,["Am"]]],[[185.82,189.12,["F"]],[189.12,192.41,["Dm"]],[192.41,195.7,["Em"]],[195.7,198.99,["F"]]],[[198.99,202.28,["G"]],[202.28,205.58,["G","C"]],[205.58,208.87,["C","G"]],[208.87,212.16,["G","Am"]]],[[212.16,215.46,["Am","F"]],[215.46,218.75,["F","Dm"]],[218.75,222.04,["Dm","Em"]],[222.04,225.33,["Em","F"]]],[[225.33,228.62,["F"]],[228.62,231.92,["F","Em"]],[231.92,235.21,["Em","F"]],[235.21,238.5,["F","Em"]]],[[238.5,241.79,["Am","F"]],[241.79,245.09,["F"]],[245.09,248.38,["Em"]],[248.38,251.67,["Dm"]]],[[251.67,254.96,["G"]],[254.96,258.26,["C"]],[258.26,261.55,["G"]],[261.55,264.84,["Am"]]],[[264.84,268.13,["F"]],[268.13,271.43,["Dm"]],[271.43,274.72,["Em"]],[274.72,278.01,["F"]]],[[278.01,281.3,["G"]],[281.3,284.6,["C"]],[284.6,287.89,["C","G"]],[287.89,291.18,["G","Am"]]],[[291.18,294.47,["Am","F"]],[294.47,297.76,["F","Dm"]],[297.76,301.06,["Dm","Em"]],[301.06,304.35,["Em","F"]]],[[304.35,307.64,["G","Dm"]],[307.64,310.93,["Em","F"]],[310.93,314.23,["G","C"]],[314.23,317.52,["C"]]],[[317.52,320.81,["C"]],[320.81,324.1,["C"]],[324.1,327.4,["C"]],[327.4,330.0,["C"]]]],"real":{"F":"F","Em":"Em","C":"C","Dm":"Dm","G":"G","Am":"Am"},"order":["F","Em","C","Dm","G","Am"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Utsuwa38-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(146 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (WM9Yek6yqc0).","lines":[],"linesFrom":"Japanese-Utsuwa38-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

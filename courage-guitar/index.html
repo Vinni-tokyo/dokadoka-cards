@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -196,9 +198,12 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
  </div>
 </div>
 <script>
-const D = {"vid":"9cbcKa3gE9Y","title":"Courage Within","artist":"Lofi Brew (로파이 브루)","key":"B","mode":"major","bpm":68,"fit":0.884,"capo":4,"form":"G","rows":[[[0.0,3.93,["B","F#"]],[3.93,7.46,["G#m","B"]],[7.46,10.99,["B","F#"]],[10.99,14.52,["B"]]],[[14.52,18.04,["B","F#"]],[18.04,21.57,["G#m","B"]],[21.57,25.1,["B","F#"]],[25.1,28.63,["E","B"]]],[[28.63,32.16,["B","F#"]],[32.16,35.69,["G#m","B"]],[35.69,39.22,["B","F#"]],[39.22,42.75,["E"]]],[[42.75,46.28,["B","F#"]],[46.28,49.81,["G#m","B"]],[49.81,53.33,["B","F#"]],[53.33,56.86,["E"]]],[[56.86,60.39,["B","F#"]],[60.39,63.92,["G#m","B"]],[63.92,67.45,["B","F#"]],[67.45,70.98,["E"]]],[[70.98,74.51,["F#"]],[74.51,78.04,["B","F#"]],[78.04,81.57,["G#m","E"]],[81.57,85.1,["B","F#"]]],[[85.1,88.62,["E"]],[88.62,92.15,["G#m","F#"]],[92.15,95.68,["E","D#m"]],[95.68,99.21,["C#m"]]],[[99.21,102.74,["F#"]],[102.74,106.27,["B","F#"]],[106.27,109.8,["G#m","E"]],[109.8,113.33,["B","F#"]]],[[113.33,116.86,["E"]],[116.86,120.39,["B","F#"]],[120.39,123.91,["G#m","E"]],[123.91,127.44,["B","F#"]]],[[127.44,130.97,["E"]],[130.97,134.5,["G#m","F#"]],[134.5,138.03,["E","D#m"]],[138.03,141.56,["C#m"]]],[[141.56,145.09,["B"]],[145.09,148.62,["B","F#"]],[148.62,152.15,["G#m","E"]],[152.15,155.68,["B","F#"]]],[[155.68,159.2,["E"]],[159.2,162.73,["B","F#"]],[162.73,166.26,["G#m","E"]],[166.26,169.79,["C#m"]]],[[169.79,173.32,["F#"]],[173.32,176.85,["B","F#"]],[176.85,180.38,["G#m","E"]],[180.38,183.91,["B","F#"]]],[[183.91,187.44,["E"]],[187.44,190.97,["G#m","F#"]],[190.97,194.49,["E","D#m"]],[194.49,198.02,["C#m"]]],[[198.02,201.55,["F#"]],[201.55,205.08,["B","F#"]],[205.08,208.61,["G#m","E"]],[208.61,212.14,["B"]]],[[212.14,215.67,["B"]],[215.67,219.2,["B"]],[219.2,222.73,["B"]],[222.73,224.95,["B"]]]],"real":{"B":"B","F#":"F#","G#m":"G#m","E":"E","D#m":"D#m","C#m":"C#m"},"order":["B","F#","G#m","E","D#m","C#m"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":null,"note":"한 칸 = 1마디(코드 경계에 맞춘 격자).","src":"가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공).","lines":[]};
+const D = {"vid":"9cbcKa3gE9Y","title":"Courage Within","artist":"Lofi Brew (로파이 브루)","key":"B","mode":"major","bpm":68,"fit":0.884,"capo":4,"form":"G","rows":[[[0.0,3.93,["B","F#"]],[3.93,7.46,["G#m","B"]],[7.46,10.99,["B","F#"]],[10.99,14.52,["B"]]],[[14.52,18.04,["B","F#"]],[18.04,21.57,["G#m","B"]],[21.57,25.1,["B","F#"]],[25.1,28.63,["E","B"]]],[[28.63,32.16,["B","F#"]],[32.16,35.69,["G#m","B"]],[35.69,39.22,["B","F#"]],[39.22,42.75,["E"]]],[[42.75,46.28,["B","F#"]],[46.28,49.81,["G#m","B"]],[49.81,53.33,["B","F#"]],[53.33,56.86,["E"]]],[[56.86,60.39,["B","F#"]],[60.39,63.92,["G#m","B"]],[63.92,67.45,["B","F#"]],[67.45,70.98,["E"]]],[[70.98,74.51,["F#"]],[74.51,78.04,["B","F#"]],[78.04,81.57,["G#m","E"]],[81.57,85.1,["B","F#"]]],[[85.1,88.62,["E"]],[88.62,92.15,["G#m","F#"]],[92.15,95.68,["E","D#m"]],[95.68,99.21,["C#m"]]],[[99.21,102.74,["F#"]],[102.74,106.27,["B","F#"]],[106.27,109.8,["G#m","E"]],[109.8,113.33,["B","F#"]]],[[113.33,116.86,["E"]],[116.86,120.39,["B","F#"]],[120.39,123.91,["G#m","E"]],[123.91,127.44,["B","F#"]]],[[127.44,130.97,["E"]],[130.97,134.5,["G#m","F#"]],[134.5,138.03,["E","D#m"]],[138.03,141.56,["C#m"]]],[[141.56,145.09,["B"]],[145.09,148.62,["B","F#"]],[148.62,152.15,["G#m","E"]],[152.15,155.68,["B","F#"]]],[[155.68,159.2,["E"]],[159.2,162.73,["B","F#"]],[162.73,166.26,["G#m","E"]],[166.26,169.79,["C#m"]]],[[169.79,173.32,["F#"]],[173.32,176.85,["B","F#"]],[176.85,180.38,["G#m","E"]],[180.38,183.91,["B","F#"]]],[[183.91,187.44,["E"]],[187.44,190.97,["G#m","F#"]],[190.97,194.49,["E","D#m"]],[194.49,198.02,["C#m"]]],[[198.02,201.55,["F#"]],[201.55,205.08,["B","F#"]],[205.08,208.61,["G#m","E"]],[208.61,212.14,["B"]]],[[212.14,215.67,["B"]],[215.67,219.2,["B"]],[219.2,222.73,["B"]],[222.73,224.95,["B"]]]],"real":{"B":"B","F#":"F#","G#m":"G#m","E":"E","D#m":"D#m","C#m":"C#m"},"order":["B","F#","G#m","E","D#m","C#m"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":null,"note":"한 칸 = 1마디(코드 경계에 맞춘 격자).","src":"가사는 싣지 않았습니다. 영상·음원: YouTube Lofi Brew 「Courage Within」(mixtape.so 제공).","lines":[],"linesFrom":""};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -337,8 +342,24 @@ function paintLead(){ $('leadV').textContent = `⏱ ${LEAD.toFixed(1)}초 앞`; 
 function setLead(v){ LEAD = Math.round(Math.min(.8, Math.max(0, v)) * 10) / 10; try{ localStorage.setItem('blocks.lead', LEAD); }catch(_){} paintLead(); cur = -2; }
 $('leadM').onclick = () => setLead(LEAD - .1); $('leadP').onclick = () => setLead(LEAD + .1); paintLead();
 // 가사 줄: 지금 시각의 줄, 줄 사이(간주)에는 다음 줄을 흐리게 미리 보여 준다
-const LINES = D.lines || [];
-if(LINES.length){ $('lyr').hidden = false; document.querySelector('.app').classList.add('haslyr'); }
+let LINES = D.lines || [];
+function showLyr(){ if(LINES.length){ $('lyr').hidden = false; document.querySelector('.app').classList.add('haslyr'); } }
+showLyr();
+// 가사는 노래 앱 본문에만 둔다 — 이 페이지에 사본을 싣지 않고, 열릴 때 같은 폴더의 노래 앱 파일에서 줄 데이터(DATA)를 읽는다.
+// (노래 앱의 🧱 버튼으로 들어오므로 그 파일은 대개 브라우저에 이미 받아져 있다)
+function jsonAt(h, i){                                     // h[i] 의 [ 부터 짝이 맞는 ] 까지(문자열 안 괄호는 무시)
+  let d = 0, s = false, e = false;
+  for(let j = i; j < h.length; j++){ const c = h[j];
+    if(s){ if(e) e = false; else if(c === '\\') e = true; else if(c === '"') s = false; continue; }
+    if(c === '"') s = true; else if(c === '[') d++; else if(c === ']' && --d === 0) return JSON.parse(h.slice(i, j + 1)); }
+  return null;
+}
+if(!LINES.length && D.linesFrom) fetch(D.linesFrom).then(r => r.text()).then(h => {
+  const i = h.indexOf('const DATA'); if(i < 0) return;
+  const rows = jsonAt(h, h.indexOf('[', i)); if(!rows) return;
+  LINES = rows.filter(r => r.s != null && r.e != null).map(r => [r.s, r.e, r.ja || '', r.ko || '', r.rd || '', (r.kj || []).slice(0, 6).map(k => [k[0], k[1], k[2]])]);
+  curL = -2; bkKey = ''; showLyr();
+}).catch(() => {});
 let curL = -2;
 function paintLine(tv){
   if(!LINES.length) return;
@@ -463,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -518,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"NUVdDXGGlVE","title":"Live Church Worship 「Beautiful Saviour」","artist":"","key":"A","mode":"major","bpm":52,"fit":0.938,"capo":2,"form":"G","rows":[[[0.0,5.59,["A"]],[5.59,10.2,["F#m"]],[10.2,14.81,["D"]],[14.81,19.43,["Bm"]]],[[19.43,24.04,["A"]],[24.04,28.66,["F#m"]],[28.66,33.27,["D"]],[33.27,37.89,["Bm"]]],[[37.89,42.5,["A"]],[42.5,47.12,["A"]],[47.12,51.73,["D"]],[51.73,56.35,["Bm"]]],[[56.35,60.96,["A"]],[60.96,65.58,["F#m"]],[65.58,70.19,["D"]],[70.19,74.81,["Bm"]]],[[74.81,79.42,["E","C#m"]],[79.42,84.04,["D"]],[84.04,88.65,["E","C#m"]],[88.65,93.27,["D","E"]]],[[93.27,97.88,["A"]],[97.88,102.49,["F#m"]],[102.49,107.11,["D"]],[107.11,111.72,["Bm","E"]]],[[111.72,116.34,["A"]],[116.34,120.95,["F#m"]],[120.95,125.57,["D","Bm"]],[125.57,130.18,["D","E"]]],[[130.18,134.8,["A"]],[134.8,139.41,["A"]],[139.41,144.03,["A"]],[144.03,148.64,["F#m"]]],[[148.64,153.26,["D"]],[153.26,157.87,["Bm"]],[157.87,162.49,["Bm","C#m"]],[162.49,167.1,["D"]]],[[167.1,171.72,["E"]],[171.72,176.33,["C#m","D"]],[176.33,180.94,["E","A"]],[180.94,185.56,["F#m"]]],[[185.56,190.17,["D"]],[190.17,194.79,["C#m","Bm"]],[194.79,199.4,["A"]],[199.4,204.02,["F#m"]]],[[204.02,208.63,["D","Bm"]],[208.63,213.25,["Bm","E"]],[213.25,217.86,["A"]],[217.86,222.48,["A","F#m"]]],[[222.48,227.09,["D"]],[227.09,231.71,["C#m","Bm"]],[231.71,236.32,["A"]],[236.32,240.94,["F#m"]]],[[240.94,245.55,["D","Bm"]],[245.55,250.16,["D","E"]],[250.16,254.78,["E","A"]],[254.78,259.39,["A"]]],[[259.39,264.01,["A"]],[264.01,268.62,["F#m"]],[268.62,273.24,["E","D"]],[273.24,277.85,["Bm"]]],[[277.85,282.47,["A"]],[282.47,287.08,["F#m"]],[287.08,291.7,["E","D"]],[291.7,296.31,["C#m","Bm"]]],[[296.31,300.93,["A"]],[300.93,305.54,["F#m"]],[305.54,310.16,["D"]],[310.16,314.77,["C#m","Bm"]]],[[314.77,319.39,["A"]],[319.39,324.0,["F#m"]],[324.0,328.62,["D"]],[328.62,333.23,["C#m","Bm"]]],[[333.23,337.85,["A"]],[337.85,342.46,["A","F#m"]],[342.46,347.07,["D"]],[347.07,351.69,["C#m","Bm"]]],[[351.69,356.3,["A"]],[356.3,360.92,["F#m"]],[360.92,365.53,["D","Bm"]],[365.53,370.15,["D","E"]]],[[370.15,374.76,["E","A"]],[374.76,379.38,["A"]],[379.38,383.99,["A"]],[383.99,388.61,["A"]]],[[388.61,393.22,["A"]],[393.22,397.84,["A"]],[397.84,398.32,["A"]]]],"real":{"A":"A","F#m":"F#m","D":"D","Bm":"Bm","E":"E","C#m":"C#m"},"order":["A","F#m","D","Bm","E","C#m"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Saviour34-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(104 BPM) 두 마디씩 묶음).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (NUVdDXGGlVE).","lines":[],"linesFrom":"Japanese-Saviour34-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

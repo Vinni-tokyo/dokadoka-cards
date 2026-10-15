@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"-tKVN2mAKRI","title":"DAOKO × 米津玄師 「打上花火」","artist":"","key":"F#","mode":"major","bpm":96,"fit":0.849,"capo":4,"form":"D","rows":[[[0.0,3.37,["B"]],[3.37,5.87,["B"]],[5.87,8.37,["C#","D#m"]],[8.37,10.87,["F#"]]],[[10.87,13.37,["F#"]],[13.37,15.87,["F#"]],[15.87,18.37,["C#"]],[18.37,20.87,["C#"]]],[[20.87,23.37,["C#","D#m"]],[23.37,25.87,["F#"]],[25.87,28.37,["C#"]],[28.37,30.87,["C#","B"]]],[[30.87,33.37,["C#","D#m"]],[33.37,35.87,["F#"]],[35.87,38.37,["F#"]],[38.37,40.87,["F#"]]],[[40.87,43.37,["F#"]],[43.37,45.88,["F#","B"]],[45.88,48.38,["D#m"]],[48.38,50.88,["F#","C#"]]],[[50.88,53.38,["D#m"]],[53.38,55.88,["B","C#"]],[55.88,58.38,["D#m"]],[58.38,60.88,["B"]]],[[60.88,63.38,["C#","F#"]],[63.38,65.88,["B"]],[65.88,68.38,["C#","D#m"]],[68.38,70.88,["D#m","B"]]],[[70.88,73.38,["C#","D#m"]],[73.38,75.88,["B"]],[75.88,78.38,["C#","D#m"]],[78.38,80.88,["D#m","C#"]]],[[80.88,83.38,["C#"]],[83.38,85.88,["C#"]],[85.88,88.38,["C#"]],[88.38,90.88,["C#"]]],[[90.88,93.38,["C#","D#m"]],[93.38,95.88,["B"]],[95.88,98.38,["F#"]],[98.38,100.88,["F#","B"]]],[[100.88,103.38,["C#","F#"]],[103.38,105.88,["B"]],[105.88,108.38,["C#","F#"]],[108.38,110.88,["F#","B"]]],[[110.88,113.38,["D#m"]],[113.38,115.88,["B"]],[115.88,118.38,["C#","D#m"]],[118.38,120.88,["B"]]],[[120.88,123.38,["C#","D#m"]],[123.38,125.88,["F#","C#"]],[125.88,128.38,["D#m"]],[128.38,130.88,["F#","B"]]],[[130.88,133.38,["B"]],[133.38,135.88,["B"]],[135.88,138.38,["B","C#"]],[138.38,140.88,["C#"]]],[[140.88,143.38,["B"]],[143.38,145.88,["C#","D#m"]],[145.88,148.38,["D#m","B"]],[148.38,150.88,["C#","D#m"]]],[[150.88,153.38,["B"]],[153.38,155.88,["C#","D#m"]],[155.88,158.38,["D#m","B"]],[158.38,160.88,["C#"]]],[[160.88,163.38,["D#m","B"]],[163.38,165.88,["B"]],[165.88,168.38,["B","C#"]],[168.38,170.88,["C#"]]],[[170.88,173.38,["D#m"]],[173.38,175.88,["D#m"]],[175.88,178.38,["D#m","F#"]],[178.38,180.88,["F#","C#"]]],[[180.88,183.39,["F#"]],[183.39,185.89,["F#"]],[185.89,188.39,["F#"]],[188.39,190.89,["F#"]]],[[190.89,193.39,["F#"]],[193.39,195.89,["F#"]],[195.89,198.39,["F#"]],[198.39,200.89,["F#"]]],[[200.89,203.39,["F#","C#"]],[203.39,205.89,["C#"]],[205.89,208.39,["C#"]],[208.39,210.89,["C#"]]],[[210.89,213.39,["B","C#"]],[213.39,215.89,["C#","D#m"]],[215.89,218.39,["D#m","C#"]],[218.39,220.89,["D#m"]]],[[220.89,223.39,["B"]],[223.39,225.89,["D#m"]],[225.89,228.39,["B","C#"]],[228.39,230.89,["C#"]]],[[230.89,233.39,["D#m","B"]],[233.39,235.89,["D#m"]],[235.89,238.39,["D#m","B"]],[238.39,240.89,["D#m"]]],[[240.89,243.39,["B","C#"]],[243.39,245.89,["C#","D#m"]],[245.89,248.39,["D#m","B"]],[248.39,250.89,["C#","D#m"]]],[[250.89,253.39,["D#m","B"]],[253.39,255.89,["C#","D#m"]],[255.89,258.39,["B","C#"]],[258.39,260.89,["C#","D#m"]]],[[260.89,263.39,["B"]],[263.39,265.89,["D#m"]],[265.89,268.39,["D#m","B"]],[268.39,270.89,["C#","D#"]]],[[270.89,273.39,["C#"]],[273.39,275.89,["C#","D#m"]],[275.89,278.39,["F#"]],[278.39,280.89,["F#"]]],[[280.89,283.39,["F#"]],[283.39,285.89,["F#"]],[285.89,288.39,["F#"]],[288.39,290.89,["F#"]]],[[290.89,292.62,["F#"]]]],"real":{"B":"B","C#":"C#","D#m":"D#m","F#":"F#","D#":"D#"},"order":["B","C#","D#m","F#","D#"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Hanabi44-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(96 BPM)).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (-tKVN2mAKRI).","lines":[],"linesFrom":"Japanese-Hanabi44-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>

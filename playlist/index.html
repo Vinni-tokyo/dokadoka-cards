@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko" translate="no" class="notranslate"><head><meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#3b4a7a">
+<title>도카도카 전곡 듣기</title>
+<style>
+:root{--bg:#f4f5fa;--surface:#fff;--ink:#1d2230;--ink-2:#4a5266;--ink-3:#7c8498;--line:#e2e5ee;--brand:#3b4a7a;--brand-soft:#e9edf9;
+ --hot:#e8590c;--hot-soft:#fdeee4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518}}
+:root[data-theme="dark"]{--bg:#11141b;--surface:#1a1e28;--ink:#e9ecf4;--ink-2:#b7bfd0;--ink-3:#8b93a7;--line:#2a3040;--brand:#9db0ee;--brand-soft:#232b40;--hot:#ff9b5e;--hot-soft:#3a2518}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP","Noto Sans KR",sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:760px;padding:max(14px,env(safe-area-inset-top)) 16px calc(150px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+a.back{color:var(--ink-3);font-size:13px;text-decoration:none}
+.eb{margin:0;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--hot)}
+h1{margin:2px 0 0;font-size:22px;line-height:1.25}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.yt>div,.yt iframe{position:absolute;inset:0;width:100%;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#11141b}}
+.tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
+.tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.list{display:flex;flex-direction:column;gap:6px}
+.gl{font-size:12px;font-weight:800;color:var(--ink-3);margin:6px 2px 0}
+.song{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;
+ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.song .no{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;text-align:right}
+.song .t{font-size:14.5px;font-weight:700;line-height:1.35}
+.song a{font-size:12px;color:var(--ink-3);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:4px 9px;white-space:nowrap}
+.song.now{border-color:var(--hot);background:var(--hot-soft)}
+.song.now .no::before{content:"▶ ";color:var(--hot)}
+.song.off{opacity:.4}
+.foot{font-size:12px;color:var(--ink-3);line-height:1.6}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:var(--surface);border-top:1px solid var(--line);
+ box-shadow:0 -6px 18px #0000001a;padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.dock .in{width:100%;max-width:760px;display:flex;flex-direction:column;gap:8px}
+.dock .row{display:flex;align-items:center;gap:10px}
+.dock .nt{flex:1;min-width:0}
+.dock .nt b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock .nt small{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.prog{height:4px;border-radius:99px;background:var(--line);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--hot)}
+.nb{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:16px}
+.pp{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:var(--brand);color:#fff;display:grid;place-items:center}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pp{color:#11141b}}
+.pp svg{width:22px;height:22px;fill:currentColor}
+.rp{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 10px;font-size:13px;font-weight:800;color:var(--ink-2);white-space:nowrap}
+.rp[data-m="all"],.rp[data-m="one"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+@media (max-width:420px){.dock .row{gap:6px}.nb{width:40px;height:40px}.pp{width:48px;height:48px}.rp{padding:7px 8px;font-size:12.5px}}
+</style></head><body>
+<div class="app">
+ <a class="back" href="../index.html">‹ 도카도카 관문으로</a>
+ <div><p class="eb">🎵 전곡 듣기 · Playlist</p><h1>노래·찬양 이어 듣기</h1></div>
+ <div class="yt"><div id="yt"></div></div>
+ <div class="ctl">
+  <div class="seg" id="grp" role="group" aria-label="곡 묶음">
+   <button type="button" data-v="" aria-pressed="true">전체</button>
+   <button type="button" data-v="노래" aria-pressed="false">노래</button>
+   <button type="button" data-v="찬양" aria-pressed="false">찬양</button>
+  </div>
+  <button type="button" class="tog" id="shuf" aria-pressed="false">🔀 섞기</button>
+  <div class="seg" id="speed" role="group" aria-label="재생 속도">
+   <button type="button" data-v="1" aria-pressed="true">1×</button>
+   <button type="button" data-v="0.75" aria-pressed="false">0.75×</button>
+  </div>
+ </div>
+ <div class="list" id="list"></div>
+ <p class="foot">곡을 누르면 그 곡부터 이어 듣습니다. 아래 반복 버튼을 누를 때마다 <b>🔁 전곡 반복 → 🔂 한 곡 반복 → ➡ 반복 없음</b>으로 바뀝니다(기억함).
+  가사·코드 연습은 곡마다 「앱」으로 들어가세요. 영상·음원: 각 곡의 YouTube 영상. 학습용 개인 이용을 전제로 한 페이지입니다.</p>
+</div>
+<div class="dock" role="region" aria-label="재생">
+ <div class="in">
+  <div class="prog"><i id="prog"></i></div>
+  <div class="row">
+   <button type="button" class="nb" id="prev" aria-label="이전 곡">⏮</button>
+   <button type="button" class="pp" id="pp" aria-label="재생"><svg viewBox="0 0 24 24" id="ppIcon"><path d="M8 5v14l11-7z"/></svg></button>
+   <button type="button" class="nb" id="next" aria-label="다음 곡">⏭</button>
+   <div class="nt"><b id="nowT" lang="ja">—</b><small id="nowP">0:00 / 0:00</small></div>
+   <button type="button" class="rp" id="rep" data-m="all" aria-label="반복 방식 바꾸기">🔁 전곡</button>
+  </div>
+ </div>
+</div>
+<script>
+const SONGS = [{"k":"firstlove-cards","app":"Japanese-FirstLove28-Cards.html","vid":"lLz9_XdyJGo","t":"宇多田ヒカル 「First Love」","g":"노래"},{"k":"betelgeuse-cards","app":"Japanese-Betelgeuse52-Cards.html","vid":"cbqvxDTLMps","t":"優里 「ベテルギウス」","g":"노래"},{"k":"hanabi-cards","app":"Japanese-Hanabi44-Cards.html","vid":"-tKVN2mAKRI","t":"DAOKO × 米津玄師 「打上花火」","g":"노래"},{"k":"yukinohana-cards","app":"Japanese-YukiNoHana46-Cards.html","vid":"mF5Qq2YheTg","t":"中島美嘉 「雪の華」","g":"노래"},{"k":"driedflower-cards","app":"Japanese-DriedFlower49-Cards.html","vid":"kzZ6KXDM1RI","t":"優里 「ドライフラワー」","g":"노래"},{"k":"kandagawa-cards","app":"Japanese-Kandagawa22-Cards.html","vid":"JSgyHiKESGw","t":"かぐや姫 「神田川」","g":"노래"},{"k":"mahou-cards","app":"Japanese-Mahou30-Cards.html","vid":"R7wI90H6Wuc","t":"川崎鷹也 「魔法の絨毯」","g":"노래"},{"k":"iloveyou-cards","app":"Japanese-ILoveYou22-Cards.html","vid":"EsOsc-sajMk","t":"尾崎豊 「I LOVE YOU」","g":"노래"},{"k":"forgetmenot-cards","app":"Japanese-ForgetMeNot26-Cards.html","vid":"djA_CP5DYJQ","t":"尾崎豊 「Forget-me-not」","g":"노래"},{"k":"himawari-cards","app":"Japanese-Himawari36-Cards.html","vid":"rKsQ-3N-Bks","t":"秦基博 「ひまわりの約束」","g":"노래"},{"k":"utautai-cards","app":"Japanese-Utautai32-Cards.html","vid":"9G82-cb5zUk","t":"斉藤和義 「歌うたいのバラッド」","g":"노래"},{"k":"itsukushimi-cards","app":"Japanese-Itsukushimi24-Cards.html","vid":"dpOpNRUDWgs","t":"4.5Music 「いつくしみ深き」","g":"찬양"},{"k":"kagayaku-cards","app":"Japanese-Kagayaku32-Cards.html","vid":"l01O4HIW7Wg","t":"4.5Music 「輝く日を仰ぐとき」","g":"찬양"},{"k":"mujoken-cards","app":"Japanese-Mujoken64-Cards.html","vid":"NtUn9eFThmM","t":"4.5Music 「無条件の愛」","g":"찬양"},{"k":"subarashii-cards","app":"Japanese-Subarashii32-Cards.html","vid":"yNJlLLbDt3E","t":"中山告 「素晴らしい主を」","g":"찬양"},{"k":"eien-cards","app":"Japanese-Eien52-Cards.html","vid":"hYYA6JAJiCo","t":"4.5Music 「永遠の御名」","g":"찬양"},{"k":"utsuwa-cards","app":"Japanese-Utsuwa38-Cards.html","vid":"WM9Yek6yqc0","t":"JPCC Worship 「主の器」","g":"찬양"},{"k":"saviour-cards","app":"Japanese-Saviour34-Cards.html","vid":"NUVdDXGGlVE","t":"Live Church Worship 「Beautiful Saviour」","g":"찬양"},{"k":"livinghope-cards","app":"Japanese-LivingHope39-Cards.html","vid":"WM_Vn6C8bHM","t":"黒川裕司・多美子 「生きる希望」","g":"찬양"},{"k":"nippon-cards","app":"Japanese-Nippon34-Cards.html","vid":"WFenF4Tm_rs","t":"斎藤友良 「ニッポン」","g":"찬양"},{"k":"hanamo-cards","app":"Japanese-Hanamo20-Cards.html","vid":"HNinJx29zlY","t":"MEBIG 「花も」","g":"찬양"},{"k":"sonohi-cards","app":"Japanese-SonoHi41-Cards.html","vid":"L-rIa60Ildg","t":"GROWING UP 「その日全世界が」","g":"찬양"}];
+const $ = id => document.getElementById(id);
+const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+const KEY = 'playlist';
+const load = (k, d) => { try{ const v = localStorage.getItem(KEY + '.' + k); return v === null ? d : JSON.parse(v); }catch(_){ return d; } };
+const save = (k, v) => { try{ localStorage.setItem(KEY + '.' + k, JSON.stringify(v)); }catch(_){} };
+let REP = load('rep', 'all'), SHUF = load('shuf', false), GRP = load('grp', ''), cur = -1, order = [], player = null, wake = null;
+const REPS = {all: '🔁 전곡', one: '🔂 한 곡', none: '➡ 반복 없음'};
+
+function pool(){ return SONGS.map((s, i) => i).filter(i => !GRP || SONGS[i].g === GRP); }
+function makeOrder(){
+  order = pool();
+  if(SHUF){ for(let i = order.length - 1; i > 0; i--){ const j = Math.random() * (i + 1) | 0; [order[i], order[j]] = [order[j], order[i]]; } }
+}
+function render(){
+  const box = $('list'); box.innerHTML = ''; let g = null;
+  SONGS.forEach((s, i) => {
+    if(s.g !== g){ g = s.g; const h = document.createElement('div'); h.className = 'gl'; h.textContent = g; box.appendChild(h); }
+    const el = document.createElement('div'); el.className = 'song' + (i === cur ? ' now' : '') + (GRP && s.g !== GRP ? ' off' : '');
+    el.setAttribute('role', 'button'); el.tabIndex = 0; el.id = 's' + i;
+    el.innerHTML = `<span class="no">${i + 1}</span><span class="t" lang="ja"></span><a href="../${s.k}/${s.app}">앱</a>`;
+    el.querySelector('.t').textContent = s.t;
+    el.querySelector('a').onclick = e => e.stopPropagation();
+    el.onclick = () => play(i);
+    el.onkeydown = e => { if(e.key === 'Enter'){ e.preventDefault(); play(i); } };
+    box.appendChild(el);
+  });
+  document.querySelectorAll('#grp button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === GRP));
+  $('shuf').setAttribute('aria-pressed', SHUF);
+  $('rep').dataset.m = REP; $('rep').textContent = REPS[REP];
+}
+function playing(){ try{ return player && player.getPlayerState() === 1; }catch(_){ return false; } }
+function play(i, cueOnly){
+  if(i == null || i < 0 || !player || !player.loadVideoById) return;
+  cur = i; save('last', SONGS[i].k);
+  if(cueOnly) player.cueVideoById(SONGS[i].vid); else player.loadVideoById(SONGS[i].vid);
+  $('nowT').textContent = SONGS[i].t; document.title = SONGS[i].t + ' · 전곡 듣기';
+  render(); const el = $('s' + i); if(el) el.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+  try{ player.setPlaybackRate(load('spd', 1)); }catch(_){}
+}
+function step(d){                                          // 다음·이전 곡(지금 묶음·섞기 순서 안에서, 끝이면 처음으로)
+  if(!order.length) makeOrder();
+  let k = order.indexOf(cur); if(k < 0) k = d > 0 ? -1 : 0;
+  let n = k + d;
+  if(n >= order.length){ if(SHUF) makeOrder(); n = 0; }
+  if(n < 0) n = order.length - 1;
+  play(order[n]);
+}
+function ended(){
+  if(REP === 'one'){ player.seekTo(0, true); player.playVideo(); return; }
+  const k = order.indexOf(cur);
+  if(REP === 'none' && k === order.length - 1) return;      // 반복 없음: 마지막 곡이면 멈춤
+  step(1);
+}
+const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+async function onState(e){
+  const on = e.data === 1;
+  $('ppIcon').innerHTML = on ? PAUSE : PLAY; $('pp').setAttribute('aria-label', on ? '일시정지' : '재생');
+  if(on){ try{ wake = wake || await navigator.wakeLock?.request('screen'); }catch(_){} }
+  else if(e.data === 2){ try{ wake && wake.release(); }catch(_){} wake = null; }
+  if(e.data === 0) ended();
+}
+$('pp').onclick = () => { if(!player) return; if(cur < 0){ makeOrder(); play(order[0]); return; } if(playing()) player.pauseVideo(); else player.playVideo(); };
+$('next').onclick = () => step(1); $('prev').onclick = () => {
+  let t = 0; try{ t = player.getCurrentTime(); }catch(_){}
+  if(t > 3){ player.seekTo(0, true); return; } step(-1);
+};
+$('rep').onclick = () => { REP = {all: 'one', one: 'none', none: 'all'}[REP]; save('rep', REP); render(); };
+$('shuf').onclick = () => { SHUF = !SHUF; save('shuf', SHUF); makeOrder(); render(); };
+document.querySelectorAll('#grp button').forEach(b => b.onclick = () => { GRP = b.dataset.v; save('grp', GRP); makeOrder(); render(); });
+document.querySelectorAll('#speed button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  save('spd', Number(b.dataset.v)); try{ player.setPlaybackRate(Number(b.dataset.v)); }catch(_){}
+});
+document.querySelectorAll('#speed button').forEach(x => x.setAttribute('aria-pressed', Number(x.dataset.v) === load('spd', 1)));
+setInterval(() => {
+  if(!player || !player.getCurrentTime) return;
+  let t = 0, d = 0; try{ t = player.getCurrentTime(); d = player.getDuration(); }catch(_){}
+  $('nowP').textContent = `${fmt(t)} / ${fmt(d || 0)}`; $('prog').style.width = d ? (t / d * 100).toFixed(1) + '%' : 0;
+}, 250);
+document.addEventListener('keydown', e => {
+  if(e.code !== 'Space' || /INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) return;
+  e.preventDefault(); $('pp').click();
+});
+
+makeOrder(); render();
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player('yt', {playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: onState, onReady: () => {
+    // 노래 앱에서 왔으면(#<앱 폴더>) 그 곡을, 아니면 지난번 곡을 준비만 해 둔다(폰은 첫 재생을 직접 눌러야 한다)
+    const want = location.hash.slice(1) || load('last', ''), i = SONGS.findIndex(s => s.k === want);
+    play(i >= 0 ? i : (order[0] ?? 0), true);
+  }}});
+};
+const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(sc);
+</script>
+</body></html>

@@ -151,6 +151,8 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" id="keyP" aria-label="반음 올리기">+</button>
   </div>
   <button type="button" class="tog" id="capoAuto" aria-pressed="false"></button>
+  <button type="button" class="tog" id="songLoop" aria-pressed="false">🔂 한 곡 반복</button>
+  <a class="tog" id="toPlaylist" href="../playlist/index.html" style="text-decoration:none" hidden>🎵 전곡 듣기</a>
   <div class="seg lead" role="group" aria-label="블록 강조 앞당김">
    <button type="button" id="leadM" aria-label="덜 앞당기기">−</button>
    <span id="leadV"></span>
@@ -199,6 +201,9 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 const D = {"vid":"JSgyHiKESGw","title":"かぐや姫 「神田川」","artist":"","key":"G","mode":"major","bpm":92,"fit":0.805,"capo":0,"form":"G","rows":[[[0.0,3.6,["G"]],[3.6,6.23,["G"]],[6.23,8.86,["G"]],[8.86,11.49,["G"]]],[[11.49,14.12,["G"]],[14.12,16.75,["G"]],[16.75,19.38,["G"]],[19.38,22.0,["G","Em"]]],[[22.0,24.63,["Em"]],[24.63,27.26,["G"]],[27.26,29.89,["G"]],[29.89,32.52,["B","Em"]]],[[32.52,35.15,["Em"]],[35.15,37.78,["D"]],[37.78,40.41,["G"]],[40.41,43.04,["Em"]]],[[43.04,45.67,["Em"]],[45.67,48.3,["G"]],[48.3,50.93,["G","B"]],[50.93,53.56,["Em"]]],[[53.56,56.19,["Em"]],[56.19,58.82,["C","D"]],[58.82,61.45,["G"]],[61.45,64.08,["G"]]],[[64.08,66.71,["G"]],[66.71,69.34,["Em"]],[69.34,71.97,["Bm"]],[71.97,74.6,["Em"]]],[[74.6,77.23,["Bm"]],[77.23,79.86,["G"]],[79.86,82.49,["G"]],[82.49,85.11,["D"]]],[[85.11,87.75,["Em"]],[87.75,90.38,["Em"]],[90.38,93.0,["Em"]],[93.0,95.63,["Em","G"]]],[[95.63,98.26,["G"]],[98.26,100.89,["Em"]],[100.89,103.52,["Em","D"]],[103.52,106.15,["D","G"]]],[[106.15,108.78,["B","Em"]],[108.78,111.41,["Em"]],[111.41,114.04,["Em","C"]],[114.04,116.67,["D","G"]]],[[116.67,119.3,["B","Em"]],[119.3,121.93,["Em"]],[121.93,124.56,["G"]],[124.56,127.19,["G"]]],[[127.19,129.82,["G","Em"]],[129.82,132.45,["Em"]],[132.45,135.08,["C","D"]],[135.08,137.71,["G","B"]]],[[137.71,140.34,["Em"]],[140.34,142.97,["Em"]],[142.97,145.6,["C","D"]],[145.6,148.23,["G"]]],[[148.23,150.86,["G"]],[150.86,153.49,["G"]],[153.49,156.12,["Em"]],[156.12,158.75,["Bm"]]],[[158.75,161.37,["Em"]],[161.37,164.0,["Bm"]],[164.0,166.63,["G"]],[166.63,169.26,["G"]]],[[169.26,171.89,["D"]],[171.89,174.52,["Em"]],[174.52,177.15,["D"]],[177.15,179.78,["Em"]]],[[179.78,182.41,["Em"]],[182.41,183.51,["Em"]]]],"real":{"G":"G","Em":"Em","B":"B","D":"D","C":"C","Bm":"Bm"},"order":["G","Em","B","D","C","Bm"],"fing":{"C":"x32010","C#":"x46664","D":"xx0232","E♭":"x68886","E":"022100","F":"xx3211","F#":"244322","G":"320003","A♭":"466544","A":"x02220","B♭":"x13331","B":"x24442","Cm":"x35543","C#m":"x46654","Dm":"xx0231","E♭m":"x68876","Em":"022000","Fm":"133111","F#m":"244222","Gm":"355333","A♭m":"466444","Am":"x02210","B♭m":"x13321","Bm":"x24432"},"back":["Japanese-Kandagawa22-Cards.html","노래 앱으로"],"note":"한 칸 = 1마디(박자 격자 beats.json(91 BPM)).","src":"가사는 노래 앱 본문의 데이터를 그대로 보여 줍니다. 영상·음원: YouTube (JSgyHiKESGw).","lines":[],"linesFrom":"Japanese-Kandagawa22-Cards.html"};
 const $ = id => document.getElementById(id);
 const fmt = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+// 🔂 한 곡 반복(기억함) · 🎵 전곡 듣기는 노래 앱에서 온 페이지에만(가사 없는 단독 페이지엔 숨김)
+let SONG_LOOP = false;
+try{ SONG_LOOP = localStorage.getItem((D.store || 'blocks') + '.songLoop') === '1'; }catch(_){}
 let MODE = 'shape', LOOP = -1, player = null, cur = -1, LB = -1;   // LB = 반복 중인 칸(flat 번호)
 const KEY = D.store || 'blocks';
 // ⏱ 앞당김: 블록 강조를 실제 재생 시각보다 이만큼 먼저 넘긴다. 폰의 YouTube 가 알려 주는 시각이 소리보다 늦고,
@@ -479,6 +484,9 @@ function paintBuskHead(){
 $('bkMode').onclick = () => { MODE = MODE === 'shape' ? 'real' : 'shape'; try{ localStorage.setItem(KEY + '.mode', MODE); }catch(_){} paint(); bkKey = ''; paintBuskHead(); };
 $('bkKeyM').onclick = () => setShift(SHIFT - 1); $('bkKeyP').onclick = () => setShift(SHIFT + 1);
 $('capoAuto').onclick = () => { CAPO_AUTO = !CAPO_AUTO; try{ localStorage.setItem(KEY + '.capoAuto', CAPO_AUTO ? '1' : '0'); }catch(_){} setShift(SHIFT); };
+$('songLoop').setAttribute('aria-pressed', SONG_LOOP);
+$('songLoop').onclick = () => { SONG_LOOP = !SONG_LOOP; $('songLoop').setAttribute('aria-pressed', SONG_LOOP); try{ localStorage.setItem(KEY + '.songLoop', SONG_LOOP ? '1' : '0'); }catch(_){} };
+if(D.back){ $('toPlaylist').hidden = false; $('toPlaylist').href = '../playlist/index.html#' + location.pathname.split('/').slice(-2, -1)[0]; }
 $('keyM').onclick = () => setShift(SHIFT - 1); $('keyP').onclick = () => setShift(SHIFT + 1);
 $('buskOpen').onclick = openBusk; $('buskClose').onclick = closeBusk;
 $('bkStage').onclick = () => {                             // 화면을 누르면 재생 / 멈춤
@@ -534,7 +542,10 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: paintPP}});
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+    paintPP();
+    if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
+  }}});
 };
 const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
 </script>
