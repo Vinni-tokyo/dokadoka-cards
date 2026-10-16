@@ -190,7 +190,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   <summary>📝 내 가사 <small id="mineSum"></small></summary>
   <p class="note">위 <b>📖 가사</b> 링크에서 가사를 복사해 아래에 붙여 넣고 <b>저장</b>하세요. 가사는 <b>이 기기 브라우저에만</b> 저장되고 사이트에는 올라가지 않습니다.
    저장하면 노래 구간에 자동으로 줄을 맞추고, 한자 위에 읽기를 붙입니다(처음 한 번 읽기 사전을 내려받습니다). 단어를 누르면 사전이 열립니다.
-   가사 사이트가 복사를 막으면: 스크린샷 → 갤러리의 <b>T(텍스트 추출)</b> 또는 Google 렌즈 「텍스트」 → 모두 복사 → 붙여넣기. 한자 위 읽기 줄은 저장할 때 자동으로 빠집니다.
+   가사 사이트가 복사를 막으면: 스크린샷 → 갤러리의 <b>T(텍스트 추출)</b> 또는 Google 렌즈 「텍스트」 → 모두 복사 → 붙여넣기. 저장하면 섞여 들어온 한자 읽기·겹친 줄·시계 같은 잡줄을 자동으로 정리하고, 정리된 결과를 칸에 다시 보여 줍니다(남은 인식 오류는 직접 고친 뒤 다시 저장).
    줄이 어긋나면 <b>⏎ 탭으로 맞추기</b>: 노래를 틀어 두고 줄이 시작될 때마다 아래 큰 버튼을 누르세요.</p>
   <textarea id="mineTxt" rows="7" placeholder="여기에 가사를 붙여 넣기 (한 줄 = 한 블록)" lang="ja"></textarea>
   <div class="mineBtns">
@@ -425,6 +425,40 @@ function dropFuri(text){
   }
   return [out.join('\n'), n];
 }
+// 스크린샷 텍스트 추출본 정리(읽기 사전 kuromoji 필요): ① 상태 표시줄·숫자·한두 글자 줄 ② 한자 위 읽기 조각(그 줄·다음 줄 한자의 읽기와 일치하는 히라가나 낱말)
+// ③ 줄 중간에 읽기 묶음이 있던 자리 = 새 줄이 시작된 자리에서 나눔 ④ 한자 뒤 띄어쓰기 붙이기 ⑤ 연속 같은 줄(스크린샷 겹침) 하나로
+function cleanLyrics(text){
+  const K = /[一-鿿々]/, H = /^[ぁ-ゖー]+$/, st = {furi: 0, dup: 0, junk: 0, split: 0};
+  const raw = (text || '').split(/\r?\n/).map(s => s.replace(/\u3000/g, ' ').trim()).filter(Boolean);
+  const lines = raw.filter(l => { const bad = /^\d{1,2}:\d{2}/.test(l) || !/[ぁ-ゖァ-ヺ一-鿿]/.test(l) || l.replace(/\s/g, '').length <= 2; if(bad) st.junk++; return !bad; });
+  const readsOf = s => {                                    // s 안 한자 낱말들의 읽기(送り仮名를 뗀 것과 통째) 모음
+    const R = new Set();
+    TOK.tokenize(s.replace(/\s+/g, '')).forEach(tk => {
+      const w = tk.surface_form; if(!K.test(w) || !tk.reading || tk.reading === '*') return;
+      const full = kata2hira(tk.reading); let r = full, a = 0, b = w.length;
+      while(b > a && !K.test(w[b - 1]) && r.endsWith(kata2hira(w[b - 1]))){ r = r.slice(0, -1); b--; }
+      while(a < b && !K.test(w[a]) && r.startsWith(kata2hira(w[a]))){ r = r.slice(1); a++; }
+      R.add(full); R.add(r);
+    });
+    return R;
+  };
+  const out = [];
+  lines.forEach((line, li) => {
+    const tks = line.split(/\s+/), next = lines[li + 1] || '';
+    let cur = [], split = false;
+    tks.forEach((tk, i) => {
+      const rest = tks.slice(i + 1).join('') + next;
+      if(H.test(tk) && K.test(rest) && readsOf(rest).has(tk)){ st.furi++; if(cur.length) split = true; return; }
+      if(split && cur.length){ out.push(cur.join(' ')); cur = []; st.split++; }
+      split = false; cur.push(tk);
+    });
+    if(cur.length) out.push(cur.join(' '));
+  });
+  const fixed = out.map(l => l.replace(/([一-鿿々])\s+(?=[ぁ-ゖ])/g, '$1').trim()).filter(Boolean);
+  const res = []; let prev = '';
+  fixed.forEach(l => { const n = l.replace(/[\s、。・…?？!！,.]/g, ''); if(n && n === prev){ st.dup++; return; } prev = n; res.push(l); });
+  return [res.join('\n'), st];
+}
 function mapToPhrases(n){                                  // 노래 구간을 줄 수에 맞춰 합치거나(가장 짧은 틈부터) 나눈다(가장 긴 구간부터)
   let P = (D.phrases || []).map(x => x.slice());
   if(!P.length){ const e = flat.length ? flat[flat.length - 1][1] : 240; P = [[0, e]]; }
@@ -467,10 +501,12 @@ function furiHtml(line){                                    // 한자 위 읽기
     return isWord ? `<a class="w" href="https://ja.dict.naver.com/#/search?query=${encodeURIComponent(base)}" target="_blank" rel="noopener">${inner}</a>` : inner;
   }).join('');
 }
+let MINE_NOTE = '';   // 마지막 저장 때 정리한 내역(다시 그려도 남게)
 function renderMine(){
   if(!D.myLyrics) return;
   const n = MINE_ON ? LINES.length : 0;
   $('mineSum').textContent = n ? `${n}줄 · 이 기기에 저장됨${MINE.times ? ' · 직접 맞춤' : ' · 자동 맞춤'}` : '비어 있음 — 가사를 붙여 넣으세요';
+  if(n && MINE_NOTE) $('mineSum').textContent += MINE_NOTE;
   const box = $('mineList'); box.innerHTML = '';
   if(!n) return;
   LINES.forEach((l, i) => {
@@ -497,11 +533,16 @@ function initMine(){                                       // 맨 끝(모든 선
   $('mine').hidden = false;
   try{ MINE = JSON.parse(localStorage.getItem(MKEY) || 'null'); }catch(_){ MINE = null; }
   if(MINE){ $('mineTxt').value = MINE.text || ''; applyMine(); } else renderMine();
-  $('mineSave').onclick = () => {
-    const [text, dropped] = dropFuri($('mineTxt').value);
-    if(dropped){ $('mineTxt').value = text; }
+  $('mineSave').onclick = async () => {
+    $('mineSum').textContent = '정리하는 중… (처음엔 읽기 사전을 내려받습니다)';
+    await loadKuro();
+    let text, note = '';
+    if(TOK){ const [t2, st] = cleanLyrics($('mineTxt').value); text = t2;
+      const bits = [st.furi && `읽기 ${st.furi}`, st.split && `줄 나눔 ${st.split}`, st.dup && `겹침 ${st.dup}`, st.junk && `잡줄 ${st.junk}`].filter(Boolean);
+      if(bits.length) note = ' · 정리: ' + bits.join(' · ');
+    } else { const [t2, n] = dropFuri($('mineTxt').value); text = t2; if(n) note = ` · 읽기 줄 ${n}개 정리`; }
+    $('mineTxt').value = text; MINE_NOTE = note;
     const same = MINE && MINE.text === text; MINE = {text, times: same ? MINE.times : null}; saveMine(); applyMine();
-    if(dropped) $('mineSum').textContent += ` · 읽기 줄 ${dropped}개 정리`;
   };
   $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
   $('mineSync').onclick = startSync;
