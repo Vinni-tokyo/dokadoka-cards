@@ -479,6 +479,10 @@ function applyMine(){
 function loadKuro(){                                        // 후리가나용 형태소 분석기(kuromoji.js) — 처음 한 번 사전을 내려받는다
   if(TOK !== null) return Promise.resolve(TOK);
   if(loadKuro.p) return loadKuro.p;
+  // kuromoji 가 사전 주소를 path.join 으로 붙이며 'https://' 를 'https:/' 로 만든다 → https 페이지(실사이트)에선 자기 사이트 경로로 풀려 404,
+  // 404 페이지를 사전으로 읽다가 무한 루프(페이지 멈춤). 요청 직전에 '//' 를 되살린다.
+  const open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(m, u, ...r){ if(typeof u === 'string') u = u.replace(/^(https?):\/(?!\/)/, '$1://'); return open.call(this, m, u, ...r); };
   return loadKuro.p = new Promise(res => {
     const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js';
     s.onload = () => kuromoji.builder({dicPath: 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'}).build((err, t) => { TOK = err ? false : t; res(TOK); });
