@@ -15,3 +15,17 @@ python3 kaede-guitar/src/build.py      # tools/make_block_practice.py (numpy —
 ```
 
 출처: YouTube スピッツ 「楓」 (YapsFDcGe_s). 학습용 개인 이용을 전제로 한 페이지입니다.
+
+## 📝 내 가사 (자막 없는 곡의 가사 학습)
+
+페이지 위 **📖 가사** 링크(歌ネット 등)에서 가사를 복사해 「📝 내 가사」 칸에 붙여 넣고 저장한다.
+- 가사는 **그 기기 브라우저에만** 저장된다(사이트·리포에는 없다). 지우기·내보내기·가져오기(JSON) 가능.
+- 저장하면 노래 구간(`src/phrases.json` — 목소리 트랙의 말소리 감지 시각만, `tools/vocal_phrases.py`)에 줄을 자동 배정한다.
+  줄 수가 다르면 가장 짧은 틈부터 합치고 가장 긴 구간부터 나눈다. 어긋나면 **⏎ 탭으로 맞추기**(노래를 틀고 줄이 시작될 때마다 탭).
+- 한자 위 읽기는 브라우저의 kuromoji.js(처음 한 번 사전 내려받음), 낱말을 누르면 네이버 일본어사전.
+- 재생 막대·버스킹 화면에 지금 줄(버스킹은 가사 위 코드)이 나온다.
+
+```bash
+.venv/bin/python tools/vocal_phrases.py kaede-guitar vocals.wav   # demucs 의 vocals.wav (리포에 넣지 않음)
+python3 kaede-guitar/src/build.py
+```

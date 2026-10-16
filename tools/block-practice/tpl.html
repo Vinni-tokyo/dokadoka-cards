@@ -36,6 +36,28 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .seg.lead{align-items:center}.seg.lead span{font-size:13px;font-weight:700;color:var(--ink-2);padding:0 4px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
 .tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.mine{border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.mine summary{cursor:pointer;list-style:none;padding:10px 14px;font-weight:800;font-size:14.5px}
+.mine summary::-webkit-details-marker{display:none}
+.mine summary small{font-weight:400;color:var(--ink-3);font-size:12px;margin-left:6px}
+.mine[open] summary{border-bottom:1px solid var(--line)}
+.mine .note{padding:10px 14px 0}
+.mine textarea{display:block;width:calc(100% - 28px);margin:10px 14px;font:inherit;font-size:15px;line-height:1.6;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);resize:vertical}
+.mineBtns{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px}
+.mineBtns label{cursor:pointer}
+.mineList{padding:0 14px 12px;display:flex;flex-direction:column;gap:4px}
+.mineList .ml{display:grid;grid-template-columns:48px 1fr;gap:8px;align-items:baseline;padding:4px 0;border-top:1px dashed var(--line)}
+.mineList .ml button{border:0;background:none;color:var(--ink-3);font-size:12px;font-variant-numeric:tabular-nums;padding:2px 0;text-align:left}
+.mineList .ml .tx{font-size:16px;line-height:2}
+.mineList .ml.on .tx{color:var(--hot)}
+a.w{color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-3)}
+rt{font-size:.55em;color:var(--ink-3);font-weight:400}
+.syncbar{position:fixed;left:0;right:0;z-index:30;bottom:calc(150px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center;justify-content:center;padding:8px 16px;background:var(--hot-soft);border-top:2px solid var(--hot)}
+.syncbar .sl{flex:1;min-width:0;max-width:520px;font-size:13px}
+.syncbar .sl b{color:var(--hot);margin-right:8px}
+.syncbar .sl span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:70%;vertical-align:bottom}
+.syncbar button{border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:800;background:var(--hot);color:#fff}
+.syncbar .st{background:var(--surface);color:var(--ink-2);border:1px solid var(--line);padding:14px 12px}
 .xlinks{display:flex;flex-wrap:wrap;gap:8px}
 .xlinks a{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}
 .xlinks a small{font-size:11.5px;font-weight:400;color:var(--ink-3)}
@@ -164,6 +186,21 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
  </div>
  <p class="note" id="capoNote"></p>
  <div class="xlinks" id="xlinks" hidden></div>
+ <details class="mine" id="mine" hidden>
+  <summary>📝 내 가사 <small id="mineSum"></small></summary>
+  <p class="note">위 <b>📖 가사</b> 링크에서 가사를 복사해 아래에 붙여 넣고 <b>저장</b>하세요. 가사는 <b>이 기기 브라우저에만</b> 저장되고 사이트에는 올라가지 않습니다.
+   저장하면 노래 구간에 자동으로 줄을 맞추고, 한자 위에 읽기를 붙입니다(처음 한 번 읽기 사전을 내려받습니다). 단어를 누르면 사전이 열립니다.
+   줄이 어긋나면 <b>⏎ 탭으로 맞추기</b>: 노래를 틀어 두고 줄이 시작될 때마다 아래 큰 버튼을 누르세요.</p>
+  <textarea id="mineTxt" rows="7" placeholder="여기에 가사를 붙여 넣기 (한 줄 = 한 블록)" lang="ja"></textarea>
+  <div class="mineBtns">
+   <button type="button" class="tog" id="mineSave">💾 저장</button>
+   <button type="button" class="tog" id="mineSync">⏎ 탭으로 맞추기</button>
+   <button type="button" class="tog" id="mineExp">내보내기</button>
+   <label class="tog">가져오기<input type="file" id="mineImp" accept=".json,application/json" hidden></label>
+   <button type="button" class="tog" id="mineDel">지우기</button>
+  </div>
+  <div class="mineList" id="mineList"></div>
+ </details>
  <div class="diags" id="diags"></div>
  <div class="prog" id="prog"></div>
  <div class="rows" id="rows"></div>
@@ -186,6 +223,11 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   <div class="mid"><div class="prog"><i id="bkProg"></i></div><div class="row2"><span id="bkT">0:00</span><span id="bkLine"></span></div></div>
   <button type="button" class="nav" id="bkNextB" aria-label="다음 줄">다음 ▶</button>
  </div>
+</div>
+<div class="syncbar" id="syncBar" hidden>
+ <div class="sl"><b id="syncN"></b><span id="syncNext" lang="ja"></span></div>
+ <button type="button" id="syncTap">⏎ 이 줄 시작</button>
+ <button type="button" id="syncStop" class="st">끝</button>
 </div>
 <div class="dock" role="region" aria-label="재생">
  <div class="lyr" id="lyr" hidden>
@@ -353,7 +395,7 @@ function setLead(v){ LEAD = Math.round(Math.min(.8, Math.max(0, v)) * 10) / 10; 
 $('leadM').onclick = () => setLead(LEAD - .1); $('leadP').onclick = () => setLead(LEAD + .1); paintLead();
 // 가사 줄: 지금 시각의 줄, 줄 사이(간주)에는 다음 줄을 흐리게 미리 보여 준다
 let LINES = D.lines || [];
-function showLyr(){ if(LINES.length){ $('lyr').hidden = false; document.querySelector('.app').classList.add('haslyr'); } }
+function showLyr(){ const on = LINES.length > 0; $('lyr').hidden = !on; document.querySelector('.app').classList.toggle('haslyr', on); }
 showLyr();
 // 가사는 노래 앱 본문에만 둔다 — 이 페이지에 사본을 싣지 않고, 열릴 때 같은 폴더의 노래 앱 파일에서 줄 데이터(DATA)를 읽는다.
 // (노래 앱의 🧱 버튼으로 들어오므로 그 파일은 대개 브라우저에 이미 받아져 있다)
@@ -363,6 +405,101 @@ function jsonAt(h, i){                                     // h[i] 의 [ 부터 
     if(s){ if(e) e = false; else if(c === '\\') e = true; else if(c === '"') s = false; continue; }
     if(c === '"') s = true; else if(c === '[') d++; else if(c === ']' && --d === 0) return JSON.parse(h.slice(i, j + 1)); }
   return null;
+}
+// ---------- 📝 내 가사: 자막 없는 곡 — 사용자가 붙여 넣은 가사(이 브라우저에만 저장)를 노래 구간에 맞춘다 ----------
+// 가사는 사이트에 싣지 않는다. 페이지가 가진 것은 노래 구간의 시각(D.phrases)뿐.
+const MKEY = (D.store || 'blocks') + '.mine';
+let MINE = null, MINE_ON = false, TOK = null, SYNC = null;
+const kata2hira = s => s.replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+const escM = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
+function mineLines(text){ return (text || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean); }
+function mapToPhrases(n){                                  // 노래 구간을 줄 수에 맞춰 합치거나(가장 짧은 틈부터) 나눈다(가장 긴 구간부터)
+  let P = (D.phrases || []).map(x => x.slice());
+  if(!P.length){ const e = flat.length ? flat[flat.length - 1][1] : 240; P = [[0, e]]; }
+  while(P.length > n){ let bi = 0, bg = 1e9; for(let i = 0; i < P.length - 1; i++){ const g = P[i + 1][0] - P[i][1]; if(g < bg){ bg = g; bi = i; } } P.splice(bi, 2, [P[bi][0], P[bi + 1][1]]); }
+  while(P.length < n){ let bi = 0; P.forEach((p, i) => { if(p[1] - p[0] > P[bi][1] - P[bi][0]) bi = i; }); const [s, e] = P[bi], m = (s + e) / 2; P.splice(bi, 1, [s, m], [m, e]); }
+  return P;
+}
+function saveMine(){ try{ localStorage.setItem(MKEY, JSON.stringify(MINE)); }catch(_){} }
+function applyMine(){
+  const ls = MINE ? mineLines(MINE.text) : [];
+  if(!ls.length){ MINE_ON = false; LINES = []; curL = -2; bkKey = ''; showLyr(); renderMine(); return; }
+  const T = MINE.times && MINE.times.length === ls.length ? MINE.times : mapToPhrases(ls.length);
+  MINE_ON = true; LINES = ls.map((t, i) => [T[i][0], T[i][1], t, '', '', []]);
+  curL = -2; bkKey = ''; showLyr(); renderMine();
+  loadKuro().then(() => { curL = -2; renderMine(); });
+}
+function loadKuro(){                                        // 후리가나용 형태소 분석기(kuromoji.js) — 처음 한 번 사전을 내려받는다
+  if(TOK !== null) return Promise.resolve(TOK);
+  if(loadKuro.p) return loadKuro.p;
+  return loadKuro.p = new Promise(res => {
+    const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js';
+    s.onload = () => kuromoji.builder({dicPath: 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict/'}).build((err, t) => { TOK = err ? false : t; res(TOK); });
+    s.onerror = () => { TOK = false; res(false); };
+    document.head.appendChild(s);
+  });
+}
+function furiHtml(line){                                    // 한자 위 읽기 + 낱말을 누르면 사전
+  if(!TOK) return null;
+  return TOK.tokenize(line).map(t => {
+    const s = t.surface_form, r = t.reading && t.reading !== '*' ? kata2hira(t.reading) : '', K = /[一-鿿々]/;
+    let inner = escM(s);
+    if(K.test(s) && r){
+      let a = 0, b = s.length, rr = r;
+      while(b > a && !K.test(s[b - 1]) && rr.endsWith(kata2hira(s[b - 1]))){ rr = rr.slice(0, -1); b--; }
+      while(a < b && !K.test(s[a]) && rr.startsWith(kata2hira(s[a]))){ rr = rr.slice(1); a++; }
+      inner = escM(s.slice(0, a)) + `<ruby>${escM(s.slice(a, b))}<rt>${escM(rr)}</rt></ruby>` + escM(s.slice(b));
+    }
+    const isWord = /[一-鿿々ぁ-んァ-ヶ]/.test(s) && !['助詞', '助動詞', '記号'].includes(t.pos);
+    const base = t.basic_form && t.basic_form !== '*' ? t.basic_form : s;
+    return isWord ? `<a class="w" href="https://ja.dict.naver.com/#/search?query=${encodeURIComponent(base)}" target="_blank" rel="noopener">${inner}</a>` : inner;
+  }).join('');
+}
+function renderMine(){
+  if(!D.myLyrics) return;
+  const n = MINE_ON ? LINES.length : 0;
+  $('mineSum').textContent = n ? `${n}줄 · 이 기기에 저장됨${MINE.times ? ' · 직접 맞춤' : ' · 자동 맞춤'}` : '비어 있음 — 가사를 붙여 넣으세요';
+  const box = $('mineList'); box.innerHTML = '';
+  if(!n) return;
+  LINES.forEach((l, i) => {
+    const d = document.createElement('div'); d.className = 'ml'; d.id = 'ml' + i;
+    d.innerHTML = `<button type="button">${fmt(l[0])}</button><span class="tx" lang="ja"></span>`;
+    const h = TOK ? furiHtml(l[2]) : null; if(h) d.querySelector('.tx').innerHTML = h; else d.querySelector('.tx').textContent = l[2];
+    d.querySelector('button').onclick = () => seek(l[0]);
+    box.appendChild(d);
+  });
+}
+function startSync(){
+  if(!MINE_ON) return;
+  SYNC = {k: 0, T: LINES.map(l => [l[0], l[1]])};
+  $('syncBar').hidden = false; paintSync();
+  if(!playing()){ try{ player.playVideo(); }catch(_){} }
+}
+function paintSync(){ if(!SYNC) return; $('syncN').textContent = `${SYNC.k + 1}/${LINES.length}`; $('syncNext').textContent = LINES[SYNC.k] ? LINES[SYNC.k][2] : ''; }
+function stopSync(save){
+  if(SYNC && save){ MINE.times = SYNC.T; saveMine(); applyMine(); }
+  SYNC = null; $('syncBar').hidden = true;
+}
+function initMine(){                                       // 맨 끝(모든 선언 뒤)에 부른다 — 저장된 가사를 곧바로 적용하면서 curL·bkKey 를 쓰기 때문
+  if(!D.myLyrics) return;
+  $('mine').hidden = false;
+  try{ MINE = JSON.parse(localStorage.getItem(MKEY) || 'null'); }catch(_){ MINE = null; }
+  if(MINE){ $('mineTxt').value = MINE.text || ''; applyMine(); } else renderMine();
+  $('mineSave').onclick = () => { const text = $('mineTxt').value; const same = MINE && MINE.text === text; MINE = {text, times: same ? MINE.times : null}; saveMine(); applyMine(); };
+  $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
+  $('mineSync').onclick = startSync;
+  $('syncTap').onclick = () => {                           // 지금 줄이 시작됐다 → 그 시각을 기록하고 다음 줄로
+    if(!SYNC) return; let t = 0; try{ t = player.getCurrentTime(); }catch(_){}
+    SYNC.T[SYNC.k][0] = t; if(SYNC.k > 0) SYNC.T[SYNC.k - 1][1] = t;
+    SYNC.k++;
+    if(SYNC.k >= LINES.length){ SYNC.T[LINES.length - 1][1] = t + 6; stopSync(true); } else paintSync();
+  };
+  $('syncStop').onclick = () => stopSync(SYNC && SYNC.k > 0);
+  $('mineExp').onclick = () => {
+    const blob = new Blob([JSON.stringify(MINE || {}, null, 1)], {type: 'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (D.store || 'blocks') + '-my-lyrics.json'; a.click();
+  };
+  $('mineImp').onchange = e => { const f = e.target.files[0]; if(!f) return; f.text().then(s => { try{ const m = JSON.parse(s); if(m && typeof m.text === 'string'){ MINE = m; saveMine(); $('mineTxt').value = m.text; applyMine(); } }catch(_){ alert('가져올 수 없는 파일입니다.'); } }); };
 }
 if(!LINES.length && D.linesFrom) fetch(D.linesFrom).then(r => r.text()).then(h => {
   const i = h.indexOf('const DATA'); if(i < 0) return;
@@ -378,6 +515,7 @@ function paintLine(tv){
   const key = k * 2 + (wait ? 1 : 0); if(key === curL) return; curL = key;
   const [, , ja, ko, rd, ws] = LINES[k];
   $('lyJa').textContent = ja; $('lyJa').classList.toggle('wait', wait);
+  if(MINE_ON && TOK){ const h = furiHtml(ja); if(h) $('lyJa').innerHTML = h; }
   $('lyKo').textContent = ko;
   $('lyWs').innerHTML = ws.map(([h, r, m]) => `<span><b lang="ja"></b><i lang="ja"></i></span>`).join('');
   $('lyWs').querySelectorAll('span').forEach((el, i) => { el.querySelector('b').textContent = ws[i][0]; el.querySelector('i').textContent = ws[i][1]; el.append(ws[i][2]); });
@@ -550,7 +688,7 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
     document.querySelectorAll('.dg.on').forEach(x => { if(x.dataset.c !== c) x.classList.remove('on'); });
     const dg = document.querySelector(`.dg[data-c="${CSS.escape(c)}"]`); if(dg) dg.classList.add('on'); } } }, 50);   // 0.05초마다
 
-paint(); paintMeta();
+paint(); paintMeta(); initMine();
 window.onYouTubeIframeAPIReady = () => {
   player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
     paintPP();
