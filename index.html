@@ -23,6 +23,20 @@ h1 .sub{display:block;font-size:13px;font-weight:400;color:var(--ink-3);margin-t
 .langnav a b{font-weight:700;font-size:11px;color:var(--ink-3);background:#eef0f4;border-radius:6px;padding:2px 7px}
 /* 언어 섹션 */
 .sect{margin-top:40px;scroll-margin-top:20px}
+/* 📋 목록 — 곡·영상이 많아 스크롤로 찾기 어려워서. 제목만 짧게, 종류별, 검색 */
+.idx{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.idx summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.idx summary::-webkit-details-marker{display:none}
+.idx summary small{font-weight:400;color:var(--ink-3);font-size:12px}
+.idx[open] summary{border-bottom:1px solid var(--line)}
+.idx .q{display:block;width:calc(100% - 28px);margin:12px 14px 4px;padding:9px 12px;border:1px solid var(--line-2);border-radius:10px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.idx .grp{padding:6px 14px 10px}
+.idx .grp h3{margin:8px 0 6px;font-size:12px;font-weight:700;color:var(--ink-3)}
+.idx ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:4px 14px}
+.idx li a{display:flex;gap:8px;align-items:baseline;padding:6px 4px;border-radius:7px;color:var(--ink);text-decoration:none;font-size:14px;line-height:1.35}
+.idx li a:hover,.idx li a:focus-visible{background:#eef0f4;outline:none}
+.idx li a small{color:var(--ink-3);font-size:11.5px;white-space:nowrap;margin-left:auto}
+.idx .none{padding:4px 14px 12px;font-size:13px;color:var(--ink-3)}
 .sect-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .sect-head h2{margin:0;font-size:19px;font-weight:650;letter-spacing:-.015em;display:flex;align-items:center;gap:10px}
 .sect-head h2 .flag{font-size:22px}
@@ -172,6 +186,10 @@ const APPS = [
   title:'尾崎豊 「Forget-me-not」 (물망초)', src:'尾崎豊 공식 채널 · 1985년 곡 · 5분 31초',
   desc:'공식 채널에 일본어·한국어 자막이 둘 다 붙어 있고 26줄이 그대로 맞물립니다. 한 줄이 6~13초씩 가는 느린 곡입니다. 「幸せかい」가 세 번 나오는데 앞의 둘 뒤는 따뜻하고 세 번째(狂った街)는 어둡습니다. 8번 줄 「花の名前」가 17번 줄에서 「愛の名前」로 바뀝니다. 형용사를 명사로 만드는 〜さ가 두 자리에 나오고(時の多さ·愛の強さ), 〜てみる·〜てくれる·〜そうな·〜てしまいそうになる·〜さえも가 고루 나옵니다. 終り·答·行く方 같은 옛 표기가 섞여 본문 표기와 사전형을 함께 익히게 됩니다. 한자 풀이·표현 26·단어 19, 일본어 음원 내장.',
   cards:'26줄', level:'보통 · 초중급', sub:'공식 자막 ja·ko', extra:'노래방 · 마디 루프 · 읽어주기 · 화면 잠금'},
+ {vid:'YapsFDcGe_s', href:'kaede-guitar/index.html', learn:'ja', kind:'노래 · 歌',
+  title:'スピッツ 「楓」 — 기타 블록 연습', src:'spitzclips 공식 MV · 1998 · 5분',
+  desc:'영상에 자막이 없어 가사 없이 코드만 담은 기타 연습 페이지. 반주에서 자동으로 딴 코드(A♭장조 · 81 BPM)를 마디 블록으로, 카포 모양·키 바꾸기·반복·느리게·버스킹 모드.',
+  cards:'코드', level:'기타 · 연습', sub:'코드 자동 채보', extra:'가사 없음'},
  {vid:'rKsQ-3N-Bks', href:'himawari-cards/Japanese-Himawari36-Cards.html', learn:'ja', kind:'노래 · 歌',
   title:'秦基博 「ひまわりの約束」 (해바라기의 약속)', src:'秦基博 공식 채널 · 2014년 곡 · 5분 17초',
   desc:'영화 「STAND BY ME 도라에몽」 주제가. 공식 채널에 일본어·한국어 자막이 둘 다 붙어 있어 시각을 그대로 썼습니다. 「そばにいたいよ」로 여는 후렴이 세 번 돌고, 「〜だったはずの」가 두 자리에서, 「気づいた」가 마지막에 「見つけた」로 바뀝니다. 〜のに·〜なくなる·〜ていてほしい·가능형+〜と信じて·〜のことだから 가 나옵니다. 한자 풀이·표현 21·단어 12, 일본어 음원 내장.',
@@ -334,6 +352,7 @@ LANGS.forEach(L => {
   sect.querySelector('.native').textContent = L.native;
   sect.querySelector('.for').textContent = L.for;
   sect.querySelector('.cnt').textContent = apps.length + '편 · ' + apps.reduce((n, x) => n + (parseInt(x.cards, 10) || 0), 0) + '장';
+  if(apps.length > 6) sect.appendChild(indexOf(apps, L));     // 📋 목록
   if(!apps.length){
     const e = document.createElement('div'); e.className = 'empty'; e.textContent = '준비 중 — WORKFLOW_PROMPT.md 절차로 앱을 만들면 여기에 실립니다.'; sect.appendChild(e);
   } else {
@@ -344,6 +363,34 @@ LANGS.forEach(L => {
   root.appendChild(sect);
 });
 
+function indexOf(apps, L){
+  const d = document.createElement('details'); d.className = 'idx';
+  const KEYO = 'hub.idx.' + L.key;
+  try{ d.open = localStorage.getItem(KEYO) === '1'; }catch(_){}
+  d.addEventListener('toggle', () => { try{ localStorage.setItem(KEYO, d.open ? '1' : '0'); }catch(_){} });
+  d.innerHTML = '<summary>📋 목록 <small></small></summary><input class="q" type="search" placeholder="제목·종류로 찾기" aria-label="목록에서 찾기"><div class="lists"></div>';
+  d.querySelector('small').textContent = apps.length + '편 · 제목만 모아 보기 · 찾기';
+  const groups = {};
+  apps.forEach(a => { const k = a.kind.split('·')[0].trim(); (groups[k] = groups[k] || []).push(a); });
+  const lists = d.querySelector('.lists');
+  const paint = q => {
+    lists.innerHTML = ''; q = (q || '').trim().toLowerCase(); let n = 0;
+    Object.keys(groups).forEach(k => {
+      const hit = groups[k].filter(a => !q || (a.title + ' ' + a.kind + ' ' + a.src).toLowerCase().includes(q));
+      if(!hit.length) return; n += hit.length;
+      const g = document.createElement('div'); g.className = 'grp';
+      g.innerHTML = '<h3></h3><ul></ul>'; g.querySelector('h3').textContent = k + ' · ' + hit.length;
+      hit.forEach(a => { const li = document.createElement('li'); li.innerHTML = '<a><span></span><small></small></a>';
+        li.firstChild.href = a.href; li.querySelector('span').textContent = a.title; li.querySelector('small').textContent = a.cards || '';
+        g.querySelector('ul').appendChild(li); });
+      lists.appendChild(g);
+    });
+    if(!n){ const e = document.createElement('div'); e.className = 'none'; e.textContent = '찾는 제목이 없습니다.'; lists.appendChild(e); }
+  };
+  d.querySelector('.q').addEventListener('input', e => paint(e.target.value));
+  paint('');
+  return d;
+}
 function cardOf(a, L){
   const el = document.createElement('a');
   el.className = 'card ' + a.learn; el.href = a.href;
