@@ -15,4 +15,9 @@ S = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(S))
 subprocess.run([sys.executable, os.path.join(ROOT, 'tools', 'make_block_practice.py'), 'kaede-guitar',
                 '--title', '楓', '--artist', 'スピッツ', '--out', 'index.html',
-                '--src', '가사는 싣지 않았습니다. 영상·음원: YouTube スピッツ 「楓」 공식 MV(spitzclips).'], check=True)
+                '--src', '가사는 싣지 않았습니다(아래 가사 사이트 링크로 봅니다). 영상·음원: YouTube スピッツ 「楓」 공식 MV(spitzclips).',
+                # 정식 가사 사이트 링크만 단다(가사 본문은 싣지 않는다)
+                '--link', '📖 가사 · 歌ネット|https://www.uta-net.com/song/10397/|작사·작곡 草野正宗 · 새 탭',
+                '--link', '📖 가사 · うたてん|https://utaten.com/lyric/ja00006655/|후리가나 포함 · 새 탭',
+                '--link', '📖 가사 · J-Lyric|https://j-lyric.net/artist/a000603/l0001b8.html|새 탭',
+                '--link', '🎸 歌ネット 코드 악보|https://www.uta-net.com/chord/10397/|카포·간단 코드 · 새 탭'], check=True)

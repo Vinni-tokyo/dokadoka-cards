@@ -36,6 +36,9 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .seg.lead{align-items:center}.seg.lead span{font-size:13px;font-weight:700;color:var(--ink-2);padding:0 4px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tog{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 13px;font-size:13.5px;font-weight:700;color:var(--ink-2)}
 .tog[aria-pressed="true"]{background:var(--hot-soft);border-color:var(--hot);color:var(--hot)}
+.xlinks{display:flex;flex-wrap:wrap;gap:8px}
+.xlinks a{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}
+.xlinks a small{font-size:11.5px;font-weight:400;color:var(--ink-3)}
 .note{font-size:13px;color:var(--ink-3);line-height:1.55;margin:0}
 .diags{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
 .dg{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 4px 4px;text-align:center}
@@ -160,6 +163,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   </div>
  </div>
  <p class="note" id="capoNote"></p>
+ <div class="xlinks" id="xlinks" hidden></div>
  <div class="diags" id="diags"></div>
  <div class="prog" id="prog"></div>
  <div class="rows" id="rows"></div>
@@ -213,7 +217,13 @@ try{ const v = parseFloat(localStorage.getItem('blocks.lead')); if(!isNaN(v)) LE
 try{ MODE = localStorage.getItem(KEY + '.mode') || 'shape'; }catch(_){}
 if(D.back){ $('back').href = D.back[0]; $('back').textContent = '‹ ' + D.back[1]; }
 $('note2').textContent = D.note || ''; $('src').textContent = D.src || '';
-$('title').textContent = D.title; $('by').textContent = D.artist;
+$('title').textContent = D.title;
+// 📖 바깥 가사·악보 사이트(가사는 이 페이지에 싣지 않는다 — 새 탭으로 연다)
+if(D.links && D.links.length){
+  $('xlinks').hidden = false;
+  D.links.forEach(([name, url, sub]) => { const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.innerHTML = '<span></span><small></small>'; a.firstChild.textContent = name; a.lastChild.textContent = sub || ''; $('xlinks').appendChild(a); });
+} $('by').textContent = D.artist;
 $('fit').textContent = D.fit;
 // 🎚 키 올리기·내리기(반음, −6~+6). 코드·카포·운지가 함께 바뀐다. 영상(원곡)의 음높이는 그대로다.
 const SH = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];

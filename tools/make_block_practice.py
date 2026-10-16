@@ -84,7 +84,7 @@ def fitted_bars(CH, end):
     return out
 
 
-def build(app, title, artist, src, back, out, lyrics=True):
+def build(app, title, artist, src, back, out, lyrics=True, links=()):
     S = os.path.join(ROOT, app, 'src')
     d = json.load(io.open(os.path.join(S, 'chords.json'), encoding='utf-8'))
     CH, END = d['chords'], d['chords'][-1][1]
@@ -135,7 +135,8 @@ def build(app, title, artist, src, back, out, lyrics=True):
             'real': real, 'order': used, 'fing': FING,   # 운지 그림·키 이동은 화면(tpl)이 한다 'store': app + '.blocks',
             'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
             'lines': app_lines(S) if lyrics else [],         # --no-lyrics: 가사는 노래 앱 본문에만 둔다
-            'linesFrom': back if (not lyrics and back) else ''}   # 그때는 화면이 열릴 때 노래 앱 파일(같은 폴더)의 줄 데이터를 읽어 보여 준다
+            'linesFrom': back if (not lyrics and back) else '',
+            'links': [l.split('|', 2) for l in links]}        # --link "이름|주소|설명": 바깥 가사·악보 사이트(가사는 싣지 않고 링크만)   # 그때는 화면이 열릴 때 노래 앱 파일(같은 폴더)의 줄 데이터를 읽어 보여 준다
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__DATA__*/{}', json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))) \
               .replace('/*__TITLE__*/', f'{title} 블록 연습')
@@ -149,7 +150,7 @@ def build(app, title, artist, src, back, out, lyrics=True):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('app'); ap.add_argument('--title', required=True); ap.add_argument('--artist', required=True)
-    ap.add_argument('--src', required=True); ap.add_argument('--back', default=''); ap.add_argument('--out', default='blocks.html'); ap.add_argument('--no-lyrics', action='store_true')
+    ap.add_argument('--src', required=True); ap.add_argument('--back', default=''); ap.add_argument('--out', default='blocks.html'); ap.add_argument('--no-lyrics', action='store_true'); ap.add_argument('--link', action='append', default=[])
     a = ap.parse_args()
     back = a.back or next((os.path.basename(p) for p in glob.glob(os.path.join(ROOT, a.app.strip('/'), '*-Cards.html'))), '')
-    build(a.app.strip('/'), a.title, a.artist, a.src, back, a.out, lyrics=not a.no_lyrics)
+    build(a.app.strip('/'), a.title, a.artist, a.src, back, a.out, lyrics=not a.no_lyrics, links=a.link)
