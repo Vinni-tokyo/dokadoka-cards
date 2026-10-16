@@ -190,6 +190,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   <summary>📝 내 가사 <small id="mineSum"></small></summary>
   <p class="note">위 <b>📖 가사</b> 링크에서 가사를 복사해 아래에 붙여 넣고 <b>저장</b>하세요. 가사는 <b>이 기기 브라우저에만</b> 저장되고 사이트에는 올라가지 않습니다.
    저장하면 노래 구간에 자동으로 줄을 맞추고, 한자 위에 읽기를 붙입니다(처음 한 번 읽기 사전을 내려받습니다). 단어를 누르면 사전이 열립니다.
+   가사 사이트가 복사를 막으면: 스크린샷 → 갤러리의 <b>T(텍스트 추출)</b> 또는 Google 렌즈 「텍스트」 → 모두 복사 → 붙여넣기. 한자 위 읽기 줄은 저장할 때 자동으로 빠집니다.
    줄이 어긋나면 <b>⏎ 탭으로 맞추기</b>: 노래를 틀어 두고 줄이 시작될 때마다 아래 큰 버튼을 누르세요.</p>
   <textarea id="mineTxt" rows="7" placeholder="여기에 가사를 붙여 넣기 (한 줄 = 한 블록)" lang="ja"></textarea>
   <div class="mineBtns">
@@ -413,6 +414,17 @@ let MINE = null, MINE_ON = false, TOK = null, SYNC = null;
 const kata2hira = s => s.replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const escM = s => s.replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 function mineLines(text){ return (text || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean); }
+// 스크린샷 「텍스트 추출」로 가져오면 한자 위 작은 읽기가 따로 한 줄씩 딸려 온다 —
+// 히라가나(와 띄어쓰기)만 있는 줄이고 바로 아래 줄에 한자가 있으면 읽기 줄로 보고 뺀다(읽기는 페이지가 다시 붙인다)
+function dropFuri(text){
+  const ls = (text || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean), out = []; let n = 0;
+  for(let i = 0; i < ls.length; i++){
+    const next = ls[i + 1] || '';
+    if(/^[ぁ-ゖー\s　]+$/.test(ls[i]) && /[一-鿿々]/.test(next)){ n++; continue; }
+    out.push(ls[i]);
+  }
+  return [out.join('\n'), n];
+}
 function mapToPhrases(n){                                  // 노래 구간을 줄 수에 맞춰 합치거나(가장 짧은 틈부터) 나눈다(가장 긴 구간부터)
   let P = (D.phrases || []).map(x => x.slice());
   if(!P.length){ const e = flat.length ? flat[flat.length - 1][1] : 240; P = [[0, e]]; }
@@ -485,7 +497,12 @@ function initMine(){                                       // 맨 끝(모든 선
   $('mine').hidden = false;
   try{ MINE = JSON.parse(localStorage.getItem(MKEY) || 'null'); }catch(_){ MINE = null; }
   if(MINE){ $('mineTxt').value = MINE.text || ''; applyMine(); } else renderMine();
-  $('mineSave').onclick = () => { const text = $('mineTxt').value; const same = MINE && MINE.text === text; MINE = {text, times: same ? MINE.times : null}; saveMine(); applyMine(); };
+  $('mineSave').onclick = () => {
+    const [text, dropped] = dropFuri($('mineTxt').value);
+    if(dropped){ $('mineTxt').value = text; }
+    const same = MINE && MINE.text === text; MINE = {text, times: same ? MINE.times : null}; saveMine(); applyMine();
+    if(dropped) $('mineSum').textContent += ` · 읽기 줄 ${dropped}개 정리`;
+  };
   $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
   $('mineSync').onclick = startSync;
   $('syncTap').onclick = () => {                           // 지금 줄이 시작됐다 → 그 시각을 기록하고 다음 줄로
