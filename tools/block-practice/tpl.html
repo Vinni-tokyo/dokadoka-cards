@@ -201,6 +201,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
    <button type="button" class="tog" id="mineSave">💾 저장</button>
    <button type="button" class="tog" id="mineClean">🧹 정리</button>
    <button type="button" class="tog" id="mineSync">⏎ 탭으로 맞추기</button>
+   <button type="button" class="tog" id="mineAuto">↺ 자동 맞춤</button>
    <button type="button" class="tog" id="mineExp">내보내기</button>
    <label class="tog">가져오기<input type="file" id="mineImp" accept=".json,application/json" hidden></label>
    <button type="button" class="tog" id="mineDel">지우기</button>
@@ -649,6 +650,11 @@ function initMine(){                                       // 맨 끝(모든 선
   };
   $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
   $('mineSync').onclick = startSync;
+  $('mineAuto').onclick = () => {                           // 직접 맞춘 시간을 버리고 목소리 조각 자동 맞춤으로(가사는 그대로)
+    if(!MINE || !MINE_ON) return;
+    if(MINE.times && !confirm('탭으로 맞춘 시간을 지우고 자동 맞춤으로 바꿀까요? (가사는 그대로)')) return;
+    MINE.times = null; MINE.auto = null; MINE_NOTE = ' · 자동으로 다시 맞췄어요'; saveMine(); applyMine();
+  };
   $('syncTap').onclick = () => {                           // 지금 줄이 시작됐다 → 그 시각을 기록하고 다음 줄로
     if(!SYNC) return; let t = 0; try{ t = Math.max(0, player.getCurrentTime() - TAP_LAG); }catch(_){}
     t = snapTap(t);
