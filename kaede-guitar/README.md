@@ -20,12 +20,15 @@ python3 kaede-guitar/src/build.py      # tools/make_block_practice.py (numpy —
 
 페이지 위 **📖 가사** 링크(歌ネット 등)에서 가사를 복사해 「📝 내 가사」 칸에 붙여 넣고 저장한다.
 - 가사는 **그 기기 브라우저에만** 저장된다(사이트·리포에는 없다). 지우기·내보내기·가져오기(JSON) 가능.
-- 저장하면 노래 구간(`src/phrases.json` — 목소리 트랙의 말소리 감지 시각만, `tools/vocal_phrases.py`)에 줄을 자동 배정한다.
-  줄 수가 다르면 가장 짧은 틈부터 합치고 가장 긴 구간부터 나눈다. 어긋나면 **⏎ 탭으로 맞추기**(노래를 틀고 줄이 시작될 때마다 탭).
+- 저장하면 목소리 조각(`src/vsegs.json` — 목소리 트랙 음량의 깊은 골·무음으로 자른 [시작, 끝] 초만, `tools/vocal_segments.py`, 129개·22~308초)에
+  줄을 자동 배정한다: 줄 길이(모라 추정)로 불릴 시간을 어림하고 숨이 긴 곳에서 줄이 시작하도록 DP 로 묶는다.
+  (2026-10-20 이전의 `src/phrases.json`(Silero VAD)은 노래를 22~223초만 잡아 마지막 후렴 등 1/3 을 놓쳤다 — vsegs 가 없을 때의 대비로만 남김)
+- 어긋나면 **⏎ 탭으로 맞추기**: 누른 시각은 0.25초 당기고 근처 목소리 시작(0.5초 앞~0.3초 뒤)에 붙인다. 목록의 줄별 ⏎ 로 그 줄부터, ↶ 되돌리기.
+  처음 맞추는 중에 「끝」을 누르면 안 누른 뒤 줄들은 마지막으로 누른 줄 뒤 조각에 다시 자동 배정된다(몇 줄만 눌러도 나머지가 따라옴).
 - 한자 위 읽기는 브라우저의 kuromoji.js(처음 한 번 사전 내려받음), 낱말을 누르면 네이버 일본어사전.
 - 재생 막대·버스킹 화면에 지금 줄(버스킹은 가사 위 코드)이 나온다.
 
 ```bash
-.venv/bin/python tools/vocal_phrases.py kaede-guitar vocals.wav   # demucs 의 vocals.wav (리포에 넣지 않음)
+.venv/bin/python tools/vocal_segments.py kaede-guitar vocals.wav  # demucs 의 vocals.wav (리포에 넣지 않음)
 python3 kaede-guitar/src/build.py
 ```

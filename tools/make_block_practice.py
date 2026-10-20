@@ -139,7 +139,9 @@ def build(app, title, artist, src, back, out, lyrics=True, links=(), my_lyrics=F
             'links': [l.split('|', 2) for l in links],
             # 📝 내 가사: 자막 없는 곡 — 사용자가 붙여 넣은 가사(그 브라우저에만 저장)를 노래 구간(시각만, tools/vocal_phrases.py)에 맞춘다
             'myLyrics': bool(my_lyrics),
-            'phrases': json.load(io.open(os.path.join(S, 'phrases.json'))) if my_lyrics and os.path.exists(os.path.join(S, 'phrases.json')) else []}        # --link "이름|주소|설명": 바깥 가사·악보 사이트(가사는 싣지 않고 링크만)   # 그때는 화면이 열릴 때 노래 앱 파일(같은 폴더)의 줄 데이터를 읽어 보여 준다
+            'phrases': json.load(io.open(os.path.join(S, 'phrases.json'))) if my_lyrics and os.path.exists(os.path.join(S, 'phrases.json')) else [],
+            # 목소리 조각(숨 사이, tools/vocal_segments.py) — 있으면 자동 맞춤·탭 보정이 이것을 쓴다(phrases 보다 촘촘·노래 전체)
+            'vsegs': json.load(io.open(os.path.join(S, 'vsegs.json'))) if my_lyrics and os.path.exists(os.path.join(S, 'vsegs.json')) else []}        # --link "이름|주소|설명": 바깥 가사·악보 사이트(가사는 싣지 않고 링크만)   # 그때는 화면이 열릴 때 노래 앱 파일(같은 폴더)의 줄 데이터를 읽어 보여 준다
     tpl = io.open(os.path.join(ROOT, 'tools', 'block-practice', 'tpl.html'), encoding='utf-8').read()
     html = tpl.replace('/*__DATA__*/{}', json.dumps(DATA, ensure_ascii=False, separators=(',', ':'))) \
               .replace('/*__TITLE__*/', f'{title} 블록 연습')

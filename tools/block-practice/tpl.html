@@ -487,11 +487,50 @@ function mapToPhrases(n){                                  // 노래 구간을 �
   while(P.length < n){ let bi = 0; P.forEach((p, i) => { if(p[1] - p[0] > P[bi][1] - P[bi][0]) bi = i; }); const [s, e] = P[bi], m = (s + e) / 2; P.splice(bi, 1, [s, m], [m, e]); }
   return P;
 }
+// 자동 맞춤(목소리 조각 D.vsegs 가 있으면): 줄마다 길이(모라 추정)로 불릴 시간을 어림하고, 조각을 줄 수만큼 이어 묶는 가장 그럴듯한 배치를 찾는다(DP).
+// 숨(조각 사이 틈)이 긴 곳에서 줄이 시작하기를 좋아하고, 긴 간주를 한 줄이 걸치는 것은 싫어한다. 앞뒤 조각은 건너뛸 수 있다(가사에 없는 부분).
+function morae(s){ let m = 0; for(const c of (s || '').replace(/[\s　、。,.!?！？「」…・]/g, '')){ if(/[ゃゅょャュョぁぃぅぇぉァィゥェォ]/.test(c)) continue; m += /[一-鿿々]/.test(c) ? 1.8 : /[ぁ-ゖァ-ヺー]/.test(c) ? 1 : .6; } return Math.max(1, m); }
+function alignLines(lines, S){
+  const n = lines.length, k = S.length, M = lines.map(morae), MAXG = 12, MAXSKIP = 8, INF = 1e18;
+  if(!n || k < n) return null;
+  const gapB = a => a === 0 ? 6 : S[a][0] - S[a - 1][1];
+  let best = null;
+  for(let r = .18; r <= .62; r += .04){                      // 초/모라(부르는 빠르기)도 함께 고른다
+    const dp = [], bk = [], ba = [];
+    for(let i = 0; i <= n; i++){ dp.push(new Float64Array(k + 1).fill(INF)); bk.push(new Int32Array(k + 1)); ba.push(new Int32Array(k + 1)); }
+    dp[0][0] = 0;
+    for(let i = 0; i < n; i++) for(let p = 0; p <= k; p++){ const base = dp[i][p]; if(base >= INF) continue;
+      for(let a = p; a < Math.min(k, p + MAXSKIP + 1); a++){
+        const skip = a > p ? .15 * (S[a - 1][1] - S[p][0]) : 0; let maxIn = 0;
+        for(let b = a; b < Math.min(k, a + MAXG); b++){
+          if(b > a) maxIn = Math.max(maxIn, S[b][0] - S[b - 1][1]);
+          let c = 2 * Math.log((S[b][1] - S[a][0]) / (M[i] * r)) ** 2 - .8 * Math.log(1 + gapB(a) / .3) + (maxIn > 2.5 ? 4 : 0);
+          const v = base + skip + c; if(v < dp[i + 1][b + 1]){ dp[i + 1][b + 1] = v; bk[i + 1][b + 1] = p; ba[i + 1][b + 1] = a; }
+        } } }
+    let bj = -1, bv = INF; for(let j = 1; j <= k; j++){ const v = dp[n][j] + (j < k ? .15 * (S[k - 1][1] - S[j][0]) : 0); if(v < bv){ bv = v; bj = j; } }
+    if(bj < 0 || (best && bv >= best.v)) continue;
+    const T = []; for(let i = n, j = bj; i > 0; i--){ T.unshift([S[ba[i][j]][0], S[j - 1][1]]); j = bk[i][j]; }
+    best = {v: bv, T};
+  }
+  return best && best.T;
+}
+function autoTimes(ls, from){                               // from: 이 시각 뒤 조각만 쓴다(탭으로 일부 맞춘 뒤 나머지 줄)
+  const S = (D.vsegs || []).filter(s => s[0] >= (from || 0));
+  return (S.length >= ls.length && alignLines(ls, S)) || null;
+}
+function snapTap(t){                                         // 누른 시각 근처(0.5초 앞 ~ 0.3초 뒤)의 목소리 시작으로 붙인다
+  let best = t, bd = 1e9; for(const s of (D.vsegs || [])){ const d = s[0] - t; if(d >= -.5 && d <= .3 && Math.abs(d) < bd){ bd = Math.abs(d); best = s[0]; } } return best;
+}
 function saveMine(){ try{ localStorage.setItem(MKEY, JSON.stringify(MINE)); }catch(_){} }
 function applyMine(){
   const ls = MINE ? mineLines(MINE.text) : [];
   if(!ls.length){ MINE_ON = false; LINES = []; curL = -2; bkKey = ''; showLyr(); renderMine(); return; }
-  const T = MINE.times && MINE.times.length === ls.length ? MINE.times : mapToPhrases(ls.length);
+  let T = MINE.times && MINE.times.length === ls.length ? MINE.times : null;
+  if(!T){                                                  // 자동 맞춤은 저장해 두고 다시 쓴다(폰에서 매번 계산하지 않게)
+    const key = ls.join('\n') + '|' + (D.vsegs || []).length;
+    if(MINE.auto && MINE.auto.key === key) T = MINE.auto.T;
+    else { T = autoTimes(ls) || mapToPhrases(ls.length); MINE.auto = {key, T}; saveMine(); }
+  }
   MINE_ON = true; LINES = ls.map((t, i) => [T[i][0], T[i][1], t, '', '', []]);
   curL = -2; bkKey = ''; showLyr(); renderMine();
   loadKuro().then(() => { curL = -2; renderMine(); });
@@ -557,6 +596,10 @@ function paintSync(){ if(!SYNC) return; $('syncN').textContent = `${SYNC.k + 1}/
 function stopSync(save){
   if(SYNC && save){
     const T = SYNC.T, j = SYNC.k - 1;                       // 마지막으로 누른 줄의 끝: 다음 줄 시작(뒤 줄이 더 앞이면 4초)
+    if(!MINE.times && SYNC.k < T.length){                  // 처음 맞추는 중이면: 안 누른 뒤 줄들을 마지막으로 누른 줄 뒤의 목소리 조각에 다시 자동 맞춤(이미 직접 맞춘 줄은 건드리지 않음)
+      const rest = autoTimes(LINES.slice(SYNC.k).map(l => l[2]), T[SYNC.k - 1][0] + 1);
+      if(rest) rest.forEach((x, i) => { T[SYNC.k + i] = x; });
+    }
     for(let i = SYNC.k; i < T.length; i++) if(T[i][0] < T[i - 1][0] + 1){ const d = T[i - 1][0] + 1 - T[i][0]; T[i][0] += d; T[i][1] = Math.max(T[i][1] + d, T[i][0] + 1); }  // 안 누른 뒤 줄이 앞 줄과 겹치지 않게
     if(j >= 0 && j < T.length - 1) T[j][1] = T[j + 1][0];
     MINE.times = T; saveMine(); applyMine();
@@ -608,6 +651,7 @@ function initMine(){                                       // 맨 끝(모든 선
   $('mineSync').onclick = startSync;
   $('syncTap').onclick = () => {                           // 지금 줄이 시작됐다 → 그 시각을 기록하고 다음 줄로
     if(!SYNC) return; let t = 0; try{ t = Math.max(0, player.getCurrentTime() - TAP_LAG); }catch(_){}
+    t = snapTap(t);
     if(SYNC.k > 0) t = Math.max(t, SYNC.T[SYNC.k - 1][0] + .3);   // 앞 줄보다 앞설 수 없다(되돌린 직후 성급히 눌러도 순서 유지)
     SYNC.T[SYNC.k][0] = t; if(SYNC.k > 0) SYNC.T[SYNC.k - 1][1] = t;
     SYNC.k++;
