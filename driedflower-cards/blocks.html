@@ -69,6 +69,8 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .dock{flex-direction:column;align-items:center;gap:8px}
 .dock .in{width:100%;max-width:760px;display:flex;align-items:center;gap:12px}
 /* 지금 블록에서 불리는 가사 줄(노래 앱의 데이터) */
+.ytmsg{width:100%;max-width:760px;font-size:13px;line-height:1.45;color:var(--hot);background:var(--hot-soft);border-radius:8px;padding:6px 10px}
+.ytmsg a{color:inherit;font-weight:700}
 .lyr{width:100%;max-width:760px;display:flex;flex-direction:column;gap:5px}
 .lyr .ja{font-size:17px;font-weight:700;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
 .lyr .ja.wait{opacity:.45}
@@ -184,6 +186,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
  </div>
 </div>
 <div class="dock" role="region" aria-label="재생">
+ <div class="ytmsg" id="ytMsg" role="status" hidden></div>
  <div class="lyr" id="lyr" hidden>
   <div class="ja" id="lyJa" lang="ja"></div>
   <div class="ko" id="lyKo"></div>
@@ -322,7 +325,20 @@ $('spd').onclick = () => setSpeed(SPD === 1 ? .75 : SPD === .75 ? .5 : 1);
 const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
 function playing(){ try{ return player && player.getPlayerState() === 1; }catch(_){ return false; } }
 function paintPP(){ const on = playing(); if(on) bkHint = false; $('ppIcon').innerHTML = on ? PAUSE : PLAY; $('pp').setAttribute('aria-label', on ? '일시정지' : '재생'); }
-$('pp').onclick = () => { if(!player || !player.playVideo) return; if(playing()) player.pauseVideo(); else player.playVideo(); };
+// 폰에선 영상 칸이 화면 위로 스크롤돼 안 보인다 — 영상 쪽 오류·준비 안 됨을 아래 막대에 글로 알린다(아무 반응 없음으로 보이던 문제)
+function ytSay(html){ const m = $('ytMsg'); m.hidden = !html; m.innerHTML = html || ''; }
+const YT_ERR = {2: '영상 주소 오류', 5: '이 기기에서 재생할 수 없는 형식', 100: '영상이 삭제·비공개됨', 101: '저작권자가 앱 안 재생을 막음', 150: '저작권자가 앱 안 재생을 막음'};
+$('pp').onclick = () => {
+  if(!player || !player.playVideo){ ytSay('영상 준비 중… 잠시 뒤 다시 눌러 주세요.'); return; }
+  if(playing()){ player.pauseVideo(); return; }
+  player.playVideo();
+  setTimeout(() => {                                       // 3초 지나도 시작 안 되고 오류도 없으면: 첫 재생은 영상 칸을 직접 눌러야 하는 폰이 있다
+    let s = -1; try{ s = player.getPlayerState(); }catch(_){}
+    if(s === 1 || s === 3 || !$('ytMsg').hidden) return;
+    ytSay('재생이 시작되지 않았어요 — <a href="#" id="ytGo">영상 칸</a>을 직접 한 번 눌러 보세요.');
+    $('ytGo').onclick = ev => { ev.preventDefault(); $('yt').scrollIntoView({block: 'center'}); };
+  }, 3000);
+};
 document.addEventListener('keydown', e => {
   if(e.code !== 'Space' || /INPUT|TEXTAREA|BUTTON/.test(document.activeElement.tagName)) return;
   e.preventDefault(); $('pp').click();
@@ -542,7 +558,11 @@ setInterval(() => { const k = cur; tick(); if(k === cur && cur >= 0){ /* 반 마
 
 paint(); paintMeta();
 window.onYouTubeIframeAPIReady = () => {
-  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onStateChange: e => {
+  player = new YT.Player('yt', {videoId: D.vid, playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {
+    onReady: () => { if(/준비 중/.test($('ytMsg').textContent)) ytSay(''); },
+    onError: e => ytSay(`▶ 재생 안 됨 — ${YT_ERR[e.data] || '영상 오류'}(코드 ${e.data}). <a href="https://youtu.be/${D.vid}" target="_blank" rel="noopener">유튜브에서 열기</a>`),
+    onStateChange: e => {
+    if(e.data === 1) ytSay('');
     paintPP();
     if(e.data === 0 && SONG_LOOP){ player.seekTo(0, true); player.playVideo(); }   // 🔂 곡이 끝나면 처음부터
   }}});
