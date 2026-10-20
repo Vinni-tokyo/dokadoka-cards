@@ -46,8 +46,9 @@ h1{margin:2px 0 0;font-size:24px;line-height:1.2;text-wrap:balance}
 .mineBtns{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px}
 .mineBtns label{cursor:pointer}
 .mineList{padding:0 14px 12px;display:flex;flex-direction:column;gap:4px}
-.mineList .ml{display:grid;grid-template-columns:48px 1fr;gap:8px;align-items:baseline;padding:4px 0;border-top:1px dashed var(--line)}
+.mineList .ml{display:grid;grid-template-columns:48px 1fr 34px;gap:8px;align-items:baseline;padding:4px 0;border-top:1px dashed var(--line)}
 .mineList .ml button{border:0;background:none;color:var(--ink-3);font-size:12px;font-variant-numeric:tabular-nums;padding:2px 0;text-align:left}
+.mineList .ml .fromHere{color:var(--hot);font-size:15px;text-align:center}
 .mineList .ml .tx{font-size:16px;line-height:2}
 .mineList .ml.on .tx{color:var(--hot)}
 a.w{color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink-3)}
@@ -57,6 +58,7 @@ rt{font-size:.55em;color:var(--ink-3);font-weight:400}
 .syncbar .sl b{color:var(--hot);margin-right:8px}
 .syncbar .sl span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:70%;vertical-align:bottom}
 .syncbar button{border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:800;background:var(--hot);color:#fff}
+.syncbar .un{background:var(--surface);color:var(--ink-2);border:1px solid var(--line);padding:14px 12px}
 .syncbar .st{background:var(--surface);color:var(--ink-2);border:1px solid var(--line);padding:14px 12px}
 .xlinks{display:flex;flex-wrap:wrap;gap:8px}
 .xlinks a{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}
@@ -193,7 +195,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
   <p class="note">위 <b>📖 가사</b> 링크에서 가사를 복사해 아래에 붙여 넣고 <b>저장</b>하세요. 가사는 <b>이 기기 브라우저에만</b> 저장되고 사이트에는 올라가지 않습니다.
    저장하면 노래 구간에 자동으로 줄을 맞추고, 한자 위에 읽기를 붙입니다(처음 한 번 읽기 사전을 내려받습니다). 단어를 누르면 사전이 열립니다.
    가사 사이트가 복사를 막으면: 스크린샷 → 갤러리의 <b>T(텍스트 추출)</b> 또는 Google 렌즈 「텍스트」 → 모두 복사 → 붙여넣기. 저장하면 섞여 들어온 한자 읽기·겹친 줄·시계 같은 잡줄을 자동으로 정리하고, 정리된 결과를 칸에 다시 보여 줍니다(남은 인식 오류는 직접 고친 뒤 다시 저장).
-   줄이 어긋나면 <b>⏎ 탭으로 맞추기</b>: 노래를 틀어 두고 줄이 시작될 때마다 아래 큰 버튼을 누르세요.</p>
+   줄이 어긋나면 <b>⏎ 탭으로 맞추기</b>: 노래를 틀어 두고 줄이 시작될 때마다 아래 큰 버튼을 누르세요. 일부만 고치려면 목록 오른쪽 <b>⏎</b>(그 줄부터) → 고칠 만큼 누르고 <b>끝</b>. 잘못 눌렀으면 <b>↶</b>.</p>
   <textarea id="mineTxt" rows="7" placeholder="여기에 가사를 붙여 넣기 (한 줄 = 한 블록)" lang="ja"></textarea>
   <div class="mineBtns">
    <button type="button" class="tog" id="mineSave">💾 저장</button>
@@ -229,6 +231,7 @@ body.busking .yt{position:fixed;right:max(14px,env(safe-area-inset-right));botto
 </div>
 <div class="syncbar" id="syncBar" hidden>
  <div class="sl"><b id="syncN"></b><span id="syncNext" lang="ja"></span></div>
+ <button type="button" id="syncUndo" class="un" aria-label="한 줄 되돌리기">↶</button>
  <button type="button" id="syncTap">⏎ 이 줄 시작</button>
  <button type="button" id="syncStop" class="st">끝</button>
 </div>
@@ -532,21 +535,31 @@ function renderMine(){
   if(!n) return;
   LINES.forEach((l, i) => {
     const d = document.createElement('div'); d.className = 'ml'; d.id = 'ml' + i;
-    d.innerHTML = `<button type="button">${fmt(l[0])}</button><span class="tx" lang="ja"></span>`;
+    d.innerHTML = `<button type="button">${fmt(l[0])}</button><span class="tx" lang="ja"></span><button type="button" class="fromHere" title="이 줄부터 탭으로 맞추기" aria-label="이 줄부터 탭으로 맞추기">⏎</button>`;
     const h = TOK ? furiHtml(l[2]) : null; if(h) d.querySelector('.tx').innerHTML = h; else d.querySelector('.tx').textContent = l[2];
     d.querySelector('button').onclick = () => seek(l[0]);
+    d.querySelector('.fromHere').onclick = () => startSync(i);
     box.appendChild(d);
   });
 }
-function startSync(){
+// 탭으로 맞추기: 아무 줄에서나 시작(그 앞 줄 시작으로 감아 준비), 잘못 누르면 ↶, 손이 늦는 만큼(TAP_LAG) 당겨 기록. 끝을 누르면 거기까지만 저장
+const TAP_LAG = 0.25;
+function startSync(from){
   if(!MINE_ON) return;
-  SYNC = {k: 0, T: LINES.map(l => [l[0], l[1]])};
+  const k = typeof from === 'number' ? from : 0;
+  SYNC = {k, k0: k, T: LINES.map(l => [l[0], l[1]])};
   $('syncBar').hidden = false; paintSync();
-  if(!playing()){ try{ player.playVideo(); }catch(_){} }
+  const back = k > 0 ? LINES[k - 1][0] : Math.max(0, LINES[0][0] - 5);
+  try{ player.seekTo(Math.max(0, Math.min(back, LINES[k][0] - 3)), true); player.playVideo(); }catch(_){}
 }
 function paintSync(){ if(!SYNC) return; $('syncN').textContent = `${SYNC.k + 1}/${LINES.length}`; $('syncNext').textContent = LINES[SYNC.k] ? LINES[SYNC.k][2] : ''; }
 function stopSync(save){
-  if(SYNC && save){ MINE.times = SYNC.T; saveMine(); applyMine(); }
+  if(SYNC && save){
+    const T = SYNC.T, j = SYNC.k - 1;                       // 마지막으로 누른 줄의 끝: 다음 줄 시작(뒤 줄이 더 앞이면 4초)
+    for(let i = SYNC.k; i < T.length; i++) if(T[i][0] < T[i - 1][0] + 1){ const d = T[i - 1][0] + 1 - T[i][0]; T[i][0] += d; T[i][1] = Math.max(T[i][1] + d, T[i][0] + 1); }  // 안 누른 뒤 줄이 앞 줄과 겹치지 않게
+    if(j >= 0 && j < T.length - 1) T[j][1] = T[j + 1][0];
+    MINE.times = T; saveMine(); applyMine();
+  }
   SYNC = null; $('syncBar').hidden = true;
 }
 function initMine(){                                       // 맨 끝(모든 선언 뒤)에 부른다 — 저장된 가사를 곧바로 적용하면서 curL·bkKey 를 쓰기 때문
@@ -579,12 +592,19 @@ function initMine(){                                       // 맨 끝(모든 선
   $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
   $('mineSync').onclick = startSync;
   $('syncTap').onclick = () => {                           // 지금 줄이 시작됐다 → 그 시각을 기록하고 다음 줄로
-    if(!SYNC) return; let t = 0; try{ t = player.getCurrentTime(); }catch(_){}
+    if(!SYNC) return; let t = 0; try{ t = Math.max(0, player.getCurrentTime() - TAP_LAG); }catch(_){}
+    if(SYNC.k > 0) t = Math.max(t, SYNC.T[SYNC.k - 1][0] + .3);   // 앞 줄보다 앞설 수 없다(되돌린 직후 성급히 눌러도 순서 유지)
     SYNC.T[SYNC.k][0] = t; if(SYNC.k > 0) SYNC.T[SYNC.k - 1][1] = t;
     SYNC.k++;
     if(SYNC.k >= LINES.length){ SYNC.T[LINES.length - 1][1] = t + 6; stopSync(true); } else paintSync();
   };
-  $('syncStop').onclick = () => stopSync(SYNC && SYNC.k > 0);
+  $('syncStop').onclick = () => stopSync(SYNC && SYNC.k > SYNC.k0);
+  $('syncUndo').onclick = () => {                          // 한 줄 되돌리기: 그 줄 원래 시각으로, 조금 앞으로 감아 다시 누를 수 있게
+    if(!SYNC || SYNC.k <= SYNC.k0) return;
+    SYNC.k--; const o = LINES[SYNC.k]; SYNC.T[SYNC.k] = [o[0], o[1]];
+    try{ player.seekTo(Math.max(0, (SYNC.k > 0 ? SYNC.T[SYNC.k - 1][0] : o[0]) - 1), true); }catch(_){}
+    paintSync();
+  };
   $('mineExp').onclick = () => {
     const blob = new Blob([JSON.stringify(MINE || {}, null, 1)], {type: 'application/json'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (D.store || 'blocks') + '-my-lyrics.json'; a.click();
