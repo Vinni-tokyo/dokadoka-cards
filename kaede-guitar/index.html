@@ -600,7 +600,9 @@ function initMine(){                                       // 맨 끝(모든 선
     const text = $('mineTxt').value.split(/\r?\n/).map(s => s.trim()).filter(Boolean).join('\n');
     const same = MINE && MINE.text === text;
     $('mineTxt').value = text; MINE_NOTE = same ? ' · 바뀐 것 없음(맞춘 시간 유지)' : ' · 저장했어요';
-    MINE = {text, times: same ? MINE.times : null}; saveMine(); applyMine();
+    // 맞춘 시간은 줄 수가 같으면 그대로 쓴다(오타만 고쳐 저장해도 탭으로 맞춘 게 날아가지 않게 — 줄 수가 바뀌면 applyMine 이 자동 맞춤으로)
+    const keep = MINE && MINE.times && MINE.times.length === text.split('\n').length;
+    MINE = {text, times: keep ? MINE.times : null}; saveMine(); applyMine();
   };
   $('mineDel').onclick = () => { if(!confirm('이 기기에 저장한 가사·맞춤을 지울까요?')) return; MINE = null; try{ localStorage.removeItem(MKEY); }catch(_){} $('mineTxt').value = ''; applyMine(); };
   $('mineSync').onclick = startSync;
