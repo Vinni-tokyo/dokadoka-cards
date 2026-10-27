@@ -4,7 +4,7 @@
 자막 트랙이 없는 곡의 줄 시각을 맞출 때 쓴다. words.json 은 <앱>/src/align.py 가 읽고,
 transcript.txt 는 가사가 실제로 어떤 차례로 불렸는지(반복·생략) 사람이 확인하는 데 쓴다.
 
-사용: .venv/bin/python tools/asr_words.py <wav> <출력 폴더> [--model medium]
+사용: .venv/bin/python tools/asr_words.py <wav> <출력 폴더> [--model medium] [--lang ja|en|ko]
 """
 import argparse
 import json
@@ -16,11 +16,12 @@ from faster_whisper import WhisperModel
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('wav'); ap.add_argument('out'); ap.add_argument('--model', default='medium')
+    ap.add_argument('--lang', default='ja')      # 영어 곡은 en. 큰 모델은 언어를 안 주면 일본어로 환각한다
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     model = WhisperModel(a.model, device='cpu', compute_type='int8')
     # vad_filter 는 쓰지 않는다 — 반주 위의 노래를 「말이 아니다」로 보고 통째로 버린다(다섯 곡 중 둘이 0단어).
-    segs, info = model.transcribe(a.wav, language='ja', beam_size=5, word_timestamps=True,
+    segs, info = model.transcribe(a.wav, language=a.lang, beam_size=5, word_timestamps=True,
                                   condition_on_previous_text=False)
     words, lines = [], []
     for s in segs:

@@ -1,7 +1,13 @@
 # Lofi Brew 「Courage Within」 — 기타 연습 페이지
 
 YouTube 「Courage Within」(Lofi Brew 로파이 브루, mixtape.so 제공, 2026-01-13, 3분 45초)의 **기타 코드 연습 페이지**.
-코드만 싣고 **가사는 싣지 않습니다**(정식 발매곡이라 가사 저작권이 작사가 쪽에 있다).
+
+페이지 두 장입니다.
+
+| 파일 | 무엇 |
+|---|---|
+| `index.html` | **블록 연습** — 마디 격자. 코드만, 가사 없음 |
+| `chords.html` | **간이 코드 악보** — 다른 노래 앱 26곡과 같은 모양으로 **가사 위에 코드** |
 
 ## 기능
 
@@ -18,6 +24,18 @@ YouTube 「Courage Within」(Lofi Brew 로파이 브루, mixtape.so 제공, 2026
 |---|---|---|---|---|---|---|
 | 카포 4 모양 | G | D | Em | C | Bm | Am |
 
+## 가사와 줄 시각 (2026-10-13 추가)
+
+가사는 받아 적은 것이고, **줄 시각은 음성 인식으로** 맞췄습니다(이 영상에는 수동·자동 자막이 전혀 없다).
+
+1. `yt-dlp -x --audio-format wav` → `demucs --two-stems vocals` 로 **목소리만** 뽑는다(음원은 리포에 넣지 않는다).
+2. `.venv/bin/python tools/asr_words.py vocals.wav <출력> --model large-v3 --lang en`
+   — **`--lang en` 이 없으면 큰 모델이 일본어로 환각한다**(「おやすみなさい」만 8줄). medium 은 앞 60초를 통째로 놓쳤다.
+3. `python3 tools/align_dp.py src/lyrics.txt words.json src/subtitles.srt`
+   — 24줄 전부 매칭, 보간 0, 유사도 평균 **0.98**.
+
+끝의 애드리브(약 3분 20초, 「I love you」로 들리는 6초)는 가사에 넣지 않았습니다.
+
 ## 코드를 딴 방법
 
 1. `yt-dlp -x --audio-format wav` 로 음원을 받고 `demucs --two-stems vocals` 로 목소리를 뗀 반주(no_vocals)를 만든다(음원은 리포에 넣지 않는다).
@@ -31,7 +49,7 @@ YouTube 「Courage Within」(Lofi Brew 로파이 브루, mixtape.so 제공, 2026
 ## 재빌드
 
 ```bash
-python3 courage-guitar/src/build.py      # 공용 도구 tools/make_block_practice.py 를 부른다(numpy 필요 — 리포 .venv)
+python3 courage-guitar/src/build.py      # 블록 연습(index.html) + 코드 악보(chords.html) 를 한 번에 (numpy 필요 — 리포 .venv)
 ```
 
 화면은 다른 곡과 같은 공용 「🧱 블록 연습」 템플릿(`tools/block-practice/tpl.html`)이다.

@@ -67,7 +67,7 @@ def sections():
     blocks = [b for b in re.split(r'\n\s*\n', io.open(os.path.join(S, 'lyrics.txt'), encoding='utf-8').read().strip()) if b.strip()]
     starts, n = [], 0
     for b in blocks:
-        starts.append(n); n += len([x for x in b.split('\n') if x.strip()])
+        starts.append(n); n += len([x for x in b.split('\n') if x.strip() and not x.startswith('#')])
     return dict(zip(starts, names))
 
 

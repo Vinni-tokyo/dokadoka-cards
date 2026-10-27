@@ -9,7 +9,7 @@
      블록마다 앞·뒤 반에서 울리는 코드를 적는다(같으면 하나).
 화면: tools/block-practice/tpl.html (공용). 카포·운지: tools/make_chord_sheet.py 와 같은 규칙·데이터.
 
-사용: python3 tools/make_block_practice.py <앱폴더> --title 곡명 --artist 가수 --src "출처 문구" [--back 앱.html] [--out blocks.html]
+사용: python3 tools/make_block_practice.py <앱폴더> --title 곡명 --artist 가수 --src "출처 문구" [--back 앱.html] [--back-label 이름] [--out blocks.html]
 """
 import argparse
 import glob
@@ -84,7 +84,7 @@ def fitted_bars(CH, end):
     return out
 
 
-def build(app, title, artist, src, back, out, lyrics=True, links=(), my_lyrics=False):
+def build(app, title, artist, src, back, out, lyrics=True, links=(), my_lyrics=False, back_label='노래 앱으로'):
     S = os.path.join(ROOT, app, 'src')
     d = json.load(io.open(os.path.join(S, 'chords.json'), encoding='utf-8'))
     CH, END = d['chords'], d['chords'][-1][1]
@@ -133,9 +133,10 @@ def build(app, title, artist, src, back, out, lyrics=True, links=(), my_lyrics=F
     DATA = {'vid': vid, 'title': title, 'artist': artist, 'key': real.get(d['key'], d['key']) if d['key'] in real else (d['key'] if sharp else name(d['key'], 0)),
             'mode': d['mode'], 'bpm': d['bpm'], 'fit': d['fit'], 'capo': capo, 'form': form, 'rows': rows,
             'real': real, 'order': used, 'fing': FING,   # 운지 그림·키 이동은 화면(tpl)이 한다 'store': app + '.blocks',
-            'back': [back, '노래 앱으로'] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
+            'back': [back, back_label] if back else None, 'note': f'한 칸 = 1마디({how}).', 'src': src,
             'lines': app_lines(S) if lyrics else [],         # --no-lyrics: 가사는 노래 앱 본문에만 둔다
-            'linesFrom': back if (not lyrics and back) else '',
+            # 줄 데이터를 읽어 올 수 있는 것은 노래 앱(*-Cards.html)뿐이다 — 되돌아가는 링크가 그 밖(코드 악보 등)이면 비운다
+            'linesFrom': back if (not lyrics and back.endswith('-Cards.html')) else '',
             'links': [l.split('|', 2) for l in links],
             # 📝 내 가사: 자막 없는 곡 — 사용자가 붙여 넣은 가사(그 브라우저에만 저장)를 노래 구간(시각만, tools/vocal_phrases.py)에 맞춘다
             'myLyrics': bool(my_lyrics),
@@ -153,7 +154,7 @@ def build(app, title, artist, src, back, out, lyrics=True, links=(), my_lyrics=F
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('app'); ap.add_argument('--title', required=True); ap.add_argument('--artist', required=True)
-    ap.add_argument('--src', required=True); ap.add_argument('--back', default=''); ap.add_argument('--out', default='blocks.html'); ap.add_argument('--no-lyrics', action='store_true'); ap.add_argument('--link', action='append', default=[]); ap.add_argument('--my-lyrics', action='store_true')
+    ap.add_argument('--src', required=True); ap.add_argument('--back', default=''); ap.add_argument('--out', default='blocks.html'); ap.add_argument('--no-lyrics', action='store_true'); ap.add_argument('--link', action='append', default=[]); ap.add_argument('--my-lyrics', action='store_true'); ap.add_argument('--back-label', default='노래 앱으로')
     a = ap.parse_args()
     back = a.back or next((os.path.basename(p) for p in glob.glob(os.path.join(ROOT, a.app.strip('/'), '*-Cards.html'))), '')
-    build(a.app.strip('/'), a.title, a.artist, a.src, back, a.out, lyrics=not a.no_lyrics, links=a.link, my_lyrics=a.my_lyrics)
+    build(a.app.strip('/'), a.title, a.artist, a.src, back, a.out, lyrics=not a.no_lyrics, links=a.link, my_lyrics=a.my_lyrics, back_label=a.back_label)
