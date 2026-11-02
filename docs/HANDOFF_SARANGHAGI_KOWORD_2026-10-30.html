@@ -1,0 +1,83 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>인계서 — 사랑하기 때문에 구간 · koword 음성 · 반응형</title>
+<style>
+:root{--ink:#21242c;--mute:#6b7280;--line:#e2e5ec;--brand:#3b4a7a;--bg:#f7f8fa;--card:#fff}
+@media(prefers-color-scheme:dark){:root{--ink:#e6e8ee;--mute:#9aa3b5;--line:#333947;--brand:#8fa0d8;--bg:#171a22;--card:#20242e}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 system-ui,-apple-system,"Segoe UI","Noto Sans KR",sans-serif}
+main{max-width:860px;margin:0 auto;padding:40px 22px 80px}
+h1{font-size:28px;border-bottom:2px solid var(--brand);padding-bottom:12px;margin-bottom:6px}
+h2{font-size:21px;margin-top:38px;color:var(--brand)}h3{font-size:17px;margin-top:26px}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14.5px;background:var(--card);
+ display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{background:color-mix(in srgb,var(--brand) 10%,var(--card));font-weight:700}
+code{background:color-mix(in srgb,var(--brand) 9%,transparent);padding:1px 5px;border-radius:4px;font-size:13.5px}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:13px 15px;overflow-x:auto}
+pre code{background:none;padding:0;font-size:13px;line-height:1.6}
+blockquote{border-left:3px solid var(--brand);margin:14px 0;padding:2px 0 2px 14px;color:var(--mute)}
+hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+li{margin:5px 0}
+</style></head><body><main>
+<h1>인계서 — 사랑하기 때문에 구간 · koword 음성 · 반응형</h1>
+<blockquote>2026-09-14 ~ 09-19 세션의 내용을 2026-10-30 시점에서 정리한 것. 다른 세션이 이어받기 위한 문서.</blockquote>
+<blockquote><strong>작업물은 전부 <code>main</code> 에 들어가 배포되어 있다.</strong> 남은 것은 결정 1건뿐이다.</blockquote>
+<blockquote><strong>같은 날짜의 다른 인계서와 역할이 다르다.</strong> <code>docs/HANDOFF_2026-10-30.md</code> 는 **지금 브랜치·PR 상태와</blockquote>
+<blockquote>courage-guitar · Goal V1<strong> 을 다룬다. 이 문서는 </strong>9월에 끝난 사랑하기·koword·kanji 작업의 내용과 방법**이다.</blockquote>
+<blockquote>브랜치가 어디에 있는지는 그쪽을, 사랑하기 구간을 왜 그렇게 고쳤는지는 이쪽을 보면 된다.</blockquote>
+<hr>
+<h2>0. 한 줄 상태</h2>
+<table><thead><tr><th>이 세션의 커밋</th><th><code>b8c74c9</code> <code>a3b1c60</code> <code>c764cef</code> <code>70246fb</code> — <strong>4개 전부 origin/main(<code>21e21bd4</code>)에 포함됨</strong>(10-30 재확인)</th></tr></thead><tbody><tr><td>배포</td><td>라이브 확인 — 사랑하기32 HTTP 200 · koword 음성 코드 존재</td></tr><tr><td>남은 결정</td><td><strong>가사 합치기 범위 A/B/C 1건</strong> (§3)</td></tr><tr><td>막혀 있던 것</td><td><strong>해소됨</strong> — demucs 설치됨 + <code>tools/sync_check.py</code> 생김 (§4)</td></tr></tbody></table>
+<hr>
+<h2>1. 이 세션이 한 일</h2>
+<h3>1-1. koword-cards (한국어 단어·표현 카드) — 455개</h3>
+<table><thead><tr><th>커밋</th><th>내용</th></tr></thead><tbody><tr><td>(이전)</td><td><strong>급수 도입</strong> — 국립국어원 「국제 통용 한국어 표준 교육과정」 1~6급. 455개 중 196개에 부여(1급 56·2급 50·3급 48·4급 29·5급 9·6급 4), 나머지 259개는 「급수 외」로 빈도순. 원본 xlsx 는 리포에 없음 — <code>src/fetch.py</code> 가 내려받아 쓰는 분량만 <code>src/levels.json</code>(7 KB)로 추림</td></tr><tr><td>(이전)</td><td><strong>화면 재작성</strong> — <code>DESIGN.md</code> 기준. 덱→장→카드 3단계, 장 격자, 64px 두 버튼, <code>.hid</code> 자리 고정. 「뜻 보기」 중복 버튼 제거</td></tr><tr><td>(이전)</td><td><strong>반응형</strong> — 900px 경계. PC 는 왼쪽 레일(장 칩 + 카드 목록 + 키 안내), 목록 2열, 상세 모달</td></tr><tr><td><code>b8c74c9</code></td><td><strong>소리 듣기</strong> — 기기 TTS → 온라인(translate_tts <code>tl=ko</code>) 폴백. 조작줄 🔊·예문 🔊·상세·키보드 <code>S</code>·자동 읽기 옵션</td></tr></tbody></table>
+<h3>1-2. kanji-cards (한자 카드) — 반응형</h3>
+<ul><li>같은 900px 경계, 왼쪽 레일. 듣기 설정 8묶음이 2열로 한 화면에.</li><li>장 칩은 3줄로 묶고 넘치면 레일 안에서 스크롤(단어 N3 가 35장).</li><li>곁가지 수정: <code>startDeck</code> 이 화면을 띄우기 <strong>전에</strong> 카드를 그려서 숨은 요소에 <code>scrollIntoView</code> 가 안 먹던 것 → 순서 뒤집음.</li></ul>
+<h3>1-3. saranghagi-cards (사랑하기 때문에)</h3>
+<table><thead><tr><th>커밋</th><th>내용</th></tr></thead><tbody><tr><td><code>a3b1c60</code></td><td><strong>후렴 시작 시각 교정</strong> + 리드인 기본값 <code>0 → −0.3초</code>(선택지 −0.45·−0.6 추가)</td></tr><tr><td><code>70246fb</code></td><td><strong>2번 꼬리만 나오던 것</strong> + <strong>7·8번 합치기</strong>(33 → 32장)</td></tr></tbody></table>
+<h3>1-4. 관문 (index.html)</h3>
+<table><thead><tr><th>커밋</th><th>내용</th></tr></thead><tbody><tr><td><code>c764cef</code></td><td>「다음 시리즈는 준비 중」 카드 제거(한국어 앱 4개) · 단일 시리즈 앱 3개는 열자마자 본문으로 · <strong>하냥카세 추가</strong>(274장인데 관문에만 빠져 어느 경로로도 닿을 수 없었음)</td></tr></tbody></table>
+<hr>
+<h2>2. 사랑하기 때문에 — 무엇이 문제였고 어떻게 찾았나</h2>
+<p>사용자 지적: <strong>「앞이 잘린다. 뒤는 늘어져도 되지만 앞이 잘리면 답답하다.」</strong></p>
+<h3>2-1. 지우고 간 가설</h3>
+<ul><li><strong>가드(앞 대사 꼬리 방지)가 시작을 민다</strong> → ✗ 아님. 33줄 중 <strong>한 줄도 밀지 않음</strong>(측정). <code>align.py</code> 가 겹침을 풀 때 <code>prev.e = next.s − 0.05</code> 로 clamp 하므로 가드 조건이 성립하지 않는다.</li><li>진짜 원인은 <strong>시작 시각 자체</strong> + <strong>리드인 기본값이 0</strong> 이라 여유가 아예 없던 것.</li></ul>
+<h3>2-2. 통한 방법 ① — 후렴 반복 대조 (음원 불필요, 이 세션의 성과)</h3>
+<p>이 곡은 후렴이 <strong>정확히 288박 = 132.915초 뒤에 그대로 반복</strong>된다.</p>
+<p>같은 가사 줄 두 개의 시각을 빼면, <strong>보컬을 검출하지 않고도</strong> 어느 쪽이 늦은지 증명된다.</p>
+<pre><code>T = json.load(open(&#x27;src/beats.json&#x27;))[&#x27;beat_interval&#x27;]   # 0.46151
+DELTA = 288 * T                                           # 132.915
+# 같은 가사 짝 (후렴1 id, 후렴2 id)
+for a, b in pairs:
+    off = (by[b][&#x27;s&#x27;] - by[a][&#x27;s&#x27;]) - DELTA               # 0 이면 일치</code></pre>
+<ul><li><strong>결과: 10쌍 중 8쌍이 어긋남, 최대 1.29초</strong>(#16 헤어지지 않으리).</li><li>2쌍이 0.09초 이내로 맞아 Δ 자체가 옳다는 보증이 된다.</li><li>늦은 쪽을 이른 쪽에 맞춤 → <strong>8/10 → 0/10 (최대 0.005초)</strong>.</li></ul>
+<blockquote>다른 곡에도 쓸 수 있다. 조건은 <strong>같은 가사가 정확한 박자 간격으로 반복될 것</strong> 하나뿐이다.</blockquote>
+<h3>2-3. 통한 방법 ② — 글자당 시간</h3>
+<p><code>tools/fix_cue_ends.py</code> 가 쓰는 잣대와 같다(그쪽은 끝, 여기서는 시작).</p>
+<ul><li>2번 「혼자만의 오해였던가요」는 <strong>10글자를 2.8초</strong>에 담고 있었다. 곡 중앙값 0.73초/글자면 7.3초가 필요하다.</li><li>음원에서도 28.2~28.7 무음 뒤 <strong>28.8 → 35.2 가 6.4초 연속</strong>, 그리고 <strong>28.80 은 정확히 62번째 박</strong>.</li><li>세 근거가 한 점을 가리켜 시작을 <code>32.76 → 28.85</code> 로 당김. 2.8초 → 6.7초.</li><li>지금은 <strong>글자당 길이가 비정상인 줄 0장</strong>.</li></ul>
+<h3>2-4. 실패한 방법 (다시 시도하지 말 것 — 보컬 분리 없이는 안 된다)</h3>
+<table><thead><tr><th>방법</th><th>왜 실패했나</th></tr></thead><tbody><tr><td>보컬 대역(250~3000Hz) 세기</td><td>반주가 같은 대역을 채운다. 65~85초가 통째로 「소리 있음」</td></tr><tr><td>포먼트 비율(800~2800 / 80~400Hz)</td><td><strong>전주(반주만) 0.345 &gt; 노래 중 0.240</strong> — 역전된다</td></tr><tr><td>온셋 검출 + 역추적</td><td>130BPM 이라 박마다 반주 온셋이 있어 보컬 온셋과 구분 불가</td></tr><tr><td><code>pe</code>(발성 끝) 추정</td><td>후렴 반복으로 검산하니 <strong>10쌍 중 7쌍이 최대 2.7초 어긋남</strong> → 추측값이라 넣지 않았다</td></tr></tbody></table>
+<hr>
+<h2>3. 🔴 남은 결정 — 가사 합치기 범위</h2>
+<p>사용자가 7·8번을 합치라고 하며 <strong>「이런 것처럼 전체적으로 다시 확인해서 미세 조정해줘」</strong> 라고 했다.</p>
+<p>한 문장이 두 장으로 갈린 짝이 <strong>15개 더</strong> 있다.</p>
+<table><thead><tr><th></th><th>범위</th><th>결과</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>전부 합친다</td><td><strong>32 → 17장</strong>, 한 장 평균 14초</td></tr><tr><td><strong>B</strong></td><td>주어+서술어가 갈린 것만</td><td>몇 짝만</td></tr><tr><td><strong>C</strong></td><td>그대로 둔다</td><td>32장 유지 ← <strong>현재 상태</strong></td></tr></tbody></table>
+<p>대상 짝: <code>1+2</code> <code>3+4</code> <code>5+6</code> <code>8+9</code> <code>10+11</code> <code>12+13</code> <code>14+15</code> <code>16+17</code> <code>18+19</code> <code>20+21</code> <code>22+23</code> <code>24+25</code> <code>26+27</code> <code>28+29</code> <code>30+31</code> (후렴 반복분 포함)</p>
+<p><strong>A 는 「미세 조정」이 아니라 앱 성격이 바뀌는 크기라 임의로 진행하지 않고 멈춰 두었다.</strong></p>
+<p>합치면 한 장이 11~16초가 된다. 7번은 가운데 6.5초가 간주라 15.5초.</p>
+<hr>
+<h2>4. 막혀 있던 것 → 지금은 가능 (10-30 확인)</h2>
+<p>이 세션에서는 <strong>보컬 분리 도구가 없어</strong> 구간 전수 재검증을 포기했다. 지금은 둘 다 있다.</p>
+<ul><li>✅ <code>demucs</code> 설치됨 (<code>.venv</code>)</li><li>✅ <strong><code>tools/sync_check.py</code></strong> — 이 세션이 막혔던 바로 그 일을 한다:</li></ul>
+<p>  demucs 로 뗀 목소리 트랙을 받아쓰고 가사를 다시 정렬해, 앱의 현재 줄 시작과 <strong>기준(기본 0.7초)보다 다른 줄을 짚는다.</strong></p>
+<pre><code>python3 tools/sync_check.py saranghagi-cards &lt;목소리 words.json&gt; &lt;vocals.wav&gt; [--th 0.7]</code></pre>
+<p><strong>다음 세션 권장 순서</strong>: <code>sync_check.py</code> 로 32줄 전수 재검증 → 짚힌 줄을 §2-2 후렴 대조로 교차 확인(후렴 구간은 두 방법이 서로 검산한다) → 결정 A/B/C 를 받아 합치기.</p>
+<p>음원 캐시: <code>~/.cache/dokadoka-saranghagi/song.m4a</code>(5.1MB) · <code>song.wav</code>(22050Hz mono). 리포에는 넣지 않는다.</p>
+<hr>
+<h2>5. 손댈 때 주의할 점</h2>
+<ol><li><strong>카드 수가 파일명에 들어간다.</strong> <code>Korean-Saranghagi32-Cards.html</code>. 줄을 합치거나 나누면 파일명이 바뀌므로 옛 파일 삭제 + <code>index.html</code>·<code>start.bat</code>·<code>start.sh</code>·<code>README.md</code> 갱신이 함께 필요하다.</li><li><strong>koword-cards 를 반드시 다시 빌드한다.</strong> 그 앱의 예문 39개가 사랑하기 카드 번호(<code>#saranghagi/c&lt;id&gt;</code>)를 가리킨다. 번호가 밀린 채 두면 딴 줄로 간다.</li><li><code>study.txt</code> 는 번호가 아니라 <strong>본문으로</strong> 붙으므로 번호 재정렬 때 손대지 않아도 된다. 반면 <code>ja.txt</code>·<code>rd.txt</code>·<code>fixes.txt</code>·<code>subtitles.srt</code> 는 전부 id 키라 같이 재정렬해야 한다.</li><li><code>build.py</code> 가 <code>assert</code> 로 검사한다 — 자막 id 집합 == 1..가사줄수, <code>ja.txt</code> 누락 없음, 구간 수 == <code>SECTIONS</code>.</li><li>리드인은 <code>optLead</code>(기본 −0.3). 가드(<code>optGuard</code>)는 켜져 있어도 이 곡에서는 거의 작동하지 않는다(§2-1).</li><li>현재 브랜치는 <code>feat/courage-lyrics</code> 이고 이 세션 이후 다른 작업이 많이 쌓였다. <strong><code>git log</code> 로 최신 상태를 먼저 확인할 것.</strong></li><li>⚠️ <strong>이 세션은 <code>main</code> 에 직접 푸시했다.</strong> 사용자가 매번 「배포해봐」라고 지시했기 때문인데, 이 리포의 규칙은 <strong>브랜치 → PR, 머지는 사용자</strong> 다(<code>docs/HANDOFF_2026-10-30.md</code> 참조). 이어받는 세션은 이 패턴을 따라 하지 말고 브랜치에서 작업할 것.</li></ol>
+<hr>
+<h2>6. 아직 남은 숙제 (이 세션 밖)</h2>
+<ul><li>🔴 <strong>토큰 <code>ghp_m67h…</code> 폐기</strong> — 대화에 붙여 넣은 classic token, <code>repo</code> 전체 권한으로 아직 살아 있다. 이 세션의 푸시에 계속 썼고 매번 리모트는 토큰 없는 주소로 되돌려 두었다.</li><li><code>gh auth login</code> 으로 <code>Vinni-tokyo</code> 정식 등록 (대화형이라 사용자가 직접).</li><li><code>vocab-cards/</code> — 영어 앱 8편 CEFR 설계. 다른 세션 작업이라 건드리지 않았다.</li></ul>
+</main></body></html>
